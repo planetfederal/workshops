@@ -29,9 +29,6 @@ The following are actual course materials given at our various `training classes
 `Spatial Database Tips and Tricks <http://workshops.opengeo.org/postgis-spatialdbtips/>`_
   How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
-`The Open Source Geostack <http://workshops.opengeo.org/stack-intro/>`_
-  First presented at Where 2.0 2010, this workshop introduces a complete set of open source components: PostGIS spatial database, GeoServer application server, OpenLayers user interface, GeoWebCache content accelerator and QGIS desktop application.
-
 .. note:: Looking for information on GXP/ReadyGXP?  It is now known as the OpenGeo Suite SDK.  More information at http://opengeo.org/technology/sdk/.
 
 
