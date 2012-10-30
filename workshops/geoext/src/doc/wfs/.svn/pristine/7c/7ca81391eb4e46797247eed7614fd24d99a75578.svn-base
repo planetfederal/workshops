@@ -1,0 +1,234 @@
+.. _geoext.wfs.editing:
+
+Editing Featuers and Their Attributes
+=====================================
+
+We will now enhance our application by making the layer and its attributes
+editable, and using WFS-T to commit changes.
+
+Making Layer and Grid Editable
+------------------------------
+
+Let's modify our application to allow for editing feature geometries and
+attributes. On the layer side this requires replacing the SelectFeature
+control that the FeatureSelectionModel automatically creates with a
+ModifyFeature control, and adding a DrawFeature control for creating new
+features. On the grid side, we have to replace the GridPanel with an
+EditorGridPanel, provide editors for the columns, and reconfigure the
+FeatureSelectionModel a bit.
+
+.. rubric:: Tasks
+
+#.  Open :file:`map.html` in your text editor. Find the block where we created
+    the ``featureGrid``:
+    
+    .. code-block:: javascript
+
+        var vectorLayer = new OpenLayers.Layer.Vector("Vector features");
+        items.push({
+            xtype: "grid",
+            ref: "featureGrid",
+            title: "Feature Table",
+            region: "south",
+            height: 150,
+            sm: new GeoExt.grid.FeatureSelectionModel(),
+            store: new Ext.data.Store(),
+            columns: []
+        });
+
+#.  Replace this block with the following new code:
+
+    .. code-block:: javascript
+
+        var vectorLayer = new OpenLayers.Layer.Vector("Editable features");
+        var modifyControl = new OpenLayers.Control.ModifyFeature(
+            vectorLayer, {autoActivate: true}
+        );
+        var drawControl = new OpenLayers.Control.DrawFeature(
+            vectorLayer,
+            OpenLayers.Handler.Polygon,
+            {handlerOptions: {multi: true}}
+        );
+        controls.push(modifyControl, drawControl);
+        items.push({
+            xtype: "editorgrid",
+            ref: "featureGrid",
+            title: "Feature Table",
+            region: "south",
+            height: 150,
+            sm: new GeoExt.grid.FeatureSelectionModel({
+                selectControl: modifyControl.selectControl,
+                autoActivateControl: false,
+                singleSelect: true
+            }),
+            store: new Ext.data.Store(),
+            columns: [],
+            bbar: [{
+                text: "Delete",
+                handler: function() {
+                    app.featureGrid.getSelectionModel().each(function(rec) {
+                        var feature = rec.getFeature();
+                        modifyControl.unselectFeature(feature);
+                        vectorLayer.removeFeatures([feature]);
+                    });
+                }
+            }, new GeoExt.Action({
+                control: drawControl,
+                text: "Create",
+                enableToggle: true
+            })]
+        });
+
+#.  In the ``configureGrid()`` function, configure editors for the grid columns:
+    TextField for string types, and NumberField for all others. We will also
+    need to set the correct sketch handler for the DrawFeature control,
+    depending on the ``geometryType`` of the layer we are editing. This is how
+    the whole function should look with the changes applied:
+    
+    .. code-block:: javascript
+
+        function configureGrid(store, url) {
+            var fields = [], columns = [], geometryName, geometryType;
+            var geomRegex = /gml:(Multi)?(Point|Line|Polygon|Surface|Geometry).*/;
+            var types = {
+                "xsd:int": "int",
+                "xsd:short": "int",
+                "xsd:long": "int",
+                "xsd:string": "string",
+                "xsd:dateTime": "string",
+                "xsd:double": "float",
+                "xsd:decimal": "float",
+                "Line": "Path",
+                "Surface": "Polygon"
+            };
+            store.each(function(rec) {
+                var type = rec.get("type");
+                var name = rec.get("name");
+                var match = geomRegex.exec(type);
+                if (match) {
+                    geometryName = name;
+                    geometryType = types[match[2]] || match[2];
+                } else {
+                    fields.push({
+                        name: name,
+                        type: types[type]
+                    });
+                    columns.push({
+                        xtype: types[type] == "string" ?
+                            "gridcolumn" :
+                            "numbercolumn",
+                        dataIndex: name,
+                        header: name,
+                        editor: {
+                            xtype: types[type] == "string" ?
+                                "textfield" :
+                                "numberfield"
+                        }
+                    });
+                }
+            });
+            app.featureGrid.reconfigure(new GeoExt.data.FeatureStore({
+                autoLoad: true,
+                proxy: new GeoExt.data.ProtocolProxy({
+                    protocol: new OpenLayers.Protocol.WFS({
+                        url: url,
+                        version: "1.1.0",
+                        featureType: rawAttributeData.featureTypes[0].typeName,
+                        featureNS: rawAttributeData.targetNamespace,
+                        srsName: "EPSG:4326",
+                        geometryName: geometryName,
+                        maxFeatures: 250,
+                    })
+                }),
+                fields: fields
+            }), new Ext.grid.ColumnModel(columns));
+            app.featureGrid.store.bind(vectorLayer);
+            app.featureGrid.getSelectionModel().bind(vectorLayer);
+            drawControl.handler = new OpenLayers.Handler[geometryType](
+                drawControl, drawControl.callbacks, drawControl.handlerOptions
+            );
+        }
+
+The Changes Explained
+`````````````````````
+For editing existing and creating new features, we use
+`OpenLayers.Control.ModifyFeature
+<http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Control/ModifyFeature-js.html>`_ and
+`OpenLayers.Control.DrawFeature
+<http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Control/DrawFeature-js.html>`_:
+
+.. code-block:: javascript
+
+    var modifyControl = new OpenLayers.Control.ModifyFeature(
+        vectorLayer, {autoActivate: true}
+    );
+    var drawControl = new OpenLayers.Control.DrawFeature(
+        vectorLayer,
+        OpenLayers.Handler.Polygon,
+        {handlerOptions: {multi: true}}
+    );
+    controls.push(modifyControl, drawControl);
+
+The ``FeatureSelectionModel`` needs more configuration now. For just viewing,
+we are happy with the ``SelectFeature`` control that it uses internally. But
+now that we need the ``ModifyFeature`` control for editing existing features,
+we have to configure the ``FeatureSelectionModel`` with the ``SelectFeature``
+control that the ``ModifyFeature`` control uses internally. Also, we don't want
+the control to be auto-activated, because we already configured the
+``ModifyFeature`` control with the ``autoActivate: true`` option. Finally, we
+set ``singleSelect: true``, which means only one feature can be selected at a
+time for editing.
+
+.. code-block:: javascript
+
+    sm: new GeoExt.grid.FeatureSelectionModel({
+        selectControl: modifyControl.selectControl,
+        autoActivateControl: false,
+        singleSelect: true
+    }),
+
+The next change is that we want a bottom toolbar on the grid, with buttons for
+deleting and creating features.
+
+The "Delete" button is just a plain Ext.Button. When clicked, it performs the
+action defined in its handler.
+
+.. code-block:: javascript
+
+    {
+        text: "Delete",
+        handler: function() {
+            app.featureGrid.getSelectionModel().each(function(rec) {
+                var feature = rec.getFeature();
+                modifyControl.unselectFeature(feature);
+                vectorLayer.removeFeatures([feature]);
+            });
+        }
+    }
+
+Inside the handler, we walk through the grid's current selection. Before
+removing a record, we use the modifyControl's ``unselectFeature`` method to
+remove the feature's editing vertices and unselect the feature, bringing the
+layer to a clean state.
+
+Thanks to our FeatureStore, a feature added to the layer will automatically
+also show up in the grid. The "Create" button uses a `GeoExt.Action
+<http://geoext.org/lib/GeoExt/widgets/Action.html>`_ to turn an OpenLayers
+control into a button. It is important to understand that any OpenLayers
+control can be added to a toolbar or menu by wrapping it into such an Action.
+
+.. code-block:: javascript
+
+    new GeoExt.Action({
+        control: drawControl,
+        text: "Create",
+        enableToggle: true
+    })
+
+Next Steps
+----------
+
+It is nice to be able to create, modify and delete features, but finally we
+will need to save our changes. The :ref:`final section <geoext.wfs.wfst>` of
+this module will teach you how to use the WFS-T functionality of OpenLayers
+to commit changes to the server.

@@ -1,0 +1,417 @@
+{%- set breadcrumbdelim = breadcrumbdelim is not defined and ' &raquo;' or breadcrumbdelim %}
+{%- set reldelim = reldelim is not defined and '|' or reldelim %}
+{%- macro breadcrumbs() %}
+<div id="breadcrumbs">
+  {%- block rootrellink %}
+  <a href="http://opengeo.org/">Home</a>{{ breadcrumbdelim }}
+  <a href="http://workshops.opengeo.org/">Education</a>{{ breadcrumbdelim }}
+  <a href="{{ pathto('index') }}">{{ project }}</a>
+  {%- endblock %}
+  {%- for parent in parents %}
+    {{ breadcrumbdelim }} <a href="{{ parent.link|e }}" accesskey="U">{{ parent.title }}</a>
+  {%- endfor %}
+  {% if pagename != 'index' %}
+    {{ breadcrumbdelim }} <a href="{{ link }}">{{ title|striptags }}</a>
+  {%- endif %}
+</div>
+{%- endmacro %}
+{%- macro rellinkbar() %}
+<ul id="relatedlinks" class="selfclear">
+  {%- for rellink in rellinks %}
+  <li{% if loop.first %} class="first"{% endif %}>
+    <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags }}"
+       accesskey="{{ rellink[2] }}">{{ rellink[3] }}</a>
+    {%- if not loop.first %}{{ reldelim }}{% endif %}</li>
+  {%- endfor %}
+  {%- block relbaritems %}{% endblock %}
+</ul>
+{%- endmacro %}
+
+{%- macro sidebar() %}
+  {%- if builder != 'htmlhelp' %}
+    {%- if display_toc %}
+      {%- block sidebartoc %}
+      <div id="toc" class="section">
+        <h1 class="pngfix">Table Of Contents</h1>
+        {{ toc }}
+        <div class="section-footer"></div>
+      </div>
+      {%- endblock %}
+    {%- endif %}
+      {%- block sidebarrel %}
+        {%- if (prev or next) %}
+        <div class="section">
+          <h1>Continue Reading</h1>
+          {%- if prev %}
+          <p style="margin-top:1em"><b>Previous:</b> <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></p>
+          {%- endif %}
+          {%- if next %}
+          <p><b>Next:</b> <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></p>
+          {%- endif %}
+          </ul>
+        </div>
+        {%- endif %}
+      {%- endblock %}
+      {%- if sourcename %}
+        <div class="section">
+        <h1>This Page</h1>
+        <ul class="this-page-menu">
+        {%- if builder == 'web' %}
+          <li><a href="#comments">Comments ({{ comments|length }} so far)</a></li>
+          <li><a href="{{ pathto('@edit/' + sourcename)|e }}">Suggest Change</a></li>
+          <li><a href="{{ pathto('@source/' + sourcename)|e }}">Show Source</a></li>
+        {%- elif builder == 'html' %}
+          <li><a href="{{ pathto('_sources/' + sourcename, true)|e }}">Show Source</a></li>
+        {%- endif %}
+        </ul>
+        </div>
+      {%- endif %}
+      {%- if customsidebar %}
+      {{ rendertemplate(customsidebar) }}
+      {%- endif %}
+      {%- block sidebarsearch %}{%- endblock %}
+      
+  {%- endif %}
+
+   <h1>About OpenGeo</h1>
+   <p>OpenGeo provides <a href="http://opengeo.org/products/">commercial open source software</a> for internet mapping and geospatial application development. We are a <a href="http://opengeo.org/about/">social enterprise</a> dedicated to the growth and support of open source software.</p> 
+
+    <h1>License</h1>
+    <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons Attribution-Share Alike 3.0 United States License</a>.  Feel free to use this material, but we ask that you please retain the OpenGeo branding, logos and style.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/us/88x31.png" /></a></p>
+
+
+{%- endmacro -%}
+{%- block doctype -%}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+{%- endblock %}
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  {{ metatags }}
+  {%- if not embedded %}
+    {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
+  {%- else %}
+    {%- set titlesuffix = "" %}
+  {%- endif %}
+  <title>OpenGeo : {{ project }}{% if pagename != 'index' %} : {{ title|striptags }}{%- endif %}</title>
+
+  {%- block basecss %}
+  <link rel="stylesheet" href="http://opengeo.org/opengeo.css" type="text/css"/>
+  {%- endblock %}
+  {%- for link, type, title in page_links %}
+  <link rel="alternate" type="{{ type|e(true) }}" title="{{ title|e(true) }}" href="{{ link|e(true) }}" />
+  {%- endfor %}
+  <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="http://opengeo.org/include/superfish/css/superfish.css" media="screen" />
+  <script type="text/javascript" src="{{ pathto('_static/jquery.js', 1) }}"></script>
+  <script type="text/javascript" src="{{ pathto('_static/doctools.js', 1) }}"></script>
+  <script type="text/javascript" src="{{ pathto('_static/searchtools.js', 1) }}"></script>
+  <script type="text/javascript" src="{{ pathto('searchindex.js', 1) }}"></script>
+  <script type="text/javascript" src="http://opengeo.org/include/superfish/js/jquery-1.2.6.min.js"></script>
+	<script type="text/javascript" src="http://opengeo.org/include/superfish/js/hoverIntent.js"></script>
+	<script type="text/javascript" src="http://opengeo.org/include/superfish/js/superfish.js"></script>
+	<script type="text/javascript" src="http://opengeo.org/include/superfish/js/supersubs.js"></script>
+	<script>  
+	$(document).ready(function(){ 
+		$("ul.sf-menu").supersubs({ 
+		}).superfish();  // call supersubs first, then superfish, so that subs are 
+						 // not display:none when measuring. Call before initialising 
+						 // containing tabs for same reason. 
+	}); 	 
+	</script>
+  {%- if use_opensearch %}
+  <link rel="search" type="application/opensearchdescription+xml"
+        title="Search within {{ docstitle }}"
+        href="{{ pathto('_static/opensearch.xml', 1) }}"/>
+  {%- endif %}
+  {%- if favicon %}
+  <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+  {%- endif %}
+  {%- block linktags %}
+      {%- if hasdoc('about') %}
+      <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
+      {%- endif %}
+      {%- if hasdoc('genindex') %}
+      <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+      {%- endif %}
+      {%- if hasdoc('search') %}
+      <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+      {%- endif %}
+      {%- if hasdoc('copyright') %}
+      <link rel="copyright" title="{{ _('Copyright') }}" href="{{ pathto('copyright') }}" />
+      {%- endif %}
+      <link rel="top" title="{{ docstitle|e }}" href="{{ pathto('index') }}" />
+      {%- if parents %}
+      <link rel="up" title="{{ parents[-1].title|striptags }}" href="{{ parents[-1].link|e }}" />
+      {%- endif %}
+      {%- if next %}
+      <link rel="next" title="{{ next.title|striptags }}" href="{{ next.link|e }}" />
+      {%- endif %}
+      {%- if prev %}
+      <link rel="prev" title="{{ prev.title|striptags }}" href="{{ prev.link|e }}" />
+      {%- endif %}
+  {%- endblock %}
+{%- block extrahead %}{% endblock %}
+</head>
+<body>
+<div id="container">
+  {%- block header %}
+  <div id="header">
+      <div class="contents">
+      <h1>
+          <a href="http://opengeo.org/"><img src="http://opengeo.org/images/opengeo-logo-reversed.png" alt="OpenGeo" height="40px" width="165px" /></a>
+      </h1>
+      <ul class="sf-menu">
+          <li>
+              <a href="http://opengeo.org/products/" class="parent">Products &amp; Services</a>
+              <ul>
+                  <li>
+                      <a href="http://opengeo.org/products/suite/">OpenGeo Suite</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/products/training/">Training</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/solutions/" class="sf-with-ul">Solutions <span class="sf-sub-indicator"></span></a>
+                      <ul>
+                          <li>
+                              <a href="http://opengeo.org/solutions/government/">Government</a>
+                          </li>
+                          <li>
+                              <a href="http://opengeo.org/solutions/transit/">Transit</a>
+                          </li>
+                          <li>
+                              <a href="http://opengeo.org/solutions/commercial/">Business</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/demos/">Demos</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/publications/">Case Studies</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a href="http://opengeo.org/technology/" class="parent">Technology</a>
+              <ul>
+                <li>
+                    <a href="http://opengeo.org/technology/suite/">OpenGeo Suite</a>
+                </li>
+                <li>
+                    <a href="http://opengeo.org/technology/geonode/">GeoNode</a>
+                </li>
+                  <li>
+                      <a href="http://opengeo.org/technology/postgis/">PostGIS</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/technology/geoserver/">GeoServer</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/technology/geowebcache/">GeoWebCache</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/technology/openlayers/">OpenLayers</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/technology/geoext/">GeoExt</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/publications/">White Papers</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a href="http://opengeo.org/support/" class="no-kids">Support</a>
+          </li>
+          <li>
+              <a href="http://opengeo.org/partners/" class="no-kids">Partners</a>
+          </li>
+          <li>
+              <a href="http://opengeo.org/about/" class="parent">About</a>
+              <ul>
+                  <li>
+                      <a href="http://opengeo.org/about/history/">History</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/about/philosophy/">Philosophy</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/about/team/">Team</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/about/careers/">Careers</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/about/contact/">Contact</a>
+                  </li>
+                  <li>
+                      <a href="http://opengeo.org/about/media/">Media</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+              <a href="http://blog.opengeo.org/">Blog</a>
+          </li>
+      </ul>
+      </div>
+      {%- block quicksearch %}
+<!--
+        <form id="quick-search" action="{{ pathto('search') }}" method="get">
+          <fieldset>
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+            <input id="quick-search-query" type="text" name="q" accessKey="q" name="searchQuery.queryString" size="25" value="Search Documentation &hellip;" size="20" tabindex="3" onblur="if(this.value=='') this.value='Search Documentation &hellip;';" onfocus="if(this.value=='Search Documentation &hellip;') this.value='';" />
+            <input id="quick-search-submit" type="image" value="Search" src="{{ pathto('_static/chrome/search_icon_blue.png', 1)}}" />
+          </fieldset>
+        </form>
+-->
+      {%- endblock %}
+  </div> <!-- header -->
+  {%- endblock %}
+  {%- block pageheading %}<div id="pageheading"><div class="contents"><h1>{{ project }}</h1></div></div>{% endblock %}
+
+  <div id="content" class="contents">
+  {%- block breadcrumbbar %}{{ breadcrumbs() }}{% endblock %}
+
+  <div id="rightbar_main">
+    {%- block document %}
+      {% block body %}{% endblock %}
+    {%- endblock %}
+
+    {%- if (prev or next) %}
+      <!-- Next/Prev -->
+      <div class="selfclear pagination-nav">
+        {%- if prev %}
+          <div class="left"><strong>Previous</strong>: <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></div>
+        {%- endif %}
+        {%- if next %}
+          <div class="right"><strong>Next</strong>: <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></div>
+        {%- endif %}
+      </div>
+    {%- endif %}
+
+  <!-- 
+  {%- if hasdoc('copyright') %}
+    &copy; <a href="{{ pathto('copyright') }}">Copyright</a> {{ copyright }}
+  {%- else %}
+    &copy; Copyright {{ copyright }}
+  {%- endif %}
+  -->
+
+  </div> <!-- rightbar_main -->
+
+  <div id="rightbar_bar">
+    {{ sidebar() }}
+<!-- {%- block rellinkbar %}{{ rellinkbar() }}{% endblock %} -->
+  </div> <!-- rightbar_bar -->
+  
+  </div> <!-- content -->
+
+{%- block footer %}
+  <div id="footer">
+    <div class="contents">
+    <div class="column">
+    <h3><a href="http://opengeo.org/products/">Products &amp; Services</a></h3>
+    <ul>
+      <li><a href="http://opengeo.org/products/suite/">OpenGeo Suite</a>
+        <ul>
+          <li><a href="http://opengeo.org/products/suite/learn/">Learn</a></li>
+          <li><a href="http://opengeo.org/products/suite/features/">Features</a></li>
+          <li><a href="http://opengeo.org/products/suite/see/">Screenshots &amp; Videos</a></li>
+          <li><a href="http://opengeo.org/products/suite/register/">Download</a></li>
+          <li><a href="http://opengeo.org/products/suite/buy/">Purchase</a></li>
+          <li><a href="http://opengeo.org/products/suite/pricing/">Pricing</a></li>
+        </ul>  
+      </li>
+      <li><a href="http://opengeo.org/products/training/">Training</a></li>
+      <li><a href="http://opengeo.org/products/consulting/">Consulting</a>
+      </li>
+      <li><a href="http://opengeo.org/solutions/">Solutions</a>
+          <ul>
+            <li><a href="http://opengeo.org/solutions/government/">OpenGeo for Government</a></li>
+            <li><a href="http://opengeo.org/solutions/transit/">OpenGeo for Transit</a></li>
+            <li><a href="http://opengeo.org/solutions/commercial/">Commercial Solutions</a></li>
+          </ul>
+      </li>
+    </ul>
+
+    <h3><a href="http://opengeo.org/support/">Support</a></h3>
+
+    <h3><a href="http://opengeo.org/partners/">Partners</a></h3>
+    <ul>
+      <li><a href="http://opengeo.org/partners/terms/">Partner Terms</a></li>
+      <li><a href="http://opengeo.org/partners/faq/">Partner FAQ</a></li>
+    </ul>
+
+    </div><!-- end .column -->
+
+    <div class="column">
+      <h3><a href="http://opengeo.org/technology/">Technology</a></h3>
+      <ul>
+        <li><a href="http://opengeo.org/technology/suite/">OpenGeo Suite</a></li>
+        <li><a href="http://opengeo.org/technology/geonode/">GeoNode</a></li>
+        <li><a href="http://opengeo.org/technology/postgis/">PostGIS</a></li>
+        <li><a href="http://opengeo.org/technology/geoserver/">GeoServer</a></li>
+        <li><a href="http://opengeo.org/technology/geowebcache/">GeoWebCache</a></li>
+        <li><a href="http://opengeo.org/technology/openlayers/">OpenLayers</a></li>
+        <li><a href="http://opengeo.org/technology/geoext/">GeoExt</a></li>
+      </ul>
+      <h3><a href="http://opengeo.org/demos/">Demos</a></h3>
+      <h3><a href="http://opengeo.org/publications/">Publications &amp; Case Studies</a></h3>
+      <h3><a href="http://opengeo.org/about/">About Us</a></h3>
+      <ul>
+        <li><a href="http://opengeo.org/about/history/">History</a>
+        <li><a href="http://opengeo.org/about/philosophy/">Philosophy</a>
+        <li><a href="http://opengeo.org/about/team/">Team</a>
+        <li><a href="http://opengeo.org/about/careers/">Careers</a>
+        <li><a href="http://opengeo.org/about/contact/">Contact</a>
+        <li><a href="http://opengeo.org/about/media/">Media</a>
+      </ul>
+      <h3><a href="http://blog.opengeo.org/">Blog</a></h3>
+    </div><!-- end .column -->
+
+
+    <div class="column right">
+    <p><a href="http://openplans.org/" class="openplans"><span class="nodisplay">OpenPlans</span></a></p>
+    <p>OpenGeo is the geospatial division of <a href="http://openplans.org/">OpenPlans</a>, a 501(c)(3) not-for-profit. We're bringing the best practices of open source software to organizations around the world.</p>
+    <ul class="vcard">
+    <li class="fn org nodisplay">OpenGeo</li>
+    <li class="adr">
+      <span class="street-address">148 Lafayette Street</span>, 
+      <span class="extended-address">Penthouse</span><br />
+      <span class="locality">New York</span>, <span class="region">NY</span> 
+      <span class="postal-code">10013</span>
+    </li>
+    <li class="tel"><abbr class="value" title="+18776736436">1-877-OPENGEO</abbr></li>
+    <li class="mail"><a href="http://opengeo.org/about/newsletter/">Subscribe to our newsletter</a></li>
+    <li class="twitter"><a href="http://twitter.com/opengeo">Follow @opengeo on Twitter</a></li>
+    <li class="linkedin"><a href="http://www.linkedin.com/companies/opengeo">Follow us on LinkedIn</a></li>
+    </ul>
+    </div><!-- end .column -->
+    <div class="clear"></div>
+    </div>
+  </div> <!-- footer -->		
+{%- endblock %}
+
+  </div><!-- container -->
+
+{%- block analytics %}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-3879903-6");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+{%- endblock %}
+
+  </body>
+</html>

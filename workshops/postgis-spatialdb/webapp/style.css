@@ -1,0 +1,86 @@
+body
+{
+  font-family:helvetica,sans-serif;
+  font-size:0.9em;
+}
+
+.container
+{
+  width:600px;
+  margin: 0 auto 0 auto;
+}
+
+h1
+{
+  font-size:1.4em;
+  margin-top:1.5em;
+}
+
+code
+{
+  font-size:1.2em;
+}
+
+th
+{
+  text-align:right;
+  padding-right:0.5em;
+}
+
+td
+{
+  text-align:center;
+}
+
+.smallmap
+{
+  height:450px;
+  width:100%;
+  border-width:1px;
+  border-color:gray;
+  border-style:solid;
+  margin-bottom:0.2em;
+}
+
+.smallquery
+{
+  height:100px;
+  width:96%;
+  border-width:1px;
+  border-color:gray;
+  border-style:solid;
+  margin-top:0.2em;
+  padding:2%;
+}
+
+.textarea
+{
+  width:100%;
+  border-width:1px;
+  border-color:gray;
+  border-style:solid;
+  margin-top:0.2em;
+}
+
+.taller
+{
+  height:200px;
+}
+
+.tall
+{
+  height:300px;
+}
+
+.footer
+{
+  float:right;
+  clear:both;
+}
+
+p.nav
+{
+  margin-top:0.2em;
+  float:right;
+  clear:none;
+}

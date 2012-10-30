@@ -1,0 +1,213 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>06 - Click and Network</title>
+    <!-- Load our local stylesheet -->
+    <link rel="stylesheet" href="style.css" type="text/css" /> 
+    <!-- Load the Google Maps API, using our localhost API key -->
+    <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAl9RMqSzhPUXAfeBCXOussRSPP9rEdPLw3W8siaiuHC3ED5y09RTJKbutSNVCYFKU-GnzKsHwbJ3SUw'></script>
+    <!-- Load the OpenLayers API library and stylesheet -->    
+    <link rel="stylesheet" href="http://openlayers.org/api/2.7/theme/default/style.css" type="text/css" />
+    <script src="http://openlayers.org/api/2.7/OpenLayers.js"></script>
+    <script type="text/javascript">
+
+        var x = -13673156;
+        var y = 5210618;
+        var zoom = 14;
+        var map, pipes, pipes_style;
+        
+
+        function init() {
+
+            initMap();
+            
+            var bwms = new OpenLayers.Layer.WMS( "Medford Drains and Streams",
+                        "/geoserver/wms?",
+                        { 
+                          transparent:'true',
+                          layers: 'medford:hydro,medford:storm_drains',
+                          'format':'image/png'},
+                          {'reproject': true});
+                          
+            // Set up our pipes layer, with some custom styling defaults.
+            pipes_style = {"strokeWidth":"3","strokeColor":"#DD5577"}
+            pipes = new OpenLayers.Layer.Vector("Vector Layer",{"style":pipes_style});
+            
+            // Add our WMS and vector layers to the map.
+            map.addLayers([bwms,pipes]);
+
+            // Set up the starting event.
+            map.events.register("click", map, getClickedPipe );
+
+        }
+
+        function initMap() {
+          
+           var options = {
+                projection: new OpenLayers.Projection("EPSG:900913"),
+                displayProjection: new OpenLayers.Projection("EPSG:4326"),
+                units: "m",
+                numZoomLevels:20,
+                maxResolution: 156543.0339,
+                maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+                controls:[new OpenLayers.Control.MouseDefaults(),
+                          new OpenLayers.Control.LayerSwitcher(),
+                          new OpenLayers.Control.PanZoomBar()]
+            };
+
+            map = new OpenLayers.Map( 'map' , options );
+
+            var gmap = new OpenLayers.Layer.Google(
+                "Google Streets", // the default
+                {'sphericalMercator': true}
+            );
+            var gsat = new OpenLayers.Layer.Google(
+                "Google Satellite",
+                {type: G_SATELLITE_MAP, 'sphericalMercator': true}
+            );
+            map.addLayers([gmap, gsat]); 
+            map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+        }
+
+        function getConnectedPipes(node_fm) {
+            // A parser for our GeoJSON return values.
+            var geojson = new OpenLayers.Format.GeoJSON();
+            // We want to get all the pipes that start where the last one ended.
+            var sql = "select st_asgeojson(st_transform(the_geom,900913)),pipe_id::integer,node_to,node_fm from medford.storm_drains where node_fm = '" + node_fm + "'";
+            // We are working sequentially, so synchronous fetch is best.
+            var config = { 
+                  "method":"GET",
+                  "url":"04-sql-to-json.jsp",
+                  "async":false,
+                  "params":{"sql":sql}
+                  };
+            var xmlhttp = OpenLayers.Request.issue(config);
+            // Parse the return value into an Array(vector).
+            var connected_pipes = geojson.read(xmlhttp.responseText, "FeatureCollection");
+            if ( connected_pipes ) {
+              // First we draw the results on the map.
+              pipes.addFeatures(connected_pipes);
+              // Then we log.
+              for ( var i = 0; i < connected_pipes.length; i ++ ) {
+                var id = connected_pipes[i].attributes.pipe_id;
+                var to = connected_pipes[i].attributes.node_to;
+                var fm = connected_pipes[i].attributes.node_fm;
+                updateStatus("Loaded pipe #" + id + ": " + fm + " >> " + to);
+              }
+              // Then we recurse.
+              for ( var i = 0; i < connected_pipes.length; i ++ ) {
+                var to = connected_pipes[i].attributes.node_to;
+                getConnectedPipes(to);
+              }
+            }
+        }
+
+        function getConnectedPipesNearby(node_fm) {
+            // A parser for our GeoJSON return values.
+            var geojson = new OpenLayers.Format.GeoJSON();
+            // We want to get all the pipes that start where the last one ended.
+            var sql = "select st_asgeojson(st_transform(the_geom,900913)),pipe_id::integer,node_to,node_fm from medford.storm_drains where node_fm = '" + node_fm + "'";
+            // We are working sequentially, so synchronous fetch is best.
+            var config = { 
+                  "method":"GET",
+                  "url":"04-sql-to-json.jsp",
+                  "async":false,
+                  "params":{"sql":sql}
+                  };
+            var xmlhttp = OpenLayers.Request.issue(config);
+            // Parse the return value into an Array(vector).
+            var connected_pipes = geojson.read(xmlhttp.responseText, "FeatureCollection");
+            if ( connected_pipes ) {
+              // First we draw the results on the map.
+              pipes.addFeatures(connected_pipes);
+              // Then we log.
+              for ( var i = 0; i < connected_pipes.length; i ++ ) {
+                var id = connected_pipes[i].attributes.pipe_id;
+                var to = connected_pipes[i].attributes.node_to;
+                var fm = connected_pipes[i].attributes.node_fm;
+                updateStatus("Loaded pipe #" + id + ": " + fm + " >> " + to);
+              }
+              // Then we recurse.
+              for ( var i = 0; i < connected_pipes.length; i ++ ) {
+                var to = connected_pipes[i].attributes.node_to;
+                getConnectedPipes(to);
+              }
+            }
+        }
+        
+        function getClickedPipe(e) {
+            var geojson = new OpenLayers.Format.GeoJSON();
+            // Get the mercator coordinates from the viewport
+            var xy = map.getLonLatFromViewPortPx(e.xy);
+            // Find the starting node with a  distance-from-click test.
+            var sql  = "select st_asgeojson(the_geom), node_fm ";
+                sql += "from medford.storm_drains ";
+                sql += "where st_dwithin(the_geom,st_transform(st_setsrid(";
+                sql += "st_makepoint(" + xy.lon + "," + xy.lat + ")";
+                sql += ",900913),2270),50) limit 1";
+            var config = { 
+                  "method":"GET",
+                  "url":"04-sql-to-json.jsp",
+                  "async":false,
+                  "params":{"sql":sql}
+                  };
+            var xmlhttp = OpenLayers.Request.issue(config);
+            var clicked_pipe = geojson.read(xmlhttp.responseText, "FeatureCollection");
+
+            // Clean out our vector layer.
+            pipes.destroyFeatures();
+
+            if ( clicked_pipe ) {
+              clearStatus();
+              if ( clicked_pipe.length > 0 ) {
+                // What node id do we start from?
+                var node_fm = clicked_pipe[0].attributes.node_fm;
+                updateStatus("Starting walk...");
+                // Start the recursive walk
+                getConnectedPipes(node_fm);
+                updateStatus("Done walk.");
+                // We're done, let's see the result.
+                map.zoomToExtent(pipes.getDataExtent());
+              } else {
+                updateStatus("No starting pipe selected.");
+              }
+            }
+        }
+        
+        // Log to our text area.
+        function updateStatus(msg) {
+            document.getElementById("log").value += msg + "\n";
+        }
+
+        // Clear the text area.
+        function clearStatus(msg) {
+            document.getElementById("log").value = "";
+        }
+
+    </script>
+  </head>
+
+  <body onload="init()">
+  <div class="container">
+    
+    <p class="nav">
+      <a href="05-arbitrary-sql.html">Previous</a> | 
+      <a href="index.html">Home</a> 
+    </p>
+    
+    <h1>06 - Click and Network</h1>
+
+    <div id="map" class="smallmap"></div>
+
+    <textarea id="log" class="textarea" rows="15"></textarea>
+
+    <p>
+      Based on a map click, find the nearest storm drain. Then walk downhill
+      from there. You might not get all the way to the water, the data is not 
+      perfectly connected.
+    </p>
+
+  </div>
+  </body>
+</html>
+
+

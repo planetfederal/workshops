@@ -1,0 +1,188 @@
+
+@import url("sphinxdoc.css");
+
+body
+{
+  margin: 0;
+  padding: 0;
+  font-family: helvetica,"microsoft sans serif",arial,sans-serif;
+}
+
+/* GeoWeb Colors
+div.wrap
+{ 
+  background-color: #FFF;
+  border-bottom: 1px solid #A8BCCF;
+  text-align: left;
+}
+*/
+
+/* Where colors */
+div.wrap
+{ 
+  background-color: #4B79AD;
+  border-bottom: 1px solid #eeeeff;
+  text-align: left;
+}
+
+#content
+{
+  margin: 0px;
+  padding: 0px;
+  margin-left: 45px;
+  margin-right: 45px;
+  margin-bottom: 45px;
+}
+
+h1.logo
+{
+  padding: 0px;
+  margin: 0px;
+  padding-top: 4px;
+  padding-bottom: 0px;
+  padding-left: 30px;
+  border-top: 8px solid #25A0D1;
+}
+
+h1.logo img
+{
+  border: none;
+}
+
+h2.docstitle
+{
+  border: none;
+  border-top: solid 1px #25A0D1;
+  margin: 0px;
+  padding: 0px;
+  padding-top: 10px;
+  padding-left: 45px;
+//  background: transparent url(img/page-heading-bg.png);
+  font-weight: lighter;
+  font-family: Univers, Helvetica, Verdana, Arial, sans-serif;
+  font-size: 1.4em;
+  color: #FFF;
+  height: 29px; /* 54 after padding*/
+  letter-spacing: 0.10em; 
+}
+
+h2.docstitle a
+{
+  text-decoration: none;
+  color: #FFF;
+}
+  
+div.related
+{
+  margin: 0px;
+  padding: 0px;
+  padding-top: 6px;
+  padding-bottom: 5px;
+  background: white;
+  vertical-align: middle;
+}
+
+div.related ul
+{
+  margin: 0;
+  margin-left: 45px;
+  padding: 0;
+  height: 2em;
+  background-image: none;
+  border: none;
+}
+
+div.related ul li
+{
+  height: 2em;
+  padding: 0 0.5em 0 0;
+}
+
+div.related ul li a 
+{
+  padding: 0 0.3em 0 0;
+  color: #1A3752;
+  text-decoration: underline;
+}
+
+div.clearer
+{
+  border-bottom: 1px solid #ccc;
+}
+
+div.body
+{
+  padding: 0.5em 45px 0.5em 45px;
+}
+
+div.bodywrapper
+{
+  margin-right: 280px;
+}
+
+h1,h2,h3
+{
+  font-family: Univers, Helvetica, Verdana, Arial, sans-serif;
+  color: #0A2742;
+  font-weight: lighter;
+}
+
+a,a.reference
+{
+  color: #1A3752;
+  text-decoration: underline;
+}
+
+a:hover
+{
+  color: #3366CC;
+}
+
+div.sphinxsidebar 
+{
+  padding: 0;
+  padding-top: 0.8em;
+  padding-bottom: 20px;
+  padding-right: 45px;
+  width: 210px;
+}
+
+div.sphinxsidebar h3, div.sphinxsidebar h4 
+{
+  margin: 1em 0 0.5em 0;
+  font-size: 1em;
+  padding: 0.15em 0 0.15em 0.6em;
+  color: white;
+  border: 1px solid #4B79AD;
+  background-color: #25A0D1; 
+}
+
+div.sphinxsidebar h3 a 
+{
+  text-decoration: none;
+}
+
+div.footer
+{
+//  border-top: 1px solid #555;
+  background-color: #25A0D1;
+  color: #fff;
+}
+
+div.documentwrapper
+{
+  width: auto; 
+} 
+
+div.section img
+{
+  max-width:100%;
+  border: 1px solid #999;
+  -webkit-box-shadow: 0.33em 0.33em 0.17em #999, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  -o-box-shadow: 0.33em 0.33em 0.17em #999, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  -moz-box-shadow: 0.33em 0.33em 0.17em #999, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  box-shadow: 0.33em 0.33em 0.17em #999, 0.33em 0.33em 1em rgba(0,0,0,0.3); 
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+

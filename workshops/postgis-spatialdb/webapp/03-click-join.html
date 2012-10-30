@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>03 - Click and Join</title>
+    <!-- Load our local stylesheet -->
+    <link rel="stylesheet" href="style.css" type="text/css" /> 
+    <!-- Load the Google Maps API, using our localhost API key -->
+    <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAl9RMqSzhPUXAfeBCXOussRSPP9rEdPLw3W8siaiuHC3ED5y09RTJKbutSNVCYFKU-GnzKsHwbJ3SUw'></script>
+    <!-- Load the OpenLayers API library and stylesheet -->    
+    <link rel="stylesheet" href="http://openlayers.org/api/2.7/theme/default/style.css" type="text/css" />
+    <script src="http://openlayers.org/api/2.7/OpenLayers.js"></script>
+    <script type="text/javascript">
+
+        var lon = -122.8550;
+        var lat = 42.3438;
+        var zoom = 15;
+        var map, markers;
+
+        function init(){
+
+            initMap();
+
+            var bwms = new OpenLayers.Layer.WMS( "Medford Zoning",
+                        "/geoserver/wms?",
+                        { 
+                          transparent:'true',
+                          layers: 'medford:zoning',
+                          'format':'image/png'},
+                          {'reproject': true});
+            map.addLayer(bwms);
+
+            map.events.register("click", map, queryZoning );
+
+        }
+
+        function initMap() {
+            map = new OpenLayers.Map( 'map' ,
+            {controls:[new OpenLayers.Control.MouseDefaults(),
+                       new OpenLayers.Control.LayerSwitcher(),
+                       new OpenLayers.Control.PanZoomBar()], 
+             numZoomLevels:20});
+
+            var gmap = new OpenLayers.Layer.Google(
+                "Google Streets" // the default
+            );
+            var gsat = new OpenLayers.Layer.Google(
+                "Google Satellite",
+                {type: G_SATELLITE_MAP}
+            );
+            map.addLayers([gmap, gsat]); 
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+        }
+
+        function queryZoning(e) {
+          // Read the map coordinates from the click event
+          var lonlat = map.getLonLatFromViewPortPx(e.xy);
+          // Read the radius we are going to use
+          var radius = document.getElementById("radius").value;
+          // Construct the query URL
+          var url = "03-click-join.jsp";
+          url += "?lon=" + lonlat.lon;
+          url += "&lat=" + lonlat.lat;
+          url += "&radius=" + radius;
+          // Load the URL into an iframe
+          document.getElementById("query").src = url;
+        }
+
+    </script>
+  </head>
+
+  <body onload="init()">
+  <div class="container">
+    
+    <p class="nav">
+      <a href="02-click-analyze.html">Previous</a> | 
+      <a href="index.html">Home</a> | 
+      <a href="04-click-union.html">Next</a>
+    </p>
+      
+    <h1>03 - Click and Join</h1>
+
+    <div id="map" class="smallmap"></div>
+
+    <p>
+      <b>Summarization Radius:</b> 
+      <select name="radius" id="radius">
+        <option selected value="100">100 feet</option>
+        <option value="200">200 feet</option>
+        <option value="400">400 feet</option>
+        <option value="800">800 feet</option>
+        <option value="1600">1600 feet</option>
+      </select>
+    </p>
+
+    <iframe id="query" class="smallquery taller"></iframe>
+    
+    <p>
+      Based on a map click, find all the tax lots nearby (the
+      drop-down can be used to adjust the search radius) and
+      then summarize based on zoning information extracted
+      via a spatial join.
+    </p>
+
+  </div>
+  </body>
+</html>
+
+

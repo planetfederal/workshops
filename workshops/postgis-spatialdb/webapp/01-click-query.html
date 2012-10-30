@@ -1,0 +1,109 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>01 - Click and Query</title>
+    <!-- Load our local stylesheet -->
+    <link rel="stylesheet" href="style.css" type="text/css" /> 
+    <!-- Load the Google Maps API, using our localhost API key -->
+    <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAl9RMqSzhPUXAfeBCXOussRSPP9rEdPLw3W8siaiuHC3ED5y09RTJKbutSNVCYFKU-GnzKsHwbJ3SUw'></script>
+    <!-- Load the OpenLayers API library and stylesheet -->    
+    <link rel="stylesheet" href="http://openlayers.org/api/2.7/theme/default/style.css" type="text/css" />
+    <script src="http://openlayers.org/api/2.7/OpenLayers.js"></script>
+
+
+    <script type="text/javascript">
+
+        var lon = -122.8450;
+        var lat = 42.3438;
+        var zoom = 18;
+        var map, markers;
+
+        function init(){
+
+            initMap();
+            
+            // Add a WMS overlay showing both taxlots and buildings.
+            var bwms = new OpenLayers.Layer.WMS( "Medford Buildings",
+                        "/geoserver/wms?",
+                        { 
+                          transparent:'true',
+                          layers: 'medford:taxlots,medford:buildings',
+                          'format':'image/png'},
+                          {'reproject': true});
+            map.addLayer(bwms);
+
+            // Tie the map click event to our query function (queryDatabase)
+            map.events.register("click", map, queryDatabase );
+
+        }
+
+        function queryDatabase(e) {
+          // Read the map coordinates from the click event
+          var lonlat = map.getLonLatFromViewPortPx(e.xy);
+          // Read the table we are going to query from the page
+          var table = document.getElementById("table").value;
+          // Construct the query URL
+          var url = "01-click-query.jsp";
+          url += "?lon=" + lonlat.lon;
+          url += "&lat=" + lonlat.lat;
+          url += "&table=" + table;
+          // Load the URL into an iframe
+          document.getElementById("query").src = url;
+        }
+
+        function initMap() {
+            map = new OpenLayers.Map( 'map' ,
+            {controls:[new OpenLayers.Control.MouseDefaults(),
+                       new OpenLayers.Control.LayerSwitcher(),
+                       new OpenLayers.Control.PanZoomBar()], 
+             numZoomLevels:20});
+
+            var gmap = new OpenLayers.Layer.Google(
+                "Google Streets" // the default
+            );
+            var gsat = new OpenLayers.Layer.Google(
+                "Google Satellite",
+                {type: G_SATELLITE_MAP}
+            );
+            map.addLayers([gmap, gsat]); 
+
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+        }
+
+    </script>
+  </head>
+  <body onload="init()">
+  <div class="container">
+    
+    <p class="nav">
+      <a href="00-map-with-wms.html">Previous</a> | 
+      <a href="index.html">Home</a> | 
+      <a href="02-click-analyze.html">Next</a>
+    </p>
+    
+    <h1>01 - Click and Query</h1>
+
+    <div id="map" class="smallmap"></div>
+
+    <p>
+      <b>Query Table:</b> 
+      <select name="table" id="table">
+        <option selected value="medford.buildings">medford.buildings</option>
+        <option value="medford.taxlots">medford.taxlots</option>
+        <option value="medford.wards">medford.wards</option>
+        <option value="medford.zoning">medford.zoning</option>
+      </select>
+    </p>
+
+    <iframe id="query" class="smallquery taller"></iframe>
+
+    <p>
+      Click on the map to run a database query on the chosen 
+      table and see the attributes associated with the selected 
+      polygon in the results window.
+    </p>
+
+  </div>
+  </body>
+</html>
+
+

@@ -1,0 +1,147 @@
+.. _geoext.wfs.wfst:
+
+Committing Feature Modifications Over WFS-T
+===========================================
+
+Until GeoExt also provides writers, we have to rely on OpenLayers for writing
+modifications back to the WFS. This is not a big problem though, because WFS-T
+support in OpenLayers is solid. But it requires us to take some extra care of
+feature states.
+
+Managing Feature States
+-----------------------
+
+For keeping track of "create", "update" and "delete" operations, OpenLayers
+vector features have a ``state`` property. The WFS protocol relies on this
+property to determine which features to commit using an "Insert", "Update" or
+"Delete" transaction. So we need to make sure that the ``state`` property gets
+set properly:
+
+* ``OpenLayers.State.INSERT`` for features that were just created. We do not
+  need to do anything here, because the DrawFeature control handles this for
+  us.
+* ``OpenLayers.State.UPDATE`` for features with modified attributes, except
+  for features that have ``OpenLayers.State.INSERT`` set already. For modified
+  geometries, the ModifyFeature control handles this.
+* ``OpenLayers.State.DELETE`` for features that the user wants to delete,
+  except for features that have ``OpenLayers.State.INSERT`` set, which can be
+  removed.
+
+.. rubric:: Tasks
+
+#.  Open :file:`map.html` in your text editor. Find the "Delete" button's
+    handler and change it so it properly sets the DELETE feature state and
+    re-adds features to the layer so the server knows we want to delete them:
+    
+    .. code-block:: javascript
+
+        handler: function() {
+            app.featureGrid.getSelectionModel().each(function(rec) {
+                var feature = rec.getFeature();
+                modifyControl.unselectFeature(feature);
+                vectorLayer.removeFeatures([feature]);
+                if (feature.state !== OpenLayers.State.INSERT) {
+                    feature.state = OpenLayers.State.DELETE;
+                    app.featureGrid.store.featureFilter = new OpenLayers.Filter({
+                        evaluate: function(f) { return feature !== f; }
+                    });
+                    vectorLayer.addFeatures([feature]);
+                }
+            });
+        }
+    
+    By setting the featureFilter on the store we prevent the feature from being
+    re-added to the store. In OpenLayers, features with DELETE state won't be
+    rendered, but in Ext JS, if we do not want a deleted feature to show up in
+    the grid, we have to make sure that it is not in the store.
+
+
+Adding a Save Button
+----------------------------------------
+
+Saving feature modifications the OpenLayers way usually requires the vector
+layer to be configured with an `OpenLayers.Strategy.Save
+<http://dev.openlayers.org/releases/OpenLayers-2.10/doc/apidocs/files/OpenLayers/Strategy/Save-js.html>`_.
+But since we have a store configured with the WFS protocol in GeoExt, we do not
+need that. Instead, we can call the protocol's ``commit()`` method directly to
+save changes.
+
+.. rubric:: Tasks
+
+#.  Find the grid's ``bbar`` definition in your :file:`map.html` file and add
+    the "Save" button configuration and handler. When done, the ``bbar``
+    definition should look like this:
+    
+    .. code-block:: javascript
+
+        bbar: [{
+            text: "Delete",
+            handler: function() {
+                app.featureGrid.getSelectionModel().each(function(rec) {
+                    var feature = rec.getFeature();
+                    modifyControl.unselectFeature(feature);
+                    vectorLayer.removeFeatures([feature]);
+                    if (feature.state !== OpenLayers.State.INSERT) {
+                        feature.state = OpenLayers.State.DELETE;
+                        app.featureGrid.store._adding = true;
+                        vectorLayer.addFeatures([feature]);
+                        delete app.featureGrid.store._adding;
+                    }
+                });
+            }
+        }, new GeoExt.Action({
+            control: drawControl,
+            text: "Create",
+            enableToggle: true
+        }), {
+            text: "Save",
+            handler: function() {
+                app.featureGrid.store.proxy.protocol.commit(
+                    vectorLayer.features, {
+                        callback: function() {
+                            selectedLayer.redraw(true);
+                            app.featureGrid.store.reload();
+                        }
+                });
+            }
+        }]
+ 
+#.  Save your file and reload `<@workshop_url@/map.html>`_. Make some
+    changes and hit "Save". Reload the page to see that your changes were
+    persisted.
+
+.. figure:: wfst.png
+
+    Application with "Save" button and a persisted feature after reloading.
+
+One More Look at the "Save" Button's Handler
+````````````````````````````````````````````
+By calling the ``commit()`` method with a callback option, we can perform
+actions when the commit operation has completed. In this case, we want to
+redraw the selected WMS layer, to reflect the changes. And we also reload the
+WFS layer, to reset all feature states and have all features with their correct
+feature ids.
+
+.. code-block:: javascript
+
+    callback: function() {
+        selectedLayer.redraw(true);
+        app.featureGrid.store.reload();
+    }
+
+In Ext JS, the ``commitChanges`` method of a store is used to save changes.
+We use OpenLayers to perform the WFS transaction, so we would not necessarily
+have to call ``commitChanges``. But doing so will make sure that the records are no
+longer marked "dirty", which resets the store into the same clean state that the
+layer will be in when the commit operation is finished. The pleasant side effect
+of calling ``commitChanges`` is that the tiny read triangles in the top left
+corner of edited grid cells disappear.
+
+Conclusion
+----------
+
+You have successfully created a WFS based feature editor. GeoExt makes working
+with features easy, thanks to its FeatureStore. Although there is no write
+support yet for the FeatureStore in GeoExt, saving changes via WFS-T is easy
+because of the solid WFS-T support in OpenLayers and the interoperability
+between GeoExt and OpenLayers.

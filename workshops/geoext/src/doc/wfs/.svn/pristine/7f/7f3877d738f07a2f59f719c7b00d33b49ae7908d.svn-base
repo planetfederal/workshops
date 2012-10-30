@@ -1,0 +1,343 @@
+.. _geoext.wfs.grid:
+
+Creating a Synchronized Grid and Map View of WFS Features
+=========================================================
+
+GeoExt borrows most of its WFS support from OpenLayers. What it does provide
+though is the `GeoExt.data.FeatureStore
+<http://geoext.org/lib/GeoExt/data/FeatureStore.html>`_, so showing feature
+attributes in a grid is a very easy task. If we just want to display features
+in a grid, we can use a `GeoExt.data.ProtocolProxy
+<http://geoext.org/lib/GeoExt/data/ProtocolProxy.html>`_, so we don't even
+need an OpenLayers layer.
+
+Vector Features on a Map and in a Table
+---------------------------------------
+
+Let's build editing functionality into the WMS browser from the
+:ref:`previous chapter <geoext.stores>`. But one piece at a time. We'll start
+with some code that reads a WFS layer, displays its features on a map, shows
+the attributes in a grid, and synchronizes feature selection between map and
+grid:
+
+.. rubric:: Tasks
+
+#.  Open the :file:`map.html` file from the previous exercise in a text editor.
+    Paste the code below at the bottom of the application's script block:
+
+    .. _geoext.wfs.grid.grid:
+
+    .. code-block:: javascript
+
+        var vectorLayer = new OpenLayers.Layer.Vector("Vector features");
+        items.push({
+            xtype: "grid",
+            ref: "featureGrid",
+            title: "Feature Table",
+            region: "south",
+            height: 150,
+            sm: new GeoExt.grid.FeatureSelectionModel(),
+            store: new Ext.data.Store(),
+            columns: []
+        });
+
+#.  The above does not do much. It just creates a vector layer, and an empty
+    grid in the "south" region of the application viewport. We want to populate
+    it with features from the layer that is selected in the tree, and want them
+    rendered on the map also. To achieve this, add the following code at the
+    bottom of the application's script block (no worries, everything will be
+    dissected and explained below):
+    
+    .. code-block:: javascript
+    
+        var read = OpenLayers.Format.WFSDescribeFeatureType.prototype.read;
+        OpenLayers.Format.WFSDescribeFeatureType.prototype.read = function() {
+            rawAttributeData = read.apply(this, arguments);
+            return rawAttributeData;
+        };
+
+        var rawAttributeData, selectedLayer;
+        function setLayer(model, node) {
+            if(!(node && node.layer instanceof OpenLayers.Layer.WMS)) {
+                return;
+            }
+            selectedLayer = null;
+            vectorLayer.removeAllFeatures();
+            app.featureGrid.reconfigure(
+                new Ext.data.Store(),
+                new Ext.grid.ColumnModel([])
+            );
+            var layer = node.layer;
+            var url = layer.url.split("?")[0];
+            var schema = new GeoExt.data.AttributeStore({
+                url: url,
+                baseParams: {
+                    "SERVICE": "WFS",
+                    "REQUEST": "DescribeFeatureType",
+                    "VERSION": "1.1.0",
+                    "TYPENAME": layer.params.LAYERS
+                },
+                autoLoad: true,
+                listeners: {
+                    "load": function(store) {
+                        app.featureGrid.setTitle(layer.name);
+                        selectedLayer = layer;
+                        configureGrid(store, url);
+                    }
+                }
+            });
+        }
+
+        function configureGrid(store, url) {
+            var fields = [], columns = [], geometryName, geometryType;
+            var geomRegex = /gml:(Multi)?(Point|Line|Polygon|Surface|Geometry).*/;
+            var types = {
+                "xsd:int": "int",
+                "xsd:short": "int",
+                "xsd:long": "int",
+                "xsd:string": "string",
+                "xsd:dateTime": "string",
+                "xsd:double": "float",
+                "xsd:decimal": "float",
+                "Line": "Path",
+                "Surface": "Polygon"
+            };
+            store.each(function(rec) {
+                var type = rec.get("type");
+                var name = rec.get("name");
+                var match = geomRegex.exec(type);
+                if (match) {
+                    geometryName = name;
+                    geometryType = match[2] == "Line" ? "Path" : match[2];
+                } else {
+                    fields.push({
+                        name: name,
+                        type: types[type]
+                    });
+                    columns.push({
+                        xtype: types[type] == "string" ?
+                            "gridcolumn" :
+                            "numbercolumn",
+                        dataIndex: name,
+                        header: name
+                    });
+                }
+            });
+            app.featureGrid.reconfigure(new GeoExt.data.FeatureStore({
+                autoLoad: true,
+                proxy: new GeoExt.data.ProtocolProxy({
+                    protocol: new OpenLayers.Protocol.WFS({
+                        url: url,
+                        version: "1.1.0",
+                        featureType: rawAttributeData.featureTypes[0].typeName,
+                        featureNS: rawAttributeData.targetNamespace,
+                        srsName: "EPSG:4326",
+                        geometryName: geometryName,
+                        maxFeatures: 250,
+                    })
+                }),
+                fields: fields
+            }), new Ext.grid.ColumnModel(columns));
+            app.featureGrid.store.bind(vectorLayer);
+            app.featureGrid.getSelectionModel().bind(vectorLayer);
+        }
+
+        Ext.onReady(function() {
+            app.mapPanel.map.addLayer(vectorLayer);
+            app.tree.getSelectionModel().on(
+                "selectionchange", setLayer
+            );
+        });
+
+#.  After saving your changes, point your browser to
+    `<@workshop_url@/map.html>`_. You should see a new grid in the application.
+    When you add a layer to the map that is available as WFS also, the grid
+    will be  populated with data, and its features will be rendered on the map.
+    When clicking a row in the grid, its geometry gets highlighted on the map.
+    And when clicking a feature on a map, its attributes will be highlighted in
+    the grid.
+
+.. figure:: grid.png
+
+    A synchronized map and grid view of WFS features.
+
+Understanding the Code
+``````````````````````
+GeoExt currently does not keep a copy of the raw return value of the
+``WFSDescribeFeatureType`` format's read method, but we need more information
+than just the attributes. So we save the complete return value in the
+``rawAttributeData`` variable. To do so, we override the ``read()`` method of
+``OpenLayers.Format.WFSDescribeFeatureType``:
+
+.. code-block:: javascript
+
+    var read = OpenLayers.Format.WFSDescribeFeatureType.prototype.read;
+    OpenLayers.Format.WFSDescribeFeatureType.prototype.read = function() {
+        rawAttributeData = read.apply(this, arguments);
+        return rawAttributeData;
+    };
+
+The entry point to populating the grid is a listener that gets called every
+time the layer selection in the tree changes. We register this listener as
+soon as the ``vectorLayer`` is added to the map.
+
+.. code-block:: javascript
+
+    Ext.onReady(function() {
+        app.mapPanel.map.addLayer(vectorLayer);
+        app.tree.getSelectionModel().on(
+            "selectionchange", setLayer
+        );
+    });
+
+The ``setLayer()`` function issues a WFS DescribeFeatureType request. The
+response to this request is the XML schema for the layer, and we use the
+`GeoExt.data.AttributeStore <http://geoext.org/lib/GeoExt/data/AttributeStore.html>`_
+for easy access to the fields and their data types. This function is still too
+big to explain, so let's look at it piece by piece:
+
+.. code-block:: javascript
+
+    if(!(node && node.layer instanceof OpenLayers.Layer.WMS)) {
+        return;
+    }
+
+We return immediately from the function when no node is selected and when the
+node's layer is not a WMS layer.
+    
+.. code-block:: javascript
+
+    selectedLayer = null;
+    vectorLayer.removeAllFeatures();
+    app.featureGrid.reconfigure(
+        new Ext.data.Store(),
+        new Ext.grid.ColumnModel([])
+    );
+    var layer = node.layer;
+    app.featureGrid.setTitle(layer.name);
+
+Otherwise, we clear the currently selected layer and reconfigure the grid with
+an empty store and no columns. Finally, we set the title bar of the grid to the
+name of the currently selected layer.
+
+Now let's look at how we get the fields of the layer:
+
+.. code-block:: javascript
+
+    var url = layer.url.split("?")[0];
+    var schema = new GeoExt.data.AttributeStore({
+        url: url,
+        baseParams: {
+            "SERVICE": "WFS",
+            "REQUEST": "DescribeFeatureType",
+            "VERSION": "1.1.0",
+            "TYPENAME": layer.params.LAYERS
+        },
+        autoLoad: true,
+        listeners: {
+            "load": function(store) {
+                selectedLayer = node.layer;
+                configureGrid(store, url);
+            }
+        }
+    });
+
+With ``layer.url.split("?")[0];`` we strip the request parameters from the url,
+and with ``baseParams`` we add the request parameters for the
+DescribeFeatureType request. Finally, in the "load" listener, we store the
+``selectedLayer``, and move on by calling the ``configureGrid()`` function,
+which finally configures the grid with the appropriate fields and data types:
+
+.. code-block:: javascript
+
+    var types = {
+        "xsd:int": "int",
+        "xsd:short": "int",
+        "xsd:long": "int",
+        "xsd:string": "string",
+        "xsd:dateTime": "string",
+        "xsd:double": "float",
+        "xsd:decimal": "float",
+        "Line": "Path",
+        "Surface": "Polygon"
+    };
+
+The above is just a mapping of some types defined for XML Schema to Ext JS
+record field and OpenLayers geometry types. For a real-life application, this
+would have to be more fine-grained.
+
+.. code-block:: javascript
+
+    var geomRegex = /gml:(Multi)?(Point|Line|Polygon|Surface|Geometry).*/;
+
+This looks scary, but it is just a regular expression to determine the geometry
+type of the current feature. We need this to tell whether we are dealing with
+a geometry or a feature attribute.
+
+.. code-block:: javascript
+
+    store.each(function(rec) {
+        var type = rec.get("type");
+        var name = rec.get("name");
+        var match = geomRegex.exec(type);
+        if (match) {
+            geometryName = name;
+            geometryType = types[match[2]] || match[2];
+        } else {
+            fields.push({
+                name: name,
+                type: types[type]
+            });
+            columns.push({
+                xtype: types[type] == "string" ?
+                    "gridcolumn" :
+                    "numbercolumn",
+                dataIndex: name,
+                header: name
+            });
+        }
+    });
+
+Here we walk through all the field records of the AttributeStore and create
+configuration objects for both the grid's fields and the ColumnModel's columns.
+And we set the ``geometryType`` that we will use later for the DrawFeature
+control to give us geometries of the correct type.
+
+Finally, we can reconfigure the grid to use the new store and column
+configuration:
+
+.. code-block:: javascript
+
+    app.featureGrid.reconfigure(new GeoExt.data.FeatureStore({
+        autoLoad: true,
+        proxy: new GeoExt.data.ProtocolProxy({
+            protocol: new OpenLayers.Protocol.WFS({
+                url: url,
+                version: "1.1.0",
+                featureType: rawAttributeData.featureTypes[0].typeName,
+                featureNS: rawAttributeData.targetNamespace,
+                srsName: "EPSG:4326",
+                geometryName: geometryName,
+                maxFeatures: 250,
+            })
+        }),
+        fields: fields
+    }), new Ext.grid.ColumnModel(columns));
+
+The grid's ``reconfigure`` method takes two arguments: a ``store`` and a
+``columnModel``. This is enough to get the grid working with data from a new
+vector layer, but for updating the map and making the selection model work,
+we need to point the store and the selection model to the vector layer:
+
+.. _geoext.wfs.grid.bind:
+
+.. code-block:: javascript
+
+    app.featureGrid.store.bind(vectorLayer);
+    app.featureGrid.getSelectionModel().bind(vectorLayer);
+
+Next Steps
+----------
+
+Just displaying vector features is somewhat boring. We want to edit them. The
+:ref:`next section <geoext.wfs.editing>` explains how to do that.

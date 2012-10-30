@@ -1,0 +1,3 @@
+INSERT INTO smallworld (the_geom, placename, comment, year) VALUES (ST_GeomFromText('POINT(-147.68920897258 64.8302537436281)',4326), 'Fairbanks', 'Into the Wild ...', 1992);
+INSERT INTO smallworld (the_geom, placename, comment, year) VALUES (ST_GeomFromText('POINT(174.807586609872 -41.2530324129332)',4326), 'Wellington', 'Discovery', 2011);
+INSERT INTO smallworld (the_geom, placename, comment, year) VALUES (ST_GeomFromText('POINT(-104.856605515189 39.6411238434471)',4326), 'Denver', 'FOSS4G', 2211);

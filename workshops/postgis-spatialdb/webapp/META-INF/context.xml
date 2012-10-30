@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<Context path="/spatialdbtips" docBase="medford"
+         crossContext="true" reloadable="true" debug="5">
+
+<Resource name="jdbc/medford" 
+          auth="Container"
+          type="javax.sql.DataSource" 
+          driverClassName="org.postgresql.Driver"
+          url="jdbc:postgresql://127.0.0.1:5432/medford"
+          username="postgres" 
+          password="postgres" 
+          maxActive="5" 
+          maxIdle="1" />
+
+</Context>

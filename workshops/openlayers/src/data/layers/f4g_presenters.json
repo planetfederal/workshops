@@ -1,0 +1,300 @@
+{
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-71.270199, 46.782536]},
+        "properties": {
+            "name": "Thierry Badard",
+            "description": "Dr. Thierry Badard is professor in geoinformatics at the Department of geomatics sciences of Laval University in Quebec City (Canada). He heads the GeoSOA research group and is a full time researcher and a member of the steering committee of the Centre for Research in Geomatics (CRG). He is also a regular researcher of the GEOIDE Network of Centres of Excellence in geomatics. He has more than 13 years of experience and he has been involved and has led national and international R & D projects of importance. His research interest deals with geospatial (Web) Services Oriented Architectures (SOA), location-based and context-aware web services, geospatial Business Intelligence and geo-analytical tools and the design of intelligent mobile applications for better decision support. Dr. Thierry Badard is also involved in the geospatial free and open source community. He is administrator and project coordinator of the GeOxygene, GeoKettle, GeoMondrian and Spatialytics open source projects. He is an OSGeo charter member and acts as a member of the OSGeo conference committee. He is in charge of the free software commission in the OSGeo Francophone local chapter and he co-chairs the OSGeo Quebec local chapter. He is also a co-chair of the ICA (International Cartographic Association) working group on open source geospatial technologies.",
+            "location": "Quebec City, QC, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-71.270199, 46.782536]},
+        "properties": {
+            "name": "Etienne Dubé",
+            "description": "Etienne works at the Department of Geomatic Sciences, Laval University, Quebec, Canada and has contributed to a number of open source projects",
+            "location": "Quebec City, QC, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-64.33987, 44.42109]},
+        "properties": {
+            "name": "Jeff McKenna",
+            "description": "In 2008 Jeff started his own consulting company based around FOSS4G, Gateway Geomatics, and is actively contributing to OSGeo. Founding and Charter member of OSGeo Maintainer for Maptools.org Developer for MS4W Developer for OSGeo4W MapServer Project Steering Committee (PSC) member MapServer documentation lead OSGeo FOSS4G conference committee chair FOSS4G Workshop committee member founding co-chair of OSGeo Ottawa Local Chapter",
+            "location": "Lunenburg, NS, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-122.125998, 52.127218]},
+        "properties": {
+            "name": "Tyler Mitchell",
+            "description": "Tyler has been working in the Geographic Information Systems (GIS) industry for over a decade, with a focus on natural resource management and forestry. Most recently, he became the Executive Director for the Open Source Geospatial Foundation - whose mission is to promote and support the development of open source tools focused on mapping and geospatial analysis. He is responsible for helping the board of directors, committees and members reach these goals. He is also the author of an O'Reilly book on open source GIS and web mapping tools: Web Mapping Illustrated. The book teaches introductory geospatial data management and map projections, building a simple MapServer-based web map, using PostGIS, programming with MapScript, using web services and more.",
+            "location": "Williams Lake, British Columbia, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-75.700644, 45.411879]},
+        "properties": {
+            "name": "Pericles Nacionales",
+            "description": "Perry is a Assistant Scientist in Conservation Biology program at the University of Minnesota - Twin Cities. He is interested in finding ways to integrate geospatial technologies into community-based conservation processes. You can reach him at pnaciona at gee mail dot com. :) Or at naci0002 at umn dot edu.",
+            "location": "Ottawa, ON, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [151.182612, -33.86069]},
+        "properties": {
+            "name": "Mark Leslie",
+            "description": "Mark Leslie has broad experience integrating Proprietary and Open Source products into customer infrastructures. He has developed and extended software across the Open Source Geospatial stack, including UMN MapServer, PostGIS, uDig and GeoTools and is now Software Architect at LISAsoft.",
+            "location": "Sydney, NSW, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-123.367195, 48.428859]},
+        "properties": {
+            "name": "Paul Ramsey",
+            "description": "Paul Ramsey is an geospatial consultant with OpenGeo, an expert in open source software, and a founder of the PostGIS open source spatial database project. Paul is a director of the Open Source Geospatial Foundation, and has been a long time advocate for making intelligent use of open source in systems design. Paul speaks and teaches frequently at conferences on the use and abuse of open source geospatial software. His foss4g2009 keynote is titled: Beyond Nerds Bearing Gifts: The Future of the Open Source Economy",
+            "location": "Victoria, BC, Canada"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-74.01, 40.74]},
+        "properties": {
+            "name": "Justin Deoliveira",
+            "description": "Justin has been active in the open source community for a number of years. He is a charter member of the Open Source Geospatial Foundation (OSGEO), as well as a committer on projects such as GeoTools, GeoServer, and uDig.",
+            "location": "New York, NY, USA"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-74.01, 40.74]},
+        "properties": {
+            "name": "Andrea Aime",
+            "description": "Biography comming soon...",
+            "location": "New York, NY, USA"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-111.04, 45.69]},
+        "properties": {
+            "name": "Tim Schaub",
+            "description": "Mr. Schaub works as a geospatial solutions engineer for The Open Planning Project. He serves as on the Project Steering Committee and is a core developer of OpenLayers.",
+            "location": "Bozeman, MT, USA"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [10.45, 59.85]},
+        "properties": {
+            "name": "Arne Kepp",
+            "description": "Arne Kepp is a Software Engineer at OpenGeo and lead developer of GeoWebCache. He became a user and proponent of Open Source software while filling the role as system administrator for a GIS consulting firm in 2000. Since then he has been studying hardware architecture and used his experience to improve the performance and reliability of several web services.",
+            "location": "Asker, Norway"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [138.598752, -34.924434]},
+        "properties": {
+            "name": "Jim Groffen",
+            "description": "Jim Groffen is a Senior Software Engineer at LISAsoft. Working in IT since 1998, Jim has been with LISAsoft since 2005 working on various Spatial projects. Jim participated in OGC projects such as CGDI-IP and OWS-6. As part of OWS-6 Jim will be contributing updated WMTS support to the TileCache open source project. Other relevant areas of interest include spatial catalogues and registries, OpenLS and all things Python.",
+            "location": "Adelaide, SA, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [144.956102, -37.81647]},
+        "properties": {
+            "name": "Roald de Wit",
+            "description": "Roald is a software engineer/team lead for LISAsoft, a geospatial systems integration, software development and consulting company. His main area of expertise lies in the visualization of geospatial information through innovative and user friendly interfaces using web-based thin clients.",
+            "location": "Melbourne, VIC, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.885, 52.223]},
+        "properties": {
+            "name": "Jeroen Ticheler",
+            "description": "Jeroen Ticheler is passionate about Africa, people, maps and technology. He's convinced that open source software is the best option to help sustainable development. Making geospatial data more accessible caused him to start the development of GeoNetwork opensource in 2001 at the Food and Agriculture Organization of the UN, the first fully open source software in the organization. He has been pushing for geospatial data sharing within the United Nations for years as task group manager on interoperable services in the UN Geographic Information Working Group and pushed the concept of a UN Spatial Data Infrastructure in that same group. In 2008 he started GeoCat bv to provide commercial services for GeoNetwork opensource. In his nightlife he supports OSGeo activities, marketing and a hacking event.",
+            "location": "Enschede, The Netherlands"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [11.1333, 46.0667]},
+        "properties": {
+            "name": "Paolo Zatelli",
+            "description": "Paolo Zatelli,. PhD in Topographic and Geodetic Science, Assistant professor in Topography and Cartography at the University of Trento. Research and education: survey, statistics photogrammetry, numerical cartography and GIS, remote sensing.",
+            "location": "Trento, Italy"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [11.1333, 46.0667]},
+        "properties": {
+            "name": "Marco Ciolli",
+            "description": "Marco Ciolli, PhD in Forest Management, Assistant professor in Forest management and planning at the University of Trento. Research and education: sustainable landscape planning and development, applied GIS , ecology, tropical ecosystems.",
+            "location": "Trento, Italy"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [11.1333, 46.0667]},
+        "properties": {
+            "name": "Clara Tattoni",
+            "description": "Clara Tattoni, PhD in Analysis, protection and management of biodiversity, is now cooperating with the University of Trento. Main research topic: GIS in wildlife management, forestry and ecology. She is part of the OSGeo educational committee.",
+            "location": "Trento, Italy"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.6333, 46.5333]},
+        "properties": {
+            "name": "Claude Philipona",
+            "description": "Claude Philipona is co-founder of Camptocamp SA and professor at the University of Applied Sciences Western Switzerland (HES-SO).",
+            "location": "Lausanne, Switzerland"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.6333, 46.5333]},
+        "properties": {
+            "name": "Cédric Moullet",
+            "description": "Cédric Moullet is CTO Geospatial of Camptocamp SA and member of the GeoExt PSC.",
+            "location": "Lausanne, Switzerland"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.6333, 46.5333]},
+        "properties": {
+            "name": "Frédéric Junod",
+            "description": "Fréderic Junod is developer at Camptocamp SA and committer for MapFish, OpenLayers and GeoExt.",
+            "location": "Lausanne, Switzerland"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [5.9, 45.5667]},
+        "properties": {
+            "name": "Eric Lemoine",
+            "description": "Eric Lemoine is senior developer at Camptocamp France SAS and committer for MapFish, OpenLayers and GeoExt. Member of the GeoExt and OpenLayers PSC.",
+            "location": "Chambéry, France"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [151.21111, -33.859972]},
+        "properties": {
+            "name": "Jody Garnett",
+            "description": "Jody Garnett is the lead uDig architect and on the steering committee for GeoTools; GeoServer and uDig. Jody Garnett is an employee of LISAsoft with a background in training and mentoring.",
+            "location": "Sydney, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [11.32868, 46.48227]},
+        "properties": {
+            "name": "Andrea Antonello",
+            "description": "Andrea Antonello from HydroloGIS developers geospatial open source solutions for environmental analysis. Andrea is well known as the lead developer of the JGrass project and is part of the uDig project steering committee.",
+            "location": "Bolzano, Italy"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [150.899792, -34.425036]},
+        "properties": {
+            "name": "Rob Atkinson",
+            "description": "Rob Atkinson is a distributed systems architecture with a long-term interest in sustainability, and the need to integrate systems across multiple application domains. He is a co-author of the original OGC Web Map Server 1.0 specification, and has been involved in numerous other OGC specifications and data standards. Rob has been driving a long-term agenda to make GeoServer capable of delivering data within a Spatial Data Infrastructure.",
+            "location": "Wollongong, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-112.044067, 43.462887]},
+        "properties": {
+            "name": "Dan Ames",
+            "description": "Daniel P. Ames is an associate professor of Geosciences and Civil Engineering at Idaho State University – Idaho Falls where he directs the Geospatial Software Lab and leads the open source MapWindow GIS project. Dr. Ames has been an advocate of OSGeo since its inception and has actively participated in the OSGeo Journal effort, OSGeo Education Committee, FOSS4G 2006 (workshop presentation) and FOSS4G 2008 (booth sponsor and workshop and lab presented by Dr. Ames' students). With a primary interest in developing programmer tools Windows platform, Dr. Ames' GIS software projects have included work for many U.S. agencies and international collaborators.",
+            "location": "Idaho Falls, Idaho, USA"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-112.044067, 43.462887]},
+        "properties": {
+            "name": "Ted Dunsford",
+            "description": "Ted Dunsford is a PhD Candidate in Engineering and Applied Sciences at ISU and will help deliver the workshop.",
+            "location": "Idaho Falls, Idaho, USA"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [151.2111, -33.859972]},
+        "properties": {
+            "name": "Michael Bedward",
+            "description": "Biography comming soon...",
+            "location": "Sydney, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.14861, 50.68667]},
+        "properties": {
+            "name": "Hanko Rubach",
+            "description": "Hanko Rubach holds a university degree in environmental sciences (University of Lüneburg, Germany, http://www.uni-lueneburg.de/fb4/). Since 2006 he is working as consultant with lat/lon GmbH in Bonn, Germany. Hanko is deeply involved in SDI projects where deegree components play an important role. Within the deegree project he was involved with preparing the 2.x releases where he made significant contributions to the quality management within the whole project. More specifically, he has been managing the demo packages production.",
+            "location": "Bonn, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [15.4333, 47.0667]},
+        "properties": {
+            "name": "Andreas Hocevar",
+            "description": "Andreas is a core committer to MapBuilder, OpenLayers and GeoExt. Coming from an urban and regional planning background, he knows the requirements of maps and mapping applications for planners and governments. Improving the way users can apply design principles and good practices of cartography to open maps has been the driving force behind his efforts in FOSS4G, especially in building SLD support into OpenLayers and GeoExt. As a consultant for OpenGeo, he enjoys being part of an international team of experienced FOSS4G developers devoted to well established projects like GeoServer, PostGIS and OpenLayers.",
+            "location": "Graz, Austria"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.660217, 51.949979]},
+        "properties": {
+            "name": "Jan Drewnak",
+            "description": "From March 2003 until October 2005 Jan Drewnak worked as a research associate at the Institute for Geoinformatics, Muenster, Germany. He is engaged in the German regional initiative \"Spatial Data Infrustructure North Rhine-Westfalia\" (GDI NRW) as a security architect and engineer. Since May 2005 he works as software consultant and engineer for the con terra GmbH, Muenster, with focus on security in spatial data infrastructures. He also heads the 52°North Open Source Initiative's \"Security Community\".",
+            "location": "Muenster, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.660217, 51.949979]},
+        "properties": {
+            "name": "Arne Broering",
+            "description": "Arne is working as a research associate for the Sensor Web and Simulation Lab (http://swsl.uni-muenster.de) at the University of Muenster. His research interests include middleware concepts for the Sensor Web, visualization of geodata (and especially sensor data) as well as the Human Sensor Web. He is as well an associated software developer of the open source initiative 52°North, an international R&D consortium based in Germany. Further on, Arne is strongly involved in the development of OGC's Sensor Web Enablement standards. He is the current chair of the Sensor Observation Service working group.",
+            "location": "Muenster, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.660217, 51.949979]},
+        "properties": {
+            "name": "Simon Jirka",
+            "description": "Biography comming soon...",
+            "location": "Muenster, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.614212, 51.943842]},
+        "properties": {
+            "name": "Chirstoph Stasch",
+            "description": "Biography comming soon...",
+            "location": "Muenster, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [7.614212, 51.943842]},
+        "properties": {
+            "name": "Thomas Everding",
+            "description": "Biography comming soon...",
+            "location": "Muenster, Germany"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [6.885, 52.223]},
+        "properties": {
+            "name": "Rob Lemmens",
+            "description": "Rob Lemmens is Assistant Professor Applied Computer Science in the Department of Geoinformation Processing at ITC. He has expertise and a publication record on GI open source projects, Internet GIS, Spatial Data Infrastructures and semantic modelling of distributed geo-webservices and ontology-based geo-information. Rob is ITC's representative for the Open Geospatial Consortium (OGC) and community leader of the ILWIS open source GIS software at 52°North, where he coordinates project-based open source software development. He has initiated and participated in courses on interoperable web mapping around the world. He is project participant in the GEOSS open source for capacity building work package.",
+            "location": "Enschede, The Netherlands"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [151.210, -33.873]},
+        "properties": {
+            "name": "Richard Chirgwin",
+            "description": "Richard Chirgwin is a telecommunications journalist and analyst, and is an associate consultant at Market Clarity. He has developed a strong interest in FOSS4G since 2006 when he first started working with Grass-GIS. In that time, Richard has applied Grass-GIS to a range of telecommunications infrastructure analysis problems, and in teaching colleagues the applications of Grass-GIS, he has become familiar with common problems and errors confronting the new user.",
+            "location": "Sydney, Australia"
+        }
+    }, {
+        "type": "Feature",
+        "geometry": {"type": "Point", "coordinates": [-73.952222, 40.624722]},
+        "properties": {
+            "name": "Mike Pumphrey",
+            "description": "Mike Pumphrey has a love of maps stretching back to childhood, and has spent over a decade in the fields of support and training.  In his current vocation as Outreach Engineer for OpenGeo, he is the curator of the GeoServer Blog, the lead documentation writer for GeoServer, and the maintainer of the GeoServer Windows Installer.  He is currently developing training classes for building and maintaining an open source geospatial stack.",
+            "location": "Brooklyn, NY, USA"
+        }
+    }]
+}

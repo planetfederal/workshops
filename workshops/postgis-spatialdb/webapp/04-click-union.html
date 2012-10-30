@@ -1,0 +1,159 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <title>04 - Click and Union</title>
+    <!-- Load our local stylesheet -->
+    <link rel="stylesheet" href="style.css" type="text/css" /> 
+    <!-- Load the Google Maps API, using our localhost API key -->
+    <script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAl9RMqSzhPUXAfeBCXOussRSPP9rEdPLw3W8siaiuHC3ED5y09RTJKbutSNVCYFKU-GnzKsHwbJ3SUw'></script>
+    <!-- Load the OpenLayers API library and stylesheet -->    
+    <link rel="stylesheet" href="http://openlayers.org/api/2.7/theme/default/style.css" type="text/css" />
+    <script src="http://openlayers.org/api/2.7/OpenLayers.js"></script>
+    <script type="text/javascript">
+
+        var x = -13676156;
+        var y = 5212618;
+        var zoom = 15;
+        var map, json_layer;
+
+        function init(){
+
+            initMap();
+            
+            var bwms = new OpenLayers.Layer.WMS( "Medford Zoning",
+                        "/geoserver/wms?",
+                        { 
+                          transparent:'true',
+                          layers: 'medford:zoning',
+                          'format':'image/png'},
+                          {'reproject': true});
+            map.addLayer(bwms);
+
+            map.events.register("click", map, queryZoning );
+            map.events.register("click", map, getFeatures );
+
+        }
+
+        function initMap() {
+          
+           var options = {
+                projection: new OpenLayers.Projection("EPSG:900913"),
+                displayProjection: new OpenLayers.Projection("EPSG:4326"),
+                units: "m",
+                numZoomLevels:20,
+                maxResolution: 156543.0339,
+                maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+                controls:[new OpenLayers.Control.MouseDefaults(),
+                          new OpenLayers.Control.LayerSwitcher(),
+                          new OpenLayers.Control.PanZoomBar()]
+            };
+
+            map = new OpenLayers.Map( 'map' , options );
+
+            var gmap = new OpenLayers.Layer.Google(
+                "Google Streets", // the default
+                {'sphericalMercator': true}
+            );
+            var gsat = new OpenLayers.Layer.Google(
+                "Google Satellite",
+                {type: G_SATELLITE_MAP, 'sphericalMercator': true}
+            );
+            map.addLayers([gmap, gsat]); 
+            map.setCenter(new OpenLayers.LonLat(x, y), zoom);
+        }
+
+        function queryZoning(e) {
+
+          var xy = map.getLonLatFromViewPortPx(e.xy);
+          var radius = document.getElementById("radius").value;
+          var url = "04-click-join.jsp";
+          url += "?lon=" + xy.lon;
+          url += "&lat=" + xy.lat;
+          url += "&radius=" + radius;
+          document.getElementById("query").src = url;
+ 
+        }
+
+        function getFeatures(e) {
+          // Get the mercator coordinates from the viewport
+          var xy = map.getLonLatFromViewPortPx(e.xy);
+          // Read the query radius from the form
+          var radius = document.getElementById("radius").value;
+          // Read the union status from the form
+          var dounion = document.getElementById("dounion").value;
+          // If we are unioning, change the SQL appropriately
+          var sql_geom = "st_transform(the_geom,900913)";
+          if(dounion > 0) {
+            sql_geom = "st_union(st_transform(the_geom,900913))";
+          }
+          // Build up the SQL query
+          var sql =  "select st_asgeojson(" + sql_geom + ") ";
+              sql += "from medford.taxlots ";
+              sql += "where st_dwithin(the_geom,st_transform(st_setsrid(";
+              sql += "st_makepoint(" + xy.lon + "," + xy.lat + ")";
+              sql += ",900913),2270)," + radius + ")";
+          // Our JSP script end-point
+          var json_url = "04-sql-to-json.jsp?sql=";
+          json_url += escape(sql);
+          // If we already have a vector layer, blow it away
+          if (undefined != json_layer) {
+            json_layer.destroy();
+          }
+          // Make a fresh vector layer, pulling features from our script URL
+          json_layer = new OpenLayers.Layer.Vector("GeoJSON", {
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    protocol: new OpenLayers.Protocol.HTTP({
+                        url: json_url,
+                        format: new OpenLayers.Format.GeoJSON()
+                    })
+                });
+          // Add our vector layer to the map
+          map.addLayer(json_layer);
+        }
+
+    </script>
+  </head>
+
+  <body onload="init()">
+  <div class="container">
+    
+    <p class="nav">
+      <a href="03-click-join.html">Previous</a> | 
+      <a href="index.html">Home</a> | 
+      <a href="05-arbitrary-sql.html">Next</a>
+    </p>
+    
+    <h1>04 - Click and Union</h1>
+
+    <div id="map" class="smallmap"></div>
+
+    <p>
+      <b>Summarization Radius:</b> 
+      <select name="radius" id="radius">
+        <option selected value="100">100 feet</option>
+        <option value="200">200 feet</option>
+        <option value="400">400 feet</option>
+        <option value="800">800 feet</option>
+        <option value="1600">1600 feet</option>
+      </select>
+      <b>Perform Union:</b>
+      <select name="dounion" id="dounion">
+        <option selected value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </p>
+
+    <iframe id="query" class="smallquery taller"></iframe>
+
+    <p>
+      Based on a map click, perform the same zoning summary as 
+      in the previous example, but <em>also</em> extract the geometry
+      for the tax lots from the database and draw them in the user 
+      interface. Optionally, have the database union the polygons
+      together before returning them.
+    </p>
+
+  </div>
+  </body>
+</html>
+
+
