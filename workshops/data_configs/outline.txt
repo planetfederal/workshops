@@ -1,0 +1,96 @@
+==============================
+Raster Data Configurations
+==============================
+
+- Preamble (workshop/document intro etc.)
+-- [[[]]]
+
+- Short introduction to raster data (vs vector)
+-- theory
+-- storage
+-- common uses
+-- etc. [[[]]]
+
+- Setting the Stage (short example)
+-- Overview of the image types
+-- Possible use cases
+-- Load images in to GeoServer
+-- Practical differences when viewing
+-- Rationale for the differences
+-- How can we optimize?
+
+- Working with Raster Tiles and Pyramids
+-- Background / Context
+-- PRE-sampling vs RE-sampling
+-- Tiling and/or Pyramiding
+-- Internal vs External storage
+
+- Raster Tiles and Pyramids in GeoServer
+-- Strategies
+-- Tile sizes
+-- Pyramid levels
+-- Format implications
+-- TIFF - One format to rule them all!
+-- Compression
+-- Lossy vs Lossless
+-- BigTIFF
+-- Resampling Algorithm
+-- Native CRS
+-- Illustrations (at least) examples (maybe) would rock here [[[]]]
+
+- RGB vs Paletted Images
+-- Background
+-- Colour depth choice
+-- Example / Demo [[[]]]
+
+- Preparing a Single Raster File
+-- Background
+-- Data Context
+-- Tiling with GDAL_TRANSLATE
+-- Pyramiding with GDALADDO
+-- [[[]]] Investigate the results with demo/walkthrough...
+-- Merging tiles with GDAL_MERGE
+-- [[[]]] Can we see it?
+
+- Using a Tiled Mosaic (ImageMosaic Store)
+-- Background / Rationale
+-- Creating from a single file
+-- Re-Tiling Multiple files
+-- Loading into GeoServer
+-- Add pyramids to many external tiles
+-- Examples examples examples [[[]]]
+
+- Using Pyramids
+-- [[[]]] I don't get how this slots in to the rest of the workshop?
+
+- Fine-Tuning GeoServer Image Mosaic and Pyramid Stores
+-- Background / Rationale
+-- ImageMosaic Tuning
+--- Allow Multi-Threading
+--- USE_JAI_IMAGEREAD
+--- Through GeoServer UI
+--- Extended configurations through .properties
+--- Examples / Before & Afters [[[]]]
+
+- Storing Raster Tiles in a Database
+-- [[[]]] Risky? Out of scope? Omit?
+
+- Global Settings for Raster Data
+-- Background / Context
+-- Native JAI/ImageIO
+-- Java Advanced Imaging (JAI) Settings
+-- Coverage Access Settings
+-- Reprojection Settings
+-- Demo results and enhancements [[[]]]
+
+==============================
+Flotsam
+==============================
+
+[[[]]] Add to intro that some of this happens in ~ three places:
+--- data
+--- strategy
+--- geoserver
+
+[[[]]] Images/examples throughout 
+[[[]]] Would help illustrate some of the concepts in the theory heavy sections
