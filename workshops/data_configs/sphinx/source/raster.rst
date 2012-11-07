@@ -9,22 +9,22 @@ This workshop presents some of the techniques and tools that are needed to incre
 Introduction 
 -------------
 
-When serving raster layers with GeoServer, the performance of the system depends on many parameters. A large number of them are related to how our source data are stored, since this has a large influence on the time it takes GeoServer to read and prepare the data for display.
+When serving raster layers with GeoServer, the performance of the system depends on many parameters. A large part of them are related to how our source data is stored, since this has a very significant important in the time it takes to read and prepare the data.
 
 We can see it clearly in a simple example. Download `this zip file <http://link.to.file>`__ , which contains the same image in 4 different representations.
 
-::
+.. code-block:: console
 
  	image1.png 
  	image2.jpg 
  	image3.tiff 
  	image4.tiff
 
-As you can see, these are just 4 files in different formats, except for the last two ones, which are both TIFF files. We will use them to show how, although they contain the same image and might seem similar, they are different in terms of performance when used in GeoServer. Also, we will see that even using the same format, two images can give different performance depending on the adjustments used to create them.
+As you can see, they are just 4 files in different formats, except for the last two ones, which are both TIFF files. We will use them to show how, although they contain the same image and might seem similar, they are different in terms of performance when used in GeoServer. Also, we will see that even using the same format, two images can give different performance depending on the adjustments used to create them.
 
 First of all, let’s have a look at the sizes of those images.
 
-::
+.. code-block:: console
 
 	image1.png 136.052.194 
  	image2.jpg 12.480.346 
@@ -39,7 +39,7 @@ Now is time to check how GeoServer performs when accessing these layers. We will
 
 You should see something like this:
 
-.. image:: imgs/chrometools.jpg
+.. figure:: imgs/chrometools.jpg
 
 As you start making requests, you will see in the lower part of the window, in the *Timeline* column, the time it has taken to respond them. Do some zooming and panning, and keep an eye on the times shown. The request times will be most of them rather large, and, due to the size of the image, it is not very smooth to pan and zoom.
 
@@ -62,7 +62,7 @@ Working with raster tiles and pyramids
 
 When working with large raster layers, there are several optimization techniques. Some of them rely on a horizontal division, dividing the layer in smaller pieces, so only those pieces needed are accessed. The layer can be accessed partially, depending on the request. This is usually known as *tiling*.
 
-.. image:: imgs/mosaic.png
+.. figure:: imgs/mosaic.png
 
 Other techniques deal with the fact that, when used at a low scale, although the whole extent of the layer might be rendered, not all data in the layer needs to be read to create the final image to be rendered.
 
@@ -70,7 +70,7 @@ For instance, consider the first zoom level when you opened the layer preview. T
 
 A solution to this is to maintain several versions of a given layer, suitable for representation at different scales, as shown in the next figure. 
 
-.. image:: imgs/pyramid.png
+.. figure:: imgs/pyramid.png
 
 This constitutes a so-called pyramid.
 
@@ -80,7 +80,7 @@ You can see that the number of pixels in each image in the pyramid is 1/4 of the
 
 Tiling and using pyramids can be applied simultaneously to improve the performance of GeoServer (and any other application using that same raster data, since this optimizations are not exclusive of GeoServer). When tiling and pyramids are applied, a raster dataset covering a given area is comprised of a set of smaller ones covering a smaller area, and several lower-resolution versions of those images exist as well, as represented in the image below.
 
-.. image:: imgs/tilingandpyramid.png
+.. figure:: imgs/tilingandpyramid.png
 
 Some file formats support internal pyramids (also called overviews) where a single file contains all the different presampled images, but others don’t support them. Also, some formats support inner tiling, while others do not, or they support it just for one pyramid level (in case they support inner pyramids). GeoServer can use image pyramids in which there are several versions of a same image and they are on different files, and in which tiling is used and each image is not just a single file but several ones. Such a file structure is much better in terms of performance, since a request covering a small part of the area covered by the image, at any scale, doesn’t imply reading the whole data available at that scale, but just the tiles overlapping the requested area.
 
@@ -155,7 +155,7 @@ Choosing one compression or another depends on several factors. In general, if y
 
 LZW works better with data with repeated patterns, so it is of particular interest for those layers with large areas of a single values, such as layers that might contain large parts of no-data values or with categorical values, like the one shown below.
 
-.. image:: imgs/categories.png
+.. figure:: imgs/categories.png
 
 TIFF supports internal tiles, which is an interesting feature when used with large tile sizes. If your tiles are big, having each tile file internally tiled can speed up operations.
 
@@ -182,9 +182,9 @@ There are different ways of storing colors in an image. In the RGB color space, 
 
 Consider the two images below.
 
-.. image:: imgs/rgb.jpg
+.. figure:: imgs/rgb.jpg
 
-.. image:: imgs/paletted.jpg
+.. figure:: imgs/paletted.jpg
 
 The image on the left uses many different colors. Palettes are usually limited to 256 colors (each RGB component is on the 0-255 range, so a paletted image has the size of a single band corresponding to one of those components), and that is less than the number of colors used, but we can still use a palette, approximating colors to the closest one in the palette. We wil get a smaller file and better performance, but we will also get an image with lower quality. Providing we do not degrade the image too much, this can be used to improve performance, trading performance for quality.
 
@@ -194,7 +194,7 @@ Whatever the case you have, you can convert RGB images into paletted ones using 
 
 In its most basic form, you just have to use the input filename and the desired output filename as parameters. So, to transform our ``image3.tif`` image into a paletted one named ``image3p.tiff`` we can use the following line.
 
-::
+.. code-block:: console
 
  $rgb2pct image3.tiff image3p.tiff
 
@@ -240,7 +240,7 @@ We are going to do two things to this image: First, we will convert it into a TI
 
 Run the following command in the console:
 
-::
+.. code-block:: console
 
 	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tiff
 
@@ -248,13 +248,13 @@ This creates a tiled GeoTIFF file named ``image.tiff`` from our source layer ``i
 
 A common setting is to adjust the size of inner tiles, which is set to 256 x 256 by default. To set them to 2048 instead (a much more efficient size in this case), use the following sentence instead of the above one:
 
-::
+.. code-block:: console
 
 	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tiff
 
 Since the TIFF format supports them,, we can add overviews to allow for faster data extraction at different resolutions. This is done using the ``gdaladdo`` tool as shown next.
 
-::
+.. code-block:: console
 
 	$gdaladdo -r average image_tiled.tif 2 4 8 16
 
@@ -266,7 +266,7 @@ Since we have considered the solution of having a single file with inner tiles a
 
 The ``gdal_merge`` tool can be used for this task. Here is an example.
 
-::
+.. code-block:: console
 
 	$gdal_merge.py -o single_file.tif -of GTiff -co "TILED=YES" *.tif
 
@@ -276,7 +276,7 @@ The last thing we can do with ``gdal_translate`` is to remove unwanted bands, in
 
 If we have a 7-band Landsat image and we want to render it using a natural color composite with bands 1, 2 and 3, we can reduce the size of the image by keeping just those 3 first bands with the following command:
 
-::
+.. code-block:: console
 
 	$gdal_translate -b 1 -b 2 -b3 landsat.tif landsat_reduced.tif
 
@@ -289,7 +289,7 @@ If your data is too big for a single file, dividing it into tiles is the next op
 
 Here is an example on how to tile a single image.
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -targetDir tiles image.tif
 
@@ -297,25 +297,25 @@ That will create a set of TIFF files with all the tiles resulting from tiling th
 
 The size of the generated tiles (256 x 256 by default) can be set with the ``-ps`` modifier. To create a set of tiles of size 2048 x 2048 (the same tiling as in the above case of having a single image file, but with several files used instead, one for each tile), use the following command instead.
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -ps 2048 2048 -targetDir tiles image.tif
 
 If your dataset is not comprised of a single layer, but a set of ones (and assuming their individual size is not optimal for using them as single layers), you can retile the whole set by using the ``-optFile`` modifier, as shown next:
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -targetDir tiles --optfile filestotile.txt
 
 The ``filestotile.txt`` file should contain a list of all image files to use as input. If you are running Windows, open a console, go to the folder where those files can be found and type the following, assuming that the current folder just contains image files you want to tile..
 
-::
+.. code-block:: console
 
 	$dir /b > files.txt
 
 In Linux, use this line instead:
 
-::
+.. code-block:: console
 
 	$ls > files.txt
 
@@ -323,11 +323,11 @@ Once the tiles are created, we need to configure GeoServer to use them as a sing
 
 Browse to your GeoServer configuration site and add a new datastore. In the next screen you will select the type of data store you want to create. You should have an ImageMosaic entry available:
 
-.. image:: imgs/ImageMosaicEntry.jpg
+.. figure:: imgs/imagemosaicentry.jpg
 
 Select it and you will get to the store definition page.
 
-.. image:: imgs/MosaicStoreDefinition.jpg
+.. figure:: imgs/MosaicStoreDefinition.jpg
 
 Select a workspace and add a name. In the *URL* field, enter the folder where the recently created tiles are found. Publish the layer and now you are ready to open the OpenLayers preview, or to access using a suitable client.
 
@@ -335,7 +335,7 @@ You will notice that performance is good at high resolutions (and it would be th
 
 Internal tiles can be created when calling ``gdal_retile``, just like we did when using ``gdal_translate``. As it is a GDAL tool, it accepts all parameters that are valid for the output format, which are passed using the ``-co`` modifier. The following command can be used to add internal tiles with a size of 512x512 pixels
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -ps 2048 2048 -co "TILED=YES" -co "BLOCKXSIZE=512" -co "BLOCKYSIZE=512" -targetDir tiles image.tif
 
@@ -343,7 +343,7 @@ Creating overviews has to be done with ``gdaladdo``, as we have already seen, bu
 
 For those who prefer a more point-and-click solution and are not familiar with batch scripting, QGIS can be used as a front-end for GDAL tools, and it contains an option for batch processing the content of a folder. In the *Raster* menu, select *Miscellaneous/Build Overviews(Pyramids)*.
 
-.. image:: imgs/qgisoverviews.jpg
+.. figure:: imgs/qgisoverviews.jpg
 
 Check the *Batch mode (for processing whole directory)* check box and fill the text box below with the path to your folder. You should be able to understand the rest of options, as they are the ones used for the command-line version of ``gdaladdo``, which were described already.
 
@@ -354,7 +354,7 @@ To use pyramids in GeoServer, the first thing to do is to create a directory wit
 
 Open a console, go to the file where you have the image to tile and type the following:
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -levels 4 -ps 2048 2048 -targetDir tiles image.tif
 
@@ -364,7 +364,7 @@ Since the process of creating a pyramid is rather time-consuming (the volume of 
 
 All the modifiers that we saw when using this tool just to create tiles can be used now as well. The interpolation method used to create the overviews can be set using the ``-r`` modifier. To set a bilinear interpolation instead of the default nearest neighbour, the following command line can be used.
 
-::
+.. code-block:: console
 
 	$gdal_retile.py -r bilinear -levels 4 -ps 512 512 -targetDir tiles image.tif
 
@@ -376,7 +376,7 @@ Let’s configure what we have obtained as a new data source in GeoServer. To do
 
 Now you should find the ImagePyramid datastore when creating a new datastore, and clicking on it will take you to the following configuration page:
 
-.. image:: imgs/ConfigureImagePyramidStore.jpg
+.. figure:: imgs/ConfigureImagePyramidStore.jpg
 
 Fill the upper fields as usual, and in the *URL* field put the folder where you have just created the pyramid. Publish the layer.
 
@@ -403,7 +403,7 @@ In the case of a mosaic of tiles, the way tiles are accessed can be configured f
 
 The most interesting parameters are in the Coverage Parameters section
 
-.. image:: imgs/MosaicSettings.jpg
+.. figure:: imgs/MosaicSettings.jpg
 
 The two main parameters that affect performance are *AllowMultithreading* and *USE_JAI_IMAGEREAD*
 
@@ -417,7 +417,7 @@ As a rule of thumb, set *USE_JAI_IMAGEREAD* to true if your amount of memory is 
 
 Apart from the configuration that we can do from the GeoServer configuration page, we can manually configure some other settings. Let’s have a look at the folder where we stored our tiles. After having added our mosaic of image tiles as a new data store to GeoServer, a few new files have been created. The extra files are:
 
-::
+.. code-block:: console
 
 	sample_image
 	tiles.dbf 
@@ -430,17 +430,17 @@ Apart from the configuration that we can do from the GeoServer configuration pag
 
 These basically correspond to the files needed to define a shapefile, plus a couple of additional ones. The shapefile contains the index that makes it faster to know which tile files are needed for a given request, depending on the area covered. You can open in your favorite GIS and you will see it contains something like this:
 
-.. image:: imgs/qgisindex.jpg
+.. figure:: imgs/qgisindex.jpg
 
 The associated table looks like this:
 
-.. image:: imgs/qgisindex2.jpg
+.. figure:: imgs/qgisindex2.jpg
 
 The *location* field points to the file that contains the actual image data for each geometry.
 
 Configuration parameters can be found in the .properties file, which should have a content like the following one.
 
-::
+.. code-block:: console
 
  #-Automagically created from GeoTools
  - #Tue Oct 16 14:03:20 CEST 2012 
@@ -479,7 +479,7 @@ GeoServer uses JAI (Java Advanced Imaging) to read images, and correct configura
 
 This is the JAI settings page:
 
-.. image:: imgs/JAIsettings.jpg
+.. figure:: imgs/JAIsettings.jpg
 
 And here are some explanations and hints for setting the available parameters.
 
@@ -498,7 +498,7 @@ Coverage Access settings are mainly used to adjust how GeoServer uses multithrea
 
 This is the coverage settings page.
 
-.. image:: imgs/CASettings.jpg
+.. figure:: imgs/CASettings.jpg
 
 And below you can find the explanation of the parameters to adjust.
 
