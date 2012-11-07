@@ -1,75 +1,101 @@
+
 Optimizing raster data in GeoServer
-=====================================
+===================================
 
 ---
 
-Goals
------
+Goal
+----
 
-- Increase GeoServer performance
-
----
-
-Contents
----------
-
-- Modifiying data itself
-- Adjusting everything between data and GeoServer
-- We will not cover further adjustments, such as styling
+<div id="intro">
+Improve GeoServer performance
+</div>
 
 ---
 
-Key ideas
-----------
+Content
+-------
+
+- Modifying the data 
+
+- Configuring everything from the data to GeoServer
+
+---
+
+
+Main objectives
+---------------
 
 - Minimizing data access
+
 - Minimizing processing
-- Doing in advance as much as much calculations as possible, so they don't have to be done on real-time
-- Fine tuning Geoserver
-- Fine tuning any other software involved
+
+- Executing calculations in advance 
+
+- Fine tuning GeoServer
+
+- Fine tuning related software 
 
 ---
 
-What are we going to see
-------------------------
+What's covered?
+---------------
 
 - Strategies for preparing data (theory) 
-- Tools and examples of preparting data (practice)
-- GeoServer elements to get the best out of your data
-- Geoserver configuration tips
+
+- Tools and examples of preparing data (practice)
+
+- GeoServer configuration tips - how to optimize your data
 
 ---
 
-You already know about this!
-----------------------------
+What's not covered?
+-------------------
+
+- Other configurations - such as styling
+
+---
+
+Workshops
+---------
 
 - *Geoserver in production* workshop
-- This workshop has a more practical approach
-- This is mainly based on data, not just on GeoServer itself
+
+- This Workshop 
+	- adopts a more practical approach
+
+	- is focused on data, not just on GeoServer 
+
 - You are going to actually see how it is done
 
 ---
 
 Preparing data
-===============
+==============
 
 ---
 
-Preparing data
-----------------
+Why?
+----
 
-- Ensure small size and fast access
+- Ensure minimum size and fast access
+
 - Avoid costly operations later
-- Not exclusive of GeoServer
+
+- Benefits are not limited to GeoServer
 
 ---
 
-Problems affecting performance
----------------------------------
+Factors affecting performance
+-----------------------------
 
-- Area to render smaller than image implies reading unneeded data
-- Render detail lower than image resolution implies reading unneeded data
-- Slow data access (too much data or too expensive to read it or to prepare it)
+- Viewing unnecessary data 
+	- rendering an area smaller than image
+	- render detail lower than image resolution  
+
+- Slow data access 
+	- too much data
+ 	- too expensive to read or prepare it
 
 ---
 
@@ -81,92 +107,135 @@ Problems affecting performance
 
 ---
 
-Preparing data (factors)
---------------------------
+Important factors 
+-----------------
 
 - File format and properties
 - File size
-- Structure/Layout
+- Structure and layout
 - Number of Bands/Interleaving
+- Data structure and layout
 - CRS
 
-- They should be combined.
+<div id="note">
+Consider all factors together!
+</div>
+
 
 ---
 
-Formats
+Format 
 --------
 
-- Binary vs text-based
+- Binary vs. text-based
+
 - Compression
+
 - Inner tiling
+
 - Overviews
+
 - Color representation
 
 ---
 
-Formats
---------
+File formats
+------------
 
 - ASC
+
 - TIFF
+
 - PNG
+
 - JPEG
+
 - JPEG2000
+
 - Proprietary formats (MrSid, ECW)
 
 ---
 
-Compression
---------------
+Compression options
+-------------------
 
 - No compression
+
 - Lossy
+
 - Loseless
-- Compression can make your files bigger!
+
+
+<div id="note">
+  <p>Did you know .... </p>
+  Compression can sometimes make your files larger!
+</div>
+
 
 ---
 
 Compression methods
-----------------------
+-------------------
 
 - JPEG 
-	- lossy. 
-	- visually lossless
+ 	- lossy 
+ 	- visually lossless
+
 - LZW
 	- lossless
 	- good for images with homogeneous areas
 	- good for images with few colors	
-	- recommmended for non-image data (temperature, elevation, etc.)
+	- recommended for non-image data (temperature, elevation, and so on)
+
 - Wavelets
 
 ---
 
 
 Color representation
----------------------
+--------------------
 
 - RGB: 3 color components stored for each pixel
+	- RGB images = generally larger
+
 - Palette: 1 index value stored for each pixel
-- RGB implies larger data volume
-- Paletted images imply less color detail(limited number of colors) but smaller data volume
-- Depending on image characteristics
-- Relation to compression method (spatial autocorrelation)
+	- Paletted images = limited number of colors but smaller data volume
+
+- Representation depends on image characteristics
+
+- Related to compression method (spatial autocorrelation)
 
 ---
+RGB vs Paletted
+---------------
 
 ![rgbvspaletted](img/rgbvspaletted.jpg)
 
 -----
 
-The TIFF format
-----------------
+TIFF format
+-----------
 
-- A very versatile format
+- Representation depends on image characteristics
+
+- Also related to compression method
+
+
+---
+
+TIFF format
+-----------
+
+- Versatile format
+
 - Supports inner tiling
+
 - Supports overviews
+
 - Supports different compression methods
+
 - GeoTiff
+
 - BigTiff
 
 ---
@@ -175,46 +244,63 @@ Number of bands / interleaving
 -------------------------------
 
 - Clean unused band if multispectral
+
 - Band interleaving generally better than pixel interleaving
 	- RRRGGGBBB *vs* RGBRGBRGB
 
 ---
 
 Strategies for data structuring
----------------------------------
+-------------------------------
 
 - Single file
+
 - Mosaic (tiles)
+
 - Pyramid
+
 - Dependent on data size and file format
 
 ---
+Mosaic
+------
 
 ![pyramid](img/mosaic.png)
 
 ---
+Pyramid
+-------
 
 ![pyramid](img/pyramid.png)
 
 ---
 
 Suggestions for data structuring
-----------------------------------------------
+--------------------------------
 
-- Assuming Tiff format in all cases
-- Single (well prepared!) file for less than 4Gb
-- Mosaic (with well prepared tiles!) if larger than 4Gb
-- Pyramid (with well prepared mosaics!) for massive data.
-- Testing.
+(Assuming Tiff format in all cases)
+
+- If data < 4 Gb - a single (well prepared!) file 
+
+- If data > 4 Gb - mosaic (with well prepared tiles!)
+
+- Massive data - create a pyramid (with well prepared mosaics!) 
+
+- Testing
+
 - Balancing overhead of more complex structures
 
---- 
+- Structure depends on data size and file format
+
+---
 
 Single file
 -----------
 
-- File format/characteristics is crucial
-- Optimizations for single files should be applied in all other cases as well
+- File format and characteristics are crucial
+
+- Apply optimizations for single files to ALL files
+
 - "Un-tiling" is a good idea in some cases (don't abuse the advanced features)
 
 ---
@@ -224,7 +310,9 @@ Mosaic (tiles)
 --------------
 
 - Tile size (not too small)
+
 - Tiles with inner tiling
+
 - Tiles with overviews
 
 ---
@@ -233,19 +321,25 @@ Pyramid (overviews)
 --------------------
 
 - Number of levels (n = log2(width/tile_width))
+
 - Resampling methods
+
 - Each level is a mosaic
 
 ---
 
 GDAL tools
------------
+----------
 
-- ``gdaltranslate`` (format conversion and reprojection)
-- ``gdaladdo`` (adding overviews)
-- ``gdal_retile`` (tiling)
-- ``gdal_merge`` (merging, "un-tiling")
-- ``rgb2pct`` (creation of paletted images)
+- ``gdaltranslate``—Format conversion and reprojection
+
+- ``gdaladdo`` —Adding overviews
+
+- ``gdal_retile``—Tiling
+
+- ``gdal_merge``—Merging, "un-tiling"
+
+- ``rgb2pct``—Creation of paletted images
 
 ---
 
@@ -253,7 +347,7 @@ GDAL tools
 -----------------
 
 - Modifiers
-	- ``-t_srs``. Reprojection
+	- ``-t_srs``: Reprojection
 	- ``-co``: Format specific values (TIFF)
 		- ``TILED=TRUE``
 		- ``COMPRESS=JPEG/LZW``
@@ -261,22 +355,30 @@ GDAL tools
 	- ``-b``: Band to use
 
 ---
+Demo
+----
 
-Data preparation demo
-========================
+<div id="intro">
+	Data preparation
+</div>
+
 
 ---
 
 Other tools
 -----------
 
-- QGIS as GDAL frontend
+- QGIS as GDAL front-end
+
 - Other QGIS tools
 
 ---
+Demo
+----
 
-Other tools demo
-=================
+<div id="intro">
+Other tools 
+</div>
 
 ---
 
@@ -285,56 +387,63 @@ GeoServer elements
 
 ---
 
-ImageMosaic plugin
+ImageMosaic plug-in
 -------------------
 
 - Automatically creates mosaic from result of ``gdal_retile``
+
 - Tiles should be homogeneous
-- Preinstalled with Suite
-- If using already tiled data, but not from ``gdal_retile``, index file can be created manually.
+
+- Pre-installed with Suite
+
+- If data already tiled (not with ``gdal_retile``) index file can be created manually
 
 ---
 
-ImagePyramid plugin
----------------------
+ImagePyramid plug-in
+--------------------
 
-- Based on ImageMosaic plugin
+- Based on ImageMosaic plug-in
+
 - Automatically creates pyramid for result of ``gdal_retile``
+
 - Has to be manually installed
-- If using already tiled data, but not from ``gdal_retile``, index files can be created manually.
+
+- If data already tiled (not with ``gdal_retile``) index files can be created manually
 
 ---
 
 Fine tuning GeoServer
-======================
+=====================
 
 ---
 
 
-ImageMosaic plugin settings
--------------------------------
+ImageMosaic plug-in settings
+----------------------------
 
 ![MosaicSettings](img/MosaicSettings.png)
 
 ---
 
-ImageMosaic plugin settings
--------------------------------
+ImageMosaic plug-in settings
+----------------------------
 
-- From Geoserver UI
-	- Mostly to set up how multithreading is used
+- Part of Geoserver UI
+	- Configuring multi-threading
+
 - ``.properties`` file
+
 	- ``Caching``
 	- ``ExpandtoRGB``
 
-
-
 ---
 
-ImagePyramid plugin settings
+ImagePyramid plug-in settings
 -----------------------------
 
 - Based on ImageMosaic
+
 - Similar settings and ideas
 
 ---
@@ -342,7 +451,7 @@ ImagePyramid plugin settings
 Coverage Access settings
 ---------------------------
 
-- Used to optimize multithreaded access in mosaics
+- Optimizing mosaic multi-threaded access
 - Use 2 X #cores threads
 - Threshold for WCS requests
 
@@ -361,10 +470,14 @@ JAI settings
 ----------------------
 
 - Use native JAI
+
 - Use native ImageIO
+
 - Enable native mosaic acceleration
-- Enable Tile recycling if there are no memory problems
-- Use 2 X #cores in Tile threads
+
+- Enable tile Recycling if there are no memory problems
+
+- Use 2 X #cores in Tile Threads
 
 ---
 
@@ -372,8 +485,12 @@ Reprojection settings
 ---------------------
 
 - ``-Dorg.geotools.referencing.resampleTolerance``
+
 - Default value of 0.333
-- Larger values mean better performance, but less precision
-- Set accordingly with dataset characteristics and goals.
-- Remember to select the right CRS.
+
+- Larger values = better performance but less precision
+
+- Set accordingly with dataset characteristics and goals
+
+- Select the most appropriate CRS
 

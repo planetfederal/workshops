@@ -1,84 +1,106 @@
 Optimizing vector data in GeoServer
-=====================================
+===================================
 
 ---
 
-Goals
------
+Goal
+----
 
-- Increase GeoServer performance
+<div id="intro">
+Improve GeoServer performance
+</div>
 
 ---
 
 Contents
 ---------
 
-- Modifiying data itself
-- Adjusting everything between data and GeoServer
+- Modifying the data 
+
+- Configuring everything from the data to GeoServer
+
 - We will not cover further adjustments, such as styling
 
 
 ---
 
-Key ideas
----------
+Main objectives
+---------------
 
 - Minimizing data access
+
 - Minimizing processing
-- Doing in advance as much as much calculations as possible, so they don't have to be done on real-time
-- Fine tuning Geoserver
-- Fine tuning any other software involved
+
+- Executing calculations in advance 
+
+- Fine tuning GeoServer
+
+- Fine tuning related software 
+
 - Mainly (but not limited to) data used for rendering
 
 ---
 
-What are we going to see
-------------------------
+What's covered?
+---------------
 
 - Strategies for preparing data (theory) 
+
 - Tools and examples of preparing data (practice)
-- GeoServer elements to get the best out of your data
-- Database configuration tips
-- Geoserver configuration tips
+
+- Configuration tips - how to optimize your data
+	- GeoServer 
+
+	- Database 
+
 
 ---
 
-You already know about this!
-----------------------------
+Workshops
+---------
 
 - *Geoserver in production* workshop
-- This workshop has a more practical approach
-- This is mainly based on data, not just on GeoServer itself
+
+- This Workshop 
+	- adopts a more practical approach
+
+	- is focused on data, not just on GeoServer 
+
 - You are going to actually see how it is done
 
 ---
 
 Preparing data
-===============
+==============
 
 ---
+Why?
+----
 
-Preparing data
-----------------
+- Ensure minimum size and fast access
 
-- Ensure small size and fast access
 - Avoid costly operations later
-- Not exclusive of GeoServer
+
+- Benefits are not limited to GeoServer
 
 ---
 
-Problems affecting performance
----------------------------------
+Factors affecting performance
+-----------------------------
 
-- Area to render smaller than image implies reading unneeded data
-- Render detail lower than vector data precision resolution implies processing unneeded data (more than 1 point per pixel is useless)
-- Slow data access (too much data or too expensive to read it or to prepare it)
+- Viewing unnecessary data 
+	- rendering an area smaller than image
+	- render detail lower than image resolution (> 1 point per pixel is useless)  
+
+- Slow data access 
+	- too much data
+ 	- too expensive to read or prepare it
+
 - Filter overhead
 
 ---
 
 ![problem1](img/problem1vector.png)
-
 
 ---
 
@@ -86,66 +108,76 @@ Problems affecting performance
 
 ---
 
-Main ideas
---------------------------
+Important factors
+-----------------
 
 - File vs Database
 - File format and size
-- Cleaning unneeded data
+- Cleaning unnecessary data
 - Managing level of detail
 - Splitting data
-- Indexing (of both spatial and-non spatial components)
+- Indexing—Spatial and-non spatial components
 - Using the optimal CRS
 
 
 ---
 
 Strategies
------------
+----------
 
-- Some strategies are similar to raster ones
-	- Indexing / Tiling
-	- Simplifying (generalization) / Pyramids
+- Vector strategies similar to raster strategies
+	- Indexing / tiling
+	- Simplifying (generalization) / pyramids
+
 - Pre-querying
+
 - Non-spatial indexing
 
 ---
 
 
 Rendering optimizations
-------------------------
+-----------------------
 
-- Rendering of vector data can be much more costly than rendering of raster data (more elaborated)
-- Prepare data to minimize rendering computation of all kinds
-- Use styling wisely to optimize data access
+- Vector data structures are more elaborate than raster data
+	- Rendering vector data may be more costly than rendering raster data 
+
+- Prepare data to minimize rendering computation 
+
+- Use styling carefully to optimize data access
 
 ---
 
 File formats
--------------
+------------
 
-- Binary vs text-based
+- Binary vs. text-based
+
 - Spatial indexing
-- Reading vs reading/writing
-- Data preparation needs external tools
+
+- Reading vs. reading and writing
+
+- Data preparation requires external tools
 
 ---
 
 Database
-----------
+--------
 
 - More optimized than files
+
 - Spatial indexing
+
 - Non-spatial indexing
-- Preparation can be done with database functions
+
+- Data preparation using database functions
 
 ---
 
-Cleaning unneeded data
------------------------
+Cleaning vector data
+--------------------
 
-- Are all attributes needed?
-- Remove unused attributes
+- Remove unnecessary attributes
 
 ---
 
@@ -163,15 +195,20 @@ Generalization
 
 ---
 
-Simplifying (Generalization)
+Simplifying (generalization)
 ----------------------------
 
-- Not all points are used at all scales
+- Not all points are necessary at all scales
+
 - Geometries can be simplified for visualization
-- Level Of Detail
-- Several geometries for each feature *vs* several layers
-- Even changing geometry type
-- Cleaning attributes differently at different scales
+
+- Level of Detail
+
+- Several geometries for each feature vs. several layers
+
+- Changing geometry type
+
+- Selectively removing attributes at different scales
 
 ---
 
@@ -186,9 +223,12 @@ Indexing
 ----------
 
 - Spatial and non-spatial
+
 - Filter and refinement
+
 - Increases performance of queries
-- Spatial is supported in shapefiles
+
+- Shapefiles support spatial indexing
 
 ---
 
@@ -196,8 +236,11 @@ Indexing
 -----------
 
 - Cleaning
+
 - Splitting
+
 - Reprojecting
+
 - Simplifying
 
 ---
@@ -206,29 +249,37 @@ Indexing
 -----------
 
 - Modifiers
-	- ``-f``. Output format
+	- ``-f``: Output format
 	- ``-select``: Selection attributes
 	- ``-sql``: SQL query
 	- ``-t_srs``: Reprojection
 
 ---
+Demo
+----
 
-``ogr2ogr`` demo
-=================
+<div id="intro"> 
+	ogr2ogr
+</div>
+
 
 ---
 
-GeoTools pregeneralized plugin
+GeoTools pregeneralized plug-in
 -------------------------------
 
-- Tools for pregeneralizing shapefiles
-- Plugin for using pregeneralized geometries in GeoServer
+- Provides tools for pregeneralizing shapefiles
+
+- Using pregeneralized geometries in GeoServer
+
 - Can be used with databases as well
 
 ---
-
-Geotools pregeneralizing tool demo
-===================================
+Demo
+----
+<div id="intro">
+GeoTools pregeneralizing tool 
+</div>
 
 ---
 
@@ -236,39 +287,55 @@ PostGIS
 --------
 
 - ST_Simplify
+
 - CREATE INDEX
+
 - VACCUM ANALYZE
+
 - CLUSTER
-- Be careful with SQL views (use materialized views if needed)
+
+- Be careful with SQL views
+	- Use materialized views if required
+
+---
+Demo
+----
+
+<div id="intro">
+PostGIS
+</div>
 
 ---
 
-PostGIS demo
-=============
-
----
-
-Fine tuning Geoserver and PostGIS
-==================================
+Fine tuning GeoServer and PostGIS
+=================================
 
 ---
 
 Fine tuning a shapefile datastore
-----------------------------------
+---------------------------------
 
 - Let GeoServer create and handle spatial indexing
-- Enable *Use memory mapped buffers* and *Cache and reuse memory maps*  if running Linux (but not in Windows!)
+
+- If running Linux (not Windows!) enable:
+	- *Use memory mapped buffers*  
+	- *Cache and reuse memory maps* 
 
 ---
 
 PostGIS
 --------
 
-- Fine tuning Postgre.
+- Fine tuning PostgreSQL
+
 - Default settings are conservative
+
 - Increase sort heap (``sort_mem``)
+
 - Increase number of connection if needed (``max_connections``)
+
 - ``work_mem`` (related to ``max_connections``)
+
 - ``effective_cache_size`` (1/2 - 3/4 memory)
 
 ---
@@ -276,12 +343,17 @@ PostGIS
 Connection pooling
 -------------------
 
-- Eliminates overhead in stablishing new connection
-- Available for all datastores backed up by a database
+- Eliminates overhead in establishing new connections
+
+- Available for all datastores backed by a database
+
 - Connection pool size
+
 - Max number of connections
+
 - Validate connection
-- To be adjusted along with the database settings
+
+- Adjust with database settings
 
 
 
