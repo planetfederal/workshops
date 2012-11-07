@@ -10,8 +10,17 @@ Goals
 
 ---
 
-Key ideas
+Contents
 ---------
+
+- Modifiying data itself
+- Adjusting everything between data and GeoServer
+- We will not cover further adjustments, such as styling
+
+---
+
+Key ideas
+----------
 
 - Minimizing data access
 - Minimizing processing
@@ -51,6 +60,24 @@ Preparing data
 
 - Ensure small size and fast access
 - Avoid costly operations later
+- Not exclusive of GeoServer
+
+---
+
+Problems affecting performance
+---------------------------------
+
+- Area to render smaller than image implies reading unneeded data
+- Render detail lower than image resolution implies reading unneeded data
+- Slow data access (too much data or too expensive to read it or to prepare it)
+
+---
+
+![problem1](img/problem1raster.png)
+
+---
+
+![problem2](img/problem2raster.png)
 
 ---
 
@@ -60,6 +87,7 @@ Preparing data (factors)
 - File format and properties
 - File size
 - Structure/Layout
+- Number of Bands/Interleaving
 - CRS
 
 - They should be combined.
@@ -85,7 +113,6 @@ Formats
 - PNG
 - JPEG
 - JPEG2000
-
 - Proprietary formats (MrSid, ECW)
 
 ---
@@ -96,13 +123,12 @@ Compression
 - No compression
 - Lossy
 - Loseless
-
 - Compression can make your files bigger!
 
 ---
 
 Compression methods
---------------
+----------------------
 
 - JPEG 
 	- lossy. 
@@ -111,6 +137,7 @@ Compression methods
 	- lossless
 	- good for images with homogeneous areas
 	- good for images with few colors	
+	- recommmended for non-image data (temperature, elevation, etc.)
 - Wavelets
 
 ---
@@ -119,13 +146,18 @@ Compression methods
 Color representation
 ---------------------
 
-RGB implies larger data volume
-Paletted images imply less color detail but smaller data volume
-Depending on image characteristics
-Relation to compression method
-
+- RGB: 3 color components stored for each pixel
+- Palette: 1 index value stored for each pixel
+- RGB implies larger data volume
+- Paletted images imply less color detail(limited number of colors) but smaller data volume
+- Depending on image characteristics
+- Relation to compression method (spatial autocorrelation)
 
 ---
+
+![rgbvspaletted](img/rgbvspaletted.jpg)
+
+-----
 
 The TIFF format
 ----------------
@@ -139,24 +171,42 @@ The TIFF format
 
 ---
 
+Number of bands / interleaving
+-------------------------------
+
+- Clean unused band if multispectral
+- Band interleaving generally better than pixel interleaving
+	- RRRGGGBBB *vs* RGBRGBRGB
+
+---
+
 Strategies for data structuring
 ---------------------------------
 
 - Single file
 - Mosaic (tiles)
 - Pyramid
-
 - Dependent on data size and file format
 
 ---
 
-Strategies for data structuring (suggestions)
+![pyramid](img/mosaic.png)
+
+---
+
+![pyramid](img/pyramid.png)
+
+---
+
+Suggestions for data structuring
 ----------------------------------------------
 
 - Assuming Tiff format in all cases
 - Single (well prepared!) file for less than 4Gb
-- Mosaic (with well prepared tiles) if larger than 4Gb
-- Pyramid for massive data.
+- Mosaic (with well prepared tiles!) if larger than 4Gb
+- Pyramid (with well prepared mosaics!) for massive data.
+- Testing.
+- Balancing overhead of more complex structures
 
 --- 
 
@@ -165,7 +215,7 @@ Single file
 
 - File format/characteristics is crucial
 - Optimizations for single files should be applied in all other cases as well
-- "Un-tiling" is a good idea in some cases (don't abuse the advance features)
+- "Un-tiling" is a good idea in some cases (don't abuse the advanced features)
 
 ---
 
@@ -182,10 +232,11 @@ Mosaic (tiles)
 Pyramid (overviews)
 --------------------
 
-- Number of levels
+- Number of levels (n = log2(width/tile_width))
 - Resampling methods
 - Each level is a mosaic
 
+---
 
 GDAL tools
 -----------
@@ -198,12 +249,36 @@ GDAL tools
 
 ---
 
+``gdaltranslate``
+-----------------
+
+- Modifiers
+	- ``-t_srs``. Reprojection
+	- ``-co``: Format specific values (TIFF)
+		- ``TILED=TRUE``
+		- ``COMPRESS=JPEG/LZW``
+		- ``BLOCKXSIZE``, ``BLOCKYSIZE``
+	- ``-b``: Band to use
+
+---
+
+Data preparation demo
+========================
+
+---
+
 Other tools
 -----------
 
 - QGIS as GDAL frontend
 - Other QGIS tools
 
+---
+
+Other tools demo
+=================
+
+---
 
 GeoServer elements
 ===================
@@ -213,10 +288,20 @@ GeoServer elements
 ImageMosaic plugin
 -------------------
 
+- Automatically creates mosaic from result of ``gdal_retile``
+- Tiles should be homogeneous
+- Preinstalled with Suite
+- If using already tiled data, but not from ``gdal_retile``, index file can be created manually.
+
 ---
 
 ImagePyramid plugin
 ---------------------
+
+- Based on ImageMosaic plugin
+- Automatically creates pyramid for result of ``gdal_retile``
+- Has to be manually installed
+- If using already tiled data, but not from ``gdal_retile``, index files can be created manually.
 
 ---
 
@@ -225,13 +310,32 @@ Fine tuning GeoServer
 
 ---
 
+
 ImageMosaic plugin settings
--------------------
+-------------------------------
+
+![MosaicSettings](img/MosaicSettings.png)
+
+---
+
+ImageMosaic plugin settings
+-------------------------------
+
+- From Geoserver UI
+	- Mostly to set up how multithreading is used
+- ``.properties`` file
+	- ``Caching``
+	- ``ExpandtoRGB``
+
+
 
 ---
 
 ImagePyramid plugin settings
 -----------------------------
+
+- Based on ImageMosaic
+- Similar settings and ideas
 
 ---
 
@@ -241,6 +345,15 @@ Coverage Access settings
 - Used to optimize multithreaded access in mosaics
 - Use 2 X #cores threads
 - Threshold for WCS requests
+
+![CASettings](img/CASettings.png)
+
+---
+
+JAI settings
+----------------------
+
+![JAISettings](img/JAISettings.png)
 
 ---
 
@@ -258,15 +371,9 @@ JAI settings
 Reprojection settings
 ---------------------
 
-- -Dorg.geotools.referencing.resampleTolerance
+- ``-Dorg.geotools.referencing.resampleTolerance``
 - Default value of 0.333
 - Larger values mean better performance, but less precision
 - Set accordingly with dataset characteristics and goals.
-
 - Remember to select the right CRS.
-
-
----
-
-
 

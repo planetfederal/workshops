@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Optimizing vector data in GeoServer</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="file://C:\Python27\lib\site-packages\landslide-1.0.1-py2.7.egg\landslide\themes\default\css\print.css">
+    <link rel="stylesheet" media="screen, projection" href="file://D:\github\deepdata-docs\slides\opengeo\css\screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="file://C:\Python27\lib\site-packages\landslide-1.0.1-py2.7.egg\landslide\themes\default\js\slides.js"></script>
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Optimizing vector data in GeoServer</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Goals</h2></header>
+            
+            
+            <section><ul>
+<li>Increase GeoServer performance</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Contents</h2></header>
+            
+            
+            <section><ul>
+<li>Modifiying data itself</li>
+<li>Adjusting everything between data and GeoServer</li>
+<li>We will not cover further adjustments, such as styling</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Key ideas</h2></header>
+            
+            
+            <section><ul>
+<li>Minimizing data access</li>
+<li>Minimizing processing</li>
+<li>Doing in advance as much as much calculations as possible, so they don't have to be done on real-time</li>
+<li>Fine tuning Geoserver</li>
+<li>Fine tuning any other software involved</li>
+<li>Mainly (but not limited to) data used for rendering</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>What are we going to see</h2></header>
+            
+            
+            <section><ul>
+<li>Strategies for preparing data (theory) </li>
+<li>Tools and examples of preparing data (practice)</li>
+<li>GeoServer elements to get the best out of your data</li>
+<li>Database configuration tips</li>
+<li>Geoserver configuration tips</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>You already know about this!</h2></header>
+            
+            
+            <section><ul>
+<li><em>Geoserver in production</em> workshop</li>
+<li>This workshop has a more practical approach</li>
+<li>This is mainly based on data, not just on GeoServer itself</li>
+<li>You are going to actually see how it is done</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Preparing data</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Preparing data</h2></header>
+            
+            
+            <section><ul>
+<li>Ensure small size and fast access</li>
+<li>Avoid costly operations later</li>
+<li>Not exclusive of GeoServer</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Problems affecting performance</h2></header>
+            
+            
+            <section><ul>
+<li>Area to render smaller than image implies reading unneeded data</li>
+<li>Render detail lower than vector data precision resolution implies processing unneeded data (more than 1 point per pixel is useless)</li>
+<li>Slow data access (too much data or too expensive to read it or to prepare it)</li>
+<li>Filter overhead</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="problem1" src="file://D:\github\deepdata-docs\slides\img/problem1vector.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="problem2" src="file://D:\github\deepdata-docs\slides\img/problem2vector.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Main ideas</h2></header>
+            
+            
+            <section><ul>
+<li>File vs Database</li>
+<li>File format and size</li>
+<li>Cleaning unneeded data</li>
+<li>Managing level of detail</li>
+<li>Splitting data</li>
+<li>Indexing (of both spatial and-non spatial components)</li>
+<li>Using the optimal CRS</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Strategies</h2></header>
+            
+            
+            <section><ul>
+<li>Some strategies are similar to raster ones<ul>
+<li>Indexing / Tiling</li>
+<li>Simplifying (generalization) / Pyramids</li>
+</ul>
+</li>
+<li>Pre-querying</li>
+<li>Non-spatial indexing</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Rendering optimizations</h2></header>
+            
+            
+            <section><ul>
+<li>Rendering of vector data can be much more costly than rendering of raster data (more elaborated)</li>
+<li>Prepare data to minimize rendering computation of all kinds</li>
+<li>Use styling wisely to optimize data access</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              14/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>File formats</h2></header>
+            
+            
+            <section><ul>
+<li>Binary vs text-based</li>
+<li>Spatial indexing</li>
+<li>Reading vs reading/writing</li>
+<li>Data preparation needs external tools</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              15/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Database</h2></header>
+            
+            
+            <section><ul>
+<li>More optimized than files</li>
+<li>Spatial indexing</li>
+<li>Non-spatial indexing</li>
+<li>Preparation can be done with database functions</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              16/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Cleaning unneeded data</h2></header>
+            
+            
+            <section><ul>
+<li>Are all attributes needed?</li>
+<li>Remove unused attributes</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              17/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Generalization</h2></header>
+            
+            
+            <section><p><img alt="generalization" src="file://D:\github\deepdata-docs\slides\img/generalization_agregation.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              18/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Generalization</h2></header>
+            
+            
+            <section><p><img alt="simplify" src="file://D:\github\deepdata-docs\slides\img/simplify_example.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              19/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Simplifying (Generalization)</h2></header>
+            
+            
+            <section><ul>
+<li>Not all points are used at all scales</li>
+<li>Geometries can be simplified for visualization</li>
+<li>Level Of Detail</li>
+<li>Several geometries for each feature <em>vs</em> several layers</li>
+<li>Even changing geometry type</li>
+<li>Cleaning attributes differently at different scales</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              20/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Indexing</h2></header>
+            
+            
+            <section><p><img alt="rtree" src="file://D:\github\deepdata-docs\slides\img/rtree.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              21/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Indexing</h2></header>
+            
+            
+            <section><ul>
+<li>Spatial and non-spatial</li>
+<li>Filter and refinement</li>
+<li>Increases performance of queries</li>
+<li>Spatial is supported in shapefiles</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              22/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2><code>ogr2ogr</code></h2></header>
+            
+            
+            <section><ul>
+<li>Cleaning</li>
+<li>Splitting</li>
+<li>Reprojecting</li>
+<li>Simplifying</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              23/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2><code>ogr2ogr</code></h2></header>
+            
+            
+            <section><ul>
+<li>Modifiers<ul>
+<li><code>-f</code>. Output format</li>
+<li><code>-select</code>: Selection attributes</li>
+<li><code>-sql</code>: SQL query</li>
+<li><code>-t_srs</code>: Reprojection</li>
+</ul>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              24/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1><code>ogr2ogr</code> demo</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              25/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>GeoTools pregeneralized plugin</h2></header>
+            
+            
+            <section><ul>
+<li>Tools for pregeneralizing shapefiles</li>
+<li>Plugin for using pregeneralized geometries in GeoServer</li>
+<li>Can be used with databases as well</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              26/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Geotools pregeneralizing tool demo</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              27/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>PostGIS</h2></header>
+            
+            
+            <section><ul>
+<li>ST_Simplify</li>
+<li>CREATE INDEX</li>
+<li>VACCUM ANALYZE</li>
+<li>CLUSTER</li>
+<li>Be careful with SQL views (use materialized views if needed)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              28/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>PostGIS demo</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              29/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Fine tuning Geoserver and PostGIS</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              30/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Fine tuning a shapefile datastore</h2></header>
+            
+            
+            <section><ul>
+<li>Let GeoServer create and handle spatial indexing</li>
+<li>Enable <em>Use memory mapped buffers</em> and <em>Cache and reuse memory maps</em>  if running Linux (but not in Windows!)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              31/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>PostGIS</h2></header>
+            
+            
+            <section><ul>
+<li>Fine tuning Postgre.</li>
+<li>Default settings are conservative</li>
+<li>Increase sort heap (<code>sort_mem</code>)</li>
+<li>Increase number of connection if needed (<code>max_connections</code>)</li>
+<li><code>work_mem</code> (related to <code>max_connections</code>)</li>
+<li><code>effective_cache_size</code> (1/2 - 3/4 memory)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              32/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: vector.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Connection pooling</h2></header>
+            
+            
+            <section><ul>
+<li>Eliminates overhead in stablishing new connection</li>
+<li>Available for all datastores backed up by a database</li>
+<li>Connection pool size</li>
+<li>Max number of connections</li>
+<li>Validate connection</li>
+<li>To be adjusted along with the database settings</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="vector.md">vector.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              33/33
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Optimizing vector data in GeoServer</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-2" class="sub">
+          <th><a href="#slide2">Goals</a></th>
+          <td><a href="#slide2">2</a></td>
+        </tr>
+        
+        <tr id="toc-row-3" class="sub">
+          <th><a href="#slide3">Contents</a></th>
+          <td><a href="#slide3">3</a></td>
+        </tr>
+        
+        <tr id="toc-row-4" class="sub">
+          <th><a href="#slide4">Key ideas</a></th>
+          <td><a href="#slide4">4</a></td>
+        </tr>
+        
+        <tr id="toc-row-5" class="sub">
+          <th><a href="#slide5">What are we going to see</a></th>
+          <td><a href="#slide5">5</a></td>
+        </tr>
+        
+        <tr id="toc-row-6" class="sub">
+          <th><a href="#slide6">You already know about this!</a></th>
+          <td><a href="#slide6">6</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-7">
+        <th><a href="#slide7">Preparing data</a></th>
+        <td><a href="#slide7">7</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-8" class="sub">
+          <th><a href="#slide8">Preparing data</a></th>
+          <td><a href="#slide8">8</a></td>
+        </tr>
+        
+        <tr id="toc-row-9" class="sub">
+          <th><a href="#slide9">Problems affecting performance</a></th>
+          <td><a href="#slide9">9</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-10">
+        <th><a href="#slide10">-</a></th>
+        <td><a href="#slide10">10</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-11">
+        <th><a href="#slide11">-</a></th>
+        <td><a href="#slide11">11</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-12" class="sub">
+          <th><a href="#slide12">Main ideas</a></th>
+          <td><a href="#slide12">12</a></td>
+        </tr>
+        
+        <tr id="toc-row-13" class="sub">
+          <th><a href="#slide13">Strategies</a></th>
+          <td><a href="#slide13">13</a></td>
+        </tr>
+        
+        <tr id="toc-row-14" class="sub">
+          <th><a href="#slide14">Rendering optimizations</a></th>
+          <td><a href="#slide14">14</a></td>
+        </tr>
+        
+        <tr id="toc-row-15" class="sub">
+          <th><a href="#slide15">File formats</a></th>
+          <td><a href="#slide15">15</a></td>
+        </tr>
+        
+        <tr id="toc-row-16" class="sub">
+          <th><a href="#slide16">Database</a></th>
+          <td><a href="#slide16">16</a></td>
+        </tr>
+        
+        <tr id="toc-row-17" class="sub">
+          <th><a href="#slide17">Cleaning unneeded data</a></th>
+          <td><a href="#slide17">17</a></td>
+        </tr>
+        
+        <tr id="toc-row-18" class="sub">
+          <th><a href="#slide18">Generalization</a></th>
+          <td><a href="#slide18">18</a></td>
+        </tr>
+        
+        <tr id="toc-row-19" class="sub">
+          <th><a href="#slide19">Generalization</a></th>
+          <td><a href="#slide19">19</a></td>
+        </tr>
+        
+        <tr id="toc-row-20" class="sub">
+          <th><a href="#slide20">Simplifying (Generalization)</a></th>
+          <td><a href="#slide20">20</a></td>
+        </tr>
+        
+        <tr id="toc-row-21" class="sub">
+          <th><a href="#slide21">Indexing</a></th>
+          <td><a href="#slide21">21</a></td>
+        </tr>
+        
+        <tr id="toc-row-22" class="sub">
+          <th><a href="#slide22">Indexing</a></th>
+          <td><a href="#slide22">22</a></td>
+        </tr>
+        
+        <tr id="toc-row-23" class="sub">
+          <th><a href="#slide23"><code>ogr2ogr</code></a></th>
+          <td><a href="#slide23">23</a></td>
+        </tr>
+        
+        <tr id="toc-row-24" class="sub">
+          <th><a href="#slide24"><code>ogr2ogr</code></a></th>
+          <td><a href="#slide24">24</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-25">
+        <th><a href="#slide25"><code>ogr2ogr</code> demo</a></th>
+        <td><a href="#slide25">25</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-26" class="sub">
+          <th><a href="#slide26">GeoTools pregeneralized plugin</a></th>
+          <td><a href="#slide26">26</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-27">
+        <th><a href="#slide27">Geotools pregeneralizing tool demo</a></th>
+        <td><a href="#slide27">27</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-28" class="sub">
+          <th><a href="#slide28">PostGIS</a></th>
+          <td><a href="#slide28">28</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-29">
+        <th><a href="#slide29">PostGIS demo</a></th>
+        <td><a href="#slide29">29</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-30">
+        <th><a href="#slide30">Fine tuning Geoserver and PostGIS</a></th>
+        <td><a href="#slide30">30</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-31" class="sub">
+          <th><a href="#slide31">Fine tuning a shapefile datastore</a></th>
+          <td><a href="#slide31">31</a></td>
+        </tr>
+        
+        <tr id="toc-row-32" class="sub">
+          <th><a href="#slide32">PostGIS</a></th>
+          <td><a href="#slide32">32</a></td>
+        </tr>
+        
+        <tr id="toc-row-33" class="sub">
+          <th><a href="#slide33">Connection pooling</a></th>
+          <td><a href="#slide33">33</a></td>
+        </tr>
+        
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>

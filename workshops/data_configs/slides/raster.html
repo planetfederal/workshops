@@ -1,0 +1,1799 @@
+<!DOCTYPE html>
+<!--
+  Copyright 2010 Google Inc.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  Original slides: Marcin Wichary (mwichary@google.com)
+  Modifications: Ernest Delgado (ernestd@google.com)
+                 Alex Russell (slightlyoff@chromium.org)
+
+  landslide modifications: Adam Zapletal (adamzap@gmail.com)
+                           Nicolas Perriault (nperriault@gmail.com)
+-->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Optimizing raster data in GeoServer</title>
+    <!-- Styles -->
+    
+    <link rel="stylesheet" media="print" href="file://C:\Python27\lib\site-packages\landslide-1.0.1-py2.7.egg\landslide\themes\default\css\print.css">
+    <link rel="stylesheet" media="screen, projection" href="file://D:\github\deepdata-docs\slides\opengeo\css\screen.css">
+    
+    
+    <!-- /Styles -->
+    <!-- Javascripts -->
+    
+    <script type="text/javascript" src="file://C:\Python27\lib\site-packages\landslide-1.0.1-py2.7.egg\landslide\themes\default\js\slides.js"></script>
+    
+    
+    <!-- /Javascripts -->
+</head>
+<body>
+  <div id="blank"></div>
+  <div class="presentation">
+    <div id="current_presenter_notes">
+      <div id="presenter_note"></div>
+    </div>
+    <div class="slides">
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Optimizing raster data in GeoServer</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              1/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Goals</h2></header>
+            
+            
+            <section><ul>
+<li>Increase GeoServer performance</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              2/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Contents</h2></header>
+            
+            
+            <section><ul>
+<li>Modifiying data itself</li>
+<li>Adjusting everything between data and GeoServer</li>
+<li>We will not cover further adjustments, such as styling</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              3/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Key ideas</h2></header>
+            
+            
+            <section><ul>
+<li>Minimizing data access</li>
+<li>Minimizing processing</li>
+<li>Doing in advance as much as much calculations as possible, so they don't have to be done on real-time</li>
+<li>Fine tuning Geoserver</li>
+<li>Fine tuning any other software involved</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              4/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>What are we going to see</h2></header>
+            
+            
+            <section><ul>
+<li>Strategies for preparing data (theory) </li>
+<li>Tools and examples of preparting data (practice)</li>
+<li>GeoServer elements to get the best out of your data</li>
+<li>Geoserver configuration tips</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              5/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>You already know about this!</h2></header>
+            
+            
+            <section><ul>
+<li><em>Geoserver in production</em> workshop</li>
+<li>This workshop has a more practical approach</li>
+<li>This is mainly based on data, not just on GeoServer itself</li>
+<li>You are going to actually see how it is done</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              6/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Preparing data</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              7/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Preparing data</h2></header>
+            
+            
+            <section><ul>
+<li>Ensure small size and fast access</li>
+<li>Avoid costly operations later</li>
+<li>Not exclusive of GeoServer</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              8/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Problems affecting performance</h2></header>
+            
+            
+            <section><ul>
+<li>Area to render smaller than image implies reading unneeded data</li>
+<li>Render detail lower than image resolution implies reading unneeded data</li>
+<li>Slow data access (too much data or too expensive to read it or to prepare it)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              9/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="problem1" src="file://D:\github\deepdata-docs\slides\img/problem1raster.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              10/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="problem2" src="file://D:\github\deepdata-docs\slides\img/problem2raster.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              11/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Preparing data (factors)</h2></header>
+            
+            
+            <section><ul>
+<li>File format and properties</li>
+<li>File size</li>
+<li>Structure/Layout</li>
+<li>Number of Bands/Interleaving</li>
+<li>
+<p>CRS</p>
+</li>
+<li>
+<p>They should be combined.</p>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              12/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Formats</h2></header>
+            
+            
+            <section><ul>
+<li>Binary vs text-based</li>
+<li>Compression</li>
+<li>Inner tiling</li>
+<li>Overviews</li>
+<li>Color representation</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              13/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Formats</h2></header>
+            
+            
+            <section><ul>
+<li>ASC</li>
+<li>TIFF</li>
+<li>PNG</li>
+<li>JPEG</li>
+<li>JPEG2000</li>
+<li>Proprietary formats (MrSid, ECW)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              14/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Compression</h2></header>
+            
+            
+            <section><ul>
+<li>No compression</li>
+<li>Lossy</li>
+<li>Loseless</li>
+<li>Compression can make your files bigger!</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              15/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Compression methods</h2></header>
+            
+            
+            <section><ul>
+<li>JPEG <ul>
+<li>lossy. </li>
+<li>visually lossless</li>
+</ul>
+</li>
+<li>LZW<ul>
+<li>lossless</li>
+<li>good for images with homogeneous areas</li>
+<li>good for images with few colors <br />
+</li>
+<li>recommmended for non-image data (temperature, elevation, etc.)</li>
+</ul>
+</li>
+<li>Wavelets</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              16/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Color representation</h2></header>
+            
+            
+            <section><ul>
+<li>RGB: 3 color components stored for each pixel</li>
+<li>Palette: 1 index value stored for each pixel</li>
+<li>RGB implies larger data volume</li>
+<li>Paletted images imply less color detail(limited number of colors) but smaller data volume</li>
+<li>Depending on image characteristics</li>
+<li>Relation to compression method (spatial autocorrelation)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              17/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="rgbvspaletted" src="file://D:\github\deepdata-docs\slides\img/rgbvspaletted.jpg" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              18/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>The TIFF format</h2></header>
+            
+            
+            <section><ul>
+<li>A very versatile format</li>
+<li>Supports inner tiling</li>
+<li>Supports overviews</li>
+<li>Supports different compression methods</li>
+<li>GeoTiff</li>
+<li>BigTiff</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              19/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Number of bands / interleaving</h2></header>
+            
+            
+            <section><ul>
+<li>Clean unused band if multispectral</li>
+<li>Band interleaving generally better than pixel interleaving<ul>
+<li>RRRGGGBBB <em>vs</em> RGBRGBRGB</li>
+</ul>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              20/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Strategies for data structuring</h2></header>
+            
+            
+            <section><ul>
+<li>Single file</li>
+<li>Mosaic (tiles)</li>
+<li>Pyramid</li>
+<li>Dependent on data size and file format</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              21/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="pyramid" src="file://D:\github\deepdata-docs\slides\img/mosaic.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              22/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            
+            <section><p><img alt="pyramid" src="file://D:\github\deepdata-docs\slides\img/pyramid.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              23/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Suggestions for data structuring</h2></header>
+            
+            
+            <section><ul>
+<li>Assuming Tiff format in all cases</li>
+<li>Single (well prepared!) file for less than 4Gb</li>
+<li>Mosaic (with well prepared tiles!) if larger than 4Gb</li>
+<li>Pyramid (with well prepared mosaics!) for massive data.</li>
+<li>Testing.</li>
+<li>Balancing overhead of more complex structures</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              24/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Single file</h2></header>
+            
+            
+            <section><ul>
+<li>File format/characteristics is crucial</li>
+<li>Optimizations for single files should be applied in all other cases as well</li>
+<li>"Un-tiling" is a good idea in some cases (don't abuse the advanced features)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              25/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Mosaic (tiles)</h2></header>
+            
+            
+            <section><ul>
+<li>Tile size (not too small)</li>
+<li>Tiles with inner tiling</li>
+<li>Tiles with overviews</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              26/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Pyramid (overviews)</h2></header>
+            
+            
+            <section><ul>
+<li>Number of levels (n = log2(width/tile_width))</li>
+<li>Resampling methods</li>
+<li>Each level is a mosaic</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              27/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>GDAL tools</h2></header>
+            
+            
+            <section><ul>
+<li><code>gdaltranslate</code> (format conversion and reprojection)</li>
+<li><code>gdaladdo</code> (adding overviews)</li>
+<li><code>gdal_retile</code> (tiling)</li>
+<li><code>gdal_merge</code> (merging, "un-tiling")</li>
+<li><code>rgb2pct</code> (creation of paletted images)</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              28/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2><code>gdaltranslate</code></h2></header>
+            
+            
+            <section><ul>
+<li>Modifiers<ul>
+<li><code>-t_srs</code>. Reprojection</li>
+<li><code>-co</code>: Format specific values (TIFF)<ul>
+<li><code>TILED=TRUE</code></li>
+<li><code>COMPRESS=JPEG/LZW</code></li>
+<li><code>BLOCKXSIZE</code>, <code>BLOCKYSIZE</code></li>
+</ul>
+</li>
+<li><code>-b</code>: Band to use</li>
+</ul>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              29/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Data preparation demo</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              30/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Other tools</h2></header>
+            
+            
+            <section><ul>
+<li>QGIS as GDAL frontend</li>
+<li>Other QGIS tools</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              31/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Other tools demo</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              32/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>GeoServer elements</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              33/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>ImageMosaic plugin</h2></header>
+            
+            
+            <section><ul>
+<li>Automatically creates mosaic from result of <code>gdal_retile</code></li>
+<li>Tiles should be homogeneous</li>
+<li>Preinstalled with Suite</li>
+<li>If using already tiled data, but not from <code>gdal_retile</code>, index file can be created manually.</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              34/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>ImagePyramid plugin</h2></header>
+            
+            
+            <section><ul>
+<li>Based on ImageMosaic plugin</li>
+<li>Automatically creates pyramid for result of <code>gdal_retile</code></li>
+<li>Has to be manually installed</li>
+<li>If using already tiled data, but not from <code>gdal_retile</code>, index files can be created manually.</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              35/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h1>Fine tuning GeoServer</h1></header>
+            
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              36/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>ImageMosaic plugin settings</h2></header>
+            
+            
+            <section><p><img alt="MosaicSettings" src="file://D:\github\deepdata-docs\slides\img/MosaicSettings.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              37/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>ImageMosaic plugin settings</h2></header>
+            
+            
+            <section><ul>
+<li>From Geoserver UI<ul>
+<li>Mostly to set up how multithreading is used</li>
+</ul>
+</li>
+<li><code>.properties</code> file<ul>
+<li><code>Caching</code></li>
+<li><code>ExpandtoRGB</code></li>
+</ul>
+</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              38/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>ImagePyramid plugin settings</h2></header>
+            
+            
+            <section><ul>
+<li>Based on ImageMosaic</li>
+<li>Similar settings and ideas</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              39/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Coverage Access settings</h2></header>
+            
+            
+            <section><ul>
+<li>Used to optimize multithreaded access in mosaics</li>
+<li>Use 2 X #cores threads</li>
+<li>Threshold for WCS requests</li>
+</ul>
+<p><img alt="CASettings" src="file://D:\github\deepdata-docs\slides\img/CASettings.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              40/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>JAI settings</h2></header>
+            
+            
+            <section><p><img alt="JAISettings" src="file://D:\github\deepdata-docs\slides\img/JAISettings.png" /></p></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              41/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>JAI settings</h2></header>
+            
+            
+            <section><ul>
+<li>Use native JAI</li>
+<li>Use native ImageIO</li>
+<li>Enable native mosaic acceleration</li>
+<li>Enable Tile recycling if there are no memory problems</li>
+<li>Use 2 X #cores in Tile threads</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              42/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+      <!-- slide source: raster.md -->
+      <div class="slide-wrapper">
+        <div class="slide">
+          <div class="inner">
+            
+            <header><h2>Reprojection settings</h2></header>
+            
+            
+            <section><ul>
+<li><code>-Dorg.geotools.referencing.resampleTolerance</code></li>
+<li>Default value of 0.333</li>
+<li>Larger values mean better performance, but less precision</li>
+<li>Set accordingly with dataset characteristics and goals.</li>
+<li>Remember to select the right CRS.</li>
+</ul></section>
+            
+          </div>
+          <div class="presenter_notes">
+            <header><h1>Presenter Notes</h1></header>
+            <section>
+            
+            </section>
+          </div>
+          <footer>
+            
+            <aside class="source">
+              Source: <a href="raster.md">raster.md</a>
+            </aside>
+            
+            <aside class="page_number">
+              43/43
+            </aside>
+          </footer>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div id="toc" class="sidebar hidden">
+    <h2>Table of Contents</h2>
+    <table>
+      <caption>Table of Contents</caption>
+      
+      <tr id="toc-row-1">
+        <th><a href="#slide1">Optimizing raster data in GeoServer</a></th>
+        <td><a href="#slide1">1</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-2" class="sub">
+          <th><a href="#slide2">Goals</a></th>
+          <td><a href="#slide2">2</a></td>
+        </tr>
+        
+        <tr id="toc-row-3" class="sub">
+          <th><a href="#slide3">Contents</a></th>
+          <td><a href="#slide3">3</a></td>
+        </tr>
+        
+        <tr id="toc-row-4" class="sub">
+          <th><a href="#slide4">Key ideas</a></th>
+          <td><a href="#slide4">4</a></td>
+        </tr>
+        
+        <tr id="toc-row-5" class="sub">
+          <th><a href="#slide5">What are we going to see</a></th>
+          <td><a href="#slide5">5</a></td>
+        </tr>
+        
+        <tr id="toc-row-6" class="sub">
+          <th><a href="#slide6">You already know about this!</a></th>
+          <td><a href="#slide6">6</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-7">
+        <th><a href="#slide7">Preparing data</a></th>
+        <td><a href="#slide7">7</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-8" class="sub">
+          <th><a href="#slide8">Preparing data</a></th>
+          <td><a href="#slide8">8</a></td>
+        </tr>
+        
+        <tr id="toc-row-9" class="sub">
+          <th><a href="#slide9">Problems affecting performance</a></th>
+          <td><a href="#slide9">9</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-10">
+        <th><a href="#slide10">-</a></th>
+        <td><a href="#slide10">10</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-11">
+        <th><a href="#slide11">-</a></th>
+        <td><a href="#slide11">11</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-12" class="sub">
+          <th><a href="#slide12">Preparing data (factors)</a></th>
+          <td><a href="#slide12">12</a></td>
+        </tr>
+        
+        <tr id="toc-row-13" class="sub">
+          <th><a href="#slide13">Formats</a></th>
+          <td><a href="#slide13">13</a></td>
+        </tr>
+        
+        <tr id="toc-row-14" class="sub">
+          <th><a href="#slide14">Formats</a></th>
+          <td><a href="#slide14">14</a></td>
+        </tr>
+        
+        <tr id="toc-row-15" class="sub">
+          <th><a href="#slide15">Compression</a></th>
+          <td><a href="#slide15">15</a></td>
+        </tr>
+        
+        <tr id="toc-row-16" class="sub">
+          <th><a href="#slide16">Compression methods</a></th>
+          <td><a href="#slide16">16</a></td>
+        </tr>
+        
+        <tr id="toc-row-17" class="sub">
+          <th><a href="#slide17">Color representation</a></th>
+          <td><a href="#slide17">17</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-18">
+        <th><a href="#slide18">-</a></th>
+        <td><a href="#slide18">18</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-19" class="sub">
+          <th><a href="#slide19">The TIFF format</a></th>
+          <td><a href="#slide19">19</a></td>
+        </tr>
+        
+        <tr id="toc-row-20" class="sub">
+          <th><a href="#slide20">Number of bands / interleaving</a></th>
+          <td><a href="#slide20">20</a></td>
+        </tr>
+        
+        <tr id="toc-row-21" class="sub">
+          <th><a href="#slide21">Strategies for data structuring</a></th>
+          <td><a href="#slide21">21</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-22">
+        <th><a href="#slide22">-</a></th>
+        <td><a href="#slide22">22</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-23">
+        <th><a href="#slide23">-</a></th>
+        <td><a href="#slide23">23</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-24" class="sub">
+          <th><a href="#slide24">Suggestions for data structuring</a></th>
+          <td><a href="#slide24">24</a></td>
+        </tr>
+        
+        <tr id="toc-row-25" class="sub">
+          <th><a href="#slide25">Single file</a></th>
+          <td><a href="#slide25">25</a></td>
+        </tr>
+        
+        <tr id="toc-row-26" class="sub">
+          <th><a href="#slide26">Mosaic (tiles)</a></th>
+          <td><a href="#slide26">26</a></td>
+        </tr>
+        
+        <tr id="toc-row-27" class="sub">
+          <th><a href="#slide27">Pyramid (overviews)</a></th>
+          <td><a href="#slide27">27</a></td>
+        </tr>
+        
+        <tr id="toc-row-28" class="sub">
+          <th><a href="#slide28">GDAL tools</a></th>
+          <td><a href="#slide28">28</a></td>
+        </tr>
+        
+        <tr id="toc-row-29" class="sub">
+          <th><a href="#slide29"><code>gdaltranslate</code></a></th>
+          <td><a href="#slide29">29</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-30">
+        <th><a href="#slide30">Data preparation demo</a></th>
+        <td><a href="#slide30">30</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-31" class="sub">
+          <th><a href="#slide31">Other tools</a></th>
+          <td><a href="#slide31">31</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-32">
+        <th><a href="#slide32">Other tools demo</a></th>
+        <td><a href="#slide32">32</a></td>
+      </tr>
+      
+      
+      <tr id="toc-row-33">
+        <th><a href="#slide33">GeoServer elements</a></th>
+        <td><a href="#slide33">33</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-34" class="sub">
+          <th><a href="#slide34">ImageMosaic plugin</a></th>
+          <td><a href="#slide34">34</a></td>
+        </tr>
+        
+        <tr id="toc-row-35" class="sub">
+          <th><a href="#slide35">ImagePyramid plugin</a></th>
+          <td><a href="#slide35">35</a></td>
+        </tr>
+        
+      
+      
+      <tr id="toc-row-36">
+        <th><a href="#slide36">Fine tuning GeoServer</a></th>
+        <td><a href="#slide36">36</a></td>
+      </tr>
+      
+        
+        <tr id="toc-row-37" class="sub">
+          <th><a href="#slide37">ImageMosaic plugin settings</a></th>
+          <td><a href="#slide37">37</a></td>
+        </tr>
+        
+        <tr id="toc-row-38" class="sub">
+          <th><a href="#slide38">ImageMosaic plugin settings</a></th>
+          <td><a href="#slide38">38</a></td>
+        </tr>
+        
+        <tr id="toc-row-39" class="sub">
+          <th><a href="#slide39">ImagePyramid plugin settings</a></th>
+          <td><a href="#slide39">39</a></td>
+        </tr>
+        
+        <tr id="toc-row-40" class="sub">
+          <th><a href="#slide40">Coverage Access settings</a></th>
+          <td><a href="#slide40">40</a></td>
+        </tr>
+        
+        <tr id="toc-row-41" class="sub">
+          <th><a href="#slide41">JAI settings</a></th>
+          <td><a href="#slide41">41</a></td>
+        </tr>
+        
+        <tr id="toc-row-42" class="sub">
+          <th><a href="#slide42">JAI settings</a></th>
+          <td><a href="#slide42">42</a></td>
+        </tr>
+        
+        <tr id="toc-row-43" class="sub">
+          <th><a href="#slide43">Reprojection settings</a></th>
+          <td><a href="#slide43">43</a></td>
+        </tr>
+        
+      
+      
+    </table>
+  </div>
+  
+  <div id="help" class="sidebar hidden">
+    <h2>Help</h2>
+    <table>
+      <caption>Help</caption>
+      <tr>
+        <th>Table of Contents</th>
+        <td>t</td>
+      </tr>
+      <tr>
+        <th>Exposé</th>
+        <td>ESC</td>
+      </tr>
+      <tr>
+        <th>Full screen slides</th>
+        <td>e</td>
+      </tr>
+      <tr>
+        <th>Presenter View</th>
+        <td>p</td>
+      </tr>
+      <tr>
+        <th>Source Files</th>
+        <td>s</td>
+      </tr>
+      <tr>
+        <th>Slide Numbers</th>
+        <td>n</td>
+      </tr>
+      <tr>
+        <th>Toggle screen blanking</th>
+        <td>b</td>
+      </tr>
+      <tr>
+        <th>Show/hide slide context</th>
+        <td>c</td>
+      </tr>
+      <tr>
+        <th>Notes</th>
+        <td>2</td>
+      </tr>
+      <tr>
+        <th>Help</th>
+        <td>h</td>
+      </tr>
+    </table>
+  </div>
+  <script>main()</script>
+</body>
+</html>
