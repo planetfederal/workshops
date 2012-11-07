@@ -1,9 +1,11 @@
+.. _source.vector:
+
 Optimizing working with vector layers in GeoServer
-===================================================
+==================================================
 
 
 Introduction
---------------
+------------
 
 In this chapter we are going to see how to optimize vector data to improve performance of GeoServer when serving it.
 
@@ -19,7 +21,9 @@ Import both vector layers into GeoServer, using the corresponding data store. No
 
 Press Ctrl - Shift - I (Command - Option - I if you are using Mac) to show the Chrome Developer Tools window. Select the Network tab. You should see something like this:
 
-.. image:: chrometools.png
+.. figure:: img/chrometools.jpg
+
+.. todo:: missing title
 
 As you start making requests, you will see in the lower part of the window, in the Timeline column, the time it has taken to respond them. Do some zomming and panning and have a look at the response times. You might notice that the performance is not very good, and it usually takes sometime to render the data when you change the zoom level or you pan.
 
@@ -27,7 +31,7 @@ Open now another layer preview, this time for the shapefile layer. Response time
 
 Zoom to the full extent of the layer and add this to the URL:
 
-::
+.. code-block:: console
 
 	&cql_filter=TYPE='motorway'
 
@@ -42,14 +46,14 @@ Here is an explanation of these differences that can be found between the three 
 - PostGIS not only has a spatial index, but also indexes the non-spatial fields, which improves performance when applying non-spatial filters, such as the one we used.
 
 Selecting the right file format and datastore
-----------------------------------------------
+---------------------------------------------
 
 [To be written]
 
 
 
 Preparing and structuring vector data
---------------------------------------
+-------------------------------------
 
 Selecting a given format does not guarantee that our data is optimized and that it will be accessed minimizing the amount of memory, processing and disk reading needed. Optimizing techniques not based on the data format itself can be applied to increase performance, specially in the case of layers used at multiple scales.
 
@@ -64,13 +68,13 @@ To perform this optimizations, we will be using some external tools, in particul
 
 
 Preparation using ``ogr2ogr``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We can modify vector layer using the ``ogr2ogr`` tools. It is part of FWTools and that is the recommended way of installing it. It allows to convert vector files between a large number of formats, but also includes some additional elements to alter the data, so the exported data can be filtered or modified. We will be working with a shapefile and generating another one, but we will apply some modifications in the way.
 
 Of course, if your data is not a shapefile, you can just use ``ogr2ogr`` to convert from your format to a shapefile, in case the original format is not a good one in terms of performance. To convert our GML file into a shapefile, just run the following command in a console.
 
-::
+.. code-block:: console
 
 	$ogr2ogr  -f "ESRI Shapefile" extremadura_highway.shp extremadura_highway.gml
 
@@ -78,7 +82,7 @@ Assuming we already have a shapefile, let's prepare to be more efficient and pro
 
 Here is the table structure of our shapefile, obtained by using ``ogrinfo``, a very practical tool also included in FWTools
 
-::
+.. code-block:: console
 
 	$ogrinfo extremadura_highway.shp extremadura_highway -so
 
@@ -108,15 +112,15 @@ Here is the table structure of our shapefile, obtained by using ``ogrinfo``, a v
 
 Asumming that only the first 2 fields (``TYPE, NAME``) are relevant in our case, let's remove all the other ones by running the following command.
 
-::
+.. code-block:: console
 
+.. todo:: what should go here?
 	
-
 If we now have a look at the fields in the created layer, we will see this:
 
-::
+.. code:: console
 
-	$ogr2ogr -select TYPE,NAME extremadura_highway_cleaned.shp extremadura_highway.shp
+   $ogr2ogr -select TYPE,NAME extremadura_highway_cleaned.shp extremadura_highway.shp
 
 The size of the shapefile is now just XXMB, compared to XXMB of the original one.
 
@@ -124,9 +128,9 @@ The second way we can use ``ogr2ogr`` is with the ``-simplify`` modifier, which 
 
 The ``-simplify`` modifier requires a distance tolerance to be specified. By using several values, we can create a set of layer covering the most usual scales, just like the different levels of a raster pyramid. Here is an example command line that we can use to simplify our example shapefile.
 
-::
+.. code-block:: console
 
-	$ogr2ogr -simplify 0.01 extremadura_highway_simplified_001.shp extremadura_highway.shp
+   $ogr2ogr -simplify 0.01 extremadura_highway_simplified_001.shp extremadura_highway.shp
 
 0.01 is the distance tolerance. Since the layer is in EPSG:4326, distance is expressed in this case in decimal degrees.
 
@@ -139,10 +143,9 @@ The first solution is more practical and generally better, but might degrade per
 
 Type the next line into your console.
 
-::
+.. code-block:: console
 	
-	$ogr2ogr
-
+   $ogr2ogr
 
 	
 Now we have two layers, each one meant to be rendered at a different scale. The ``MaxScaleDenominator`` and ``MinScaleDenominator`` SLD elements can be used to set that scale dependency in the styling of each layer. No additional filtering will be needed at rendering time, since we have already prefiltered the layer to create a new one.
@@ -151,18 +154,18 @@ Now we have two layers, each one meant to be rendered at a different scale. The 
 
 Splitting in two layers can be combined with pregeneralization as well. Since the layer containing only highways is going to be used only at small scales, is likely to have too much detail, so it can be simplified. The above command line can be replaced with the one below to incorporate generalization in one single step.
 
-::
+.. code-block:: console
 
-	$ogr2ogr
+   $ogr2ogr
 
 
 The last modifier that we can use with ``ogr2ogr`` for optimizing a shapefile is ``-t_srs``, which will reproject the layer into a given SRS. If the layer has a coordinate system different to the one used for a request, it has to be reprojected, which is a time-consuming operation. For this reason, it is recommended to have layers in the coordinate system that is most usually requested.
 
 Here is the command line to use to convert our vector data from its current EPSG:4326 coordinate system into EPSG:23030 a coordinate system that we might expect to be used more frequently for this area.
 
-::
+.. code-block:: console
 
-	$ogr2ogr -t_srs EPSG:23030 extremadura_highway_23030 extremadura_highway.shp
+   $ogr2ogr -t_srs EPSG:23030 extremadura_highway_23030 extremadura_highway.shp
 
 Preparation using the GeoTools Pregeneralized module
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -171,7 +174,7 @@ GeoServer has a plugin (not included in the Suite, so it has to be manually inst
 
 To install this plugin, download it from here. Shutdown GeoServer, extract the content of the zip file that you have downloaded into the GeoServer ``WEB-INF/lib`` folder, and restart GeoServer. If you now try to add a new data store, you will see a new option available, named *Generalizing data store*.
 
-..image::generalizingstroreentry.jpg
+..figure:: generalizingstroreentry.jpg
 
 This store is similar to the ImagePyramid for raster layer, allowing to have pregeneralized versions for a single layer, and seamlessly managing which one of them to use in each case. The pregeneralized version can be created as we have already seen, but in this case, as we are working with a shapefile, it is also possible to use a complementary GeoTools tool that provides a better integration. 
 
@@ -182,7 +185,7 @@ In your geoserver data folder (usually in ``[your_user_folder]/.opengeo/data_dir
 
 Now open a console in the data folder and type the following:
 
-::
+.. code-block:: console
 
 	$java -jar "[GeoServer-path]/WEB-INF/lib/gt-feature-pregeneralized-<version>.jar" generalize 0/extremadura_highway_23030.shp . 5,10,20,50
 
@@ -190,7 +193,7 @@ The list of numbers at the end represent the generaliation distances to use. Thi
 
 To setup a Generalizing Store based on those files, we have to create an XML file describing their structure. In the ``extremadura_highway`` folder, create a new file named ``geninfo_shapefile.xml`` with the following content:
 
-::
+.. code-block:: xml 
 
 	<?xml version="1.0" encoding="UTF-8"?>
 	<GeneralizationInfos version="1.0">
@@ -206,11 +209,13 @@ Now we can setup the Generalizing Store, pointing it to this file.
 
 These are the default parameter values that you will find to configure this datastore:
 
-..image::generalizingstoredefault.jpg
+..figure:: generalizingstoredefault.jpg
+
 
 And you should change them to these ones:
 
-..image::generalizingstoresetting.jpg
+..figure:: generalizingstoresetting.jpg
+
 
 As you see, the ``GeneralizationInfosProviderParam`` parameter points to the XML file, and we have changed the ``geotools`` package names to ``geoserver``.
 
@@ -226,7 +231,7 @@ The Generalizing Store can work without the need of multiple copies of the whole
 
 
 Preparation using PostGIS 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The *stacked* structure with several shapefiles that we have used can be replaced by one in which all the geometries (the original one and the generalized ones) are part of the attributes of the feature. This can be done using PostGIS commands, and the result stored as well in PostGIS and accesed from GeoServer using the Generalizing Store.
 
@@ -238,7 +243,7 @@ We are going to expand it to have more columns with additional simplified versio
 
 The first thing to do is to add those columns. We will use the PostGIS AddGeometryColumn function.
 
-::
+.. code-block:: sql 
 
 	SELECT AddGeometryColumn('','extremadura_highway','geom5','23030','MULTILINESTRING',2);
 	SELECT AddGeometryColumn('','extremadura_highway','geom10','23030','MULTILINESTRING',2);
@@ -249,7 +254,7 @@ The same geometry type as the original geometry has to be used.
 
 Now we populate those columns with the generalized geometries. These are calculated using the PostGIS ST_SimplifyPreserveTopology function. Apart from the geometry tobe simplified, it takes the distance tolerance as argument). Here is the SQL to run for this task.
 
-::
+.. code-block:: sql 
 
 	UPDATE extremadura_highway SET geom5 = ST_Multi(ST_SimplifyPreserveTopology(geom,5));
 	UPDATE extremadura_highway SET geom10 = ST_Multi(ST_SimplifyPreserveTopology(geom,10));
@@ -260,7 +265,7 @@ We use ``ST_Multi()`` to get multi-geometries, since ST_SimplifyPreserveTopology
 
 Finally, and to increase performance, we create spatial indices for each one of the new columns with the following SQL code.
 
-::
+.. code-block:: sql 
 
 	CREATE INDEX polygon_index_extremadura_highway_5 ON extremadura_highway USING GIST (geom5);
 	CREATE INDEX polygon_index_extremadura_highway_10 ON extremadura_highway USING GIST (geom10);
@@ -270,19 +275,20 @@ Finally, and to increase performance, we create spatial indices for each one of 
 
 And finally we run VACUUM ANALYZE just for this table.
 
-::
+.. code-block:: sql   
 
 	VACUUM ANALYZE extremadura_highway;
 
 So now the database contains all the data we need, and correctly structured. Before moving back to GeoServer and configuring a datastore to connect to this extended table we have just created, we can check that the simplified geometries contain less points than the original ones by running the following query (only the first 10 features are checked, by using LIMIT 10):
 
-::
+.. code-block:: sql   
 
 	SELECT ST_NPoints(geom) as geom, ST_NPoints(geom5) as geom5, ST_NPoints(geom10) as geom10, ST_NPoints(geom20) as geom20, ST_NPoints(geom50) as geom50  from extremadura_highway LIMIT 10;
 
 The result looks like this.
 
-::
+.. code-block:: console
+
 	 geom | geom5 | geom10 | geom20 | geom50
 	------+-------+--------+--------+--------
 	    8 |     3 |      3 |      3 |      2
@@ -301,6 +307,8 @@ An XML file is needed to configure the Generalizing Store, but in this case, sin
 
 Create a file in your GeoServer data directory named ``geninfo_postgis.xml`` with the following content.
 
+.. code-block:: xml
+
  <?xml version="1.0" encoding="UTF-8"?>
     <GeneralizationInfos version="1.0">
         <GeneralizationInfo dataSourceNameSpace="extremadura" dataSourceName="postgis_extremadura"  featureName="extremadura_highway" baseFeatureName="extremadura_highway" geomPropertyName="geom">
@@ -315,16 +323,16 @@ Now you can create a Generalizing Datastore based on it, as we have already seen
 
 
 Fine tuning a datastore in GeoServer
--------------------------------------
+------------------------------------
 
 Conection pooling 
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 JNDI
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^
 
 Fine tuning a shapefile datastore in Geoserver
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Fine tuning a PostGIS datastore in Geoserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -337,6 +345,6 @@ CLUSTER
 
 
 
-Fine tuning a h2 datastore in Geoserver
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Fine tuning a h2 datastore in GeoServer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
