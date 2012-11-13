@@ -161,6 +161,19 @@ File formats
 
 ---
 
+Shapefile format
+----------------
+
+- Only spatial indexing
+
+- Fast when reading whole layer 
+
+- Can be faster than PostGIS under certain circumstances
+
+- Better when queries return many features
+
+---
+
 Database
 --------
 
@@ -286,18 +299,44 @@ GeoTools pregeneralizing tool
 PostGIS
 --------
 
-- ST_Simplify
+- ``ST_Simplify``
 
-- CREATE INDEX
+- ``CREATE INDEX``
 
-- VACCUM ANALYZE
+- ``VACCUM ANALYZE``
 
-- CLUSTER
+- ``CLUSTER``
 
 - Be careful with SQL views
 	- Use materialized views if required
 
 ---
+
+``CLUSTER``
+------------
+
+- Geometry column has to be not null
+
+- Useful when most queries are based on a single index
+
+---
+
+
+Materialized view
+------------------
+
+- Pre-computed versions of a view
+
+- Useful for views involving complex operation
+
+- Missing support in Postgres
+
+- Different techniques for creating them
+
+- Consider database characteristics
+
+---
+
 Demo
 ----
 

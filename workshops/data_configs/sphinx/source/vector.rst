@@ -15,13 +15,13 @@ The tutorial will focus around the following ideas:
 
 The two first ideas take place in the data itself, and are not exclusive of Geoserver, but general concepts and methods that will improve performance in any system or software using that data. The last idea is exclusive of GeoServer and the way it works with data.
 
-Let’s start with an example. Download this zip file and extract it. It contains two files, both of them with the same data (a road network), but in two different formats: GML and shapefile. We are going to work with them in GeoServer and see how the differences between these file formats affect the GeoServer performance. Based on that, we will analyze solutions and give recommendations for the different scenarios that might appears, in terms of data.
+Let’s start with an example. Download `this zip file <http://link.to.file>`__ and extract it. It contains two files, both of them with the same data (a road network), but in two different formats: GML and shapefile. We are going to work with them in GeoServer and see how the differences between these file formats affect the GeoServer performance. Based on that, we will analyze solutions and give recommendations for the different scenarios that might appears, in terms of data.
 
 Import both vector layers into GeoServer, using the corresponding data store. Now go to the Layers Preview and open an Open Layers-based preview of the first layer (the GML one).
 
 We will be using Google chrome to check the response times of some requests. If you are using another browser, just look for the corresponding plugin to get this information. Press Ctrl - Shift - I (Command - Option - I if you are using Mac) to show the Chrome Developer Tools window. Select the Network tab. You should see something like this:
 
-.. figure:: imgs/chrometools.jpg
+..figure:: imgs/chrometools.jpg
 
 As you start making requests, you will see in the lower part of the window, in the Timeline column, the time it has taken to respond them. Do some zomming and panning and have a look at the response times. You might notice that the performance is not very good, and it usually takes sometime to render the data when you change the zoom level or you pan.
 
@@ -35,7 +35,7 @@ Zoom to the full extent of the layer and add this to the URL:
 
 This will filter and render just the motorways instead of all roads in the layer. Although the number of roads rendered will be much smaller, you might notice that the response time is more or less the same. Applying the filter has not a significant effect on performance.
 
-Now let's put the shapefile into PostGIS and connect it t GeoServer. Open a layer preview and browse the layer, checking the response times once again. You will notice the response times are similar to those of the shapefile-based layer, but this time applying the filter has some effect on the response time.
+Finally, if you had put that data into a PostGIS database, fine-tuned it (as we will explain later on) connected it to GeoServer, you would notice that the response times would be similar to those of the shapefile-based layer, but when applying the filter the response would be faster.
 
 Here is an explanation of these differences that can be found between the three stores, and that will help us move forward and understand how to optimize Geoserver for a particular dataset.
 
@@ -46,14 +46,18 @@ Here is an explanation of these differences that can be found between the three 
 Selecting the right file format (or data container)
 ------------------------------------------------------
 
-As a rule of thumb, databases can be considered better than file-based solutions, but a good performance can be obtained as well with file-based solutions. In the following section, we will cover data preparation for both cases.
+As a rule of thumb, databases can be considered better than file-based solutions, but a good performance can be obtained as well with file-based solutions. In the following sections, we will cover data preparation for both cases.
 
 If not using a database, choosing the right file format is critic, as there are important differences between them. Some of the factors that affect performance are the following:
 
-- Text-based vs binary. Text based formats are always a bad ideas, since the volume of data is larger and they usually involve time-consuming parsing. Using a GML file or a DXF one will significantly degrade the performance of GeoServer. Also, text formats do not have indexes, so extracting a subset of the information they contain is far from efficient.
-- Spatial indexing. A close zoom into a given area makes it unnecessary to use the data from those features not into the zoomed area. Finding out which features are within a given extent is faster when we can use a spatial index, something that ost file formats do not support.
+- Text-based *vs* binary. Text based formats are always a bad ideas, since the volume of data is larger and they usually involve time-consuming parsing. Using a GML file or a DXF one will significantly degrade the performance of GeoServer. Also, text formats do not have indexes, so extracting a subset of the information they contain is far from efficient.
+- Spatial indexing. A close zoom into a given area makes it unnecessary to use the data from those features not into the zoomed area. Finding out which features are within a given extent is faster when we can use a spatial index, something that most file formats do not support.
 
 The shapefile format is usually the best option, since it is binary based, has spatial indexing, and is well supported by GeoServer. Examples in the following sections will be based on data in shapefile format.
+
+Notice that, in case your service requires modifying the data (like a WFS-T service), a database should be used. Regardless of performance issues, there is no option to use a file-based solution on that scenario.
+
+The indexing (both spatial and non-spatial) provided by PostGIS are two of the main reasons for PostGIS's best performance when compared to 
 
 
 Preparing and structuring vector data
@@ -61,18 +65,56 @@ Preparing and structuring vector data
 
 Selecting a given format/container does not guarantee that our data is optimized and that it will be accessed minimizing the amount of memory, processing and disk reading needed. Optimizing techniques not based on the data format itself can be applied to increase performance, specially in the case of layers used at multiple scales.
 
-We will see two examples of these techniques, which are based on the following ideas:
+We will see some examples of these techniques, which are based on the following ideas:
 
 - Some parts of the non-spatial data might not be relevant for the service we are running, so they can be discarded.
 - When a layer is rendered at a small scale, the amount of data is excessive for the rendering, and a large amount of time is spent unnecessarily. A simplified version of the data for those scales would increase performance.
+- Not all data is needed when zooming onto a region or using a filter query. This makes it necessary to use spatial indexing, as it was already mentioned, but also to index the rest of attributes in the feature collection, since they can all be used to define a query.
 
-The first one is basically a cleaning of the layer, so as to cut down all data that is not going to be used but causes some overhead. The second case is similar to the pyramids used for raster layers, in which several copies of a same layer are kept, but at different resolutions.
+The first one is basically a cleaning of the layer, so as to cut down all data that is not going to be used but causes some overhead. It is a similar idea, for instance, removing unused bands in multispectral images, if they are not used to create the final rendered image to serve. This will reduce the amount of data that has to be read for each feature, thus reducing file access, which is usually an important bottleneck in terms of performance.
 
-To perform this optimizations, we will be using some external tools, in particular ``ogr2ogr`` and a GeoTools module for creating generalized versions of a layer. Later we will see how to perform the same optimization within a PostGIS database.
+The second point is similar to the pyramids used for raster layers, in which several copies of a same layer are kept, but at different resolutions. In the case of raster images, a resampling is performed, which saves time to GeoServer, since it doesn't have to do the costly resampling on-the-fly when it is needed to respond to a request.
+
+In the case of vector data, there is no resampling involved. GeoServer will just render the geometry at the requested scale, rendering each point, line or polygon it contains. If the scale is small, that might mean that several points will occupy the same pixel in the rendered image. There is more data than what is needed, and that means that time is wasted unnecessary points that provide more detail that what can be rendered at that scale.
+
+This can be seen in the following images, representing two layers with different detail level. One of them has been simplified based on the other.
+
+.. figure:: imgs/generalizedandoriginal.png
+   
+   *Original vector layer (left) and simplified vector layer (right)*
+
+
+They look the same, but it takes a longer time to generate the first one of them, since the detail level is higher and the amount of data several times larger than in the case of the second layer. 
+
+This second layer was simplified, so the polygons have less points. The amount of simplification, however, it is not enough to be perceived at this scale.
+
+The following image shows how, when rendering at a larger scale, the differences between both layers show up.
+
+.. figure:: imgs/generalizedcloseup.png
+   
+   *Close-up showing simplified and original layers*
+
+At this scale, using the simplified version is not a good idea, since it will cause the final image to lose detail and accuracy. Also, since the region covered is smaller, the number of points is not such a big problem. The volume of data of the whole layer is large, but on the covered area it is much lower, and not an issue in terms of performance. If spatial indexing is used, GeoServer will quickly find the geometries that have to be rendered, and just work with them.
+
+At the smaller scale, however, it clearly make sense to use the simplified version, since it yields the same result, but in a shorter time.
+
+Representing a dataset differently at different scales, not using the same level of detail for all of them is known in cartography as `generalization <http://en.wikipedia.org/wiki/Cartographic_generalization>`__. Generalization involves several types of modifications, simplification being one of them. If the data was collected with a high level of detail, generalizing fro showing it at a small scale might mean not just simplication, but even reducing the number of features, as it can be seen in the following figure.
+
+.. figure:: imgs/generalization_agregation.png
+   
+   *Close-up showing simplified and original layers*
+
+Overlapping features are reduced to just a single one int he small overview window in the upper-right part of the image. This is know as *aggregation*.
+
+Changing the type of geometry might even be considered as a case of simplification. For instance, a layer containing cities as polygons might be reduced to a points layer for rendering a very small scale.
+
+The next sections will cover how to apply this optimization ideas to the example dataset. to do so, external tools will be used, in particular ``ogr2ogr`` and a GeoTools module for creating generalized versions of a layer. Performing the same optimization within a PostGIS database will be covered later on.
+
+Creation of indexes is the last and easiest part of the data preparation. It is automatic in shapefile data (but only the spatial one, since there is no support for indexing attributes other that the geometry itself), and has to be explicitly done when creating new columns in a table, using the corresponding SQL, as we will see.
 
 
 Preparation using ``ogr2ogr``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------------------------------
 
 We can modify vector layer using the ``ogr2ogr`` tools. It is part of FWTools and that is the recommended way of installing it. It allows to convert vector files between a large number of formats, but also includes some additional elements to alter the data, so the exported data can be filtered or modified. We will be working with a shapefile and generating another one, but we will apply some modifications in the way.
 
@@ -166,7 +208,7 @@ When dealing with multiple scales, it is not only interesting to have generalize
 - By setting styling rules that filter based on a given field (in our case, the type of road)
 - By splitting the layer in several files, so that it acts as a prefiltering, and then having different scales of rendering for each of them.
 
-The first solution is more practical and generally better, but might degrade performance in certain cases. We have already mentioned that shapefiles do not allow indexing of attributes, so filtering based on them is not an efficient operation. Using a database is crearly better in this case, but if for some reason you should use shapefiles, a bit of data preparation can replace the more efficient indexing capabilities of the database. Once again, we will use ``ogr2ogr`` to do it. The ``-sql`` modifier allows to get the result of an SQL query into a new file, so it can be used for this task.
+The first solution is more practical and generally better, but might degrade performance in certain cases. We have already mentioned that shapefiles do not allow indexing of attributes, so filtering based on them is not an efficient operation. Using a database is clearly better in this case, but if for some reason you should use shapefiles, a bit of data preparation can replace the more efficient indexing capabilities of the database. Once again, we will use ``ogr2ogr`` to do it. The ``-sql`` modifier allows to get the result of an SQL query into a new file, so it can be used for this task.
 
 Type the next line into your console.
 
@@ -194,20 +236,20 @@ Here is the command line to use to convert our vector data from its current EPSG
 	$ogr2ogr -t_srs EPSG:23030 extremadura_highway_23030 extremadura_highway.shp
 
 Preparation using the GeoTools Pregeneralized module
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------------------------------------
 
-GeoServer has a plugin (not included in the Suite, so it has to be manually installed), that makes it easier to use pregeneralized vector layers. Although it can be used with shapefiles such as the ones we created using , it is particularly interesting when working with databases, as it integrates better and makes use of database capabilities not found in shapefiles.
+GeoServer has a plugin (not included in the OpenGeo Suite, so it has to be manually installed), that makes it easier to use pregeneralized vector layers. Although it can be used with shapefiles such as the ones we created using ``ogr2ogr`` , it is particularly interesting when working with databases, as it integrates better and makes use of database capabilities not found in shapefiles.
 
 To install this plugin, download it from here. Shutdown GeoServer, extract the content of the zip file that you have downloaded into the GeoServer ``WEB-INF/lib`` folder, and restart GeoServer. If you now try to add a new data store, you will see a new option available, named *Generalizing data store*.
 
-.. figure:: imgs/GeneralizingStoreEntry.jpg
+.. figure:: imgs/generalizingstoreentry.jpg
 
-This store is similar to the ImagePyramid for raster layer, allowing to have pregeneralized versions for a single layer, and seamlessly managing which one of them to use in each case. The pregeneralized version can be created as we have already seen, but in this case, as we are working with a shapefile, it is also possible to use a complementary GeoTools tool that provides a better integration. 
+This store is similar to the ImagePyramid for raster layers, allowing to have pregeneralized versions for a single layer, and seamlessly managing which one of them to use in each case. The pregeneralized version can be created as we have already seen, but in this case, as we are working with a shapefile, it is also possible to use a complementary GeoTools tool that provides a better integration. 
 
 In your GeoServer ``WEB-INF/lib`` folder you should have a jar file named ``gt-feature-pregeneralized-<version>.jar``. This contains the tool to use to generalize a shapefile.
 
 
-In your geoserver data folder (usually in ``[your_user_folder]/.opengeo/data_dir/data``), create a folder named ``extremadura_highway`` to keep our data. Under it, create a folder named ``0`` and copy the base shapefile there. In this case, by *base shapefile* we mean the reprojected one. You can leave the other modifications out for this example, but is important to have the layer to generalize in a projected CRS to follow the examples below, since are we will be using distances in meters to set tolerances for the generalization process. 
+In your geoserver data folder (usually in ``[your_user_folder]/.opengeo/data_dir/data``), create a folder named ``extremadura_highway`` to keep our data. Under it, create a folder named ``0`` and copy the base shapefile there. In this case, by *base shapefile* we mean the reprojected one. You can leave the other modifications out for this example (of course you do not need the simplification, because we are going to simplify it with the GeoTools tool), but is important to have the layer to generalize in a projected CRS to follow the examples below, since we will be using distances in meters to set tolerances for the generalization process. 
 
 Now open a console in the data folder and type the following:
 
@@ -215,11 +257,11 @@ Now open a console in the data folder and type the following:
 
 	$java -jar "[GeoServer-path]/WEB-INF/lib/gt-feature-pregeneralized-<version>.jar" generalize 0/extremadura_highway_23030.shp . 5,10,20,50
 
-The list of numbers at the end represent the generaliation distances to use. This will create new shapefiles, each of them in its corresponding folder, named after the generalization distance.
+The list of numbers at the end represent the generalization distances to use. This will create new shapefiles, each of them in its corresponding folder, named after the generalization distance.
 
 To setup a Generalizing Store based on those files, we have to create an XML file describing their structure. In the ``extremadura_highway`` folder, create a new file named ``geninfo_shapefile.xml`` with the following content:
 
-.. code-block:: console
+.. code-block:: xml
 
 	<?xml version="1.0" encoding="UTF-8"?>
 	<GeneralizationInfos version="1.0">
@@ -235,11 +277,11 @@ Now we can setup the Generalizing Store, pointing it to this file.
 
 These are the default parameter values that you will find to configure this datastore:
 
-.. figure:: imgs/GeneralizingStoreDefault.jpg
+.. figure:: imgs/generalizingstoredefault.jpg
 
 And you should change them to these ones:
 
-.. figure:: imgs/GeneralizingStoreSetting.jpg
+.. figure:: imgs/generalizingstoresetting.jpg
 
 As you see, the ``GeneralizationInfosProviderParam`` parameter points to the XML file, and we have changed the ``geotools`` package names to ``geoserver``.
 
@@ -249,13 +291,15 @@ You should also have a datastore named *extremadura_highway* (that is why, in ou
 
 If you already have it, you can open a preview of the generalized datastore and it should be using the different shapefiles, depending on the rendering scale. You can check the GeoServer log to be sure of that. You will find something like this:
 
-XXXXXXXXXXXXXXXXX
+.. code-block:: console
 
-The Generalizing Store can work without the need of multiple copies of the whole layer, provided that the format used supports multiple geometries associated to one feature. In the case of shapefiles, it is not possible, since each feature can only have one geometry, so we have a lot of redundat data. All the attributes of each feature are copied in each shapefile. The ``dbf`` files of each of them are, in fact, identical. However, if we are working on a database, there is no problem having more than one geometry, so we can have a much better structure and save space. In the next section we will see how to optimize our data when it resides in a PostGIS database, including how to create pregeneralized version within PostGIS and using them with the Generalizing Store.
+	XXXXXXXXXXXXXXXXX
+
+The Generalizing Store can work without the need of multiple copies of the whole layer, provided that the format used supports multiple geometries associated to one feature. In the case of shapefiles, it is not possible, since each feature can only have one geometry, so we have a lot of redundant data. All the attributes of each feature are copied in each shapefile. The ``dbf`` files of each of them are, in fact, identical. However, if we are working on a database, there is no problem having more than one geometry, so we can have a much better structure and save space. In the next section we will see how to optimize our data when it resides in a PostGIS database, including how to create pregeneralized version within PostGIS and using them with the GeoServer Generalizing Store.
 
 
 Preparation using PostGIS 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+---------------------------
 
 The *stacked* structure with several shapefiles that we have used can be replaced by one in which all the geometries (the original one and the generalized ones) are part of the attributes of the feature. This can be done using PostGIS commands, and the result stored as well in PostGIS and accesed from GeoServer using the Generalizing Store.
 
@@ -318,24 +362,14 @@ Finally, and to increase performance, we create spatial indices for each one of 
 
 .. code-block:: sql
 
-	CREATE INDEX polygon_index_extremadura_highway_5 ON extremadura_highway USING GIST (geom5);
-	CREATE INDEX polygon_index_extremadura_highway_10 ON extremadura_highway USING GIST (geom10);
-	CREATE INDEX polygon_index_extremadura_highway_20 ON extremadura_highway USING GIST (geom20);
-	CREATE INDEX polygon_index_extremadura_highway_50 ON extremadura_highway USING GIST (geom50);
-
-If we expect to have filters and queries using a certain attribute, indexing it is a good strategy for increasing performance.
-
-	CREATE INDEX type_idx ON extremadura_highway USING BTREE (name)
-
-And finally we run VACUUM ANALYZE just for this table.
-
-.. code-block:: sql
-
-	VACUUM ANALYZE extremadura_highway;
+	CREATE INDEX sp_index_extremadura_highway_5 ON extremadura_highway USING GIST (geom5);
+	CREATE INDEX sp_index_extremadura_highway_10 ON extremadura_highway USING GIST (geom10);
+	CREATE INDEX sp_index_extremadura_highway_20 ON extremadura_highway USING GIST (geom20);
+	CREATE INDEX sp_index_extremadura_highway_50 ON extremadura_highway USING GIST (geom50);
 
 So now the database contains all the data we need, and correctly structured. Before moving back to GeoServer and configuring a datastore to connect to this extended table we have just created, we can check that the simplified geometries contain less points than the original ones by running the following query (only the first 10 features are checked, by using ``LIMIT 10``):
 
-.. code-block:: console
+.. code-block:: sql
 
 	SELECT ST_NPoints(geom) as geom, ST_NPoints(geom5) as geom5, ST_NPoints(geom10) as geom10, ST_NPoints(geom20) as geom20, ST_NPoints(geom50) as geom50  from extremadura_highway LIMIT 10;
 
@@ -375,16 +409,103 @@ Create a file in your GeoServer data directory named ``geninfo_postgis.xml`` wit
 
 Now you can create a Generalizing Datastore based on it, as we have already seen.    
 
+Indexing non-spatial attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Fine tuning a datastore in GeoServer
+Further optimization is possible if we consider the particular capabilities of the PostGIS database that shapefiles do not have. The main one of them is the indexing of non-spatial attributes. As it has already been mentioned, spatial databases can index attributes other than the geometries themselves. If we expect to have filters and queries using a certain attribute, indexing it is, thus, a good strategy for increasing performance. For instance, the following sentence creates and index for the ``type`` attribute.
+
+.. code-block:: sql
+
+	CREATE INDEX type_idx ON extremadura_highway USING BTREE (type);
+
+
+Materialized views
+^^^^^^^^^^^^^^^^^^^
+
+In the case of using views, additional preparation can be done by creating materialized views in case a view uses a complex query that might cause low performance.
+
+A materialized view is a copy of a given view that is actually stored in the database. If the view is not materialized, it does not physically exist, but computed at request time instead. This has many advantages, but in terms of performance a view usually constitutes an important bottleneck. Materializing a view involves computing all the costly operation in advance, so they do not have to be computed when a request needs to use the view.
+
+There is no support for materialized views in PostgreSQLQL, but different techniques can be used to have a similar result and similar increase in performance.
+
+The most simple way of creating it is just creating a new table, a so-called snapshot of the view. For instance, a view defined as follows
+
+.. code-block:: sql
+
+	XXXXXXXXXXXX¿¿¿¿¿
+
+can be materialized with the following clause:
+
+.. code-block:: sql
+
+	XXXXXXXXXXXXXX
+
+This will create a new table, so instead of now querying the view, the table can be queried. It will result in lower response times, and the more complex the view to be materialized is, the larger difference in performance that will result.
+
+This approach has, however, several drawbacks. The main one of them is that changes in the original table are not reflected in the materialized view. It has to be recomputed whenever the source tables are modified. If your data is not frequently updated, this can be a good option, but if it changes frequently, it may lead to outdated data being used.
+
+Using triggers, a materialized view can be aware of changes in the tables or other views it depends on, updating automatically.
+
+This more complex approach is not covered in this tutorial, but the PostgreSQLQL wiki provides detailed information on this topic.
+
+As a rule of thumb, avoid using complex views in your database. If you are using them, materialize them to avoid performance problems. Depending on how often you expect your tables to be modified, select on or another method of generating the materialized view.
+
+
+Database maintenance
+^^^^^^^^^^^^^^^^^^^^
+
+Apart from all the above operations, database maintenance operations can help improve performance. The following are the most important concepts to consider.
+
+- *Vacuuming*. Outdated rows are not deleted from the database. Vacuuming reclaims space used by this dead rows, reducing the volume of data in the data base. The ``VACUUM`` command is used for that. Using ``VACUUM ANALYZE`` will also collect statistics about the content of the vacuumed table, which helps deciding the best way of executing queries and, thus, increases performance.
+
+	The code below runs ``VACUUM ANALYZE`` on the table we created in the previous simplification example.
+
+	.. code-block:: sql
+
+		VACUUM ANALYZE extremadura_highway;
+
+- *Clustering*. Running ``CLUSTER`` reorders rows according to a given index. That puts together rows that might match a given query, reducing the time to execute that query. 
+
+	If queries are expected to be mostly based on the ``type`` attribute for which an index was created, the table can be clustered based on that index with the following SQL sentence:
+
+	.. code-block:: sql
+
+		CLUSTER type_idx ON extremadura_highway;
+
+	In case we want to cluster based on a GIST index, PostgreSQL cannot cluster when the index access method does not handle null values, like GIST indices do. To be able to use clustering in that case, a "not null" constraint has to added to the table (assuming, of course, that you do not actually need to have NULL values in the geometry column)
+
+	.. code-block:: sql
+
+		ALTER TABLE extremadura_highway ALTER COLUMN geom SET not null
+
+	Now the table can be clustered based on the index of the ``geom`` column.
+	
+	.. code-block:: sql
+
+		CLUSTER sp_index_extremadura_highway ON extremadura_highway
+
+
+Further preparation using spatial analysis tools
+-------------------------------------------------
+
+XXXXX
+
+
+Fine-tuning a datastore in GeoServer
 -------------------------------------
 
-We will see in this section the particular parameters that we can set for each datastore in GeoServer. Also, we will see how to fine tune the datastore source itself, in the case of using a database one.
+We will see in this section the particular parameters that we can set for each datastore in GeoServer. Also, we will see how to fine-tune the datastore source itself, in the case of using a database one.
 
 Fine tuning a shapefile datastore in Geoserver
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The parameters available when defining a shapefile datastore should be correctly set to get optimal performance. Here are some recommendations about them.
+The parameters available when defining a shapefile datastore should be correctly set to get optimal performance. 
+
+.. figure:: imgs/shapefileparams.png
+   
+   *Shapefile datastore parameters*
+
+Here are some recommendations about them.
 
 - Although the shapefile format includes a file with a spatial index, GeoServer can create its own index, usually with better results. To let GeoServer do this, remove the ``.qix`` file that accompanies your ``.shp`` file and check the *Create spatial index if missing/outdated* check box.
 
@@ -396,28 +517,29 @@ Fine tuning a PostGIS datastore in Geoserver
 
 To fine tune a PostGIS datastore, adjustments should be done mostly on the PostGIS side, optimizing how the software runs, so as to get better performance.
 
-In this case, and since PostGIS is based on Postgres, adjustments than improve Postgres performance will result in a better performance of GeoServer when connected to a PostGIS database. 
+In this case, and since PostGIS is based on PostgreSQL, adjustments than improve PostgreSQL performance will result in a better performance of GeoServer when connected to a PostGIS database. 
 
-Default values for Postgres settings are rather conservative, since they are meant to work fine in all configurations and machines, and to avoid problems. Changing them will give you a better performance. The configuration file can be found in your data folder, and it can be edited with a text editor. Better than that, you can run pgAdmin and then go to *file->Open postgresql.conf...*. You will have to enter the path to the configuration file, and it will be opened in a separate window where it is easier to change configuration parameters.
+Default values for PostgreSQL settings are rather conservative, since they are meant to work fine in all configurations and machines, and to avoid problems. Changing them will give you a better performance. The configuration file can be found in your data folder, and it can be edited with a text editor. Better than that, you can run pgAdmin and then go to *file->Open Postgresql.conf...*. You will have to enter the path to the configuration file, and it will be opened in a separate window where it is easier to change configuration parameters.
 
 There are many parameters to configure. Here are some ideas about the main ones that can be adjusted to get a better performance.
 
 - ``max connections``. Set it accordingly with the number applications connecting to the database.
-- ``work_mem``. Rather low by default, defines the memory available for sorting operations. It is related to ``max_connections``, since each connection requires its own memory ofr its operations.
+- ``work_mem``. Rather low by default, defines the memory available for sorting operations. It is related to ``max_connections``, since each connection requires its own memory for its operations.
 - ``effective_cache_size``. Recommended values are between 1/2 and 3/4 of available memory.
 
 More detailed information about tuning PostGIS can be found at http://workshops.opengeo.org/postgis-intro/tuning.html.
 
-Other possible adjustments that can help improve performance are related to database maintainance operations. The following ones are the most important ones.
+In GeoServer, the parameters used to define the PostGIS datastore can influence its performance.
 
-- *Vacumming*. Outdated rows are not deleted from the database. Vacumming reclaims space used by this dead rows, reducing the volume of data in the data base. The ``VACUUM`` command is used for that. Using ``VACUUM ANALYZE`` will also collect statistics about the content of the vacuumed table, which helps deciding the best way of executing queries and, thus, increases performance
+.. figure:: imgs/postgisparams.png
+   
+   *PostGIS datastore parameters*
 
-- *Clustering*. Running ``CLUSTER`` reorders rows according to a given index. That puts together rows that might match a given query, reducing the time to execute that query. 
+Here is a description of the parameters that can be adjusted to increase performance.
 
-Finally, the following parameters used to define the PostGIS datastore can influence the its performance:
-
-- *Loose BBOX*. When this options is enabled, only the bounding box of a geometry is used. This can result in a significant performance gain, but at the expense of total accuracy; some geometries may be considered inside of a bounding box when they are technically not. If primarily connecting to this data via WMS, this flag can be set safely since a loss of some accuracy is usually acceptable. However, if using WFS and especially if making use of BBOX filtering capabilities, this flag should not be set.
+- *Loose BBOX*. When this options is enabled, only the bounding box of a geometry is used. This can result in a significant performance gain, but at the expense of total accuracy; some geometries may be considered inside of a bounding box when they are technically not. If primarily connecting to this data via WMS, this flag can be set safely since a loss of some accuracy is usually acceptable. However, if using WFS and, especially, if making use of BBOX filtering capabilities, this flag should not be set.
 - *Prepared statements*. Enabling prepared statements can degrade performance. Do not set this option to true.
+- *Estimated extends*. When not enabled, extent is computed with the actual bounds, performing a full table scan and getting an accurate result. If turned on, extent is estimated from the spatial index, which is faster but less accurate.
 
 The following three parameters related to connection pooling are available for every datastore that is backed up by a database, not just for the case of a PostGIS datastore. A connection pool keeps a certain number of connections open, so there is no need to open a new one whenever it is needed, eliminating the overhead of opening and closing a new connection.
 

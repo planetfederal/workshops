@@ -89,7 +89,7 @@ Why?
 Factors affecting performance
 -----------------------------
 
-- Viewing unnecessary data 
+- Processing unnecessary data 
 	- rendering an area smaller than image
 	- render detail lower than image resolution  
 
@@ -107,14 +107,22 @@ Factors affecting performance
 
 ---
 
+![pyramid](img/mosaic.png)
+
+---
+
+![pyramid](img/pyramid.png)
+
+---
+
 Important factors 
 -----------------
 
+- Data structure and layout
 - File format and properties
 - File size
-- Structure and layout
 - Number of Bands/Interleaving
-- Data structure and layout
+- Data type
 - CRS
 
 <div id="note">
@@ -161,9 +169,9 @@ Compression options
 
 - No compression
 
-- Lossy
+- Lossy: 
 
-- Loseless
+- Loseless : aaabbbccc = 3a3b3c
 
 
 <div id="note">
@@ -181,11 +189,10 @@ Compression methods
  	- lossy 
  	- visually lossless
 
-- LZW
+- LZW/DEFLATE
 	- lossless
 	- good for images with homogeneous areas
 	- good for images with few colors	
-	- recommended for non-image data (temperature, elevation, and so on)
 
 - Wavelets
 
@@ -206,10 +213,20 @@ Color representation
 - Related to compression method (spatial autocorrelation)
 
 ---
+
 RGB vs Paletted
 ---------------
 
 ![rgbvspaletted](img/rgbvspaletted.jpg)
+
+---
+
+Color depth
+------------
+
+- Reduce color depth if possible to reduce volume of data
+- Consider for both images and non-image raster
+- Consider along with compression method
 
 -----
 
@@ -243,7 +260,7 @@ TIFF format
 Number of bands / interleaving
 -------------------------------
 
-- Clean unused band if multispectral
+- Clean unused bands if multispectral
 
 - Band interleaving generally better than pixel interleaving
 	- RRRGGGBBB *vs* RGBRGBRGB
@@ -275,6 +292,27 @@ Pyramid
 
 ---
 
+---
+Mosaic
+------
+
+![pyramid](img/mosaic2.png)
+
+---
+Pyramid
+-------
+
+![pyramid](img/pyramid2.png)
+
+---
+
+Mosaic + pyramid
+-----------------
+
+![pyramidandtiling](img/tilingandpyramid.png)
+
+---
+
 Suggestions for data structuring
 --------------------------------
 
@@ -298,8 +336,6 @@ Single file
 -----------
 
 - File format and characteristics are crucial
-
-- Apply optimizations for single files to ALL files
 
 - "Un-tiling" is a good idea in some cases (don't abuse the advanced features)
 
@@ -494,3 +530,21 @@ Reprojection settings
 
 - Select the most appropriate CRS
 
+---
+
+What else?
+-----------
+
+- Using a database to store granules
+
+- Multidimensional data
+
+
+---
+
+Thanks!
+-------
+
+
+
+``volaya@opengeo.org``
