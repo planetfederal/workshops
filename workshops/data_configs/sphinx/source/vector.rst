@@ -37,7 +37,7 @@ This will filter and render just the motorways instead of all roads in the layer
 
 Finally, if you had put that data into a PostGIS database, fine-tuned it (as we will explain later on) connected it to GeoServer, you would notice that the response times would be similar to those of the shapefile-based layer, but when applying the filter the response would be faster.
 
-Here is an explanation of these differences that can be found between the three stores, and that will help us move forward and understand how to optimize Geoserver for a particular dataset.
+There is a clear difference between the above cases, which indicates that the way data is prepared and stored has influence in the performance of GeoServer. Here is an brief explanation about why those differences can be found between the three used stores. This will help us move forward and understand how to optimize GeoServer for a particular vector dataset.
 
 - The GML format is text based, which makes the input file much larger and has a large overhead. Also, it just contains the data itself, with no indexing of any kind.
 - The Shapefile format is a binary format (that here means faster reading and smaller size), and includes a ``.shx`` file, which contains an spatial index. That optimizes access to a given area within the full extent of the layer, resulting in a better performance.
@@ -54,6 +54,8 @@ If not using a database, choosing the right file format is critic, as there are 
 - Spatial indexing. A close zoom into a given area makes it unnecessary to use the data from those features not into the zoomed area. Finding out which features are within a given extent is faster when we can use a spatial index, something that most file formats do not support.
 
 The shapefile format is usually the best option, since it is binary based, has spatial indexing, and is well supported by GeoServer. Examples in the following sections will be based on data in shapefile format.
+
+Shapefiles can be faster than databases (in particular, than PostGIS), especially if a query contains a large number of features. For instance, if rendering a feature collection at a small scale, a shapefile is likely to be faster than PostGIS. When the number of features is smaller, or when other type of filtering is being applied, PostGIS will be faster in general, making a more robust solution for a wider scenario.
 
 Notice that, in case your service requires modifying the data (like a WFS-T service), a database should be used. Regardless of performance issues, there is no option to use a file-based solution on that scenario.
 
@@ -546,12 +548,6 @@ The following three parameters related to connection pooling are available for e
 - *Max connections*. The maximum number of connections the connection pool can hold. When the maximum number of connections is exceeded, additional requests that require a database connection will be halted until a connection from the pool becomes available. The maximum number of connections limits the number of concurrent requests that can be made against the database.
 - *Min connections*. The minimum number of connections the pool will hold. This number of connections is held even when there are no active requests. When this number of connections is exceeded due to serving requests additional connections are opened until the pool reaches its maximum size (described above).
 - *Validate connections*. Flag indicating whether connections from the pool should be validated before they are used. A connection in the pool can become invalid for a number of reasons including network breakdown, database server timeout, etc.. The benefit of setting this flag is that an invalid connection will never be used which can prevent client errors. The downside of setting the flag is that a performance penalty is paid in order to validate connections.
-
-
-JNDI
-^^^^^^^^^^^^^^^^^^^^^^
-
-¿?¿?
 
 
 
