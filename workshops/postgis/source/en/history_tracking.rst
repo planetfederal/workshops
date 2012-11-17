@@ -181,9 +181,8 @@ We can also create views that show just what a particular used has added, for ex
       WHERE created_by = 'postgres';
 
 
-
 See Also
---------
+~~~~~~~~
 
  * `QGIS open source GIS <http://qgis.org>`_
  * `PostgreSQL Triggers <http://www.postgresql.org/docs/current/static/plpgsql-trigger.html>`_
