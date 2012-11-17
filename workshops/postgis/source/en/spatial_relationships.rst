@@ -19,7 +19,7 @@ ST_Equals
 .. figure:: ./spatial_relationships/st_equals.png
    :align: center
 
-ST_Equals returns TRUE if two geometries of the same type have identical x,y coordinate values, i.e. if the secondary shape is equal (identical) to the primary shape object.
+ST_Equals returns TRUE if two geometries of the same type have identical x,y coordinate values, i.e. if the second shape is equal (identical) to the first shape.
 
 First, let's retrieve a representation of a point from our ``nyc_subway_stations`` table. We'll take just the entry for 'Broad St'.
 
@@ -60,7 +60,7 @@ ST_Intersects, ST_Disjoint, ST_Crosses and ST_Overlaps
 .. figure:: ./spatial_relationships/st_intersects.png
    :align: center
 
-:command:`ST_Intersects(geometry A, geometry B)` returns t (TRUE) if the intersection does not result in an empty set. Intersects returns the exact opposite result of disjoint.
+:command:`ST_Intersects(geometry A, geometry B)` returns t (TRUE) if the two shapes do not have any space in common, i.e., are entirely separate.
 
 .. figure:: ./spatial_relationships/st_disjoint.png
    :align: center

@@ -5,7 +5,7 @@ Section 17: Geography
 
 It is very common to have data in which the coordinate are "geographics" or "latitude/longitude". 
 
-Unlike coordinates in Mercator, UTM, or Stateplane, geographic coordinates are **not cartesian coordinates**. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane. Rather, these **spherical coordinates** describe the angular distance between the equator and the poles. In spherical coordinates a point is specified by the distance from the origin (the radius), the angle of rotation from the initial meridian plane, and the angle from the polar axis (analogous to a vector from the origin through the North Pole).
+Unlike coordinates in Mercator, UTM, or Stateplane, geographic coordinates are **not cartesian coordinates**. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane.  Rather, these **spherical coordinates** describe angular coordinates on a globe. In spherical coordinates a point is specified by the angle of rotation from a reference meridian (longitude), and the angle from the equator (latitude).
 
 .. image:: ./geography/cartesian_spherical.jpg
 
@@ -165,7 +165,7 @@ The SQL for creating a new table with a geography column is much like that for c
   INSERT INTO airports VALUES ('CDG', 'POINT(2.5559 49.0083)');
   INSERT INTO airports VALUES ('REK', 'POINT(-21.8628 64.1286)');
   
-In the table definition, the ``GEOGRAPHY(Point)`` specifies our airport data type as points. The new geography fields don't get registered in the ``geometry_columns``. Instead, they are registered in a new view called ``geography_columns`` that is automatically kept up to date without need for an :command:`AddGeom...` like functions.
+In the table definition, the ``GEOGRAPHY(Point)`` specifies our airport data type as points. The new geography fields don't get registered in the ``geometry_columns`` view. Instead, they are registered in a view called ``geography_columns``.
 
 .. code-block:: sql
 
@@ -177,10 +177,6 @@ In the table definition, the ``GEOGRAPHY(Point)`` specifies our airport data typ
  -------------------------------+--------------------+------+----------
   nyc_subway_stations_geography | geog               |    0 | Geometry
   airports                      | geog               | 4326 | Point
-  
-.. note::
-
-  The ability to define geometry types and SRIDs inside the table ``CREATE`` statement, and the automatic update of the ``geometry_columns`` metadata are features that have been prototyped with ``geography`` and will be added to the ``geometry`` type for PostGIS 2.0.
   
 
 Casting to Geometry

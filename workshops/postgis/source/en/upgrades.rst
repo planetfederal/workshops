@@ -71,7 +71,7 @@ Upgrading PostGIS
 
 There are two upgrade scenarios for PostGIS too, but they are slightly different from the PostgreSQL scheme:
 
-There are two kinds of PostgreSQL upgrade scenarios:
+There are two kinds of PostGIS upgrade scenarios:
 
   * A "minor upgrade" when the software version increases at the "patch" or "minor" level. For example, from 1.5.3 to 1.5.3, or from 1.4.4 to 1.5.0. Patch upgrades fix bugs only and do not add new features. Minor upgrades fix add new features or change behaviour.
   * A "major upgrade" when the "major" version increases. This is extremely rare. For example, from 0.9.4 to 1.0.0, or from 1.5.4 to 2.0.0. Major upgrades change the on-disk storage format for geometries and require a full database dump and restore.
@@ -111,8 +111,6 @@ Major PostGIS Upgrades
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Major upgrades involve changes to the actual data format for the on-disk storage of geometry and geography data. As such, the data tables need to be re-written. The only way to achieve this is to dump (creating a neutral text-based output) and restore (writing the new table format to disk).
-
-Unfortunately a major upgrade is in the offing for most current users of PostGIS, as the 2.0 release will be added to the OpenGeo Suite shortly.
 
 To upgrade, you will have to dump your data first, as discussed in :ref:`backup`.
 
@@ -188,7 +186,7 @@ You should now have an upgraded database ready to use.
 PostGIS 2.0 Upgrade Issues
 --------------------------
 
-In addition to being a major upgrade, and therefore requiring a dump and restore, PostGIS 2.0 made some major changes to behaviour and functionality, some of which are user facing.
+In addition to being a major upgrade, and therefore requiring a dump and restore, PostGIS 2.0 made some major changes to behaviour and functionality, some of which are user facing. If you are upgrading from 1.X to 2.X you'll want to remain aware of these.
 
 Function Signatures
 ~~~~~~~~~~~~~~~~~~~

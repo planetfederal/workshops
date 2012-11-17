@@ -22,7 +22,7 @@ Also remember the tables we have available:
 
  * ``nyc_census_blocks`` 
  
-   * name, popn_total, boroname, geom
+   * blkid, popn_total, boroname, geom
  
  * ``nyc_streets``
  

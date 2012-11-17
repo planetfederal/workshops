@@ -20,7 +20,7 @@ Here are the stops for the 'Q' train:
 
 .. code-block:: sql
 
-  SELECT s.gid, s.geom,
+  SELECT s.gid, s.geom
   FROM nyc_subway_stations s
   WHERE (strpos(s.routes, 'Q') <> 0);
 
@@ -322,9 +322,8 @@ And now we are ready to go!
     walk_subway(gid, route) AS geom 
   FROM first_stops;
 
-  -- Do some housekeeping to 
+  -- Do some housekeeping too 
   ALTER TABLE nyc_subway_lines ADD PRIMARY KEY (gid);
-  SELECT populate_geometry_columns();
 
 Here's what our final table looks like visualized in QGIS:
 

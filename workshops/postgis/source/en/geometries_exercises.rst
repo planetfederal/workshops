@@ -40,7 +40,7 @@ Also remember the tables we have available:
 
  * ``nyc_census_blocks`` 
  
-   * name, popn_total, boroname, geom
+   * blkid, popn_total, boroname, geom
  
  * ``nyc_streets``
  
@@ -102,17 +102,17 @@ Exercises
  
    .. code-block:: sql
 
-     SELECT Count(*) 
-       FROM nyc_census_blocks
-       WHERE ST_NumInteriorRings(geom) > 0;
+   SELECT Count(*) 
+     FROM nyc_census_blocks
+     WHERE ST_NumInteriorRings(ST_GeometryN(geom,1)) > 0;
 
    .. note::
    
-      The ST_NRings() functions might be tempting, but it also counts the exterior rings of multi-polygons as well as interior rings.
+      The ST_NRings() functions might be tempting, but it also counts the exterior rings of multi-polygons as well as interior rings.  In order to run ST_NumInteriorRings() we need to convert the MultiPolygon geometries of the blocks into simple polygons, so we extract the first polygon from each collection using ST_GeometryN(). Yuck!
 
    :: 
    
-     66 
+     45 
    
  * **"What is the total length of streets (in kilometers) in New York City?"** (Hint: The units of measurement of the spatial data are meters, there are 1000 meters in a kilometer.)
   

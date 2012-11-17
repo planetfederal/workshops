@@ -91,7 +91,7 @@ Create a new user with table creation privileges (see :ref:`security` for inform
   CREATE USER myuser WITH ROLE postgis_writer;
   CREATE SCHEMA myuser AUTHORIZATION myuser;
 
-The default ``search_path`` for PostgreSQL is actually this:
+If you log in as that user, you'll find the default ``search_path`` for PostgreSQL is actually this:
 
 .. code-block:: sql
 

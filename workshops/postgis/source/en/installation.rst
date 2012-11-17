@@ -13,7 +13,7 @@ We will be using the OpenGeo Suite as our software package, as it includes PostG
 
   The precise directions in this document are for Windows, but for OS/X the installation is largely the same. Once the Suite is installed, the directions for both operating systems should be almost identical.  
 
-#. Find the OpenGeo Suite installer for your platform (download from http://opengeo.org/technology/suite/download/). The Windows installer will be named something like  :file:`opengeosuite-2.4.3.exe`, the Mac OSX installer like :file:`opengeosuite-2.4.3.dmg`).  Double click to begin.
+#. Find the OpenGeo Suite installer for your platform (download from http://opengeo.org/technology/suite/download/). The Windows installer will be named something like  :file:`opengeosuite-3.0.0.exe`, the Mac OSX installer like :file:`opengeosuite-3.0.0.dmg`).  Double click to begin.
 
 #. Enjoy the warm welcome, courtesy of OpenGeo, then click **Next**.
 

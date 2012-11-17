@@ -9,9 +9,7 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 
    .. image:: ./screenshots/pgshapeloader_01.png
 
-#. Next, open the *Shape File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
-
-#. Fill in the details for the *PostGIS Connection* section and click on the **Test Connection...** button.
+#. Fill in the connection details for the *PostGIS Connection* section and click on the **OK** button. The loader will test the connection and report back in the log window.
 
    .. list-table::
 
@@ -24,9 +22,17 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
       * - **Database**
         - ``nyc``
 
+  .. image:: ./screenshots/pgshapeloader_02.png
+
   .. note:: 
-  
+
      Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
+
+#. Next, open the *Add File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
+
+#. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shape file, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.)
+
+   .. image:: ./screenshots/pgshapeloader_01a.png
 
 #. Fill in the details for the *Configuration* section.
 
@@ -41,19 +47,19 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
       * - **Geometry Column**
         - ``geom``
 
-#. Click the **Options** button and select "Load data using COPY rather than INSERT." This will make the data load process a little faster.
+#. Click the **Options** button to review the loading options. The loader will use the fast "COPY" mode and create a spatial index by default after loading the data.
 
-   .. image:: ./screenshots/pgshapeloader_02.png
+   .. image:: ./screenshots/pgshapeloader_03.png
 
 #. Finally, click the **Import** button and watch the import process. It may take a few minutes to load, but this is the largest file in our test set.
 
-#. Repeat the import process for the remaining shapefiles in the data directory. Except for the input file and output table name, all the other fields in pgShapeLoader should remain the same:
+#. Repeat the import process for the remaining shapefiles in the data directory. You can load multiple files in one import by adding multiple files before pressing the **Import** button:
 
    * ``nyc_streets.shp``
    * ``nyc_neighborhoods.shp``
    * ``nyc_subway_stations.shp``
  
-#. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Tables** section of the tree.
+#. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Databases > nyc > Schemas > public > Tables** section of the tree.
 
    .. image:: ./screenshots/refresh.png
  
@@ -73,7 +79,7 @@ Optional files include:
 
   * ``.prj`` — projection format; the coordinate system and projection information, a plain text file describing the projection using well-known text format
 
-In order to analyze a shapefile in PostGIS, you need to convert a shapefile into a series SQL commands.  By running pgShapeLoader, a shapefile converts into a table that PostgreSQL can understand. 
+The pgShapeLoader makes shape data usable in PostGIS by converting it from binary data into a series of SQL commands that are then run in the database to load the data. 
 
 
 SRID 26918? What's with that?
@@ -136,11 +142,14 @@ Things to Try: Spatially Enable an Existing Database
 
 You have already seen how to create a database using the ``postgis_template`` in pgAdmin. However when installing from source or adding PostGIS functionality to an existing database, it is not always appropriate to create a fresh database from the PostGIS template.
 
-Your task in this section is to create a database and add PostGIS types and functions after the fact.  The SQL scripts needed -- :file:`postgis.sql` and :file:`spatial_ref_sys.sql` -- can be found in the :file:`contrib` directory of your PostgreSQL install.  For guidance, refer to the PostGIS documentation on installing from source [#PostGIS_Install]_.
+For PostGIS 2.0 and up (and OpenGeo Suite 3.1 and up) you can spatially enable your database with one command:
 
-.. note::
+.. code-block:: sql
 
-   Remember to include your username and port number when creating a database from the command line.
+  CREATE EXTENSION postgis;
+  
+That's it! You're ready to start!
+
     
 Things to Try: View data using uDig
 -----------------------------------

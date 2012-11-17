@@ -26,7 +26,7 @@ For this workshop, we will be using the entries under the "PostGIS" section of t
   
       .. note:: 
   
-         PostgreSQL has a number of administrative front-ends.  The primary is `psql <http://www.postgresql.org/docs/8.1/static/app-psql.html>`_ a command-line tool for entering SQL queries.  Another popular PostgreSQL front-end is the free and open source graphical tool `pgAdmin <http://www.pgadmin.org/>`_. All queries done in pgAdmin can also be done on the command line with psql. 
+         PostgreSQL has a number of administrative front-ends.  The primary is `psql <http://www.postgresql.org/docs/current/static/app-psql.html>`_ a command-line tool for entering SQL queries.  Another popular PostgreSQL front-end is the free and open source graphical tool `pgAdmin <http://www.pgadmin.org/>`_. All queries done in pgAdmin can also be done on the command line with psql. 
 
 #. If this is the first time you have run pgAdmin, you should have a server entry for **PostGIS (localhost:54321)** already configured in pgAdmin. Double click the entry, and enter anything you like at the password prompt to connect to the database.
 
@@ -63,7 +63,11 @@ PostgreSQL has the notion of a **template database** that can be used to initial
 
    .. image:: ./screenshots/pgadmin_03.png
 
-#. Select the new ``nyc`` database and open it up to display the tree of objects. You'll see the ``public`` schema, and under that a couple of PostGIS-specific metadata tables -- ``geometry_columns`` and ``spatial_ref_sys``.
+   The template and encoding are specified on the "Definition" panel.
+
+   .. image:: ./screenshots/pgadmin_03a.png
+
+#. Select the new ``nyc`` database and open it up to display the tree of objects. You'll see the ``public`` schema, and under that a couple of PostGIS-specific metadata views -- ``geometry_columns`` and ``spatial_ref_sys``.
 
    .. image:: ./screenshots/pgadmin_04.png
 

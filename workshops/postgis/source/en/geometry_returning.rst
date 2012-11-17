@@ -36,9 +36,9 @@ For example, if the US Park Service wanted to enforce a marine traffic zone arou
 .. code-block:: sql
 
   -- Make a new table with a Liberty Island 500m buffer zone
-  CREATE TABLE libery_island_zone AS
-  SELECT ST_Buffer(geom,500) AS geom 
-  FROM nyc_census_blocks 
+  CREATE TABLE liberty_island_zone AS
+  SELECT ST_Buffer(geom,500) AS geom
+  FROM nyc_census_blocks
   WHERE blkid = '360610001009000';
 
   -- Update the geometry_columns table
@@ -100,7 +100,7 @@ To carry out the merge, note that the unique key ``blkid`` actually embeds infor
 
 ::
 
-  360610001009000 = 36 061 00100 9000
+  360610001009000 = 36 061 00100 9 000
   
   36     = State of New York
   061    = New York County (Manhattan)
@@ -108,7 +108,7 @@ To carry out the merge, note that the unique key ``blkid`` actually embeds infor
   9      = Census Block Group
   000    = Census Block
   
-So, we can create a county map by merging all geometries that share the same first 5 digits of their ``blkid``.
+So, we can create a county map by merging all geometries that share the same first 5 digits of their ``blkid``. Be patient; this is computationally expensive and can take a minute or two.
 
 .. code-block:: sql
 
@@ -162,6 +162,30 @@ Then we calculate the area of each of our new county polygons from the county ta
 
 The same answer! We have successfully built an NYC county table from our census blocks data.
 
+Big Geometries and PgAdmin
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Note that, if you run a query that returns the value of a large geometry, such as:
+
+.. code-block:: sql
+
+   SELECT countyid, ST_AsText(geom)
+   FROM nyc_census_counties;
+     
+You may appear to get no geometries back in your response:
+     
+:: 
+
+  countyid | st_astext
+     36005 |
+     36047 |
+     36061 |
+     36081 |
+     36085 |
+
+However, this is only because the boundaries of the census counties are so long and complex that none of them fit into the space provided by pgAdmin for results. They really are there! You can confirm it by returning the ST_Area() or ST_NPoints() or any other function that inspects the values of the geometry object.
+
+
 Function List
 -------------
 
@@ -173,6 +197,6 @@ Function List
 
 `ST_Union() <http://postgis.org/docs/ST_Union.html>`_: Returns a geometry that represents the point set union of the Geometries.
 
-`substring(string [from int] [for int]) <http://www.postgresql.org/docs/8.1/static/functions-string.html>`_: PostgreSQL string function to extract substring matching SQL regular expression.
+`substring(string [from int] [for int]) <http://www.postgresql.org/docs/current/static/functions-string.html>`_: PostgreSQL string function to extract substring matching SQL regular expression.
 
-`sum(expression) <http://www.postgresql.org/docs/8.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE>`_: PostgreSQL aggregate function that returns the sum of records in a set of records.
+`sum(expression) <http://www.postgresql.org/docs/current/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE>`_: PostgreSQL aggregate function that returns the sum of records in a set of records.

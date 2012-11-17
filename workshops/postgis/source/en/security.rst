@@ -104,30 +104,7 @@ For web applications that require write access to data tables, we just need to g
 
 These kinds of permissions would be required for a read/write WFS service, for example.
 
-For developers and analysts, a little more access is needed to the main PostGIS metadata tables. To see why, as the app1 user create a new table and add a geometry column to it:
-
-.. code-block:: sql
-
-  -- Create the table without a geometry column
-  CREATE TABLE test (
-    id INTEGER
-  );
-  
-  -- Add a geometry column
-   SELECT AddGeometryColumn('test', 'geom', 4326, 'POINT', 2);
-
-The geometry column metadata information cannot be added to the ``geometry_columns`` table by :command:`AddGeometryColumn` because the app1 user doesn't have write permissions to that table.
-
-:: 
-
-  ERROR:  permission denied for relation geometry_columns
-  CONTEXT:  SQL statement "DELETE FROM geometry_columns WHERE
-            f_table_catalog = '' AND f_table_schema = 'public' AND f_table_name = 'test' AND f_geometry_column = 'geom'"
-  PL/pgSQL function "addgeometrycolumn" line 132 at EXECUTE statement
-  SQL statement "SELECT AddGeometryColumn('','', $1 , $2 , $3 , $4 , $5 )"
-  PL/pgSQL function "addgeometrycolumn" line 4 at SQL statement
-
-We need a ``postgis_writer`` role that can edit the PostGIS metadata tables!
+For developers and analysts, a little more access is needed to the main PostGIS metadata tables.  We will need a ``postgis_writer`` role that can edit the PostGIS metadata tables!
 
 .. code-block:: sql
 
@@ -138,7 +115,6 @@ We need a ``postgis_writer`` role that can edit the PostGIS metadata tables!
   GRANT postgis_reader TO postgis_writer;
 
   -- Add insert/update/delete powers for the PostGIS tables
-  GRANT INSERT,UPDATE,DELETE ON geometry_columns TO postgis_writer;
   GRANT INSERT,UPDATE,DELETE ON spatial_ref_sys TO postgis_writer;
  
   -- Make app1 a PostGIS writer to see if it works!
@@ -180,13 +156,13 @@ In order to use SSL connections, both your client and server must support SSL. T
      
   * Copy the ``server.crt`` and ``server.key`` into the OpenGeo Suite PostgreSQL data directory.
 
-  * Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on".
+  * Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on". In pgAdmin, go to *File > Open ...*, and navigate to and open ``C:\Documents and Settings\%USER\.opengeo\pgdata\%USER"\postgresql.conf``
 
     .. image:: ./screenshots/ssl_conf.jpg
 
   * Now re-start the OpenGeo Suite, the server is ready for SSL operation.
 
-With the server enabled for SSL, creating an encrypted connection is easy. In PgAdmin, create a new database connection, and set the SSL parameter to "require".
+With the server enabled for SSL, creating an encrypted connection is easy. In PgAdmin, create a new server connection (File > Add Server...), and set the SSL parameter to “require”.
 
 .. image:: ./screenshots/ssl_create.jpg
 

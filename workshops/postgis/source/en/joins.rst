@@ -249,11 +249,11 @@ Function List
 
 `ST_Intersects(geometry A, geometry B) <http://postgis.org/docs/ST_Intersects.html>`_: Returns TRUE if the Geometries/Geography "spatially intersect" - (share any portion of space) and FALSE if they don't (they are Disjoint). 
 
-`round(v numeric, s integer) <http://www.postgresql.org/docs/7.4/interactive/functions-math.html>`_: PostgreSQL math function that rounds to s decimal places
+`round(v numeric, s integer) <http://www.postgresql.org/docs/current/interactive/functions-math.html>`_: PostgreSQL math function that rounds to s decimal places
 
 `strpos(string, substring) <http://www.postgresql.org/docs/current/static/functions-string.html>`_: PostgreSQL string function that returns an integer location of a specified substring.
 
-`sum(expression) <http://www.postgresql.org/docs/8.2/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE>`_: PostgreSQL aggregate function that returns the sum of records in a set of records.
+`sum(expression) <http://www.postgresql.org/docs/current/static/functions-aggregate.html#FUNCTIONS-AGGREGATE-TABLE>`_: PostgreSQL aggregate function that returns the sum of records in a set of records.
 
 .. rubric:: Footnotes
 

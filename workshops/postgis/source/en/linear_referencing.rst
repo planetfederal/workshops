@@ -33,10 +33,6 @@ If you have an existing point table that you want to reference to a linear netwo
   
 We can convert the **nyc_subway_stations** into an "event table" relative to the streets by using :command:`ST_Line_Locate_Point`.
 
-.. note::
-
-  The ESRI convention for linear referencing is to have a base table of linear spatial features, and a non-spatial table of "events" which includes a foreign key reference to the spatial feature and a measure along the referenced feature. We will use the term "event table" to refer to the non-spatial tables we build.
-
 .. code-block:: sql
 
   -- All the SQL below is in aid of creating the new event table

@@ -125,28 +125,52 @@ Using this information it is possible to reconstruct the state of the edit table
       AFTER UPDATE ON nyc_streets
           FOR EACH ROW EXECUTE PROCEDURE nyc_streets_update();
 
-  * Now we can test the system by doing some edits to the **nyc_streets** table and watching the history table. Note how each edit results in new time- and user-stamped records in the **nyc_streets_history** table.
 
+Editing the Table
+~~~~~~~~~~~~~~~~~
+
+Now that the history table is enabled, we can make edits on the main table and watch the log entries appear in the history table.
+
+Note the power of this database-backed approach to history: **no matter what tool is used to make the edits, whether the SQL command line, a web-based JDBC tool, or a desktop tool like QGIS, the history is consistently tracked.**
+
+SQL Edits
+*********
+
+Let's turn the two streets named "Cumberland Walk" to the more stylish "Cumberland Wynde":
+
+.. code-block::sql
+
+   UPDATE nyc_streets
+   SET name = 'Cumberland Wynde'
+   WHERE name = 'Cumberland Walk';
+   
+Updating the two streets will cause the original streets to be marked as deleted in the history table, with a deletion time of now, and two new streets with the new name added, with an addition time of now. You can inspect the historical records:
+
+.. code-block::sql
+
+   SELECT * FROM nyc_streets WHERE name LIKE 'Cumberland W%';
+  
 
 Querying the History Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now that we have a history table, what use is it? It's useful for time travel! Since presumably all your test edits have happened in the past hour, let's create a view of the history table that shows the state of the table one hour ago, before you started editing.
+Now that we have a history table, what use is it? It's useful for time travel! To travel to a particular time **T**, you need to construct a query that includes:
+
+  * All records created before T, and not yet deleted; and also
+  * All records created before T, but deleted **after** T.
+
+We can use this logic to create a query, or a view, of the state of the data in the past. Since presumably all your test edits have happened in the past couple minutes, let's create a view of the history table that shows the state of the table 10 minutes ago, **before you started editing** (so, the original data).
 
 .. code-block:: sql
 
-  -- State of history one hour ago
-  -- Records must have been created at least an hour ago and
+  -- State of history 10 minutes ago
+  -- Records must have been created at least 10 minute ago and
   -- either be visible now (deleted is null) or deleted in the last hour
-  CREATE OR REPLACE VIEW nyc_streets_one_hour_ago AS
-    SELECT * FROM nyc_streets_history
-      WHERE created < (now() - '1hr'::interval)
-      AND ( deleted IS NULL OR deleted > (now() - '1min'::interval) );
 
-  -- Add the view to geometry_columns so applications can see it
-  INSERT INTO geometry_columns VALUES
-    ('', 'public','nyc_streets_one_hour_ago','geom',2,26918,'MULTILINESTRING');
-    
+  CREATE OR REPLACE VIEW nyc_streets_ten_min_ago AS
+    SELECT * FROM nyc_streets_history
+      WHERE created < (now() - '10min'::interval)
+      AND ( deleted IS NULL OR deleted > (now() - '10min'::interval) );    
 
 We can also create views that show just what a particular used has added, for example:
 
@@ -156,13 +180,11 @@ We can also create views that show just what a particular used has added, for ex
     SELECT * FROM nyc_streets_history
       WHERE created_by = 'postgres';
 
-  INSERT INTO geometry_columns VALUES
-    ('', 'public','nyc_streets_postgres','geom',2,26918,'MULTILINESTRING');
-
 
 
 See Also
 --------
 
+ * `QGIS open source GIS <http://qgis.org>`_
  * `PostgreSQL Triggers <http://www.postgresql.org/docs/current/static/plpgsql-trigger.html>`_
 
