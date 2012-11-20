@@ -1,17 +1,23 @@
-Optimizing working with raster layers in GeoServer 
-====================================================
+Optimizing raster layers in GeoServer 
+=====================================
+
+.. only:: workshop
 
 Outline 
 --------
 
-This workshop presents some of the techniques and tools that are needed to increase the performance of GeoServer when working with raster layers. Some of these techniques involve altering the data itself, while others consider how the data is structured and organized. Most of these optimizations will actually result in better raster performance when the data are used in any application. As well as these general optimizations, we describe GeoServer-specific settings, to improve performance in this case.
+This workshop presents some of the techniques and tools that are available to improve GeoServer performance when working with raster layers. Some of these techniques involve altering the data itself, while others consider how the data is structured and organized. Although we will cover 
+some GeoServer-specific settings, most of these optimizations should result in improved general performance for other applications working with the same data. 
+
 
 Introduction 
 -------------
 
-When serving raster layers with GeoServer, the performance of the system depends on many parameters. A large part of them are related to how our source data is stored, since this has a very significant important in the time it takes to read and prepare the data.
+The performance for publishing raster layers with GeoServer depends on a number of parameters, many of which are related to how the source data is stored. The time it takes to read and prepare the the data can have a significant impact on performance.
 
-We can see it clearly in a simple example. Download `this zip file <http://link.to.file>`__ , which contains the same image in 4 different representations.
+.. only:: workshop
+
+We can see this clearly in a simple example. Download `this zip file <http://link.to.file>`__. This file contains four different representations of the same file.
 
 .. code-block:: console
 
@@ -20,7 +26,11 @@ We can see it clearly in a simple example. Download `this zip file <http://link.
  	image3.tiff 
  	image4.tiff
 
-As you can see, they are just 4 files in different formats, except for the last two ones, which are both TIFF files. We will use them to show how, although they contain the same image and might seem similar, they are different in terms of performance when used in GeoServer. Also, we will see that even using the same format, two images can give different performance depending on the adjustments used to create them.
+.. only:: workshop
+
+As you can see, the images are stored a three different formats. We will use these files to illustrate how, although they contain the same image and appear similar, they exhibit different performance profiles in GeoServer. Even when files appear to be stored in the same format, as with the two .tiff files, the performance profiles can differ depending on the parameters used to create the files.
+
+.. only:: workshop
 
 First of all, let’s have a look at the sizes of those images.
 
@@ -31,263 +41,311 @@ First of all, let’s have a look at the sizes of those images.
  	image3.tiff 34.896.016 
  	image4.tiff 52.921.428
 
-PNG is clearly larger, while JPG is the smaller one. TIFF files have a similar size, closer to the size of the JPG. Without knowing how their performance will be, it seems that JPG is a good option in case we are short on storage. It might also seem that a smaller size should make the JPG format the faster one as well, but other factors apart from size are involved, and we will soon see that this is not necessarily true.
+The PNG format file is clearly the larger file, while the JPG format is the smallest file. TIFF files are similar in size to the JPG format. The relatively compact JPG format seems the obvious choice if data storage is limited and its smaller file sizes might suggest better data access performance as well. However there are other factors to consider that may negate these advantages.
 
-Let’s move to GeoServer now. The first thing we have to do is import the images in GeoServer. You can do this manually through the usual GeoServer interface. If you have ``curl`` installed, you can use the ``import_layers`` script that you will find in the zip file along with the image files, which imports them using Geoserver’s REST API. Just make sure GeoServer is running before executing the script.
 
-Now is time to check how GeoServer performs when accessing these layers. We will be using Google Chrome's built-in tools to measure it (similar tools can be added to other browsers, feel free to use any other one if you prefer). Browse to your GeoServer Layer Preview page. In the row corresponding to the first image (``image1.png``), click on Go to see a preview of it in Open Layers. Once the page is loaded, press Ctrl - Shift - I (Command - Option - I if you are using Mac) to show the Chrome Developer Tools window. Select the Network tab.
+.. only:: workshop
 
-You should see something like this:
+Let’s move to GeoServer now. The first thing we have to do is import the images into GeoServer. You can do this manually through the GeoServer web administration interface. If you have the ``curl`` command line tool installed, you can use the ``import_layers`` script included in the image zip file to import the images using Geoserver’s REST API. Just make sure GeoServer is running before executing the script.
+
+To assess the relative performance of accessing each file format in GeoServer, we will be using Google Chrome's built-in tools to measure performance (similar tools are provided for other browsers, feel free to your preferred browser). Open the GeoServer :guilabel:`Layer Preview` page. In the row representing the first image (``image1.png``), click :command:`Go` to see open a preview of the layer in OpenLayers. Once the page is loaded, press Ctrl+Shift+I (Command+Alt+I on a MAC ) to open the Chrome Developer Tools window. Select the :guilabel:` Network` tab.
+
+You should see something similar to this:
 
 .. figure:: imgs/chrometools.jpg
 
-As you start making requests, you will see in the lower part of the window, in the *Timeline* column, the time it has taken to respond them. Do some zooming and panning, and keep an eye on the times shown. The request times will be most of them rather large, and, due to the size of the image, it is not very smooth to pan and zoom.
+As you start making requests, you will notice the time it takes to respond to each request is reported in the *Time* column. Do some zooming and panning around the image and keep an eye on the results recorded in this column. The request times may appear longer than expected, and pan and zoom operations are not as smooth as they could be, mostly due to the size of the image.
 
-Let’s change to another image, this time the JPG one. You should experience something similar. Times are a bit shorter, but still long enough to make it not very smooth to use the interface.
+Repeat the same process with the JPG image. Perhaps surprisingly, you should experience something similar. The request response times are a bit shorter, but still long enough to delay the pan and zoom operations.
 
-If you now open the first TIFF file (``image3.tiff``), it might take some time to render it the first time, when the full extent is shown, but if you zoom on it you will get much better response times. If you zoom to maximum resolution or even closer (so you can see the actual pixels), response is almost immediate and panning is smooth. That’s clearly a big difference with the previous 2 cases.
+If you now open the first TIFF file (``image3.tiff``), it might take some time to render the image when the full extent is displayed for the first time, but once loaded if you zoom and pan around the image you should see much better response times. If you zoom to the maximum resolution (so you can see the actual pixels), response times are almost immediate and pan operations are smooth. The layer access performance for the TIFF format file is demonstrably better than the JPG and PNG formats.
 
-Let’s try to improve the performance at low resolution. Open the preview window of the last layer (``image4.tiff``). You will notice that it shows up faster than the other ones. If you zoom and pan now, you will see that the response is similar at all scales and there is not a difference between zoom levels in terms of performance.
+Let’s try to improve the performance at low resolution. Preview the second TIFF image layer, ``image4.tiff``. You should notice that it displays much faster than the other three images. If you zoom and pan around the image, you should also see that the response times are similar at all scales and there is no difference in terms of performance between the different zoom levels.
 
-This simple test demonstrates how using the right file format and the right configuration allows you to go from a bad performance system to a good performance one.
+This simple test demonstrates how important the appropriate file format and the appropriate configuration are in optimizing system performance.
 
-In the remainder of this workshop, we will see why this happens and how to create appropriate files and file structures for each case.
+In the remainder of this workshop, we will investigate why this discrepancy in layer access performance occurs and how to create appropriate files and file structures.
 
-Briefly, there is a quick explanation to the results that you have just seen for those 4 test layers. In both the PNG and the JPG files, whenever some part of the image has to be rendered, the whole image has to be opened and read first, and that means a large overhead. The first TIFF image is internally divided, so when you zoom in, not all the layer data has to accessed. In both the JPG and PNG images, pixel values are written sequentially, starting from one corner of the image, and ending in the opposite one. On this first TIFF file it is structured in tiles, and the structure of that mosaic of tiles is kept as well, so there it is possible to access just the data corresponding to a smaller area within the image. Rendering the whole extent, however, still requires a full scan. The last TIFF has additional smaller images with lower resolution inside (hence its larger size), so when a full scan is needed, it is done at those resolutions instead of at the original one.
+For both the PNG and the JPG format files, even when only part of the image has to be rendered, the whole image has to be opened and read first—this operation incurs a significant processing overhead. 
 
-These techniques are the basis for our optimizations, and we will discuss them in this tutorial and see how to apply them with GeoServer, even when our data is not in a single file per the previous examples.
+The first TIFF file (``image3.tiff``) is divided internally into tiles, so when you zoom to a given area, only the data corresponding to that area is accessed. However, previewing the full extent of the image still requires a full scan.
+
+For both the JPG and PNG images, pixel values are written sequentially, starting from one corner of the image, and ending in the diagonally opposite corner. 
+
+.. todo:: need more of explanation here as to why this sequential write process affects performance
+
+The last TIFF image (``image4.tiff``) contains additional, lower resolution, images (hence its larger size), so when a full scan is required, the scan is performed on those lower resolution images instead of the original higher resolution image.
+
+These different data storage techniques explain the variations in layer access performance and provide the focus for our performance optimization strategies. We will discuss this further in this tutorial and see how to apply these optimizations with GeoServer, even when the data is not available in a single file as in this example.
 
 Working with raster tiles and pyramids 
 ----------------------------------------
 
-When working with large raster layers, there are several optimization techniques. Some of them rely on a horizontal division, dividing the layer in smaller pieces, so only those pieces needed are accessed. The layer can be accessed partially, depending on the request. This is usually known as *tiling*.
+There are several optimization techniques available for working with large raster layers. Some of these techniques rely on a horizontal division, sub-dividing the layer into smaller sections, so only those sections of the data that are required are accessed. The layer can be accessed partially, depending on the request. This process is usually referred to as *tiling*.
 
 .. figure:: imgs/mosaic.png
 
-Other techniques deal with the fact that, when used at a low scale, although the whole extent of the layer might be rendered, not all data in the layer needs to be read to create the final image to be rendered.
+When the layer is tiled, the image covering a given area is comprised of a set of smaller images covering sections of the original area.
 
-For instance, consider the first zoom level when you opened the layer preview. The original image has 10800 x 10800 pixels, but the image rendered in your screen is much smaller, since your display is not that big. Creating the image that you see on the screen from the original one is a time consuming process, and involves reading much more data that what is really needed, just to create a final version of the image with a coarser resolution.
+Other techniques are used when viewing the layer at a lower scale, and although the whole extent of the layer might be rendered, not all of the data in the layer needs to be accessed to render the final image.
+ 
+For instance, consider the first zoom level when you opened the layer preview. Although the original image has 10800 x 10800 pixels, the image rendered in your screen is much smaller because your screen resolution is lower than the original image. Creating the image you see on the screen from the original image is a time consuming process, and involves reading more data than is required to create the lower resolution version.
 
-A solution to this is to maintain several versions of a given layer, suitable for representation at different scales, as shown in the next figure. 
+One solution to this problem is to maintain several versions of a given image, suitable for representation at different scales, in a **pyramid** data structure illustrated next.
+as illustrated next. 
 
 .. figure:: imgs/pyramid.png
+  
+   *Raster pyramids*
 
-This constitutes a so-called pyramid.
+Maintaining different resolution versions of the data means the amount of resampling required is reduced, as presampling has already been performed to create those versions. When an image is requested at a given rendering scale, the version closest to that scale is used, optimizing the layer access performance.
 
-By having these different versions, the amount of resampling needed is reduced, as a large amount of presampling has already been performed to calculate those versions. When an image at a given rendering scale is requested, the closest one to the scale is used, and the process is optimized.
-
-You can see that the number of pixels in each image in the pyramid is 1/4 of the number of pixels in the image on the next level. That is, each dimension (width, height) of the image is halved, and the area previously occupied by 4 pixels is now occupied by just one. There is a progressive decrease in resolution, so all resolutions are covered and there is always an optimal one to select when responding to a given request.
-
-Tiling and using pyramids can be applied simultaneously to improve the performance of GeoServer (and any other application using that same raster data, since this optimizations are not exclusive of GeoServer). When tiling and pyramids are applied, a raster dataset covering a given area is comprised of a set of smaller ones covering a smaller area, and several lower-resolution versions of those images exist as well, as represented in the image below.
+You can see the number of image pixels in each level in the pyramid is 1/4 of the number of image pixels at the next level. Each dimension (width, height) of the image is halved, and the area previously represented by four pixels is now represented by just one. 
 
 .. figure:: imgs/tilingandpyramid.png
 
-Some file formats support internal pyramids (also called overviews) where a single file contains all the different presampled images, but others don’t support them. Also, some formats support inner tiling, while others do not, or they support it just for one pyramid level (in case they support inner pyramids). GeoServer can use image pyramids in which there are several versions of a same image and they are on different files, and in which tiling is used and each image is not just a single file but several ones. Such a file structure is much better in terms of performance, since a request covering a small part of the area covered by the image, at any scale, doesn’t imply reading the whole data available at that scale, but just the tiles overlapping the requested area.
+   *Pyramid data structures*
 
-In some cases, the tiling/pyramid capabilities of the file format are enough to have a good performance, but as we move into really large datasets, it is better to manually create a pyramid as a collection of files and folders, and let GeoServer handle that structure efficiently.
+As pyramids provide a progressive decrease in resolution, there should always be an 
+optimal level of resolution to respond to a given layer access request.
 
-In this tutorial we will see how to use tiling and pyramids, both internal and external, so as to get the optimal configuration for our system and dataset.
+Tiling and pyramid data structures can be used together to improve the data access performance of GeoServer and any other application accessing the same raster data, since these optimizations are independent of the application requesting access to the date. 
+
+Some file formats support internal pyramids, also known as *overviews*, where a single file contains all the different resolution images. Other file formats don’t support overviews.
+
+.. todo:: could you give an example of the formats that do/don't support overviews? 
+
+Also, some formats support inner tiling, while others do not, or they support it just for one pyramid level (in case they support inner pyramids). 
+
+.. todo:: please clarify - do you mean internal tiling?
+
+GeoServer can take advantage of image pyramids containing several tiled versions of the same image, with those versions maintained in separate files. Such a file structure provides much better data access performance, since a request covering a section of the image, at any scale, means only the tiles overlapping the requested area are read.
+
+In some cases, tiling and pyramid data structures are sufficient have provide good performance. However, with large datasets, it is better to manually create a pyramid as a collection of files and folders, and let GeoServer handle that structure efficiently.
+
+In this tutorial we will see how to use tiling and pyramids, both internal and external, to achieve the optimal configuration for our system and dataset.
 
 Working with raster tiles and pyramids in GeoServer 
-----------------------------------------------------
+---------------------------------------------------
 
-With the techniques outlined above, there are several possibilities for setting our GeoServer instance with a given dataset. These include.
+With the techniques described above, there are several possibilities for configuring our GeoServer instance for a given dataset. These include:
 
-- Having a single file, which might have inner tiles and/or overviews 
-- Having a set of tiles 
-- Having a pyramid
+* A single file that may have inner tiles and/or overviews 
+* A set of tiles 
+* A pyramid
 
-Choosing between the above configurations is mainly a matter of the size of our dataset, and the following rules can be used as general recommendations.
+The choice of configuration depends largely on the size of your dataset. The following general guidelines apply:
 
-- If your data is smaller than 1 or 2 GB, is generally recommended to keep it in a single file, provided that it is optimized and contains proper tiles and overviews. If data is in a format that does not support that, then a mosaic of tiles should be created. However, a better option is to translate the data into a different format supporting them. 
-- Data above 2 GB should be tiled in smaller files, with inner pyramids and tiles as well 
-- If your data is really large, and specially if it is a dataset that is going to be used at all scales, using a external pyramid should be the selected option.
+* If your dataset is smaller than 1 or 2 GB, the best option is usually to keep your data in a single file, provided that file is optimized with tiles and overviews. If your data format that does not support tiling and overviews, you could either create a mosaic of tiles or, preferably, translate the data into a different format that does support tiling and overviews. 
+* Datasets larger than 2 GB should be tiled in smaller files, using inner pyramids and tiles if possible. 
+* If your dataset is really large, and will be used at all scales, create an external pyramid.
 
-Some notes on pyramids and tiles. 
------------------------------------
+.. todo:: can you define what you mean by really large? > 10Gb?
 
-Let’s have a quick review of some ideas and concepts before we see how to setup our data, create tiles and pyramids if needed, and configuring all of them in GeoServer. Since the pyramid case is the most complex one, we will assume we are creating a pyramid. Concepts needed to understand the process include all those needed to understand the other possibilities outlined above.
+Some notes on pyramids and tiles
+--------------------------------
 
-Starting from a single image, creating a pyramid involves considering several factors that might affect how it serves its final goal, that is, giving better access to the different parts of the source image, at all scales.
+Let’s review some the ideas and concepts we have discussed before we move onto setting  up our data, create tiles and pyramids if needed, and configuring all of them in GeoServer. 
 
-Consider a large image to serve. We want to create an efficient pyramid to serve it with maximum performance. That involves 2 steps: tiling the image and creating the different levels of the pyramid. Here are the parameters that define the final pyramid, each of them explained:
+Since the pyramid case is the more complex data structure, we will review the process for creating a pyramid. You should consider several factors that may influence the data access performance and consider how best to provide access to the different sections of the source image, at all scales.
+
+For large images, we want to create an efficient pyramid that will provide the optimal access to the data. This involves two steps—tiling the image and creating the different levelså of the pyramid. The pyramid configuration parameters are discussed next. 
 
 Tile size 
-^^^^^^^^^^
+~~~~~~~~~
 
-Tiling optimizes the amount of data that has to be read for a given area. In our original image, and at its original resolution, the whole image has to be read even if we are going to render just a small area in one of its corners. By creating tiles and storing them in separate files, just those tiles that cover the area of interest are needed.
+Tiling optimizes the amount of data that has to be read for any given area. In our original image, at its original resolution, the whole image has to be read even if we are going to display a small area in one corner. By creating tiles and storing them in separate files, only those tiles that cover the area of interest are required.
 
-All tiles in a pyramid (not just at the original resolution, but at everyone) have the same size, and that size has to be chosen before creating the pyramid. A small size will reduce the amount of necessary data to read for covering a given area, but if it is too small it might degrade performance. The application using the pyramid (in our case, GeoServer), has to keep an index of all available tiles, so as to know which ones are needed for a given request. More tiles means a larger database, and also a larger number of files (one for each tile), which is likely to have a negative impact on the system performance.
+All tiles in a pyramid (not just those tiles stored at the original resolution) are the same size, and that size is determined before creating the pyramid. A small tile size will reduce the amount of data required to satisfy a request for a given area. Too small a tile size could degrade the data access performance as many tiles must be read to satisfy the request. 
 
-On the other hand, if tiles are too big, the advantage of tiling itself is lost. Tiles with a size of around 0.5-1GB are a good solution, since they are still manageable but keep the number of total tiles reduced.
+The application accessing the pyramid, for this workshop GeoServer, must maintain an index of all available tiles to know which tiles are needed for a given request. More tiles means a larger application database, and also a larger number of files (one for each tile). This could have a negative impact on performance.
 
-As it was already mentioned, creating a tiled scheme comprised of several files does not make the use of inner tiles unnecessary. Inner tiling allows for creating larger tile files, which eventually will increase performance.
+On the other hand, if tiles are too big the advantage of tiling is lost. A tile size of approximately 0.5-1GB is a reasonable solution for optimum file management and reducing the total number of tiles required.
 
-Number of levels in the pyramid 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Creating a tiled scheme with several files does not make the inner tiles redundant. 
+Inner tiling supports the creation of larger tile files, which eventually will increase performance.
 
-The base level of the pyramid will have the number of tiles defined by the tile size. Let's suppose our image has a size of 8192 x 8192 pixels If we take a tile size of 1024 x 1024 pixels, we will have 64 (8 x 8) tiles. At the top of the pyramid we will have a single tile, covering the whole extent. In between, and considering that the number of pixels (and thus, the number of tiles) multiplies by 4 in each level, we can have a level with 4 tiles (2 x 2) and another one with 16 (4 x 4) tiles. Overall, we need 4 levels to go to from the maximum resolution defined by the original image, to the top of the pyramid with a single tile.
+.. todo:: a diagram here would be useful. I also think we need clarification on inner and outer tiling - it's not clear.
 
-The number of levels depends on the tile size, and the following one is the general formula to calculate the number of levels needed to complete the full pyramid.
+Pyramid levels 
+~~~~~~~~~~~~~~
+
+The base level (highest resolution) of the pyramid will have the number of tiles defined by the tile size. Let's suppose our image has a size of 8192 x 8192 pixels. If we use a tile size of 1024 x 1024 pixels, we will have 64 (8 x 8) tiles. At the top of the pyramid we will have a single tile, covering the whole extent. In between, and considering that the number of pixels (and the number of tiles) multiplies by four at each level, we can have a level with four tiles (2 x 2) and another one with 16 (4 x 4) tiles. In total, we will have four levels starting at the maximum resolution defined by the original image, to the top of the pyramid, at the lowest resolution, with a single tile.
+
+.. todo:: needs diagram here
+
+The number of levels depends on the tile size. The following formula will calculate the number of levels required to complete the full pyramid.
 
 .. math:: n = \log_2(\frac{width}{tile\_width})
 
-We assume here that the image is square, so it has the same value for its height and width. If that is not the case, the larger value should be taken. Tiles are also assumed to be square, as this is the most common setting.
+.. todo:: format of math output doesn't seem right
 
-Also, in the case above, the result is an integer number. If the result is not an integer number, the truncated value (the lower integer closest to that value) should be taken.
+We're assuming in this case the image is square, so it has the same value for its height and width. If the image isn't square, the larger value should be taken. 
 
-Although that would give us the whole pyramid, it might not be necessary to create it all, and we can save disk-space by restricting the number of levels to just those we need. You should take into account that in each level the scale of the corresponding layer is divided by two, so if our original image correspond to the level of detail of a 1:100000 scale, the single-tile level correspond to a 1:800000 scale. If however, we do not plan to render that layer at that scale (because we will use a different one for scales over 1:200000), the tiles corresponding to that scale will never be used. In that case, we would just need two levels in our pyramid.
+.. todo:: what larger value - the larger of the width or the height?
+
+Tiles are also assumed to be square—this is the most common configuration.
+
+In the example above, the result is an integer. If the result is not an integer, the truncated value (the lower integer closest to that value) should be taken.
+
+It might not always be necessary to create all of the pyramid. We can save disk-space by restricting the number of levels to just those we require. Remember that at each level the scale of the corresponding layer is divided by two, so if our original image corresponds to 1:100000 scale, the single-tile level correspond to a 1:800000 scale. However, if we don't anticipate rendering that image at that scale (we will use a different image for scales over 1:200000), the tiles corresponding to that scale would never be used. In that case, we would just need two levels in our pyramid.
 
 File format 
-^^^^^^^^^^^^^^
+~~~~~~~~~~~
 
-Tiles can be saved in many formats, including the original format of the image from which we are creating our pyramid. Choosing the right format can have a significant influence in the performance of our system, since it influences both the size of files to be created and the amount of processing needed to get the actual image data, which might be compressed.
+Tiles can be saved in many formats, including the original format of the image the pyramid is created for. Choosing the right format can have a significant influence on system performance, since it influences both the size of files to be created and the amount of processing required to access the image data (which might be compressed).
 
-Formats that do not support overviews should not be used with large images, as they will result in poor performance. JPEG and PNG do not support them, but TIFF does.
+Formats that don't support overviews—JPEG and PNG—should not be used for large images, as the data access performance would suffer. The TIFF format does support overviews.
 
-ECW and MrSID are good formats that support both tiling and overviews, but unfortunately they are not open formats. GeoServer supports them, provided that the user has a valid license for using them. However, creating files in these formats is not supported natively by the applications we will describe in this tutorial, due to license issues, so we will not discuss them in more detail.
+.. todo:: you use JPEG here but JPG elsewhere - be consistent
 
-From all the available formats, the TIFF one is among the best and most popular alternatives, so we will concentrate on it. The TIFF format is complex and can be used with different settings, which have influence on how appropriate TIFF files are for being used in the context of a raster pyramid.
+ECW and MrSID formats support both tiling and overviews, but unfortunately both are not open formats and are not supported by many applications. GeoServer does support both formats, providing a valid license is available. The TIFF format is among the best and most popular of all the raster data formats, and will be used in this workshop.
 
-The first parameter to consider for a TIFF file is the compression type. TIF files can be saved with no compression at all or using several compression algorithms both lossy and lossless. Using uncompressed data is generally not a good idea, and among the compression algorithms LZW and Deflate are commonly used as lossless ones, while JPEG is a popular lossy one.
+The TIFF format is complex and can be used in a number of configurations. The different configurations influence how effective the TIFF format is for generating a raster pyramid. 
 
-Choosing one compression or another depends on several factors. In general, if your are going to use your data primarily for rendering, JPG is a good choice, as it is a lossy one but it can be considered as visually lossless. When the data being compressed is an actual measurement (DEM, Temperature, etc) or any other value not representing an actual image, lossless compressions is a better option, as it will preserve the actual values.
+The first TIFF file parameter to consider is the *compression* type. Although TIFF files can be saved with no compression, using raw, uncompressed data is generally not a good idea and will result in poor data access performance. A better option is to consider using one of the compression algorithms, both lossy and lossless, to compress the original data.
 
-LZW works better with data with repeated patterns, so it is of particular interest for those layers with large areas of a single values, such as layers that might contain large parts of no-data values or with categorical values, like the one shown below.
+.. note:: A lossy compression algorithm compresses the data by discarding or loosing some of the data with each compression. The loss of data is permanent and lossy compression is not suitable for datasets that may be used for analysis or deriving other data products. A lossless compression algorithm on the other hand supports file compression but also allows the original data to be reconstructed from the compressed data. There is no permanent loss of data with lossless compression algorithms and may be used on raster datasets that will be used for analysis. LZW and Deflate are commonly used lossless compression algorithms. JPEG is a popular lossy compression algorithm.
+
+Choosing one compression algorithm or another depends on several factors. In general, if your are going to use your data primarily for rendering, JPG is a good choice as although it produces a lossy compression, it can be considered as visually lossless. 
+If the data being compressed is an actual measurement (DEM, Temperature, and so on) or any other value not representing an image, lossless compression is the better option, as the original values are preserved.
+
+LZW compression works better with data with repeated patterns, so it is of particular interest for those layers with large areas of a single values, such as layers that might contain large parts of no-data values or with categorical values, like the image shown below.
 
 .. figure:: imgs/categories.png
 
-TIFF supports internal tiles, which is an interesting feature when used with large tile sizes. If your tiles are big, having each tile file internally tiled can speed up operations.
+TIFF format files support internal tiles, which is a useful for large tile sizes—having each tile file internally tiled can speed up operations.
 
-For very large files, there is support for the so-called BigTIFF format, which allows creation of files larger that 4GB, the limit for standard TIFF.
+.. todo:: think the above statement needs some clarification
+
+For very large files, there is also the BigTIFF format, which supports the creation of files larger that 4 Gb (the limit for TIFF).
+
 
 Resampling algorithm 
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~
 
-Creating pyramids implies performing resampling operations in advance, so the application using the pyramid does not need later to do it from the original image. Resampling can be performed using different algorithms, which might result in resampled images of higher or lower quality. More complex algorithms can yield better quality images, but the time needed for the pyramid creating process might be longer.
+Creating pyramids involves completing resampling operations in advance of using the data, so the application accessing the pyramid does not need to perform the same operation on the original image. Resampling may be performed using different algorithms, some of which will produce higher quality resampled images than other algorithms. More complex algorithms can produce better quality images but it usually takes longer to create the pyramid.
 
-Nearest neighbour interpolation is the simplest method, and it is not recommended for images. However, it is a good option for non-image data (Elevation data, etc), and it is important to recall that it is the only correct option to resample raster layers with categorical data in case you plan to serve them using a WCS service.
+A nearest neighbor interpolation is the simplest method and it is a good option for non-image data such as elevation data and so on. However this interpolation technique is not recommended for images. It is suitable for resampling raster layers with categorical data published via a  Web Coverage Service (WCS) service.
+
 
 Coordinate Reference System 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Not strictly a parameter of the pyramid itself, but it can be of importance when using its data. The goal of having a tiling/pyramid scheme is to perform in advance certain operations, so they do not have to be performed when responding to a request. Reprojecting can be a time consuming task, so choosing the right CRS for the pyramid data (“right” here meaning the one that is going to be requested more often) will increase our system performance.
-
-This is true even in the case of having a single file (and other formats) to serve.
+The Coordinate Reference System (CRS) is not strictly speaking a parameter of the pyramid itself, but it may be important when accessing the data. The main advantage of a tiling and/or pyramid data structure is that certain operations are performed in advance and do not have to be performed each time a data request is processed. As reprojecting data can be a time consuming task, choosing the most appropriate CRS for the pyramid data will improve system performance. *Most appropriate* in this context means choosing the CRS that will be requested most frequently. This also applies to single files and other data formats.
 
 RGB *vs* paletted images 
-^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are different ways of storing colors in an image. In the RGB color space, a color is expressed as 3 components: red, green and blue. This allows to express virtually all color that might appear in an image. This, however, it is not necessary when images have few color, and a paletted image can be used instead. It stores the RGB definition of those colors in a list, and then for each pixel it stores the index of the color in that list, so a single value is enough, instead of 3. This reduces sizes and allows for a faster reading.
+There are different methods for storing colors in an image. In the RGB color space, a color is expressed as a combination of three components—red, green and blue. This supports the representation of virtually every color that may appear in an image. However, if an image includes only a few colors, the full RGB model is unnecessary and a paletted image should be considered instead. Palatted images store the RGB definition of those colors in a list, and the index of the color required for each pixel is also stored in that list. This means a single value, not three values, is used to represent each color, helping to reduce file sizes and promoting faster data access.
 
-Consider the two images below.
+Compare the two images below. The top image uses the RGB color model, whereas the bottom image is a palatted image.
 
 .. figure:: imgs/rgb.jpg
 
 .. figure:: imgs/paletted.jpg
 
-The image on the left uses many different colors. Palettes are usually limited to 256 colors (each RGB component is on the 0-255 range, so a paletted image has the size of a single band corresponding to one of those components), and that is less than the number of colors used, but we can still use a palette, approximating colors to the closest one in the palette. We wil get a smaller file and better performance, but we will also get an image with lower quality. Providing we do not degrade the image too much, this can be used to improve performance, trading performance for quality.
+Palettes are usually limited to 256 colors. As each RGB component is represented in the 0-255 range, a paletted image size corresponds to a single band representing one of those components. Although this may be less than the number of colors used in the image, we can still use a palette, choosing the colors that are closest to the colors in the palette. The trade-off is smaller file sizes versus a lower quality image.
 
-On certain images, like the one on the right, using a palette does not mean less color detail, since the number of used colors is smaller.
+Providing we do not degrade the image too much, this can be useful for improving performance. For some images, like the bottom image in our examples above, using a palette does not mean less color detail as the number of colors used is smaller.
 
-Whatever the case you have, you can convert RGB images into paletted ones using the GDAL ``rgb2pct`` tool. GDAL is part of FWTools, and if you are running Windows, installing FWTools is the recommended way of using it. We will be using other GDAL tools for most of the examples in this tutorial.
+RGB images can be converted into paletted images using the GDAL ``rgb2pct`` tool. 
 
-In its most basic form, you just have to use the input filename and the desired output filename as parameters. So, to transform our ``image3.tif`` image into a paletted one named ``image3p.tiff`` we can use the following line.
+.. note:: GDAL is part of FWTools, and if you are running Windows, installing FWTools is the recommended way of using GDAL. We will be using other GDAL tools for most of the examples in this tutorial.
+
+For a simple conversion, just provide the input filename and the required output filename as parameters. To transform our ``image3.tiff`` image into a paletted image named ``image3p.tiff`` we would the following.
 
 .. code-block:: console
 
  $rgb2pct image3.tiff image3p.tiff
 
-The file format of the output file can be specified, but it defaults to TIFF, so there is no need to set anything, since we want a TIFF file.
+The default output format is TIFF. You may provide an alternate format if required 
 
-As a rule of thumb, use this tool when using images like the above right one. For other images, consider your particular situation to find the right balance between image quality and performance.
+As a general rule, use the ``rgb2pct`` tool when working with images like lower image above. For other images, consider your particular requirements to find the right balance between image quality and performance. Color map conversion should generally be completed before the other data preparations that we cover discuss next. 
 
-Notice that there is a relation between the compression methods and the way color are stored. Images that are good for using a palette tend to be good for compression algorithms like LZW that get good compression ratios when there are groups of contiguous pixels with the same values, as it was already mentioned. This is not always true, but in most cases an image with few colors has some homogeneity and includes such blocks of pixels with a single value.
+You may also notice that there is a relationship between the compression methods and the way colors are stored. Images that are suitable for using a palette tend to be good for compression algorithms like LZW which provide good compression ratios when there are clusters of contiguous pixels with the same values. This is not always true, but in most cases an image with few colors has some degree of homogeneity, with blocks of pixels with a single value.
 
-Color map conversion should be done before the other preparations we are going to see next. Since the image we are working with has a large number of different colors, and assuming that we do not want to lose color detail, we will be using the original RGB image for the following examples.
+Since the image we are using in this workshop has a large number of different colors, and assuming that we do not want to lose color detail, we will be using the original RGB image for the following examples.
 
-Multispectral imagery. Value interleaving 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Multispectral imagery - Value interleaving 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-So far, we have assumed that the type of raster data to optimize consist of RGB (color) images or pancromatic (monochrome) ones, or non-image data, such as a DEM. Images with more bands can be, however, used, and that allows for further optimization.
+So far, we have assumed the type of raster data to optimize consists of RGB (color) or pancromatic (monochrome) images, or non-image data, such as a DEM. Images with more bands can be also used and that provides an opportunity for further optimization.
 
-Multispectral images can have a number of bands ranging from just four of them (usually the 3 ones corresponding to RGB and a infrared one) to several hundreds. They cover different regions of the electromagnetic spectrum, and to render them a so-called *false-color* composition is used. To create this composition, 3 bands among all the available ones are selected and used as RGB components, although the intensity represented in their pixel values does not represent the intensity in the frequencies corresponding to the RGB components. With those pixel values, the color of the pixel is computed.
+Multispectral images can have a number of bands ranging from four, usually the three corresponding to RGB and a infrared band, to several hundreds. They cover different regions of the electromagnetic spectrum and rendered using a *false-color* composition. To create this composition, three bands are selected and used as RGB components. However, the intensity represented in their pixel values does not represent the intensity in the frequencies corresponding to the RGB components. With those pixel values, the color of the pixel is computed.
 
-If we are working with multispectral imagery, but our main goal is just to serve true- or false-color rendered images based on it, and not the whole set of bands through a WCS service, we can keep just the bands used for the color composition. That will result in smaller files and, thus, better performance.
+If we are working with multispectral imagery, but our main goal is to serve only true-color or false-color rendered images derived from it through a WCS service, we can retain only those bands required for the color composition. This will result in smaller file sizes, and consequently better performance.
 
-If on the other hand, we're working with all the bands in the multispectral image, understanding how band values are stored can help to get some extra performance. In the case of a TIFF file, two schemes are supported.
+However, if we're working with all the bands in the multispectral image, understanding how band values are stored can help optimize the performance. In the case of a TIFF file, two schemes are supported.
 
-- Pixel interleaved. All the values for a single pixel are stored together. For an RGB image that means the data looks like RGBRGBRGB - Band interleaved. All the values for a single band are stored together. For an RGB image that means the data looks like RRRGGGBBB
+* Pixel interleaved—All the values for a single *pixel* are stored together. For an RGB image the data looks like RGBRGBRGB 
+* Band interleaved—All the values for a single *band* are stored together. For an RGB image the data looks like RRRGGGBBB
 
-Band interleaved generally gives better performance when querying a section of the image, especially if it involves just reading values from a few bands. also, it tends to give better compression ratios.
+Band interleaved generally provides better performance when querying a section of the image, especially if it involves reading values from a few bands. Band interleaved images also tend to provide better compression ratios.
 
-On the other hand, pixel interleaved is a better option if we expect per-pixel queries. In the case of using the image to be served by GeoServer, band interleaved is likely to be the best option.
+Pixel interleaved images are the preferred format if we expect per-pixel queries. For images published by GeoServer, band interleaved is generally the best option.
 
-Using a single raster file. The ``gdal_translate`` and ``gdaladdo`` tools 
----------------------------------------------------------------------------
+``gdal_translate`` and ``gdaladdo`` tools 
+-----------------------------------------
 
-When using a single file for a raster layer, we have to make sure that the file format and its settings are correctly configured, as these are the only parameters that can be adjusted.
+When a single file supports a raster layer, we have to make sure that the file format and its settings are correctly configured, as these are the only parameters that can be adjusted.
 
-As we said, the TIFF format is the best option in most cases, so we will assume that we want to create one of such files to store our data. Even if we already have a TIFF file, we might need to create a new one, since it might not have tiles or overviews included, or it may use a compression algorithm different to the one we want to use.
+As we have discussed previously, the TIFF format is the best option in most cases, so we will assume that we want to create a TIFF file to store our data. To create a TIFF file we will use two tools from GDAL toolset, namely ``gdal_translate`` and ``gdaladdo``.
 
-To create a TIFF file we will use two tools from the set of GDAL tools, namely ``gdal_translate`` and ``gdaladdo``.
+For the rest of the workshop, we will use the ``image3.tiff`` file. You may wish to try some of the techniques discussed in this workshop on larger images. They may require different options, specially when it comes to creating pyramids. 
 
-We will use the ``image3.tif`` file for the rest of the tutorial. You can try yourself with bigger images (which might require different options, specially as we move into the creation of pyramids). We will be using that layer for the rest of this tutorial just to keep things easy to handle, although, as we have already discussed, some techniques might not be useful to apply to an image of this size.
+Once you have downloaded the image and installed GDAL, open a console window and access the folder containing the image. First, we will convert the image into a TIFF image with inner tiles using ``gdal_translate``. Secondly, we will add overviews to the image using ``gdaladdo``.
 
-Once you have downloaded the image and after having installed GDAL, open a console and go to the folder where you have the image to tile.
-
-We are going to do two things to this image: First, we will convert it into a TIF image with inner tiles. Second, we will add overviews to it. For the first task we will use ``gdal_translate``, and for the second one, ``gdaladdo``.
-
-Run the following command in the console:
+To convert the image to a TIFF file with inner tiles, execute the following command in the console:
 
 .. code-block:: console
 
 	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tiff
 
-This creates a tiled GeoTIFF file named ``image.tiff`` from our source layer ``image3.tiff``. The created layer uses the JPEG compression algorithm and has inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. Check the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`__ for more information. 
+This creates a tiled GeoTIFF file named ``image.tiff`` from our source layer ``image3.tiff``. The new layer was created using the JPEG compression algorithm and now contains inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. For further information, refer to the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`__. 
 
-A common setting is to adjust the size of inner tiles, which is set to 256 x 256 by default. To set them to 2048 instead (a much more efficient size in this case), use the following sentence instead of the above one:
+By default the size of the inner tiles is set to 256 x 256 pixels. To change this to  2048 x 2048, a much more efficient tile size for this example, use the following example instead:
 
 .. code-block:: console
 
 	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tiff
 
-Since the TIFF format supports them,, we can add overviews to allow for faster data extraction at different resolutions. This is done using the ``gdaladdo`` tool as shown next.
+We can now use the ``gdaladdo`` tool to add overviews. Execute the following:
 
 .. code-block:: console
 
 	$gdaladdo -r average image_tiled.tif 2 4 8 16
 
-We are telling ``gdaladdo`` to use an average value resampling algorithm, and to create 4 levels of overviews. Notice how this tool requires us to explicitly set the size ratio of all levels that we want to create. We will soon see that the GDAL tool used to create an external pyramid has a different syntax for defining the levels to create.
+In this example, we are instructing ``gdaladdo`` to use an average value resampling algorithm, and to create four levels of overviews. Notice how this tool requires us to explicitly set the size ratio of all levels we want to create. We will also see that the GDAL tool used to create an external pyramid has a different syntax for defining the levels to create.
 
-This command does not create any new files, but adds the overviews to the input file instead.
+The ``gdaladdo`` command does not create any new files, but adds the overviews to the input file instead.
 
-Since we have considered the solution of having a single file with inner tiles and overviews to be optimal for sizes below 2GB, in some cases it is interesting to create a single file from an already tiled dataset, so as to have the tiles in that single file and also the overviews. Having small files will cause that many files will be opened when rendering at smaller scales, which will affect performance.
+As we have discussed earlier, a single file with inner tiles and overviews is the optimal structure for file sizes below 2 Gb. In some cases it is worthwhile creating a single file from a previously tiled dataset, so the tiles are present in the file and also the overviews. If there are many small files, having to open and read the files when rendering the layer at smaller scales may have an adverse impact on performance.
 
-The ``gdal_merge`` tool can be used for this task. Here is an example.
+The ``gdal_merge`` tool can be used to create a single file. 
 
 .. code-block:: console
 
 	$gdal_merge.py -o single_file.tif -of GTiff -co "TILED=YES" *.tif
 
-This puts all TIFF files in your current folder into a single TIFF one. ``Gdaladdo`` can be later used to add overviews to the resulting file.
+This merges all TIFF files in your current folder into a single TIFF one. ``Gdaladdo`` can be later used to add overviews to the output file.
 
-The last thing we can do with ``gdal_translate`` is to remove unwanted bands, in case we are not going to use them, as explained in the previous section. To do so, we will use the ``-b`` modifier, to set the bands that we want to keep in the resulting image.
+The last thing we can do with ``gdal_translate`` is to remove any unwanted bands we don't intend to use. To do so, we will use the ``-b`` modifier, to specify the bands that we want to keep in the resulting image.
 
-If we have a 7-band Landsat image and we want to render it using a natural color composite with bands 1, 2 and 3, we can reduce the size of the image by keeping just those 3 first bands with the following command:
+If we have a 7-band Landsat image and we want to render it using a natural color composite with bands 1, 2 and 3, we can reduce the size of the image by keeping just those three bands with the following command:
 
 .. code-block:: console
 
 	$gdal_translate -b 1 -b 2 -b3 landsat.tif landsat_reduced.tif
 
-Once the optimized file is created, setting the corresponding layer in GeoServer is rather straightforward. This procedure will not be explained here.
+Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward. This procedure is not covered in this workshop. 
 
-Using a tiled mosaic. The ``gdal_retile`` tool 
------------------------------------------------
+.. todo:: where is it covered?
 
-If your data is too big for a single file, dividing it into tiles is the next option to consider. As in the case above, we will be using a tool from the set of GDAL utilities, in this case the ``gdal_retile`` tool.
+``gdal_retile`` tool 
+--------------------
 
-Here is an example on how to tile a single image.
+If your data is too big for a single file, dividing it into tiles is the next option to consider. For this we need to use the ``gdal_retile`` tool. To tile a single image, execute the following:
 
 .. code-block:: console
 
