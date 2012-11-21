@@ -50,9 +50,11 @@ Let’s move to GeoServer now. The first thing we have to do is import the image
 
 To assess the relative performance of accessing each file format in GeoServer, we will be using Google Chrome's built-in tools to measure performance (similar tools are provided for other browsers, feel free to your preferred browser). Open the GeoServer :guilabel:`Layer Preview` page. In the row representing the first image (``image1.png``), click :command:`Go` to see open a preview of the layer in OpenLayers. Once the page is loaded, press Ctrl+Shift+I (Command+Alt+I on a MAC ) to open the Chrome Developer Tools window. Select the :guilabel:` Network` tab.
 
-You should see something similar to this:
+You should see something similar to the following:
 
 .. figure:: imgs/chrometools.jpg
+
+   *Chrome browser developer tools*
 
 As you start making requests, you will notice the time it takes to respond to each request is reported in the *Time* column. Do some zooming and panning around the image and keep an eye on the results recorded in this column. The request times may appear longer than expected, and pan and zoom operations are not as smooth as they could be, mostly due to the size of the image.
 
@@ -79,11 +81,14 @@ The last TIFF image (``image4.tiff``) contains additional, lower resolution, ima
 These different data storage techniques explain the variations in layer access performance and provide the focus for our performance optimization strategies. We will discuss this further in this tutorial and see how to apply these optimizations with GeoServer, even when the data is not available in a single file as in this example.
 
 Working with raster tiles and pyramids 
-----------------------------------------
+--------------------------------------
 
 There are several optimization techniques available for working with large raster layers. Some of these techniques rely on a horizontal division, sub-dividing the layer into smaller sections, so only those sections of the data that are required are accessed. The layer can be accessed partially, depending on the request. This process is usually referred to as *tiling*.
 
 .. figure:: imgs/mosaic.png
+
+   *Image tiling*
+
 
 When the layer is tiled, the image covering a given area is comprised of a set of smaller images covering sections of the original area.
 
@@ -210,11 +215,13 @@ The first TIFF file parameter to consider is the *compression* type. Although TI
 Choosing one compression algorithm or another depends on several factors. In general, if your are going to use your data primarily for rendering, JPG is a good choice as although it produces a lossy compression, it can be considered as visually lossless. 
 If the data being compressed is an actual measurement (DEM, Temperature, and so on) or any other value not representing an image, lossless compression is the better option, as the original values are preserved.
 
-LZW compression works better with data with repeated patterns, so it is of particular interest for those layers with large areas of a single values, such as layers that might contain large parts of no-data values or with categorical values, like the image shown below.
+LZW compression works better on data with repeated patterns, so it is of particular interest for those layers with large areas of a single values, such as no-data values or with categorical values, like the image shown below.
 
 .. figure:: imgs/categories.png
 
-TIFF format files support internal tiles, which is a useful for large tile sizes—having each tile file internally tiled can speed up operations.
+   *Image categories*
+
+TIFF format files support internal tiles, which is a useful for large tile sizes. Having each tile file internally tiled can speed up data access operations.
 
 .. todo:: think the above statement needs some clarification
 
@@ -243,7 +250,11 @@ Compare the two images below. The top image uses the RGB color model, whereas th
 
 .. figure:: imgs/rgb.jpg
 
+   *RGB image*
+
 .. figure:: imgs/paletted.jpg
+
+   *Paletted image* 
 
 Palettes are usually limited to 256 colors. As each RGB component is represented in the 0-255 range, a paletted image size corresponds to a single band representing one of those components. Although this may be less than the number of colors used in the image, we can still use a palette, choosing the colors that are closest to the colors in the palette. The trade-off is smaller file sizes versus a lower quality image.
 
@@ -382,7 +393,11 @@ Once the tiles have been created, we need to configure GeoServer to use the tile
 
 .. figure:: imgs/imagemosaicentry.jpg
 
+   *ImageMosaic option* 
+
 .. figure:: imgs/MosaicStoreDefinition.jpg
+
+   *ImageMosaic settings* 
 
 Select a workspace and add a name. In the :guilabel:`URL` field, enter the folder where the recently created tiles are located. Save the changes and publish the layer. You may now preview your data using OpenLayers, or another suitable client.
 
@@ -397,6 +412,8 @@ Internal tiles can be created with ``gdal_retile``, just like we did when using 
 The ``gdaladdo`` tool will create overviews but it does not support multiple files. Create a batch script to automate the process of adding a pyramid to each tile. For those who prefer a more point-and-click solution and are not familiar with batch scripting, the open source QGIS package provides a graphical user interface for GDAL tools, and includes an option for batch processing the content of a folder. From the :guilabel:`raster` menu, click :guilabel:`Miscellaneous` and click :guilabel:`Build overviews(Pyramids)`.
 
 .. figure:: imgs/qgisoverviews.jpg
+
+   *Build overviews dialog box* 
 
 Select :guilabel:`Batch mode (for processing whole directory)` and complete the input text box with the path to your folder. The other options are the same as those used for the command-line version of ``gdaladdo``.
 
@@ -427,6 +444,8 @@ Now we need to configure what we have created as a new data source for GeoServer
 
 .. figure:: imgs/ConfigureImagePyramidStore.jpg
 
+   *ImagePyramid options* 
+
 Complete the input boxes as required and in the :guilabel:`URL` box enter the folder where you created the pyramid. Save and publish the layer.
 
 When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. For the ImagePyramid store it also generates additional files that describe the structure of the pyramid and optimizes access to the pyramid using its files. In particular:
@@ -454,6 +473,8 @@ For a mosaic of tiles, access to the tiles can be configured from the layer conf
 
 .. figure:: imgs/MosaicSettings.jpg
 
+   *Coverage Parameters settings* 
+
 The two main parameters that affect performance are :guilabel:`AllowMultithreading` and :guilabel:`SE_JAI_IMAGEREAD`. If :guilabel:`AllowMultithreading` is set to true, GeoServer will read more than one tile at a time. If :guilabel:`USE_JAI_IMAGEREAD` is set to true, GeoServer will use the deferred loading mechanism of JAI, which allows tiles to be streamed. This is usually slower but the process consumes much less memory as tiles are not loaded in memory when creating the mosaic. When this setting is set to false, an immediate loading mechanism is used, which uses more memory but provides better performance.
 
 Setting the :guilabel:`USE_JAI_IMAGEREAD` parameter to true may result in a “Too many files opened” error, as files are left opened for the deferred loading mechanism to be available. As a rule of thumb, set :guilabel:`USE_JAI_IMAGEREAD` to true and set :guilabel:`AllowMultithreading` to false if your system has limited memory. If there are no memory limitations, switch those values (:guilabel:`USE_JAI_IMAGE_READ` = false, :guilabel:`AllowMultithreading` = true*) for better performance.
@@ -475,11 +496,16 @@ These files include the index shapefile, which helps identify which tiles will s
 
 .. figure:: imgs/qgisindex.jpg
 
+   *Tile index* 
+
+
 The :guilabel:`location` field in the associated attribute table points to the file that contains the actual image data for each geometry.
 
 .. figure:: imgs/qgisindex2.jpg
 
-Configuration parameters are listed in the <name>.properties file, which should include content similar to the following:
+   *Tile index attribute table*
+
+Configuration parameters are listed in the <*name*>.properties file, which should include content similar to the following:
 
 .. code-block:: console
 
@@ -500,7 +526,7 @@ From a performance perspective, the two interesting parameters are ``Caching`` a
 The ``ExpandToRGB`` setting can be used to optimize performance for paletted images. If all images share the same palette, setting this parameter to :guilabel:`false` will improve the data access performance. If images don't share the same palette, then it must be set to true, since non-matching palettes make it necessary to expand the color definitions to RGB.
 
 Fine-tuning a pyramid image data store 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 For pyramids we can configure the settings both for GeoServer and also the additional files that are created by GeoServer along with the tile files. As this data store depends directly on the ImageMosaic data store, the configuration values are the same. Determining how GeoServer uses multithreading is fundamental to performance tuning.
 
@@ -516,7 +542,7 @@ As GeoServer uses JAI to read images, the correct configuration of JAI can have 
 
 .. figure:: imgs/JAIsettings.jpg
 
-   *JAI settings page*
+   *JAI Settings page*
 
 The parameters include:
 
@@ -530,7 +556,7 @@ The parameters include:
 
 Apart from these parameters, it is important to use native JAI and ImageIO. GeoServer ships with pure-Java JAI, which does not provide the best performance.
 
-Coverage access settings
+Coverage Access settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
 Coverage Access settings are mainly used to configure how GeoServer uses multithreading, very important for mosaics, since this controls how multiple granules can be opened simultaneously.
@@ -544,8 +570,8 @@ Coverage Access settings are mainly used to configure how GeoServer uses multith
 The parameters include:
 
 * :guilabel:`Core Pool Size`—Core pool size of the thread pool executor 
-- :guilabel:`Maximum Pool Size`—Maximum pool size of the thread pool executor. The guideline for the :guilabel:`Tile Threads` setting for JAI (using a value equal to twice the number of cores in your machine) also applies here. 
-- :guilabel:`ImageIO Cache Memory Threshold`—Sets the threshold above which a WCS request result is cached to disk instead of in memory before encoding it. This setting is not relevant for WMS requests, since they tend to involve less data.
+* :guilabel:`Maximum Pool Size`—Maximum pool size of the thread pool executor. The guideline for the :guilabel:`Tile Threads` setting for JAI (using a value equal to twice the number of cores in your machine) also applies here. 
+* :guilabel:`ImageIO Cache Memory Threshold`—Sets the threshold above which a WCS request result is cached to disk instead of in memory before encoding it. This setting is not relevant for WMS requests, since they tend to involve less data.
 
 Reprojection settings 
 ^^^^^^^^^^^^^^^^^^^^^

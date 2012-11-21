@@ -406,8 +406,6 @@ font-weight: bold;
 }
 
 
-
-
 .docwarning {
 background-color: #ffe4e4;
 padding: 10px;
@@ -684,6 +682,12 @@ border: 3px solid red;
 
 img.math {
 vertical-align: middle;
+}
+
+.figure {
+margin-top: 15px;
+margin-bottom: 15px;
+text-align: center;
 }
 
 div.math p {
