@@ -274,7 +274,7 @@ So far, we have assumed the type of raster data to optimize consists of RGB (col
 
 Multispectral images can have a number of bands ranging from four, usually the three corresponding to RGB and a infrared band, to several hundreds. They cover different regions of the electromagnetic spectrum and rendered using a *false-color* composition. To create this composition, three bands are selected and used as RGB components. However, the intensity represented in their pixel values does not represent the intensity in the frequencies corresponding to the RGB components. With those pixel values, the color of the pixel is computed.
 
-If we are working with multispectral imagery, but our main goal is to serve only true-color or false-color rendered images derived from it through a WCS service, we can retain only those bands required for the color composition. This will result in smaller file sizes, and consequently better performance.
+If we are working with multispectral imagery, but our goal is to serve only true-color or false-color rendered images derived from that imagery through a WCS service, we can retain only those bands required for the color composition. This will result in smaller file sizes, and consequently better performance.
 
 However, if we're working with all the bands in the multispectral image, understanding how band values are stored can help optimize the performance. In the case of a TIFF file, two schemes are supported.
 
@@ -345,135 +345,120 @@ Once the optimized file is created, setting the corresponding layer in GeoServer
 ``gdal_retile`` tool 
 --------------------
 
-If your data is too big for a single file, dividing it into tiles is the next option to consider. For this we need to use the ``gdal_retile`` tool. To tile a single image, execute the following:
+If your data is too large for a single file, dividing it into tiles is the next option to consider. For this we need to use the ``gdal_retile`` tool. To tile a single image, execute the following:
 
 .. code-block:: console
 
 	$gdal_retile.py -targetDir tiles image.tif
 
-That will create a set of TIFF files with all the tiles resulting from tiling the input layer.
+.. todo:: is image.tif the output or input file?
 
-The size of the generated tiles (256 x 256 by default) can be set with the ``-ps`` modifier. To create a set of tiles of size 2048 x 2048 (the same tiling as in the above case of having a single image file, but with several files used instead, one for each tile), use the following command instead.
+
+That will create a set of tiled TIFF files from the source data. The size of the tiles (256 x 256 by default) can be set with the ``-ps`` modifier as follows: 
 
 .. code-block:: console
 
 	$gdal_retile.py -ps 2048 2048 -targetDir tiles image.tif
 
-If your dataset is not comprised of a single layer, but a set of ones (and assuming their individual size is not optimal for using them as single layers), you can retile the whole set by using the ``-optFile`` modifier, as shown next:
+If your dataset comprises a number of layers (and assuming their individual sizes make it inappropriate to use them as single layers), you can retile all the layers with the ``-optFile`` modifier, as shown next:
 
 .. code-block:: console
 
 	$gdal_retile.py -targetDir tiles --optfile filestotile.txt
 
-The ``filestotile.txt`` file should contain a list of all image files to use as input. If you are running Windows, open a console, go to the folder where those files can be found and type the following, assuming that the current folder just contains image files you want to tile..
+The ``filestotile.txt`` file should contain a list of all the input image files. If you are running Windows, open a console window, go to the folder containing the files and type the following:
 
 .. code-block:: console
 
 	$dir /b > files.txt
 
-In Linux, use this line instead:
+In Linux, the command syntax is:
 
 .. code-block:: console
 
 	$ls > files.txt
 
-Once the tiles are created, we need to configure GeoServer to use them as a single layer, exactly like it would do if all data was contained in a single file.
-
-Browse to your GeoServer configuration site and add a new datastore. In the next screen you will select the type of data store you want to create. You should have an ImageMosaic entry available:
+Once the tiles have been created, we need to configure GeoServer to use the tiles as a single layer. Open your GeoServer Web Administration Interface and add a new data store. Select :guilabel:`ImageMosaic` as the type of data store to create.
 
 .. figure:: imgs/imagemosaicentry.jpg
 
-Select it and you will get to the store definition page.
-
 .. figure:: imgs/MosaicStoreDefinition.jpg
 
-Select a workspace and add a name. In the *URL* field, enter the folder where the recently created tiles are found. Publish the layer and now you are ready to open the OpenLayers preview, or to access using a suitable client.
+Select a workspace and add a name. In the :guilabel:`URL` field, enter the folder where the recently created tiles are located. Save the changes and publish the layer. You may now preview your data using OpenLayers, or another suitable client.
 
-You will notice that performance is good at high resolutions (and it would be the same no matter the extent of the whole layer, as is is divided in manageable chunks), but it could be improved at lower resolutions. This is because the resulting images do not have overviews. Even if we had created it from the ``image4.tiff`` file, which contains overviews, the tiles do not have pyramids. In fact, they do not even have internal tiling, so all the performance increase that we have is because of the external tiling.
+You should notice that performance is good when viewing the data at high resolutions (small scale), but performance could be improved at lower resolutions (large scale). This is because overviews were not created for the images. Even if we had created the layer from the ``image4.tiff`` file, which does contains overviews, the tiles do not have pyramids. The tiles don't even have internal tiling, so the performance optimization we see viewing the data at high resolution is a result of the external tiling we've set up.
 
-Internal tiles can be created when calling ``gdal_retile``, just like we did when using ``gdal_translate``. As it is a GDAL tool, it accepts all parameters that are valid for the output format, which are passed using the ``-co`` modifier. The following command can be used to add internal tiles with a size of 512x512 pixels
+Internal tiles can be created with ``gdal_retile``, just like we did when using ``gdal_translate``. As it is a GDAL tool, it accepts all parameters that are valid for the output format using the ``-co`` modifier. The following command will add internal tiles with a tile size of 512 x 512.
 
 .. code-block:: console
 
 	$gdal_retile.py -ps 2048 2048 -co "TILED=YES" -co "BLOCKXSIZE=512" -co "BLOCKYSIZE=512" -targetDir tiles image.tif
 
-Creating overviews has to be done with ``gdaladdo``, as we have already seen, but there is no support for multiple files. A bit of scripting is needed to automate the process of adding them to each one of the tiles in the folder.
-
-For those who prefer a more point-and-click solution and are not familiar with batch scripting, QGIS can be used as a front-end for GDAL tools, and it contains an option for batch processing the content of a folder. In the *Raster* menu, select *Miscellaneous/Build Overviews(Pyramids)*.
+The ``gdaladdo`` tool will create overviews but it does not support multiple files. Create a batch script to automate the process of adding a pyramid to each tile. For those who prefer a more point-and-click solution and are not familiar with batch scripting, the open source QGIS package provides a graphical user interface for GDAL tools, and includes an option for batch processing the content of a folder. From the :guilabel:`raster` menu, click :guilabel:`Miscellaneous` and click :guilabel:`Build overviews(Pyramids)`.
 
 .. figure:: imgs/qgisoverviews.jpg
 
-Check the *Batch mode (for processing whole directory)* check box and fill the text box below with the path to your folder. You should be able to understand the rest of options, as they are the ones used for the command-line version of ``gdaladdo``, which were described already.
+Select :guilabel:`Batch mode (for processing whole directory)` and complete the input text box with the path to your folder. The other options are the same as those used for the command-line version of ``gdaladdo``.
 
-Using pyramids. 
-----------------
+Using pyramids 
+--------------
 
-To use pyramids in GeoServer, the first thing to do is to create a directory with pyramid files and tiles.To do so, we will use the ``gdal_retile`` tool, as we did in the last case, but telling it to create the different levels, not just to tile the entry layer. This will create a folder with image files and subfolders, with a structure that GeoServer can use.
-
-Open a console, go to the file where you have the image to tile and type the following:
+To use pyramids in GeoServer, the first thing to do is to create a directory with pyramid files and tiles. To do so, we will use the ``gdal_retile`` tool again but this time we will create the different pyramid levels and not just tiles the base layer. This tool create a GeoServer compatible structure with a folder containing image files and subfolders. Open a console window, locate the image to tile, and enter the following:
 
 .. code-block:: console
 
 	$gdal_retile.py -levels 4 -ps 2048 2048 -targetDir tiles image.tif
 
-You can see that the only difference here is the ``-levels`` modifier. That tells ``gdal_retile`` to create 4 levels of overviews, which, as we already saw, is the number of levels needed to complete the whole pyramid in our case and with that tile size. In case we just need the lower levels, we can use another value less than 4.
+You will notice that the only difference this time is the ``-levels`` modifier which instructs ``gdal_retile`` to create four levels of overviews, the number required to complete the whole pyramid in our example. The tile size is set to 2048 x 2048. If you think you may just need the lower levels of the pyramid, use a value less than four.
 
-Since the process of creating a pyramid is rather time-consuming (the volume of data that requires creating it is itself very large), it is usually a good idea to add the ``-v`` modifier, to tell ``gdal_retile`` to be verbose and tell us about the progress it is doing.
+Since the process of creating a pyramid is rather time-consuming, it is usually a good idea to add the ``-v`` modifier to instruct ``gdal_retile`` to report the progress of the operation.
 
-All the modifiers that we saw when using this tool just to create tiles can be used now as well. The interpolation method used to create the overviews can be set using the ``-r`` modifier. To set a bilinear interpolation instead of the default nearest neighbour, the following command line can be used.
+The interpolation method used to create the overviews can be specified with the ``-r`` modifier. To use a bilinear interpolation instead of the default nearest neighbor interpolation, the following command would be used:
 
 .. code-block:: console
 
 	$gdal_retile.py -r bilinear -levels 4 -ps 512 512 -targetDir tiles image.tif
 
-The result of any of the above ``gdal_retile`` commands is a set of files corresponding to the first level (which are the same ones that we created when we created the mosaic without pyramids) and then folders corresponding to the rest of levels, with correlative numbering. Each of this folders contains itself a set of tile files.
+The ``gdal_retile`` tool will create a set of files corresponding to the first level of the pyramid (these are the same files that we created when we created the mosaic without pyramids) and then a number of subfolders corresponding to the rest of levels, each containing a set of tile files.
 
-As you can see, only the tiles have been generated, and there are no additional index files. Although ``gdal_retile`` can create them, it is not needed, and GeoServer itself will take care of doing that.
+As you can see, only the tiles have been generated, and there are no additional index files. Although ``gdal_retile`` can create index files, it is not necessary as GeoServer will add those.
 
-Let’s configure what we have obtained as a new data source in GeoServer. To do it we need a new type datastore that is not installed with GeoServer by default: ImagePyramid. To install it, just download the corresponding ``jar`` file from the GeoServer website and drop it in the ``WEB-INF/lib`` folder of our GeoServer installation.
-
-Now you should find the ImagePyramid datastore when creating a new datastore, and clicking on it will take you to the following configuration page:
+Now we need to configure what we have created as a new data source for GeoServer. To do it we need a new type data store, ImagePyramid, that is not available with GeoServer by default. To install it, just download the corresponding ``jar`` file from the `GeoServer website <http://www.geoserver.org/>`_ and save it in the ``WEB-INF/lib`` folder of your GeoServer installation. Now when you create a new data store, ImagePyramid will be listed as one of the options. Click :guilabel:`ImagePyramid` to access the configuration page:
 
 .. figure:: imgs/ConfigureImagePyramidStore.jpg
 
-Fill the upper fields as usual, and in the *URL* field put the folder where you have just created the pyramid. Publish the layer.
+Complete the input boxes as required and in the :guilabel:`URL` box enter the folder where you created the pyramid. Save and publish the layer.
 
-When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. In this case, it also generates additional files that describe the structure of the pyramid and optimize using its files. In particular,
+When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. For the ImagePyramid store it also generates additional files that describe the structure of the pyramid and optimizes access to the pyramid using its files. In particular:
 
-- All files in the pyramid folder (those corresponding to the original resolution), are moved to a folder named ``0``. 
-- An index shapefile is created for the mosaic representing each pyramid level, and stored in the corresponding folder.
+.. todo:: which files does it use to optimize access?
 
-If you have a massive dataset, it is a good idea to do the first one of this steps manually just after the pyramid tiles are created. Otherwise, it might take too much time to copy the files, and the datastore creation request might expire.
+* All files in the pyramid folder (those corresponding to the original resolution, first level), are moved to a folder named ``0``. 
+* An index shapefile is created for the mosaic representing each pyramid level, and stored in the corresponding folder.
 
-Fine-Tuning GeoServer 
------------------------
+If you have a large dataset, it is usually a good idea to complete the first step manually after the pyramid tiles have been created. Otherwise, if it takes too much time to copy the files the data store creation request may expire.
 
-All of the instructions above refer to how data should be stored in order to have the best performance. Depending on the selected alternative, there was a different way of incorporating our raster data into GeoServer. While this ensures that our data will be better prepared to be server by GeoServer with optimal performance, there are still some settings that we can do on GeoServer itself to improve overall performance.
+.. todo:: clarify what the first step was?
 
-This section will explain all the settings available for each one of the different stores, and give some recommendations about how to adjust them to get an optimal performance.
+Fine-tuning GeoServer 
+---------------------
 
-For the case of a single layer, there is no configuration to do on GeoServer to optimize how it is used. All the optimization are in this case in the layer itself, as it was described in a previous section.
+The instructions above all relate to the optimum methods of storing data to achieve the best performance. Depending on the options chosen, there are a number of ways of incorporating our raster data into GeoServer. While this ensures that our data is optimally configured for GeoServer, there are some additional settings in GeoServer that we can configure to improve overall performance.
 
-Fine-Tuning an ImageMosaic datastore 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+This section will explain all the settings available for each of the different data stores, and provide some recommendations for optimal performance. For single layers, there are no configuration options in GeoServer to optimize how they are accessed. 
 
-In the case of a mosaic of tiles, the way tiles are accessed can be configured from the layer configuration page. In the GeoServer Layers page, select the layer to configure.
+Fine-tuning an ImageMosaic data store 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The most interesting parameters are in the Coverage Parameters section
+For a mosaic of tiles, access to the tiles can be configured from the layer configuration page. Access the GeoServer Web Administration Interface, click :guilabel:`Layers` and select the layer you want to configure. The most relevant parameters are configured via the Coverage Parameters section.
 
 .. figure:: imgs/MosaicSettings.jpg
 
-The two main parameters that affect performance are *AllowMultithreading* and *USE_JAI_IMAGEREAD*
+The two main parameters that affect performance are :guilabel:`AllowMultithreading` and :guilabel:`SE_JAI_IMAGEREAD`. If :guilabel:`AllowMultithreading` is set to true, GeoServer will read more than one tile at a time. If :guilabel:`USE_JAI_IMAGEREAD` is set to true, GeoServer will use the deferred loading mechanism of JAI, which allows tiles to be streamed. This is usually slower but the process consumes much less memory as tiles are not loaded in memory when creating the mosaic. When this setting is set to false, an immediate loading mechanism is used, which uses more memory but provides better performance.
 
-If *AllowMultithreading* is set to true, GeoServer can read more than one tile at the same time.
+Setting the :guilabel:`USE_JAI_IMAGEREAD` parameter to true may result in a “Too many files opened” error, as files are left opened for the deferred loading mechanism to be available. As a rule of thumb, set :guilabel:`USE_JAI_IMAGEREAD` to true and set :guilabel:`AllowMultithreading` to false if your system has limited memory. If there are no memory limitations, switch those values (:guilabel:`USE_JAI_IMAGE_READ` = false, :guilabel:`AllowMultithreading` = true*) for better performance.
 
-If *USE_JAI_IMAGEREAD* is set to true, then GeoServer will use the deferred loading mechanism of JAI, which allows tiles to be read in a streaming fashion. This is usually slower, but consumes much less memory, since tiles are not loaded in memory to create the mosaic to render. When it is set to false, an immediate loading mechanism is used, which uses more memory but provides faster performance.
-
-Setting the *USE_JAI_IMAGEREAD* mechanism to true can cause a “Too many files opened” error, as files are left opened for the deferred loading mechanism to be available.
-
-As a rule of thumb, set *USE_JAI_IMAGEREAD* to true if your amount of memory is restricted, and in that case, set *AllowMultithreading* to false. When there are no memory problems, switch those values (*USE_JAI_IMAGE_READ = false, AllowMultithreading = true*) for better performance.
-
-Apart from the configuration that we can do from the GeoServer configuration page, we can manually configure some other settings. Let’s have a look at the folder where we stored our tiles. After having added our mosaic of image tiles as a new data store to GeoServer, a few new files have been created. The extra files are:
+Aside from the GeoServer configurations, we can also manually configure some other settings. Let’s have a look at the folder where we stored our tiles. After adding our mosaic of image tiles as a new data store to GeoServer, a few new files have been created. The extra files are:
 
 .. code-block:: console
 
@@ -486,17 +471,15 @@ Apart from the configuration that we can do from the GeoServer configuration pag
 	tiles.shp 
 	tiles.shx
 
-These basically correspond to the files needed to define a shapefile, plus a couple of additional ones. The shapefile contains the index that makes it faster to know which tile files are needed for a given request, depending on the area covered. You can open in your favorite GIS and you will see it contains something like this:
+These files include the index shapefile, which helps identify which tiles will satisfy a given request, and a couple of additional files. If you preview the index shapefile in you GIS application it should look similar to the following:
 
 .. figure:: imgs/qgisindex.jpg
 
-The associated table looks like this:
+The :guilabel:`location` field in the associated attribute table points to the file that contains the actual image data for each geometry.
 
 .. figure:: imgs/qgisindex2.jpg
 
-The *location* field points to the file that contains the actual image data for each geometry.
-
-Configuration parameters can be found in the .properties file, which should have a content like the following one.
+Configuration parameters are listed in the <name>.properties file, which should include content similar to the following:
 
 .. code-block:: console
 
@@ -512,61 +495,62 @@ Configuration parameters can be found in the .properties file, which should have
  SuggestedSPI=it.geosolutions.imageioimpl.plugins.tiff.TIFFImageReaderSpi 
  LevelsNum=1
 
-Performance-wise, the two interesting parameters here are ``Caching`` and ``ExpandToRGB``.
+From a performance perspective, the two interesting parameters are ``Caching`` and ``ExpandToRGB``. If ``Caching`` is set to true, the spatial index is retained in memory,  providing much better data access performance. This option is especially significant if your raster data has just one dimension, like our sample data, so it is good idea to set this parameter to true. However, if your data has more than one dimension and the queries are not restricted to index-based queries, caching does not produce in any performance gains.
 
-If ``Caching`` is set to true, the spatial index is kept in memory, which gives a much better performance and the right tile is found much faster than when not using this feature.
+The ``ExpandToRGB`` setting can be used to optimize performance for paletted images. If all images share the same palette, setting this parameter to :guilabel:`false` will improve the data access performance. If images don't share the same palette, then it must be set to true, since non-matching palettes make it necessary to expand the color definitions to RGB.
 
-This improvement is especially significant when our raster data has just one dimension, as in the example we are working on, so it is good idea to set this parameter to true in this case. However, when our data has more dimensions and the queries are not going to be based just on the indexing contained in the index file, caching generally does not mean an important improvement.
+Fine-tuning a pyramid image data store 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 
-The ``ExpandToRGB`` setting can be used to increase performance in case we work with paletted images. If all images share the same palette, setting this parameter to false will improve the performance of the system. If not, then it must be false, since non-matching palettes make it necessary to expand color to RGB.
-
-Fine-Tuning a Pyramid Image datastore 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
-
-In the case of a pyramid, we can modify the settings both in the corresponding GeoServer page, and also in the additional files that are created by GeoServer along with the tile files. As this datastore depends directly on the ImageMosaic datastore, the configuration values are the same, and the ideas behind it are identical. Controlling how GeoServer uses multithreading is the fundamental setting to tune its performance.
+For pyramids we can configure the settings both for GeoServer and also the additional files that are created by GeoServer along with the tile files. As this data store depends directly on the ImageMosaic data store, the configuration values are the same. Determining how GeoServer uses multithreading is fundamental to performance tuning.
 
 Global settings for raster data 
 --------------------------------
 
-Some settings affect all kinds of raster-based data, regardless of their structure or the plugin used to access them. These settings can be accessed from the main GeoServer page, and are divided in two main groups: JAI settings and Coverage Access settings
+Some settings affect all kinds of raster-based data, regardless of their structure or the plug-in required to access them. These settings are available from the main GeoServer Web Administration Interface page, and are divided in two main groups—JAI (Java Advanced Imaging) settings and Coverage Access settings.
 
-JAI settings 
-^^^^^^^^^^^^ 
+JAI settings
+~~~~~~~~~~~~
 
-GeoServer uses JAI (Java Advanced Imaging) to read images, and correct configuration of JAI can have a significant impact on the image rendering performance of GeoServer.
-
-This is the JAI settings page:
+As GeoServer uses JAI to read images, the correct configuration of JAI can have a significant impact on the image rendering performance of GeoServer.
 
 .. figure:: imgs/JAIsettings.jpg
 
-And here are some explanations and hints for setting the available parameters.
+   *JAI settings page*
 
-- *Memory capacity* and *Memory threshold* are related to JAI's TileCache. Performance degrades with low values of capacity, but large values cause the cache to fill up quickly.
+The parameters include:
 
-- *Tile Threads*. JAI utilizes a TileScheduler for tile calculation. Tile computation may make use of multi-threading for improved performance. The Tile Threads parameter sets the TileScheduler, indicating the number of threads to be used when loading tiles. As a rule of thumb, use a value equal to twice the number of cores in your machine.
+* :guilabel:`Memory capacity` and :guilabel:`Memory threshold`—Both parameters are related to JAI's TileCache. Performance will degrade with low values of capacity, but large values cause the cache to fill up quickly.
 
-- *Tile recycling*. Only enable this when memory is not a problem.
+.. todo:: does this mean both settings should have high or low settings - any guidelines for the values to use?
 
-Apart from these parameters, it is important to use native JAI and ImageIO. GeoServer ships with pure-Java JAI, which does not provide such a good performance.
+* :guilabel:`Tile Threads`—Sets the TileScheduler (calculates tiles) indicating the number of threads to be used when loading tiles (tile computation may make use of multithreading for improved performance). As a rule of thumb, use a value equal to twice the number of processing cores in your machine.
 
-Coverage Access Settings 
-^^^^^^^^^^^^^^^^^^^^^^^^^^ 
+* :guilabel:`Tile recycling`—Only enable this when there are no memory restrictions 
 
-Coverage Access settings are mainly used to adjust how GeoServer uses multithreading, which is particularly important when using mosaics, since this controls how multiple granules can be opened simultaneously.
+Apart from these parameters, it is important to use native JAI and ImageIO. GeoServer ships with pure-Java JAI, which does not provide the best performance.
 
-This is the coverage settings page.
+Coverage access settings
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Coverage Access settings are mainly used to configure how GeoServer uses multithreading, very important for mosaics, since this controls how multiple granules can be opened simultaneously.
+
+.. todo:: explain granules
 
 .. figure:: imgs/CASettings.jpg
+ 
+   *Coverage access page*
 
-And below you can find the explanation of the parameters to adjust.
+The parameters include:
 
-- *Core Pool Size*. The core pool size of the thread pool executor. 
-- *Maximum Pool Size*. The maximum pool size of the thread pool executor. The rule mentioned for the *Tile Threads* setting for JAI (using a value equal to twice the number of cores in your machine) can be applied here as well. 
-- *ImageIO Cache Memory Threshold*. This setting is not important for WMS requests, since they use to be small. In the case of WCS, they can be larger, and this parameter sets the threshold above which a WCS request result is cached to disk instead of in memory before encoding it.
+* :guilabel:`Core Pool Size`—Core pool size of the thread pool executor 
+- :guilabel:`Maximum Pool Size`—Maximum pool size of the thread pool executor. The guideline for the :guilabel:`Tile Threads` setting for JAI (using a value equal to twice the number of cores in your machine) also applies here. 
+- :guilabel:`ImageIO Cache Memory Threshold`—Sets the threshold above which a WCS request result is cached to disk instead of in memory before encoding it. This setting is not relevant for WMS requests, since they tend to involve less data.
 
 Reprojection settings 
-^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
-Geoserver uses an approximated function to reproject raster layers, instead of a pixel-by-pixel reprojection. This implies trading precision for performance. The precision that you want to have can be set when starting GeoServer, using the ``-Dorg.geotools.referencing.resampleTolerance`` modifier. By default, it has a value of 0.333. The larger the value, the lower the accuracy of the reprojection will be, but the better performance you will obtain. Depending on the amount of error that you can tolerate in your particular circumstances, you can increase or decrease this parameter.
+Geoserver uses an approximated function to reproject raster layers, instead of a pixel-by-pixel reprojection. This means a trade-off between precision or performance. The precision that you want to achieve can be configured when starting GeoServer, using the ``-Dorg.geotools.referencing.resampleTolerance`` modifier. By default, it has a value of 0.333. The larger the value, the lower the accuracy of the reprojection, but the better the data access performance. Depending on the precision tolerance of your particular application requirements, you can increase or decrease this parameter.
 
-Also, if you are serving vector data as well, or expect your images to be combined with vector layer, a larger error tolerance might produce unwanted results, since it might be easier to appreciate the distortions when images are rendered along with vector features. 
+.. note:: If you are publishing vector data as well, or expect your images to be combined with vector layers, a larger error tolerance may produce unwanted results. Image distortions may become more apparent when rendered with vector features. 
+
