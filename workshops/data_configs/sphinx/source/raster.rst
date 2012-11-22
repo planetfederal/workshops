@@ -6,8 +6,7 @@ Optimizing raster layers in GeoServer
 Outline 
 --------
 
-This workshop presents some of the techniques and tools that are available to improve GeoServer performance when working with raster layers. Some of these techniques involve altering the data itself, while others consider how the data is structured and organized. Although we will cover 
-some GeoServer-specific settings, most of these optimizations should result in improved general performance for other applications working with the same data. 
+This workshop presents some of the techniques and tools that are available to improve GeoServer performance when working with raster layers. Some of these techniques involve altering the data itself, while others consider how the data is structured and organized. Although we will cover some GeoServer-specific settings, most of these optimizations should result in improved general performance for other applications working with the same data. 
 
 
 Introduction 
@@ -48,7 +47,7 @@ The PNG format file is clearly the larger file, while the JPG format is the smal
 
 Let’s move to GeoServer now. The first thing we have to do is import the images into GeoServer. You can do this manually through the GeoServer web administration interface. If you have the ``curl`` command line tool installed, you can use the ``import_layers`` script included in the image zip file to import the images using Geoserver’s REST API. Just make sure GeoServer is running before executing the script.
 
-To assess the relative performance of accessing each file format in GeoServer, we will be using Google Chrome's built-in tools to measure performance (similar tools are provided for other browsers, feel free to your preferred browser). Open the GeoServer :guilabel:`Layer Preview` page. In the row representing the first image (``image1.png``), click :command:`Go` to see open a preview of the layer in OpenLayers. Once the page is loaded, press Ctrl+Shift+I (Command+Alt+I on a MAC ) to open the Chrome Developer Tools window. Select the :guilabel:` Network` tab.
+To assess the relative performance of accessing each file format in GeoServer, we will be using Google Chrome's built-in tools to measure performance (similar tools are provided for other browsers, feel free to your preferred browser). Open the GeoServer :guilabel:`Layer Preview` page. In the row representing the first image (``image1.png``), click :command:`Go` to see open a preview of the layer in OpenLayers. Once the page is loaded, press Ctrl+Shift+I (Command+Alt+I on a MAC) to open the Chrome Developer Tools window. Select the :guilabel:` Network` tab.
 
 You should see something similar to the following:
 
@@ -56,7 +55,7 @@ You should see something similar to the following:
 
    *Chrome browser developer tools*
 
-As you start making requests, you will notice the time it takes to respond to each request is reported in the *Time* column. Do some zooming and panning around the image and keep an eye on the results recorded in this column. The request times may appear longer than expected, and pan and zoom operations are not as smooth as they could be, mostly due to the size of the image.
+As you start making requests, you will notice the time it takes to respond to each request is reported in the *Timeline* column. Zoom and pan around the image and keep an eye on the results recorded in this column. The request times may appear longer than expected, and pan and zoom operations are not as smooth as they could be, mostly due to the size of the image.
 
 Repeat the same process with the JPG image. Perhaps surprisingly, you should experience something similar. The request response times are a bit shorter, but still long enough to delay the pan and zoom operations.
 
