@@ -23,12 +23,12 @@ We can see this clearly in a simple example. Download `this zip file <http://lin
 
  	image1.png 
  	image2.jpg 
- 	image3.tiff 
- 	image4.tiff
+ 	image3.tif 
+ 	image4.tif
 
 .. only:: workshop
 
-As you can see, the images are stored a three different formats. We will use these files to illustrate how, although they contain the same image and appear similar, they exhibit different performance profiles in GeoServer. Even when files appear to be stored in the same format, as with the two .tiff files, the performance profiles can differ depending on the parameters used to create the files.
+As you can see, the images are stored a three different formats. We will use these files to illustrate how, although they contain the same image and appear similar, they exhibit different performance profiles in GeoServer. Even when files appear to be stored in the same format, as with the two ``.tif`` files, the performance profiles can differ depending on the parameters used to create the files.
 
 .. only:: workshop
 
@@ -38,8 +38,8 @@ First of all, let’s have a look at the sizes of those images.
 
 	image1.png 136.052.194 
  	image2.jpg 12.480.346 
- 	image3.tiff 34.896.016 
- 	image4.tiff 52.921.428
+ 	image3.tif 34.896.016 
+ 	image4.tif 52.921.428
 
 The PNG format file is clearly the larger file, while the JPG format is the smallest file. TIFF files are similar in size to the JPG format. The relatively compact JPG format seems the obvious choice if data storage is limited and its smaller file sizes might suggest better data access performance as well. However there are other factors to consider that may negate these advantages.
 
@@ -60,9 +60,9 @@ As you start making requests, you will notice the time it takes to respond to ea
 
 Repeat the same process with the JPG image. Perhaps surprisingly, you should experience something similar. The request response times are a bit shorter, but still long enough to delay the pan and zoom operations.
 
-If you now open the first TIFF file (``image3.tiff``), it might take some time to render the image when the full extent is displayed for the first time, but once loaded if you zoom and pan around the image you should see much better response times. If you zoom to the maximum resolution (so you can see the actual pixels), response times are almost immediate and pan operations are smooth. The layer access performance for the TIFF format file is demonstrably better than the JPG and PNG formats.
+If you now open the first TIFF file (``image3.tif``), it might take some time to render the image when the full extent is displayed for the first time, but once loaded if you zoom and pan around the image you should see much better response times. If you zoom to the maximum resolution (so you can see the actual pixels), response times are almost immediate and pan operations are smooth. The layer access performance for the TIFF format file is demonstrably better than the JPG and PNG formats.
 
-Let’s try to improve the performance at low resolution. Preview the second TIFF image layer, ``image4.tiff``. You should notice that it displays much faster than the other three images. If you zoom and pan around the image, you should also see that the response times are similar at all scales and there is no difference in terms of performance between the different zoom levels.
+Let’s try to improve the performance at low resolution. Preview the second TIFF image layer, ``image4.tif``. You should notice that it displays much faster than the other three images. If you zoom and pan around the image, you should also see that the response times are similar at all scales and there is no difference in terms of performance between the different zoom levels.
 
 This simple test demonstrates how important the appropriate file format and the appropriate configuration are in optimizing system performance.
 
@@ -70,13 +70,13 @@ In the remainder of this workshop, we will investigate why this discrepancy in l
 
 For both the PNG and the JPG format files, even when only part of the image has to be rendered, the whole image has to be opened and read first—this operation incurs a significant processing overhead. 
 
-The first TIFF file (``image3.tiff``) is divided internally into tiles, so when you zoom to a given area, only the data corresponding to that area is accessed. However, previewing the full extent of the image still requires a full scan.
+The first TIFF file (``image3.tif``) is divided internally into tiles, so when you zoom to a given area, only the data corresponding to that area is accessed. However, previewing the full extent of the image still requires a full scan.
 
-For both the JPG and PNG images, pixel values are written sequentially, starting from one corner of the image, and ending in the diagonally opposite corner. 
+For both the JPG and PNG images, pixel values are written sequentially, starting from one corner of the image, and ending in the diagonally opposite corner. That means that, to find the pixels corresponding to a given area, a sequential reading is also needed. In the TIFF file, the internal division allows to get a group of pixels without having to read the whole layer, since each division can be considered independent from the point of view of access.
 
 .. todo:: need more of explanation here as to why this sequential write process affects performance
 
-The last TIFF image (``image4.tiff``) contains additional, lower resolution, images (hence its larger size), so when a full scan is required, the scan is performed on those lower resolution images instead of the original higher resolution image.
+The last TIFF image (``image4.tif``) contains additional, lower resolution, images (hence its larger size), so when a full scan is required to render at a small scale, the scan is performed on those lower resolution images instead of the original higher resolution image.
 
 These different data storage techniques explain the variations in layer access performance and provide the focus for our performance optimization strategies. We will discuss this further in this tutorial and see how to apply these optimizations with GeoServer, even when the data is not available in a single file as in this example.
 
@@ -116,13 +116,9 @@ optimal level of resolution to respond to a given layer access request.
 
 Tiling and pyramid data structures can be used together to improve the data access performance of GeoServer and any other application accessing the same raster data, since these optimizations are independent of the application requesting access to the date. 
 
-Some file formats support internal pyramids, also known as *overviews*, where a single file contains all the different resolution images. Other file formats don’t support overviews.
+Some file formats support internal pyramids, also known as *overviews*, where a single file contains all the different resolution images. Other file formats don’t support overviews. Formats such as JPG, PNG, or GIF, not adapted to be used for very large images such as the ones used in a GIS context, do not support overviews. The TIFF format, on the other hand, supports overviews. JPEG2000 and other wavelet-based formats include wavelets as well.
 
-.. todo:: could you give an example of the formats that do/don't support overviews? 
-
-Also, some formats support inner tiling, while others do not, or they support it just for one pyramid level (in case they support inner pyramids). 
-
-.. todo:: please clarify - do you mean internal tiling?
+Also, some formats support internal tiling, while others do not, or they support it just for one pyramid level (in case they support internal pyramids). TIFF and JPEG2000 support internal tiling, but JPG and PNG don't.
 
 GeoServer can take advantage of image pyramids containing several tiled versions of the same image, with those versions maintained in separate files. Such a file structure provides much better data access performance, since a request covering a section of the image, at any scale, means only the tiles overlapping the requested area are read.
 
@@ -143,9 +139,8 @@ The choice of configuration depends largely on the size of your dataset. The fol
 
 * If your dataset is smaller than 1 or 2 GB, the best option is usually to keep your data in a single file, provided that file is optimized with tiles and overviews. If your data format that does not support tiling and overviews, you could either create a mosaic of tiles or, preferably, translate the data into a different format that does support tiling and overviews. 
 * Datasets larger than 2 GB should be tiled in smaller files, using inner pyramids and tiles if possible. 
-* If your dataset is really large, and will be used at all scales, create an external pyramid.
+* If your dataset is really large (above 100 Gb), and will be used at all scales, create an external pyramid.
 
-.. todo:: can you define what you mean by really large? > 10Gb?
 
 Some notes on pyramids and tiles
 --------------------------------
@@ -168,7 +163,7 @@ The application accessing the pyramid, for this workshop GeoServer, must maintai
 On the other hand, if tiles are too big the advantage of tiling is lost. A tile size of approximately 0.5-1GB is a reasonable solution for optimum file management and reducing the total number of tiles required.
 
 Creating a tiled scheme with several files does not make the inner tiles redundant. 
-Inner tiling supports the creation of larger tile files, which eventually will increase performance.
+Inner tiling supports the creation of larger tile files, which eventually will increase performance, so inner tiling should be used also when using a tiled scheme of files.
 
 .. todo:: a diagram here would be useful. I also think we need clarification on inner and outer tiling - it's not clear.
 
@@ -181,13 +176,9 @@ The base level (highest resolution) of the pyramid will have the number of tiles
 
 The number of levels depends on the tile size. The following formula will calculate the number of levels required to complete the full pyramid.
 
-.. math:: n = \log_2(\frac{width}{tile\_width})
+.. figure:: imgs/formula.gif
 
-.. todo:: format of math output doesn't seem right
-
-We're assuming in this case the image is square, so it has the same value for its height and width. If the image isn't square, the larger value should be taken. 
-
-.. todo:: what larger value - the larger of the width or the height?
+We're assuming in this case the image is square, so it has the same value for its height and width. If the image isn't square but rectangular instead, the larger value of width and height should be taken (that is, the size of the longer size of the rectangle). 
 
 Tiles are also assumed to be square—this is the most common configuration.
 
@@ -200,7 +191,7 @@ File format
 
 Tiles can be saved in many formats, including the original format of the image the pyramid is created for. Choosing the right format can have a significant influence on system performance, since it influences both the size of files to be created and the amount of processing required to access the image data (which might be compressed).
 
-Formats that don't support overviews—JPEG and PNG—should not be used for large images, as the data access performance would suffer. The TIFF format does support overviews.
+Formats that don't support overviews—JPG and PNG—should not be used for large images, as the data access performance would suffer. The TIFF format does support overviews.
 
 .. todo:: you use JPEG here but JPG elsewhere - be consistent
 
@@ -231,9 +222,10 @@ For very large files, there is also the BigTIFF format, which supports the creat
 Resampling algorithm 
 ~~~~~~~~~~~~~~~~~~~~
 
-Creating pyramids involves completing resampling operations in advance of using the data, so the application accessing the pyramid does not need to perform the same operation on the original image. Resampling may be performed using different algorithms, some of which will produce higher quality resampled images than other algorithms. More complex algorithms can produce better quality images but it usually takes longer to create the pyramid.
+Creating pyramids involves completing resampling operations in advance of using the data, so the application accessing the pyramid does not need to perform the same operation on the original image. Resampling may be performed using different algorithms, some of which will produce higher quality resampled images than other algorithms. More complex algorithms can produce better quality images but it usually takes longer to create the pyramid. The resampling algorithm used, however, has no effect on the performance obtained once the pyramid is created.
 
-A nearest neighbor interpolation is the simplest method and it is a good option for non-image data such as elevation data and so on. However this interpolation technique is not recommended for images. It is suitable for resampling raster layers with categorical data published via a  Web Coverage Service (WCS) service.
+
+.. A nearest neighbor interpolation is the simplest method and it is a good option for non-image data such as elevation data and so on. However this interpolation technique is not recommended for images. It is suitable for resampling raster layers with categorical data published via a  Web Coverage Service (WCS) service.
 
 
 Coordinate Reference System 
@@ -264,11 +256,11 @@ RGB images can be converted into paletted images using the GDAL ``rgb2pct`` tool
 
 .. note:: GDAL is part of FWTools, and if you are running Windows, installing FWTools is the recommended way of using GDAL. We will be using other GDAL tools for most of the examples in this tutorial.
 
-For a simple conversion, just provide the input filename and the required output filename as parameters. To transform our ``image3.tiff`` image into a paletted image named ``image3p.tiff`` we would the following.
+For a simple conversion, just provide the input filename and the required output filename as parameters. To transform our ``image3.tif`` image into a paletted image named ``image3p.tif`` we would the following.
 
 .. code-block:: console
 
- $rgb2pct image3.tiff image3p.tiff
+ $rgb2pct image3.tif image3p.tif
 
 The default output format is TIFF. You may provide an alternate format if required 
 
@@ -303,7 +295,7 @@ When a single file supports a raster layer, we have to make sure that the file f
 
 As we have discussed previously, the TIFF format is the best option in most cases, so we will assume that we want to create a TIFF file to store our data. To create a TIFF file we will use two tools from GDAL toolset, namely ``gdal_translate`` and ``gdaladdo``.
 
-For the rest of the workshop, we will use the ``image3.tiff`` file. You may wish to try some of the techniques discussed in this workshop on larger images. They may require different options, specially when it comes to creating pyramids. 
+For the rest of the workshop, we will use the ``image3.tif`` file. You may wish to try some of the techniques discussed in this workshop on larger images. They may require different options, specially when it comes to creating pyramids. 
 
 Once you have downloaded the image and installed GDAL, open a console window and access the folder containing the image. First, we will convert the image into a TIFF image with inner tiles using ``gdal_translate``. Secondly, we will add overviews to the image using ``gdaladdo``.
 
@@ -311,15 +303,15 @@ To convert the image to a TIFF file with inner tiles, execute the following comm
 
 .. code-block:: console
 
-	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tiff
+	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tif
 
-This creates a tiled GeoTIFF file named ``image.tiff`` from our source layer ``image3.tiff``. The new layer was created using the JPEG compression algorithm and now contains inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. For further information, refer to the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`__. 
+This creates a tiled GeoTIFF file named ``image.tif`` from our source layer ``image3.tif``. The new layer was created using the JPEG compression algorithm and now contains inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. For further information, refer to the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`__. 
 
 By default the size of the inner tiles is set to 256 x 256 pixels. To change this to  2048 x 2048, a much more efficient tile size for this example, use the following example instead:
 
 .. code-block:: console
 
-	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tiff
+	$gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tif
 
 We can now use the ``gdaladdo`` tool to add overviews. Execute the following:
 
@@ -349,9 +341,8 @@ If we have a 7-band Landsat image and we want to render it using a natural color
 
 	$gdal_translate -b 1 -b 2 -b3 landsat.tif landsat_reduced.tif
 
-Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward. This procedure is not covered in this workshop. 
+Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward. This procedure is not covered in this workshop. Check the `Introduction to Geoserver workshop <http://workshops.opengeo.org/geoserver-intro/>`__ to see how to import a raster layer into GeoServer.
 
-.. todo:: where is it covered?
 
 ``gdal_retile`` tool 
 --------------------
@@ -362,8 +353,7 @@ If your data is too large for a single file, dividing it into tiles is the next 
 
 	$gdal_retile.py -targetDir tiles image.tif
 
-.. todo:: is image.tif the output or input file?
-
+``image.tif`` is the input file and ``tiles`` the name of the output folder where the tile files will be created.
 
 That will create a set of tiled TIFF files from the source data. The size of the tiles (256 x 256 by default) can be set with the ``-ps`` modifier as follows: 
 
@@ -401,7 +391,7 @@ Once the tiles have been created, we need to configure GeoServer to use the tile
 
 Select a workspace and add a name. In the :guilabel:`URL` field, enter the folder where the recently created tiles are located. Save the changes and publish the layer. You may now preview your data using OpenLayers, or another suitable client.
 
-You should notice that performance is good when viewing the data at high resolutions (small scale), but performance could be improved at lower resolutions (large scale). This is because overviews were not created for the images. Even if we had created the layer from the ``image4.tiff`` file, which does contains overviews, the tiles do not have pyramids. The tiles don't even have internal tiling, so the performance optimization we see viewing the data at high resolution is a result of the external tiling we've set up.
+You should notice that performance is good when viewing the data at high resolutions (small scale), but performance could be improved at lower resolutions (large scale). This is because overviews were not created for the images. Even if we had created the layer from the ``image4.tif`` file, which does contains overviews, the tiles do not have pyramids. The tiles don't even have internal tiling, so the performance optimization we see viewing the data at high resolution is a result of the external tiling we've set up.
 
 Internal tiles can be created with ``gdal_retile``, just like we did when using ``gdal_translate``. As it is a GDAL tool, it accepts all parameters that are valid for the output format using the ``-co`` modifier. The following command will add internal tiles with a tile size of 512 x 512.
 
@@ -448,16 +438,13 @@ Now we need to configure what we have created as a new data source for GeoServer
 
 Complete the input boxes as required and in the :guilabel:`URL` box enter the folder where you created the pyramid. Save and publish the layer.
 
-When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. For the ImagePyramid store it also generates additional files that describe the structure of the pyramid and optimizes access to the pyramid using its files. In particular:
-
-.. todo:: which files does it use to optimize access?
+When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. For the ImagePyramid store it also generates additional files that describe the structure of the pyramid and optimizes access to the pyramid using those files. In particular:
 
 * All files in the pyramid folder (those corresponding to the original resolution, first level), are moved to a folder named ``0``. 
 * An index shapefile is created for the mosaic representing each pyramid level, and stored in the corresponding folder.
 
-If you have a large dataset, it is usually a good idea to complete the first step manually after the pyramid tiles have been created. Otherwise, if it takes too much time to copy the files the data store creation request may expire.
+If you have a large dataset, it is usually a good idea to manually move the files to the folder named ``0`` after the pyramid tiles have been created, and before creating the ImagePyramid datastore in GeoServer. Otherwise, if it takes too much time to copy the files the data store creation request may expire.
 
-.. todo:: clarify what the first step was?
 
 Fine-tuning GeoServer 
 ---------------------
@@ -559,9 +546,7 @@ Apart from these parameters, it is important to use native JAI and ImageIO. GeoS
 Coverage Access settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Coverage Access settings are mainly used to configure how GeoServer uses multithreading, very important for mosaics, since this controls how multiple granules can be opened simultaneously.
-
-.. todo:: explain granules
+Coverage Access settings are mainly used to configure how GeoServer uses multithreading, very important for mosaics, since this controls how multiple tile files can be opened simultaneously.
 
 .. figure:: imgs/CASettings.jpg
  
