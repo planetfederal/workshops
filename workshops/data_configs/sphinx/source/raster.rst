@@ -1,8 +1,6 @@
 Optimizing raster layers in GeoServer 
 =====================================
 
-.. only:: workshop
-
 Outline 
 --------
 
@@ -14,8 +12,6 @@ Introduction
 
 The performance for publishing raster layers with GeoServer depends on a number of parameters, many of which are related to how the source data is stored. The time it takes to read and prepare the the data can have a significant impact on performance.
 
-.. only:: workshop
-
 We can see this clearly in a simple example. Download `this zip file <http://link.to.file>`__. This file contains four different representations of the same file.
 
 .. code-block:: console
@@ -25,11 +21,7 @@ We can see this clearly in a simple example. Download `this zip file <http://lin
  	image3.tif 
  	image4.tif
 
-.. only:: workshop
-
 As you can see, the images are stored a three different formats. We will use these files to illustrate how, although they contain the same image and appear similar, they exhibit different performance profiles in GeoServer. Even when files appear to be stored in the same format, as with the two ``.tif`` files, the performance profiles can differ depending on the parameters used to create the files.
-
-.. only:: workshop
 
 First of all, let’s have a look at the sizes of those images.
 
@@ -42,8 +34,6 @@ First of all, let’s have a look at the sizes of those images.
 
 The PNG format file is clearly the larger file, while the JPG format is the smallest file. TIFF files are similar in size to the JPG format. The relatively compact JPG format seems the obvious choice if data storage is limited and its smaller file sizes might suggest better data access performance as well. However there are other factors to consider that may negate these advantages.
 
-
-.. only:: workshop
 
 Let’s move to GeoServer now. The first thing we have to do is import the images into GeoServer. You can do this manually through the GeoServer web administration interface. If you have the ``curl`` command line tool installed, you can use the ``import_layers`` script included in the image zip file to import the images using Geoserver’s REST API. Just make sure GeoServer is running before executing the script.
 
@@ -77,7 +67,7 @@ For both the JPG and PNG images, pixel values are written sequentially, starting
 
 The last TIFF image (``image4.tif``) contains additional, lower resolution, images (hence its larger size), so when a full scan is required to render at a small scale, the scan is performed on those lower resolution images instead of the original higher resolution image.
 
-These different data storage techniques explain the variations in layer access performance and provide the focus for our performance optimization strategies. We will discuss this further in this tutorial and see how to apply these optimizations with GeoServer, even when the data is not available in a single file as in this example.
+These different data storage techniques explain the variations in layer access performance and provide the focus for our performance optimization strategies. We will discuss this further in this workshop and see how to apply these optimizations with GeoServer, even when the data is not available in a single file as in this example.
 
 Working with raster tiles and pyramids 
 --------------------------------------
@@ -110,20 +100,21 @@ You can see the number of image pixels in each level in the pyramid is 1/4 of th
 
    *Pyramid data structures*
 
-As pyramids provide a progressive decrease in resolution, there should always be an 
-optimal level of resolution to respond to a given layer access request.
+As pyramids provide a progressive decrease in resolution, there should always be an optimal level of resolution to respond to a given layer access request.
 
 Tiling and pyramid data structures can be used together to improve the data access performance of GeoServer and any other application accessing the same raster data, since these optimizations are independent of the application requesting access to the date. 
 
-Some file formats support internal pyramids, also known as *overviews*, where a single file contains all the different resolution images. Other file formats don’t support overviews. Formats such as JPG, PNG, or GIF, not adapted to be used for very large images such as the ones used in a GIS context, do not support overviews. The TIFF format, on the other hand, supports overviews. JPEG2000 and other wavelet-based formats include wavelets as well.
+Some file formats support internal pyramids, also known as *overviews*, where a single file contains all the different resolution images. Other file formats, such as JPG, PNG, or GIF which do not handle large file sizes, don’t support overviews. The TIFF format, on the other hand, does support overviews. JPEG2000 and other wavelet-based formats include wavelets as well.
 
-Also, some formats support internal tiling, while others do not, or they support it just for one pyramid level (in case they support internal pyramids). TIFF and JPEG2000 support internal tiling, but JPG and PNG don't.
+.. todo:: first time wavelets are mentioned - why is this important
+
+Also, some formats support internal tiling, while others do not, or they support it just for one pyramid level (in case they support internal pyramids). TIFF and JPEG2000 formats support internal tiling, but JPG and PNG formats don't.
 
 GeoServer can take advantage of image pyramids containing several tiled versions of the same image, with those versions maintained in separate files. Such a file structure provides much better data access performance, since a request covering a section of the image, at any scale, means only the tiles overlapping the requested area are read.
 
 In some cases, tiling and pyramid data structures are sufficient have provide good performance. However, with large datasets, it is better to manually create a pyramid as a collection of files and folders, and let GeoServer handle that structure efficiently.
 
-In this tutorial we will see how to use tiling and pyramids, both internal and external, to achieve the optimal configuration for our system and dataset.
+In this workshop we will see how to use tiling and pyramids, both internal and external, to achieve the optimal configuration for our system and dataset.
 
 Working with raster tiles and pyramids in GeoServer 
 ---------------------------------------------------
@@ -138,17 +129,17 @@ The choice of configuration depends largely on the size of your dataset. The fol
 
 * If your dataset is smaller than 1 or 2 GB, the best option is usually to keep your data in a single file, provided that file is optimized with tiles and overviews. If your data format that does not support tiling and overviews, you could either create a mosaic of tiles or, preferably, translate the data into a different format that does support tiling and overviews. 
 * Datasets larger than 2 GB should be tiled in smaller files, using inner pyramids and tiles if possible. 
-* If your dataset is really large (above 100 Gb), and will be used at all scales, create an external pyramid.
+* If your dataset is really large (> 100 GB), and will be used at all scales, create an external pyramid.
 
 
 Some notes on pyramids and tiles
 --------------------------------
 
-Let’s review some the ideas and concepts we have discussed before we move onto setting  up our data, create tiles and pyramids if needed, and configuring all of them in GeoServer. 
+Let’s review some the ideas and concepts we have discussed before we move onto setting up our data, creating tiles and pyramids if needed, and configuring all of them in GeoServer. 
 
 Since the pyramid case is the more complex data structure, we will review the process for creating a pyramid. You should consider several factors that may influence the data access performance and consider how best to provide access to the different sections of the source image, at all scales.
 
-For large images, we want to create an efficient pyramid that will provide the optimal access to the data. This involves two steps—tiling the image and creating the different levelså of the pyramid. The pyramid configuration parameters are discussed next. 
+For large images, we want to create an efficient pyramid that will provide the optimal access to the data. This involves two steps—tiling the image and creating the different levels of the pyramid. The pyramid configuration parameters are discussed next. 
 
 Tile size 
 ~~~~~~~~~
@@ -161,23 +152,19 @@ The application accessing the pyramid, for this workshop GeoServer, must maintai
 
 On the other hand, if tiles are too big the advantage of tiling is lost. A tile size of approximately 0.5-1GB is a reasonable solution for optimum file management and reducing the total number of tiles required.
 
-Creating a tiled scheme with several files does not make the inner tiles redundant. 
-Inner tiling supports the creation of larger tile files, which eventually will increase performance, so inner tiling should be used also when using a tiled scheme of files.
+Creating a tiled scheme with several files does not make the inner tiles redundant. Inner tiling supports the creation of larger tile files, which  eventually increase performance, so inner tiling should also be used when using a tiled scheme of files.
 
-.. todo:: a diagram here would be useful. I also think we need clarification on inner and outer tiling - it's not clear.
 
 Pyramid levels 
 ~~~~~~~~~~~~~~
 
 The base level (highest resolution) of the pyramid will have the number of tiles defined by the tile size. Let's suppose our image has a size of 8192 x 8192 pixels. If we use a tile size of 1024 x 1024 pixels, we will have 64 (8 x 8) tiles. At the top of the pyramid we will have a single tile, covering the whole extent. In between, and considering that the number of pixels (and the number of tiles) multiplies by four at each level, we can have a level with four tiles (2 x 2) and another one with 16 (4 x 4) tiles. In total, we will have four levels starting at the maximum resolution defined by the original image, to the top of the pyramid, at the lowest resolution, with a single tile.
 
-.. todo:: needs diagram here
-
 The number of levels depends on the tile size. The following formula will calculate the number of levels required to complete the full pyramid.
 
 .. figure:: imgs/formula.gif
 
-We're assuming in this case the image is square, so it has the same value for its height and width. If the image isn't square but rectangular instead, the larger value of width and height should be taken (that is, the size of the longer size of the rectangle). 
+We're assuming in this case the image is square, so its height and width are the same. If the image isn't square but rectangular instead, the larger value of the width or the height should be taken (which ever is the longer edge of the rectangle). 
 
 Tiles are also assumed to be square—this is the most common configuration.
 
@@ -190,9 +177,7 @@ File format
 
 Tiles can be saved in many formats, including the original format of the image the pyramid is created for. Choosing the right format can have a significant influence on system performance, since it influences both the size of files to be created and the amount of processing required to access the image data (which might be compressed).
 
-Formats that don't support overviews—JPG and PNG—should not be used for large images, as the data access performance would suffer. The TIFF format does support overviews.
-
-.. todo:: you use JPEG here but JPG elsewhere - be consistent
+Formats that don't support overviews,JPG and PNG, should not be used for large images as the data access performance would suffer. The TIFF format does support overviews.
 
 ECW and MrSID formats support both tiling and overviews, but unfortunately both are not open formats and are not supported by many applications. GeoServer does support both formats, providing a valid license is available. The TIFF format is among the best and most popular of all the raster data formats, and will be used in this workshop.
 
@@ -215,20 +200,19 @@ TIFF format files support internal tiles, which is a useful for large tile sizes
 
 .. todo:: think the above statement needs some clarification
 
-For very large files, there is also the BigTIFF format, which supports the creation of files larger that 4 Gb (the limit for TIFF).
+For very large files, there is also the BigTIFF format, which supports the creation of files greater that 4 GB (the limit for TIFF).
 
 
 Resampling algorithm 
 ~~~~~~~~~~~~~~~~~~~~
 
-Creating pyramids involves completing resampling operations in advance of using the data, so the application accessing the pyramid does not need to perform the same operation on the original image. Resampling may be performed using different algorithms, some of which will produce higher quality resampled images than other algorithms. More complex algorithms can produce better quality images but it usually takes longer to create the pyramid. The resampling algorithm used, however, has no effect on the performance obtained once the pyramid is created.
+Creating pyramids involves completing resampling operations in advance of using the data, so the application accessing the pyramid does not need to perform the same operation on the original image. Resampling may be performed using different algorithms, some of which will produce higher quality resampled images than other algorithms. More complex algorithms can produce better quality images but it usually takes longer to create the pyramid. The resampling algorithm used, however, has no effect on the performance that may be expected once the pyramid is created.
 
-
-.. A nearest neighbor interpolation is the simplest method and it is a good option for non-image data such as elevation data and so on. However this interpolation technique is not recommended for images. It is suitable for resampling raster layers with categorical data published via a  Web Coverage Service (WCS) service.
+.. note:: A nearest neighbor interpolation is the simplest method and it is a good option for non-image data such as elevation data and so on. It is suitable for resampling raster layers with categorical data published via a Web Coverage Service (WCS) service. However, this interpolation technique is not recommended for images.
 
 
 Coordinate Reference System 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Coordinate Reference System (CRS) is not strictly speaking a parameter of the pyramid itself, but it may be important when accessing the data. The main advantage of a tiling and/or pyramid data structure is that certain operations are performed in advance and do not have to be performed each time a data request is processed. As reprojecting data can be a time consuming task, choosing the most appropriate CRS for the pyramid data will improve system performance. *Most appropriate* in this context means choosing the CRS that will be requested most frequently. This also applies to single files and other data formats.
 
@@ -253,7 +237,7 @@ Providing we do not degrade the image too much, this can be useful for improving
 
 RGB images can be converted into paletted images using the GDAL ``rgb2pct`` tool. 
 
-.. note:: GDAL is part of FWTools, and if you are running Windows, installing FWTools is the recommended way of using GDAL. We will be using other GDAL tools for most of the examples in this tutorial.
+.. note:: GDAL is part of FWTools, and if you are running Windows, installing FWTools is the recommended way of using GDAL. We will be using other GDAL tools for most of the examples in this workshop.
 
 For a simple conversion, just provide the input filename and the required output filename as parameters. To transform our ``image3.tif`` image into a paletted image named ``image3p.tif`` we would the following.
 
@@ -269,7 +253,7 @@ You may also notice that there is a relationship between the compression methods
 
 Since the image we are using in this workshop has a large number of different colors, and assuming that we do not want to lose color detail, we will be using the original RGB image for the following examples.
 
-Multispectral imagery - Value interleaving 
+Multispectral imagery - value interleaving 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 So far, we have assumed the type of raster data to optimize consists of RGB (color) or pancromatic (monochrome) images, or non-image data, such as a DEM. Images with more bands can be also used and that provides an opportunity for further optimization.
@@ -280,8 +264,8 @@ If we are working with multispectral imagery, but our goal is to serve only true
 
 However, if we're working with all the bands in the multispectral image, understanding how band values are stored can help optimize the performance. In the case of a TIFF file, two schemes are supported.
 
-* Pixel interleaved—All the values for a single *pixel* are stored together. For an RGB image the data looks like RGBRGBRGB 
-* Band interleaved—All the values for a single *band* are stored together. For an RGB image the data looks like RRRGGGBBB
+* Pixel interleaved—All the values for a single *pixel* are stored together. For an RGB image the data is structured  RGBRGBRGB. 
+* Band interleaved—All the values for a single *band* are stored together. For an RGB image the data is structured RRRGGGBBB.
 
 Band interleaved generally provides better performance when querying a section of the image, especially if it involves reading values from a few bands. Band interleaved images also tend to provide better compression ratios.
 
@@ -340,7 +324,8 @@ If we have a 7-band Landsat image and we want to render it using a natural color
 
 	$gdal_translate -b 1 -b 2 -b3 landsat.tif landsat_reduced.tif
 
-Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward. This procedure is not covered in this workshop. Check the `Introduction to Geoserver workshop <http://workshops.opengeo.org/geoserver-intro/>`__ to see how to import a raster layer into GeoServer.
+Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward. Although this 
+procedure is not covered in this workshop, information on how to do this is provided in the `Introduction to GeoServer workshop <http://workshops.opengeo.org/geoserver-intro/>`__.
 
 
 ``gdal_retile`` tool 
@@ -439,10 +424,10 @@ Complete the input boxes as required and in the :guilabel:`URL` box enter the fo
 
 When we created a MosaicImage store, GeoServer automatically added the shapefile containing the tile index. For the ImagePyramid store it also generates additional files that describe the structure of the pyramid and optimizes access to the pyramid using those files. In particular:
 
-* All files in the pyramid folder (those corresponding to the original resolution, first level), are moved to a folder named ``0``. 
-* An index shapefile is created for the mosaic representing each pyramid level, and stored in the corresponding folder.
+ * All files in the pyramid folder (those corresponding to the original resolution, first level), are moved to a folder named *0*. 
+ * An index shapefile is created for the mosaic representing each pyramid level, and stored in the corresponding folder.
 
-If you have a large dataset, it is usually a good idea to manually move the files to the folder named ``0`` after the pyramid tiles have been created, and before creating the ImagePyramid datastore in GeoServer. Otherwise, if it takes too much time to copy the files the data store creation request may expire.
+If you have a large dataset, it is usually a good idea to manually move the files to the ``0`` folder after the pyramid tiles have been created, and before creating the ImagePyramid datastore in GeoServer. Otherwise, if it takes too much time to copy the files the data store creation request may expire.
 
 
 Fine-tuning GeoServer 
@@ -534,8 +519,6 @@ The parameters include:
 
 * :guilabel:`Memory capacity` and :guilabel:`Memory threshold`—Both parameters are related to JAI's TileCache. Performance will degrade with low values of capacity, but large values cause the cache to fill up quickly.
 
-.. todo:: does this mean both settings should have high or low settings - any guidelines for the values to use?
-
 * :guilabel:`Tile Threads`—Sets the TileScheduler (calculates tiles) indicating the number of threads to be used when loading tiles (tile computation may make use of multithreading for improved performance). As a rule of thumb, use a value equal to twice the number of processing cores in your machine.
 
 * :guilabel:`Tile recycling`—Only enable this when there are no memory restrictions 
@@ -545,11 +528,11 @@ Apart from these parameters, it is important to use native JAI and ImageIO. GeoS
 Coverage Access settings
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Coverage Access settings are mainly used to configure how GeoServer uses multithreading, very important for mosaics, since this controls how multiple tile files can be opened simultaneously.
+Coverage Access settings are mainly used to configure how GeoServer uses multithreading, which is important for mosaics, since this controls how multiple tile files can be opened simultaneously.
 
 .. figure:: imgs/CASettings.jpg
  
-   *Coverage access page*
+   *Coverage Access page*
 
 The parameters include:
 
@@ -560,7 +543,7 @@ The parameters include:
 Reprojection settings 
 ^^^^^^^^^^^^^^^^^^^^^
 
-Geoserver uses an approximated function to reproject raster layers, instead of a pixel-by-pixel reprojection. This means a trade-off between precision or performance. The precision that you want to achieve can be configured when starting GeoServer, using the ``-Dorg.geotools.referencing.resampleTolerance`` modifier. By default, it has a value of 0.333. The larger the value, the lower the accuracy of the reprojection, but the better the data access performance. Depending on the precision tolerance of your particular application requirements, you can increase or decrease this parameter.
+Geoserver uses an approximated function to reproject raster layers, instead of a pixel-by-pixel reprojection. This means a trade-off between precision or performance. The precision that you want to achieve can be configured when starting GeoServer, using the ``-Dorg.geotools.referencing.resampleTolerance`` modifier. By default, it has a value of 0.333. The larger the value, the lower the accuracy of the reprojection, but the better the data access performance. Depending on the precision tolerance of your particular application requirements, you can increase or decrease this parameter as required.
 
 .. note:: If you are publishing vector data as well, or expect your images to be combined with vector layers, a larger error tolerance may produce unwanted results. Image distortions may become more apparent when rendered with vector features. 
 
