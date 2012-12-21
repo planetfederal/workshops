@@ -1,21 +1,14 @@
-.. _source:
+Advanced Data Configuration
+===========================
 
-.. Deep Data Configuration documentation master file, created by sphinx-quickstart on Wed Oct 17 17:43:23 2012.
+Welcome to the Advanced Data Configruation workshop.
 
-Deep Data Configuration documentation
-=====================================
-
+.. todo:: Need better intro.
 
 .. toctree::
+   :maxdepth: 2
 
-  intro 
-  raster
-  vector
-  
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
+   intro 
+   raster/index
+   vector/index
 

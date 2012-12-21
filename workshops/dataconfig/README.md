@@ -1,4 +1,4 @@
-deepdata-docs
-=============
+Advanced Data Configuration
+===========================
 
-Deep Data Configuration workshop materials
+Advanced Data Configuration workshop materials
