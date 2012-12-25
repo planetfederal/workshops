@@ -3,50 +3,51 @@
 GDAL tools
 ==========
 
-There are a number of useful tools in the GDAL library for working with raster images.
+There are a number of useful tools in the `GDAL <http://www.gdal.org/>`_ library for working with raster images.
 
 File manipulation and conversion
 --------------------------------
 
 When a single file supports a raster layer, we have to make sure that the file format and its settings are correctly configured, as these are the only parameters that can be adjusted.
 
-As we have discussed previously, the TIFF format is the best option in most cases, so we will assume that we want to create a TIFF file to store our data. To create a TIFF file we will use two tools from GDAL toolset, namely ``gdal_translate`` and ``gdaladdo``.
+As we have discussed previously, the TIFF format is the best option in most cases, so we will assume that we want to create a TIFF file to store our data. To create a TIFF file we will use two tools from GDAL toolset, namely `gdal_translate <http://www.gdal.org/gdal_translate.html>`_ and `gdaladdo <http://www.gdal.org/gdaladdo.html>`_.
 
-.. todo:: Need links to the source pages.
+For the rest of the workshop, we will use the :file:`image3.tif` file. You may wish to try some of the techniques discussed in this workshop on larger images. They may require different options, specially when it comes to creating pyramids.
 
-For the rest of the workshop, we will use the ``image3.tif`` file. You may wish to try some of the techniques discussed in this workshop on larger images. They may require different options, specially when it comes to creating pyramids. 
+First, we will convert the image into a TIFF image with inner tiles using ``gdal_translate``. Secondly, we will add overviews to the image using ``gdaladdo``.
 
-Once you have downloaded the image and installed GDAL, open a console window and access the folder containing the image. First, we will convert the image into a TIFF image with inner tiles using ``gdal_translate``. Secondly, we will add overviews to the image using ``gdaladdo``.
 
-To convert the image to a TIFF file with inner tiles, execute the following command in the console:
+#. Open a console window and access the directory containing the image.
 
-.. code-block:: console
+#. To convert the image to a TIFF file with inner tiles, execute the following command in the console:
 
-   gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tif
+   .. code-block:: console
 
-This creates a tiled GeoTIFF file named ``image.tif`` from our source layer ``image3.tif``. The new layer was created using the JPEG compression algorithm and now contains inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. For further information, refer to the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`_. 
+      gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" image3.tif image.tif
 
-By default the size of the inner tiles is set to 256 x 256 pixels. To change this to 2048 x 2048, a much more efficient tile size for this example, use the following example instead:
+   This creates a tiled GeoTIFF file named :file:`image.tif` from our source layer :file:`image3.tif`. The new layer was created using the JPEG compression (``"COMPRESS=JPEG"``) algorithm and now contains inner tiles. Further configuration is possible by adding additional commands using the ``-co`` modifier. For further information, refer to the `TIFF format description page <http://www.gdal.org/frmt_gtiff.html>`_. 
 
-.. todo:: Why more efficient?
+#. By default the size of the inner tiles is set to 256 x 256 pixels. To change this to 2048 x 2048, a much more efficient tile size for this example, use the following example instead:
 
-.. code-block:: console
+   .. todo:: Why is 2048 x 2048 more efficient?
 
-   gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tif
+   .. code-block:: console
 
-We can now use the ``gdaladdo`` tool to add overviews. Execute the following:
+      gdal_translate -of GTiff -co "TILED=YES" -co "COMPRESS=JPEG" -co "BLOCKXSIZE=2048" -co "BLOCKYSIZE=2048" image.tif image_tiled.tif
 
-.. code-block:: console
+#. We can now use the ``gdaladdo`` tool to add overviews. Execute the following:
 
-   gdaladdo -r average image_tiled.tif 2 4 8 16
+   .. code-block:: console
 
-In this example, we are instructing ``gdaladdo`` to use an average value resampling algorithm, and to create four levels of overviews. Notice how this tool requires us to explicitly set the size ratio of all levels we want to create. We will also see that the GDAL tool used to create an external pyramid has a different syntax for defining the levels to create.
+      gdaladdo -r average image_tiled.tif 2 4 8 16
 
-The ``gdaladdo`` command does not create any new files, but adds the overviews to the input file instead.
+   In this example, we are instructing ``gdaladdo`` to use an average value resampling algorithm, and to create four levels of overviews. Notice how this tool requires us to explicitly set the size ratio of all levels we want to create. We will also see that the GDAL tool used to create an external pyramid has a different syntax for defining the levels to create.
 
-As we have discussed earlier, a single file with inner tiles and overviews is the optimal structure for file sizes below 2 GB. In some cases it is worthwhile creating a single file from a previously tiled dataset, so the tiles are present in the file and also the overviews. If there are many small files, having to open and read the files when rendering the layer at smaller scales may have an adverse impact on performance.
+   .. note:: The ``gdaladdo`` command does not create any new files, but adds the overviews to the input file instead.
 
-The ``gdal_merge`` tool can be used to create a single file. 
+As discussed earlier, a single file with inner tiles and overviews is the optimal structure for file sizes below 2 GB. In some cases it is worthwhile creating a single file from a previously tiled dataset, so the tiles are present in the file and also the overviews. If there are many small files, having to open and read the files when rendering the layer at smaller scales may have an adverse impact on performance.
+
+The `gdal_merge <http://www.gdal.org/gdal_merge.html>`_ tool can be used to create a single file. 
 
 .. code-block:: console
 
@@ -60,7 +61,7 @@ If we have a 7-band Landsat image and we want to render it using a natural color
 
 .. code-block:: console
 
-   gdal_translate -b 1 -b 2 -b3 landsat.tif landsat_reduced.tif
+   gdal_translate -b 1 -b 2 -b 3 landsat.tif landsat_reduced.tif
 
 Once the optimized file is created, setting the corresponding layer in GeoServer is straightforward.
 
@@ -69,7 +70,7 @@ Once the optimized file is created, setting the corresponding layer in GeoServer
 Retiling an image
 -----------------
 
-If your data is too large for a single file, dividing it into tiles is the next option to consider. For this we need to use the ``gdal_retile`` tool. To tile a single image, execute the following:
+If your data is too large for a single file, dividing it into tiles is the next option to consider. For this we need to use the `gdal_retile <http://www.gdal.org/gdal_retile.html>`_ tool. To tile a single image, execute the following:
 
 .. code-block:: console
 
@@ -89,17 +90,19 @@ If your dataset comprises a number of layers (and assuming their individual size
 
    gdal_retile.py -targetDir tiles --optfile filestotile.txt
 
-The ``filestotile.txt`` file should contain a list of all the input image files. If you are running Windows, open a console window, go to the folder containing the files and type the following:
+The ``filestotile.txt`` file should contain a list of all the input image files. To create this file, go to the folder containing the files and run the following command:
+
+Windows:
 
 .. code-block:: console
 
-   dir /b > files.txt
+   dir /b > filestotile.txt
 
-In Linux, the command syntax is:
+Linux / OS X
 
 .. code-block:: console
 
-   ls > files.txt
+   ls > filestotile.txt
 
 Once the tiles have been created, we need to configure GeoServer to use the tiles as a single layer. Open your GeoServer Web Administration Interface and add a new data store. Select :guilabel:`ImageMosaic` as the type of data store to create.
 
@@ -121,7 +124,7 @@ Internal tiles can be created with ``gdal_retile``, just like we did when using 
 
    gdal_retile.py -ps 2048 2048 -co "TILED=YES" -co "BLOCKXSIZE=512" -co "BLOCKYSIZE=512" -targetDir tiles image.tif
 
-The ``gdaladdo`` tool will create overviews but it does not support multiple files. Create a batch script to automate the process of adding a pyramid to each tile. For those who prefer a more point-and-click solution and are not familiar with batch scripting, the open source QGIS package provides a graphical user interface for GDAL tools, and includes an option for batch processing the content of a folder. From the :guilabel:`raster` menu, click :guilabel:`Miscellaneous` and click :guilabel:`Build overviews(Pyramids)`.
+The ``gdaladdo`` tool will create overviews but it does not support multiple files. Create a batch script to automate the process of adding a pyramid to each tile. For those who prefer a more point-and-click solution and are not familiar with batch scripting, `Quantum GIS <qgis.org>`_ (QGIS)  provides a graphical user interface for GDAL tools, and includes an option for batch processing the content of a folder. From the :guilabel:`raster` menu, click :guilabel:`Miscellaneous` and click :guilabel:`Build overviews(Pyramids)`.
 
 .. figure:: img/qgisoverviews.png
 

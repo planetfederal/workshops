@@ -3,45 +3,45 @@
 Optimizing tiles and pyramids
 =============================
 
-Let's review some the ideas and concepts we have discussed before we move onto setting up our data, creating tiles and pyramids if needed, and configuring all of them in GeoServer. 
+You should consider several factors that may influence the data access performance and consider how best to provide access to the different sections of the source image, at all scales. For large images, we want to create an efficient pyramid that will provide the optimal access to the data. This involves two steps—tiling the image, and creating the different levels of the pyramid.
 
-Since the pyramid case is the more complex data structure, we will review the process for creating a pyramid. You should consider several factors that may influence the data access performance and consider how best to provide access to the different sections of the source image, at all scales.
-
-For large images, we want to create an efficient pyramid that will provide the optimal access to the data. This involves two steps—tiling the image and creating the different levels of the pyramid. The pyramid configuration parameters are discussed next. 
-
+This section will discuss the pyramid configuration parameters. 
 
 Tile size 
 ---------
 
-Tiling optimizes the amount of data that has to be read for any given area. In our original image, at its original resolution, the whole image has to be read even if we are going to display a small area in one corner. By creating tiles and storing them in separate files, only those tiles that cover the area of interest are required.
+Tiling optimizes the amount of data that has to be read for any given area. In our original image, at its original resolution, the whole image has to be read even if displaying a small area in one corner. By creating tiles and storing them in separate files, only those tiles that cover the area of interest are required.
 
-All tiles in a pyramid (not just those tiles stored at the original resolution) are the same size, and that size is determined before creating the pyramid. A small tile size will reduce the amount of data required to satisfy a request for a given area. Too small a tile size could degrade the data access performance as many tiles must be read to satisfy the request. 
+All tiles in a pyramid are the same size, determined before creating the pyramid. A small tile size will reduce the amount of data required to satisfy a request for a given area. Too small a tile size could degrade the data access performance as many tiles must be read.
 
-The application accessing the pyramid, for this workshop GeoServer, must maintain an index of all available tiles to know which tiles are needed for a given request. More tiles means a larger application database, and also a larger number of files (one for each tile). This could have a negative impact on performance.
+GeoServer, the application accessing the pyramid, must maintain an index of all available tiles to know which tiles are needed for a given request. More tiles means a larger application database, and also a larger number of files (one for each tile). This could have a negative impact on performance. On the other hand, if tiles are too big the advantage of tiling is lost. **A tile size of approximately 0.5-1GB is a reasonable solution** for optimum file management and reducing the total number of tiles required.
 
-On the other hand, if tiles are too big the advantage of tiling is lost. **A tile size of approximately 0.5-1GB is a reasonable solution** for optimum file management and reducing the total number of tiles required.
+.. todo:: Why?
 
-Creating a tiled scheme with several files does not make the inner tiles redundant. Inner tiling supports the creation of larger tile files, which eventually increase performance, so inner tiling should also be used when using a tiled scheme of files.
+Creating a tiled scheme with several files does not make the internal tiles redundant. Inner tiling supports the creation of larger tile files, which eventually increase performance, so inner tiling should also be used when using a tiled scheme of files.
 
+.. todo:: Say more here about the interplay betwee internal tiles and external tiles.
 
 Pyramid levels 
 --------------
 
-The base level (highest resolution) of the pyramid will have the number of tiles defined by the tile size. Let's suppose our image has a size of 8192 x 8192 pixels. If we use a tile size of 1024 x 1024 pixels, we will have 64 (8 x 8) tiles. At the top of the pyramid we will have a single tile, covering the whole extent. In between, and considering that the number of pixels (and the number of tiles) multiplies by four at each level, we can have a level with four tiles (2 x 2) and another one with 16 (4 x 4) tiles. In total, we will have four levels starting at the maximum resolution defined by the original image, to the top of the pyramid, at the lowest resolution, with a single tile.
+Suppose an image has a size of 8192 x 8192 pixels. If a tile size of 1024 x 1024 pixels is used, there will be 64 (8 x 8) tiles at maximum resolution (the "base" of the pyramid). Each subsequent level has four times fewer tiles (twice fewer tiles for each of length and width),  so the next two levels would have 16 tiles (4 x 4) and then 4 tiles (2 x 2). At the top of the pyramid is always a single tile, covering the whole extent. So in this case, there would be four levels of this particular pyramid.
 
-The number of levels depends on the tile size. The following formula will calculate the number of levels required to complete the full pyramid.
+The number of levels is dependent on the tile size. For example, if for the same image as above, a tile size of 512 x 512 pixels was chosen, there would be five levels instead of four.  (16 x 16, 8 x 8, 4 x 4, 2 x 2, 1)
+
+The following formula will calculate the number of levels required to complete the full pyramid.
 
 .. figure:: img/pyramidlevelsformula.png
 
    *Formula for the number of levels required to complete the full pyramid*
 
-We're assuming in this case the image is square, so its height and width are the same. If the image isn't square but rectangular instead, the larger value of the width or the height should be taken (which ever is the longer edge of the rectangle). 
-
-Tiles are also assumed to be square, as this is the most common configuration.
+Tiles are assumed to be square, as this is by far most common configuration. If the image is rectangular, the larger side should be used in the above formula.
 
 In the example above, the result is an integer. If the result is not an integer, the value should be rounded-down.
 
-It might not always be necessary to create all of the pyramid. We can save disk space by restricting the number of levels to just those we require. Remember that at each level the scale of the corresponding layer is divided by two, so if our original image corresponds to 1:100000 scale, the single-tile level correspond to a 1:800000 scale. However, if we don't anticipate rendering that image at that scale (we will use a different image for scales over 1:200000), the tiles corresponding to that scale would never be used. In that case, we would just need two levels in our pyramid.
+.. todo:: Verify this.
+
+It might not always be necessary to create every level of the pyramid. Disk space can be saved by restricting the number of levels to just those that are required in a particular application. If it is not anticipated to render the image at a particular scale (perhaps a different image will be used a a certain scale), the tiles corresponding to that scale would not need to be generated.
 
 File format 
 -----------
@@ -124,11 +124,11 @@ Since the image we are using in this workshop has a large number of different co
 Multiband imagery
 -----------------
 
-So far, we have assumed the type of raster data to optimize consists of RGB (color) or pancromatic (monochrome) images, or non-image data, such as a DEM. Images with more bands can be also used and that provides an opportunity for further optimization.
+So far, we have assumed the type of raster data to optimize consists of RGB (color), monochrome images, or non-image data, such as a DEM. Images with more bands can be also used and that provides an opportunity for further optimization.
 
-Multispectral images can have a number of bands ranging from four, usually the three corresponding to RGB and a infrared band, to several hundreds. They cover different regions of the electromagnetic spectrum and rendered using a *false-color* composition. To create this composition, three bands are selected and used as RGB components. However, the intensity represented in their pixel values does not represent the intensity in the frequencies corresponding to the RGB components. With those pixel values, the color of the pixel is computed.
+Multiband (also known as "multispectral") images can have a number of bands ranging from four, usually the three corresponding to RGB and a infrared band, to several hundreds. They cover different regions of the electromagnetic spectrum and rendered using a *false-color* composition. To create this composition, three bands are selected and used as RGB components. However, the intensity represented in their pixel values does not represent the intensity in the frequencies corresponding to the RGB components. With those pixel values, the color of the pixel is computed.
 
-If we are working with multispectral imagery, but our goal is to serve only true-color or false-color rendered images derived from that imagery through a WCS service, we can retain only those bands required for the color composition. This will result in smaller file sizes, and consequently better performance.
+If we are working with multispectral imagery, while our goal is to serve only true-color or false-color rendered images derived from that imagery through a WCS service, we can remove those bands not required for the color composition. This will result in smaller file sizes, and consequently better performance.
 
 However, if we're working with all the bands in the multispectral image, understanding how band values are stored can help optimize the performance. In the case of a TIFF file, two schemes are supported.
 
@@ -137,5 +137,7 @@ However, if we're working with all the bands in the multispectral image, underst
 
 Band interleaved generally provides better performance when querying a section of the image, especially if it involves reading values from a few bands. Band interleaved images also tend to provide better compression ratios.
 
-Pixel interleaved images are the preferred format if we expect per-pixel queries. For images published by GeoServer, band interleaved is generally the best option.
+Pixel interleaved images are the preferred format if we expect per-pixel queries. For images published by GeoServer, **band interleaved is generally the best option**.
+
+.. todo:: Why?
 
