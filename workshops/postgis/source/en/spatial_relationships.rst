@@ -60,7 +60,7 @@ ST_Intersects, ST_Disjoint, ST_Crosses and ST_Overlaps
 .. figure:: ./spatial_relationships/st_intersects.png
    :align: center
 
-:command:`ST_Intersects(geometry A, geometry B)` returns t (TRUE) if the two shapes do not have any space in common, i.e., are entirely separate.
+:command:`ST_Intersects(geometry A, geometry B)` returns t (TRUE) if the two shapes have any space in common, i.e., if their boundaries or interiors intersect.
 
 .. figure:: ./spatial_relationships/st_disjoint.png
    :align: center
