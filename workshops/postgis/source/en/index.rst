@@ -71,9 +71,9 @@ Workshop Modules
 Links to have on hand
 ---------------------
 
-* PostGIS - http://postgis.org/ 
+* PostGIS - http://postgis.net/ 
 
-  - Docs - http://postgis.org/docs/
+  - Docs - http://postgis.net/docs/manual-2.0/
 
 * PostgreSQL - http://www.postgresql.org/ 
 

@@ -66,4 +66,4 @@ Now your data is nicely arranged in spatially correlated order!
 Function List
 -------------
 
-`ST_GeoHash(geometry A) <http://postgis.org/docs/ST_GeoHash.html>`_: Returns a text string representing the GeoHash of the bounds of the object. 
+`ST_GeoHash(geometry A) <http://postgis.net/docs/manual-2.0/ST_GeoHash.html>`_: Returns a text string representing the GeoHash of the bounds of the object. 
