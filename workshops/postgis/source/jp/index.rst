@@ -63,9 +63,9 @@ ZIPファイルの内容は以下のとおりです:
 参考リンク
 ---------------------
 
-* PostGIS - http://postgis.org/ 
+* PostGIS - http://postgis.net/ 
 
-  - ドキュメント - http://postgis.org/docs/
+  - ドキュメント - http://postgis.net/docs/manual-2.0/
 
 * PostgreSQL - http://www.postgresl.org/ 
 

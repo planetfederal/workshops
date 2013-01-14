@@ -8,7 +8,7 @@ For more information on OpenGeo and the software communities we support, please 
 Projects
 --------
 
-* `PostGIS <http://postgis.org>`_
+* `PostGIS <http://postgis.net>`_
   * http://opengeo.org/technology/postgis/
 
 * `GeoServer <http://geoserver.org/>`_
@@ -27,7 +27,7 @@ Projects
 User mailing lists
 ------------------
 
-* PostGIS: http://postgis.org/pipermail/postgis-users/
+* PostGIS: http://lists.osgeo.org/mailman/listinfo/postgis-users/
 * GeoServer: https://lists.sourceforge.net/lists/listinfo/geoserver-users/
 * GeoWebCache: https://lists.sourceforge.net/lists/listinfo/geowebcache-users/
 * OpenLayers: http://lists.osgeo.org/mailman/listinfo/openlayers-users/
@@ -36,7 +36,7 @@ User mailing lists
 Developer mailing lists
 -----------------------
 
-* PostGIS: http://postgis.org/pipermail/postgis-devel/
+* PostGIS: http://lists.osgeo.org/mailman/listinfo/postgis-devel/
 * GeoServer: https://lists.sourceforge.net/lists/listinfo/geoserver-devel/
 * GeoWebCache: http://sourceforge.net/mailarchive/forum.php?forum_name=geowebcache-devel/
 * OpenLayers: http://lists.osgeo.org/mailman/listinfo/openlayers-dev/
