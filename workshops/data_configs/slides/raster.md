@@ -4,6 +4,12 @@ Optimizing raster data in GeoServer
 
 ---
 
+
+Optimizing raster data in GeoServer
+===================================
+
+---
+
 Goal
 ----
 
@@ -290,7 +296,6 @@ Pyramid
 
 ![pyramid](img/pyramid.png)
 
----
 
 ---
 Mosaic
@@ -532,10 +537,82 @@ Reprojection settings
 
 ---
 
+Using a database for storing granules
+--------------------------------------
+
+- JDBC ImageMosaic plugin
+
+- Not installed by default
+
+- Both raster and vector elements in DB
+
+- Support for different DBMS, even without spatial extensions
+
+---
+
+JDBC ImageMosaic plugin
+-----------------------
+
+- Configures a mosaic stored in a database
+
+- Handles mosaic structure
+
+- Contains tools to prepare the database
+
+- Contains tools to import data to the database
+
+---
+
+Preparing data
+---------------
+
+- Granules should be prepared as in the file-based case
+
+- A regular file-pyramid is needed
+
+- All optimizations apply as well
+
+---
+
+Defining the data source
+-------------------------
+
+- A datastore definition file
+- A connection file
+- A mapping file
+
+---
+
+Preparation. Creating DDL scripts
+----------------------------------
+
+- Running the jdbc-mosaic jar with ddl option
+- Generates 2 files
+
+	- ``createmeta.sql``
+	- ``add_<coveragename>.sql``
+
+- Running the scripts creates the database structure
+
+---
+
+Importing raster data
+----------------------
+
+- Running the jdbc-mosaic jar with import option
+- Imports the pyramid into PostGIS
+
+---
+
+Setting the datastore in GeoServer
+-----------------------------------
+
+- Just point to the xml definition file
+
+---
+
 What else?
 -----------
-
-- Using a database to store granules
 
 - Multidimensional data
 

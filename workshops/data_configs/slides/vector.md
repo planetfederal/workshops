@@ -3,6 +3,19 @@ Optimizing vector data in GeoServer
 
 ---
 
+
+Before we start
+----------------
+
+- We're recording this ... 
+- Please mute yourselves
+- Feel free to ask questions (chat, voice...)
+- Materials available at http://github.com/opengeo/workshops
+- Will be available at http://workshops.opengeo.org
+
+---
+
+
 Goal
 ----
 
@@ -245,6 +258,19 @@ Indexing
 
 ---
 
+Demos
+------
+
+- Preparing a layer in an individual file
+
+- Splitting the layer and handling resulting layers separately with rendering options
+
+- Multi-scale versions with vertical arrangement
+
+- Multi-scale version with horizontal arrangement
+
+---
+
 ``ogr2ogr``
 -----------
 
@@ -286,6 +312,11 @@ GeoTools pregeneralized plug-in
 - Using pregeneralized geometries in GeoServer
 
 - Can be used with databases as well
+
+- Support horizontal an vertical layouts
+
+- Can take base data from external sources or current GeoServer datastores
+
 
 ---
 Demo
@@ -378,6 +409,21 @@ PostGIS
 - ``effective_cache_size`` (1/2 - 3/4 memory)
 
 ---
+
+Fine tuning a PostGIS datastore
+----------------------------------
+
+- Settings common for all database stores
+
+- ``Loose BBOX``
+
+- ``Prepared statements``. Can degrade performance. Do not enable
+
+- ``Estimated extents``. Do not use if WFS
+
+
+---
+
 
 Connection pooling
 -------------------
