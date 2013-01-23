@@ -5,9 +5,7 @@ Data preparation with Pregeneralized Features
 
 GeoServer has a plug-in called Pregeneralized Features (not included in the OpenGeo Suite, so it has to be manually installed), which makes it easier to use pregeneralized vector layers. Although it can be used with shapefiles, like the ones we created using ``ogr2ogr``, it is particularly useful for databases as it can take advantage of database capabilities not found in shapefiles.
 
-To install this plug-in, download it from here. 
-
-.. todo:: download it from where?
+To install this plug-in, download it from `here<http://downloads.sourceforge.net/geoserver/geoserver-2.2.3-feature-pregeneralized-plugin.zip>`_. . 
 
 Shutdown GeoServer, extract the contents of the downloaded .zip file into the GeoServer ``WEB-INF/lib`` folder, and restart GeoServer. If you now add a new data store in GeoServer, you will see a new option :guilabel:`Generalizing data store`.
 

@@ -14,7 +14,7 @@ Let's import our original shapefile into PostGIS. The table structure is as foll
    Column  |              Type               
   ---------+---------------------------------+
    gid     | integer                         
-   type    | character varying(17)           
+   rtype    | character varying(17)           
    name    | character varying(99)           
    oneway  | character varying(4)            
    lanes   | double precision                
@@ -40,7 +40,7 @@ Now the table structure is as follows:
    Column   |              Type               
    ---------+---------------------------------+
     gid     | integer                         
-    type    | character varying(17)           
+    rtype    | character varying(17)           
     name    | character varying(99)           
     oneway  | character varying(4)            
     lanes   | double precision                
@@ -97,6 +97,8 @@ As with the previous example, an XML file is required to configure the :guilabel
 
 Create a file in your GeoServer data directory named ``geninfo_postgis.xml`` and add the following content:
 
+.. todo:: This code should be revised to ensure it is correct and actually works.
+
 .. code-block:: xml
 
    <?xml version="1.0" encoding="UTF-8"?>
@@ -131,13 +133,27 @@ PostgreSQL does not support materialized views but other techniques are availabl
 
 .. code-block:: sql
 
-   XXXXXXXXXXXX
+  SELECT *
+  INTO motorways
+  FROM highways
+  WHERE rtype = 'motorway'
+
+  ALTER TABLE motorways ADD PRIMARY KEY (gid);
+
+  SELECT Populate_Geometry_Columns('motorways'::regclass);
 
 This view can be materialized with the following clause:
 
 .. code-block:: sql
 
-   XXXXXXXXXXXXXX
+  CREATE INDEX rtype_idx ON highways USING btree (rtype);
+
+  CREATE OR REPLACE VIEW motorways_view AS
+   SELECT *
+   FROM highways
+   WHERE rtype = 'motorway';
+
+  SELECT Populate_Geometry_Columns('motorways_view'::regclass);
 
 This will create a new table, so instead of now querying the view, the table can be queried. It will result in lower response times, and the more complex the view to be materialized is, the better the improvement in performance. However, this approach has several drawbacks, including any changes made to the original table are not reflected in the materialized view. The view must be recomputed whenever the source tables are modified. If your data doesn't change frequently, this is a reasonable solution but if your data is volatile, the view can become out of date quickly.
 
@@ -176,7 +192,4 @@ Now the table can be clustered based on the ``geom`` column GiST index.
 .. code-block:: sql
 
    CLUSTER sp_index_extremadura_highway ON extremadura_highway
-
-
-.. todo:: Section on Using spatial analysis tools
 

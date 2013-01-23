@@ -11,7 +11,7 @@ Of course, if your data is not in shapefile format, you can still use ``ogr2ogr`
 
 .. code-block:: console
 
-   ogr2ogr -f "ESRI Shapefile" extremadura_highway.shp extremadura_highway.gml
+   ogr2ogr -f -a_srs EPSG:4326 "ESRI Shapefile" extremadura_highway.shp extremadura_highway.gml
 
 The first stage in data preparation involves cleaning the data to remove unnecessary fields. To clean a vector layer use the ``ogr2ogr`` tool with the ``-select`` modifier and the list of fields that should be retained in the output file.
 
