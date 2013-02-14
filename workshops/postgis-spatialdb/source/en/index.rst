@@ -54,7 +54,7 @@ Workshop Modules
 Links to have on hand
 ---------------------
 
-* PostGIS - http://postgis.org 
+* PostGIS - http://postgis.net 
 * GeoServer - http://geoserver.org 
 * OpenLayers - http://openlayers.org
 
@@ -64,5 +64,5 @@ Links to have on hand
 * JSTL - http://java.sun.com/products/jsp/jstl/
 * Oracle Spatial Documentation - http://www.oracle.com/technology/documentation/spatial.html
 * SQL Server Spatial Documentation - http://msdn.microsoft.com/en-us/library/bb933790.aspx
-* PostGIS Documentation - http://www.postgis.org/docs
+* PostGIS Documentation - http://postgis.net/documentation
 

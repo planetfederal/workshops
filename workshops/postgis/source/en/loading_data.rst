@@ -160,5 +160,5 @@ Try using this software to connect your PostGIS database.  The application can b
 
 .. rubric:: Footnotes
 
-.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation. May 2010 <http://postgis.org/documentation/manual-1.5/ch02.html#id2786223>
+.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation. May 2010 <http://postgis.net/docs/manual-2.0/postgis_installation.html#PGInstall>
 

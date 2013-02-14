@@ -38,3 +38,12 @@ A workshop may depend on external data and/or software:
   - You should name your zip file with a date or version number to allow 
     old versions of the workshop to have a longer lifespan
 
+Updating workshops.opengeo.org
+------------------------------
+
+Just pushing to the repository will not update http://workshops.opengeo.org. You
+will need to update the site manually:
+
+- SSH to workshops.opengeo.org
+- cd /var/www/workshops.opengeo.org/
+- sudo perl build_html_common_git.pl

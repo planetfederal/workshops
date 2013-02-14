@@ -94,7 +94,7 @@ There are three spatial databases you might use with more-or-less equivalent fun
 
 * `Oracle RDBMS with Spatial or Locator <http://www.oracle.com/technology/products/spatial/index.html>`_
 * `SQL Server 2008 with Spatial <http://www.microsoft.com/sqlserver/2008/en/us/spatial-data.aspx>`_
-* `PostgreSQL <http://postgresql.org>`_ with `PostGIS <http://www.postgis.org>`_
+* `PostgreSQL <http://postgresql.org>`_ with `PostGIS <http://postgis.net>`_
 
 In each case, we start with a capable relational database, and add a set of spatial types, functions, and indexes. We will briefly discuss the relative features of each, but first here are some less well-known options.
 
@@ -206,4 +206,4 @@ Oracle includes lat/lon support via a subset of functions that are flagged as be
 
 PostGIS and PostgreSQL are both open source software projects, licensed under the `GNU GPL <http://www.opensource.org/licenses/gpl-2.0.php>`_ and `BSD <http://www.opensource.org/licenses/bsd-license.php>`_ licenses, respectively.  
 
-PostgreSQL can be downloaded from http://postgresql.org/download in source or binary form. Binary builds include the "stack builder" utility, which can be used to directly download an appropriate binary build of PostGIS. The PostGIS source code and documentation are available from http://www.postgis.org/.
+PostgreSQL can be downloaded from http://postgresql.org/download in source or binary form. Binary builds include the "stack builder" utility, which can be used to directly download an appropriate binary build of PostGIS. The PostGIS source code and documentation are available from http://postgis.net/.

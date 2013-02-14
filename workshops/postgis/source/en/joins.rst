@@ -243,11 +243,11 @@ As before, the joins create a virtual table of all the possible combinations ava
 Function List
 -------------
 
-`ST_Contains(geometry A, geometry B) <http://postgis.org/docs/ST_Contains.html>`_: Returns true if and only if no points of B lie in the exterior of A, and at least one point of the interior of B lies in the interior of A.
+`ST_Contains(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Contains.html>`_: Returns true if and only if no points of B lie in the exterior of A, and at least one point of the interior of B lies in the interior of A.
 
-`ST_DWithin(geometry A, geometry B, radius) <http://postgis.org/docs/ST_DWithin.html>`_: Returns true if the geometries are within the specified distance of one another. 
+`ST_DWithin(geometry A, geometry B, radius) <http://postgis.net/docs/manual-2.0/ST_DWithin.html>`_: Returns true if the geometries are within the specified distance of one another. 
 
-`ST_Intersects(geometry A, geometry B) <http://postgis.org/docs/ST_Intersects.html>`_: Returns TRUE if the Geometries/Geography "spatially intersect" - (share any portion of space) and FALSE if they don't (they are Disjoint). 
+`ST_Intersects(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Intersects.html>`_: Returns TRUE if the Geometries/Geography "spatially intersect" - (share any portion of space) and FALSE if they don't (they are Disjoint). 
 
 `round(v numeric, s integer) <http://www.postgresql.org/docs/current/interactive/functions-math.html>`_: PostgreSQL math function that rounds to s decimal places
 
@@ -257,5 +257,5 @@ Function List
 
 .. rubric:: Footnotes
 
-.. [#PostGIS_Doco] http://postgis.org/documentation/manual-1.5/
+.. [#PostGIS_Doco] http://postgis.net/docs/manual-2.0/
 

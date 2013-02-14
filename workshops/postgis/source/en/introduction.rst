@@ -144,7 +144,7 @@ Recent updates of PostGIS have worked on expanding standards compliance, adding 
 Who uses PostGIS?
 -----------------
 
-For a complete list of case studies, see the `PostGIS case studies <http://www.postgis.org/documentation/casestudies/>`_ page.
+For a complete list of case studies, see the `PostGIS case studies <http://postgis.net/casestudy>`_ page.
 
 Institut Geographique National, France
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

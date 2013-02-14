@@ -147,7 +147,7 @@ PostGISのデータ容量の増加に伴い、別の問題が生じてきまし�
 PostGISの利用者
 -----------------
 
-ケーススタディーの全リストは、 `PostGIS ケーススタディー <http://www.postgis.org/documentation/casestudies/>`_ をご覧ください。
+ケーススタディーの全リストは、 `PostGIS ケーススタディー <http://postgis.net/casestudies/>`_ をご覧ください。
 
 Institut Geographique National, France
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
