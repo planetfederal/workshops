@@ -35,7 +35,7 @@ PostgreSQL has:
 
 Combined, PostgreSQL provides a very easy development path to add new spatial types.  Because the development path for adding types to PostgreSQL was so straightforward, it made sense to start there.
 
-A common question from people familiar with open source databases is, "Why wasn't PostGIS built on MySQL?".  MySQL spatial objects are spread over the entire code base, as they were hacked on the string type as a special case, amking it less ideal for development.  Often, when administrators talk about using MySQL for spatial, they merely have database tables with x/y columns.  But one gets no benefit from the spatial nature of the data, and it doesn't scale to higher dimensional geometries like lines and polygons.  As such, these are not true spatial implementations.
+A common question from people familiar with open source databases is, "Why wasn't PostGIS built on MySQL?".  MySQL spatial objects are spread over the entire code base, as they were hacked on the string type as a special case, making it less ideal for development.  Often, when administrators talk about using MySQL for spatial, they merely have database tables with x/y columns.  But one gets no benefit from the spatial nature of the data, and it doesn't scale to higher dimensional geometries like lines and polygons.  As such, these are not true spatial implementations.
 
 Why not just use Shapefiles?
 ----------------------------
