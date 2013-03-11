@@ -62,12 +62,10 @@ Ready to Begin?
 
 Great!  Head to the first section, :ref:`geoserver.overview`.
 
-Full Contents
--------------
-
 .. toctree::
    :maxdepth: 2
    :numbered:
+   :hidden:
 
    overview/index
    install/index
