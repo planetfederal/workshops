@@ -3,14 +3,15 @@
 What is the OpenGeo Suite?
 ==========================
 
-The OpenGeo Suite is a complete geospatial software stack in a single package.  It includes the following components:
+.. todo:: Logo?
 
-  * **PostGIS** - A full spatial database based of PostgreSQL.
-  * **GeoServer** - A software server for loading and sharing geospatial data.
-  * **GeoWebCache** - A tile cache server that accelerates the serving of maps.
-  * **OpenLayers** - A library for putting maps in a browser.
-  * **GeoExt** - A library for building desktop-like mapping applications in a browser.
+The OpenGeo Suite is a complete web-based geospatial software stack. In this package, the applications contained are: 
 
-In addition, the OpenGeo Suite contains additional documentation, code resources, and applications such as **GeoExplorer**, a browser-based map management utility.  GeoExplorer is built with `GeoExt <http://geoext.org>`_ and contains code from `OpenLayers <http://openlayers.org>`_.
+* **PostGIS** - A spatially enabled object-relational database.
+* **GeoServer** - A software server for loading and sharing geospatial data.
+* **GeoWebCache** - A tile cache server that accelerates the serving of maps (built into GeoServer).
+* **GeoExplorer** - A web application for composing, styling, and publishing maps.
+
+GeoExplorer is based on the `GeoExt <http://geoext.org>`_ framework and contains code from `OpenLayers <http://openlayers.org>`_.
 
 For more information on the OpenGeo Suite, including a full list of features, please go to `<http://opengeo.org/products/suite/>`_.
