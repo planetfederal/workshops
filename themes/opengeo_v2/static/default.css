@@ -127,6 +127,20 @@ margin: 0 auto;
 padding: 0;
 }
 
+/* For centering figures */
+.figure {
+margin-top: 15px;
+margin-bottom: 15px;
+text-align: center;
+}
+
+/* For centering+italicizing captions */
+.caption {
+  text-align: center;
+  font-style: italic;
+}
+
+
 /*-----------------------
 Structural Elements
 -----------------------*/
@@ -418,10 +432,6 @@ border-bottom: 1px solid #f66;
 p.subhead {
 font-weight: bold;
 margin-top: 20px;
-}
-
-p.caption {
-text-align: inherit;
 }
 
 #content td {
