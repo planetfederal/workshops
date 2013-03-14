@@ -98,7 +98,7 @@ We have loaded a store, but our layer has yet to be published.  We'll do that no
 
 #. You can now view the layer using the integrated OpenLayers client (using WMS).  Click on the :ref:`geoserver.webadmin.layerpreview` link.
 
-   .. figure:: ../webadmin/img/layerpreviewlink.png
+   .. figure:: ../webadmin/img/tour_layerpreviewlink.png
       :align: center
 
       *Click to go to the Layer Preview page*

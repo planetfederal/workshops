@@ -3,8 +3,6 @@
 What is the OpenGeo Suite?
 ==========================
 
-.. todo:: Logo?
-
 The OpenGeo Suite is a complete web-based geospatial software stack. In this package, the applications contained are: 
 
 * **PostGIS** - A spatially enabled object-relational database.
