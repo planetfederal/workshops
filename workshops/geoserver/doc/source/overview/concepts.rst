@@ -14,7 +14,7 @@ For more terms, please see the :ref:`geoserver.moreinfo.glossary`.
 Workspace
 ---------
 
-A **workspace** (sometimes referred to as a namespace) is the name for a notional container to group similar data together. It is designed to be a separate, isolated space relating to a certain project. Using workspaces, it is possible to use layers with identical names without conflicts.
+A **workspace** (sometimes referred to as a namespace) is the name for a notional container for grouping similar data together. It is designed to be a separate, isolated space relating to a certain project. Using workspaces, it is possible to use layers with identical names without conflicts.
 
 Workspaces are usually denoted by a prefix to a layer name or store name. For example, a layer called ``streets`` with a workspace prefix called ``nyc`` would be referred to by ``nyc:streets``. This would not conflict with another layer called ``streets`` in another workspace called ``dc`` (``dc:streets``)
 

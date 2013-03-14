@@ -19,7 +19,7 @@ Web Processing Service (WPS)
 
 The Web Processing Service (WPS) is a service for the publishing of geospatial processes, algorithms, and calculations. WPS extends the web mapping server to provide geospatial analysis. WPS in GeoServer allows for direct integration with other GeoServer services and the data catalog. This means that it is possible to create processes based on data served in GeoServer, including the results of a process to be stored as a new layer. In this way, WPS acts as a full browser-based geospatial analysis tool, capable of reading and writing data from and to GeoServer.
 
-WPS is currently available as an extension only in GeoServer.
+WPS is currently available as an extension only in GeoServer, but is a core component of the OpenGeo Suite.
 
 For more information on WPS, please see the `OGC page on the Web Processing Service <http://www.opengeospatial.org/standards/wps>`_.
 
