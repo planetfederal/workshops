@@ -36,7 +36,7 @@ Layer Importer
 
       Importer directory form filled out
 
-#. You will see a list of shapefiles contained in that directory. **Make sure to uncheck the ``countries`` and ``shadedrelief`` layers!** Failure to do this will cause GeoServer to try to load a layer with the same name as one already loaded ("``earth:countries``" and ``earth:shadedrelief``), causing an error.
+#. You will see a list of shapefiles contained in that directory. **Make sure to uncheck the ``countries`` and ``shadedrelief`` layers!** Failure to do this will cause GeoServer to try to load a layer with the same name as one already loaded ("``earth:countries``" and ``earth:shadedrelief``). While this won't cause an error, it may cause confusion later on in the workshop.
 
    .. figure:: img/importer_select.png
 
