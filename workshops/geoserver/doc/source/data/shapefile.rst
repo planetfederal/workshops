@@ -52,7 +52,7 @@ First, we need to load a shapefile :term:`store`. In GeoServer terminology, a sh
         - "The countries of the world"
         - Layer metadata is recommended but not required
 
-#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse` button to navigate to the file. The file path may be something like::
+#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse...` button to navigate to the file. The file path may be something like::
 
       C:\Users\<username>\Desktop\geoserver_workshop\data\countries.shp
 

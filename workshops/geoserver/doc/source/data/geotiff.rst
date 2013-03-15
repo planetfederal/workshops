@@ -46,7 +46,7 @@ The procedure for adding a store for a GeoTIFF is very similar to that of a shap
         - "Shaded relief of the world"
         - Layer metadata is recommended but not required
 
-#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse` button to navigate to the file. The file path may be something like::
+#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse...` button to navigate to the file. The file path may be something like::
 
       C:\Users\<username>\Desktop\geoserver_workshop\data\shadedrelief.tif
 
@@ -93,7 +93,6 @@ As with the shapefile, now that store is loaded, we now need to configure and pu
 #. Your GeoTIFF is now published in GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview` as in previous sections. Clicking on the map will display the RGB values for that particular point.
 
    .. note:: Remember that lists in GeoServer are paged at 25 items at a time. Alternately, type "earth" in the search box at the top to narrow the list.
-
 
    .. figure:: img/tif_openlayers.png
 
