@@ -1,4 +1,4 @@
-.. _geoserver.data.quickload:
+.. _geoserver.webadmin.quickload:
 
 Load your first data set 
 ========================
