@@ -15,7 +15,7 @@ The first step in data loading is usually to create a :term:`workspace`. This cr
 
 #. Click on the "Add new workspace" link at the top center of the page.
 
-   .. figure:: img/NEEDNEWworkspace_page.png
+   .. figure:: img/workspace_page.png
 
       Workspaces page
 
@@ -27,7 +27,7 @@ The first step in data loading is usually to create a :term:`workspace`. This cr
       * - :guilabel:`Name`
         - ``earth`` 
       * - :guilabel:`Namespace URI`
-        - ``http://geoserver.org/earth``
+        - ``http://earth``
       * - :guilabel:`Default workspace`
         - *Checked*
 
@@ -37,4 +37,8 @@ The first step in data loading is usually to create a :term:`workspace`. This cr
 
 #. When done, click :guilabel:`Submit`.
 
-With our workspace created, we can now start loading our data.
+   .. figure:: img/workspace_created.png
+
+      New earth workspace created
+
+With our new workspace created and ready to be used, we can now start loading our data.
