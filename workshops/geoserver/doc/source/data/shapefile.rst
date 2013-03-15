@@ -49,8 +49,8 @@ First, we need to load a shapefile :term:`store`. In GeoServer terminology, a sh
         - *Checked*
         - Ensures the layer is published. Unchecking will save configuration information only.
       * - :guilabel:`Description`
-        - "The countries of the world."
-        - Layer metadata is recommended but not required.
+        - "The countries of the world"
+        - Layer metadata is recommended but not required
 
 #. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse` button to navigate to the file. The file path may be something like::
 
@@ -113,7 +113,7 @@ We have loaded the shapefile store, but our layer has yet to be published. We'll
 
       Layer Preview page
 
-   .. note:: Lists in GeoServer are paged at 25 items at a time. If you can't find the layer, you may need to click the :guilabel:`[2]` or :guilabel:`[>]` buttons. Alternately, type "earth" in the search box at the top.
+   .. note:: Lists in GeoServer are paged at 25 items at a time. If you can't find the layer, you may need to click the :guilabel:`[2]` or :guilabel:`[>]` buttons. Alternately, type "earth" in the search box at the top to narrow the list.
 
 #. A new tab in your browser will open up, showing your layer inside an OpenLayers application. You can use your mouse to zoom and pan, and can also click the features in the window to display attribute information.
 
