@@ -169,7 +169,7 @@ SLD files have the ability to link to graphics in addition to drawing circles, s
 
 If you look at the :file:`ocean.sld` file, you will see that an image is referenced, but with no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. So in order for the ``earth:ocean`` layer to display properly, we will need to copy that file there manually.
 
-   .. figure:: img/styles_externalgraphic
+   .. figure:: img/styles_externalgraphic.png
 
       SLD style showing a reference to an external graphic
 
