@@ -8,7 +8,7 @@ GeoServer uses the Styled Layer Descriptor (SLD) markup language to visualize ge
 View an SLD
 -----------
 
-GeoServer saves SLD information as files in its data directory. These styles can be retrieved through the :ref:`geoserver.webadmin` as well.
+GeoServer saves SLD information as plain text files in its data directory. These styles can be retrieved through the :ref:`geoserver.webadmin`.
 
 #. Click the :guilabel:`Styles` link under :guilabel:`Data` on the left side of the page.
 
@@ -26,7 +26,7 @@ GeoServer saves SLD information as files in its data directory. These styles can
 
    .. figure:: img/sld_pointedit.png
 
-      Editing the "point" style
+      Viewing the "point" style
 
 SLD structure
 -------------
@@ -43,9 +43,9 @@ An SLD file contains the following hierarchical structure:
 
 The header of the SLD contains metadata about XML namespaces, and is usually identical among different SLDs. The details of the header are beyond the scope of this workshop.
 
-A **FeatureTypeStyle** is a group of styling rules. (Recall that a :term:`featuretype` is another word for a :term:`layer`.)  Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc.
+A **FeatureTypeStyle** is a group of styling rules. (Recall that a :term:`featuretype` is another word for a :term:`layer`.)  Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc, allowing for precise control of drawing order.
 
-A **Rule** is a single styling directive. It can apply globally to a layer, or it can have filter logic associated with it so that the rule is conditionally applied. These conditions can be based on the attributes of the data, or based on the scale (zoom) level of the data being rendered.
+A **Rule** is a single styling directive. It can apply globally to a layer, or it can have logic associated with it so that the rule is conditionally applied. These conditions can be based on the attributes of the data or based on the scale (zoom) level of the data being rendered.
 
 A **Symbolizer** is the actual style instruction. There are five types of symbolizers:
 

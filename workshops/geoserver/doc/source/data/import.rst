@@ -3,7 +3,7 @@
 Loading multiple layers
 =======================
 
-So far we have seen two different ways to load data into GeoServer: with a archive through the :ref:`Layer Importer <geoserver.webadmin.quicktour>` and manually. We can use the Layer Importer to load multiple layers as well, saving time and configuration.
+So far we have seen two different ways to load data into GeoServer: with a archive through the :ref:`Layer Importer <geoserver.webadmin.quickload>` and manually. We can use the Layer Importer to load multiple layers as well, saving time and configuration.
 
 In this section, we will load the rest of our workshop data by using the Layer Importer to load and configure all shapefiles in our workshop data directory.
 
