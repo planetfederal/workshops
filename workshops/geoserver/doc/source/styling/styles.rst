@@ -161,6 +161,7 @@ Bonus
 
 At this point, the ``earth:ocean`` layer won't display properly. Look at the SLD; can you figure out why not? The next section will explain.
 
+.. _geoserver.styling.styles.extgraphics:
 
 External graphics and the data directory
 ----------------------------------------

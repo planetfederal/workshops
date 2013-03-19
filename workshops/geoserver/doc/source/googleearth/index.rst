@@ -13,4 +13,5 @@ In this section, you will see how Google Earth can be used as a client for viewi
    view
    legend
    filter
-   extrudes
+   score
+   extrude
