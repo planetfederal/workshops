@@ -12,4 +12,8 @@ The OpenGeo Suite is a complete web-based geospatial software stack. In this pac
 
 GeoExplorer is based on the `GeoExt <http://geoext.org>`_ framework and contains code from `OpenLayers <http://openlayers.org>`_.
 
+.. figure:: img/stack_all.png
+
+   Stack diagram of the OpenGeo Suite
+
 For more information on the OpenGeo Suite, including a full list of features, please go to `<http://opengeo.org/products/suite/>`_.

@@ -5,8 +5,8 @@ Styles in GeoServer
 
 Every layer published in GeoServer must have a style associated with it. When manually loading layers as done in the :ref:`geoserver.data.shapefile` and :ref:`geoserver.data.geotiff` sections, GeoServer will look at the geometry of the data and assign a generic style based on that data type. When using the :ref:`Layer Importer <geoserver.data.import>`, a unique style will be generated for each layer. We will now look at how GeoServer handles styles.
 
-Viewing existing style
-----------------------
+Viewing an existing style
+-------------------------
 
 #. Navigate to the :guilabel:`Layers` list. Select a layer from the list of published layers. (This example will use :guilabel:`earth:countries`, but any layer will do.)
 
@@ -49,8 +49,8 @@ Viewing existing style
       Viewing the SLD code for this style
 
 
-Editing existing style
-----------------------
+Editing an existing style
+-------------------------
 
 It is helpful when learning about SLD to edit existing styles rather than creating new ones from scratch. We will now do this with the style that was just opened.
 
@@ -121,8 +121,8 @@ If you have an SLD saved as a text file, it is easy to load it into GeoServer. W
 
 #. Repeat steps 2-8 above with the two other SLD files in the the :file:`styles` directory:
 
-    #. ``countries.sld``
-    #. ``ocean.sld``
+   * ``countries.sld``
+   * ``ocean.sld``
 
    We will leave the ``shadedrelief`` layer with the default style.
 
@@ -166,9 +166,9 @@ At this point, the ``earth:ocean`` layer won't display properly. Look at the SLD
 External graphics and the data directory
 ----------------------------------------
 
-SLD files have the ability to link to graphics in addition to drawing circles, squares, and other standard shapes. The ``earth:ocean`` style utilizes an ocean-themed graphic that will be tiled throughout the layer. While it is possible to put in a full URL to an online resource in the SLD, in practice that can be a time-consuming task for a server. In many cases, it makes sense to store the style locally.
+SLD files have the ability to link to graphics in addition to drawing circles, squares, and other standard shapes. The ``earth:ocean`` style utilizes an ocean-themed graphic that will be tiled throughout the layer. While it is possible to put in a full URL that references an online resource in the SLD, in practice that can be a bandwidth-intensive task for a server. In most cases, it makes sense to store the style locally.
 
-If you look at the :file:`ocean.sld` file, you will see that an image is referenced, but with no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. So in order for the ``earth:ocean`` layer to display properly, we will need to copy that file there manually.
+If you look at the :file:`ocean.sld` file, you will see that an image is referenced, but with no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. So in order for the layer to display properly, we will need to copy that file manually.
 
    .. figure:: img/styles_externalgraphic.png
 

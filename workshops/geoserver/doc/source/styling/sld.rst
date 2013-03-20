@@ -5,8 +5,8 @@ Styled Layer Descriptor
 
 GeoServer uses the Styled Layer Descriptor (SLD) markup language to visualize geospatial data. SLD is an XML-based standard created by the Open Geospatial Consortium (OGC). For more information on the SLD schema, please see the OGC page on Styled Layer Descriptor at http://www.opengeospatial.org/standards/sld.
 
-View an SLD
------------
+Viewing an SLD
+--------------
 
 GeoServer saves SLD information as plain text files in its data directory. These styles can be retrieved through the :ref:`geoserver.webadmin`.
 
@@ -49,11 +49,11 @@ A **Rule** is a single styling directive. It can apply globally to a layer, or i
 
 A **Symbolizer** is the actual style instruction. There are five types of symbolizers:
 
-* **PointSymbolizer**
-* **LineSymbolizer**
-* **PolygonSymbolizer**
-* **RasterSymbolizer**
-* **TextSymbolizer**
+* PointSymbolizer
+* LineSymbolizer
+* PolygonSymbolizer
+* RasterSymbolizer
+* TextSymbolizer
 
 There can be one or more FeatureTypeStyles per SLD, one or more Rules per FeatureTypeStyles, and one or more Symbolizers per Rule.
 

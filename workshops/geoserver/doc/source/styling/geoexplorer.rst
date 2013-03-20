@@ -61,7 +61,7 @@ Using GeoExplorer
 Editing an existing style
 -------------------------
 
-.. warning:: GeoExplorer makes changes directly to an SLD, and will completely recreate the SLD file. An SLD file may look very different after being edited by GeoExplorer. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
+.. warning:: GeoExplorer makes changes directly to an SLD. An SLD file may look very different after being edited by GeoExplorer. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
 
 #. Before we can make any changes to styles, we have to log in to GeoExplorer. Click the login button at the very top right of the window and enter your GeoServer admin credentials:  ``admin`` / ``geoserver`` .
 

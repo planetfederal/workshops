@@ -3,17 +3,17 @@
 Dashboard
 =========
 
-The OpenGeo Suite comes with a Dashboard, a single interface that allows you to access all components of the OpenGeo Suite, including links to common tasks, configuration, management, and application logs. It runs on the host machine as both a standalone application, and in a browser.
+The OpenGeo Suite comes with a Dashboard, a single interface that allows you to access all components of the OpenGeo Suite, including links to common tasks, configuration, management, and application logs. It runs on the host machine as both a standalone application and in a browser.
 
 .. figure:: img/dashboard.png
 
-   *OpenGeo Suite Dashboard*
+   OpenGeo Suite Dashboard
 
 When you first launch the OpenGeo Suite Dashboard, you will be presented with the GeoServer username and password. These credentials are used to administer GeoServer. Remember these credentials.
 
 .. figure:: img/dashboard_firstlaunch.png
 
-   *Dashboard first launch*
+   Dashboard first launch
 
 Starting and stopping
 ---------------------
@@ -24,11 +24,11 @@ The database is initialized the first time the OpenGeo Suite is started. This ma
 
 .. figure:: img/dashboard_starting.png
 
-   *OpenGeo Suite starting*
+   OpenGeo Suite starting
 
 .. figure:: img/dashboard_started.png
 
-   *OpenGeo Suite started*
+   OpenGeo Suite started
 
 You can also start and stop the OpenGeo Suite from the command prompt. First, navigate to the root of your installation directory. To start::
 
@@ -46,7 +46,7 @@ You can configure the OpenGeo Suite through the Preferences page.
 
 .. figure:: img/dashboard_prefs.png
 
-   *Preferences*
+   Preferences
 
 .. warning:: You must stop and start the OpenGeo Suite for any changes to take effect.
 
@@ -63,4 +63,9 @@ GeoServer data and configuration is stored in what is known as the data director
 GeoServer Administration
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Most GeoServer administrative tasks require authentication. The default username and password for the GeoServer that is contained in the OpenGeo Suite is ``admin`` / ``geoserver``. To change these credentials, enter new values in the :guilabel:`Username` and :guilabel:`Password` fields. You will need to type the password again in the :guilabel:`Confirm` field. Click :guilabel:`Save` when done. Restart the OpenGeo Suite for the change to take effect.
+Most GeoServer administrative tasks require authentication. The default user name and password for the GeoServer that is contained in the OpenGeo Suite is ``admin`` / ``geoserver``. To change these credentials, enter new values in the :guilabel:`Username` and :guilabel:`Password` fields. You will need to type the password again in the :guilabel:`Confirm` field. Click :guilabel:`Save` when done. Restart the OpenGeo Suite for the change to take effect.
+
+Web Dashboard
+-------------
+
+The Dashboard is also available in your browser at http://localhost:8080/dashboard when the OpenGeo Suite is running. Preferences and start/stop functionality are disabled in the web-based Dashboard, but all other functionality is available.

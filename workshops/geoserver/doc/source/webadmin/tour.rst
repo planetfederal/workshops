@@ -3,14 +3,18 @@
 Tour of the interface
 =====================
 
+In this section we will give a tour of the GeoServer Web Administration (or just "web admin") interface.
+
 Viewing
 -------
 
-The default location of the GeoServer admin interface is ``http://localhost:8080/geoserver``. The initial page is called the Welcome page.
+The default location of the GeoServer web admin interface is ``http://localhost:8080/geoserver``. The initial page is called the Welcome page.
 
 .. figure:: img/tour_welcome.png
 
    GeoServer Welcome page
+
+To return to the Welcome page from anywhere, just click the GeoServer logo in the top left corner of the page.
 
 Authentication
 --------------
@@ -28,6 +32,8 @@ For security reasons, most GeoServer configuration tasks require you to be logge
    .. figure:: img/tour_loggedin.png
 
       GeoServer Welcome page with administrative options
+
+.. note:: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account.
 
 Navigation
 ----------
@@ -57,7 +63,7 @@ You can use the :guilabel:`Layer Preview` link to easily view layers currently b
 
       Viewing the usa:states layer
 
-#. Take a look at the contents of the URL bar when viewing an OpenLayers map. Notice that it is similar in construction to the sample WMS requests made in the :ref:`geoserver.overview.wms` section. The salient difference is the use of ``format=application/openlayers`` as the output format.
+#. Take a look at the contents of the URL bar when viewing an OpenLayers map. We will discuss this request and its parameters further in the :ref:`geoserver.overview.wms` section.
 
 Logs
 ----

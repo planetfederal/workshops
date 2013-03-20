@@ -9,7 +9,7 @@ GeoServer can send information to Google Earth on how to draw extrudes based on 
 
 Recall from the section on :ref:`geoserver.styling.styles.extgraphics` that the GeoServer data directory is where the catalog and settings of GeoServer are stored. We will create a height template and save it in the data directory
 
-.. note:: These templates are known as Freemark templates named after the template engine used. See the `Freemarker homepage <http://freemarker.sourceforge.net/>`_ for more information.
+.. note:: These templates are known as Freemark templates, named after the template engine used. See the `Freemarker homepage <http://freemarker.sourceforge.net/>`_ for more information.
 
 #. Open up a text editor and type in the following text::
 

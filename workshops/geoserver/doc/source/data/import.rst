@@ -3,7 +3,7 @@
 Loading multiple layers
 =======================
 
-So far we have seen two different ways to load data into GeoServer: with a archive through the :ref:`Layer Importer <geoserver.webadmin.quickload>` and manually. We can use the Layer Importer to load multiple layers as well, saving time and configuration.
+So far we have seen a few different ways to load data into GeoServer. In the :ref:`geoserver.webadmin.quickload` section, we used the Layer Importer to load an archive of a shapefile. The Layer Importer can also be used to load multiple layers as well, saving time and configuration.
 
 In this section, we will load the rest of our workshop data by using the Layer Importer to load and configure all shapefiles in our workshop data directory.
 
@@ -61,14 +61,14 @@ Bonus
 
 The OpenGeo Suite comes with a PostGIS database called "medford" that contains a single database table. Use the Layer Importer to load this layer into GeoServer, using the following credentials:
 
-   .. list-table::
+.. list-table::
 
-      * - username
-        - ``postgres``
-      * - password
-        - [None]
-      * - port
-        - ``54321``
+   * - username
+     - ``postgres``
+   * - password
+     - [None]
+   * - port
+     - ``54321``
 
 Other ways of loading layers
 ----------------------------

@@ -5,7 +5,7 @@ Publishing a shapefile
 
 Adding a single shapefile to GeoServer is one of the simplest data loading tasks. We encountered this task in the :ref:`geoserver.webadmin.quickload` section, but here we will slow down and work through the process manually. To start our discussion of data loading, we will load a shapefile showing the locations and borders of all the world's countries.
 
-.. note:: All data for this workshop was provided by `<http://naturalearthdata.com>`_ . See the readme file in the data directory of the workshop bundle for details.
+.. note:: All data for this workshop was provided by `<http://naturalearthdata.com>`_. See the readme file in the data directory of the workshop bundle for details.
 
 Adding a store
 --------------
@@ -30,7 +30,7 @@ First, we need to load a shapefile :term:`store`. In GeoServer terminology, a sh
 
       Adding a shapefile store
 
-#. Fill out the following form fields:
+#. A form will display. Fill out the form with the following information:
 
    .. list-table::
       :header-rows: 1

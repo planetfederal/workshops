@@ -3,7 +3,7 @@
 Publishing a GeoTIFF
 ====================
 
-In the previous section, we published a shapefile. Shapefiles contain vector information, that is to day points, lines, or polygons. GeoServer can also publish **raster** imagery. This could be simple georeferenced-images (such as Blue Marble imagery) all the way to multi-band DEM (digital elevation model) data. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains standard tri-band RGB values (0-255).
+GeoServer can also publish **raster** imagery. This could be simple georeferenced images (such as Blue Marble imagery), multi-band DEM (digital elevation model) data, or many other options. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains standard tri-band RGB values (0-255).
 
 Adding a store
 --------------
@@ -92,7 +92,7 @@ As with the shapefile, now that store is loaded, we now need to configure and pu
 
 #. Your GeoTIFF is now published in GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview` as in previous sections. Clicking on the map will display the RGB values for that particular point.
 
-   .. note:: Remember that lists in GeoServer are paged at 25 items at a time. Alternately, type "earth" in the search box at the top to narrow the list.
+   .. note:: Remember that lists in GeoServer are paged at 25 items at a time so the layer may not be displayed on the first page. Alternately, type "earth" in the search box at the top to narrow the list.
 
    .. figure:: img/tif_openlayers.png
 

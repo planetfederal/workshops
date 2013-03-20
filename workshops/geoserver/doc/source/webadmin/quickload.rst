@@ -1,23 +1,22 @@
 .. _geoserver.webadmin.quickload:
 
-Load your first data set 
-========================
+Loading your first data set 
+===========================
 
 .. todo:: NEED DATA AND IMAGES
 
 There are many ways to load data, and even more configuration options once this data is loaded. Oftentimes, though, all that you want to do is to load a simple shapefile and display it. In this section we will go from data to map in the fewest possible steps.
 
-GeoServer with the Layer Importer extension allows for uploading of ZIP files that contain geospatial information. The importer extension will perform all the necessary configuration for publishing the data, including generating a unique style for the layer.
+GeoServer with the Layer Importer extension allows for uploading of ZIP files that contain geospatial information. The extension will perform all the necessary configuration for publishing the data, including generating a unique style for the layer.
 
 .. note:: The Layer Importer is currently only available as part of the OpenGeo Suite.
 
-#. In the :file:`data/` directory, you will see a file called SOMETHING. It is a shapefile contained inside an archive (ZIP file). If you double click on the archive, you'll see that it contains the requisite XXX number of files:
+#. In the :file:`data/` directory, you will see a file called SOMETHING. It is a shapefile contained inside an archive (ZIP file). If you double click on the archive, you'll see that it contains the following files:
 
    * .SHP
    * .SHX
    * .DBF
    * .PRJ
-   * OTHERS
 
 #. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking on the :guilabel:`Import Data` link on the left side of the page.
 
@@ -29,7 +28,7 @@ GeoServer with the Layer Importer extension allows for uploading of ZIP files th
 
    .. todo:: IMAGE
 
-#. Click :guilabel:`Next`. (Leave all other fields as is for now.)
+#. Click :guilabel:`Next`. Leave all other fields as they are for now.
 
    .. todo:: IMAGE
 
@@ -45,4 +44,4 @@ GeoServer with the Layer Importer extension allows for uploading of ZIP files th
 
    .. todo:: IMAGE
 
-That's it! At its simplest, you have loaded data and published a map. In the next few sections, we'll slow down and take a look at all of the steps that were hidden from us during this quick load process.
+You have now loaded data and published a map. In the next few sections, we'll slow down and take a look at all of the steps that were hidden from us during this process.

@@ -21,6 +21,6 @@ When viewing data with a thematic style a legend is very helpful. We'll now add 
 
 The legend is generated from the ``<Title>`` tags inside the SLD that the layer is using. You can verify this by opening up the :file:`cities.sld` in a text editor, or from within GeoServer. In this case, the rules in the SLD are based on colors used to better distinguish countries on the map.
 
-   .. figure:: img/legend_sldtitle.png
+.. figure:: img/legend_sldtitle.png
 
-      Title of the rule in the SLD
+   Title of the rule in the SLD

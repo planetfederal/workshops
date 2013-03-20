@@ -3,11 +3,11 @@
 Creating a layer group
 ======================
 
-A layer group, as its name suggests, is a group of layers that acts as a single layer. This is useful when creating a "basemap", or other situations when more than one separate layer needs to be requested simultaneously or frequently. Since layers typically contain only a single type of geometry, using a layer group also allows you to combine data types in one single WMS request. 
+A layer group, as its name suggests, is a group of layers that acts as a single layer. This is useful when creating a "base map", or other situations when more than one separate layer needs to be requested simultaneously or frequently. Since layers typically contain only a single type of geometry, using a layer group also allows you to combine data types in one single WMS request. 
 
-.. note:: Take care not to get confused between a workspace, which is a notional grouping of layers (think "container"), and a layer group, which is a group of layers for WMS requests (think "image group").
+.. note:: Take care not to get confused between a :term:`workspace`, which is a notional grouping of layers (think "container"), and a :term:`layer group`, which is a group of layers for WMS requests (think "image group"). Refer to the :ref:`geoserver.overview.concepts` section for more information.
 
-In the previous sections, we loaded a few layers. Now we'll use a layer group to combine them.
+In the previous sections, we loaded and published a few layers. Now we'll use a layer group to combine them.
 
 #. Click the :guilabel:`Layer Groups` link, under :guilabel:`Data` on the left side of the page.
 
@@ -38,13 +38,13 @@ In the previous sections, we loaded a few layers. Now we'll use a layer group to
       * :guilabel:`earth:countries`
       * :guilabel:`earth:cities`
 
-      .. note:: It will be much easier to use the search box to narrow down the list.
-
-      Layer order is important. The **top layer in the list will be drawn first, the bottom last**. Make sure to match the order of the above list. Reorder the layers if necessary by clicking on the :guilabel:`Position` arrows for each layer.
-
       .. figure:: img/layergroup_layerchooser.png
 
          Choosing the layers to include in the layer group
+
+      Layer order is important. The **top layer in the list will be drawn first, the bottom last**. Make sure to match the order of the above list. Reorder the layers if necessary by clicking on the :guilabel:`Position` arrows for each layer.
+
+      .. note:: It will be much easier to use the search box to narrow down the list.
 
    #. Check the :guilabel:`Default style` box for every layer.
 

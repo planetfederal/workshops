@@ -12,7 +12,7 @@ Loading a KML file
 
 #. Navigate to the :guilabel:`Layer Preview` .
 
-#. Find the :guilabel:`earth:countries` layer and select :guilabel:`Google Earth` in its View menu. Click :guilabel:`Go`.
+#. Find the ``earth:countries`` layer and select :guilabel:`Google Earth` in its View menu. Click :guilabel:`Go`.
 
    .. figure:: img/view_preview.png
 
