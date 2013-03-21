@@ -51,7 +51,7 @@ Using GeoExplorer
 
       Reordering layers
 
-#. Finally, select :guilabel:`None` under the :guilabel:`Base maps` list. The map should now look identical to the layer group.
+#. Finally, select :guilabel:`None` under the :guilabel:`Base Maps` list. The map should now look identical to the layer group.
 
    .. figure:: img/gx_layersreordered.png
 

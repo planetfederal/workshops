@@ -39,8 +39,8 @@ Recall from the section on :ref:`geoserver.styling.styles.extgraphics` that the 
 
 #. Now go back to Google Earth again and refresh the view.
 
-    .. figure:: img/extrude_small.png
+   .. figure:: img/extrude_small.png
 
-      Smaller extruded polygons
+     Smaller extruded polygons
 
    The height is much more easy to interact with now.

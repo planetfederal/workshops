@@ -38,7 +38,7 @@ Loading a KML file
 
       Default placemark for a GeoServer feature in Google Earth
 
-If is possible to customize this placemark description through GeoServer, including adding custom HTML.
+It is possible to customize this placemark description through GeoServer, including adding custom HTML.
 
 Network Link
 ------------

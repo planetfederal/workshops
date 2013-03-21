@@ -3,7 +3,7 @@
 Displaying a legend
 ===================
 
-When viewing data with a thematic style a legend is very helpful. We'll now add a legend to our map of cities.
+A legend is very helpful when viewing data with a thematic style. We'll now add a legend to our map of cities.
 
 #. Edit the existing Network Link for the Countries by right-clicking on the entry in the :guilabel:`Places` list and selecting :guilabel:`Properties`. This will return you to the original dialog where the Network Link was created.
 

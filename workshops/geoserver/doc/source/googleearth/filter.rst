@@ -9,7 +9,7 @@ The ``cql_filter`` parameter is a way to specify a predicate based on attribute 
 
 #. Edit the Network Link as in the previous section. Append the following parameter to the end of the Network Link::
 
-      &cql_filter=POP_EST > '100000000'``
+      &cql_filter=POP_EST > '100000000'
 
    .. figure:: img/filter_pop.png
 

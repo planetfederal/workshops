@@ -68,7 +68,7 @@ It is helpful when learning about SLD to edit existing styles rather than creati
 
 #. Click :guilabel:`Submit` to commit the style change.
 
-#. Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page (Ctrl-F5), and you should see the color change to blue.
+#. Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page (Ctrl/Cmd-F5), and you should see the color change to blue.
 
    .. note:: GeoServer and your browser will sometimes cache images. If you don't see a change immediately, zoom or pan the map to display a new area. 
 
@@ -140,7 +140,7 @@ Once the styles are loaded, they are merely stored in GeoServer, but not associa
 
 #. Click on the :guilabel:`Publishing` tab.
 
-#. Scroll down mto the :guilabel:`Default style` drop down list. Change the entry to display the :guilabel:`cities` style. you should notice the legend change.
+#. Scroll down to the :guilabel:`Default style` drop down list. Change the entry to display the :guilabel:`cities` style. you should see that the legend changes.
 
    .. figure:: img/styles_selectingnewstyle.png
 

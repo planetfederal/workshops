@@ -59,9 +59,9 @@ http://suite.opengeo.org/geoserver/wms?service=WMS&version=1.3.0&request=GetCapa
 And the same request with line breaks for clarity::
 
    http://suite.opengeo.org/geoserver/wms?
-      service=WMS&
-      version=1.3.0&
-      request=GetCapabilities
+     service=WMS&
+     version=1.3.0&
+     request=GetCapabilities
 
 You can paste this request into a browser to see the result.
 
