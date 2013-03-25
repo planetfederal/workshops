@@ -42,16 +42,16 @@ Workshop Materials
 
 The following directories will be found inside of the workshop bundle:
 
-:file:`doc\\`
+:file:`doc`
   The workshop documentation in HTML format.
 
-:file:`software\\`
+:file:`software`
   The software to be installed during the workshop.
 
-:file:`data\\`
+:file:`data`
   Geospatial data to be used throughout the workshop.
 
-:file:`styles\\`
+:file:`styles`
   Style files to be used throughout the workshop, including associated graphics.
 
 These directories should be placed on your desktop.
