@@ -39,27 +39,23 @@ Link not clickable
 
 --------------------------------------------------
 
-Welcome
-=======
+Your instructors
+================
 
-Sam Smith + graphic
+Mike Pumphrey
+-------------
 
-Presenter notes
----------------
+User Advocate, OpenGeo
 
-Blah blah name they gave me when I testified
+Sam Smith
+---------
 
---------------------------------------------------
-
-Welcome
-=======
-
-Mike Pumphrey + graphic
+Global Support Manager, OpenGeo
 
 Presenter notes
 ---------------
 
-Blah blah put a bird on it
+[Self-promote]
 
 --------------------------------------------------
 
@@ -88,10 +84,10 @@ Presenter notes
 What is GeoServer?
 ==================
 
-GeoServer is an open source software server written in Java that allows users to share and edit geospatial data.
-----------------------------------------------------------------------------------------------------------------
-
 .. image:: ../doc/source/geoserver.png
+
+GeoServer is an open source software server written in Java that allows users to share and edit geospatial data
+---------------------------------------------------------------------------------------------------------------
 
 Presenter notes
 ---------------
@@ -101,6 +97,8 @@ GeoServer is an open source software server written in Java that allows users to
 Being a community-driven project, GeoServer is developed, tested, and supported by a diverse group of individuals and organizations from around the world.
 
 GeoServer is the reference implementation of the Open Geospatial Consortium (OGC) Web Feature Service (WFS) and Web Coverage Service (WCS) standards, as well as a high performance certified compliant Web Map Service (WMS). GeoServer forms a core component of the Geospatial Web.
+
+--------------------------------------------------
 
 Section 1: Installing
 =====================
@@ -173,6 +171,7 @@ Dashboard
 Desktop/web app for managing applications.
 
 .. image:: ../doc/source/install/img/dashboard.png
+   :width: 75%
 
 Presenter notes
 ---------------
@@ -675,11 +674,13 @@ You can paste this request into a browser to see the result.
 Other OGC protocols
 ===================
 
-Web Coverage Service
-  Like Web Feature Service but for rasters
+* Web Coverage Service
 
-Web Processing Service
-  Analysis!
+  * Like Web Feature Service but for rasters
+
+* Web Processing Service
+
+  * Analysis!
 
 Presenter notes
 ---------------
@@ -702,6 +703,7 @@ GeoServer concept: Workspace
 Notional container for grouping similar data together
 
 .. image:: ../doc/source/overview/img/concepts_workspace.png
+   :width: 50%
 
 Presenter notes
 ---------------
@@ -722,6 +724,7 @@ GeoServer concept: Store
 A container of geographic data (a file/database)
 
 .. image:: ../doc/source/overview/img/concepts_store.png
+   :width: 50%
 
 Presenter notes
 ---------------
@@ -743,6 +746,7 @@ GeoServer concept: Layer
 A collection of geospatial features or a coverage
 
 .. image:: ../doc/source/overview/img/concepts_layer.png
+   :width: 50%
 
 Presenter notes
 ---------------
@@ -759,6 +763,7 @@ GeoServer concept: Layer group
 A collection of layers (WMS only).
 
 .. image:: ../doc/source/overview/img/concepts_layergroup.png
+   :width: 50%
 
 Presenter notes
 ---------------
@@ -1233,8 +1238,11 @@ SLD structure
 =============
 
 * Header
+
   * FeatureTypeStyles
+
     * Rules
+
       * Symbolizers
 
 Presenter notes
@@ -1258,9 +1266,6 @@ Simple SLD
 ::
 
     ...
-    <Name>Simple Point</Name>
-    <UserStyle>
-      <Title>Simple Point</Title>
       <FeatureTypeStyle>
         <Rule>
           <PointSymbolizer>
@@ -1276,7 +1281,6 @@ Simple SLD
           </PointSymbolizer>
         </Rule>
       </FeatureTypeStyle>
-    </UserStyle>
     ...
 
 Presenter notes
@@ -1290,6 +1294,7 @@ Simple SLD
 ==========
 
 .. image:: ../doc/source/styling/img/sld_simplestyle.png
+   :width: 150%
 
 Presenter notes
 ---------------
@@ -1303,7 +1308,6 @@ Another SLD example
 
 ::
 
-        ...
         <Rule>
           <Name>SmallPop</Name>
           <Title>1 to 50000</Title>
@@ -1325,7 +1329,6 @@ Another SLD example
             </Graphic>
           </PointSymbolizer>
         </Rule>
-        ...
 
 
 Presenter notes
@@ -1343,6 +1346,7 @@ Another SLD example
 ===================
 
 .. image:: ../doc/source/styling/img/sld_intermediatestyle.png
+   :width: 150%
 
 Presenter notes
 ---------------
@@ -1515,6 +1519,7 @@ Associating styles with layers
 ==============================
 
 .. image:: ../doc/source/styling/img/styles_viewingnewstyle.png
+   :width: 75%
 
 Presenter notes
 ---------------
@@ -1527,14 +1532,12 @@ Repeat steps 2-6 for the earth:countries and earth:ocean layers, associating eac
 
 --------------------------------------------------
 
-Why doesn't the ocean layer display?
-====================================
+Error in the ocean
+==================
 
-?????????
+Why doesn't the ocean layer display?
 
 .. image:: ../doc/source/styling/img/styling_blankolmap.png
-
-?????????
 
 Presenter notes
 ---------------
@@ -1543,8 +1546,8 @@ At this point, the earth:ocean layer won't display properly. Look at the SLD; ca
 
 --------------------------------------------------
 
-External graphics and the data directory
-========================================
+External graphics...
+====================
 
 .. image:: ../doc/source/styling/img/styles_externalgraphic.png
 
@@ -1557,8 +1560,8 @@ If you look at the ocean.sld file, you will see that an image is referenced, but
 
 --------------------------------------------------
 
-External graphics and the data directory
-========================================
+...and the data directory
+=========================
 
 .. image:: ../doc/source/styling/img/styles_datadirectory.png
 
@@ -1575,8 +1578,8 @@ Copy the file oceantile.png into the styles directory.
 
 --------------------------------------------------
 
-External graphics and the data directory
-========================================
+External graphics
+=================
 
 .. image:: ../doc/source/styling/img/styles_tiledgraphic.png
 
@@ -1678,6 +1681,7 @@ Finally, select None under the Base Maps list. The map should now look identical
 
 Editing an existing style
 =========================
+
 
 .. image:: ../doc/source/styling/img/gx_loginbutton.png
 
@@ -1976,7 +1980,7 @@ Extrudes
 ========
 
 * 2.5D display (features with height)
-* Formala for determining height of features saved in data directory
+* Formula for determining height of features saved in data directory
 
 Presenter notes
 ---------------
@@ -2020,6 +2024,8 @@ This location will associate this template with this particular layer only.
 Extrudes
 ========
 
+``${POP_EST.value}``
+
 .. image:: ../doc/source/googleearth/img/extrude_huge.png
 
 Presenter notes
@@ -2059,13 +2065,16 @@ For more information
 
 Web
   http://geoserver.org
+
 Docs
   http://docs.geoserver.org
+
 Mailing lists
   https://lists.sourceforge.net/lists/listinfo/geoserver-users
-  https://lists.sourceforge.net/lists/listinfo/geoserver-devel
+
 Bug tracker
   http://jira.codehaus.org/browse/GEOS
+
 IRC
   #geoserver on Freenode
 
