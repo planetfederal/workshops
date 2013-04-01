@@ -418,18 +418,6 @@ Presenter notes
 
 --------------------------------------------------
 
-What is GeoServer?
-==================
-
-GeoServer is an open source software server written in Java that allows users to share and edit geospatial data. Designed for interoperability, it publishes data from any major spatial data source using open standards.
-
-Presenter notes
----------------
-
-Explain this.
-
---------------------------------------------------
-
 Web servers
 ===========
 
