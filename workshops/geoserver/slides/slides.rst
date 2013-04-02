@@ -251,6 +251,8 @@ Default credentials: ``admin`` / ``geoserver``
 Presenter notes
 ---------------
 
+While the unauthenticated/anonymous Welcome page is not void of features, it really just lets you see things (configured on geoserver) but not touch them (and make configuration changes).
+
 For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are admin and geoserver, although this can and should be changed.
 
 Note: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account.
@@ -338,9 +340,9 @@ Loading your first data set
 Presenter notes
 ---------------
 
-There are many ways to load data, and even more configuration options once this data is loaded. Oftentimes, though, all that you want to do is to load a simple shapefile and display it. In this section we will go from data to map in the fewest possible steps.
+There are many ways to load data into GeoServer, and even more configuration options applicable to these data once they are loaded. Oftentimes, all that you want to do is to load a simple shapefile and display it - Quickly~ish. In this section we will go from data to map in the fewest possible steps.
 
-GeoServer with the Layer Importer extension allows for uploading of ZIP files that contain geospatial information. The extension will perform all the necessary configuration for publishing the data, including generating a unique style for the layer.
+GeoServer with the Layer Importer extension (enabled/installed?) allows user to upload ZIP files that contain geospatial information. The extension will perform all the necessary configurations for publishing the data, including generating a unique style (template) for the layer.
 
 The Layer Importer is currently only available as part of the OpenGeo Suite.
 
@@ -354,11 +356,11 @@ Loading your first data set
 Presenter notes
 ---------------
 
-In the data/ directory, you will see a file called meteors.zip. It is a shapefile contained inside an archive (ZIP file). If you double click on the archive, you’ll see that it contains the following files: meteors.shp, meteors.shx, meteors.dbf, meteors.prj
+In the data/ directory (that ships with this workshop), you will see a file called meteors.zip. It is a shapefile contained inside an archive (ZIP file). If you double click on the archive, you’ll see that it contains the following suite of files: meteors.shp, meteors.shx, meteors.dbf, meteors.prj
 
-Navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
+Go back to GeoServer, and navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
 
-In the box titled Configure the data source, click Browse... and navigate to the location of the archive. Click on the file to select it.
+In the box titled Configure the data source, click Browse ..., and navigate to the location of the archive. Click on the file to select it.
 
 Click Next. Leave all other fields as they are for now.
 
@@ -396,7 +398,13 @@ Loading your first data set
 Presenter notes
 ---------------
 
-View the resulting map. Use the pan and zoom tools to study the map further. Click on map features to get attribute information.
+View the resulting map ...
+
+Use the pan and zoom tools to study the map further. Click on map features to get attribute information.
+
+[[[]]] (Talk about the interface a bit)
+
+[[[]]] (Could we also do this in GeoExplorer a bit more sexily)?
 
 --------------------------------------------------
 
@@ -409,6 +417,14 @@ Presenter notes
 ---------------
 
 [Talk about meteors here]
+
+[Talk about what you've done in terms of making your data available to web clients]
+
+[ Look at preview URL / Drop into Layers Listing (?) / Drop into Capabilities Doc (?) ]
+
+[[[]]] - Above might be a bit premature 
+
+[[[]]] - I think it's important that we try to get people jazzed about our easy-publishing story. Even if it's note really that easy, or powerful.
 
 --------------------------------------------------
 
@@ -1206,7 +1222,7 @@ Presenter notes
 
 We have already seen automatic/generic styles in action with the layers loaded in previous sections. In this section we will discuss how those styles are generated.
 
-GeoServer uses the Styled Layer Descriptor (SLD) markup language to describe geospatial data. We will first explain basic SLD syntax and then show how to create and edit styles manually in GeoServer. Finally, we will introduce GeoExplorer, a browser-based apllication that contains a graphical style editor.
+GeoServer uses the Styled Layer Descriptor (SLD) markup language to apply cartographic effects to geospatial data. We will first explain basic SLD syntax and then show how to create and edit styles manually in GeoServer. Finally, we will introduce GeoExplorer, a browser-based apllication that contains a graphical style editor.
 
 --------------------------------------------------
 
@@ -1218,13 +1234,13 @@ Viewing an SLD
 Presenter notes
 ---------------
 
-GeoServer saves SLD information as plain text files in its data directory. These styles can be retrieved through the GeoServer web interface.
+GeoServer saves SLD information as plain text files in its data directory. You can edit them in place, but styles can be retrieved and managed more easily through the GeoServer web admin interface.
 
     Click the Styles link under Data on the left side of the page.
 
     Click the entry in the list called point.
 
-    This brings up the Style Editor for this particular style. While we won't be editing this style now, take a look at it and refer back to it through the next few sections.
+    This brings up the Style Editor for this particular style. While we won't be editing this style, but take a look at it and refer back to it through the next few sections.
 
 --------------------------------------------------
 
@@ -1244,13 +1260,21 @@ Presenter notes
 
 The header of the SLD contains metadata about XML namespaces, and is usually identical among different SLDs. The details of the header are beyond the scope of this workshop.
 
-A FeatureTypeStyle is a group of styling rules. (Recall that a featuretype is another word for a layer.) Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc, allowing for precise control of drawing order.
+Notice the <FeatureTypeStyle> block towards the top of the document ...
 
-A Rule is a single styling directive. It can apply globally to a layer, or it can have logic associated with it so that the rule is conditionally applied. These conditions can be based on the attributes of the data or based on the scale (zoom) level of the data being rendered.
+A FeatureTypeStyle is a group of styling rules. (Recall that a featuretype is another word for a layer.) Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc, allowing for precise control over the order in which our styling effects are applied.
+
+Within a <FeatureTypeStyle>, notice the <Rule> tag ...
+
+A Rule is a single styling directive. It can apply globally to a layer, or it can have logic associated with it so that the rule is conditionally applied. These conditions can be based on the properties of the data or based on the scale (~zoom-level) of the map being rendered.
+
+Within a <Rule>, you'll find one or more <~Symbolizer> tags ...
 
 A Symbolizer is the actual style instruction. There are five types of symbolizers: PointSymbolizer, LineSymbolizer, PolygonSymbolizer, RasterSymbolizer, TextSymbolizer
 
 There can be one or more FeatureTypeStyles per SLD, one or more Rules per FeatureTypeStyles, and one or more Symbolizers per Rule.
+
+[ Note nesting / tag balance/syntax ]
 
 --------------------------------------------------
 
@@ -1328,7 +1352,11 @@ Another SLD example
 Presenter notes
 ---------------
 
-Here is an example of an SLD that includes attribute-based styling. The SLD also contains three rules. Each rule has an attribute-based condition, with the outcome determining the size of the shape being rendered. The attribute in question is called "pop", and the three rules are "less than 50000", "50000 to 100000", and "greater than 100000". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
+Here is an example of an SLD that includes attribute-based styling. The SLD also contains three rules. Each rule has an attribute-based condition.
+
+For each featur in the layer, agreement with one of these conditions determines the size of the shape being rendered.
+
+The attribute in question is called "pop", and the three rules are "less than 50000", "50000 to 100000", and "greater than 100000". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
 
 [First rule only showed]
 
@@ -1361,7 +1389,9 @@ Presenter notes
 
 Every layer published in GeoServer must have a style associated with it. When manually loading layers as done in the Publishing a shapefile and Publishing a GeoTIFF sections, GeoServer will look at the geometry of the data and assign a generic style based on that data type. When using the Layer Importer, a unique style will be generated for each layer. We will now look at how GeoServer handles styles.
 
-    Navigate to the Layers list. Select a layer from the list of published layers. (This example will use earth:countries, but any layer will do.)
+    [[[]]] WARNING - Window Juggling ahead, we could streamline these instructions
+
+    Navigate to the Layer list. Select a layer from the list of published layers. (This example will use earth:countries, but any layer will do.)
 
     Preview the layer to see its visualization by navigating to the Layer Preview, then clicking on the OpenLayers link next to that layer.
 
@@ -1393,9 +1423,9 @@ Presenter notes
 
 Now that we know the name of the style, we can view the style's code. Click on the Styles link, under Data on the left side of the page.
 
-Click on the style name as determined above.
+Click on the style name determined in the previous step.
 
-A text editor will open up, displaying the SLD code for this style.
+A text-like editor will open up, displaying the SLD code for this style.
 
 --------------------------------------------------
 
@@ -1409,11 +1439,13 @@ Editing an existing style
 Presenter notes
 ---------------
 
-It is helpful when learning about SLD to edit existing styles rather than creating new ones from scratch. We will now do this with the style that was just opened.
+It is helpful when learning about SLD to edit existing styles (or copies of existing styles!) rather than creating new ones from scratch. We will now do this with the style that was just opened.
 
-    Make a change to an RGB color value in a <CssParameter> value. For example, find the line that starts with <CssParameter name="fill"> and change the RGB code to #0000ff (blue).
+    Make a change to an RGB color value in a <CssParameter> value. For example, find the line that starts with <CssParameter name="fill"> and change the HEX colour code to #0000ff (blue).
+
     When done, click Validate to make sure that the changes you have made are valid. If you receive an error, go back and check your work.
-    Click Submit to commit the style change.
+
+	Click Submit to commit the style change.
 
 
 --------------------------------------------------
@@ -1426,7 +1458,7 @@ Editing an existing style
 Presenter notes
 ---------------
 
-Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page (Ctrl-F5), and you should see the color change to blue.
+Now, go back to the browser tab that contains the OpenLayers preview map. Refresh the page (Ctrl-R / F5 / etc), and you should see the color change to blue (or your own new HEX colour).
 
 --------------------------------------------------
 
@@ -1438,7 +1470,9 @@ Loading new styles
 Presenter notes
 ---------------
 
-If you have an SLD saved as a text file, it is easy to load it into GeoServer. We will now load the styles saved in the workshop styles folder.
+Often, you might have an SLD saved as a text file (downloaded, in-house, external application, etc.)
+
+If this si the case, it is easy to load it into GeoServer. We will now load the saved styles provided in the workshop styles folder.
 
     Navigate back to the Styles page by clicking on Styles under Data on the left side of the page.
 
@@ -1456,13 +1490,13 @@ Presenter notes
 
 A blank text editor will open.
 
-At the very bottom of the page, below the text editor, there is a box title SLD file. Click Browse... to navigate to and select your SLD file.
+At the very bottom of the page, below the text editor, there is a box titled SLD file. Click Browse ... to navigate to, and select your SLD file.
 
-Select cities.sld.
+Select cities.sld
 
-Note: Recall that the SLD files are in the styles directory.
+Note: If you're having trouble finding it, recall that the SLD files are in the styles sub-directory of the workshop.
 
-Click the Upload... link to load this SLD into GeoServer. The SLD will display in the text editor. The name of the style will be automatically generated.
+Click the Upload ... link to load this SLD into GeoServer. The SLD will display in the text editor, and the name of the style will be automatically populated (from the contents of the SLD file).
 
 --------------------------------------------------
 
@@ -1474,7 +1508,7 @@ Loading new styles
 Presenter notes
 ---------------
 
-Click Validate to ensure that the SLD is valid.
+Click Validate to confirm that the SLD is valid. (As-is, it really should be!)
 
 Click Submit to save the new style.
 
@@ -1495,7 +1529,9 @@ Associating styles with layers
 Presenter notes
 ---------------
 
-Once the styles are loaded, they are merely stored in GeoServer, but not associated with any layers. The next step is to link the style with a layer.
+Once the styles are loaded, they are merely stored in GeoServer - They are available, but not associated with any layers. (Don't let their namesakes fool you).
+
+Our next step is to link the styles with corresponding layers.
 
 Warning: If an SLD has references that are specific to a certain layer (for example, attribute names or geometries), associating that style with another layer may cause unexpected behavior or errors.
 
@@ -1505,7 +1541,7 @@ Warning: If an SLD has references that are specific to a certain layer (for exam
 
     Click on the Publishing tab.
 
-    Scroll downmto the Default style drop down list. Change the entry to display the cities style. you should see that the legend changes.
+    Scroll down to the Default style drop down list. Select the option to display the cities style. you should see that the legend changes.
 
 --------------------------------------------------
 
@@ -1536,7 +1572,9 @@ Why doesn't the ocean layer display?
 Presenter notes
 ---------------
 
-At this point, the earth:ocean layer won't display properly. Look at the SLD; can you figure out why not? The next section will explain.
+BOOM! 
+
+At this point, the earth:ocean layer won't display properly. Let's look at the SLD and see if we can figure out why not? The next section will explain.
 
 --------------------------------------------------
 
@@ -1548,9 +1586,13 @@ External graphics...
 Presenter notes
 ---------------
 
-SLD files have the ability to link to graphics in addition to drawing circles, squares, and other standard shapes. The earth:ocean style utilizes an ocean-themed graphic that will be tiled throughout the layer. While it is possible to put in a full URL that references an online resource in the SLD, in practice that can be a bandwidth-intensive task for a server. In most cases, it makes sense to store the style locally.
+In addition to drawing circles, squares, and other standard shapes, SLD files have the ability to link to (external) graphics.
 
-If you look at the ocean.sld file, you will see that an image is referenced, but with no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. So in order for the layer to display properly, we will need to copy that file manually.
+The earth:ocean style uses an ocean-themed graphic that is directed to be tiled throughout the layer.
+
+It is possible for the SLD to use a full URL that references an online resource. However, in practice that can become a bandwidth-intensive task for a server. In most cases, it makes sense to store the asset file referenced in the SLD locally.
+
+If you look at the ocean.sld file, you will see that an image is referenced, but that that reference contains no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. In order for the layer to display properly, we will need to copy that file manually into the right location (adjacent to the SLD).
 
 --------------------------------------------------
 
@@ -1582,6 +1624,8 @@ Presenter notes
 
 Now back in the browser, navigate to the Layer Preview for the earth:ocean layer. If you copied the file correctly, you should see a ocean-like graphic tiled in the appropriate places now.
 
+[[[]]] Note advanced uses of external graphics ... Can be applied to points / lines/poly Beyond this workshop,
+
 --------------------------------------------------
 
 Revisiting the layer group
@@ -1608,10 +1652,13 @@ GeoExplorer includes a graphical styling editor.
 Presenter notes
 ---------------
 
-Creating SLD files by hand can be a difficult and time-consuming process. Fortunately, there is a tool called GeoExplorer which is a graphical style editor. With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
+Creating SLD files by hand can be a difficult and time-consuming process. 
+
+The SLDs we looked at previously were quite simple, but complexity (and length)can increase quite quickly when we start working with complex rules and/or compound symbolizers.
+
+Fortunately, there is a tool called GeoExplorer which offers a graphical style editor. With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
 
 Note: GeoExplorer currently implements most but not all of the features of the SLD specification.
-
 
 --------------------------------------------------
 
@@ -1625,7 +1672,9 @@ Presenter notes
 
 Launch GeoExplorer. By default, GeoExplorer is located at http://localhost:8080/geoexplorer.
 
-By default, the only layers that display is a MapQuest OpenStreetMap layer. Click the Add layers button (the green circle with the white plus) at the top left of the screen and then select Add layers.
+By default, the only layer that displays is a MapQuest OpenStreetMap layer. 
+
+Click the Add layers button (the green circle with the white plus) towards the top left of the screen and then select Add layers.
 
 --------------------------------------------------
 
@@ -1637,9 +1686,9 @@ GeoExplorer
 Presenter notes
 ---------------
 
-In the resulting Available Layers dialog, select the four layers used in this workshop (not the earthmap layer group) and click Add layers. To select multiple layers, hold the Ctrl/Cmd key while clicking on the layer.
+In the resulting Available Layers dialog, select the four layers used in this workshop (not the earthmap layer group) and click Add layers. To select multiple layers at once, hold the CTRL (or CMD) key while clicking on the layer.
 
-Note: It may be easier to find the layers by clicking the id column to sort by workspace.
+Note: Among large lists of layers, it may be easier to find the layers of interest by clicking the ID column header to sort by workspace.
 
 --------------------------------------------------
 
@@ -1651,9 +1700,17 @@ GeoExplorer
 Presenter notes
 ---------------
 
-Click Done to return to the main map. The check boxes determine which layers are being viewed, with the order of the layers determining the rendering order. The layer list also contains an in-line legend for each layer, which is a compilation of all the Rules in the styles of the visible layer. Finally, the bulk of the window is taken up by the map itself.
+When you have added all of your layers, click Done to return to the main map. 
 
-Note: Layer groups, being a compilation of layers, cannot be styled with GeoExplorer. However, if you edit the style of a layer that is contained in a layer group, the layer group will reflect the change.
+The check-boxes control, or toggle, which layers are visible (not unlike other applications, checked = visible / unchecked = not displayed)
+
+The order of the layers determines the rendering order
+
+The layer list also contains an in-line legend for each layer, which is a compilation of all the rules in the styles of the visible layer.
+
+Finally, notably, the bulk of the window is taken up by the map itself.
+
+Note: Layer groups, being a compilation of layers (each with their own style)  cannot be styled with GeoExplorer. You need to access and edit the style on each member layer of the group. When you edit (and SAVE) the style of a layer that is contained in a layer group, the layer group will reflect the change.
 
 --------------------------------------------------
 
@@ -1665,7 +1722,7 @@ GeoExplorer
 Presenter notes
 ---------------
 
-The layers when added to the map may not be in the correct order. Click to select a layer and drag to reorder the layers until they are in the following order:
+When they're added to the map, our earth layers may not be in the correct order. To reorder layers in GeoExplorer, click to select a layer and drag it into its new postition in "the stack". A suitable order for our layers (from top to bottom) would be:
 
     cities, countries, ocean, shadedrelief
 
@@ -1676,7 +1733,6 @@ Finally, select None under the Base Maps list. The map should now look identical
 Editing an existing style
 =========================
 
-
 .. image:: ../doc/source/styling/img/gx_loginbutton.png
 
 .. image:: ../doc/source/styling/img/gx_logindialog.png
@@ -1684,9 +1740,9 @@ Editing an existing style
 Presenter notes
 ---------------
 
-GeoExplorer makes changes directly to an SLD. An SLD file may look very different after being edited by GeoExplorer. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
+If you edit styles in GeoExplorer, it makes changes directly to the underlying SLD in GeoServer. An SLD file may look very different after being edited by GeoExplorer, so it is always a good idea to make a back-up copy of your SLDs before using GeoExplorer to edit them.
 
-    Before we can make any changes to styles, we have to log in to GeoExplorer. Click the login button at the very top right of the window and enter your GeoServer admin credentials: admin / geoserver .
+ Before we can make any changes to styles, we have to log in to GeoExplorer. (They should currently be disabled ...). Click the login button at the very top right of the window and enter your GeoServer admin credentials: admin / geoserver .
 
 --------------------------------------------------
 
@@ -1698,11 +1754,16 @@ Editing an existing style
 Presenter notes
 ---------------
 
-Once logged in, the editing tools will be enabled. Select the countries layer by single clicking on it in the layer list. Then click on the palette icon right above the layer list to Edit Styles.
+Once you're logged in, the style editor, among other tools, will be enabled. 
+
+Select the countries layer by single clicking on it in the layer list. Then 
+click on the Change Styles (palette) icon right above the layer list to Edit Styles.
 
 Note: If the icon is disabled, make sure that you have logged in successfully and that you have selected the correct layer.
 
 Click on the first rule and then click Edit.
+
+Note: You can also invoke the Style Editor on a given layer throught the right-click (context) menu.
 
 --------------------------------------------------
 
@@ -1714,9 +1775,9 @@ Editing an existing style
 Presenter notes
 ---------------
 
-A style rule editor will display.
+The style rule editor will display.
 
-Make some changes to the rule and see how it updates in real time. As a suggestion, change the Fill Color by clicking on the color box and selecting a new color.
+Make some changes to the rule and see how it updates in real-time. As a suggestion, change the Fill Color by clicking on the color box and selecting a new color.
 
 --------------------------------------------------
 
@@ -1750,10 +1811,16 @@ Bonus exercises
 * Add a new rule that displays the label of the country. Don't worry about label placement.
 * Hint: The attribute to display is called NAME. But if you didn't know this, how would you find it out?
 
+* How might we go about creating an attribute-based classification to draw features within a layer differently based on those features' properties?
+* Hint: Check out the Advanced tab. What else do we see in there?
+
 Presenter notes
 ---------------
 
-Answer: GetFeatureInfo
+Answer1: GetFeatureInfo
+Answer2:
+- Limit by Condition (and a suitable set of operators and comparators)
+- Limit by Scale ... 
 
 --------------------------------------------------
 
