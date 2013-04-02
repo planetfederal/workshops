@@ -147,9 +147,11 @@ Installation
 Presenter notes
 ---------------
 
-In this section you will install the OpenGeo Suite on your system. This will provide everything necessary to get started with GeoServer.
+In this section you will install the OpenGeo Suite on your system. This will provide everything necessary to get started with GeoServer (and more!).
 
-GeoServer, being a Java servlet, typically requires a Java Runtime Environment (JRE) as well as a servlet container in order to function. Both a JRE and a servlet container are included with the OpenGeo Suite, so separate installations are not needed here.
+GeoServer, being a Java servlet, typically requires a Java Runtime Environment (JRE) as well as a servlet container in order to function. Both a JRE and a servlet container are included with the OpenGeo Suite installation packages, so separate installations of these components are not needed here.
+
+There are many cases where you might want to install the components separately; we'll discuss those a little later on.
 
 --------------------------------------------------
 
@@ -161,7 +163,7 @@ Installation
 Presenter notes
 ---------------
 
-[Discuss how to install here]
+The OpenGeo Suite installation packages are available for Windows, OS X, various distributions of Linux, and Solaris UNIX. We're using the Windows installers here, but the premise acros the board is pretty much the same, and pretty simple: Run the installer, follow the bouncing ball, choose options, ~done.
 
 --------------------------------------------------
 
@@ -176,7 +178,11 @@ Desktop/web app for managing applications.
 Presenter notes
 ---------------
 
-The OpenGeo Suite comes with a Dashboard, a single interface that allows you to access all components of the OpenGeo Suite, including links to common tasks, configuration, management, and application logs. It runs on the host machine as both a standalone application and in a browser.
+The OpenGeo Suite comes with a Dashboard. The Dashboard is launched (semi-)automatically when installation is complete, and otherwise from your Windows, Start menu, (or Spotlight etc. on OS X), (or Task Launcher etc. on Ubuntu).
+
+The Dashboard provides a single interface that allows you to access all components of the OpenGeo Suite, including: links to common tasks, configuration, management, and application logs. The dashboard also provides links to a library of documentation - user guides/manuals from each of the  contributing projects, as well as some OpenGeo-Specific templates, recipies and suggestions for Getting-Started.
+
+The Dashboard runs on the host machine as both a standalone application and in a browser. While both incarnations boast the same set of features, the desktop version might feel a bit more capable, since it can launch external system processes (Start/Shutdown) and applications (PGADMIN). [Note greyed out options].
 
 --------------------------------------------------
 
