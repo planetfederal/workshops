@@ -3,123 +3,123 @@
 Publishing a shapefile
 ======================
 
-Adding a single shapefile to GeoServer is one of the simplest data loading tasks.  To start our discussion of data loading, we will load a shapefile showing the locations and borders of all countries.
+Adding a single shapefile to GeoServer is one of the simplest data loading tasks. We encountered this task in the :ref:`geoserver.webadmin.quickload` section, but here we will slow down and work through the process manually. To start our discussion of data loading, we will load a shapefile showing the locations and borders of all the world's countries.
 
-.. note:: All data for this workshop was provided by `<http://naturalearthdata.com>`_ .  See the readme file in the data directory of the workshop bundle for details.
+.. note:: All data for this workshop was provided by `<http://naturalearthdata.com>`_. See the readme file in the data directory of the workshop bundle for details.
 
 Adding a store
 --------------
 
-First we need to load a shapefile :term:`store`.  In GeoServer terminology, a shapefile is a store that contains a single :term:`layer`.  We must add the store to GeoServer before we can publish a layer.
+First, we need to load a shapefile :term:`store`. In GeoServer terminology, a shapefile is a store that contains a single :term:`layer`. (Refer to the :ref:`geoserver.overview.concepts` section if necessary.) We must add the store to GeoServer first before we can publish the layer that the store contains.
 
-#. From the :ref:`geoserver.webadmin` page, click on the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
+#. From the :ref:`geoserver.webadmin` page, click the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
 
-   .. figure:: img/storeslink.png
-      :align: center
+   .. figure:: img/shp_storeslink.png
 
-      *Click this link to go to the Stores page*
+      Click this link to go to the Stores page
 
-#. Click on :guilabel:`Add new store`. 
+#. Click :guilabel:`Add new store`. 
 
-   .. figure:: img/storespage.png
-      :align: center
+   .. figure:: img/shp_storespage.png
 
-      *Stores page*
+      Stores page
 
-#. Select :guilabel:`Shapefile` under :guilabel:`Vector Data Sources`.
+#. Click :guilabel:`Shapefile` under :guilabel:`Vector Data Sources`.
 
    .. figure:: img/shp_newshplink.png
-      :align: center
 
-      *Adding a shapefile store*
+      Adding a shapefile store
 
-#. Fill out the following form, leaving all other fields as the default:
+#. A form will display. Fill out the form with the following information:
 
    .. list-table::
+      :header-rows: 1
       :widths: 30 30 40
 
+      * - Field
+        - Value
+        - Notes
       * - :guilabel:`Workspace`
         - ``earth`` 
-        - Should be the default.
+        - Should be already the default
       * - :guilabel:`Data Source Name`
         - ``countries`` 
-        - This can be anything, but it makes sense to match this with the name of the shapefile.
+        - Can be anything, but a good idea to match this with the name of the shapefile
       * - :guilabel:`Enabled`
         - *Checked*
-        - Ensures the layer is published.  Unchecking will save configuration information only.
+        - Ensures the layer is published. Unchecking will save configuration information only.
       * - :guilabel:`Description`
-        - Add any layer description.
-        - Layer metadata is recommended but not required.
+        - "The countries of the world"
+        - Layer metadata is recommended but not required
 
-#. In the box marked :guilabel:`URL`, type in the full path to the shapefile, or click the :guilabel:`Browse` button to navigate to the file.  This may be something like::
+#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse...` button to navigate to the file. The file path may be something like::
 
-      C:\Documents and Settings\<username>\Desktop\geoserver_workshop\data\countries.shp
+      C:\Users\<username>\Desktop\geoserver_workshop\data\countries.shp
 
-   .. note:: Be sure to replace ``<username>`` with your current username.
+   .. note:: Be sure to replace ``<username>`` with your current user name.
+
+   .. figure:: img/shp_filebrowser.png
+
+      Using the file browser to select a file
+
+#. Leave all other fields as their default values.
 
    .. figure:: img/shp_newshppage.png
-      :align: center
 
-      *Configuring a shapefile store*
+      Configuring a shapefile store
 
 #. When finished, click :guilabel:`Save`.
 
 Publishing a layer
 ------------------
 
-We have loaded a store, but our layer has yet to be published.  We'll do that now.
+We have loaded the shapefile store, but our layer has yet to be published. We'll do that now.
 
-#. On the next screen, a list of layers in the store is displayed.  Since we are working with a shapefile, there is only a single layer.  Click the :guilabel:`Publish` link to configure the layer.
+#. On the next screen, a list of layers in the store is displayed. Since we are working with a shapefile, there is only a single layer. Click the :guilabel:`Publish` link to configure the layer.
 
    .. figure:: img/shp_newlayerpublish.png
-      :align: center
 
-      *Selecting a layer to publish*
+      Selecting a layer to publish
 
-#. This is the layer configuration page.  There are many settings on this page, most of which we don't need to work with just now.  We will return to some of these settings later.  Fill out the form with the following info:
+#. This is the layer configuration page. There are many settings on this page, most of which we don't need to work with now. We will return to some of these settings later. Fill out the form with the following info:
    
-   #. Set the :guilabel:`Declared SRS` to ``EPSG:4326``.  IF NOT ALREADY DONE
+   #. In the :guilabel:`Coordinate Reference System` section, set the :guilabel:`Declared SRS` to ``EPSG:4326`` and set the :guilabel:`SRS handling` to :guilabel:`Force declared`. This will ensure that the layer is known to be in latitude/longitude coordinates.
 
-   #. Set the :guilabel:`SRS handling` to :guilabel:`Force declared`.  IF NOT ALREADY DONE
-
-   #. In the :guilabel:`Bounding Boxes` section, click on the :guilabel:`Compute from data` and :guilabel:`Compute from native bounds` links to set the bounding box of the layer.
+   #. In the :guilabel:`Bounding Boxes` section, click the :guilabel:`Compute from data` and :guilabel:`Compute from native bounds` links to set the bounding box of the layer.
 
    .. figure:: img/shp_layerconfig1.png
-      :align: center
 
-      *Configuring a new layer (Part 1)*
+      Configuring a new layer (Part 1)
 
    .. figure:: img/shp_layerconfig2.png
-      :align: center
 
-      *Configuring a new layer (Part 2)*
+      Configuring a new layer (Part 2)
 
-#. When finished, click :guilabel:`Save`.  Your shapefile is now published in GeoServer!
+   .. figure:: img/shp_layerconfig3.png
 
-#. You can now view the layer using the integrated OpenLayers client (using WMS).  Click on the :ref:`geoserver.webadmin.layerpreview` link.
+      Configuring a new layer (Part 3)
 
-   .. figure:: ../webadmin/img/layerpreviewlink.png
-      :align: center
+#. When finished, click :guilabel:`Save`.
 
-      *Click to go to the Layer Preview page*
+#. Your shapefile is now published with GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview`. Click the :guilabel:`Layer Preview` link.
 
-#. A list of published layers is displayed.  Find the layer in the list, and click the :guilabel:`OpenLayers` link next to the entry in the list.
+   .. figure:: ../webadmin/img/tour_layerpreviewlink.png
+
+      Click to go to the Layer Preview page
+
+#. A list of published layers is displayed. Find the layer in the list, and select :guilabel:`OpenLayers` in the select box if it isn't already selected. Click the :guilabel:`Go` link next to the select box.
 
    .. figure:: img/shp_layerpreviewpage.png
-      :align: center
 
-      *Layer Preview page*
+      Layer Preview page
 
-   .. note:: Lists in GeoServer are paged at 25 items at a time.  If you can't find the layer, you may need to click the :guilabel:`[2]` or :guilabel:`[>]` buttons.
+   .. note:: Lists in GeoServer are paged at 25 items at a time. If you can't find the layer, you may need to click the :guilabel:`[2]` or :guilabel:`[>]` buttons. Alternately, type "earth" in the search box at the top to narrow the list.
 
-#. A new tab in your browser will open up, showing your layer inside an OpenLayers application.  Play around with this window; you can use your mouse to zoom and pan, and can also click on the layer features to display attribute information.
+#. A new tab in your browser will open up, showing your layer inside an OpenLayers application. You can use your mouse to zoom and pan, and can also click the features in the window to display attribute information.
 
    .. figure:: img/shp_openlayers.png
-      :align: center
 
-      *Viewing the published layer in OpenLayers*
+      Viewing the published layer
 
-.. note:: If you're wondering where the style/color is coming from, this will be discussed in the :ref:`geoserver.styling` section.
-
-Your shapefile has been successfully published in GeoServer!
+.. note:: If you're wondering where the style/color of the layer is coming from, this will be discussed in the upcoming :ref:`geoserver.styling` section.
 

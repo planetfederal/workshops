@@ -1,59 +1,71 @@
-<project name="geoserver_foss4g2011" default="build">
+<project name="geoserverintro" default="build">
 
-   <property name="doc" value="${basedir}/doc"/>
-   <property name="data" value="${basedir}/data"/>
-   <property name="styles" value="${basedir}/styles"/>
-   <property name="build" value="${basedir}/build"/>
+  <property name="doc" value="${basedir}/doc"/>
+  <property name="styles" value="${basedir}/styles"/>
+  <property name="data" value="${basedir}/data"/>
+  <property name="slides" value="${basedir}/slides"/>
+  <property name="build" value="${basedir}/build"/>
 
-   <target name="build" depends="init, doc, data, styles, software">
-     <echo>Generating archive: ${ant.project.name}.zip</echo>
-     <zip destfile="${ant.project.name}.zip">
-       <fileset dir="${basedir}/build"/>
-     </zip>
-   </target>
+  <target name="build" depends="init, doc, slides, data, styles, software">
+    <echo>Generating archive: ${ant.project.name}.zip</echo>
+    <zip destfile="${ant.project.name}.zip">
+      <fileset dir="${basedir}/build"/>
+    </zip>
+  </target>
 
-   <target name="init">
-     <mkdir dir="${build}"/>
-   </target>
+  <target name="init">
+    <mkdir dir="${build}"/>
+  </target>
 
-    <target name="doc">
-        <delete dir="${build}/doc"/> 
-        <mkdir dir="${build}/doc"/>
-        <echo>Building docs...</echo>
-        <exec executable="sphinx-build" failonerror="true">
-            <arg line="-b html"/>
-            <arg value="-d"/>
-            <arg path="${doc}/doctrees"/>
-            <arg path="${doc}/source"/>
-            <arg path="${build}/doc"/>
-        </exec>
-    </target>
- 
-    <target name="data">
-      <copy todir="${build}/data">
-        <fileset dir="${data}"/>
-      </copy>
-    </target>
+  <target name="doc">
+    <delete dir="${build}/doc"/> 
+    <mkdir dir="${build}/doc"/>
+    <echo>Building docs...</echo>
+    <exec executable="sphinx-build" failonerror="true">
+      <arg line="-b html"/>
+      <arg value="-d"/>
+      <arg path="${doc}/doctrees"/>
+      <arg path="${doc}/source"/>
+      <arg path="${build}/doc"/>
+    </exec>
+  </target>
 
-    <target name="styles">
-      <copy todir="${build}/styles">
-        <fileset dir="${styles}"/>
-      </copy>
-    </target>
+  <target name="slides">
+    <delete dir="${build}/slides"/> 
+    <mkdir dir="${build}/slides"/>
+    <echo>Building docs...</echo>
+    <exec executable="landslide" failonerror="true">
+      <arg line="-t slides/avalanche"/>
+      <arg line="-d ${build}/slides/geoserver_slides.html"/>
+      <arg value="-v"/>
+      <arg value="slides/slides.rst"/>
+    </exec>
+  </target>
 
-    <target name="software">
-      <mkdir dir="${build}/software"/>
-      <echo>Downloading software...</echo>
-      <!--<get src="http://files.opengeo.org/software/OpenGeoSuite-2.0.0-foss4g10.exe" dest="${build}/software/OpenGeoSuite.exe" skipexisting="true" />-->
-      <!--<get src="http://dl.google.com/earth/client/current/GoogleEarthWin.exe" dest="${build}/software/GoogleEarth.exe" skipexisting="true" />-->
-    </target>
+   <target name="data">
+    <copy todir="${build}/data">
+      <fileset dir="${data}"/>
+    </copy>
+  </target>
 
-    <target name="clean">
-       <echo>Cleaning up...</echo>
-       <delete dir="${build}"/>
-       <delete dir="${doc}/doctrees"/>
-       <delete file="${ant.project.name}.zip"/>
-    </target>
+  <target name="styles">
+    <copy todir="${build}/styles">
+      <fileset dir="${styles}"/>
+    </copy>
+  </target>
 
+  <target name="software">
+    <mkdir dir="${build}/software"/>
+    <echo>Downloading software...</echo>
+    <!--<get src="LINK TO OPENGEO SUITE BINARY" dest="${build}/software/OpenGeoSuite.exe" skipexisting="true" />-->
+    <!--<get src="http://dl.google.com/earth/client/current/GoogleEarthWin.exe" dest="${build}/software/GoogleEarth.exe" skipexisting="true" />-->
+  </target>
+
+  <target name="clean">
+    <echo>Cleaning up...</echo>
+    <delete dir="${build}"/>
+    <delete dir="${doc}/doctrees"/>
+    <delete file="${ant.project.name}.zip"/>
+  </target>
 
 </project>
