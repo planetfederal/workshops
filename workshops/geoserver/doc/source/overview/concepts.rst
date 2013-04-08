@@ -7,7 +7,6 @@ You'll encounter lots of terminology when working with GeoServer, and some of it
 
 For more terms, please see the :ref:`geoserver.moreinfo.glossary`.
 
-.. todo:: Create graphics for each individual sections.
 
 .. _geoserver.overview.concepts.workspace:
 
@@ -20,8 +19,11 @@ Workspaces are usually denoted by a prefix to a layer name or store name. For ex
 
 :ref:`Stores <geoserver.overview.concepts.store>` and :ref:`layers <geoserver.overview.concepts.layer>` must all have an associated workspace. :ref:`Styles <geoserver.overview.concepts.style>` may optionally be associated with a workspace, but can also be global.
 
-.. note:: Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been ``http://nyc`` in which case the full layer name would be ``http://nyc:streets``  GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference.
+.. note:: Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been ``http://nyc`` in which case the full layer name would be ``http://nyc:streets``.  GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference.
 
+.. figure:: img/concepts_workspace.png
+
+   Workspace
 
 .. _geoserver.overview.concepts.store:
 
@@ -36,6 +38,9 @@ GeoServer saves the connection parameters to each store (the path to the shapefi
 
 A store is sometimes referred to as a "datastore" in the context of vector data, or "coveragestore" in the context of raster (coverage) data.
 
+.. figure:: img/concepts_store.png
+
+   Store
 
 .. _geoserver.overview.concepts.layer:
 
@@ -46,6 +51,9 @@ A **layer** (sometimes known as a featuretype) is a collection of geospatial fea
 
 GeoServer stores information associated with a layer, such as projection information, bounding box, and associated styles. Each layer must be associated with one (and only one) :ref:`workspace <geoserver.overview.concepts.workspace>`.
 
+.. figure:: img/concepts_layer.png
+
+   Layer
 
 .. _geoserver.overview.concepts.layergroup:
 
@@ -56,12 +64,15 @@ A **layer group**, as its name suggests, is a collection of layers. A layer grou
 
 Layer groups do not respect the concept of :ref:`workspace <geoserver.overview.concepts.workspace>`, and are relevant only to WMS requests.
 
-The following graphic shows the various possible relationships between workspaces, stores, layers, and layer groups.
+.. figure:: img/concepts_layer.png
+
+   Layer
+
+The following graphic shows the various relationships between workspaces, stores, layers, and layer groups.
 
 .. figure:: img/concepts.png
 
-   *Relationships between workspaces, stores, layers, and layer groups*
-
+   Relationships between workspaces, stores, layers, and layer groups
 
 .. _geoserver.overview.concepts.style:
 
@@ -70,5 +81,5 @@ Style
 
 A **style** is a visualization directive for rendering geographic data. A style can contain rules for color, shape, and size, along with logic for styling certain features or points in certain ways based on attributes or scale level.
 
-Every layer must be associated with at least one style. GeoServer recognizes styles in Styled Layer Descriptor (SLD) format.
+Every layer must be associated with at least one style. GeoServer recognizes styles in Styled Layer Descriptor (SLD) format. The :ref:`geoserver.styling` section will go into this topic in greater detail.
 

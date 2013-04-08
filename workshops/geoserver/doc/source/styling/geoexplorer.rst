@@ -3,104 +3,122 @@
 GeoExplorer
 ===========
 
-.. note:: GeoExplorer is currently only available as part of the OpenGeo Suite.
+.. note:: GeoExplorer is currently available as part of the OpenGeo Suite.
 
-Creating SLD files by hand can be a difficult and time-consuming process.  Fortunately, there is a tool called :guilabel:`GeoExplorer` which is a graphical style editor.  With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
+Creating SLD files by hand can be a difficult and time-consuming process. Fortunately, there is a tool called :guilabel:`GeoExplorer` which is a graphical style editor. With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
 
-GeoExplorer replaces the deprecated Styler application.  All the functionality of Styler has been added to GeoServer, making for a simpler edit/view workflow.
-
-.. note:: GeoExplorer does not currently implement all of the features of the SLD specification.  In addition, GeoServer "vendor options" are not yet supported.
+.. note:: GeoExplorer currently implements most but not all of the features of the SLD specification.
 
 Using GeoExplorer
 -----------------
 
-#. Launch GeoExplorer.  By default, GeoExplorer is located at `<http://localhost:8080/geoexplorer>`_.
+#. Launch GeoExplorer. By default, GeoExplorer is located at `<http://localhost:8080/geoexplorer>`_.
 
    .. figure:: img/geoexplorer.png
-      :align: center
 
-      *GeoExplorer*
+      GeoExplorer
 
-#. By default, the only layers that dsiplay are a Google base layer.  Click the green plus icon the top left of the screen to add layers.
+#. By default, the only layers that display is a MapQuest OpenStreetMap layer. Click the :guilabel:`Add layers` button (the green circle with the white plus) at the top left of the screen and then select :guilabel:`Add layers`.
 
    .. figure:: img/gx_addlayersbutton.png
-      :align: center
 
-      *New layer button*
+      Add layers button
 
-#. Select the four layers used in this workshop and click :guilabel:`Add layers`. 
+#. In the resulting :guilabel:`Available Layers` dialog, select the four layers used in this workshop (not the ``earthmap`` layer group) and click :guilabel:`Add layers`. To select multiple layers, hold the Ctrl/Cmd key while clicking on the layer.
+
+   .. note:: It may be easier to find the layers by clicking the :guilabel:`id` column to sort by workspace.
 
    .. figure:: img/gx_addlayersdialog.png
-      :align: center
 
-      *Selecting layers to add to GeoExplorer*
+      Selecting layers to add to GeoExplorer
 
-#. Click :guilabel:`Done` to return to the main map.  The check boxes determine which layers are being viewed (with the order of the layers determing the rendering order).  The bottom left corner holds the Legend, which is a list of all the Rules in the styles of the visible layer(s).  Finally, the bulk of the window is taken up by the map itself.
+#. Click :guilabel:`Done` to return to the main map. The check boxes determine which layers are being viewed, with the order of the layers determining the rendering order. The layer list also contains an in-line legend for each layer, which is a compilation of all the Rules in the styles of the visible layer. Finally, the bulk of the window is taken up by the map itself.
 
-.. note:: Layer groups cannot be styled with GeoExplorer.
+   .. note:: Layer groups, being a compilation of layers, cannot be styled with GeoExplorer. However, if you edit the style of a layer that is contained in a layer group, the layer group will reflect the change.
 
    .. figure:: img/gx_layersadded.png
-      :align: center
 
-      *Layers added to GeoExplorer*
+      Layers added to GeoExplorer
+
+#. The layers when added to the map may not be in the correct order. Click to select a layer and drag to reorder the layers until they are in the following order:
+
+   * cities
+   * countries
+   * ocean
+   * shadedrelief
+
+   .. figure:: img/gx_layersreorder.png
+
+      Reordering layers
+
+#. Finally, select :guilabel:`None` under the :guilabel:`Base Maps` list. The map should now look identical to the layer group.
+
+   .. figure:: img/gx_layersreordered.png
+
+      Layers in proper order
+ 
 
 Editing an existing style
 -------------------------
 
-.. warning:: GeoExplorer makes changes directly to an SLD, and will completely recreate the SLD file.  An SLD file may look very different after being edited by GeoExplorer.  It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
+.. warning:: GeoExplorer makes changes directly to an SLD. An SLD file may look very different after being edited by GeoExplorer. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
 
-#. Before we can make any changes to styles, we have to log in to GeoExplorer.  Click the login button at the very top right of the window and enter your GeoServer admin credentials:  ``admin`` / ``geoserver`` .
+#. Before we can make any changes to styles, we have to log in to GeoExplorer. Click the login button at the very top right of the window and enter your GeoServer admin credentials:  ``admin`` / ``geoserver`` .
 
    .. figure:: img/gx_loginbutton.png
-      :align: center
 
-      *Login button*
+      Login button
 
    .. figure:: img/gx_logindialog.png
-      :align: center
 
-      *Login dialog*
+      Login dialog
 
-
-#. Once logged in, the editing tools will be enabled.  Select the ``earth:countries`` layer by single clicking on it in the layer list.  Then click on the palette icon right above the layer list to Edit Styles.
+#. Once logged in, the editing tools will be enabled. Select the ``countries`` layer by single clicking on it in the layer list. Then click on the palette icon right above the layer list to Edit Styles.
 
    .. note:: If the icon is disabled, make sure that you have logged in successfully and that you have selected the correct layer.
 
    .. figure:: img/gx_editstylesbutton.png
-      :align: center
 
-      *Click to edit styles*
+      Click to edit styles
 
-#. A dialog box will display containing all style rules.  Click on the first rule and then click :guilabel:`Edit`.  A style editor will display.
+#. A list will display containing all the style rules (in this case, four of them).
 
-   .. figure:: img/gx_stylelist.png
-      :align: center
+   .. figure:: img/gx_listofrules.png
 
-      *Style editor*
+      List of style rules.
 
-#. Here you can edit the style.  Make some changes to the rule and see how it updates in real time.
+#. Click on the first rule and then click :guilabel:`Edit`. 
+
+   .. figure:: img/gx_editrulebutton.png
+
+      Click to edit a style rule
+
+#. A style rule editor will display.
 
    .. figure:: img/gx_editrulebefore.png
-      :align: center
 
-      *Editing a style rule: before*
+      Style rule editor
+
+#. Make some changes to the rule and see how it updates in real time. As a suggestion, change the Fill Color by clicking on the color box and selecting a new color. 
+
+   .. figure:: img/gx_colorpicker.png
+
+      Color picker
+
+#. Finally, click :guilabel:`Save` to persist your changes.
 
    .. figure:: img/gx_editruleafter.png
-      :align: center
 
-      *Editing a style rule: after*
+      Style edited
 
-#. Now take a look at the SLD code that GeoExplorer has created.  Navigate back to GeoServer, to the :guilabel:`Styles` menu, and then to the :guilabel:`countries` style to view it.  
+#. Now take a look at the SLD code that GeoExplorer has created. Navigate back to GeoServer, to the :guilabel:`Styles` menu, and then to the :guilabel:`countries` style to view it.
 
    .. figure:: img/gx_verify.png
-      :align: center
 
-      *SLD code generated by GeoExplorer*
+      SLD generated by GeoExplorer showing changed color
 
 
 Bonus
 ~~~~~
 
-Add a new rule that displays the label of the country.  Don't worry about label placement.  Hint:  The attribute to display is called NAME.  But if you didn't know this, how would you find it out?
-
-          
+Add a new rule that displays the label of the country. Don't worry about label placement. Hint: The attribute to display is called NAME. But if you didn't know this, how would you find it out?

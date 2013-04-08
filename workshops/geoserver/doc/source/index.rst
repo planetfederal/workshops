@@ -2,7 +2,7 @@
 Introduction to GeoServer
 =========================
 
-.. image:: GeoServer_500.png
+.. figure:: geoserver.png
 
 Welcome!
 --------
@@ -16,42 +16,42 @@ Topics covered
 
 The following material will be covered in this workshop:
 
-:ref:`geoserver.overview`
-  Basic overview of what GeoServer is, including a brief discussion of OGC services.
-
 :ref:`geoserver.install`
-  Installation of GeoServer and all other related software.
+  Installation of GeoServer and all other related software
 
 :ref:`geoserver.webadmin`
-  A tour of the GeoServer Web Administration Interface.
+  A tour of the GeoServer Web Administration Interface and how to publish data
+
+:ref:`geoserver.overview`
+  Overview of what GeoServer is, including a brief discussion of OGC services
 
 :ref:`geoserver.data`
-  Load and manage data in GeoServer.
+  Load and manage data in GeoServer
 
 :ref:`geoserver.styling`
-  Introduction to Styled Layer Descriptor (SLD) and a tour of GeoExplorer, a map browser with graphical style editing capabilities.
+  Introduction to Styled Layer Descriptor (SLD) and a tour of GeoExplorer, a map browser with graphical style editing capabilities
 
 :ref:`geoserver.googleearth`
-  Integrating GeoServer with Google Earth using the GeoServer built-in KML output.
+  Integrating GeoServer with Google Earth using the GeoServer built-in KML output
 
 :ref:`geoserver.moreinfo`
-  More information about GeoServer, including links and a glossary of terms.
+  More information about GeoServer including links and a glossary of terms
 
 Workshop Materials
 ------------------
 
 The following directories will be found inside of the workshop bundle:
 
-:file:`doc\\`
+:file:`doc`
   The workshop documentation in HTML format.
 
-:file:`software\\`
+:file:`software`
   The software to be installed during the workshop.
 
-:file:`data\\`
+:file:`data`
   Geospatial data to be used throughout the workshop.
 
-:file:`styles\\`
+:file:`styles`
   Style files to be used throughout the workshop, including associated graphics.
 
 These directories should be placed on your desktop.
@@ -60,16 +60,16 @@ These directories should be placed on your desktop.
 Ready to Begin?
 ---------------
 
-Great!  Head to the first section, :ref:`geoserver.overview`.
+Great!  Head to the first section, :ref:`geoserver.install`.
 
 .. toctree::
    :maxdepth: 2
    :numbered:
    :hidden:
 
-   overview/index
    install/index
    webadmin/index
+   overview/index
    data/index
    styling/index
    googleearth/index

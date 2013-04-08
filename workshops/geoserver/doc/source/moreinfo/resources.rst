@@ -18,7 +18,7 @@ Full documentation for GeoServer is available at `<http://docs.geoserver.org>`_.
 Mailing list
 ------------
 
-GeoServer has an active users mailing list, which you can subscribe to at `<https://lists.sourceforge.net/lists/listinfo/geoserver-users>`_.  If you're a developer, you can subscribe to the developer list at `<https://lists.sourceforge.net/lists/listinfo/geoserver-users>`_.
+GeoServer has an active users mailing list, which you can subscribe to at `<https://lists.sourceforge.net/lists/listinfo/geoserver-users>`_.  If you're a developer, you can subscribe to the developer list at `<https://lists.sourceforge.net/lists/listinfo/geoserver-devel>`_.
 
 Bug tracking
 ------------
