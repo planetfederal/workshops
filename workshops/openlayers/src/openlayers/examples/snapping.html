@@ -1,13 +1,15 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Snapping</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
     <!--[if lte IE 6]>
         <link rel="stylesheet" href="../theme/default/ie6-style.css" type="text/css" />
     <![endif]-->
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         .olControlEditingToolbar .olControlModifyFeatureItemInactive { 
             background-position: -1px -1px;
@@ -31,7 +33,7 @@
     <script src="../lib/OpenLayers.js"></script>
     <script type="text/javascript">
         OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '2';
-
+        
         function init() {
             initMap();
             initUI();
@@ -192,7 +194,7 @@
          * property values.
          */
         function initUI() {
-            var check = $("snapping");
+            var check = document.getElementById("snapping");
             check.checked = true;
             check.onclick = function() {
                 if(check.checked) {
@@ -202,11 +204,11 @@
                 }
             };
             
-            var sel = $("editable");
+            var sel = document.getElementById("editable");
             sel.value = "poly";
             sel.onchange = function() {
                 updateEditable(sel.value);
-            }
+            };
             
             var target, type, tog, tol;
             var types = ["node", "vertex", "edge"];
@@ -214,12 +216,12 @@
                 target = snap.targets[i];
                 for(var j=0; j<types.length; ++j) {
                     type = types[j];
-                    tog = $(i + "_" + type);
+                    tog = document.getElementById(i + "_" + type);
                     tog.checked = target[type];
                     tog.onclick = (function(tog, type, target) {
                         return function() {target[type] = tog.checked;}
                     })(tog, type, target);
-                    tol = $(i + "_" + type + "Tolerance");
+                    tol = document.getElementById(i + "_" + type + "Tolerance");
                     tol.value = target[type + "Tolerance"];
                     tol.onchange = (function(tol, type, target) {
                         return function() {
@@ -282,7 +284,7 @@
     </div>      
     <div id="shortdesc">A demonstration snapping while editing vector features.</div>
     <div id="map" class="smallmap"></div>
-    <br/>
+    <br>
     <label for="editable">Editable Layer:</label>
     <select id="editable" name="editable">
         <option value="poly">polygons</option>

@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers: Control Panel</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         .olControlPanel div { 
           display:block;
@@ -14,14 +16,6 @@
           background-color:white;
         }
         
-        .olControlPanel .olControlMouseDefaultsItemActive { 
-          background-color: blue;
-          background-image: url("../theme/default/img/pan_on.png");
-        }
-        .olControlPanel .olControlMouseDefaultsItemInactive { 
-          background-color: orange;
-          background-image: url("../theme/default/img/pan_off.png");
-        }
         .olControlPanel .olControlDrawFeatureItemActive { 
           width:  22px;  
           height: 22px;
@@ -73,8 +67,6 @@
                 {title:"Zoom box: Selecting it you can zoom on an area by clicking and dragging."});
             var panel = new OpenLayers.Control.Panel({defaultControl: zb});
             panel.addControls([
-                new OpenLayers.Control.MouseDefaults(
-                    {title:'You can use the default mouse configuration'}), 
                 zb,
                 new OpenLayers.Control.DrawFeature(vlayer, OpenLayers.Handler.Path,
                     {title:'Draw a feature'}),

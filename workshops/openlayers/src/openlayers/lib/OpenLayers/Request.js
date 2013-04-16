@@ -1,11 +1,18 @@
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the Clear BSD license.  
- * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
  * @requires OpenLayers/Events.js
+ * @requires OpenLayers/Request/XMLHttpRequest.js
  */
+
+/**
+ * TODO: deprecate me
+ * Use OpenLayers.Request.proxy instead.
+ */
+OpenLayers.ProxyHost = "";
 
 /**
  * Namespace: OpenLayers.Request
@@ -13,7 +20,14 @@
  *     with XMLHttpRequests.  These methods work with a cross-browser
  *     W3C compliant <OpenLayers.Request.XMLHttpRequest> class.
  */
-OpenLayers.Request = {
+if (!OpenLayers.Request) {
+    /**
+     * This allows for OpenLayers/Request/XMLHttpRequest.js to be included
+     * before or after this script.
+     */
+    OpenLayers.Request = {};
+}
+OpenLayers.Util.extend(OpenLayers.Request, {
     
     /**
      * Constant: DEFAULT_CONFIG
@@ -57,8 +71,46 @@ OpenLayers.Request = {
      * success - Triggered when the HTTP response has a success code (200-299).
      * failure - Triggered when the HTTP response does not have a success code.
      */
-    events: new OpenLayers.Events(this, null, ["complete", "success", "failure"]),
+    events: new OpenLayers.Events(this),
     
+    /**
+     * Method: makeSameOrigin
+     * Using the specified proxy, returns a same origin url of the provided url.
+     *
+     * Parameters:
+     * url - {String} An arbitrary url
+     * proxy {String|Function} The proxy to use to make the provided url a
+     *     same origin url.
+     *
+     * Returns
+     * {String} the same origin url. If no proxy is provided, the returned url
+     *     will be the same as the provided url.
+     */
+    makeSameOrigin: function(url, proxy) {
+        var sameOrigin = url.indexOf("http") !== 0;
+        var urlParts = !sameOrigin && url.match(this.URL_SPLIT_REGEX);
+        if (urlParts) {
+            var location = window.location;
+            sameOrigin =
+                urlParts[1] == location.protocol &&
+                urlParts[3] == location.hostname;
+            var uPort = urlParts[4], lPort = location.port;
+            if (uPort != 80 && uPort != "" || lPort != "80" && lPort != "") {
+                sameOrigin = sameOrigin && uPort == lPort;
+            }
+        }
+        if (!sameOrigin) {
+            if (proxy) {
+                if (typeof proxy == "function") {
+                    url = proxy(url);
+                } else {
+                    url = proxy + encodeURIComponent(url);
+                }
+            }
+        }
+        return url;
+    },
+
     /**
      * APIMethod: issue
      * Create a new XMLHttpRequest object, open it, set any headers, bind
@@ -121,36 +173,35 @@ OpenLayers.Request = {
             this.DEFAULT_CONFIG,
             {proxy: OpenLayers.ProxyHost}
         );
+        config = config || {};
+        config.headers = config.headers || {};
         config = OpenLayers.Util.applyDefaults(config, defaultConfig);
+        config.headers = OpenLayers.Util.applyDefaults(config.headers, defaultConfig.headers);
+        // Always set the "X-Requested-With" header to signal that this request
+        // was issued through the XHR-object. Since header keys are case 
+        // insensitive and we want to allow overriding of the "X-Requested-With"
+        // header through the user we cannot use applyDefaults, but have to 
+        // check manually whether we were called with a "X-Requested-With"
+        // header.
+        var customRequestedWithHeader = false,
+            headerKey;
+        for(headerKey in config.headers) {
+            if (config.headers.hasOwnProperty( headerKey )) {
+                if (headerKey.toLowerCase() === 'x-requested-with') {
+                    customRequestedWithHeader = true;
+                }
+            }
+        }
+        if (customRequestedWithHeader === false) {
+            // we did not have a custom "X-Requested-With" header
+            config.headers['X-Requested-With'] = 'XMLHttpRequest';
+        }
 
         // create request, open, and set headers
         var request = new OpenLayers.Request.XMLHttpRequest();
         var url = OpenLayers.Util.urlAppend(config.url, 
             OpenLayers.Util.getParameterString(config.params || {}));
-        var sameOrigin = !(url.indexOf("http") == 0);
-        var urlParts = !sameOrigin && url.match(this.URL_SPLIT_REGEX);
-        if (urlParts) {
-            var location = window.location;
-            sameOrigin =
-                urlParts[1] == location.protocol &&
-                urlParts[3] == location.hostname;
-            var uPort = urlParts[4], lPort = location.port;
-            if (uPort != 80 && uPort != "" || lPort != "80" && lPort != "") {
-                sameOrigin = sameOrigin && uPort == lPort;
-            }
-        }
-        if (!sameOrigin) {
-            if (config.proxy) {
-                if (typeof config.proxy == "function") {
-                    url = config.proxy(url);
-                } else {
-                    url = config.proxy + encodeURIComponent(url);
-                }
-            } else {
-                OpenLayers.Console.warn(
-                    OpenLayers.i18n("proxyNeeded"), {url: url});
-            }
-        }
+        url = OpenLayers.Request.makeSameOrigin(url, config.proxy);
         request.open(
             config.method, url, config.async, config.user, config.password
         );
@@ -375,4 +426,4 @@ OpenLayers.Request = {
         return OpenLayers.Request.issue(config);
     }
 
-};
+});

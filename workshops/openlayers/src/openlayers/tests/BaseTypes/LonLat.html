@@ -6,7 +6,7 @@
     var lonlat; 
 
     function test_LonLat_constructor (t) {
-        t.plan( 6 );
+        t.plan( 8 );
         lonlat = new OpenLayers.LonLat(6, 5);
         t.ok( lonlat instanceof OpenLayers.LonLat, "new OpenLayers.LonLat returns LonLat object" );
         t.eq( lonlat.CLASS_NAME, "OpenLayers.LonLat", "lonlat.CLASS_NAME is set correctly");
@@ -17,6 +17,12 @@
         lonlat = new OpenLayers.LonLat(20037508.33999999, -20037508.33999999);
         t.eq( lonlat.lon, 20037508.34, "lonlat.lon rounds correctly");
         t.eq( lonlat.lat, -20037508.34, "lonlat.lat rounds correctly");
+        
+        // allow construction from single arg
+        lonlat = new OpenLayers.LonLat([1, 2]);
+        t.eq(lonlat.lon, 1, "lon from array");
+        t.eq(lonlat.lat, 2, "lat from array");
+        
     }
     
     function test_LonLat_constructorFromStrings (t) {
@@ -52,7 +58,7 @@
     }
 
     function test_LonLat_add(t) {
-        t.plan(10);
+        t.plan(8);
 
         origLL = new OpenLayers.LonLat(10,100);
         lonlatA = origLL.clone();
@@ -64,19 +70,19 @@
         t.ok( addpx.equals(ll), "addpx is set correctly");
         
     //null values
-        OpenLayers.Lang.setCode('en');
-        var desiredMsg = "You must pass both lon and lat values to the add function.";
-        OpenLayers.Console.error = function(msg) {
-            t.eq(msg, desiredMsg, "error correctly reported");
+        try {
+            addpx = lonlatA.add(null, 50);
+        } catch(e) {
+            t.ok("exception thrown when passing null value to add()");
         }
-    
-        addpx = lonlatA.add(null, 50);
         t.ok( lonlatA.equals(origLL), "lonlatA is not modified by erroneous add operation (null lon)");
-        t.ok(addpx == null, "returns null on erroneous add operation (null lon)");
  
-        addpx = lonlatA.add(5, null);
+        try {
+            addpx = lonlatA.add(5, null);
+        } catch(e) {
+            t.ok("exception thrown when passing null value to add()");
+        }
         t.ok( lonlatA.equals(origLL), "lonlatA is not modified by erroneous add operation (null lat)");
-        t.ok(addpx == null, "returns null on erroneous add operation (null lat)");
 
         // string values
         addpx = origLL.clone().add("5", "50");
@@ -107,14 +113,60 @@
     function test_LonLat_fromString(t) {
         t.plan( 2 );
         lonlat = OpenLayers.LonLat.fromString("6,5");
-        t.ok( lonlat instanceof OpenLayers.LonLat, "new OpenLayers.LonLat returns LonLat object" );
+        t.ok( lonlat instanceof OpenLayers.LonLat, "OpenLayers.LonLat.fromString() returns LonLat object" );
 
         var ll = new OpenLayers.LonLat(6, 5);
         t.ok( lonlat.equals(ll), "lonlat is set correctly");
     }
+    
+    function test_LonLat_fromArray(t) {
+        t.plan( 3 );
+        
+        // (1 test) must return a OpenLayers.LonLat-instance 
+        lonlat = OpenLayers.LonLat.fromArray([6,5]);
+        t.ok( lonlat instanceof OpenLayers.LonLat, "OpenLayers.LonLat.fromArray returns LonLat object" );
+
+        var ll = new OpenLayers.LonLat(6, 5);
+        // (1 test) must return correct LonLat-object
+        t.ok( lonlat.equals(ll), "lonlat is set correctly");
+        
+        
+        // (1 test) check how function deals with illegal arguments, it should 
+        // never throw an exception and always return an instance of 
+        // OpenLayers.LonLat.
+        var unexpectedResult = false,
+            undef,
+            checkArgs = [
+                {},
+                '',
+                6,
+                false,
+                true,
+                [undef, 5],
+                [6, undef]
+            ],
+            returnedVal;
+            
+        try {
+            for(var i = 0, len = checkArgs.length; i < len; i++ ){
+                returnedVal = OpenLayers.LonLat.fromArray( checkArgs[i] );
+                if (!(returnedVal instanceof OpenLayers.LonLat) ) {
+                    unexpectedResult = true;
+                    break;
+                }
+            }
+            // no arguments at all
+            returnedVal = OpenLayers.LonLat.fromArray();
+            unexpectedResult = !(returnedVal instanceof OpenLayers.LonLat);
+        } catch(e) {
+            unexpectedResult = true;
+        } finally {
+            t.ok(!unexpectedResult, "OpenLayers.LonLat.fromArray always returns an instance of OpenLayers.LonLat and doesn't throw an exception when called with unexpected argument.");
+        }
+    }
 
     function test_LonLat_transform(t) {
-        t.plan( 6 );
+        t.plan(10);
         lonlat = new OpenLayers.LonLat(10, -10);
         lonlat.transform(new OpenLayers.Projection("foo"), new OpenLayers.Projection("Bar")); 
         t.eq(lonlat.lon, 10, "lon for null transform is the same")
@@ -125,6 +177,16 @@
         lonlat.transform(new OpenLayers.Projection("EPSG:900913"), new OpenLayers.Projection("EPSG:4326")); 
         t.eq(lonlat.lon, 10, "lon for inverse spherical mercator transform is correct");
         t.eq(Math.round(lonlat.lat), -10, "lat for inverse spherical mercator correct")
+        
+        // transform with string
+        lonlat = new OpenLayers.LonLat(10, -10);
+        lonlat.transform("EPSG:4326", "EPSG:900913"); 
+        t.eq(Math.round(lonlat.lon), 1113195, "(string) lon for spherical mercator transform is correct");
+        t.eq(Math.round(lonlat.lat), -1118890, "(string) lat for spherical mercator correct")
+        lonlat.transform("EPSG:900913", "EPSG:4326"); 
+        t.eq(lonlat.lon, 10, "(string) lon for inverse spherical mercator transform is correct");
+        t.eq(Math.round(lonlat.lat), -10, "(string) lat for inverse spherical mercator correct")
+        
     }
     
     function test_LonLat_wrapDateLine(t) {

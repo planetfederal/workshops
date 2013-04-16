@@ -4,12 +4,10 @@
     <script type="text/javascript">
 
     function test_initialize(t) {
-        t.plan(2);
+        t.plan(1);
         var control = new OpenLayers.Control.DrawFeature("foo", function() {});
         t.ok(control instanceof OpenLayers.Control.DrawFeature,
              "constructor returns an instance");
-        t.ok(OpenLayers.Util.indexOf(control.EVENT_TYPES, "featureadded") > -1,
-             "featureadded event in EVENT_TYPES");
     }
     
     function test_multi(t) {
@@ -39,6 +37,33 @@
         t.ok(!control.handler.multi, "handlerOptions.multi respected");
 
     }
+
+    function test_rendererOptions(t) {
+        t.plan(2);
+        
+        var map = new OpenLayers.Map("map");
+        var renderers = ["Canvas", "VML"];
+
+        var layer = new OpenLayers.Layer.Vector(null, {
+            renderers: renderers,
+            rendererOptions: {zIndexing: true},
+            isBaseLayer: true
+        });
+        map.addLayer(layer);
+        
+        var control = new OpenLayers.Control.DrawFeature(
+            layer, OpenLayers.Handler.Polygon, {autoActivate: true}
+        );
+        map.addControl(control);
+
+        var sketchLayer = control.handler.layer;
+
+        t.eq(sketchLayer.renderers, renderers, "Preferred renderers");
+        t.eq(sketchLayer.rendererOptions.zIndexing, true, "renderer options");
+        
+        map.destroy();
+
+    }
     
     function test_drawFeature(t) {
         t.plan(3);
@@ -60,7 +85,7 @@
     }
     
     function test_sketch_events(t) {
-        t.plan(12);
+        t.plan(11);
         var map = new OpenLayers.Map("map", {
             resolutions: [1]
         });
@@ -93,12 +118,12 @@
         // mock up draw/modify of a point
         log = {};
         control.activate();
-        t.eq(log.sketchstarted.type, "sketchstarted", "[activate] sketchstarted triggered");
-        t.ok(isNaN(log.sketchstarted.vertex.x) && isNaN(log.sketchstarted.vertex.y),
-             "[activate] correct vertex (NaN)");
+        t.eq(log, {}, "[activate] no event triggered");
 
         log = {};
         map.events.triggerEvent("mousemove", {xy: new OpenLayers.Pixel(0, 0)});
+        t.eq(log.sketchstarted.type, "sketchstarted", "[mousemove] sketchstarted triggered");
+        t.geom_eq(log.sketchstarted.vertex, new OpenLayers.Geometry.Point(-200, 125), "[mousemove] correct vertex");
         t.eq(log.sketchmodified.type, "sketchmodified", "[mousemove] sketchmodified triggered");
         t.geom_eq(log.sketchmodified.vertex, new OpenLayers.Geometry.Point(-200, 125), "[mousemove] correct vertex");
 
@@ -123,9 +148,6 @@
                       new OpenLayers.Geometry.Point(-190, 115)
                   ]),
                   "[dblclick] correct geometry");
-        t.eq(log.sketchstarted.type, "sketchstarted", "[dblclick] sketchstarted triggered");
-        t.ok(isNaN(log.sketchstarted.vertex.x) && isNaN(log.sketchstarted.vertex.y),
-             "[dblclick] correct vertex (NaN)");
 
         map.destroy();
     }

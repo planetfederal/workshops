@@ -1,6 +1,6 @@
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the Clear BSD license.  
- * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 
@@ -16,6 +16,9 @@
  *
  * This handler stops event propagation for mousedown and mouseup if those
  *     browser events target features that can be selected.
+ *
+ * Inherits from:
+ *  - <OpenLayers.Handler>
  */
 OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
 
@@ -173,7 +176,13 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
      * evt - {Event} 
      */
     mousedown: function(evt) {
-        this.down = evt.xy;
+        // Feature selection is only done with a left click. Other handlers may stop the
+        // propagation of left-click mousedown events but not right-click mousedown events.
+        // This mismatch causes problems when comparing the location of the down and up
+        // events in the click function so it is important ignore right-clicks.
+        if (OpenLayers.Event.isLeftClick(evt) || OpenLayers.Event.isSingleTouch(evt)) {
+            this.down = evt.xy;
+        }
         return this.handle(evt) ? !this.stopDown : true;
     },
     
@@ -316,10 +325,8 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
                 // we enter handle. Yes, a bit hackish...
                 this.feature = null;
             }
-        } else {
-            if(this.lastFeature && (previouslyIn || click)) {
-                this.triggerCallback(type, 'out', [this.lastFeature]);
-            }
+        } else if(this.lastFeature && (previouslyIn || click)) {
+            this.triggerCallback(type, 'out', [this.lastFeature]);
         }
         return handled;
     },
@@ -344,6 +351,11 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
                 if(dpx <= this.clickTolerance) {
                     this.callback(key, args);
                 }
+                // we're done with this set of events now: clear the cached
+                // positions so we can't trip over them later (this can occur
+                // if one of the up/down events gets eaten before it gets to us
+                // but we still get the click)
+                this.up = this.down = null;
             } else {
                 this.callback(key, args);
             }
@@ -398,13 +410,13 @@ OpenLayers.Handler.Feature = OpenLayers.Class(OpenLayers.Handler, {
     },
     
     /**
-     * Method handleMapEvents
+     * Method: handleMapEvents
      * 
      * Parameters:
      * evt - {Object}
      */
     handleMapEvents: function(evt) {
-        if (!evt.property || evt.property == "order") {
+        if (evt.type == "removelayer" || evt.property == "order") {
             this.moveLayerToTop();
         }
     },

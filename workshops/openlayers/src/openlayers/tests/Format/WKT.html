@@ -188,7 +188,7 @@
     }
 
     function test_Format_WKT_read(t) { 
-        t.plan(12); 
+        t.plan(13); 
 
         var format = new OpenLayers.Format.WKT(); 
          
@@ -204,7 +204,14 @@
         // test a multipoint 
         t.ok(multipoint.geometry.equals(format.read(format.write(multipoint)).geometry), 
              "format correctly reads MultiPoint WKT"); 
- 
+
+        // test a multipoint without separating parens 
+        t.ok(multipoint.geometry.equals(format.read( 
+ 	        "MULTIPOINT(" + points[0].geometry.x + " " + points[0].geometry.y + "," +  
+                            points[1].geometry.x + " " + points[1].geometry.y + "," +  
+                            points[2].geometry.x + " " + points[2].geometry.y + ")").geometry), 
+            "format correctly reads MultiPoint WKT without parens");
+
         // test a linestring 
         t.ok(linestrings[0].geometry.equals(format.read(format.write(linestrings[0])).geometry), 
              "format correctly reads LineString WKT"); 
@@ -232,26 +239,55 @@
         t.geom_eq(got[1].geometry, linestrings[0].geometry, "second feature's geometry is the correct linestring");
  
     }
+    
+    function test_whitespace(t) {
+        t.plan(3);
+        var wkt = "LINESTRING(7.120068\t43.583917,\n7.120154 43.583652,\n7.120385\t43.582716,\r\n7.12039 43.582568, 7.120712 43.581511,7.120873\n43.580718)";
+        var format = new OpenLayers.Format.WKT();
+        var got = format.read(wkt);
+        t.ok(got instanceof OpenLayers.Feature.Vector, "read a feature");
+        t.ok(got.geometry instanceof OpenLayers.Geometry.LineString, "read a linestring");
+        t.ok(got.geometry.components.length, 6, "read a geometry with 6 components");
+    }
 
     function test_Format_WKT_read_projection(t) {
         t.plan(1);
 
         var projections = {
-            src:  new OpenLayers.Projection("EPSG:4326"),
-            dest: new OpenLayers.Projection("EPSG:900913")
-        };
-
-        var points = {
-            src:  new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-87.9, 41.9)),
-            dest: new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(-9784983.2393667, 5146011.6785665))
-        };
-
-        var format = new OpenLayers.Format.WKT({
-            externalProjection: projections["src"],
-            internalProjection: projections["dest"]
-        });
-        var feature = format.read("GEOMETRYCOLLECTION(POINT(" + points["src"].geometry.x + " " + points["src"].geometry.y + "))")[0];
-        t.eq(feature.geometry.toString(), points["dest"].geometry.toString(), 
+                src:  new OpenLayers.Projection("EPSG:4326"),
+                dest: new OpenLayers.Projection("EPSG:900913")
+            },
+            points = {
+                src:  new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(-87.9, 41.9)
+                ),
+                dest: new OpenLayers.Feature.Vector(
+                    new OpenLayers.Geometry.Point(-9784983.2393667, 5146011.6785665)
+                )
+            },
+            format = new OpenLayers.Format.WKT({
+                externalProjection: projections["src"],
+                internalProjection: projections["dest"]
+            }),
+            gc_wkt_parts = [
+                "GEOMETRYCOLLECTION(",
+                "POINT(",
+                points["src"].geometry.x,
+                " ",
+                points["src"].geometry.y, 
+                ")",
+                ")"
+            ],
+            feature = format.read( gc_wkt_parts.join("") )[0],
+            gotGeom = feature.geometry,
+            expectGeom = points["dest"].geometry,
+            // we don't use geometry::toString because we might run into 
+            // precision issues
+            precision = 7,
+            got = gotGeom.x.toFixed(precision) + ' ' + gotGeom.y.toFixed(precision),
+            expected = expectGeom.x.toFixed(precision) + ' ' + expectGeom.y.toFixed(precision);
+        
+        t.eq(got, expected, 
             "Geometry collections aren't transformed twice when reprojection.");
     }
     </script> 

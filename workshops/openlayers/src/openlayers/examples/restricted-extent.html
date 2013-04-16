@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers Restricted Extent Example</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <script src="../lib/Firebug/firebug.js"></script>
     <script src="../lib/OpenLayers.js"></script>
     <script type="text/javascript">
@@ -14,7 +16,7 @@
         function init() {
             var options = {
                 restrictedExtent: extent
-            }
+            };
             map = new OpenLayers.Map('map', options);
 
             var wms = new OpenLayers.Layer.WMS(
@@ -40,7 +42,7 @@
   <body onload="init()">
     <h1 id="title">OpenLayers Restricted Extent Example</h1>
     <div id="tags">
-        map, restrict, restrictedextent, extent
+        map, restrict, restrictedextent, extent, light
     </div>    
     <p id="shortdesc">
       Don't let users drag outside the map extent: instead, limit dragging such

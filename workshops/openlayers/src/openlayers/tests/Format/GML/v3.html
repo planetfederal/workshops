@@ -10,8 +10,8 @@
             "v2/linestring-coord.xml", "v2/linestring-coordinates.xml",
             "v2/multipoint-coord.xml", "v2/multipoint-coordinates.xml",
             "v2/multilinestring-coord.xml", "v2/multilinestring-coordinates.xml",
-            "v3/point.xml", "v3/linestring.xml", "v3/curve.xml",
-            "v3/polygon.xml", "v3/surface.xml",
+            "v3/point.xml", "v3/linestring.xml", "v3/linestring3d.xml",
+            "v3/curve.xml", "v3/polygon.xml", "v3/surface.xml",
             "v3/multipoint-singular.xml", "v3/multipoint-plural.xml",
             "v3/multilinestring-singular.xml", "v3/multilinestring-plural.xml",
             "v3/multicurve-singular.xml", "v3/multicurve-curve.xml",
@@ -48,6 +48,19 @@
             }
         }
         
+    }
+
+    function test_read_setGeometryName(t) {
+        t.plan(1);
+        var doc = readXML("v3/topp-states-gml.xml");
+        var format = new OpenLayers.Format.GML.v3({
+            featureType: "states",
+            featureNS: "http://www.openplans.org/topp",
+            geometryName: null
+        });
+        var features = format.read(doc.documentElement);
+
+        t.eq(format.geometryName, "the_geom", "geometryName set when parsing features");
     }
 
     function test_readNode_bounds(t) {
@@ -212,6 +225,26 @@
         t.eq(attributes["LAND_KM"], "143986.61", "read LAND_KM");
     }
     
+    function test_read_autoconfig(t) {
+        t.plan(7);
+        var doc = readXML("v3/topp-states-wfs.xml");
+        var format = new OpenLayers.Format.GML.v3();
+        var features = format.read(doc.documentElement);
+        
+        t.eq(features.length, 3, "read 3 features");
+        var feature = features[0];
+        t.eq(feature.fid, "states.1", "read fid");
+        t.eq(feature.geometry.CLASS_NAME, "OpenLayers.Geometry.MultiPolygon",
+             "read multipolygon geometry");
+        t.eq(format.featureType, "states", "featureType correctly auto-configured");
+        t.eq(format.featureNS, "http://www.openplans.org/topp", "featureNS correctly auto-configured");
+
+        t.eq(format.autoConfig, true, "autoConfig set to true");
+        format.autoConfig = false;
+        format.read(doc.documentElement);
+        t.eq(format.autoConfig, false, "now that featureNS is set, the format does not auto-configure again");
+    }
+    
     function test_emptyAttribute(t) {
         t.plan(4);
         var str =
@@ -297,6 +330,11 @@
 <div id="v3/linestring.xml"><!--
 <gml:LineString xmlns:gml="http://www.opengis.net/gml" srsName="foo">
   <gml:posList>1 2 3 4</gml:posList>
+</gml:LineString>
+--></div>
+<div id="v3/linestring3d.xml"><!--
+<gml:LineString xmlns:gml="http://www.opengis.net/gml" srsName="foo" srsDimension="3">
+  <gml:posList>1 2 3 4 5 6</gml:posList>
 </gml:LineString>
 --></div>
 <div id="v3/curve.xml"><!--

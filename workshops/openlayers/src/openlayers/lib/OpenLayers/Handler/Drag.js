@@ -1,6 +1,6 @@
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the Clear BSD license.  
- * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
@@ -172,7 +172,8 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
             this.down(evt);
             this.callback("down", [evt.xy]);
 
-            OpenLayers.Event.stop(evt);
+            // prevent document dragging
+            OpenLayers.Event.preventDefault(evt);
 
             if(!this.oldOnselectstart) {
                 this.oldOnselectstart = document.onselectstart ?
@@ -442,7 +443,7 @@ OpenLayers.Handler.Drag = OpenLayers.Class(OpenLayers.Handler, {
      * {Boolean} Let the event propagate.
      */
     mouseout: function (evt) {
-        if (this.started && OpenLayers.Util.mouseLeft(evt, this.map.eventsDiv)) {
+        if (this.started && OpenLayers.Util.mouseLeft(evt, this.map.viewPortDiv)) {
             if(this.documentDrag === true) {
                 this.addDocumentEvents();
             } else {

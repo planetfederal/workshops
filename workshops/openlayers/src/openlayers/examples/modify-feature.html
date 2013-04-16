@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Modify Feature</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         #controls {
             width: 512px;
@@ -16,7 +18,6 @@
             list-style: none;
         }
     </style>
-    <script src="../lib/Firebug/firebug.js"></script>
     <script src="../lib/OpenLayers.js"></script>
     <script type="text/javascript">
         var map, vectors, controls;
@@ -38,18 +39,20 @@
             map.addControl(new OpenLayers.Control.LayerSwitcher());
             map.addControl(new OpenLayers.Control.MousePosition());
             
-            function report(event) {
-                OpenLayers.Console.log(event.type, event.feature ? event.feature.id : event.components);
+            if (console && console.log) {
+                function report(event) {
+                    console.log(event.type, event.feature ? event.feature.id : event.components);
+                }
+                vectors.events.on({
+                    "beforefeaturemodified": report,
+                    "featuremodified": report,
+                    "afterfeaturemodified": report,
+                    "vertexmodified": report,
+                    "sketchmodified": report,
+                    "sketchstarted": report,
+                    "sketchcomplete": report
+                });
             }
-            vectors.events.on({
-                "beforefeaturemodified": report,
-                "featuremodified": report,
-                "afterfeaturemodified": report,
-                "vertexmodified": report,
-                "sketchmodified": report,
-                "sketchstarted": report,
-                "sketchcomplete": report
-            });
             controls = {
                 point: new OpenLayers.Control.DrawFeature(vectors,
                             OpenLayers.Handler.Point),
@@ -93,6 +96,7 @@
             if (rotate || drag) {
                 controls.modify.mode &= ~OpenLayers.Control.ModifyFeature.RESHAPE;
             }
+            controls.modify.createVertices = document.getElementById("createVertices").checked;
             var sides = parseInt(document.getElementById("sides").value);
             sides = Math.max(3, isNaN(sides) ? 0 : sides);
             controls.regular.handler.sides = sides;
@@ -158,6 +162,11 @@
                        onclick="toggleControl(this);" />
                 <label for="modifyToggle">modify feature</label>
                 <ul>
+                    <li>
+                        <input id="createVertices" type="checkbox" checked
+                               name="createVertices" onchange="update()" />
+                        <label for="createVertices">allow vertices creation</label>
+                    </li>
                     <li>
                         <input id="rotate" type="checkbox"
                                name="rotate" onchange="update()" />

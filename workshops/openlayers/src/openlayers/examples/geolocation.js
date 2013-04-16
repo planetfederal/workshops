@@ -47,6 +47,7 @@ var pulsate = function(feature) {
 };
 
 var geolocate = new OpenLayers.Control.Geolocate({
+    bind: false,
     geolocationOptions: {
         enableHighAccuracy: false,
         maximumAge: 0,
@@ -54,7 +55,8 @@ var geolocate = new OpenLayers.Control.Geolocate({
     }
 });
 map.addControl(geolocate);
-geolocate.events.register("locationupdated",this,function(e) {
+var firstGeolocation = true;
+geolocate.events.register("locationupdated",geolocate,function(e) {
     vector.removeAllFeatures();
     var circle = new OpenLayers.Feature.Vector(
         OpenLayers.Geometry.Polygon.createRegularPolygon(
@@ -80,26 +82,31 @@ geolocate.events.register("locationupdated",this,function(e) {
         ),
         circle
     ]);
-    map.zoomToExtent(vector.getDataExtent());
-    pulsate(circle);
+    if (firstGeolocation) {
+        map.zoomToExtent(vector.getDataExtent());
+        pulsate(circle);
+        firstGeolocation = false;
+        this.bind = true;
+    }
 });
 geolocate.events.register("locationfailed",this,function() {
     OpenLayers.Console.log('Location detection failed');
 });
-
-$('locate').onclick = function() {
+document.getElementById('locate').onclick = function() {
     vector.removeAllFeatures();
     geolocate.deactivate();
-    $('track').checked = false;
+    document.getElementById('track').checked = false;
     geolocate.watch = false;
+    firstGeolocation = true;
     geolocate.activate();
 };
-$('track').onclick = function() {
+document.getElementById('track').onclick = function() {
     vector.removeAllFeatures();
     geolocate.deactivate();
     if (this.checked) {
         geolocate.watch = true;
+        firstGeolocation = true;
         geolocate.activate();
     }
 };
-$('track').checked = false;
+document.getElementById('track').checked = false;

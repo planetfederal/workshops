@@ -1,10 +1,17 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-  <script>
-    var custom$ = function() {};
-    window.$ = custom$;
-  </script>
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    #map {
+        position: absolute;
+        top:  1234px;
+        left: 123px;
+    }
+  </style>
   <script>
     var OpenLayers = [
         "OpenLayers/BaseTypes/Class.js",
@@ -41,9 +48,40 @@
              "isElement reports that object returned by getElement is an Element");
     }
     
-    function test_$(t) {
-        t.plan(1);
-        t.ok($ === custom$, "OpenLayers doesn't clobber existing definition of $.");
+    function test_isArray(t) {
+        t.plan(5);
+        
+        var a;
+        
+        a = null;
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports 'null' isn't an Array");
+        a = "Array";   
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports \"Array\" isn't an Array");
+        a = {};
+        t.eq(OpenLayers.Util.isArray(a), false, 
+             "isArray reports {} isn't an Array");
+        a = [];
+        t.eq(OpenLayers.Util.isArray(a), true, 
+             "isArray reports [] is an Array");
+        a = new Array();
+        t.eq(OpenLayers.Util.isArray(a), true, 
+             "isArray reports new Array() is an Array");
+    }
+    
+    function test_iframe_isArray(t) {
+        t.plan(3);
+        // create an array in an iframe
+        var iframe = document.createElement("iframe");
+        document.body.appendChild(iframe);
+        frames[frames.length-1].document.write(
+            "<script>parent.testArray = [];<\/script>"
+        );
+        
+        t.ok(!!testArray, "testArray created");
+        t.ok(!(testArray instanceof Array), "instanceof check doesn't work");
+        t.eq(OpenLayers.Util.isArray(testArray), true, "isArray works");
     }
     
     function test_Util_getImagesLocation (t) {
@@ -72,10 +110,14 @@
     }
     
     function test_Util_pagePosition(t) {
-        t.plan( 1 );
+        t.plan( 2 );
         var pp = OpenLayers.Util.pagePosition(window);
-        t.eq( pp.toString(), "0,0", "Page position doesn't bail if passed 'window'")
+        t.eq( pp.toString(), "0,0", "Page position doesn't bail if passed 'window'");
         
+        window.scrollTo(100, 1200);
+        var mapDiv = document.getElementById("map");
+        pp = OpenLayers.Util.pagePosition(mapDiv);
+        t.eq( pp.toString(), "123,1234", "Page position should work after page has been scrolled");
     }
 
     function test_Util_createDiv(t) {
@@ -216,21 +258,6 @@
         t.ok( !image.style.opacity, "element.style.opacity default unset");    
         t.ok( !image.style.filter, "element.style.filter default unset");
 
-    }
-
-    function test_Util_imageLoadError(t) {
-        t.plan(2);
-
-        var img = OpenLayers.Util.createImage(null, null, null, null, null, null, null, false);
-
-        // mock up image load failure
-        img._attempts = OpenLayers.IMAGE_RELOAD_ATTEMPTS + 1;
-        OpenLayers.Util.onImageLoadError.call(img);
-        t.ok(OpenLayers.Element.hasClass(img, 'olImageLoadError'), 'broken image has class olImageLoadError');
-
-        // mock up image load success
-        OpenLayers.Util.onImageLoad.call(img);
-        t.ok(!OpenLayers.Element.hasClass(img, 'olImageLoadError'), 'good image does not have class olImageLoadError');
     }
 
     function test_Util_applyDefaults(t) {
@@ -486,9 +513,8 @@
 
         t.eq(element.style.opacity, '', 
              "element.style.opacity is removed when opacity = " + opacity);
-        //Safari 3 returns null for this value, which is okay
-        var filterString = (OpenLayers.BROWSER_NAME == 'safari') ? null : '';
-        t.eq(element.style.filter, filterString, 
+        // Some browser returns null instead of '', which is okay
+        t.ok(element.style.filter == '' || element.style.filter == null,
              "element.style.filter is removed when opacity = " + opacity);
     }
 
@@ -680,6 +706,12 @@
         t.ok(OpenLayers.String.startsWith(id, "chicken"),
              "OpenLayers.Util.createUniqueID starts id correctly");
     }
+    
+    function test_units(t) {
+        t.plan(2);
+        t.eq(OpenLayers.INCHES_PER_UNIT.m, OpenLayers.INCHES_PER_UNIT.Meter, 'Same inches per m and Meters');
+        t.eq(OpenLayers.INCHES_PER_UNIT.km, OpenLayers.INCHES_PER_UNIT.Kilometer, 'Same inches per km and Kilometers');
+    }
         
     function test_Util_normalizeScale(t) {
         t.plan(2); 
@@ -702,7 +734,7 @@
 
         var scale = 1/150000000; 
         var resolution = OpenLayers.Util.getResolutionFromScale(scale, 'm');
-        t.eq(resolution.toFixed(6), "52916.638092", "Calculated correct resolution for " + scale);
+        t.eq(resolution.toFixed(6), "52916.772500", "Calculated correct resolution for " + scale);
 
         scale = 150000000; 
         resolution = OpenLayers.Util.getResolutionFromScale(scale);
@@ -916,7 +948,16 @@
     }
 
     function test_Util_getParameters(t) {
-        t.plan(17);
+        t.plan(20);
+
+        t.eq(OpenLayers.Util.getParameters(''), {},
+                "getParameters works when the given argument is empty string");
+
+        t.eq(OpenLayers.Util.getParameters(), {},
+                "getParameters works with optional argument");
+
+        t.eq(OpenLayers.Util.getParameters(null), {},
+                "getParameters works with optional argument");
 
         t.eq(OpenLayers.Util.getParameters('http://www.example.com'), {},
              "getParameters works when args = ''");
@@ -987,33 +1028,6 @@
         t.ok("César" in obj, "got proper key from C%C3%A9sar");
         t.eq(obj["César"], "César Chávez", "got proper value from C%E9sar+Ch%E1vez");
 
-    }
-
-    function test_Util_getArgs(t) {
-        //DEPRECATED -- to be removed in 3.0
-        t.plan(3);
-        
-        OpenLayers.Lang.setCode(OpenLayers.Lang.defaultCode);
-        
-        var temp = OpenLayers.Console.warn;
-        OpenLayers.Console.warn = function(err) {
-            t.ok(err != null, "warning is fired on use of getArgs()");
-        }
-
-        var temp2 = OpenLayers.Util.getParameters;
-        OpenLayers.Util.getParameters = function(url) {
-            t.eq(url, g_Url, "correct url passed to getParameters()");
-            return g_Params;
-        }
-        
-        g_Params = {};
-        g_Url = {};
-        
-        var ret = OpenLayers.Util.getArgs(g_Url);
-        t.ok( ret == g_Params, "correctly returns value from getParameters");
-
-        OpenLayers.Console.warn = temp;
-        OpenLayers.Util.getParameters = temp2;
     }
 
     function tests_Util_extend(t) {
@@ -1110,11 +1124,38 @@
             "toFloat rounds large floats correctly #2");
     }
     function test_getFormattedLonLat(t) {
-        t.plan(1);
+        t.plan(3);
         var z = 2 + (4/60) - 0.000002 ;
         t.eq(OpenLayers.Util.getFormattedLonLat(z,"lon"), "02°04'00\"E",
             "LonLat does not show 60 seconds.");
+        t.eq(OpenLayers.Util.getFormattedLonLat(-181, "lon"), "179°00'00\"E", "crossing dateline from the west results in correct east coordinate");
+        t.eq(OpenLayers.Util.getFormattedLonLat(181, "lon"), "179°00'00\"W", "crossing dateline from the east results in correct west coordinate");
     }
+
+    /**
+     * To test that we can safely call OpenLayers.Util.extend with an Event
+     * instance, we need to capture a real event.
+     */
+    var loadEvent;
+    window.onload = function(evt) {
+        loadEvent = evt || window.event;
+    }
+    function test_extend_event(t) {
+        t.plan(2);
+        t.ok(loadEvent, "loadEvent recorded");
+        var extended, err;
+        try {
+            extended = OpenLayers.Util.extend({foo: "bar"}, loadEvent);
+        } catch (e) {
+            err = e;
+        }
+        if (err) {
+            t.fail("Failed to extend with an event: " + err.message);
+        } else {
+            t.eq(extended && extended.foo, "bar", "extended with event");
+        }
+    }
+
   </script>
 </head>
 <body>
