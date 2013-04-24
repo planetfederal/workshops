@@ -18,7 +18,7 @@ The following are actual course materials given at our various `training classes
   As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial database. Installation, loading data, configuration, spatial SQL queries, indexing, tuning and viewing are among the topics touched on in this overview workshop.
 
 `Introduction to GeoServer <http://workshops.opengeo.org/geoserver-intro/>`_ - (`Download <http://opengeo.org/products/training/materials/>`_)
-  As presented at FOSS4G 2011. Learn to load, style, and publish maps and data using GeoServer.
+  Updated for 2013. Learn to load, style, and publish maps and data using GeoServer.
 
 `Introduction to OpenLayers <http://workshops.opengeo.org/openlayers-intro/>`_ - (`Download <http://opengeo.org/products/training/materials/>`_)
   As presented at FOSS4G 2011. How to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers Javascript map component.
