@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+
+    <style type="text/css">
+        #columns {
+            margin: auto;
+            width: 900px;
+            height: 600px;
+        }
+    </style>
+
+    <script src="../lib/OpenLayers.js"></script>
+    <script type="text/javascript">
+        var lon = 5;
+        var lat = 40;
+        var zoom = 5;
+        var map, layer;
+
+        function init(){
+            map = new OpenLayers.Map( 'map' );
+            layer = new OpenLayers.Layer.WMS( "OpenLayers WMS",
+                    "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
+            map.addLayer(layer);
+
+            map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            map.addControl( new OpenLayers.Control.LayerSwitcher() );
+        }
+
+        var counter = 0; 
+        function resize() {
+            counter++;
+            var rem = counter % 100;
+            var div = Math.floor(counter / 100);
+            var scale = ((div % 2) == 0) ? (0.0 + rem/100.0) : (1.0 - rem/100.0);
+            var width = 924 + 100*scale;
+            var height = 700 + 100*scale;
+            window.resizeTo(width, height);
+            var infodiv = document.getElementById('info');
+            infodiv.innerHTML = 'Width: ' + width + '<br />Height: ' + height;
+        }
+
+		var startTime = new Date().getTime();
+
+        var id = null;
+        function start() {
+            if (!id) { 
+                id = setInterval("resize()", 200);
+            }
+        }
+        function stop() {
+            if (id) { 
+                clearInterval(id);
+                id = null;
+            }
+        }
+        function step() {
+            resize();
+        }
+
+    </script>
+  </head>
+  <body onload="init()">
+<!-- Start: Columns -->
+
+    <h1 id="title">White Line Bug Example</h1>
+
+    <input type="button" value="Start Animation" onclick="start()" />
+    <input type="button" value="Stop Animation" onclick="stop()" />
+    <input type="button" value="Step" onclick="step()" />
+    <br />
+    <div id="columns">
+      <div id="map" style="width:700px;height:500px"></div>
+      <div id="info"></div>
+    </div>
+
+    <div id="docs">
+        <p>
+            This example shows a bug where a white line sometimes appears when the width of the window is an odd number. 
+            It only seems to happen in Firefox.
+            Requirement: the map div must be contained in a div that has an auto margin and a fixed width.
+        </p>
+    </div>
+
+  </body>
+</html>
+
+
+
+
+

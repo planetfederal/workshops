@@ -144,8 +144,6 @@
                 "OpenLayers/Console.js",
                 "OpenLayers/Tween.js",
                 "OpenLayers/Kinetic.js",
-                "Rico/Corner.js",
-                "Rico/Color.js",
                 "OpenLayers/Events.js",
                 "OpenLayers/Events/buttonclick.js",
                 "OpenLayers/Request.js",
@@ -191,7 +189,6 @@
                 "OpenLayers/Layer/Zoomify.js",
                 "OpenLayers/Layer/ArcGISCache.js",
                 "OpenLayers/Popup/Anchored.js",
-                "OpenLayers/Popup/AnchoredBubble.js",
                 "OpenLayers/Popup/Framed.js",
                 "OpenLayers/Popup/FramedCloud.js",
                 "OpenLayers/Feature.js",
@@ -428,4 +425,4 @@
  * When asking questions or reporting issues, make sure to include the output of
  *     OpenLayers.VERSION_NUMBER in the question or issue-description.
  */
-OpenLayers.VERSION_NUMBER="Release 2.13 dev";
+OpenLayers.VERSION_NUMBER="Release 2.13-rc1";
