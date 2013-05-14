@@ -1,7 +1,7 @@
-FOSS4G 2011 OpenLayers Workshop
-===============================
+2013 OpenLayers 2 Workshop
+==========================
 
-Welcome to the **FOSS4G 2011 OpenLayers Workshop**. This workshop is designed to
+Welcome to the **OpenLayers Workshop**. This workshop is designed to
 give you a comprehensive overview of OpenLayers as a web mapping solution.  The
 exercises assume that you have set up a local GeoServer with the workshop 
 data as described in the :doc:`setup` page.

@@ -34,22 +34,11 @@ The `OpenStreetMap (OSM) <http://www.openstreetmap.org/>`_ project is an effort 
     .. code-block:: html
 
         <script>
-            var geographic = new OpenLayers.Projection("EPSG:4326");
-            var mercator = new OpenLayers.Projection("EPSG:900913");
-
-            var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-                geographic, mercator
-            );
             var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
-                geographic, mercator
+                'EPSG:4326', 'EPSG:3857'
             );
 
-            var options = {
-                projection: mercator,
-                units: "m",
-                maxExtent: world
-            };
-            var map = new OpenLayers.Map("map-id", options);
+            var map = new OpenLayers.Map("map-id", {projection: 'EPSG:3857'});
 
             var osm = new OpenLayers.Layer.OSM();
             map.addLayer(osm);
@@ -85,48 +74,39 @@ A Closer Look
 
 Projections
 ```````````
-Review the first 2 lines of the initialization script:
+Review the first 3 lines of the initialization script:
 
 .. code-block:: javascript
 
-    var geographic = new OpenLayers.Projection("EPSG:4326");
-    var mercator = new OpenLayers.Projection("EPSG:900913");
+    var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
+        'EPSG:4326', 'EPSG:3857'
+    );
 
 Geospatial data can come in any number of coordinate reference systems. One data set might use geographic coordinates (longitude and latitude) in degrees, and another might have coordinates in a local projection with units in meters. A full discussion of coordinate reference systems is beyond the scope of this module, but it is important to understand the basic concept.
 
-OpenLayers needs to know the coordinate system for your data. We represent this with an ``OpenLayers.Projection`` object. You create a new projection object by using a string that represents the coordinate reference system (``"EPSG:4326"`` and ``"EPSG:900913"`` above).
+OpenLayers needs to know the coordinate system for your data. Internally, this
+is represented with an ``OpenLayers.Projection`` object. The ``transform`` function also takes strings that represent the coordinate reference system (``"EPSG:4326"`` and ``"EPSG:3857"`` above).
 
 Locations Transformed
 `````````````````````
 
-.. code-block:: javascript
-
-    var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-        geographic, mercator
-    );
-    var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
-        geographic, mercator
-    );
-
-The OpenStreetMap tiles that we will be using are in a Mercator projection. Because of this, we need to set things like the maximum extent and initial center using Mercator coordinates. Since it is relatively easy to find out the coordinates for a place of interest in geographic coordinates, we use the ``transform`` method to turn geographic coordinates into Mercator coordinates.
-
-.. note::
-
-    You may notice that the world bounds created above do not *really* cover the entire world. For now, you'll have to accept that this particular transform doesn't behave well at the poles so we adjust the bounds to compensate.
+The OpenStreetMap tiles that we will be using are in a Mercator projection. Because of this, we need to set the initial center using Mercator coordinates. Since it is relatively easy to find out the coordinates for a place of interest in geographic coordinates, we use the ``transform`` method to turn geographic coordinates (``"EPSG:4326"``) into Mercator coordinates (``"EPSG:3857"``).
 
 Custom Map Options
 ``````````````````
 
 .. code-block:: javascript
 
-    var options = {
-        projection: mercator,
-        units: "m",
-        maxExtent: world
-    };
-    var map = new OpenLayers.Map("map-id", options);
+    var map = new OpenLayers.Map("map-id", {projection: 'EPSG:3857'});
 
-In the :ref:`previous example <openlayers.layers.wms.example>` we used the default options for our map. In this example, we set some custom map options. First, we set the map ``projection`` property to the Mercator projection we created above. Next we set the map ``units`` to ``"m"`` for meters, and finally we set the ``maxExtent`` to the world (again in Mercator coordinates).
+In the :ref:`previous example <openlayers.layers.wms.example>` we used the default options for our map. In this example, we set a custom map projection.
+
+.. note::
+
+    The projections we used here are the only projections that OpenLayers knows
+    about. For other projections, the map options need to contain two more
+    properties: ``maxExtent`` and ``units``. This information can be looked up
+    at http://spatialreference.org/, using the EPSG code.
 
 Layer Creation and Map Location
 ```````````````````````````````
@@ -152,10 +132,10 @@ Style
     .olControlAttribution {
         font-size: 10px;
         bottom: 5px;
-        right: 5px;
+        left: 5px;
     }
 
-A treatment of map controls is also outside the scope of this module, but these style declarations give you a sneak preview. By default, an ``OpenLayers.Control.Attribution`` control is added to all maps. This lets layers display attribution information in the map viewport. The declarations above alter the style of this attribution for our map (notice the small "CC-By-SA" line at the bottom right of the map).
+A treatment of map controls is also outside the scope of this module, but these style declarations give you a sneak preview. By default, an ``OpenLayers.Control.Attribution`` control is added to all maps. This lets layers display attribution information in the map viewport. The declarations above alter the style of this attribution for our map (notice the small Copyright line at the bottom left of the map).
 
 Having mastered layers with publicly available cached tile sets, let's move on to working with :ref:`proprietary layers <openlayers.layers.proprietary>`.
 

@@ -1,7 +1,22 @@
 <html>
 <head>
-  <script src="OLLoader.js"></script>
-  <script type="text/javascript">
+    <script>
+    /**
+    * Because browsers that implement requestAnimationFrame may not execute
+    * animation functions while a window is not displayed (e.g. in a hidden
+    * iframe as in these tests), we mask the native implementations here.  The
+    * native requestAnimationFrame functionality is tested in Util.html and
+    * in PanZoom.html (where a popup is opened before panning).  The panTo tests
+    * here will test the fallback setTimeout implementation for animation.
+    */
+    window.requestAnimationFrame = 
+        window.webkitRequestAnimationFrame =
+        window.mozRequestAnimationFrame =
+        window.oRequestAnimationFrame =
+        window.msRequestAnimationFrame = null;
+    </script>
+    <script src="OLLoader.js"></script>
+    <script type="text/javascript">
 
     var isMozilla = (navigator.userAgent.indexOf("compatible") == -1);
     var map;
@@ -34,6 +49,41 @@
         t.ok( map.getMaxExtent() instanceof OpenLayers.Bounds, "map.maxExtent is an OpenLayers.Bounds" );
         t.ok( map.getNumZoomLevels() > 0, "map has a default numZoomLevels" );
 
+        map.destroy();
+    }
+    
+    function test_Map_constructor_convenience(t) {
+        t.plan(13);
+        var map = new OpenLayers.Map({
+            maxExtent: [-170, -80, 170, 80],
+            restrictedExtent: [-120, -65, 120, 65],
+            layers: [
+                new OpenLayers.Layer(null, {isBaseLayer: true})
+            ],
+            center: [-111, 45],
+            zoom: 3
+        });
+        
+        // maxExtent from array
+        t.ok(map.maxExtent instanceof OpenLayers.Bounds, "maxExtent bounds");
+        t.eq(map.maxExtent.left, -170, "maxExtent left");
+        t.eq(map.maxExtent.bottom, -80, "maxExtent bottom");
+        t.eq(map.maxExtent.right, 170, "maxExtent right");
+        t.eq(map.maxExtent.top, 80, "maxExtent top");
+
+        // restrictedExtent from array
+        t.ok(map.restrictedExtent instanceof OpenLayers.Bounds, "restrictedExtent bounds");
+        t.eq(map.restrictedExtent.left, -120, "restrictedExtent left");
+        t.eq(map.restrictedExtent.bottom, -65, "restrictedExtent bottom");
+        t.eq(map.restrictedExtent.right, 120, "restrictedExtent right");
+        t.eq(map.restrictedExtent.top, 65, "restrictedExtent top");
+        
+        var center = map.getCenter();
+        t.eq(center.lon, -111, "center lon");
+        t.eq(center.lat, 45, "center lat");
+        
+        t.eq(map.getZoom(), 3, "zoom");
+        
         map.destroy();
     }
     
@@ -163,9 +213,10 @@
     }
 
     function test_Map_center(t) {
-        t.plan(11);
+        t.plan(14);
         var log = [];
         map = new OpenLayers.Map('map', {
+            zoomMethod: null,
             eventListeners: {
                 "movestart": function() {log.push("movestart");},
                 "move": function() {log.push("move");},
@@ -186,7 +237,7 @@
         t.ok( map.getCenter().equals(ll), "map center is correct after calling setCenter, zoom in");
         map.zoomOut();
         t.eq( map.getZoom(), 0, "map.zoom is correct after calling setCenter,zoom in, zoom out");
-
+        
         log = [];
         map.zoomTo(5);
         t.eq(log[0], "movestart", "zoomTo fires movestart event");
@@ -205,13 +256,20 @@
         map.getCenter().lon = 10;
         t.ok( map.getCenter().equals(ll), "map.getCenter returns a clone of map.center");
 
+        // allow calling setCenter with an array
+        map.setCenter([4, 2]);
+        var center = map.getCenter();
+        t.ok(center instanceof OpenLayers.LonLat, "(array) center is lonlat");
+        t.eq(center.lon, 4, "(array) center lon");
+        t.eq(center.lat, 2, "(array) center lat");
+
         map.destroy();
     }
 
     function test_Map_zoomend_event (t) {
         t.plan(2);
 
-        map = new OpenLayers.Map('map');
+        map = new OpenLayers.Map('map', {zoomMethod: null});
         var baseLayer = new OpenLayers.Layer.WMS("Test Layer", 
             "http://octo.metacarta.com/cgi-bin/mapserv?",
             {map: "/mapdata/vmap_wms.map", layers: "basic"});
@@ -338,15 +396,20 @@
  */
 
     function test_Map_isValidZoomLevel(t) {
-        t.plan(6);
+        t.plan(5);
         var map = new OpenLayers.Map("map");
         map.addLayer(new OpenLayers.Layer(null, {
-            isBaseLayer: true, numZoomLevels: 19
-        }))
+            isBaseLayer: true, wrapDateLine: true, numZoomLevels: 19
+        }));
+        map.zoomToMaxExtent();
+        
         var valid;
 
+        valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [-1]);
+        t.eq(valid, false, "-1 is not a valid zoomLevel");
+
         valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [0]);
-        t.eq(valid, true, "0 is a valid zoomLevel when baseLayer has no restrictedMinZoom");
+        t.eq(valid, true, "0 is a valid zoomLevel");
 
         valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [18]);
         t.eq(valid, true, "18 is a valid zoomLevel");
@@ -354,15 +417,8 @@
         valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [19]);
         t.eq(valid, false, "19 is not a valid zoomLevel");
         
-        map.baseLayer.restrictedMinZoom = 1;
-        valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [0]);
-        t.eq(valid, false, "0 is not a valid zoomLevel when baseLayer has restrictedMinZoom of 1");
-
-        valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [1]);
-        t.eq(valid, true, "1 is a valid zoomLevel");
-
-        valid = OpenLayers.Map.prototype.isValidZoomLevel.apply(map, [19]);
-        t.eq(valid, false, "19 is not a valid zoomLevel when baseLayer has restrictedMinZoom of 1");
+        map.moveTo([16, 48], 0);
+        t.eq(map.getCenter().toShortString(), "0, 0", "no panning when moveTo is called with invalid zoom");
 
         map.destroy();
     }
@@ -691,23 +747,24 @@
     }
 
     function test_Map_double_addLayer(t) {
-        t.plan( 1 );    
+        t.plan(2);
 
-        map = new OpenLayers.Map($('map'));
+        map = new OpenLayers.Map('map');
         layer = new OpenLayers.Layer.WMS('Test Layer', 
                     "http://octo.metacarta.com/cgi-bin/mapserv", 
                     {map: '/mapdata/vmap_wms.map', layers: 'basic', format: 'image/jpeg'} 
                     );
 
-        map.addLayers([layer,layer]);
-        
-        t.eq( map.layers.length, 1, "Map does not allow double adding of layers." );
+        var added = map.addLayer(layer);
+        t.ok(added === true, "Map.addLayer returns true if the layer is added to the map.");
+        var added = map.addLayer(layer);
+        t.ok(added === false, "Map.addLayer returns false if the layer is already present.");
     
         map.destroy();
     }
 
     function test_Map_setBaseLayer(t) {
-        t.plan( 4 );
+        t.plan( 6 );
         
         map = new OpenLayers.Map('map');
 
@@ -734,6 +791,20 @@
         map.setBaseLayer(wmslayer2);
         t.ok(map.baseLayer == wmslayer2, "setbaselayer correctly sets 'baseLayer' property");
 
+        map.destroy();
+
+        var l1 = new OpenLayers.Layer(),
+            l2 = new OpenLayers.Layer(null, {maxResolution: 1.4});
+        map = new OpenLayers.Map({
+            div: 'map',
+            allOverlays: true,
+            layers: [l1, l2],
+            zoom: 0,
+            center: [0, 0]
+        });
+        t.eq(l2.div.style.display, "none", "Layer invisible because not in range");
+        map.raiseLayer(l1, 1);
+        t.eq(l2.div.style.display, "block", "Layer visible after base layer change because in range now");
         map.destroy();
     }
     
@@ -809,7 +880,40 @@
 
         map.destroy();
     }
-
+    
+	function test_Map_removeLayer_preremovelayer(t) {
+        t.plan(4);
+        map = new OpenLayers.Map('map');
+		
+        map.addLayer(new OpenLayers.Layer());
+        map.removeLayer(map.layers[0]);
+        
+        // one test: standard behaviour without listener
+        t.eq(map.layers.length, 0, "without registered preremovelayer-listener layers can be removed as usual");
+        
+        var callCnt = 0;
+        
+        map.events.register('preremovelayer', this, function(evt) {
+            callCnt++;
+            return !(evt.layer.name === 'donotremove');
+        });
+        var layer1 = new OpenLayers.Layer('donotremove');
+        var layer2 = new OpenLayers.Layer('doremove');
+		
+        map.addLayers([layer1,layer2]);
+		
+        // two tests: remove action can be canceled
+        map.removeLayer(layer1);
+        t.eq(map.layers.length, 2, "layer is not removed since preremovelayer returns false");
+        map.removeLayer(layer2);
+        t.eq(map.layers.length, 1, "layer is removed since preremovelayer returns true");
+        
+        // one test: listener was called twice
+        t.eq(callCnt, 2, "preremovelayer-listener was called exactly twice");
+        
+        map.destroy();
+	}
+    
     function test_Map_setBaseLayer_after_pan (t) {
         t.plan(1);
 
@@ -825,8 +929,13 @@
         map.setBaseLayer(tmsLayer);
         map.zoomIn();
         map.pan(0, -200, {animate:false});
+        var log = [];
+        map.applyTransform = function(x, y, scale) {
+            log.push([x || map.layerContainerOriginPx.x, y || map.layerContainerOriginPx.y, scale]);
+            OpenLayers.Map.prototype.applyTransform.apply(this, arguments);
+        };
         map.setBaseLayer(wmsLayer);
-        t.eq(map.layerContainerDiv.style.top, "0px", "layerContainer is recentered after setBaseLayer");
+        t.eq(log[0][0], 0, "layerContainer is recentered after setBaseLayer");
         
         map.destroy();
     }
@@ -874,26 +983,49 @@
     }
 
     function test_Map_moveTo(t) {
-        t.plan(2);
+        t.plan(12);
 
         map = new OpenLayers.Map('map');
         var baseLayer = new OpenLayers.Layer.WMS("Test Layer", 
             "http://octo.metacarta.com/cgi-bin/mapserv?",
             {map: "/mapdata/vmap_wms.map", layers: "basic"},
             {maxResolution: 'auto', maxExtent: new OpenLayers.Bounds(-10,-10,10,10)});
-        baseLayer.events.on({
+        var testLayer = new OpenLayers.Layer("",{maxResolution: 0.1, minResolution: 0.03, isBaseLayer: false, visibility: true});
+        var log = [];
+        map.events.register('changelayer', t, function(event) {
+            log.push({
+                layer: event.layer,
+                property: event.property
+            });
+        });
+        map.events.on({
             move: function() {
                 t.ok(true, "move listener called");
             },
+            movestart: function(e) {
+                t.eq(e.zoomChanged, true, "movestart listener called with expected value");
+            }
+        });
+        baseLayer.events.on({
             moveend: function(e) {
                 t.eq(e.zoomChanged, true, "moveend listener called with expected value");
             }
         });
         map.addLayer(baseLayer);
+        map.addLayer(testLayer);
+        log = [];
         var ll = new OpenLayers.LonLat(-100,-150);
         map.moveTo(ll, 2);
+        
         t.ok(map.getCenter().equals(new OpenLayers.LonLat(0,0)), "safely sets out-of-bounds lonlat");
+        t.eq(testLayer.div.style.display, "none", "moveTo out of resolution range set layer's display style to correct value");
+        t.eq(log.length, 1, "Map.moveTo out of resolution range triggers changelayer once");
+        t.ok(log[0].layer == testLayer, "changelayer listener called with expected layer");
+        t.eq(log[0].property, "visibility", "changelayer listener called with expected property");
 
+        map.moveTo(new OpenLayers.LonLat(0,0), 0);
+        t.eq(testLayer.div.style.display, "block", "moveTo in to resolution range set layer's display style to correct value");
+        
         map.destroy();
     }
 
@@ -1161,7 +1293,8 @@
 
         extent = new OpenLayers.Bounds(8, 44.5, 19, 50);
         var options = {
-            restrictedExtent: extent
+            restrictedExtent: extent,
+            zoomMethod: null
         };
         map = new OpenLayers.Map('map', options);
 
@@ -1187,10 +1320,10 @@
         t.eq(res, null, "getResolutionForZoom returns null for no base layer");
         map.fractionalZoom = true;
         var layer = new OpenLayers.Layer("test", {isBaseLayer: true});
+        map.addLayer(layer);
         layer.getResolutionForZoom = function() {
             t.ok(true, "getResolutionForZoom calls base layer getResolutionForZoom");
         }
-        map.addLayer(layer);
         var res = map.getResolutionForZoom();
         layer.destroy();
         map.destroy();
@@ -1199,7 +1332,7 @@
     function test_zoomTo(t) {
         t.plan(8);
         
-        var map = new OpenLayers.Map("map");
+        var map = new OpenLayers.Map("map", {zoomMethod: null});
         map.addLayer(new OpenLayers.Layer(null, {
             isBaseLayer: true
         }));
@@ -1234,6 +1367,38 @@
         t.eq(map.getZoom(), 1.2, '[fractionalZoom] zoomTo("1.2")');
         
         map.destroy();
+    }
+    
+    function test_zoomTo_animated(t) {
+        t.plan(2);
+        
+        var map = new OpenLayers.Map("map");
+        map.addLayer(new OpenLayers.Layer(null, {
+            isBaseLayer: true
+        }));
+        
+        map.zoomToMaxExtent();
+        
+        map.zoomTo(2);
+        map.zoomIn();
+        map.zoomOut();
+        map.zoomIn();
+        t.delay_call(2, function() {
+            t.eq(map.getZoom(), 3, '[fractionalZoom: false] zoomTo(2) - zoomIn() - zoomOut() - zoomIn()');
+
+            // now allow fractional zoom
+            map.fractionalZoom = true;
+
+            map.zoomTo(2.6);
+            map.zoomIn();
+            map.zoomOut();
+            map.zoomIn();
+        });
+        t.delay_call(4, function() {
+            t.eq(map.getZoom(), 3.6, '[fractionalZoom: true] zoomTo(2) - zoomIn() - zoomOut() - zoomIn()');
+            map.destroy();
+        });
+        
     }
     
     function test_Map_getUnits(t) {
@@ -1296,27 +1461,6 @@
         var maxExtent = OpenLayers.Map.prototype.getMaxExtent.apply(map, [options]);
         t.ok(maxExtent == map.baseLayer.maxExtent, "null options, valid baseLayer returns map.baseLayer.maxExtent");     
     }
-
-    function test_Map_getRestrictedMinZoom(t){
-        t.plan(3);
-
-        var map = {};
-
-      //no baseLayer
-        var minZoom = OpenLayers.Map.prototype.getRestrictedMinZoom.apply(map);
-        t.eq(minZoom, null, "no baseLayer returns null");
-        
-        map.baseLayer = new OpenLayers.Layer(null, {isBaseLayer: true});
-
-      //baseLayer
-        minZoom = OpenLayers.Map.prototype.getRestrictedMinZoom.apply(map);
-        t.eq(minZoom, 0, "default baseLayer.restrictedMinZoom returns 0");     
-
-      //custom minZoomLevel on baseLayer
-        map.baseLayer.restrictedMinZoom = 1;
-        minZoom = OpenLayers.Map.prototype.getRestrictedMinZoom.apply(map);
-        t.eq(minZoom, map.baseLayer.restrictedMinZoom, "custom baseLayer.restrictedMinZoom returns map.baseLayer.restrictedMinZoom");     
-    }
     
     function test_Map_zoomToMaxExtent(t){
         t.plan(4)
@@ -1353,6 +1497,7 @@
         
         var m = {
             'baseLayer': { 'units': {} },
+            'size': {'w': 10, 'h': 15},
             'getSize': function() { return {'w': 10, 'h': 15}; },
             'getCachedCenter': function() { return {'lon': -5, 'lat': -25}; },
             'zoomToExtent': function(extent, closest) {
@@ -1378,54 +1523,93 @@
     }
     
     function test_Map_zoomToExtent(t) {
-        t.plan(8);
-
+        t.plan(12);
         
-        var m = {
-            'baseLayer': {
-                'wrapDateLine': false      
-            },
-            'setCenter': function(center, zoomLevel) {
-                g_Center = center;
-                g_ZoomLevel = zoomLevel;
-            },
-            'getZoomForExtent': function(bounds, closest) {
-                t.ok(bounds.equals(g_ToCenterBounds), "bounds correctly passed into getZoomForExtent()");
-                t.ok(closest == g_Closest, "closest correctly passed along to getZoomForExtent()");
-                return g_ZoomLevelReturn;
-            }
-        };
-
-    //no wrapDateLine        
-        g_ZoomLevelReturn = {};
-        g_Bounds = new OpenLayers.Bounds(-20,-15,0,5);
-        g_ExpectedCenter = new OpenLayers.LonLat(-10,-5);
-        g_Closest = {};
-        g_ToCenterBounds = g_Bounds;
-        var args = [g_Bounds, g_Closest];
-        OpenLayers.Map.prototype.zoomToExtent.apply(m, args);
+        var map = new OpenLayers.Map("map");
+        var layer = new OpenLayers.Layer(null, {isBaseLayer: true});
+        map.addLayer(layer);
         
-        t.ok(g_Center.equals(g_ExpectedCenter), "setCenter called on correct center");
-        t.ok(g_ZoomLevel == g_ZoomLevelReturn, "correctly passes along zoom level as returned from getZoomForExtent()");
-
-
-    //wrapDateLine
-        m.baseLayer.wrapDateLine = true;
-        m.getMaxExtent = function() { return new OpenLayers.Bounds(-200,-200,200,200); };
-
-        g_ZoomLevelReturn = {};
-        g_BoundsCenter = {};
-        g_Bounds = new OpenLayers.Bounds(160,-60,-60,60);
-        g_ExpectedCenter = new OpenLayers.LonLat(-150,0);
-        g_Closest = {};
-        g_ToCenterBounds = new OpenLayers.Bounds(160,-60,340,60);
-        var args = [g_Bounds, g_Closest];
-        OpenLayers.Map.prototype.zoomToExtent.apply(m, args);
-        t.ok(g_Center.equals(g_ExpectedCenter), "setCenter called on correct center");
-        t.ok(g_ZoomLevel == g_ZoomLevelReturn, "correctly passes along zoom level as returned from getZoomForExtent()");
-
+        var bounds = new OpenLayers.Bounds(-160, 15, -50, 69);
+        var center;
         
+        // default for closest
+        map.zoomToExtent(bounds);
+        center = map.getCenter();
+        t.eq(center.lon, -105, "a) correct x");
+        t.eq(center.lat, 42, "a) correct y");
+        t.eq(map.getZoom(), 2, "a) correct zoom");
+
+        // false for closest
+        map.zoomToExtent(bounds, false);
+        center = map.getCenter();
+        t.eq(center.lon, -105, "b) correct x");
+        t.eq(center.lat, 42, "b) correct y");
+        t.eq(map.getZoom(), 2, "b) correct zoom");
+
+        // true for closest
+        map.zoomToExtent(bounds, true);
+        center = map.getCenter();
+        t.eq(center.lon, -105, "c) correct x");
+        t.eq(center.lat, 42, "c) correct y");
+        t.eq(map.getZoom(), 3, "c) correct zoom");
+
+        // accept array
+        map.zoomToExtent([-160, 15, -50, 69]);
+        center = map.getCenter();
+        t.eq(center.lon, -105, "(array) correct x");
+        t.eq(center.lat, 42, "(array) correct y");
+        t.eq(map.getZoom(), 2, "(array) correct zoom");
+        
+        map.destroy();
     }
+
+    function test_Map_zoomToExtent_wrapped(t) {
+        t.plan(9);
+        
+        var map = new OpenLayers.Map("map");
+        var layer = new OpenLayers.Layer(null, {isBaseLayer: true, wrapDateLine: true});
+        map.addLayer(layer);
+        
+        var bounds, center;
+        
+        var cases = [{
+            // real world
+            bbox: [120, -20, 140, 0],
+            center: [130, -10]
+        }, {
+            // one world to the right
+            bbox: [220, -45, 240, 45],
+            center: [-130, 0]
+        }, {
+            // two worlds to the right
+            bbox: [550, -15, 560, 5],
+            center: [-165, -5]
+        }, {
+            // one world to the left
+            bbox: [-240, -15, -220, 5],
+            center: [130, -5]
+        }, {
+            // two worlds to the left
+            bbox: [-600, -15, -580, 5],
+            center: [130, -5]
+        }];
+        
+        var num = cases.length;
+        t.plan(num * 2);
+        
+        var c, bounds, center;
+        for (var i=0; i<num; ++i) {
+            c = cases[i];
+            bounds = OpenLayers.Bounds.fromArray(c.bbox);
+            map.zoomToExtent(bounds);
+            center = map.getCenter();
+            t.eq(center.lon, c.center[0], "y: " + bounds);
+            t.eq(center.lat, c.center[1], "x: " + bounds);
+        }
+        
+        map.destroy();
+    }
+
     
     function test_allOverlays(t) {
         
@@ -1590,7 +1774,36 @@
         t.eq(log[1], "move", "followed by move,");
         t.eq(log[log.length-2], "move", "move again before we stop panning,");
         t.eq(log[log.length-1], "moveend", "and moveend when we're done.");
-        
+    }
+
+    function test_pan_no_anim_event_sequence(t) {
+        t.plan(4);
+
+        var log = [];
+        var map = new OpenLayers.Map("map");
+        map.addLayer(
+            new OpenLayers.Layer(null, {isBaseLayer: true})
+        );
+        map.setCenter(new OpenLayers.LonLat(0, 0), 5);
+        map.events.on({
+            "movestart": function() {
+                log.push("movestart");
+            },
+            "move": function() {
+                log.push("move");
+            },
+            "moveend": function() {
+                log.push("moveend");
+            }
+        });
+
+        map.pan(5,5, {animate: false});
+        t.eq(log.length, 3, "no more than 3 events happen.");
+        t.eq(log[0], "movestart", "pan sequence starts with movestart");
+        t.eq(log[1], "move", "followed by move,");
+        t.eq(log[2], "moveend", "and moveend when we're done.");
+
+        map.destroy();
     }
 
     // test if we can call updateSize before document.body is ready. updateOk
@@ -1785,37 +1998,254 @@
     }    
 
     function test_moveByPx(t) {
-        t.plan(8);
+        t.plan(14);
+
+        var moved;
+        var Layer = OpenLayers.Class(OpenLayers.Layer, {
+            moveByPx: function(dx, dy) {
+                moved[this.name] = true;
+            }
+        });
 
         var map = new OpenLayers.Map({
             div: 'map',
             maxExtent: new OpenLayers.Bounds(-50, -50, 50, 50),
             restrictedExtent: new OpenLayers.Bounds(-10, -10, 10, 10),
             layers: [
-                new OpenLayers.Layer('name', {isBaseLayer: true})
+                new Layer('base',
+                    {isBaseLayer: true}),
+                new Layer('outofrange',
+                    {isBaseLayer: false, minResolution:2})
             ]
         });
+        var log = [];
+        map.applyTransform = function(x, y, scale) {
+            log.push([x || map.layerContainerOriginPx.x, y || map.layerContainerOriginPx.y, scale]);
+            OpenLayers.Map.prototype.applyTransform.apply(this, arguments);
+        };
+
+        moved = {};
         map.zoomToExtent(new OpenLayers.Bounds(-1, -1, 1, 1));
 
         // check initial state
-        t.eq(map.layerContainerDiv.style.left, '0px', 'layer container left correct');
-        t.eq(map.layerContainerDiv.style.top, '0px', 'layer container top correct');
+        t.eq(log[0][0], 0,
+             '[initial state] layer container left correct');
+        t.eq(log[0][1], 0,
+             '[initial state] layer container top correct');
+        t.eq(moved['base'], undefined,
+             '[initial state] base layer not moved');
+        t.eq(moved['outofrange'], undefined,
+             '[initial state] out-of-range layer not moved');
 
         // move to a valid position
+        moved = {};
         map.moveByPx(-455, 455);
-        t.eq(map.layerContainerDiv.style.left, '455px', 'layer container left correct');
-        t.eq(map.layerContainerDiv.style.top, '-455px', 'layer container top correct');
+        t.eq(log[1][0], 455,
+             '[valid position] layer container left correct');
+        t.eq(log[1][1], -455,
+             '[valid position] layer container top correct');
+        t.eq(moved['base'], true,
+             '[valid position] base layer moved');
+        t.eq(moved['outofrange'], undefined,
+             '[valid position] out-of-range layer not moved');
 
         // move outside the max extent
+        moved = {};
         map.moveByPx(-4500, 4500);
-        t.eq(map.layerContainerDiv.style.left, '455px', 'layer container left correct');
-        t.eq(map.layerContainerDiv.style.top, '-455px', 'layer container top correct');
+        t.eq(log.length, 2,
+             '[outside max extent] layer container offset unchanged');
+        t.eq(moved['base'], undefined,
+             '[outside max extent] base layer not moved');
+        t.eq(moved['outofrange'], undefined,
+             '[outside max extent] out-of-range layer not moved');
 
         // move outside the restricted extent
+        moved = {};
         map.moveByPx(-500, 500);
-        t.eq(map.layerContainerDiv.style.left, '455px', 'layer container left correct');
-        t.eq(map.layerContainerDiv.style.top, '-455px', 'layer container top correct');
+        t.eq(log.length, 2,
+             '[outside restricted extent] layer container offset unchanged');
+        t.eq(moved['base'], undefined,
+             '[outside restricted extent] base layer not moved');
+        t.eq(moved['outofrange'], undefined,
+             '[outside restricted extent] out-of-range layer not moved');
 
+
+        map.destroy();
+    }
+
+    // test for http://trac.osgeo.org/openlayers/ticket/3388
+    function test_moveByPx_restrictedExtent(t) {
+        t.plan(2);
+
+        var map = new OpenLayers.Map({
+            div: 'map',
+            restrictedExtent: new OpenLayers.Bounds(-22.5,-11.25,22.5,11.25),
+            layers: [
+                new OpenLayers.Layer('name', {isBaseLayer: true})
+            ]
+        });
+
+        map.zoomToExtent(new OpenLayers.Bounds(-11.25, 0, 11.25, 11.25));
+
+        var log = [];
+        map.applyTransform = function(x, y, scale) {
+            log.push([x || map.layerContainerOriginPx.x, y || map.layerContainerOriginPx.y, scale]);
+            OpenLayers.Map.prototype.applyTransform.apply(this, arguments);
+        };
+
+        map.moveByPx(-10, -10);
+        t.eq(log[0][0], 10, 'layer container left correct');
+        t.eq(log[0][1], 0, 'layer container top correct');
+    }
+    
+    function test_applyTransform(t) {
+        t.plan(10);
+        var origStylePrefix = OpenLayers.Util.vendorPrefix.style;
+        OpenLayers.Util.vendorPrefix.style =
+                OpenLayers.Util.vendorPrefix.css =
+                function(key) { return 'transform'; };
+        
+        var map = new OpenLayers.Map('map');
+        map.layerContainerDiv = {style: {}};
+        delete map.applyTransform.transform;
+        delete map.applyTransform.template;
+        var origGetStyle = OpenLayers.Element.getStyle;
+        OpenLayers.Element.getStyle = function() { return 'foo'; }
+        map.applyTransform(1, 2, 3);
+        OpenLayers.Element.getStyle = origGetStyle;
+        t.eq(map.layerContainerDiv.style.transform, 'translate3d(1px,2px,0) scale3d(3,3,1)', '3d transform and scale used when available');
+        
+        delete map.applyTransform.transform;
+        delete map.applyTransform.template;
+        var origIndexOf = String.prototype.indexOf;
+        String.prototype.indexOf = function() { return -1; };
+        map.layerContainerOriginPx = {x: -3, y: 2};
+        map.applyTransform(1, 2, 3);
+        String.prototype.indexOf = origIndexOf;
+        t.eq(map.layerContainerDiv.style.transform, 'translate(4px,0px) scale(3,3)', '2d translate and scale correct');
+        t.eq(map.layerContainerDiv.style.left, '-3px', 'container origin x set as style.left');
+        t.eq(map.layerContainerDiv.style.top, '2px', 'container origin y set as style.top');
+        map.applyTransform(1, 2);
+        t.ok(!map.layerContainerDiv.style.transform, 'no transform set when no transform needed');
+        t.eq(map.layerContainerDiv.style.left, '1px', 'style.left correct when no transform needed');
+        t.eq(map.layerContainerDiv.style.top, '2px', 'style.top correct when no transform needed');
+        
+        map.applyTransform.transform = null;
+        map.applyTransform(4, 5, 6);
+        t.eq(map.layerContainerDiv.style.left, '4px', 'style.left set when transform not available')
+        t.eq(map.layerContainerDiv.style.top, '5px', 'style.top set when transform not available')
+        t.ok(!map.layerContainerDiv.style.transform, 'no transform set, because not supported');
+
+        map.destroy();
+        delete map.applyTransform.transform;
+        delete map.applyTransform.template;
+        OpenLayers.Util.vendorPrefix.style = origStylePrefix;
+    }
+
+    function test_options(t) {
+        t.plan(2);
+
+        var map = new OpenLayers.Map('map');
+        t.eq(map.options, {}, 'map.options is empty with no options');
+        map.destroy();
+
+        var options = {
+            resolutions: [1,2,3,5],
+            projection: "EPSG:4326",
+            units: 'm'
+        };
+        var map = new OpenLayers.Map('map', options);
+        t.eq(map.options, options, 'map.options is a copy of the constructor option');
+        map.destroy();
+    }
+
+    function test_adjustZoom(t) {
+        t.plan(5);
+        var map = new OpenLayers.Map({
+            div: 'map',
+            layers: [
+                new OpenLayers.Layer('name', {
+                    isBaseLayer: true,
+                    wrapDateLine: true
+                })
+            ]
+        });
+        map.zoomToMaxExtent();
+        t.ok(map.getResolution() <= map.getMaxExtent().getWidth() / map.getSize().w, "wrapDateLine map not wider than world");
+        
+        t.eq(map.adjustZoom(9), 9, "valid zoom maintained");
+        t.eq(map.adjustZoom(1), 2, "zoom adjusted to not exceed world width");
+        
+        map.fractionalZoom = true;
+        t.eq(map.adjustZoom(1).toPrecision(3), "1.29", "zoom adjusted to match world width");
+
+        map.moveTo([16, 48], 0);
+        t.eq(map.getCenter().toShortString(), "0, 0", "no panning when moveTo is called with invalid zoom");
+    }
+
+    function test_correctCenterAtZoomLevel0(t) {
+        t.plan(1);
+        var map = new OpenLayers.Map({
+            div: 'map',
+            maxExtent: new OpenLayers.Bounds(-30, 48.00, 3.50, 64.00),
+            restrictedExtent: new OpenLayers.Bounds(-30, 48.00, 3.50, 64.00),
+            projection: "EPSG:4258",
+            units: "degrees",
+            layers: [
+                new OpenLayers.Layer('name', {
+                    isBaseLayer: true
+                })
+            ]
+        });
+        map.setCenter(new OpenLayers.LonLat(-1.3, 50.8), 4);
+        map.moveTo(null, 0);
+        var center  = map.getCenter();
+        t.ok(center.equals(new OpenLayers.LonLat(-13.25, 56)), "Center is correct and not equal to maxExtent's center");
+    }
+    
+    function test_getZoomTargetCenter(t) {
+        t.plan(1);
+        var map = new OpenLayers.Map({
+            div: 'map',
+            layers: [
+                new OpenLayers.Layer('', {isBaseLayer: true})
+            ],
+            center: [0, 0],
+            zoom: 1
+        });
+        
+        var ll = map.getZoomTargetCenter({x: 44, y: 22}, map.getMaxResolution());
+
+        t.eq(ll.toShortString(), "180, -90", "getZoomTargetCenter works.");
+        
+        map.destroy();
+    }
+
+    function test_autoUpdateSize(t) {
+        t.plan(1);
+        OpenLayers.Event.unloadCache();
+        var resizeListener = false;
+        var map = new OpenLayers.Map({
+            autoUpdateSize: false,
+            div: 'map',
+            layers: [
+                new OpenLayers.Layer('name', {
+                    isBaseLayer: true,
+                    wrapDateLine: true
+                })
+            ]
+        });
+        map.setCenter(new OpenLayers.LonLat(-1.3, 50.8), 4);
+        for (var key in OpenLayers.Event.observers) {
+            var obj = OpenLayers.Event.observers[key];
+            for (var i=0, ii=obj.length; i<ii; ++i) {
+                var listener = obj[i];
+                if (listener.name === 'resize' && listener.element === window) {
+                    resizeListener = true;
+                }
+            }
+        }
+        t.eq(resizeListener, map.autoUpdateSize, "resize listener not registered when autoUpdateSize is false");
         map.destroy();
     }
 

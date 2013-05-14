@@ -1,15 +1,21 @@
-var map;
-function init(){
-    map = new OpenLayers.Map('map');
+var map = new OpenLayers.Map({
+    div: "map",
+    tileManager: new OpenLayers.TileManager(),
+    layers: [
+        new OpenLayers.Layer.OSM("OSM (without buffer)"),
+        new OpenLayers.Layer.OSM("OSM (with buffer)", null, {buffer: 2})
+    ],
+    controls: [
+        new OpenLayers.Control.Navigation({
+            dragPanOptions: {
+                enableKinetic: true
+            }
+        }),
+        new OpenLayers.Control.PanZoom(),
+        new OpenLayers.Control.Attribution()
+    ],
+    center: [0, 0],
+    zoom: 3
+});
 
-    var ol_wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-        "http://vmap0.tiles.osgeo.org/wms/vmap0",
-        {layers: 'basic'} );
-        var ol_wms_nobuffer = new OpenLayers.Layer.WMS( "OpenLayers WMS (no tile buffer)",
-        "http://vmap0.tiles.osgeo.org/wms/vmap0",
-        {layers: 'basic'}, {buffer: 0});
-
-    map.addLayers([ol_wms, ol_wms_nobuffer]);
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
-    map.setCenter(new OpenLayers.LonLat(0, 0), 6);
-}
+map.addControl(new OpenLayers.Control.LayerSwitcher());

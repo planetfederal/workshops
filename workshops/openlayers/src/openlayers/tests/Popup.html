@@ -13,7 +13,7 @@
         popup = new OpenLayers.Popup();
 
         t.ok( popup instanceof OpenLayers.Popup, "new OpenLayers.Popup returns Popup object" );
-        t.ok(OpenLayers.String.startsWith(popup.id, "OpenLayers.Popup"),
+        t.ok(OpenLayers.String.startsWith(popup.id, "OpenLayers_Popup"),
              "valid default popupid");
         var firstID = popup.id;
         t.ok(popup.contentSize.equals(size), "good default popup.size");
@@ -29,7 +29,7 @@
     }
     
     function test_Popup_constructor (t) {
-        t.plan( 8 );
+        t.plan(9);
 
         var id = "chicken";
         var w = 500;
@@ -63,11 +63,17 @@
         for (var i = 0; i < OpenLayers.Event.observers[cacheID].length; i++) {
             var observer = OpenLayers.Event.observers[cacheID][i];
             if (observer.element == closeImgDiv) {
-                t.ok(true, "An event was registered for the close box element");
-                t.eq(observer.name, "click", "A click event was registered for the close box element");
-                //call the registered observer to make sure it's the right one
-                observer.observer();
-                break;
+                if (observer.name == "click") {
+                    t.ok(true, "A click event was registered for the close box element");
+                    //call the registered observer to make sure it's the right one
+                    observer.observer();
+                } else if (observer.name == "touchend") {
+                    t.ok(true, "A touchend event was registered for the close box element");
+                    //call the registered observer to make sure it's the right one
+                    observer.observer();
+                } else {
+                    t.fail("A " + observer.name + " event was registered for the close box element");
+                }
             }
         }
     }
@@ -162,8 +168,7 @@
         var bColor = popup.div.style.backgroundColor;
         var goodColor = ( (bColor == color) || (bColor == hexColor));
         t.ok(goodColor, "good default popup.backgroundColor");
-
-        if (navigator.appName.indexOf("Microsoft") == -1) {
+        if (navigator.appName.indexOf("Microsoft") == -1 || new RegExp(/msie 10/).test(navigator.userAgent.toLowerCase())) {
             t.eq(parseFloat(popup.div.style.opacity), opacity, "good default popup.opacity");
         } else {
             t.eq(popup.div.style.filter, "alpha(opacity=" + opacity*100 + ")", "good default popup.opacity");
@@ -185,13 +190,14 @@
     //closeOnMove
         var checkMapEvent = function(map, popup) {
             var startListeners = map.events.listeners['movestart'];
-            for(var i=0; i < startListeners.length; i++) {
-                var listener = startListeners[i];
-                
-                if ((listener.obj == popup) && (listener.func == popup.hide)) {
-                    return true;
+            if (startListeners) {
+                for (var i = 0; i < startListeners.length; i++) {
+                    var listener = startListeners[i];
+                    if ((listener.obj == popup) && (listener.func == popup.hide)) {
+                        return true;
+                    }
                 }
-            }    
+            }
             return false;
         };
         var registered = checkMapEvent(map1, popup);

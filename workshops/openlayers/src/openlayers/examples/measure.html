@@ -1,9 +1,11 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         #controlToggle li {
             list-style: none;
@@ -68,12 +70,19 @@
             ]);
             var styleMap = new OpenLayers.StyleMap({"default": style});
             
+            // allow testing of specific renderers via "?renderer=Canvas", etc
+            var renderer = OpenLayers.Util.getParameters(window.location.href).renderer;
+            renderer = (renderer) ? [renderer] : OpenLayers.Layer.Vector.prototype.renderers;
+
             measureControls = {
                 line: new OpenLayers.Control.Measure(
                     OpenLayers.Handler.Path, {
                         persist: true,
                         handlerOptions: {
-                            layerOptions: {styleMap: styleMap}
+                            layerOptions: {
+                                renderers: renderer,
+                                styleMap: styleMap
+                            }
                         }
                     }
                 ),
@@ -81,7 +90,10 @@
                     OpenLayers.Handler.Polygon, {
                         persist: true,
                         handlerOptions: {
-                            layerOptions: {styleMap: styleMap}
+                            layerOptions: {
+                                renderers: renderer,
+                                styleMap: styleMap
+                            }
                         }
                     }
                 )

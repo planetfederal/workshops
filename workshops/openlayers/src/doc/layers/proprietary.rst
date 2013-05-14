@@ -62,7 +62,7 @@ Your revised ``map.html`` file should look something like this:
                 .olControlAttribution {
                     font-size: 10px;
                     bottom: 5px;
-                    right: 5px;
+                    left: 5px;
                 }
             </style>
             <script src="openlayers/lib/OpenLayers.js"></script>
@@ -71,22 +71,11 @@ Your revised ``map.html`` file should look something like this:
             <h1>My Map</h1>
             <div id="map-id"></div>
             <script>
-                var geographic = new OpenLayers.Projection("EPSG:4326");
-                var mercator = new OpenLayers.Projection("EPSG:900913");
-
-                var world = new OpenLayers.Bounds(-180, -89, 180, 89).transform(
-                    geographic, mercator
-                );
-                var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
-                    geographic, mercator
+                var center = new OpenLayers.LonLat(-93.27, 44.98).transform(
+                    'EPSG:4326', 'EPSG:3857'
                 );
 
-                var options = {
-                    projection: mercator,
-                    units: "m",
-                    maxExtent: world
-                };
-                var map = new OpenLayers.Map("map-id", options);
+                var map = new OpenLayers.Map("map-id", {projection: 'EPSG:3857'});
 
                 var osm = new OpenLayers.Layer.OSM();
                 map.addLayer(osm);

@@ -1,18 +1,17 @@
-/* Copyright (c) 2006-2011 by OpenLayers Contributors (see authors.txt for 
- * full list of contributors). Published under the Clear BSD license.  
- * See http://svn.openlayers.org/trunk/openlayers/license.txt for the
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
  * full text of the license. */
 
 /**
  * @requires OpenLayers/Filter.js
- * @requires OpenLayers/Console.js
  */
 
 /**
  * Class: OpenLayers.Filter.Comparison
  * This class represents a comparison filter.
  * 
- * Inherits from
+ * Inherits from:
  * - <OpenLayers.Filter>
  */
 OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
@@ -27,7 +26,8 @@ OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
      * - OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
      * - OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
      * - OpenLayers.Filter.Comparison.BETWEEN                  = "..";
-     * - OpenLayers.Filter.Comparison.LIKE                     = "~"; 
+     * - OpenLayers.Filter.Comparison.LIKE                     = "~";
+     * - OpenLayers.Filter.Comparison.IS_NULL                  = "NULL";
      */
     type: null,
     
@@ -155,6 +155,9 @@ OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
                 var regexp = new RegExp(this.value, "gi");
                 result = regexp.test(got);
                 break;
+            case OpenLayers.Filter.Comparison.IS_NULL:
+                result = (got === null);
+                break;
         }
         return result;
     },
@@ -167,11 +170,11 @@ OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
      * regular expression already.
      * 
      * Parameters:
-     * wildCard   - {<Char>} wildcard character in the above value, default
+     * wildCard   - {Char} wildcard character in the above value, default
      *              is "*"
-     * singleChar - {<Char>) single-character wildcard in the above value
+     * singleChar - {Char} single-character wildcard in the above value
      *              default is "."
-     * escape     - {<Char>) escape character in the above value, default is
+     * escapeChar - {Char} escape character in the above value, default is
      *              "!"
      * 
      * Returns:
@@ -179,10 +182,8 @@ OpenLayers.Filter.Comparison = OpenLayers.Class(OpenLayers.Filter, {
      */
     value2regex: function(wildCard, singleChar, escapeChar) {
         if (wildCard == ".") {
-            var msg = "'.' is an unsupported wildCard character for "+
-                    "OpenLayers.Filter.Comparison";
-            OpenLayers.Console.error(msg);
-            return null;
+            throw new Error("'.' is an unsupported wildCard character for " +
+                            "OpenLayers.Filter.Comparison");
         }
         
 
@@ -263,3 +264,4 @@ OpenLayers.Filter.Comparison.LESS_THAN_OR_EQUAL_TO    = "<=";
 OpenLayers.Filter.Comparison.GREATER_THAN_OR_EQUAL_TO = ">=";
 OpenLayers.Filter.Comparison.BETWEEN                  = "..";
 OpenLayers.Filter.Comparison.LIKE                     = "~";
+OpenLayers.Filter.Comparison.IS_NULL                  = "NULL";

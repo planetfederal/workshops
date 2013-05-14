@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers Layer Load Monitoring Example</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         #controls {
             float: left;
@@ -69,7 +71,7 @@
             layer.logEvent = function(event) {
                 eventsLog.innerHTML += "<br>(" + getTimeStamp() + ") " +
                                        this.name + ": " + event;
-            }
+            };
 
             layer.events.register("loadstart", layer, function() {
                 this.logEvent("Load Start");
@@ -110,14 +112,14 @@
       <h1 id="title">Layer Load Monitoring Example</h1>
 
       <div id="tags">
-        monitor, loading
+        monitor, loading, light
       </div>
 
       <p id="shortdesc">
           Demonstrate a method for monitoring tile loading performance.
       </p>
 
-    <div id="map" style="float:left;"></div>
+    <div id="map" class="smallmap" style="float:left;"></div>
 
     <div id="controls">
         <div id="eventsLogID">

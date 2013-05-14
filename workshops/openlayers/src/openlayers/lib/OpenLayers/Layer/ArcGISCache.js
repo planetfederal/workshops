@@ -1,5 +1,10 @@
+/* Copyright (c) 2006-2013 by OpenLayers Contributors (see authors.txt for
+ * full list of contributors). Published under the 2-clause BSD license.
+ * See license.txt in the OpenLayers distribution or repository for the
+ * full text of the license. */
+
 /** 
- * @requires OpenLayers/Layer/XYZ.js 
+ * @requires OpenLayers/Layer/XYZ.js
  */ 
 
 /** 
@@ -172,21 +177,23 @@ OpenLayers.Layer.ArcGISCache = OpenLayers.Class(OpenLayers.Layer.XYZ, {
                 
                 this.lods = [];
                 for(var key in info.tileInfo.lods) {
-                    var lod = info.tileInfo.lods[key];
-                    if (this.useScales) {
-                        this.scales.push(lod.scale);
-                    } else {
-                        this.resolutions.push(lod.resolution);
+                    if (info.tileInfo.lods.hasOwnProperty(key)) {
+                        var lod = info.tileInfo.lods[key];
+                        if (this.useScales) {
+                            this.scales.push(lod.scale);
+                        } else {
+                            this.resolutions.push(lod.resolution);
+                        }
+                    
+                        var start = this.getContainingTileCoords(upperLeft, lod.resolution);
+                        lod.startTileCol = start.x;
+                        lod.startTileRow = start.y;
+                    
+                        var end = this.getContainingTileCoords(bottomRight, lod.resolution);
+                        lod.endTileCol = end.x;
+                        lod.endTileRow = end.y;    
+                        this.lods.push(lod);
                     }
-                    
-                    var start = this.getContainingTileCoords(upperLeft, lod.resolution);
-                    lod.startTileCol = start.x;
-                    lod.startTileRow = start.y;
-                    
-                    var end = this.getContainingTileCoords(bottomRight, lod.resolution);
-                    lod.endTileCol = end.x;
-                    lod.endTileRow = end.y;    
-                    this.lods.push(lod);
                 }
 
                 this.maxExtent = this.calculateMaxExtentWithLOD(this.lods[0]);
@@ -357,11 +364,22 @@ OpenLayers.Layer.ArcGISCache = OpenLayers.Class(OpenLayers.Layer.XYZ, {
     },
 
     /**
+     * Method: initGriddedTiles
+     * 
+     * Parameters:
+     * bounds - {<OpenLayers.Bounds>}
+     */
+    initGriddedTiles: function(bounds) {
+        delete this._tileOrigin;
+        OpenLayers.Layer.XYZ.prototype.initGriddedTiles.apply(this, arguments);
+    },
+    
+    /**
      * Method: getMaxExtent
      * Get this layer's maximum extent.
      *
      * Returns:
-     * {OpenLayers.Bounds}
+     * {<OpenLayers.Bounds>}
      */
     getMaxExtent: function() {
         var resolution = this.map.getResolution();
@@ -377,8 +395,11 @@ OpenLayers.Layer.ArcGISCache = OpenLayers.Class(OpenLayers.Layer.XYZ, {
      * {<OpenLayers.LonLat>} The tile origin.
      */
     getTileOrigin: function() {
-        var extent = this.getMaxExtent();
-        return new OpenLayers.LonLat(extent.left, extent.bottom);
+        if (!this._tileOrigin) {
+            var extent = this.getMaxExtent();
+            this._tileOrigin = new OpenLayers.LonLat(extent.left, extent.bottom);
+        }
+        return this._tileOrigin;
     },
 
    /**
@@ -430,7 +451,7 @@ OpenLayers.Layer.ArcGISCache = OpenLayers.Class(OpenLayers.Layer.XYZ, {
         var url = this.url;
         var s = '' + x + y + z;
 
-        if (url instanceof Array) {
+        if (OpenLayers.Util.isArray(url)) {
             url = this.selectUrl(s, url);
         }
 
@@ -441,34 +462,18 @@ OpenLayers.Layer.ArcGISCache = OpenLayers.Class(OpenLayers.Layer.XYZ, {
             url = url + '/tile/${z}/${y}/${x}';
         } else {
             // The tile images are stored using hex values on disk.
-            x = 'C' + this.zeroPad(x, 8, 16);
-            y = 'R' + this.zeroPad(y, 8, 16);
-            z = 'L' + this.zeroPad(z, 2, 16);
+            x = 'C' + OpenLayers.Number.zeroPad(x, 8, 16);
+            y = 'R' + OpenLayers.Number.zeroPad(y, 8, 16);
+            z = 'L' + OpenLayers.Number.zeroPad(z, 2, 10);
             url = url + '/${z}/${y}/${x}.' + this.type;
         }
 
         // Write the values into our formatted url
         url = OpenLayers.String.format(url, {'x': x, 'y': y, 'z': z});
 
-        return url;
-    },
-
-    /**
-     * Method: zeroPad
-     * Create a zero padded string optionally with a radix for casting numbers.
-     *
-     * Parameters:
-     * num - {Number} The number to be zero padded.
-     * len - {Number} The length of the string to be returned.
-     * radix - {Number} An integer between 2 and 36 specifying the base to use
-     *     for representing numeric values.
-     */
-    zeroPad: function(num, len, radix) {
-        var str = num.toString(radix || 10);
-        while (str.length < len) {
-            str = "0" + str;
-        }
-        return str;
+        return OpenLayers.Util.urlAppend(
+            url, OpenLayers.Util.getParameterString(this.params)
+        );
     },
 
     CLASS_NAME: 'OpenLayers.Layer.ArcGISCache' 

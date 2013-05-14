@@ -1,13 +1,15 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <title>Snapping & Splitting</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Snapping &amp; Splitting</title>
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
     <!--[if lte IE 6]>
         <link rel="stylesheet" href="../theme/default/ie6-style.css" type="text/css" />
     <![endif]-->
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css">
     <style type="text/css">
         .olControlEditingToolbar .olControlModifyFeatureItemInactive { 
             background-position: -1px -1px;
@@ -18,7 +20,7 @@
         label.head {
             font-weight: bold;
             padding: 1em 0 0.1em 0;
-            border-bottom: 1px solid grey;
+            border-bottom: 1px solid gray;
         }
         td {
             padding: 0.25em 1em;
@@ -33,12 +35,11 @@
     <script type="text/javascript">
 
         OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '2';
-
+        
         function init() {
             initMap();
             initUI();
         }
-
 
         var map, draw, modify, snap, split, vectors;
         function initMap() {
@@ -183,15 +184,15 @@
          */
         function initUI() {
             // add behavior to snap elements
-            var snapCheck = $("snap_toggle");
+            var snapCheck = document.getElementById("snap_toggle");
             snapCheck.checked = true;
             snapCheck.onclick = function() {
                 if(snapCheck.checked) {
                     snap.activate();
-                    $("snap_options").style.display = "block";
+                    document.getElementById("snap_options").style.display = "block";
                 } else {
                     snap.deactivate();
-                    $("snap_options").style.display = "none";
+                    document.getElementById("snap_options").style.display = "none";
                 }
             };
             var target, type, tog, tol;
@@ -199,12 +200,12 @@
             var target = snap.targets[0];
             for(var j=0; j<types.length; ++j) {
                 type = types[j];
-                tog = $("target_" + type);
+                tog = document.getElementById("target_" + type);
                 tog.checked = target[type];
                 tog.onclick = (function(tog, type, target) {
                     return function() {target[type] = tog.checked;}
                 })(tog, type, target);
-                tol = $("target_" + type + "Tolerance");
+                tol = document.getElementById("target_" + type + "Tolerance");
                 tol.value = target[type + "Tolerance"];
                 tol.onchange = (function(tol, type, target) {
                     return function() {
@@ -214,24 +215,24 @@
             }
 
             // add behavior to split elements
-            var splitCheck = $("split_toggle");
+            var splitCheck = document.getElementById("split_toggle");
             splitCheck.checked = true;
             splitCheck.onclick = function() {
                 if(splitCheck.checked) {
                     split.activate();
-                    $("split_options").style.display = "block";
+                    document.getElementById("split_options").style.display = "block";
                 } else {
                     split.deactivate();
-                    $("split_options").style.display = "none";
+                    document.getElementById("split_options").style.display = "none";
                 }
             };
-            var edgeCheck = $("edge_toggle");
+            var edgeCheck = document.getElementById("edge_toggle");
             edgeCheck.checked = split.edge;
             edgeCheck.onclick = function() {
                 split.edge = edgeCheck.checked;
             };
             
-            $("clear").onclick = function() {
+            document.getElementById("clear").onclick = function() {
                 modify.deactivate();
                 vectors.destroyFeatures();
             };
@@ -247,7 +248,7 @@
     </div>    
     <div id="shortdesc">A demonstration snapping and splitting while editing vector features.</div>
     <div id="map" class="smallmap"></div>
-    <br/>
+    <br>
     <input type="checkbox" id="snap_toggle" />
     <label for="snap_toggle" class="head">Enable Snapping</label>
     <table id="snap_options">
@@ -263,7 +264,7 @@
             </tr>
         </tbody>
     </table>
-    <br />
+    <br>
     <input type="checkbox" id="split_toggle" />
     <label for="split_toggle" class="head">Enable Splitting</label>
     <table id="split_options">
@@ -274,7 +275,7 @@
             </tr>
         </tbody>
     </table>
-    <br />
+    <br>
     <button id="clear">clear</button> Clear all features.
   </body>
 </html>

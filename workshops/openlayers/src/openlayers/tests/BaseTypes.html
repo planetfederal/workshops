@@ -155,8 +155,8 @@
             }
         };
         t.eq(
-            format("${a.b.c} ${a.b.e} ${a.b.q} ${a} ${a...b...c}", context),
-            "d f undefined [object Object] d",
+            format("${a.b.c} ${a.b.e} ${a.b.q} ${a} ${a...b...c} ${aa.b} ${a.bb.c}", context),
+            "d f undefined [object Object] d undefined undefined",
             "attribute values that are objects are supported"
         );
 
@@ -201,28 +201,30 @@
     
     function test_Number_numericIf(t) {
         var cases = [
-            {value: "3", expect: 3},
-            {value: "+3", expect: 3},
-            {value: "-3", expect: -3},
-            {value: "3.0", expect: 3},
-            {value: "+3.0", expect: 3},
-            {value: "-3.0", expect: -3},
-            {value: "6.02e23", expect: 6.02e23},
-            {value: "+1.0e-100", expect: 1e-100},
-            {value: "-1.0e+100", expect: -1e100},
-            {value: "1E100", expect: 1e100},
-            {value: null, expect: null},
-            {value: true, expect: true},
-            {value: false, expect: false},
-            {value: undefined, expect: undefined},
-            {value: "", expect: ""},
-            {value: "3 ", expect: "3 "},
-            {value: " 3", expect: " 3"},
-            {value: "1e", expect: "1e"},
-            {value: "1+e", expect: "1+e"},
-            {value: "1-e", expect: "1-e"}
+            {value: "3", expect: 3, expectWithTrim: 3},
+            {value: "+3", expect: 3, expectWithTrim: 3},
+            {value: "-3", expect: -3, expectWithTrim: -3},
+            {value: "3.0", expect: 3, expectWithTrim: 3},
+            {value: "+3.0", expect: 3, expectWithTrim: 3},
+            {value: "-3.0", expect: -3, expectWithTrim: -3},
+            {value: "6.02e23", expect: 6.02e23, expectWithTrim: 6.02e23},
+            {value: "+1.0e-100", expect: 1e-100, expectWithTrim: 1e-100},
+            {value: "-1.0e+100", expect: -1e100, expectWithTrim: -1e100},
+            {value: "1E100", expect: 1e100, expectWithTrim: 1e100},
+            {value: null, expect: null, expectWithTrim: null},
+            {value: true, expect: true, expectWithTrim: true},
+            {value: false, expect: false, expectWithTrim: false},
+            {value: undefined, expect: undefined, expectWithTrim: undefined},
+            {value: "", expect: "", expectWithTrim: ""},
+            {value: "3 ", expect: "3 ", expectWithTrim: 3},
+            {value: " 3", expect: " 3", expectWithTrim: 3},
+            {value: "1e", expect: "1e", expectWithTrim: "1e"},
+            {value: "1+e", expect: "1+e", expectWithTrim: "1+e"},
+            {value: "1-e", expect: "1-e", expectWithTrim: "1-e"},
+            {value: " 27 ", expect: " 27 ", expectWithTrim: 27},
+            {value: " abc ", expect: " abc ", expectWithTrim: " abc "}
         ];
-        t.plan(cases.length);
+        t.plan(cases.length*2);
         
         var func = OpenLayers.String.numericIf;
         var obj, val, got, exp;
@@ -232,6 +234,9 @@
             exp = obj.expect;
             got = func(val);
             t.eq(got, exp, "'" + val + "' returns " + exp);
+            got = func(val, true);
+            exp = obj.expectWithTrim;
+            t.eq(got, exp, "'" + val + "' returns " + exp + " with trimWhitespace true");
         }
     }
    
@@ -272,6 +277,17 @@
         OpenLayers.Number.thousandsSeparator = ".";
         OpenLayers.Number.decimalSeparator = ",";
         t.eq(format(num, 3), "12.345,679", "changing thousands/decimal separator globally works");
+    }
+    
+    function test_Number_zeroPad(t) {
+        t.plan(6);
+        var pad = OpenLayers.Number.zeroPad;
+        t.eq(pad(15, 4), "0015", "left padding works");
+        t.eq(pad(15, 2), "15", "no left padding when equal to number of digits");
+        t.eq(pad(15, 1), "15", "no left padding when less than number of digits");
+        t.eq(pad(10, 5, 2), "01010", "radix modified and padding works");
+        t.eq(pad(10, 5, 8), "00012", "radix modified and padding works");
+        t.eq(pad(10, 5, 36), "0000a", "radix modified and padding works");
     }
 
     function test_Function_bind(t) {
@@ -362,160 +378,6 @@
         t.eq(array, [0, 1, 2, 3], "filter doesn't modify original");
         
         
-    }
-
-    function test_Date_toISOString(t) {
-        t.plan(3);
-    
-        var date, str;
-
-        // check valid date
-        date = new Date(Date.UTC(2010, 10, 27, 18, 19, 15, 123));
-        str = OpenLayers.Date.toISOString(date);
-        t.eq(str, "2010-11-27T18:19:15.123Z", "valid date");
-        
-        // check zero padding
-        date = new Date(Date.UTC(2010, 7, 7, 18, 9, 5, 12));
-        str = OpenLayers.Date.toISOString(date);
-        t.eq(str, "2010-08-07T18:09:05.012Z", "zero padding");
-        
-        // check invalid date
-        date = new Date("foo");
-        str = OpenLayers.Date.toISOString(date);
-        t.eq(str, "Invalid Date", "invalid date");
-
-    }
-    
-    function test_Date_parse(t) {
-        
-        t.plan(93);
-        
-        var cases = {
-            "2000": {
-                year: 2000,
-                month: 0,
-                date: 1
-            },
-            "2005-10": {
-                year: 2005,
-                month: 9,
-                date: 1
-            },
-            "1971-07-23": {
-                year: 1971,
-                month: 6,
-                date: 23
-            },
-            "1801-11-20T04:30:15Z": {
-                year: 1801,
-                month: 10,
-                date: 20,
-                hour: 4,
-                minutes: 30,
-                seconds: 15
-            },
-            "1989-06-15T18:30:15.91Z": {
-                year: 1989,
-                month: 5,
-                date: 15,
-                hour: 18,
-                minutes: 30,
-                seconds: 15,
-                milliseconds: 910
-            },
-            "1989-06-15T18:30:15.091Z": {
-                year: 1989,
-                month: 5,
-                date: 15,
-                hour: 18,
-                minutes: 30,
-                seconds: 15,
-                milliseconds: 91
-            },
-            "1989-06-15T13:30:15.091-05": {
-                year: 1989,
-                month: 5,
-                date: 15,
-                hour: 18,
-                minutes: 30,
-                seconds: 15,
-                milliseconds: 91
-            },
-            "2010-08-06T15:21:25-06": { // MDT
-                year: 2010,
-                month: 7,
-                date: 6,
-                hour: 21,
-                minutes: 21,
-                seconds: 25
-            },
-            "2010-08-07T06:21:25+9": { // JSP
-                year: 2010,
-                month: 7,
-                date: 6,
-                hour: 21,
-                minutes: 21,
-                seconds: 25
-            },
-            "2010-08-07T02:51:25+05:30": { // IST
-                year: 2010,
-                month: 7,
-                date: 6,
-                hour: 21,
-                minutes: 21,
-                seconds: 25
-            },
-            "T21:51:25Z": {
-                hour: 21,
-                minutes: 51,
-                seconds: 25
-            },
-            "T02:51:25+05:30": { // IST
-                hour: 21,
-                minutes: 21,
-                seconds: 25
-            },
-            "T2:51:25.1234-7": { // lenient
-                hour: 9,
-                minutes: 51,
-                seconds: 25,
-                milliseconds: 123
-            }
-        };
-
-        var o, got, exp;
-        for (var str in cases) {
-            o = cases[str];
-            got = OpenLayers.Date.parse(str);
-            exp = new Date(Date.UTC(o.year || 0, o.month || 0, o.date || 1, o.hour || 0, o.minutes || 0, o.seconds || 0, o.milliseconds || 0));
-            if ("year" in o) {
-                t.eq(got.getUTCFullYear(), exp.getUTCFullYear(), str + ": correct UTCFullYear");
-                t.eq(got.getUTCMonth(), exp.getUTCMonth(), str + ": correct UTCMonth");
-                t.eq(got.getUTCDate(), exp.getUTCDate(), str + ": correct UTCDate");
-            } else {
-                t.ok(true, str + ": ECMA doesn't specify how years are handled in time only strings");
-                t.ok(true, str + ": ECMA doesn't specify how months are handled in time only strings");
-                t.ok(true, str + ": ECMA doesn't specify how days are handled in time only strings");
-            }
-            if ("hour" in o) {
-                t.eq(got.getUTCHours(), exp.getUTCHours(), str + ": correct UTCHours");
-                t.eq(got.getUTCMinutes(), exp.getUTCMinutes(), str + ": correct UTCMinutes");
-                t.eq(got.getUTCSeconds(), exp.getUTCSeconds(), str + ": correct UTCSeconds");
-                t.eq(got.getUTCMilliseconds(), exp.getUTCMilliseconds(), str + ": correct UTCMilliseconds");
-            } else {
-                t.ok(true, str + ": ECMA doesn't specify how hours are handled in date only strings");
-                t.ok(true, str + ": ECMA doesn't specify how minutes are handled in date only strings");
-                t.ok(true, str + ": ECMA doesn't specify how seconds are handled in date only strings");
-                t.ok(true, str + ": ECMA doesn't specify how milliseconds are handled in date only strings");
-            }
-        }
-        
-        // check invalid date parsing
-        var invalid = OpenLayers.Date.parse("foo");
-        t.ok(invalid instanceof Date, "invalid is a date");
-        t.ok(isNaN(invalid.getTime()), "invalid has no time");
-            
-
     }
 
   </script>

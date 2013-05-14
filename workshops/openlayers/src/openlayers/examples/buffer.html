@@ -1,10 +1,12 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
     <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
         <title>OpenLayers Buffer Example</title>
-        <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-        <link rel="stylesheet" href="style.css" type="text/css" />
+        <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="style.css" type="text/css">
         <script src="../lib/OpenLayers.js"></script>
         <script type="text/javascript">
             var lon = 0;
@@ -26,7 +28,7 @@
                         "http://vmap0.tiles.osgeo.org/wms/vmap0",
                         {layers: 'basic'}, {'buffer':4} );
                 map.addLayer(layer);
-                map.addControl(new OpenLayers.Control.LayerSwitcher())
+                map.addControl(new OpenLayers.Control.LayerSwitcher());
                 map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
             }
         </script>
@@ -35,7 +37,7 @@
         <h1 id="title">Buffer Example</h1>
 
         <div id="tags">
-            buffer, performance, tile
+            buffer, performance, tile, light
         </div>
 
         <p id="shortdesc">
@@ -46,7 +48,7 @@
 
         <div id="docs">
             Use the buffer property to control how many tiles are included
-            outside the visible map area. Default is 2.
+            outside the visible map area. Default is 0.
         </div>
     </body>
 </html>

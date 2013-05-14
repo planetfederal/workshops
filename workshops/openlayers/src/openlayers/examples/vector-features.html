@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>OpenLayers: Vector Features</title>
-    <link rel="stylesheet" href="../theme/default/style.css" type="text/css" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="stylesheet" href="../theme/default/style.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <script src="../lib/OpenLayers.js" type="text/javascript"></script>
     <script type="text/javascript">
         var map;
@@ -48,7 +49,8 @@
                 strokeWidth: 3,
                 strokeDashstyle: "dashdot",
                 pointRadius: 6,
-                pointerEvents: "visiblePainted"
+                pointerEvents: "visiblePainted",
+                title: "this is a green line"
             };
 
             /*
@@ -69,8 +71,8 @@
             style_mark.graphicXOffset = 10; // default is -(style_mark.graphicWidth/2);
             style_mark.graphicYOffset = -style_mark.graphicHeight;
             style_mark.externalGraphic = "../img/marker.png";
-            // graphicTitle only works in Firefox and Internet Explorer
-            style_mark.graphicTitle = "this is a test tooltip";
+            // title only works in Firefox and Internet Explorer
+            style_mark.title = "this is a test tooltip";
 
             var vectorLayer = new OpenLayers.Layer.Vector("Simple Geometry", {
                 style: layer_style,
@@ -122,7 +124,7 @@
 <h1 id="title">Drawing Simple Vector Features Example</h1>
 
 <div id="tags">
-    vector, feature
+    vector, feature, light
 </div>
 <p id="shortdesc">
     Shows the use of the shows drawing simple vector features, in different styles.
