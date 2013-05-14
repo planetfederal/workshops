@@ -21,7 +21,7 @@ The following are actual course materials given at our various `training classes
   Updated for 2013. Learn to load, style, and publish maps and data using GeoServer.
 
 `Introduction to OpenLayers <http://workshops.opengeo.org/openlayers-intro/>`_ - (`Download <http://opengeo.org/products/training/materials/>`_)
-  As presented at FOSS4G 2011. How to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers Javascript map component.
+  This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13.
 
 `Developing OGC Compliant Web Applications with GeoExt <http://workshops.opengeo.org/geoext/>`_ - (`Download <http://opengeo.org/products/training/materials/>`_/`readme <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_)
   First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS).  Create a map application with a WMS browser, a WFS-T editor, and more.
