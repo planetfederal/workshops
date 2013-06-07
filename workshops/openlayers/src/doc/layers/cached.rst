@@ -34,7 +34,7 @@ The `OpenStreetMap (OSM) <http://www.openstreetmap.org/>`_ project is an effort 
     .. code-block:: html
 
         <script>
-            var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
+            var center = new OpenLayers.LonLat(-93.27, 44.98).transform(
                 'EPSG:4326', 'EPSG:3857'
             );
 
@@ -58,7 +58,7 @@ The `OpenStreetMap (OSM) <http://www.openstreetmap.org/>`_ project is an effort 
             .olControlAttribution {
                 font-size: 10px;
                 bottom: 5px;
-                right: 5px;
+                left: 5px;
             }
         </style>
 
@@ -78,7 +78,7 @@ Review the first 3 lines of the initialization script:
 
 .. code-block:: javascript
 
-    var center = new OpenLayers.LonLat(-104.98, 39.76).transform(
+    var center = new OpenLayers.LonLat(-93.27, 44.98).transform(
         'EPSG:4326', 'EPSG:3857'
     );
 
