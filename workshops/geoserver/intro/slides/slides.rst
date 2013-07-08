@@ -10,52 +10,13 @@ OpenGeo
 
 .. date:: date
 
-April 2, 2013
+May 21, 2013
 
 Presenter notes
 ---------------
 
 This is where you can write notes to yourself and only you will be able to see them.
 
-
---------------------------------------------------
-
-Housekeeping
-============
-
-* We're recording this
-
-* Please mute yourself
-
-* Ask questions in the chat
-
-* Workshop materials available at:
-  http://workshops.opengeo.org
-
-Presenter notes
----------------
-
-Link not clickable
-
---------------------------------------------------
-
-Your instructors
-================
-
-Mike Pumphrey
--------------
-
-User Advocate, OpenGeo
-
-Sam Smith
----------
-
-Global Support Manager, OpenGeo
-
-Presenter notes
----------------
-
-[Self-promote]
 
 --------------------------------------------------
 
