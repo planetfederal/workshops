@@ -5,8 +5,8 @@ var startWord = "Ocean";
 var osmLayer = new OpenLayers.Layer.OSM();
 
 // Heat map + point map
-var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://localhost:8080/geoserver/wms", {
-  format: "image/png",
+var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://demo.cleverelephant.ca:8080/geoserver/wms", {
+  format: "image/png8",
   transparent: true,
   layers: "opengeo:geonames,opengeo:geonames",
   styles: "point,heatmap"
