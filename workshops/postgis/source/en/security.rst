@@ -138,9 +138,7 @@ SSL Connections
 In order to use SSL connections, both your client and server must support SSL. The OpenGeo Suite ships PostgreSQL with SSL support built, but not enabled, so we have to carry out a few steps to turn it on first.
 
  * First, turn off the Suite, since activating SSL will require a restart.
- * Next, we acquire or generate an SSL certificate and key. The certificate will need to have no passphrase on it, or the database server won't be able to start up. You can generate a self-signed key as follows:
-
-   :: 
+ * Next, we acquire or generate an SSL certificate and key. The certificate will need to have no passphrase on it, or the database server won't be able to start up. You can generate a self-signed key as follows:: 
      
      # Create a new certificate, filling out the certification info as prompted
      openssl req -new -text -out server.req
