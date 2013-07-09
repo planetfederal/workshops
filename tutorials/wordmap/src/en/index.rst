@@ -665,15 +665,16 @@ Now that we have our word map, explore the naming of the USA! Here's some intere
   
 * Naming
 
-  * **Canyon**, from the spanish Cañon, only appears in the West
+  * **Canyon**, derived from the Spanish "Cañon", only appears in the West.
   * **Peak**, where there are mountains!
+  * **Mississippi**, in the state, but also along the river.
 
 * Civil War
 
   * Abraham **Lincoln**, from Illinois, was revered in the North and reviled in the South. See the pattern of naming?
   * Nathan Bedford **Forrest** was a Southern cavalry hero from Memphis Tennessee.
-  * Robert E. **Lee**, the hero of the South, certainly has more things named for him.
-  * William Tecumseh **Sherman** was a Northern General who burned much of Georgia and South Carolina during his last campaign.
+  * Robert E. **Lee**, the hero of the South, certainly has more things named for him in the South.
+  * William Tecumseh **Sherman** was a Northern General who burned much of Georgia and South Carolina during his `March to the Sea <https://en.wikipedia.org/wiki/Sherman's_March_to_the_Sea>`_.
 
 * Native Americans
 
