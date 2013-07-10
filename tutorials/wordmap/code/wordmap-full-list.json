@@ -1,0 +1,59 @@
+[
+  {"word":"New York",
+   "desc":"The words 'new' and 'york' mostly occur in the state of New York. No surprises here."},
+   
+  {"word":"Mississippi",
+   "desc":"Mississippi shows up a lot in the state of Mississippi, but also along the track of the great river."},
+
+  {"word":"Missouri",
+   "desc":"Missouri shows up a lot in the state of Missouri, but also along the track and watershed of the river."},
+  
+  {"word":"Lincoln",
+   "desc":"Civil War president <a href='http://en.wikipedia.org/wiki/Lincoln_(president)'>Abraham Lincoln</a> hailed from Illinois, and while revered in the North was reviled in the South."},
+   
+  {"word":"Sherman",
+   "desc":"<a href='http://en.wikipedia.org/wiki/William_Tecumseh_Sherman'>William Tecumseh Sherman</a>, the Union Civil War general from Ohio, burned and destroyed much of Georgia, South Carolina and North Carolina during his <a href='http://en.wikipedia.org/wiki/Sherman%27s_March_to_the_Sea'>march to the sea</a>. Note how often things are named for him in those states."},
+   
+  {"word":"Lee",
+   "desc":"The Confederate General <a href='http://en.wikipedia.org/wiki/Robert_E._Lee'>Robert E. Lee</a> was revered in the South and especially in his home state of Virginia."},
+
+  {"word":"Forrest",
+   "desc":"Confederate General <a href='http://en.wikipedia.org/wiki/Nathan_Forrest'>Nathan Bedford Forrest</a> hailed from Memphis Tennessee and is still remembered here."},
+
+   {"word":"Swedish",
+    "desc":"<a href='http://en.wikipedia.org/wiki/Swedish_American'>Swedish American</a> settlement concentrated in the state of Minnesota, and their neighbors named things accordingly."},
+
+  {"word":"Danish",
+   "desc":"Settlers from <a href='http://en.wikipedia.org/wiki/Danish_American'>Denmark</a> settled largely in the upper midwest, but a large contingent of Danish Mormons also settled in Utah."},
+
+  {"word":"Coal",
+   "desc":"Where does coal come from? Mostly from the mountains of Appalachia and Rockies."},
+   
+  {"word":"Gold",
+   "desc":"There's gold in them there hills, mostly in the Pacific, home of the gold rushes of the 1800s."},
+  
+  {"word":"Cougar",
+   "desc":"The cougar is native to the Pacific northwest."},
+   
+  {"word":"Cactus",
+   "desc":"You don't find a lot of cactus outside the deserts of the southwest."},
+   
+  {"word":"Brook",
+   "desc":"Running water in most of the US is a stream or a creek, but in the north-east, it's a 'brook'."},
+  
+  {"word":"Bayou",
+   "desc":"You might find a swampy river area in other parts of the US, but only near the Gulf of Mexico will it be called a 'bayou'."},
+  
+  {"word":"Canyon",
+   "desc":"From the Spanish 'cañon', the term canyon is used almost exclusively in the west"},
+   
+  {"word":"Navajo",
+   "desc":"The <a href='http://en.wikipedia.org/wiki/Navajo_people'>Navajo</a> territory is in the deserts of the southwest."},
+  
+  {"word":"Cherokee",
+   "desc":"In 1838, the Cherokee Nation in Tennessee was <a href='http://en.wikipedia.org/wiki/Trail_of_Tears'>forcibly relocated</a> by the US government to what is now Oklahoma."},
+   
+  {"word":"Pawnee"},
+  
+  {"word":"Salish"}
+]

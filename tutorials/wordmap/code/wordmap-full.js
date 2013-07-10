@@ -1,6 +1,8 @@
 // Ext.BLANK_IMAGE_URL = "http://cdn.sencha.com/ext/gpl/3.4.1.1/resources/images/default/s.gif";
 // OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.13/img/";
 
+Ext.util.CSS.swapStyleSheet('opengeo-theme', 'resources/css/xtheme-opengeo.css');
+
 Ext.onReady(function () {
 
   var osmLayer = new OpenLayers.Layer.OSM();
@@ -28,35 +30,46 @@ Ext.onReady(function () {
     zoom: 7
   });
 
+  // A panel to hold HTML information about the active word
+  var wordDescription = new Ext.Panel({
+    html: "",
+    border: false,
+    height: 200,
+    autoScroll:true
+  });
+  
+  // A freeform text field to enter new words
   var wordField = new Ext.form.TextField({
     emptyText: "Enter a word",
-    padding: 5,
-    width: 182,
+    width: 180,
+    hideLabel: true,
     listeners: {
       specialkey: function(field, e) {
         // Only update the word map when user hits 'enter' 
         if (e.getKey() == e.ENTER) {
           wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
+          wordDescription.update("");
         }
       }
     }
   });
 
-  // wordStore consumes this kind of JSON:
+  // wordStore to read a JSON file of predefined words
   // [
-  //   {"word":"Navajo"},
-  //   {"word":"New York"}
+  //   {"word":"Navajo", "desc":"A people"},
+  //   {"word":"New York", "desc":"A city"}
   // ]  
   var wordStore = new Ext.data.JsonStore({
-      url: "wordmap-list.json",
-      fields: ["word"]
+      url: "wordmap-full-list.json",
+      fields: ["word", "desc"]
   });
   // Read the JSON file
   wordStore.load();
 
-  var listView = new Ext.list.ListView({
+  // A list to select the predefined words
+  var wordList = new Ext.list.ListView({
       store: wordStore,
-      width: 182,
+      height: 180,
       hideHeaders: true,
       emptyText: 'No words available',
       columns: [{
@@ -67,40 +80,64 @@ Ext.onReady(function () {
           // Click returns the index of the clicked record.
           // Get the record, then read the word from it.
           var word = wordStore.getAt(node).get('word');
+          var desc = wordStore.getAt(node).get('desc');
           // Update our WMS URL to map the new word
           wmsLayer.mergeNewParams({viewparams: "word:"+word});
+          wordDescription.update(desc);
           // Update the text field to display the clicked word
           wordField.setValue(word);
         }
       }
   });
-
-  // Panel to hold the text field and list of suggested words
-  var sidePanel = new Ext.Panel({
-    region: "west",
-    layout: "vbox",
-    width: 200,
-    title: "Enter a word...",
-    padding: 6,
-    items: [wordField, listView]
-  });
   
-  // Panel to hold the map
-  var mapPanel = new GeoExt.MapPanel({
-    region: "center",
-    title: "OpenGeo Word Map",
-    height: "auto",
-    map: olMap
-  });
-  
-  // Viewport takes up the whole browser window
+  // Ext.Viewport uses the whole browser window
   var mainPanel = new Ext.Viewport({
-    layout: "border",
-    items: [mapPanel, sidePanel]
+    layout: "fit",
+    items: [{
+      xtype: "panel",
+      title: "OpenGeo Word Map",
+      region: "center",
+      layout: "border",
+      items: [{
+        xtype: "gx_mappanel",
+        region: "center",
+        title: false,
+        height: "auto",
+        map: olMap
+      },{
+        xtype: "panel",
+        region: "west",
+        title: false,
+        width: 250,
+        height: "auto",
+        layout: "vbox",
+        layoutConfig: {
+          align: "stretch",
+          padding: "10",
+          defaultMargins: "5 5",
+          flex: 1
+        },
+        items: [{
+          xtype: "fieldset",
+          title: "Enter a word",
+          layout: "fit",
+          items: [wordField]
+        },{
+          xtype: "fieldset",
+          title: "Select a word",
+          layout: "fit",
+          height: 200,
+          items: [wordList]
+        },{
+          xtype: "fieldset",
+          title: "About this word",
+          layout: "fit",
+          items: [wordDescription]
+        }]  
+      }]
+    }]
   });
-
-  // Start with no word in the field
-  updateWord("");
+  
 
 });
 
