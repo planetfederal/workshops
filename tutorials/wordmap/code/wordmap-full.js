@@ -140,6 +140,9 @@ Ext.onReady(function () {
         title: "About this word",
         layout: "fit",
         items: [wordDescription]
+      },{
+        xtype: "box",
+        html: "<a href='../doc/en'>How we made this map</a>"
       }]  
     }]
   });
