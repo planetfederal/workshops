@@ -96,49 +96,51 @@ Ext.onReady(function () {
   
   // Ext.Viewport uses the whole browser window
   var mainPanel = new Ext.Viewport({
-    layout: "fit",
+    layout: "border",
     items: [{
-      xtype: "panel",
-      title: "OpenGeo Word Map",
+      xtype: "gx_mappanel",
       region: "center",
-      layout: "border",
+      title: false,
+      height: "auto",
+      map: olMap
+    },{
+      xtype: "panel",
+      region: "west",
+      title: false,
+      width: 250,
+      height: "auto",
+      layout: "vbox",
+      layoutConfig: {
+        align: "stretch",
+        padding: "10",
+        defaultMargins: "5 5",
+        flex: 1
+      },
       items: [{
-        xtype: "gx_mappanel",
-        region: "center",
-        title: false,
-        height: "auto",
-        map: olMap
+        xtype: "box",
+        layout: "fit",
+        height: "80",
+        border: "0",
+        margin: "0",
+        padding: "0",
+        html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/>Geonames Heat Map</p>"
       },{
-        xtype: "panel",
-        region: "west",
-        title: false,
-        width: 250,
-        height: "auto",
-        layout: "vbox",
-        layoutConfig: {
-          align: "stretch",
-          padding: "10",
-          defaultMargins: "5 5",
-          flex: 1
-        },
-        items: [{
-          xtype: "fieldset",
-          title: "Enter a word",
-          layout: "fit",
-          items: [wordField]
-        },{
-          xtype: "fieldset",
-          title: "Select a word",
-          layout: "fit",
-          height: 200,
-          items: [wordList]
-        },{
-          xtype: "fieldset",
-          title: "About this word",
-          layout: "fit",
-          items: [wordDescription]
-        }]  
-      }]
+        xtype: "fieldset",
+        title: "Enter a word",
+        layout: "fit",
+        items: [wordField]
+      },{
+        xtype: "fieldset",
+        title: "Select a word",
+        layout: "fit",
+        height: 200,
+        items: [wordList]
+      },{
+        xtype: "fieldset",
+        title: "About this word",
+        layout: "fit",
+        items: [wordDescription]
+      }]  
     }]
   });
   
