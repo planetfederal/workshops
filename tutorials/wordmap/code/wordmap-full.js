@@ -1,6 +1,12 @@
 // Ext.BLANK_IMAGE_URL = "http://cdn.sencha.com/ext/gpl/3.4.1.1/resources/images/default/s.gif";
 // OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.13/img/";
 
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
 Ext.util.CSS.swapStyleSheet('opengeo-theme', 'resources/css/xtheme-opengeo.css');
 
 Ext.onReady(function () {
@@ -138,6 +144,10 @@ Ext.onReady(function () {
     }]
   });
   
+  var word = getURLParameter("word");
+  if ( word.length > 0 ) {    
+    wmsLayer.mergeNewParams({viewparams: "word:"+word})
+  }
 
 });
 
