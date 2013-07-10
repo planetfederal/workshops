@@ -13,7 +13,7 @@ Ext.onReady(function () {
 
   var osmLayer = new OpenLayers.Layer.OSM();
   
-  var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://localhost:8080/geoserver/wms", {
+  var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://demo.cleverelephant.ca:8080/geoserver/wms", {
     format: "image/png",
     transparent: true,
     layers: "opengeo:geonames,opengeo:geonames",
