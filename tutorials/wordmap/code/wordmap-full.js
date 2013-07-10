@@ -151,6 +151,7 @@ Ext.onReady(function () {
   var word = getURLParameter("word");
   if ( word.length > 0 ) {    
     wmsLayer.mergeNewParams({viewparams: "word:"+word})
+    wordField.setValue(word);
   }
   
   // OpenLayers like to be zoomed/centered near the end of things
