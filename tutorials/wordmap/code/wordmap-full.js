@@ -1,6 +1,12 @@
 // Ext.BLANK_IMAGE_URL = "http://cdn.sencha.com/ext/gpl/3.4.1.1/resources/images/default/s.gif";
 // OpenLayers.ImgPath = "http://dev.openlayers.org/releases/OpenLayers-2.13/img/";
 
+function getURLParameter(name) {
+    return decodeURI(
+        (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+    );
+}
+
 Ext.util.CSS.swapStyleSheet('opengeo-theme', 'resources/css/xtheme-opengeo.css');
 
 Ext.onReady(function () {
@@ -19,15 +25,13 @@ Ext.onReady(function () {
 
   var geographicProj = new OpenLayers.Projection("EPSG:4326");
   var mercatorProj = new OpenLayers.Projection("EPSG:900913");
-  var mapCenter = new OpenLayers.LonLat(-110,45).transform(geographicProj, mercatorProj);
+  var mapCenter = new OpenLayers.LonLat(-100,40).transform(geographicProj, mercatorProj);
 
   olMap = new OpenLayers.Map({
     projection: mercatorProj,
     displayProjection: geographicProj,
     units: "m",
-    layers: [wmsLayer, osmLayer],
-    center: mapCenter,
-    zoom: 7
+    layers: [wmsLayer, osmLayer]
   });
 
   // A panel to hold HTML information about the active word
@@ -143,7 +147,15 @@ Ext.onReady(function () {
     }]
   });
   
-
+  // In case we have external parameters, read them
+  var word = getURLParameter("word");
+  if ( word.length > 0 ) {    
+    wmsLayer.mergeNewParams({viewparams: "word:"+word})
+  }
+  
+  // OpenLayers like to be zoomed/centered near the end of things
+  olMap.setCenter(mapCenter, 4);
+  
 });
 
 
