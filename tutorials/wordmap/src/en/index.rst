@@ -316,7 +316,7 @@ You can get a feel for how URL modification is going to drive this application b
  
 .. note::
 
-  We are using the "`WMS reflector <http://docs.geoserver.org/stable/en/user/tutorials/wmsreflector.html>`_" feature of GeoServer, that allows us to enter incomplete WMS URLs and have GeoServer will in the other required parameters using sensible defaults. This keeps the URLs short and readable for inspection.
+  We are using the "`WMS reflector <http://docs.geoserver.org/stable/en/user/tutorials/wmsreflector.html>`_" feature of GeoServer, that allows us to enter incomplete WMS URLs and have GeoServer fill in the other required parameters using sensible defaults. This keeps the URLs short and readable for inspection.
   
 We can alter what points are mapped by changing the "word" parameter we defined earlier, using the `viewparams URL parameter <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ to pass in a new value.
 
