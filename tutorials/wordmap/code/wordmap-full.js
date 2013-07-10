@@ -155,7 +155,7 @@ Ext.onReady(function () {
   }
   
   // OpenLayers like to be zoomed/centered near the end of things
-  olMap.setCenter(mapCenter, 4);
+  olMap.setCenter(mapCenter, 5);
   
 });
 
