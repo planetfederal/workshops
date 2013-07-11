@@ -1,5 +1,11 @@
-Hot Word Map
-============
+
+.. toctree::
+   :maxdepth: 1
+
+   index
+
+Introduction
+------------
 
 In June of 2013, `blogs and news feeds <http://news.ca.msn.com/top-stories/yelps-word-map-means-never-having-to-dine-with-hipsters-again>`_ were clogged by viral stories about Yelp's "`word maps <http://www.yelp.com/wordmap/nyc/hipster>`_", attractive heat maps that combined word mining of yelp reviews with a heat map presentation to identify concentrations of "similar" restaurants or businesses. Words like "hipster" and "tourist" figured prominently.
 
@@ -10,7 +16,6 @@ The word-driven heat map is a cool idea, and could be applied to all kinds of te
 
 For this adventure in map building, we'll build our own version of the Yelp word map, using the following tools, which if you are following along you will want to install now:
 
-* Perl (included in Linux and Mac OSX, available for Windows via `ActivePerl`_)
 * OpenGeo Suite (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
 
 The basic structure of the application will be
@@ -32,8 +37,8 @@ The application flow will:
 This application exercises all the tiers of the OpenGeo Suite!
 
 
-Find, Process and Load the Data
--------------------------------
+Find the Data
+-------------
 
 The hardest part of this project, in some ways, was finding an interesting corpus of text data to feed into the map. I wracked my brain for possibilities, but in the end settled on using geographical names, for ease of access. All the other possibilities involved too much complicated pre-processing before map-making could begin.
 
@@ -78,89 +83,80 @@ And the data dictionary file gives the column definitions. The columns we are go
 * timezone, the timezone id (see file timeZone.txt) varchar(40)
 * modification date, date of last modification in yyyy-MM-dd format
 
+Load the Data
+-------------
+
 .. note::
 
-  The next steps will involve some SQL to create new tables, and some Perl to process data.
+  The next steps will involve some SQL to read and create new tables.
 
   * If you haven't already installed the OpenGeo Suite, follow the `Suite installation instructions`_.
   * `Create a spatial database`_ named `wordmap` to load data into.
   * `Connect to the database`_ with PgAdmin or psql to run SQL.
 
-We mostly care about the words and the locations, so the table structure will only preserve a few of the columns from the file:
+We can directly load the GeoNames text file, using the PostgreSQL `COPY command <http://www.postgresql.org/docs/current/static/sql-copy.html>`_, which supports reading table data directly from delimited text files. 
+
+To receive the data, we need a table that has the same number of columns as the file.
 
 .. code-block:: sql
 
-  CREATE TABLE geonames(
-    id INTEGER PRIMARY KEY,
-    name VARCHAR,
-    state VARCHAR,
-    kind VARCHAR,
-    geom GEOMETRY(Point,4326)
+  CREATE TABLE geonames_load (
+    geonameid INTEGER PRIMARY KEY,
+    name VARCHAR(200),
+    asciiname VARCHAR(200),
+    alternatenames VARCHAR,
+    latitude FLOAT8,
+    longitude FLOAT8,
+    feature_class char(1),
+    feature_code VARCHAR(10),
+    country_code VARCHAR(2),
+    cc2 VARCHAR(60),
+    admin1 VARCHAR(20),
+    admin2 VARCHAR(80), 
+    admin3 VARCHAR(20),
+    admin4 VARCHAR(20),
+    population INTEGER,
+    elevation INTEGER,
+    dem INTEGER,
+    timezone VARCHAR(40),
+    modification VARCHAR(18)
   );
 
-To convert the text file into a format suitable for loading into, we'll use a short perl program, `geonames.pl` to parse the file and strip out just the portions we want:
-
-.. code-block:: perl
-
-  # Use PostgreSQL COPY to load, for speed and ease 
-  # (no need to escape quotes, etc)
-  print "COPY geonames (id, name, state, kind, geom) FROM STDIN;\n";
-
-  # For each line on STDIN...
-  while(<>)
-  {
-    # Strip the newline from the end
-    chop;
-
-    # Break the line on tabs
-    @line = split(/\t/);
-
-    # Skip any messed up line that lacks a numeric identifier
-    $id = $line[0];
-    next if ! ($id =~ /\d/);
-
-    # Read in the other columns we care about
-    $name = $line[1];
-    $lat = $line[4];
-    $lon = $line[5];
-    $state = $line[10];
-    $kind = $line[7];
-
-    # Write out values in PostgreSQL copy format
-    # (also tab separated, as it happens)
-    print $id, "\t";
-    print $name, "\t";
-    print $state, "\t";
-    print $kind, "\t";
-	
-    # Put the lon/lat into a PostGIS point text format
-    printf "SRID=4326;POINT(%g %g)", $lon, $lat;
-
-    # Complete the line with newline character
-    print "\n";
-  }
-
-  # End the COPY command
-  print "\\.\n";
-
-We can run the perl program and put the result into PostgreSQL in one step (assuming the table has already been created, as indicated above)::
-
-  perl geonames.pl US.txt | psql -d wordmap
-
-.. note::
-
-  You may need to add the psql `-U` options to specify your PostgreSQL or `-p` options to specify your PostgreSQL port, depending on your installation of PostgreSQL.
-
-Once the table is loaded, we can check the record count (2152536):
+Once we have a blank table, we can load the file. In order to read the file, it must be in a location that is accessible by the database. I usually use the `/tmp` directory in UNIX or OSX and the `C:\\Temp` directory on Windows.
 
 .. code-block:: sql
 
-  SELECT Count(*) FROM geonames;
+  COPY geonames_load FROM '/tmp/US.txt' WITH (
+    FORMAT csv,
+    DELIMITER E'\t',
+    HEADER false,
+    ENCODING 'UTF8'
+  );
 
-And we can add a spatial index for faster map rendering. This will speed up viewing when we are looking at a zoomed in view of the data.
+The "csv" format actually supports any separator, not just commas, and we declare our delimiter to be the tab character. As described in the `readme.txt` the GeoNames file has no header row, and the text encoding (important for handling special characters like accents and international characters) is UTF8.
+
+Once the table is loaded, we can check out how many rows it has, then strip out just the columns we care about (the names and geometry) into a working table:
 
 .. code-block:: sql
 
+  -- There's over 2M records!
+  SELECT Count(*) FROM geonames_load;
+
+  -- Strip out columns we want, and create a point geometry.
+  CREATE TABLE geonames AS
+  SELECT 
+    geonameid AS id,
+    name AS name,
+    admin1 AS state,
+    feature_code AS kind,
+    ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::Geometry(Point,4326) AS geom
+  FROM geonames_load;
+
+Finally, we can add a spatial index for faster map rendering, and declare the primary key. This will speed up viewing when we are looking at a zoomed in view of the data.
+
+.. code-block:: sql
+
+  ALTER TABLE geonames ADD PRIMARY KEY (id);
   CREATE INDEX geonames_gix ON geonames USING GIST (geom);
 
 
@@ -175,11 +171,11 @@ Full-text searching makes use of specialized PostgreSQL types: `tsvector` and `t
 
 * A `tsvector <http://www.postgresql.org/docs/current/static/datatype-textsearch.html>`_ is a parsing and generalization of a text string into a numerical analogue, applying specific rules for `stemming <http://en.wikipedia.org/wiki/Stemming>`_ to standardize tenses and plurals. You can see the effect of converting text to a `tsvector` by running the `to_tsvector()` function on a sentence, specifying the language of the sentence::
  
-     select to_tsvector('english', 'oaks oak bait baited');
+     SELECT to_tsvector('english', 'Oaks is the plural of oak.');
         
           to_tsvector      
      ----------------------
-      'bait':3,4 'oak':1,2
+      'oak':1,6 'plural':4
      (1 row)
   
   Note that the duplicate cases of the noun "oak" (singular and plural forms) have been merged, as have the verb tenses (present and past) of "bait". Full text search understands and searches words within the context of language.
@@ -254,11 +250,15 @@ SQL view layers are an option in the "Add Layer" dialogue:
 .. image:: ../img/newsqllayer1.png
    :width: 100%
 
-Set the name of the layer to `geonames`, and the SQL definition to the following::
+Set the name of the layer to `geonames`, and the SQL definition to the following:
+
+.. code-block:: sql
 
   SELECT id, name, geom
   FROM geonames
-  WHERE to_tsvector('english', name) @@ to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&'))
+  WHERE 
+    to_tsvector('english', name) @@ 
+    to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&'))
 
 This is basically the same query as our test query in the previous section. It quickly finds all the records where the name contains a particular word. In this case, instead of searching for a particular word, we put in `%word%` as a parameter. This allows us to feed any word we like into the query via GeoServer's URL parameters interface.
 
@@ -497,7 +497,7 @@ Now that the map is set up, we just need to assemble the `ExtJS`_ components int
     value: startWord,
     listeners: {
       specialkey: function(field, e) {
-        // Only update the word map when user hits 'enter' 
+        // Only update the map when the user hits 'enter' 
         if (e.getKey() == e.ENTER) {
           wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
         }
@@ -512,7 +512,7 @@ For entering new words to map, a text field. When the user hits return, we catch
   // Map panel, with text field embedded in top toolbar
   var mapPanel = new GeoExt.MapPanel({
     region: "center",
-    title: "OpenGeo Word Map",
+    title: "OpenGeo Geonames Map",
     tbar: ["Enter a word to map:", wordField],
     map: olMap
   });
@@ -583,7 +583,7 @@ Here's the whole application in one code block:
     value: startWord,
     listeners: {
       specialkey: function(field, e) {
-        // Only update the word map when user hits 'enter' 
+        // Only update the geonames map when user hits 'enter' 
         if (e.getKey() == e.ENTER) {
           wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
         }
@@ -651,7 +651,7 @@ This allows us to see the original intput points as well as the heat map surface
 .. image:: ../img/ext-ocean-heat.png
    :width: 100%
    
-Now that we have our word map, explore the naming of the USA! Here's some interesting examples:
+Now that we have our GeoNames map, explore the naming of the USA! Here's some interesting examples:
 
 * Resources
 
