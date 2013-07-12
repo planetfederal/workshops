@@ -676,10 +676,23 @@ Now that we have our GeoNames map, explore the naming of the USA! Here's some in
   * **Pawnee**, in Nebraska
   * **Cherokee**, originally in Tennessee then `forcibly relocated to Oklahoma <http://en.wikipedia.org/wiki/Trail_of_Tears>`_.
 
-
   
 Conclusion
 ----------
+
+With very little code, using existing features of the OpenGeo Suite, we've:
+
+* Loaded over 2M geographic names records
+* Published an interactive point and heat map of those records
+* Created a web interface for exploring the point and heat map
+
+The same techniques can be used to geographically explore **any point database**. Full-text filtering can be used to explore a database of documents, and simple attribute filtering can be used to explore other fields. For example:
+
+* Visualize a species occurrence database by species and/or season observed
+* Visualize a customer transaction database by purchases
+* Visualize a GPS tracking database by incidents of speeding (recorded speed > legal speed)
+
+The possibilities are endless!
 
 
 
