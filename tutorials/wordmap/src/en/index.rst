@@ -229,8 +229,8 @@ Now we will hook up the GeoServer rendering engine to our database table.
 
 First, we need a datastore that connects GeoServer to our `wordmap` PostgreSQL database. 
 
-* Log in to GeoServer http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page
-* Add a new PostGIS store, specifying the `wordmap` database as the database to connect to http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/data/stores.html#adding-a-store
+* `Log in to GeoServer <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page>`_
+* `Add a new PostGIS store <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/data/stores.html#adding-a-store>`_, specifying the `wordmap` database as the database to connect to 
  
    .. image:: ../img/data_source_new.png
  
