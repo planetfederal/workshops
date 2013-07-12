@@ -4,7 +4,7 @@ Introduction
 In June of 2013, `blogs and news feeds <http://news.ca.msn.com/top-stories/yelps-word-map-means-never-having-to-dine-with-hipsters-again>`_ were clogged by viral stories about Yelp's "`word maps <http://www.yelp.com/wordmap/nyc/hipster>`_", attractive heat maps that combined word mining of yelp reviews with a heat map presentation to identify concentrations of "similar" restaurants or businesses. Words like "hipster" and "tourist" figured prominently.
 
 .. image:: ../img/yelp_hipster.jpg
-   :width: 100%
+   :width: 90%
 
 The word-driven heat map is a cool idea, and could be applied to all kinds of textual databases. The main requirement is that word occurrences obey some kind of clumping, so that the heat maps shows a discernible pattern.
 
@@ -242,7 +242,7 @@ Define the SQL View
 SQL view layers are an option in the "Add Layer" dialogue:
 
 .. image:: ../img/newsqllayer1.png
-   :width: 100%
+   :width: 90%
 
 Set the name of the layer to `geonames`, and the SQL definition to the following:
 
@@ -264,7 +264,7 @@ Once you have entered the SQL query, go down to the "SQL view parameters section
   * This expression only allows letters, numbers and spaces, including empty (zero length) values.
 
 .. image:: ../img/sqlviewdetails1.png
-   :width: 100%
+   :width: 90%
 
 Now go down further to the "Attributes" section and click "Refresh". The "id", "name" and "geom" columns should be inferred from the SQL. 
 
@@ -273,7 +273,7 @@ Now go down further to the "Attributes" section and click "Refresh". The "id", "
 * Set the "SRID" of the "geom" entry to **4326**.
 
 .. image:: ../img/sqlviewdetails2.png
-   :width: 100%
+   :width: 90%
    
 Now "Save" the SQL view.
 
@@ -382,7 +382,7 @@ The HTML document just references the OpenLayers javascript library, our javascr
 The JavaScript document uses the "states" base layer from GeoServer to provide context to the "geonames" layer we are rendering. Note that we merge the "viewparams" onto the WMS URL to allow us to dynamically change what we're mapping.
 
 .. image:: ../img/ol-navajo.png
-   :width: 100%
+   :width: 90%
    
 Try changing the value of the `myWord` variable and reloading the page, to see different words being mapped.
 
@@ -607,7 +607,7 @@ Here's the whole application in one code block:
 And what the final result looks like:
 
 .. image:: ../img/ext-ocean.png
-   :width: 100%
+   :width: 90%
 
 
 Add the Heat Map
@@ -620,7 +620,7 @@ Amazingly, adding a heat map is the simplest part of the whole exercise, because
 You can see the `heatmap` style in the GeoServer Styles panel.
 
 .. image:: ../img/style_view.png
-   :width: 100%
+   :width: 90%
 
 To enable the heat map in our application, we just need to specify that style in our WMS URL. So make a change to the OpenLayers WMS layer in the application:
 
@@ -643,7 +643,7 @@ Note that rather than **replacing** our point style, we are **adding** a heatmap
 This allows us to see the original intput points as well as the heat map surface coloring.
 
 .. image:: ../img/ext-ocean-heat.png
-   :width: 100%
+   :width: 90%
    
 Now that we have our GeoNames map, explore the naming of the USA! Here's some interesting examples:
 
