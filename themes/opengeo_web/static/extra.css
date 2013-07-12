@@ -132,3 +132,7 @@ blockquote {
   margin-bottom: 1.0em;
 }
 
+/* Over-ride undesirable effect leaking in from opengeo style sheet */
+#content ul li:before {
+  content: none;
+}
