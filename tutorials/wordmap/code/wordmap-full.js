@@ -138,7 +138,7 @@ Ext.onReady(function () {
         items: [wordField]
       },{
         xtype: "fieldset",
-        title: "Select a word",
+        title: "Or, select a word",
         layout: "fit",
         flex: 1,
         height: 200,

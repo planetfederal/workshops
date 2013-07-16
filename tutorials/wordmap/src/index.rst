@@ -1,3 +1,7 @@
+.. note::
+
+  Check out the `full demonstration application <_static/wordmap-full.html>`_ and play!
+
 Introduction
 ------------
 
