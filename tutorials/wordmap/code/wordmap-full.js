@@ -108,19 +108,21 @@ Ext.onReady(function () {
       region: "west",
       title: false,
       width: 250,
+      autoScroll: true,
       height: "auto",
       layout: "vbox",
       layoutConfig: {
+        pack: "start",
         align: "stretch",
         padding: "10",
-        defaultMargins: "5 5",
-        flex: 1
+        defaultMargins: "5 5"
       },
       items: [{
         xtype: "box",
         layout: "fit",
         height: "80",
         border: "0",
+        flex: 0,
         margin: "0",
         padding: "0",
         html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/>Geonames Heat Map</p>"
@@ -128,20 +130,24 @@ Ext.onReady(function () {
         xtype: "fieldset",
         title: "Enter a word",
         layout: "fit",
+        height: 60,
         items: [wordField]
       },{
         xtype: "fieldset",
         title: "Select a word",
         layout: "fit",
+        flex: 1,
         height: 200,
         items: [wordList]
       },{
         xtype: "fieldset",
         title: "About this word",
+        flex: 1,
         layout: "fit",
         items: [wordDescription]
       },{
         xtype: "box",
+        flex: 0,
         html: "<a href='../doc/en'>How we made this map</a>"
       }]  
     }]
