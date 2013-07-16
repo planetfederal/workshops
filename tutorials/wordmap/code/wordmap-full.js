@@ -152,17 +152,18 @@ Ext.onReady(function () {
       },{
         xtype: "box",
         flex: 0,
-        html: "<a href='../doc/en'>How we made this map</a>"
+        html: "<a href='../'>How we made this map</a>"
       }]  
     }]
   });
   
   // In case we have external parameters, read them
   var word = getURLParameter("word");
-  if ( word.length > 0 ) {    
-    wmsLayer.mergeNewParams({viewparams: "word:"+word})
-    wordField.setValue(word);
+  if ( word == "null" ) {
+    word = "";
   }
+  wmsLayer.mergeNewParams({viewparams: "word:"+word})
+  wordField.setValue(word);
   
   // OpenLayers like to be zoomed/centered near the end of things
   olMap.setCenter(mapCenter, 5);
