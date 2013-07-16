@@ -305,7 +305,7 @@ Test Parameterization
 
 You can get a feel for how URL modification is going to drive this application by playing with URLs directly. If you've set up the application on your local machine, this URL should give you a picture of the default map of "ocean".
 
-* http://localhost:8080/geoserver/wms/reflect?layers=opengeo:geonames
+* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames
  
 .. image:: ./img/map-ocean.png
  
@@ -315,7 +315,7 @@ You can get a feel for how URL modification is going to drive this application b
   
 We can alter what points are mapped by changing the "word" parameter we defined earlier, using the `viewparams URL parameter <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ to pass in a new value.
 
-* http://localhost:8080/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
+* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
   
 The pattern of dots changes! 
 
