@@ -465,15 +465,16 @@ We also define a **startWord** variable, which is the word our application will 
 Now things get a little more complicated:
 
 .. code-block:: javascript
+   :emphasize-lines: 3-5
 
-  // Map with projection into (required when mixing base map with WMS)
-  olMap = new OpenLayers.Map({
-    projection: "EPSG:900913",
-    units: "m",
-    layers: [wmsLayer, osmLayer],
-    center: [-10764594.0, 4523072.0],
-    zoom: 4
-  });
+   // Map with projection into (required when mixing base map with WMS)
+   olMap = new OpenLayers.Map({
+     projection: "EPSG:900913",
+     center: [-10764594.0, 4523072.0],
+     units: "m",
+     layers: [wmsLayer, osmLayer],
+     zoom: 4
+   });
 
 Because we are mixing a WMS map and a tiled mercator base map, we need to:
 
@@ -508,7 +509,7 @@ For entering new words to map, a text field. When the user hits return, we catch
 	  map: olMap
 	});
 
-To hold the map, a `GeoExt`_ map panel ("gx_mappanel"), with the text field embedded into the toolbar at the top.
+To hold the map ("olMap"), a `GeoExt`_ map panel with the text field embedded into the toolbar ("tbar") at the top.
 
 .. code-block:: javascript
 
@@ -523,7 +524,7 @@ To hold the map, a `GeoExt`_ map panel ("gx_mappanel"), with the text field embe
 	  viewPort.show();
 	});
 
-Finally, to produce a full-screen application, a view port component, holding the map panel. And to start the application, an `Ext.onReady()` function is always required. 
+Finally, to produce a full-screen application, an `Ext.Viewport` component, holding the map panel. And to start the application, an `Ext.onReady()` function is always required. 
 
 .. note::
 
@@ -532,8 +533,6 @@ Finally, to produce a full-screen application, a view port component, holding th
 Here's the whole application in one code block:
 
 .. code-block:: javascript
-
-	Ext.util.CSS.swapStyleSheet('opengeo-theme', 'resources/css/xtheme-opengeo.css');
 
 	// Use this word on startup
 	var startWord = "ocean";
