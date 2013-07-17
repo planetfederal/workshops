@@ -444,7 +444,7 @@ Let's go through `wordmap-simple.js <_static/wordmap-simple.js>`_ one section at
   // Base map
   var osmLayer = new OpenLayers.Layer.OSM();
 
-  // Heat map + point map
+  // Point map
   var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://localhost:8080/geoserver/wms", {
     format: "image/png",
     transparent: true,
@@ -466,39 +466,32 @@ Now things get a little more complicated:
 
 .. code-block:: javascript
 
-  // Projection info for map
-  var geographicProj = new OpenLayers.Projection("EPSG:4326");
-  var mercatorProj = new OpenLayers.Projection("EPSG:900913");
-
-  // Convert center point to projected coordinates
-  var mapCenter = new OpenLayers.LonLat(-110,45).transform(geographicProj, mercatorProj);
-
   // Map with projection into (required when mixing base map with WMS)
   olMap = new OpenLayers.Map({
-    projection: mercatorProj,
-    displayProjection: geographicProj,
+    projection: "EPSG:900913",
     units: "m",
     layers: [wmsLayer, osmLayer],
-    center: mapCenter
+    center: [-10764594.0, 4523072.0],
+    zoom: 4
   });
 
 Because we are mixing a WMS map and a tiled mercator base map, we need to:
 
-* ensure that the `OpenLayers Map`_ declares the project it is using, which is mercator to match the base map; and,
-* ensure that the center point is converted to mercator before being used to center the map.
+* ensure that the `OpenLayers Map`_ declares the **projection** it is using, which is web mercator to match the base map; and,
+* ensure that the center point is converted to mercator before being used to center the map (hence the funny-looking coordinates for the center of the USA).
 
 Now that the map is set up, we just need to assemble the `ExtJS`_ components into a application:
 
 .. code-block:: javascript
 
   // Text field component. On 'enter' update the WMS URL
-  var wordField = new Ext.form.TextField({
+  var textField = new Ext.form.TextField({
     value: startWord,
     listeners: {
-      specialkey: function(field, e) {
+      specialkey: function(fld, e) {
         // Only update the map when the user hits 'enter' 
         if (e.getKey() == e.ENTER) {
-          wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
+          wmsLayer.mergeNewParams({viewparams: "word:"+fld.getValue()});
         }
       }
     }
@@ -508,28 +501,27 @@ For entering new words to map, a text field. When the user hits return, we catch
 
 .. code-block:: javascript
 
-  // Map panel, with text field embedded in top toolbar
-  var mapPanel = new GeoExt.MapPanel({
-    region: "center",
-    title: "OpenGeo Geonames Map",
-    tbar: ["Enter a word to map:", wordField],
-    map: olMap
-  });
+	// Map panel, with text field embedded in top toolbar
+	var mapPanel = new GeoExt.MapPanel({
+	  title: "OpenGeo Geonames Heat Map",
+	  tbar: ["Enter a word to map:", textField],
+	  map: olMap
+	});
 
-To hold the map, a `GeoExt`_ map panel, with the text field embedded into the toolbar at the top.
+To hold the map, a `GeoExt`_ map panel ("gx_mappanel"), with the text field embedded into the toolbar at the top.
 
 .. code-block:: javascript
 
-  // Viewport takes up the whole browser window, embeds map component
-  var mainPanel = new Ext.Viewport({
-    layout: "border",
-    items: [mapPanel]
-  });
+	// Viewport wraps map panel in full-screen handler
+	var viewPort = new Ext.Viewport({
+	  layout: "fit",
+	  items: [mapPanel]
+	});
 
-  // Fire off the ExtJS magic!
-  Ext.onReady(function () {
-    mainPanel.show();
-  });
+	// Start the app!
+	Ext.onReady(function () {
+	  viewPort.show();
+	});
 
 Finally, to produce a full-screen application, a view port component, holding the map panel. And to start the application, an `Ext.onReady()` function is always required. 
 
@@ -541,73 +533,74 @@ Here's the whole application in one code block:
 
 .. code-block:: javascript
 
-  // Use this word on startup
-  var startWord = "Ocean";
+	Ext.util.CSS.swapStyleSheet('opengeo-theme', 'resources/css/xtheme-opengeo.css');
 
-  // Base map
-  var osmLayer = new OpenLayers.Layer.OSM();
+	// Use this word on startup
+	var startWord = "ocean";
 
-  // Point map
-  var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://localhost:8080/geoserver/wms", {
-    format: "image/png",
-    transparent: true,
-    layers: "opengeo:geonames",
-    styles: "point"
-  }, {
-    opacity: 0.6,
-    singleTile: true,
-  });
+	// Base map
+	var osmLayer = new OpenLayers.Layer.OSM();
 
-  // Start with map of startWord
-  wmsLayer.mergeNewParams({viewparams: "word:"+startWord});
+	// Heat map + point map
+	var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
+	  // Uncomment below to use your local server
+	  // "http://localhost:8080/geoserver/wms", 
+	  "http://suite.opengeo.org/geoserver/wms", 
+	  {
+	    format: "image/png8",
+	    transparent: true,
+	    layers: "opengeo:geonames,opengeo:geonames",
+	    styles: "point,heatmap"
+	  }, {
+	    opacity: 0.6,
+	    singleTile: true,
+	  });
 
-  // Projection info for map
-  var geographicProj = new OpenLayers.Projection("EPSG:4326");
-  var mercatorProj = new OpenLayers.Projection("EPSG:900913");
+	// Start with map of startWord
+	wmsLayer.mergeNewParams({viewparams: "word:"+startWord});
 
-  // Convert center point to projected coordinates
-  var mapCenter = new OpenLayers.LonLat(-110,45).transform(geographicProj, mercatorProj);
+	// Map with projection into (required when mixing base map with WMS)
+	olMap = new OpenLayers.Map({
+	  projection: "EPSG:900913",
+	  units: "m",
+	  layers: [wmsLayer, osmLayer],
+	  center: [-10764594.0, 4523072.0],
+	  zoom: 4
+	});
 
-  // Map with projection into (required when mixing base map with WMS)
-  olMap = new OpenLayers.Map({
-    projection: mercatorProj,
-    displayProjection: geographicProj,
-    units: "m",
-    layers: [wmsLayer, osmLayer],
-    center: mapCenter
-  });
+	// Take in user input, fire an event when complete
+	var textField = new Ext.form.TextField({
+	  value: startWord,
+	  listeners: {
+	    specialkey: function(field, e) {
+	      // Only update the word map when user hits 'enter' 
+	      if (e.getKey() == e.ENTER) {
+	        wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
+	      }
+	    }
+	  }
+	});
 
-  // Text field component. On 'enter' update the WMS URL
-  var wordField = new Ext.form.TextField({
-    value: startWord,
-    listeners: {
-      specialkey: function(field, e) {
-        // Only update the geonames map when user hits 'enter' 
-        if (e.getKey() == e.ENTER) {
-          wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
-        }
-      }
-    }
-  });
+	// Map panel, with text field embedded in top toolbar
+	var mapPanel = new GeoExt.MapPanel({
+	  title: "OpenGeo Geonames Heat Map",
+	  tbar: ["Enter a word to map:", textField],
+	  map: olMap
+	});
 
-  // Map panel, with text field embedded in top toolbar
-  var mapPanel = new GeoExt.MapPanel({
-    region: "center",
-    title: "OpenGeo Word Map",
-    tbar: ["Enter a word to map:", wordField],
-    map: olMap
-  });
+	// Viewport wraps map panel in full-screen handler
+	var viewPort = new Ext.Viewport({
+	  layout: "fit",
+	  items: [mapPanel]
+	});
 
-  // Viewport takes up the whole browser window, embeds map component
-  var mainPanel = new Ext.Viewport({
-    layout: "border",
-    items: [mapPanel]
-  });
+	// Start the app!
+	Ext.onReady(function () {
+	  viewPort.show();
+	});
 
-  // Fire off the ExtJS magic!
-  Ext.onReady(function () {
-    mainPanel.show();
-  });
+
+
 
 And what the final result looks like:
 
