@@ -310,7 +310,7 @@ Test Parameterization
 You can get a feel for how URL modification is going to drive this application by playing with URLs directly. If you've set up the application on your local machine, this URL should give you a picture of the default map of "ocean".
 
 * http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames
- 
+
 .. image:: ./img/map-ocean.png
  
 .. note::
@@ -320,7 +320,7 @@ You can get a feel for how URL modification is going to drive this application b
 We can alter what points are mapped by changing the "word" parameter we defined earlier, using the `viewparams URL parameter <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ to pass in a new value.
 
 * http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
-  
+
 The pattern of dots changes! 
 
 .. image:: ./img/map-navajo.png
@@ -340,7 +340,7 @@ You will need to build the web application somewhere that is accessible by a web
   * **OSX** in `/opt/opengeo/suite/webapps/apps`. You may need to `sudo mkdir wordmap` to get a working directory, then `sudo chown wordmap username` to take ownership of it. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Windows** in `C:\\Program Files\\OpenGeo\\OpenGeo Suite\\webapps\\apps`. Make a `wordmap` sub-directory. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Linux** in **TBD**
-   
+
 The simplest web map we can make just uses a bare `OpenLayers`_ map window showing a base map and our WMS map.
 
 You will need two files, `basic-openlayers.html <_static/basic-openlayers.html>`_ and `basic-openlayers.js <_static/basic-openlayers.js>`_. In the HTML document place the following:
@@ -598,10 +598,7 @@ Here's the whole application in one code block:
 	  viewPort.show();
 	});
 
-
-
-
-And what the final result looks like:
+And what the `final result <_static/wordmap-simple.html>`_ looks like:
 
 .. image:: ./img/ext-ocean.png
    :width: 95%
