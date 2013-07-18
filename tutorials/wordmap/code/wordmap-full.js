@@ -119,11 +119,11 @@ Ext.onReady(function () {
       items: [{
         xtype: "box",
         layout: "fit",
-        height: "80",
+        height: "160",
         border: "0",
         margin: "0",
         padding: "0",
-        html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/>Geonames Heat Map</p>"
+        html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/><b>Geonames Heat Map</b></p><p align='left'>Search and map the patterns in two&nbsp;million geographic names. Any names that contain the query word are added to the heat map.</p>"
       },{
         xtype: "fieldset",
         title: "Enter a word",
@@ -131,7 +131,7 @@ Ext.onReady(function () {
         items: [wordField]
       },{
         xtype: "fieldset",
-        title: "Select a word",
+        title: "Or, select a word",
         layout: "fit",
         height: 200,
         items: [wordList]
@@ -149,10 +149,11 @@ Ext.onReady(function () {
   
   // In case we have external parameters, read them
   var word = getURLParameter("word");
-  if ( word.length > 0 ) {    
-    wmsLayer.mergeNewParams({viewparams: "word:"+word})
-    wordField.setValue(word);
+  if ( word == 'null' ) {    
+    word = "";
   }
+  wmsLayer.mergeNewParams({viewparams: "word:"+word})
+  wordField.setValue(word);
   
   // OpenLayers like to be zoomed/centered near the end of things
   olMap.setCenter(mapCenter, 5);
