@@ -13,7 +13,11 @@ Ext.onReady(function () {
 
   var osmLayer = new OpenLayers.Layer.OSM();
   
-  var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://demo.cleverelephant.ca:8080/geoserver/wms", {
+  var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
+    // Uncomment below to use your local server
+    // "http://localhost:8080/geoserver/wms", 
+    "http://suite.opengeo.org/geoserver/wms", 
+  {
     format: "image/png",
     transparent: true,
     layers: "opengeo:geonames,opengeo:geonames",
@@ -108,19 +112,21 @@ Ext.onReady(function () {
       region: "west",
       title: false,
       width: 250,
+      autoScroll: true,
       height: "auto",
       layout: "vbox",
       layoutConfig: {
+        pack: "start",
         align: "stretch",
         padding: "10",
-        defaultMargins: "5 5",
-        flex: 1
+        defaultMargins: "5 5"
       },
       items: [{
         xtype: "box",
         layout: "fit",
         height: "160",
         border: "0",
+        flex: 0,
         margin: "0",
         padding: "0",
         html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/><b>Geonames Heat Map</b></p><p align='left'>Search and map the patterns in two&nbsp;million geographic names. Any names that contain the query word are added to the heat map.</p>"
@@ -128,21 +134,25 @@ Ext.onReady(function () {
         xtype: "fieldset",
         title: "Enter a word",
         layout: "fit",
+        height: 60,
         items: [wordField]
       },{
         xtype: "fieldset",
         title: "Or, select a word",
         layout: "fit",
+        flex: 1,
         height: 200,
         items: [wordList]
       },{
         xtype: "fieldset",
         title: "About this word",
+        flex: 1,
         layout: "fit",
         items: [wordDescription]
       },{
         xtype: "box",
-        html: "<a href='../doc/en'>How we made this map</a>"
+        flex: 0,
+        html: "<a href='../'>How we made this map</a>"
       }]  
     }]
   });

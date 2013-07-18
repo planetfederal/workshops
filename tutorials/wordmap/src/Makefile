@@ -24,13 +24,13 @@ help:
 
 clean:
 	-rm -rf .build
-	-rm -rf ../../doc/en
+	-rm -rf ../doc
 
 html:
-	mkdir -p ../../doc/en .build/doctrees
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) ../../doc/en
+	mkdir -p ../doc .build/doctrees
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) ../doc
 	@echo
-	@echo "Build finished. The HTML pages are in ../../doc/en."
+	@echo "Build finished. The HTML pages are in ../doc."
 
 pickle:
 	mkdir -p .build/pickle .build/doctrees

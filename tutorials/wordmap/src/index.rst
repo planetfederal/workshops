@@ -1,9 +1,13 @@
+.. note::
+
+  Check out the `full demonstration application <_static/wordmap-full.html>`_ and play!
+
 Introduction
 ------------
 
 In June of 2013, `blogs and news feeds <http://news.ca.msn.com/top-stories/yelps-word-map-means-never-having-to-dine-with-hipsters-again>`_ were clogged by viral stories about Yelp's "`word maps <http://www.yelp.com/wordmap/nyc/hipster>`_", attractive heat maps that combined word mining of yelp reviews with a heat map presentation to identify concentrations of "similar" restaurants or businesses. Words like "hipster" and "tourist" figured prominently.
 
-.. image:: ../img/yelp_hipster.jpg
+.. image:: ./img/yelp_hipster.jpg
    :width: 95%
 
 The word-driven heat map is a cool idea, and could be applied to all kinds of textual databases. The main requirement is that word occurrences obey some kind of clumping, so that the heat maps shows a discernible pattern.
@@ -123,6 +127,7 @@ Once we have a blank table, we can load the file. In order to read the file, it 
   COPY geonames_load FROM '/tmp/US.txt' WITH (
     FORMAT csv,
     DELIMITER E'\t',
+    QUOTE '*',
     HEADER false,
     ENCODING 'UTF8'
   );
@@ -165,7 +170,7 @@ Full-text searching makes use of specialized PostgreSQL types: `tsvector` and `t
 
 * A `tsvector <http://www.postgresql.org/docs/current/static/datatype-textsearch.html>`_ is a parsing and generalization of a text string into a numerical analogue, applying specific rules for `stemming <http://en.wikipedia.org/wiki/Stemming>`_ to standardize tenses and plurals. You can see the effect of converting text to a `tsvector` by running the `to_tsvector()` function on a sentence, specifying the language of the sentence::
  
-     SELECT to_tsvector('english', 'Oaks is the plural of oak.');
+     SELECT to_tsvector('english', 'Those oaks age, but this oak is aged.');
         
           to_tsvector      
      ----------------------
@@ -232,7 +237,7 @@ First, we need a datastore that connects GeoServer to our `wordmap` PostgreSQL d
 * `Log in to GeoServer <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page>`_
 * `Add a new PostGIS store <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/data/stores.html#adding-a-store>`_, specifying the `wordmap` database as the database to connect to 
  
-  .. image:: ../img/data_source_new.png
+  .. image:: ./img/data_source_new.png
  
 * Add a new SQL View layer (see below)
 
@@ -241,7 +246,7 @@ Define the SQL View
 
 SQL view layers are an option in the "Add Layer" dialogue:
 
-.. image:: ../img/newsqllayer1.png
+.. image:: ./img/newsqllayer1.png
    :width: 95%
 
 Set the name of the layer to `geonames`, and the SQL definition to the following:
@@ -263,7 +268,7 @@ Once you have entered the SQL query, go down to the "SQL view parameters section
 * Set the "validation regular expression" to "^[\w\d\s]*$"
   * This expression only allows letters, numbers and spaces, including empty (zero length) values.
 
-.. image:: ../img/sqlviewdetails1.png
+.. image:: ./img/sqlviewdetails1.png
    :width: 95%
 
 Now go down further to the "Attributes" section and click "Refresh". The "id", "name" and "geom" columns should be inferred from the SQL. 
@@ -272,7 +277,7 @@ Now go down further to the "Attributes" section and click "Refresh". The "id", "
 * Set the "Type" of the "geom" entry to **Point**.
 * Set the "SRID" of the "geom" entry to **4326**.
 
-.. image:: ../img/sqlviewdetails2.png
+.. image:: ./img/sqlviewdetails2.png
    :width: 95%
    
 Now "Save" the SQL view.
@@ -297,16 +302,16 @@ We now have a viewable layer!
  
 Back when we configured the SQL view, we set the default value for our query to "ocean", so now we get a map of all the names with "ocean" in them. Not surprisingly, then tend to be coastal!
 
-.. image:: ../img/preview_ocean.png
+.. image:: ./img/preview_ocean.png
 
 Test Parameterization
 ~~~~~~~~~~~~~~~~~~~~~
 
 You can get a feel for how URL modification is going to drive this application by playing with URLs directly. If you've set up the application on your local machine, this URL should give you a picture of the default map of "ocean".
 
-* http://localhost:8080/geoserver/wms/reflect?layers=opengeo:geonames
- 
-.. image:: ../img/map-ocean.png
+* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames
+
+.. image:: ./img/map-ocean.png
  
 .. note::
 
@@ -314,11 +319,11 @@ You can get a feel for how URL modification is going to drive this application b
   
 We can alter what points are mapped by changing the "word" parameter we defined earlier, using the `viewparams URL parameter <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ to pass in a new value.
 
-* http://localhost:8080/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
-  
+* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
+
 The pattern of dots changes! 
 
-.. image:: ../img/map-navajo.png
+.. image:: ./img/map-navajo.png
 
 It's hard to interpret the dots without a base map, and the image is kind of small, so our next step is to add a web interface to explore this dynamic layer.
 
@@ -335,10 +340,10 @@ You will need to build the web application somewhere that is accessible by a web
   * **OSX** in `/opt/opengeo/suite/webapps/apps`. You may need to `sudo mkdir wordmap` to get a working directory, then `sudo chown wordmap username` to take ownership of it. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Windows** in `C:\\Program Files\\OpenGeo\\OpenGeo Suite\\webapps\\apps`. Make a `wordmap` sub-directory. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Linux** in **TBD**
-   
+
 The simplest web map we can make just uses a bare `OpenLayers`_ map window showing a base map and our WMS map.
 
-You will need two files, `basic-openlayers.html` and `basic-openlayers.js`. In the HTML document place the following:
+You will need two files, `basic-openlayers.html <_static/basic-openlayers.html>`_ and `basic-openlayers.js <_static/basic-openlayers.js>`_. In the HTML document place the following:
 
 .. code-block:: html
 
@@ -381,7 +386,7 @@ The HTML document just references the OpenLayers javascript library, our javascr
 
 The JavaScript document uses the "states" base layer from GeoServer to provide context to the "geonames" layer we are rendering. Note that we merge the "viewparams" onto the WMS URL to allow us to dynamically change what we're mapping.
 
-.. image:: ../img/ol-navajo.png
+.. image:: ./img/ol-navajo.png
    :width: 95%
    
 Try changing the value of the `myWord` variable and reloading the page, to see different words being mapped.
@@ -427,112 +432,9 @@ There are a lot more libraries though!
 * ExtJS libraries and style sheets
 * OpenLayers library
 * GeoExt library
-* Our actual application script, `wordmap-simple.js`
+* Our actual application script, `wordmap-simple.js <_static/wordmap-simple.js>`_
 
-Let's go through `wordmap-simple.js` one section at a time:
-
-.. code-block:: javascript
-
-  // Use this word on startup
-  var startWord = "Ocean";
-
-  // Base map
-  var osmLayer = new OpenLayers.Layer.OSM();
-
-  // Heat map + point map
-  var wmsLayer = new OpenLayers.Layer.WMS("WMS", "http://localhost:8080/geoserver/wms", {
-    format: "image/png",
-    transparent: true,
-    layers: "opengeo:geonames",
-    styles: "point"
-  }, {
-    opacity: 0.6,
-    singleTile: true,
-  });
-
-  // Start with map of startWord
-  wmsLayer.mergeNewParams({viewparams: "word:"+startWord});
-  
-As with our simple example, we start off defining our layers: an `OpenStreetMap`_ base map; and our WMS point layer. We have some extra options on the `OpenLayers WMS layer`_ this time, setting it to have a transparent background, and an overall partial opacity, so it will overlay the base map nicely.
-
-We also define a **startWord** variable, which is the word our application will start up mapping, and add that word to the **viewparams** URL parameter.
-
-Now things get a little more complicated:
-
-.. code-block:: javascript
-
-  // Projection info for map
-  var geographicProj = new OpenLayers.Projection("EPSG:4326");
-  var mercatorProj = new OpenLayers.Projection("EPSG:900913");
-
-  // Convert center point to projected coordinates
-  var mapCenter = new OpenLayers.LonLat(-110,45).transform(geographicProj, mercatorProj);
-
-  // Map with projection into (required when mixing base map with WMS)
-  olMap = new OpenLayers.Map({
-    projection: mercatorProj,
-    displayProjection: geographicProj,
-    units: "m",
-    layers: [wmsLayer, osmLayer],
-    center: mapCenter
-  });
-
-Because we are mixing a WMS map and a tiled mercator base map, we need to:
-
-* ensure that the `OpenLayers Map`_ declares the project it is using, which is mercator to match the base map; and,
-* ensure that the center point is converted to mercator before being used to center the map.
-
-Now that the map is set up, we just need to assemble the `ExtJS`_ components into a application:
-
-.. code-block:: javascript
-
-  // Text field component. On 'enter' update the WMS URL
-  var wordField = new Ext.form.TextField({
-    value: startWord,
-    listeners: {
-      specialkey: function(field, e) {
-        // Only update the map when the user hits 'enter' 
-        if (e.getKey() == e.ENTER) {
-          wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
-        }
-      }
-    }
-  });
-
-For entering new words to map, a text field. When the user hits return, we catch the event and update the WMS URL.
-
-.. code-block:: javascript
-
-  // Map panel, with text field embedded in top toolbar
-  var mapPanel = new GeoExt.MapPanel({
-    region: "center",
-    title: "OpenGeo Geonames Map",
-    tbar: ["Enter a word to map:", wordField],
-    map: olMap
-  });
-
-To hold the map, a `GeoExt`_ map panel, with the text field embedded into the toolbar at the top.
-
-.. code-block:: javascript
-
-  // Viewport takes up the whole browser window, embeds map component
-  var mainPanel = new Ext.Viewport({
-    layout: "border",
-    items: [mapPanel]
-  });
-
-  // Fire off the ExtJS magic!
-  Ext.onReady(function () {
-    mainPanel.show();
-  });
-
-Finally, to produce a full-screen application, a view port component, holding the map panel. And to start the application, an `Ext.onReady()` function is always required. 
-
-.. note::
-
-  It is a common pattern to see ExtJS applications with the entire framework embedded within the `Ext.onReady()` call. This completely isolates the code from other objects and can help with reliability.
-
-Here's the whole application in one code block:
+Let's go through `wordmap-simple.js <_static/wordmap-simple.js>`_ one section at a time:
 
 .. code-block:: javascript
 
@@ -555,58 +457,150 @@ Here's the whole application in one code block:
 
   // Start with map of startWord
   wmsLayer.mergeNewParams({viewparams: "word:"+startWord});
+  
+As with our simple example, we start off defining our layers: an `OpenStreetMap`_ base map; and our WMS point layer. We have some extra options on the `OpenLayers WMS layer`_ this time, setting it to have a transparent background, and an overall partial opacity, so it will overlay the base map nicely.
 
-  // Projection info for map
-  var geographicProj = new OpenLayers.Projection("EPSG:4326");
-  var mercatorProj = new OpenLayers.Projection("EPSG:900913");
+We also define a **startWord** variable, which is the word our application will start up mapping, and add that word to the **viewparams** URL parameter.
 
-  // Convert center point to projected coordinates
-  var mapCenter = new OpenLayers.LonLat(-110,45).transform(geographicProj, mercatorProj);
+Now things get a little more complicated:
 
-  // Map with projection into (required when mixing base map with WMS)
-  olMap = new OpenLayers.Map({
-    projection: mercatorProj,
-    displayProjection: geographicProj,
-    units: "m",
-    layers: [wmsLayer, osmLayer],
-    center: mapCenter
-  });
+.. code-block:: javascript
+   :emphasize-lines: 3-5
+
+   // Map with projection into (required when mixing base map with WMS)
+   olMap = new OpenLayers.Map({
+     projection: "EPSG:900913",
+     center: [-10764594.0, 4523072.0],
+     units: "m",
+     layers: [wmsLayer, osmLayer],
+     zoom: 4
+   });
+
+Because we are mixing a WMS map and a tiled mercator base map, we need to:
+
+* ensure that the `OpenLayers Map`_ declares the **projection** it is using, which is web mercator to match the base map; and,
+* ensure that the center point is converted to mercator before being used to center the map (hence the funny-looking coordinates for the center of the USA).
+
+Now that the map is set up, we just need to assemble the `ExtJS`_ components into a application:
+
+.. code-block:: javascript
 
   // Text field component. On 'enter' update the WMS URL
-  var wordField = new Ext.form.TextField({
+  var textField = new Ext.form.TextField({
     value: startWord,
     listeners: {
-      specialkey: function(field, e) {
-        // Only update the geonames map when user hits 'enter' 
+      specialkey: function(fld, e) {
+        // Only update the map when the user hits 'enter' 
         if (e.getKey() == e.ENTER) {
-          wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
+          wmsLayer.mergeNewParams({viewparams: "word:"+fld.getValue()});
         }
       }
     }
   });
 
-  // Map panel, with text field embedded in top toolbar
-  var mapPanel = new GeoExt.MapPanel({
-    region: "center",
-    title: "OpenGeo Word Map",
-    tbar: ["Enter a word to map:", wordField],
-    map: olMap
-  });
+For entering new words to map, a text field. When the user hits return, we catch the event and update the WMS URL.
 
-  // Viewport takes up the whole browser window, embeds map component
-  var mainPanel = new Ext.Viewport({
-    layout: "border",
-    items: [mapPanel]
-  });
+.. code-block:: javascript
 
-  // Fire off the ExtJS magic!
-  Ext.onReady(function () {
-    mainPanel.show();
-  });
+	// Map panel, with text field embedded in top toolbar
+	var mapPanel = new GeoExt.MapPanel({
+	  title: "OpenGeo Geonames Heat Map",
+	  tbar: ["Enter a word to map:", textField],
+	  map: olMap
+	});
 
-And what the final result looks like:
+To hold the map ("olMap"), a `GeoExt`_ map panel with the text field embedded into the toolbar ("tbar") at the top.
 
-.. image:: ../img/ext-ocean.png
+.. code-block:: javascript
+
+	// Viewport wraps map panel in full-screen handler
+	var viewPort = new Ext.Viewport({
+	  layout: "fit",
+	  items: [mapPanel]
+	});
+
+	// Start the app!
+	Ext.onReady(function () {
+	  viewPort.show();
+	});
+
+Finally, to produce a full-screen application, an `Ext.Viewport` component, holding the map panel. And to start the application, an `Ext.onReady()` function is always required. 
+
+.. note::
+
+  It is a common pattern to see ExtJS applications with the entire framework embedded within the `Ext.onReady()` call. This completely isolates the code from other objects and can help with reliability.
+
+Here's the whole application in one code block:
+
+.. code-block:: javascript
+
+	// Use this word on startup
+	var startWord = "ocean";
+
+	// Base map
+	var osmLayer = new OpenLayers.Layer.OSM();
+
+	// Heat map + point map
+	var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
+	  // Uncomment below to use your local server
+	  // "http://localhost:8080/geoserver/wms", 
+	  "http://suite.opengeo.org/geoserver/wms", 
+	  {
+	    format: "image/png8",
+	    transparent: true,
+	    layers: "opengeo:geonames,opengeo:geonames",
+	    styles: "point,heatmap"
+	  }, {
+	    opacity: 0.6,
+	    singleTile: true,
+	  });
+
+	// Start with map of startWord
+	wmsLayer.mergeNewParams({viewparams: "word:"+startWord});
+
+	// Map with projection into (required when mixing base map with WMS)
+	olMap = new OpenLayers.Map({
+	  projection: "EPSG:900913",
+	  units: "m",
+	  layers: [wmsLayer, osmLayer],
+	  center: [-10764594.0, 4523072.0],
+	  zoom: 4
+	});
+
+	// Take in user input, fire an event when complete
+	var textField = new Ext.form.TextField({
+	  value: startWord,
+	  listeners: {
+	    specialkey: function(field, e) {
+	      // Only update the word map when user hits 'enter' 
+	      if (e.getKey() == e.ENTER) {
+	        wmsLayer.mergeNewParams({viewparams: "word:"+field.getValue()});
+	      }
+	    }
+	  }
+	});
+
+	// Map panel, with text field embedded in top toolbar
+	var mapPanel = new GeoExt.MapPanel({
+	  title: "OpenGeo Geonames Heat Map",
+	  tbar: ["Enter a word to map:", textField],
+	  map: olMap
+	});
+
+	// Viewport wraps map panel in full-screen handler
+	var viewPort = new Ext.Viewport({
+	  layout: "fit",
+	  items: [mapPanel]
+	});
+
+	// Start the app!
+	Ext.onReady(function () {
+	  viewPort.show();
+	});
+
+And what the `final result <_static/wordmap-simple.html>`_ looks like:
+
+.. image:: ./img/ext-ocean.png
    :width: 95%
 
 
@@ -619,7 +613,7 @@ Amazingly, adding a heat map is the simplest part of the whole exercise, because
 
 You can see the `heatmap` style in the GeoServer Styles panel.
 
-.. image:: ../img/style_view.png
+.. image:: ./img/style_view.png
    :width: 95%
 
 To enable the heat map in our application, we just need to specify that style in our WMS URL. So make a change to the OpenLayers WMS layer in the application:
@@ -642,7 +636,7 @@ Note that rather than **replacing** our point style, we are **adding** a heatmap
 
 This allows us to see the original intput points as well as the heat map surface coloring.
 
-.. image:: ../img/ext-ocean-heat.png
+.. image:: ./img/ext-ocean-heat.png
    :width: 95%
    
 Now that we have our GeoNames map, explore the naming of the USA! Here's some interesting examples:

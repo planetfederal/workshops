@@ -3,7 +3,9 @@ function initMap() {
     var map = new OpenLayers.Map("map");
     
     var wms = new OpenLayers.Layer.WMS("GeoServer WMS", 
-      "http://localhost:8080/geoserver/wms", 
+      // Uncomment below to use your local server
+      // "http://localhost:8080/geoserver/wms", 
+      "http://suite.opengeo.org/geoserver/wms", 
       {
         layers: "usa:states,opengeo:geonames"
       });

@@ -20,6 +20,9 @@
   {"word":"Forrest",
    "desc":"Confederate General <a href='http://en.wikipedia.org/wiki/Nathan_Forrest'>Nathan Bedford Forrest</a> hailed from Memphis Tennessee and is still remembered there."},
 
+  {"word":"Lewis Clark",
+   "desc":"The <a href='http://en.wikipedia.org/wiki/Lewis_and_Clark_Expedition'>Lewis and Clark</a> expedition of 1804 travelled overland from St Louis to the Pacific."},
+
    {"word":"Swedish",
     "desc":"<a href='http://en.wikipedia.org/wiki/Swedish_American'>Swedish American</a> settlement concentrated in the state of Minnesota, and their neighbors named things accordingly."},
 
@@ -53,7 +56,8 @@
   {"word":"Cherokee",
    "desc":"In 1838, the Cherokee Nation in Tennessee was <a href='http://en.wikipedia.org/wiki/Trail_of_Tears'>forcibly relocated</a> by the US government to what is now Oklahoma."},
    
-  {"word":"Pawnee"},
+  {"word":"Pawnee",
+   "desc":"The <a href='http://en.wikipedia.org/wiki/Pawnee'>Pawnee</a> people are a native American tribe in Oklahoma."},
   
   {"word":"Salish"}
 ]
