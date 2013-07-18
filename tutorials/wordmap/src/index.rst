@@ -212,7 +212,7 @@ Next, we'll treat all text-with-spaces as queries that look for all the componen
 .. code-block:: sql
 
   -- Example of trimming and turning spaces into &s
-  SELECT regexp_replace(trim('  New  York '), E'\\s+', '&');
+  SELECT regexp_replace(trim('  New  York '), E'\\s+', '&', 'g');
   
 Finally, we can put the result into a `to_tsquery()` call to run the actual query.
 
@@ -222,7 +222,7 @@ Finally, we can put the result into a `to_tsquery()` call to run the actual quer
   SELECT Count(*) 
   FROM geonames 
   WHERE to_tsvector('english', name) @@ 
-        to_tsquery('english', regexp_replace(trim('   New York '), E'\\s+', '&'));
+        to_tsquery('english', regexp_replace(trim('   New York '), E'\\s+', '&', 'g'));
 
 Now, imagine that "New York" could be replaced by any word you want, and that the results could be put on a map in real time! That's what we're going to configure next.
 
