@@ -257,7 +257,7 @@ Set the name of the layer to `geonames`, and the SQL definition to the following
   FROM geonames
   WHERE 
     to_tsvector('english', name) @@ 
-    to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&'))
+    to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&', 'g'))
 
 This is basically the same query as our test query in the previous section. It quickly finds all the records where the name contains a particular word. In this case, instead of searching for a particular word, we put in `%word%` as a parameter. This allows us to feed any word we like into the query via GeoServer's URL parameters interface.
 
