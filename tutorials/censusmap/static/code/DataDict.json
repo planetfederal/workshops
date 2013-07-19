@@ -1,0 +1,510 @@
+[{
+"name":"PST045212",
+"desc":"Resident total population estimate (July 1) 2012",
+"unit":"ABS",
+"dec":"0",
+"total":"313914040",
+"min":"71",
+"max":"313914040",
+"source":"CENSUS"
+},
+{
+"name":"PST040210",
+"desc":"Resident total population, estimates base (April 1) 2010",
+"unit":"ABS",
+"dec":"0",
+"total":"308747508",
+"min":"82",
+"max":"308747508",
+"source":"CENSUS"
+},
+{
+"name":"PST120212",
+"desc":"Resident total population, percent change - April 1, 2010 to July 1, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"1.7",
+"min":"-18.1",
+"max":"25.6",
+"source":"CENSUS"
+},
+{
+"name":"POP010210",
+"desc":"Resident population (April 1 - complete count) 2010",
+"unit":"ABS",
+"dec":"0",
+"total":"308745538",
+"min":"82",
+"max":"308745538",
+"source":"CENSUS"
+},
+{
+"name":"AGE135212",
+"desc":"Resident population under 5 years, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"6.4",
+"min":"0.0",
+"max":"13.3",
+"source":"CENSUS"
+},
+{
+"name":"AGE295212",
+"desc":"Resident population under 18 years, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"23.5",
+"min":"0.0",
+"max":"41.4",
+"source":"CENSUS"
+},
+{
+"name":"AGE775212",
+"desc":"Resident population 65 years and over, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"13.7",
+"min":"3.6",
+"max":"49.3",
+"source":"CENSUS"
+},
+{
+"name":"SEX255212",
+"desc":"Resident population: total females, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"50.8",
+"min":"30.1",
+"max":"57.0",
+"source":"CENSUS"
+},
+{
+"name":"RHI125212",
+"desc":"Resident population: White alone, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"77.9",
+"min":"4.1",
+"max":"99.2",
+"source":"CENSUS"
+},
+{
+"name":"RHI225212",
+"desc":"Resident population: Black or African American alone, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"13.1",
+"min":"0.0",
+"max":"85.4",
+"source":"CENSUS"
+},
+{
+"name":"RHI325212",
+"desc":"Resident population: American Indian and Alaska Native alone, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"1.2",
+"min":"0.0",
+"max":"93.2",
+"source":"CENSUS"
+},
+{
+"name":"RHI425212",
+"desc":"Resident population: Asian alone, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"5.1",
+"min":"0.0",
+"max":"43.3",
+"source":"CENSUS"
+},
+{
+"name":"RHI525212",
+"desc":"Resident population: Native Hawaiian and Other Pacific Islander alone, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"0.2",
+"min":"0.0",
+"max":"48.9",
+"source":"CENSUS"
+},
+{
+"name":"RHI625212",
+"desc":"Resident population: Two or More Races, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"2.4",
+"min":"0.0",
+"max":"29.5",
+"source":"CENSUS"
+},
+{
+"name":"RHI725212",
+"desc":"Resident population: Hispanic or Latino, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"16.9",
+"min":"0.2",
+"max":"95.6",
+"source":"CENSUS"
+},
+{
+"name":"RHI825212",
+"desc":"Resident population: White alone, not Hispanic or Latino, percent, 2012",
+"unit":"PCT",
+"dec":"1",
+"total":"63.0",
+"min":"3.2",
+"max":"98.6",
+"source":"CENSUS"
+},
+{
+"name":"POP715211",
+"desc":"Population 1 year and over by residence - same house, one year ago, percent, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"84.6",
+"min":"49.0",
+"max":"100.0",
+"source":"CENSUS"
+},
+{
+"name":"POP645211",
+"desc":"Place of birth, foreign born, percent,  2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"12.8",
+"min":"0.0",
+"max":"63.4",
+"source":"CENSUS"
+},
+{
+"name":"POP815211",
+"desc":"Population 5 years and over, percent speaking language other than English at home, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"20.3",
+"min":"0.0",
+"max":"95.9",
+"source":"CENSUS"
+},
+{
+"name":"EDU635211",
+"desc":"Educational attainment - persons 25 years and over - percent high school graduate or higher, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"85.4",
+"min":"46.3",
+"max":"98.6",
+"source":"CENSUS"
+},
+{
+"name":"EDU685211",
+"desc":"Educational attainment - persons 25 years and over - percent bachelor's degree or higher, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"28.2",
+"min":"4.2",
+"max":"72.0",
+"source":"CENSUS"
+},
+{
+"name":"VET605211",
+"desc":"Veterans - total, 2007-2011",
+"unit":"ABS",
+"dec":"0",
+"total":"22215303",
+"min":"0",
+"max":"22215303",
+"source":"CENSUS"
+},
+{
+"name":"LFE305211",
+"desc":"Average travel time to work for workers 16 years and over not working at home, 2007-2011",
+"unit":"MIN",
+"dec":"1",
+"total":"25.4",
+"min":"4.3",
+"max":"42.5",
+"source":"CENSUS"
+},
+{
+"name":"HSG010211",
+"desc":"Housing unit estimates, 2011",
+"unit":"ABS",
+"dec":"0",
+"total":"132312404",
+"min":"48",
+"max":"132312404",
+"source":"CENSUS"
+},
+{
+"name":"HSG445211",
+"desc":"Owner-occupied housing units - percent of total occupied housing units, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"66.1",
+"min":"0.0",
+"max":"93.7",
+"source":"CENSUS"
+},
+{
+"name":"HSG096211",
+"desc":"Housing units by units in structure - multi-dwelling structure, percent, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"25.9",
+"min":"0.0",
+"max":"98.4",
+"source":"CENSUS"
+},
+{
+"name":"HSG495211",
+"desc":"Median value of specified owner-occupied housing units, 2007-2011",
+"unit":"DOL",
+"dec":"0",
+"total":"186200",
+"min":"0",
+"max":"993900",
+"source":"CENSUS"
+},
+{
+"name":"HSD410211",
+"desc":"Households, 2007-2011",
+"unit":"ABS",
+"dec":"0",
+"total":"114761359",
+"min":"27",
+"max":"114761359",
+"source":"CENSUS"
+},
+{
+"name":"HSD310211",
+"desc":"Average household size, 2007-2011",
+"unit":"AVG",
+"dec":"2",
+"total":"2.60",
+"min":"1.20",
+"max":"4.77",
+"source":"CENSUS"
+},
+{
+"name":"INC910211",
+"desc":"Per capita income in the past 12 months (in 2011 inflation-adjusted dollars), 2007-2011",
+"unit":"DOL",
+"dec":"0",
+"total":"27915",
+"min":"7887",
+"max":"61290",
+"source":"CENSUS"
+},
+{
+"name":"INC110211",
+"desc":"Median household income, 2007-2011",
+"unit":"DOL",
+"dec":"0",
+"total":"52762",
+"min":"19344",
+"max":"120332",
+"source":"CENSUS"
+},
+{
+"name":"PVY020211",
+"desc":"People of all ages in poverty, percent, 2007-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"14.3",
+"min":"0.0",
+"max":"53.5",
+"source":"CENSUS"
+},
+{
+"name":"BZA010211",
+"desc":"Private nonfarm establishments, 2011",
+"unit":"ABS",
+"dec":"0",
+"total":"7354043",
+"min":"3",
+"max":"7354043",
+"source":"CENSUS"
+},
+{
+"name":"BZA110211",
+"desc":"Private nonfarm employment for pay period including March 12, 2011",
+"unit":"ABS",
+"dec":"0",
+"total":"113425965",
+"min":"10",
+"max":"113425965",
+"source":"CENSUS"
+},
+{
+"name":"BZA115211",
+"desc":"Private nonfarm employment for pay period including March 12, 2011, percent change, 2010-2011",
+"unit":"PCT",
+"dec":"1",
+"total":"1.3",
+"min":"-40.8",
+"max":"288.2",
+"source":"CENSUS"
+},
+{
+"name":"NES010211",
+"desc":"Nonemployer: total (NAICS 00) - establishments, 2011",
+"unit":"ABS",
+"dec":"0",
+"total":"22491080",
+"min":"13",
+"max":"22491080",
+"source":"CENSUS"
+},
+{
+"name":"SBO001207",
+"desc":"Total number of firms, 2007",
+"unit":"ABS",
+"dec":"0",
+"total":"27092908",
+"min":"27",
+"max":"27092908",
+"source":"CENSUS"
+},
+{
+"name":"SBO315207",
+"desc":"Total Black-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"7.1",
+"min":"0.2",
+"max":"66.7",
+"source":"CENSUS"
+},
+{
+"name":"SBO115207",
+"desc":"Total American Indian- and Alaska Native-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"0.9",
+"min":"0.2",
+"max":"71.8",
+"source":"CENSUS"
+},
+{
+"name":"SBO215207",
+"desc":"Total Asian-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"5.7",
+"min":"0.3",
+"max":"56.6",
+"source":"CENSUS"
+},
+{
+"name":"SBO515207",
+"desc":"Total Native Hawaiian- and Other Pacific Islander-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"0.1",
+"min":"0.0",
+"max":"10.5",
+"source":"CENSUS"
+},
+{
+"name":"SBO415207",
+"desc":"Total Hispanic-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"8.3",
+"min":"0.3",
+"max":"78.0",
+"source":"CENSUS"
+},
+{
+"name":"SBO015207",
+"desc":"Total Women-owned firms, percent, 2007",
+"unit":"PCT",
+"dec":"1",
+"total":"28.8",
+"min":"6.5",
+"max":"56.2",
+"source":"CENSUS"
+},
+{
+"name":"MAN450207",
+"desc":"Manufacturing: total (NAICS 31-33) - value of shipments, 2007",
+"unit":"TH$",
+"dec":"0",
+"total":"5319456312",
+"min":"56903",
+"max":"5319456312",
+"source":"CENSUS"
+},
+{
+"name":"WTN220207",
+"desc":"Wholesale trade: merchant wholesalers (NAICS 42) - sales of establishments with payroll, 2007",
+"unit":"TH$",
+"dec":"0",
+"total":"4174286516",
+"min":"0",
+"max":"4174286516",
+"source":"CENSUS"
+},
+{
+"name":"RTN130207",
+"desc":"Retail trade: total (NAICS 44-45) - sales of establishments with payroll, 2007",
+"unit":"TH$",
+"dec":"0",
+"total":"3917663456",
+"min":"0",
+"max":"3917663456",
+"source":"CENSUS"
+},
+{
+"name":"RTN131207",
+"desc":"Retail trade: total (NAICS 44-45) - sales of establishments with payroll per capita, 2007",
+"unit":"DOL",
+"dec":"0",
+"total":"12990",
+"min":"0",
+"max":"80800",
+"source":"CENSUS"
+},
+{
+"name":"AFN120207",
+"desc":"Accommodation and Food Services: total (NAICS 72) - sales of establishments with payroll, 2007",
+"unit":"TH$",
+"dec":"0",
+"total":"613795732",
+"min":"0",
+"max":"613795732",
+"source":"CENSUS"
+},
+{
+"name":"BPS030212",
+"desc":"New private housing units authorized by building permits - total, 2012 (20,000-place universe)",
+"unit":"ABS",
+"dec":"0",
+"total":"829658",
+"min":"0",
+"max":"829658",
+"source":"CENSUS"
+},
+{
+"name":"LND110210",
+"desc":"Land area in square miles, 2010",
+"unit":"SQM",
+"dec":"2",
+"total":"3531905.43",
+"min":"2",
+"max":"3531905.43",
+"source":"CENSUS"
+},
+{
+"name":"POP060210",
+"desc":"Population per square mile, 2010",
+"unit":"RTE",
+"dec":"1",
+"total":"87.4",
+"min":"0.0",
+"max":"69467.5",
+"source":"CENSUS"
+}]
