@@ -212,7 +212,7 @@ Next, we'll treat all text-with-spaces as queries that look for all the componen
 .. code-block:: sql
 
   -- Example of trimming and turning spaces into &s
-  SELECT regexp_replace(trim('  New  York '), E'\\s+', '&');
+  SELECT regexp_replace(trim('  New  York '), E'\\s+', '&', 'g');
   
 Finally, we can put the result into a `to_tsquery()` call to run the actual query.
 
@@ -221,8 +221,9 @@ Finally, we can put the result into a `to_tsquery()` call to run the actual quer
   -- Again, watch the timing of this query
   SELECT Count(*) 
   FROM geonames 
-  WHERE to_tsvector('english', name) @@ 
-        to_tsquery('english', regexp_replace(trim('   New York '), E'\\s+', '&'));
+  WHERE 
+   to_tsvector('english', name) @@ 
+   to_tsquery('english', regexp_replace(trim('   New York '), E'\\s+', '&', 'g'));
 
 Now, imagine that "New York" could be replaced by any word you want, and that the results could be put on a map in real time! That's what we're going to configure next.
 
@@ -256,8 +257,8 @@ Set the name of the layer to `geonames`, and the SQL definition to the following
   SELECT id, name, geom
   FROM geonames
   WHERE 
-    to_tsvector('english', name) @@ 
-    to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&'))
+   to_tsvector('english', name) @@ 
+   to_tsquery('english', regexp_replace(trim('%word%'), E'\\s+', '&', 'g'))
 
 This is basically the same query as our test query in the previous section. It quickly finds all the records where the name contains a particular word. In this case, instead of searching for a particular word, we put in `%word%` as a parameter. This allows us to feed any word we like into the query via GeoServer's URL parameters interface.
 
