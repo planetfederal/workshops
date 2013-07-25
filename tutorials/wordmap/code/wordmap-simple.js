@@ -10,7 +10,7 @@ var osmLayer = new OpenLayers.Layer.OSM();
 var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
   // Uncomment below to use your local server
   // "http://localhost:8080/geoserver/wms", 
-  "http://suite.opengeo.org/geoserver/wms", 
+  "http://apps.opengeo.org/geoserver/wms", 
   {
     format: "image/png8",
     transparent: true,

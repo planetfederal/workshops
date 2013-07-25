@@ -4,7 +4,7 @@ var osmLayer = new OpenLayers.Layer.OSM();
 
 // Heat map + point map
 var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
-  "http://localhost:8080/geoserver/wms", 
+  "http://apps.opengeo.org/geoserver/wms", 
   {
     format: "image/png8",
     transparent: true,
