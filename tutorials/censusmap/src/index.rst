@@ -1,4 +1,7 @@
 
+.. note:: 
+
+  Check out the `full demonstration application <_static/code/censusmap-simple.html>'_ and play!
 
 
 Introduction
