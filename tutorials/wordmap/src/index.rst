@@ -289,10 +289,13 @@ Configure the Layer
 Saving the SQL view takes you directly to the layer configuration page, with four tabs. Mostly the defaults are fine, but:
 
 * On the "Data" tab:
+
   * Declared SRS, set to **EPSG:4326**
   * Native bounding box, **click on "Compute from data"**
   * Lat/Lon bounding box, **click on "Compute from native bounds"**
+
 * On the "Tile Caching" tab:
+
   * Tile Caching, uncheck "Create cached layer for this layer"
   * Click "Save"
 
