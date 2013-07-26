@@ -289,10 +289,13 @@ Configure the Layer
 Saving the SQL view takes you directly to the layer configuration page, with four tabs. Mostly the defaults are fine, but:
 
 * On the "Data" tab:
+
   * Declared SRS, set to **EPSG:4326**
   * Native bounding box, **click on "Compute from data"**
   * Lat/Lon bounding box, **click on "Compute from native bounds"**
+
 * On the "Tile Caching" tab:
+
   * Tile Caching, uncheck "Create cached layer for this layer"
   * Click "Save"
 
@@ -310,7 +313,7 @@ Test Parameterization
 
 You can get a feel for how URL modification is going to drive this application by playing with URLs directly. If you've set up the application on your local machine, this URL should give you a picture of the default map of "ocean".
 
-* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames
+* http://apps.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames
 
 .. image:: ./img/map-ocean.png
  
@@ -320,7 +323,7 @@ You can get a feel for how URL modification is going to drive this application b
   
 We can alter what points are mapped by changing the "word" parameter we defined earlier, using the `viewparams URL parameter <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ to pass in a new value.
 
-* http://suite.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
+* http://apps.opengeo.org/geoserver/wms/reflect?layers=opengeo:geonames&viewparams=word:navajo
 
 The pattern of dots changes! 
 
@@ -545,7 +548,7 @@ Here's the whole application in one code block:
 	var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
 	  // Uncomment below to use your local server
 	  // "http://localhost:8080/geoserver/wms", 
-	  "http://suite.opengeo.org/geoserver/wms", 
+	  "http://apps.opengeo.org/geoserver/wms", 
 	  {
 	    format: "image/png8",
 	    transparent: true,
