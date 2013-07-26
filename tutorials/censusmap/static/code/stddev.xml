@@ -7,17 +7,16 @@
   <NamedLayer>
     <Name>opengeo:stddev</Name>
     <UserStyle>
-      
+
       <Name>Standard Deviation Ranges</Name>
 
       <FeatureTypeStyle>
 
         <Rule>
           <Name>StdDev &lt; -1.0</Name>
-          
           <ogc:Filter>
             <ogc:PropertyIsLessThan>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:Literal>-1.0</ogc:Literal>
             </ogc:PropertyIsLessThan>
           </ogc:Filter>
@@ -33,7 +32,7 @@
           <Name>-1.0 &lt; StdDev &lt; -0.5</Name>
           <ogc:Filter>
             <ogc:PropertyIsBetween>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:LowerBoundary>
                 <ogc:Literal>-1.0</ogc:Literal>
               </ogc:LowerBoundary>
@@ -54,7 +53,7 @@
           <Name>-0.5 &lt; StdDev &lt; 0.0</Name>
           <ogc:Filter>
             <ogc:PropertyIsBetween>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:LowerBoundary>
                 <ogc:Literal>-0.5</ogc:Literal>
               </ogc:LowerBoundary>
@@ -70,12 +69,12 @@
             </Fill>
           </PolygonSymbolizer>
         </Rule>
-        
+
         <Rule>
           <Name>0.0 &lt; StdDev &lt; 0.5</Name>
           <ogc:Filter>
             <ogc:PropertyIsBetween>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:LowerBoundary>
                 <ogc:Literal>0.0</ogc:Literal>
               </ogc:LowerBoundary>
@@ -91,12 +90,12 @@
             </Fill>
           </PolygonSymbolizer>
         </Rule>
-                
+
         <Rule>
           <Name>0.5 &lt; StdDev &lt; 1.0</Name>
           <ogc:Filter>
             <ogc:PropertyIsBetween>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:LowerBoundary>
                 <ogc:Literal>0.5</ogc:Literal>
               </ogc:LowerBoundary>
@@ -117,7 +116,7 @@
           <Name>1.0 &lt; StdDev</Name>
           <ogc:Filter>
             <ogc:PropertyIsGreaterThan>
-              <ogc:PropertyName>normalized</ogc:PropertyName>
+              <ogc:PropertyName>normalized_data</ogc:PropertyName>
               <ogc:Literal>1.0</ogc:Literal>
             </ogc:PropertyIsGreaterThan>
           </ogc:Filter>

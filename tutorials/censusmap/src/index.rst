@@ -9,7 +9,7 @@ Introduction
 
 Every ten years, the `US census <http://www.census.gov/2010census/>`_ collects a staggering array of information about the population, collates it, and then releases it in raw form. It is a truly majestic compendium of data, but browsing it can be hard: 
 
-* there are so many scales of data, and so much potential columns to view, it's hard to build a general purpose mapping app that isn't hopelessly complicated; and,
+* there are so many scales of data, and so many potential columns to view, it's hard to build a general purpose mapping app that isn't hopelessly complicated; and,
 * the data itself is so voluminous and complicated that building your own app can seem impossible.
 
 This tutorial builds a very simple application that uses a single thematic style to visualize several dozen census variables collated to the county level.
@@ -35,7 +35,7 @@ This application exercises all the tiers of the OpenGeo Suite!
 Getting the Data
 ----------------
 
-In order to keep things simple, we will use a geographic unit that is large enough to be visible on a country-wide map, but small enough to provide a granular view of the data: **a county**. There are about 3000 counties in the USA, enough to provide a detailed view at the national level, but not too many to slow down our mapping engine.
+In order to keep things simple, we will use a geographic unit that is large enough to be visible on a country-wide map, but small enough to provide a granular view of the data: **a county**. There are about 3000 counties in the USA, enough to provide a detailed view at the national level, but not so many as to slow down our mapping engine.
 
 Map Data
 ~~~~~~~~
@@ -55,8 +55,8 @@ Census Data
 
 The census "`QuickFacts <http://quickfacts.census.gov/qfd/download_data.html>`_" web site provides access to a complete set of census variables organized by county. In particular, we want:
 
-* `DataSet.txt`_ -- 3195 rows, one for the U.S., one for each state, one for each county, but no column headings. Each row is identified by a 5-digit combined state and county code. Data are comma-delimited.
-* `DataDict.txt`_ -- One row for each column in DataSet.txt. Flat ASCII files have mnemonic identifier, full title, number of decimals, and the U.S. total value (matching the first row of DataDict.txt)
+* `DataSet.txt`_ -- 3195 rows, one for the U.S., one for each state, one for each county, but no column headings. Each row is identified by a 5-digit combined state and county code, the "FIPS code". Data are comma-delimited.
+* `DataDict.txt`_ -- One row for each column in `DataSet.txt`_. Each row has a column name, full human-readable column title, number of decimals, min, max, and total values.
 
 
 Loading the Data
@@ -75,12 +75,14 @@ The raw data is going to be loaded into the PostgreSQL database:
 * `UScounties.shp` is going to be loaded into a spatial table named `counties`
 * The `census` and `counties` tables will have a common key, the **fips** code.
 
+  .. image:: ./img/er-census.png
+
 Loading Census Data
 ~~~~~~~~~~~~~~~~~~~
 
-We will use the PostgreSQL `COPY command <http://www.postgresql.org/docs/current/static/sql-copy.html>`_, which supports reading table data directly from delimited text files, to import the `DataSet.txt` file. 
+We will use the PostgreSQL `COPY command <http://www.postgresql.org/docs/current/static/sql-copy.html>`_, which supports reading table data directly from delimited text files, to import the `DataSet.txt`_ file. 
 
-First, we need a table that has exactly the same number and type of columns as the `DataSet.txt` file. Fortunately, the `DataDict.txt`_ file includes a complete listing of all the column names and types. A little quick editing in a text editor yields a table definition:
+First, we need a table that has exactly the same number and type of columns as the `DataSet.txt`_ file. Fortunately, the `DataDict.txt`_ file includes a complete listing of all the column names and types. A little quick editing in a text editor yields a table definition:
 
 .. code-block:: sql
    :emphasize-lines: 2
@@ -154,8 +156,8 @@ We aren't quite finished with the census table, yet. The description on the web 
 
 The key to getting rid of the state entries is the **fips code**. A valid county **fips code** is made up of:
 
-* two digits of state code
-* three non-zero digits of county code
+* two digits of state code; and,
+* three non-zero digits of county code.
 
 So we can get rid of the non-county entries by **deleting all the rows that have zeroes in the last three digits**:
 
@@ -223,7 +225,7 @@ The query joins the `census` table data to the `counties` spatial table, and inc
 One Style to Rule them All
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Viewing our data via a parametric SQL view doesn't quite get to over the goal line though, because we still need to create a thematic style for the data, and the data in our **51 columns** has vastly different ranges and distributions:
+Viewing our data via a parametric SQL view doesn't quite get us over the goal line though, because we still need to create a thematic style for the data, and the data in our **51 columns** have vastly different ranges and distributions:
 
 * some are percentages
 * some are absolute population counts
@@ -231,14 +233,14 @@ Viewing our data via a parametric SQL view doesn't quite get to over the goal li
 
 We need to somehow get all this different data onto one scale, preferably one that provides for easy visual comparisons between variables.
 
-The answer is to **use the average and standard deviation of the data to normalize** it to a standard scale.
+The answer is to **use the average and standard deviation of the data to normalize it** to a standard scale.
 
 .. image:: ./img/stddev.png
 
 For example:
 
 * For data set **D**, suppose the **avg(D)** is **10** and the **stddev(D)** is **5**.
-* What will the average and standard deviation be **(D - 10) / 5** be?
+* What will the average and standard deviation of **(D - 10) / 5** be?
 * The average will be **0** and the standard deviation will be **1**.
 
 Let's try it on our own census data.
@@ -260,9 +262,9 @@ Let's try it on our own census data.
    -- -----------+--------
    --      0     |      1
 
-So we can easily convert any of our data into a scale that centers on 0 and where one standard deviation is one unit just by normalizing the data with the average and standard deviation!
+So we can easily convert any of our data into a scale that centers on 0 and where one standard deviation equals one unit just by normalizing the data with the average and standard deviation!
 
-So, our new parametric SQL view would look like:
+Our new parametric SQL view will look like this:
 
 .. code-block:: sql
 
@@ -302,8 +304,8 @@ With our data normalized, we are ready to create one style to rule them all!
      :width: 95%
 
 * Configure a new style in GeoServer by going to the *Styles* section, and selecting **Add a new style**.
-* Set the name to *stddev*
-* Set the workspace to *opengeo*
+* Set the style name to *stddev*
+* Set the style workspace to *opengeo*
 * Paste in the style definition (below) for `stddev.xml`_ and hit the *Save* button at the bottom
 
 .. code-block:: xml
@@ -324,7 +326,6 @@ With our data normalized, we are ready to create one style to rule them all!
 
            <Rule>
              <Name>StdDev &lt; -1.0</Name>
-
              <ogc:Filter>
                <ogc:PropertyIsLessThan>
                  <ogc:PropertyName>normalized_data</ogc:PropertyName>
@@ -483,7 +484,7 @@ You'll be taken immediately to the *New Layer* panel (how handy) where you shoul
       FROM stats, 
         census JOIN counties USING (fips)
 
-* Click the *Guess parameters from SQL* link in the "SQL view paramters" section
+* Click the *Guess parameters from SQL* link in the "SQL view parameters" section
 * Set the default value of the "column" parameter to *pst045212*
 * Check the "Guess geometry type and srid" box
 * Click the *Refresh* link in the "Attributes" section
@@ -516,11 +517,11 @@ That's it, the layer is ready!
 We can change the column we're viewing by altering the *column* view parameter in the WMS request URL.
 
 * Here is the default column: 
-  http://localhost:8080/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
+  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
 * Here is the **edu685211** column:
-  http://localhost:8080/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
+  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
 * Here is the **rhi425212** column:
-  http://localhost:8080/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
+  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
 
 The column names that the census uses are **pretty opaque** aren't they? What we need is a web app that lets us see nice human readable column information, and also lets us change the column we're viewing on the fly.
 
@@ -697,7 +698,7 @@ Next we read the `DataDict.json`_ file into an `Ext.data.JsonStore` and build a 
      } 
    });
 
-The combo box will be our drop-down list of available columns. When it is selected (vai the "select" event) it will merge the new column name into the WMS layer parameters.
+The combo box will be our drop-down list of available columns. When it is selected (via the "select" event) it will merge the new column name into the WMS layer parameters.
 
 Now we wrap the map and drop-down into an application frame.
 
@@ -749,8 +750,13 @@ When we open the `censusmap-simple.html`_ file, we see the application in action
 Conclusion
 ----------
 
+We've built an application for browsing 51 different census variables, using scarcely more than 51 lines of code, and demonstrating:
 
-
+* SQL views provide a powerful means of manipulating data on the fly
+* Standard deviations make for attractive visualization breaks
+* Professionally generated color palettes are better than programmer generated ones
+* Simple GeoExt applications are easy to build
+* Census data can be really, really interesting! 
 
 
 
