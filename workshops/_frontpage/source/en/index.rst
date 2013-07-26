@@ -5,6 +5,14 @@ Course Materials at OpenGeo
 
 `OpenGeo <http://opengeo.org/>`_ is a "social enterprise" devoted to building and supporting tools that help organizations share their information online. We believe that access to knowledge is a fundamental good, so we make our training materials available online under an open document license, for everyone to use and reuse.
 
+Tutorials
+---------
+
+Tutorials are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
+
+`Building a GeoNames Heat Map <http://workshops.opengeo.org/tutorial-wordmap/>`_ - (`Demo <http://workshops.opengeo.org/tutorial-wordmap/_static/wordmap-full.html>`_)
+  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
+
 
 Workshops
 ---------
@@ -30,6 +38,7 @@ The following are actual course materials given at our various `training classes
   How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
 .. note:: Looking for information on GXP/ReadyGXP?  It is now known as the OpenGeo Suite SDK.  More information at http://opengeo.org/technology/sdk/.
+
 
 
 About these materials
