@@ -5,13 +5,13 @@ Course Materials at OpenGeo
 
 `OpenGeo <http://opengeo.org/>`_ is a "social enterprise" devoted to building and supporting tools that help organizations share their information online. We believe that access to knowledge is a fundamental good, so we make our training materials available online under an open document license, for everyone to use and reuse.
 
-Tutorials
----------
+.. Tutorials
+   ---------
 
-Tutorials are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
+   Tutorials are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
 
-`Building a GeoNames Heat Map <http://workshops.opengeo.org/tutorial-wordmap/>`_ - (`Demo <http://workshops.opengeo.org/tutorial-wordmap/_static/wordmap-full.html>`_)
-  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
+   `Building a GeoNames Heat Map <http://workshops.opengeo.org/tutorial-wordmap/>`_ - (`Demo <http://workshops.opengeo.org/tutorial-wordmap/_static/wordmap-full.html>`_)
+     This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
 
 
 Workshops
