@@ -19,6 +19,7 @@ help:
 	@echo "  pickle    to make pickle files (usable by e.g. sphinx-web)"
 	@echo "  htmlhelp  to make HTML files and a HTML help project"
 	@echo "  latex     to make LaTeX files, you can set PAPER=a4 or PAPER=letter"
+	@echo "  pdf       to make PDF files, you can set PAPER=a4 or PAPER=letter"
 	@echo "  changes   to make an overview over all changed/added/deprecated items"
 	@echo "  linkcheck to check all external links for integrity"
 
@@ -56,6 +57,12 @@ latex:
 	@echo "Build finished; the LaTeX files are in .build/latex."
 	@echo "Run \`make all-pdf' or \`make all-ps' in that directory to" \
 	      "run these through (pdf)latex."
+
+pdf: latex
+	cd .build/latex; make all-pdf
+	mkdir ../doc
+	cp -v .build/latex/*.pdf ../doc
+	@echo "Build finished. The PDF files are in ../doc."
 
 changes:
 	mkdir -p .build/changes .build/doctrees
