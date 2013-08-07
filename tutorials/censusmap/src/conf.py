@@ -161,14 +161,14 @@ latex_font_size = '11pt'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
-#latex_documents = [
-#  ('contents', 'SpatialDatabaseIntro.tex', u'Spatial Database Tips and Tricks Workshop',
-#   u'OpenGeo', 'manual'),
-#]
+latex_documents = [
+  ('index', 'CensusMap.tex', u'Census Mapping with the OpenGeo Suite',
+   u'OpenGeo', 'howto'),
+]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-latex_logo = '../img/logo.png'
+latex_logo = '../../../themes/opengeo_v1/static/img/opengeo-logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.
