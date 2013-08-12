@@ -653,7 +653,7 @@ The real code is in the `censusmap-simple.js`_ file. We start by creating an `Op
    // Base map
    var osmLayer = new OpenLayers.Layer.OSM();
 
-   // Heat map + point map
+   // Census map layer
    var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
      "http://localhost:8080/geoserver/wms", 
      {

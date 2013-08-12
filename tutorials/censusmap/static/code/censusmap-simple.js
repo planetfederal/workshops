@@ -2,7 +2,7 @@
 // Base map
 var osmLayer = new OpenLayers.Layer.OSM();
 
-// Heat map + point map
+// Census map layer
 var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
   "http://apps.opengeo.org/geoserver/wms", 
   {
@@ -14,7 +14,7 @@ var wmsLayer = new OpenLayers.Layer.WMS("WMS",
   }
 );
 
-// Map with projection into (required when mixing base map with WMS)
+// Map object with projection into (required when mixing base map with WMS)
 olMap = new OpenLayers.Map({
   projection: "EPSG:900913",
   units: "m",
