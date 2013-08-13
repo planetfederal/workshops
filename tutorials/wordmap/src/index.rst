@@ -14,7 +14,7 @@ The word-driven heat map is a cool idea, and could be applied to all kinds of te
 
 For this adventure in map building, we'll build our own version of the Yelp word map, using the following tools, which if you are following along you will want to install now:
 
-* OpenGeo Suite (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
+* OpenGeo Suite 3 (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
 
 The basic structure of the application will be
 

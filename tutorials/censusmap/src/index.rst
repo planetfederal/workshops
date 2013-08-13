@@ -19,7 +19,7 @@ This tutorial builds a very simple application that uses a single thematic style
 
 For this adventure in map building, we use the following tools, which if you are following along you will want to install now:
 
-* OpenGeo Suite (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
+* OpenGeo Suite 3 (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
 * Perl (installed by default on Linux, MacOSX, use `ActivePerl`_ for Windows)
 
 The basic structure of the application will be
