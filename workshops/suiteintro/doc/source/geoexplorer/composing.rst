@@ -49,8 +49,6 @@ The `Available Layers` window includes our Local GeoServer and a selection of po
 
 #. Enter a valid URL to a WMS endpoint, and click the :guilabel:`Add Server` button.
 
-   .. note:: An example of this would be::
-
-      http://suite.opengeo.org/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities
+   .. note:: An example of this would be: ``http://suite.opengeo.org/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities``
 
 #. Select your new server's name in the drop-down list to view all of the layers available from that server that can be added to your map.
