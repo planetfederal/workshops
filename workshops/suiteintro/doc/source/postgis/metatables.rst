@@ -1,15 +1,9 @@
 .. _postgis.metatables:
 
-PostGIS metatables
-==================
+PostGIS metatables and views
+============================
 
-When our new PostGIS database was created via the ``template_postgis`` database, it received all all 700+ PostGIS functions, as well as two tables: ``geometry_columns`` and ``spatial_ref_sys``.
-
-.. figure:: img/pg_metatable_relations.png
-   :align: center
-
-   *PostGIS metatable relations*
-
+When our new PostGIS database was created via the ``template_postgis`` database, it received all all 700+ PostGIS functions, as well as one table (``spatial_ref_sys``) and two views (``geometry_columns`` and ``geography_columns``).
 
 spatial_ref_sys
 ---------------
@@ -17,19 +11,28 @@ spatial_ref_sys
 The ``spatial_ref_sys`` table defines the spatial reference systems known to the database.  They are known by an ID number, such as 4326 (for WGS 84 Lat/Lon).
 
 .. figure:: img/pg_metatable_spatialrefsys.png
-   :align: center
 
-   *spatial_ref_sys table contents*
+   Contents of spatial_ref_sys table
 
 geometry_columns
 ----------------
 
-The ``geometry_columns`` table defines the dimension, geometry, and spatial reference system for each spatial table in the PostGIS database.
+The ``geometry_columns`` view defines the dimension, geometry, and spatial reference system for each spatial table in the PostGIS database that contains a geometry type.
 
 .. figure:: img/pg_metatable_geometrycolumns.png
-   :align: center
 
-   *geometry_columns table contents*
+   Contents of geometry_columns table
+
+geography_columns
+-----------------
+
+The ``geography_columns`` view defines the dimension, geometry, each spatial table in the PostGIS database that contains a geography type.
+
+Geography and Geometry are similar in that they can both represent the same type of spatial data, but differ in a few crucial ways:
+
+The Geometry column type can hold geometric data of any type and in any (or no) projection and CRS. It is not optimized for dealing with geodetic measurements (distances on the sphere).
+
+The Geography type, while able to handle geodetic measurements, are much more limited, in that all coordinates are assumed to be WGS84 (4326) and there are fewer compatible functions when compared to Geometry.
 
 Bonus
 -----

@@ -1,6 +1,6 @@
 .. _apps.gx.advancedmap:
 
-Creating Popups with Feature Info
+Creating popups with feature info
 =================================
 
 For our final exercise, we will create a GeoExt map application with:
@@ -37,7 +37,7 @@ Example
 
       layers: [world, smallworld]
 
-#. At the bottom of the map initialization code, but before the mapwin.show() call, create a function for a GeoExt popup:
+#. At the bottom of the map initialization code, but before the ``mapwin.show()`` call, create a function for a GeoExt popup:
 
    .. code-block:: javascript
 
@@ -75,14 +75,13 @@ Example
       mapPanel.map.addControl(selectCtrl);
       selectCtrl.activate();
 
-#. Save the file, and load it in the browser: http://localhost:8080/geoserver/www/gxmap2.html. Click on a feature to see the pop-up
+#. Save the file, and load it in the browser: ``http://localhost:8080/geoserver/www/gxmap2.html``. Click on a feature to see the pop-up
 
 .. figure:: img/geoext_screen_gxmap2.png
-   :align: center
 
-   *A GeoExt MapWindow with a vector layer plus popup*
-   
-Your final code-listing might look like this:
+   A GeoExt MapWindow with a vector layer plus popup
+
+Your final code-listing will look like this:
 
 .. code-block:: html
    :linenos:

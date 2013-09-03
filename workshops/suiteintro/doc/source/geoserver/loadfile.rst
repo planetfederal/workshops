@@ -13,23 +13,20 @@ A GeoTIFF is a store that contains a single layer.
 #. From the :ref:`geoserver.webadmin` page, click on the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
 
    .. figure:: img/storeslink.png
-      :align: center
 
-      *Click this link to go to the Stores page*
+      Click this link to go to the Stores page
 
 #. Click on :guilabel:`Add new store`. 
 
    .. figure:: img/storespage.png
-      :align: center
 
-      *Stores page*
+      Stores page
 
 #. Select :guilabel:`GeoTIFF` under :guilabel:`Raster Data Sources`.
 
    .. figure:: img/tif_newtifstore.png
-      :align: center
 
-      *Adding a GeoTIFF store*
+      Adding a GeoTIFF store
 
 #. Fill out the form as follows:
 
@@ -51,12 +48,11 @@ A GeoTIFF is a store that contains a single layer.
 
 #. In the box marked :guilabel:`URL`, type in the full path to the GeoTIFF, or click the :guilabel:`Browse` button to navigate to the file.  This may be something like::
 
-      <workshop>\data\shadedrelief.tif
+   <workshop>\data\shadedrelief.tif
 
    .. figure:: img/tif_newtifpage.png
-      :align: center
 
-      *Configuring a GeoTIFF store*
+      Configuring a GeoTIFF store
 
 #. When finished, click :guilabel:`Save`.
 
@@ -68,9 +64,8 @@ After the store is loaded, we need to configure how it is published as a layer.
 #. On the next screen, a list of layers in the store is displayed. Since we are working with a GeoTIFF, there is only a single layer. Click the :guilabel:`Publish` link to configure the layer.
 
    .. figure:: img/tif_newlayerpublish.png
-      :align: center
 
-      *Selecting a layer to publish*
+      Selecting a layer to publish
 
 #. This is the layer configuration page. There are many settings on this page, most of which we don't need to work with just now. We will return to some of these settings later.  Fill out the form with the following information:
    
@@ -81,9 +76,8 @@ After the store is loaded, we need to configure how it is published as a layer.
    #. In the :guilabel:`Bounding Boxes` section, click on the :guilabel:`Compute from data` and :guilabel:`Compute from native bounds` links to set the bounding box of the layer.
 
    .. figure:: img/tif_newlayerconfig.png
-      :align: center
 
-      *Configuring a layer to publish*
+      Configuring a layer to publish
 
 #. When finished, click :guilabel:`Save`. Your GeoTIFF is now published in GeoServer!
 
@@ -93,8 +87,7 @@ Preview your Work
 #. You can now view the layer using the integrated OpenLayers client (using WMS) via the GeoServer Layer Preview.  Clicking on the map will display the RGB values for that particular point.
 
    .. figure:: img/tif_openlayers.png
-      :align: center
 
-      *Viewing the published layer in OpenLayers*
+      Viewing the published layer in OpenLayers
 
 Your GeoTIFF has been successfully published in GeoServer!

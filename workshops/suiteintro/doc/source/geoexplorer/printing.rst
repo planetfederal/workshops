@@ -1,6 +1,6 @@
 .. _geoexplorer.printing:
 
-Printing Static Maps
+Printing static maps
 ====================
 
 GeoExplorer provides a built-in tool for printing static maps to PDF format. Where a link to a live map application isn't appropriate, PDF maps can be emailed or printed in hard-copy for reference.
@@ -27,7 +27,6 @@ Printing a Map
 #. Click the :command:`Print` button. The GeoExplorer :guilabel:`Print Preview` dialog opens.
 
    .. figure:: img/gx_dialog_printpreview.png
-      :align: center
 
 #. Select your target :guilabel:`Paper Size` and image :guilabel:`Resolution` from the respective drop-downs.
 
@@ -40,9 +39,8 @@ Printing a Map
 #. When your map has been prepared, your browser will prompt you to save or open the PDF.
 
    .. figure:: img/gx_print_pdf.png
-      :align: center
       
-      *A PDF map printed from GeoExplorer*
+      A PDF map printed from GeoExplorer
 
 .. note::
 

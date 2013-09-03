@@ -20,7 +20,7 @@ The following are the high-level tasks that we'll accomplish:
      * GeoServer concepts
      * Basic GeoServer administration tasks
      * Load data into GeoServer from PostGIS tables and files
-     * Publish that data through web services.
+     * Publish that data through web services
 
 #. GeoExplorer
 
@@ -37,42 +37,47 @@ The following are the high-level tasks that we'll accomplish:
 #. OpenLayers & GeoExt
 
      * Introduce very basic HTML, CSS and JavaScript
-     * Use OpenLayers and GeoExt to create a desktop-like map application in a web browser.
+     * Use OpenLayers and GeoExt to create a desktop-like map application in a web browser
 
 
 Data package
 ------------
 
-We will assume that the contents of the workshop package is located on your desktop:
+We will assume that the contents of the workshop package is located on your desktop::
 
-:file:`<user>\\Desktop\\suiteintro\\`
+  <user>\Desktop\suiteintro\`
 
-In this case, :file:`<user>` is your local user's home directory. In a typical Windows installation, this is typically:
+In this case, ``<user>`` is your local user's home directory. In a Windows installation, this is typically:
 
-* Windows XP: :file:`C:\\Documents and Settings\\Doug\\` 
-* Windows Vista/7: :file:`C:\\Users\\Doug\\`
+* Windows XP::
+  
+    C:\Documents and Settings\Doug\ 
 
-For example:
+* Windows Vista/7::
 
-:file:`C:\\Documents and Settings\\Doug\\Desktop\\suiteintro\\`
+    C:\Users\Doug\
+
+For example::
+
+  C:\Users\Doug\Desktop\suiteintro\data\
 
 .. note:: We wil refer to the workshop directory as ``<workshop>`` throughout the course.
 
-In some cases, we'll be adding and/or saving files to a Tomcat virtual directory. This is located at:
+In some cases, we'll be adding and/or saving files to a Tomcat virtual directory. This is located inside your user directory::
 
-  :file:`<user>\\.opengeo\\data_dir\\www\\`
+  <user>\.opengeo\data_dir\www\
 
-For example:
+For example::
 
-:file:`C:\\Documents and Settings\\Doug\\.opengeo\\data_dir\\www\\`
+  C:\Users\Doug\.opengeo\data_dir\www\
 
 Contents
 --------
 
-* :file:`<workshop>\\data` - Spatial data used in the examples.
-* :file:`<workshop>\\doc` - Workshop text (what you're reading right now).
-* :file:`<workshop>\\html` - Template HTML files, images, and JavaScript libraries .
-* :file:`<workshop>\\software` - OpenGeo Suite installer plus a few utilities that might be helpful.
-* :file:`<workshop>\\sql` - Two SQL files that used in the PostGIS section.
-* :file:`<workshop>\\styles` - Styling instructions for the spatial data used throughout this workshop.
+* ``<workshop>\\data`` - Spatial data used in the examples.
+* ``<workshop>\\doc`` - Workshop text (what you're reading right now).
+* ``<workshop>\\html`` - Template HTML files and images.
+* ``<workshop>\\software`` - OpenGeo Suite installer plus a few utilities that might be helpful.
+* ``<workshop>\\sql`` - SQL files used in the PostGIS section.
+* ``<workshop>\\styles`` - Styling directives for the spatial data used throughout this workshop.
 

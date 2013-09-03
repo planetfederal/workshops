@@ -12,9 +12,7 @@ A map is generated on a web page by four components:
 #. Style Declarations
 #. Map Initialization Code
 
-.. _suite.openlayers.basics.map.example:
-
-Working Example
+Simpleexample
 ---------------
 
 Let's create and preview a simple, fully functional example of an OpenLayers map.
@@ -52,13 +50,12 @@ In the next section will go into the details of the code.
      </body>
    </html>
 
-#. Using a basic text editor. Copy the text above into a new file and save it as :file:`<user>\\.opengeo\\data_dir\\www\\map1.html`.
+#. Using a basic text editor, copy the text above into a new file and save it as :file:`<user>\\.opengeo\\data_dir\\www\\map1.html`.
 
-   .. note:: On Windows, we recommend using `Notepad2 <http://www.flos-freeware.ch/notepad2.html>`_ instead of the standard Windows Notepad. `Notepad++ <http://notepad-plus-plus.org/>`_ is also a viable option.
+   .. note:: On Windows, we recommend using `Notepad++ <http://notepad-plus-plus.org/>`_, `Notepad2 <http://www.flos-freeware.ch/notepad2.html>`_, or `Sublime Text <http://www.sublimetext.com>`_ instead of the standard Windows Notepad.
 
 #. Open the working map in your web browser by navigating to: ``http://localhost:8080/geoserver/www/map1.html``
 
 .. figure:: img/ol_screen_map1.png
-   :align: center
 
-   *A basic OpenLayers map*
+   A basic OpenLayers map

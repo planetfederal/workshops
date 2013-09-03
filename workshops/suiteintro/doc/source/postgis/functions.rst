@@ -3,7 +3,7 @@
 Spatial functions and queries
 =============================
 
-PostGIS adds several hundred geometry-specific functions to PostgreSQL.  Discussing all of them is far beyond the scope of this workshop!  However, in this section, we'll work through a short example to introduce function syntax, and add another table to our ``SuiteWorkshop`` database.
+PostGIS adds several hundred geometry-specific functions to PostgreSQL. Discussing all of them is far beyond the scope of this workshop! However, in this section, we'll work through a short example to introduce function syntax, and add another table to our ``SuiteWorkshop`` database.
 
 Accessing spatial functions
 ---------------------------
@@ -17,23 +17,21 @@ Functions are expressed in Structured Query Language (SQL) statements. For examp
    SELECT postgis_full_version();
 
 .. figure:: img/pgadmin_sqlwindow.png
-   :align: center
 
-   *Running a SQL command in pgAdmin*
+   Running a SQL command in pgAdmin
 
-.. note:: Technically, the language of PostgreSQL is **PL/pgSQL** (Procedural Language/PostgreSQL Structured Query Language), which resembles and is compliant with standard SQL, but includes much more procedural control (such as loops).  Note also that there are other procedural languages available to use in PostgreSQL, but PL/pgSQL is the default and by far the most common.
+.. note:: Technically, the language of PostgreSQL is **PL/pgSQL** (Procedural Language/PostgreSQL Structured Query Language), which resembles and is compliant with standard SQL, but includes much more procedural control (such as loops). Note also that there are other procedural languages available to use in PostgreSQL, but PL/pgSQL is the default and by far the most common.
 
 Creating a spatially-enabled table
 ----------------------------------
 
 This short example will show how to spatially enable a newly-created table in our PostGIS database using the :command:`AddGeometryColumn` function.
 
-#. If it isn't already, open up your pgAdmin SQL Query Tool.  (:menuselection:`Tools --> Query Tool`)
+#. If it isn't already, open up your pgAdmin SQL Query Tool. (:menuselection:`Tools --> Query Tool`)
 
 .. figure:: img/pgadmin_sqlbutton.png
-   :align: center
 
-   *Loading the Query Tool*
+   Loading the Query Tool
 
 #. Open the file :file:`<workshop>\\sql\\smallworld_create.sql`, or copy and paste the following block into the SQL Editor.
 
@@ -50,43 +48,41 @@ This short example will show how to spatially enable a newly-created table in ou
       SELECT AddGeometryColumn(
         '', 
         'smallworld', 
-        'the_geom', 
+        'geom', 
         '4326',
         'POINT', 
         2);
             
 #. Click the :guilabel:`Play` button to execute the commands.
 
-The first line in the code-block :command:`CREATE TABLE ...`, created a table with the specified columns and keys. This is stock SQL with no spatial component.   The second line is the spatial part. The command :command:`AddGeometryColumn` performs the following procedures:
+The first line in the code-block :command:`CREATE TABLE ...`, created a table with the specified columns and keys. This is stock SQL with no spatial component. The second line is the spatial part. The command :command:`AddGeometryColumn` performs the following procedures:
 
-   #. Inserts an entry to the ``geometry_columns`` table, identifying:
+   #. Inserts an entry to the ``geometry_columns`` view, identifying:
    
       * The table that has a geometry column ``smallworld``
-      * The name of that geometry column ``the_geom``
+      * The name of that geometry column ``geom``
       * The SRID of the geometries ``4326``
       * The geometry type of the geometries ``POINT``
       * The dimensionality of the geometries ``2``  
      
-   #. Adds a Geometry column (called ``the_geom``) to the feature table using an ``SQL ALTER TABLE`` statement; 
+   #. Adds a Geometry column (called ``geom``) to the feature table using an ``SQL ALTER TABLE`` statement; 
    #. Adds a set of constraints to the feature table make sure new features are: 
    
       * In SRID ``4326``,
       * Geometry type ``POINT``
       * Of ``2`` dimensions
 
-If we have a look at the entries in the ``geometry_columns`` table, we can see the row for the spatially enabled ``smallworld`` table.
+If we have a look at the entries in the ``geometry_columns`` view, we can see the row for the spatially enabled ``smallworld`` table.
 
 .. figure:: img/pg_geomcolumnentry.png
-   :align: center
 
-   *The geometry_columns table with an entry for the smallworld table*
+   The geometry_columns view with an entry for the smallworld table
 
-Furthermore if we have another look at our ``smallworld`` table, we can see the newly created geometry column ``the_geom``, and in the table properties the constraints.
+Furthermore if we have another look at our ``smallworld`` table, we can see the newly created geometry column ``geom``, and in the table properties the constraints.
 
 .. figure:: img/pg_smallworldgeomcol.png
-   :align: center
 
-   *It's a spatially-enabled small world after all*
+   It's a spatially-enabled small world after all
    
 Finally, let's add some features to the ``smallworld`` table.
 
@@ -95,7 +91,7 @@ Finally, let's add some features to the ``smallworld`` table.
    .. code-block:: sql
 
       INSERT INTO smallworld (
-        the_geom, 
+        geom, 
         placename, 
         comment, 
         year)
@@ -106,7 +102,7 @@ Finally, let's add some features to the ``smallworld`` table.
         1992);
 
       INSERT INTO smallworld (
-        the_geom, 
+        geom, 
         placename, 
         comment, 
         year)
@@ -117,7 +113,7 @@ Finally, let's add some features to the ``smallworld`` table.
         2011);
 
       INSERT INTO smallworld (
-        the_geom, 
+        geom, 
         placename, 
         comment, 
         year)
@@ -130,12 +126,11 @@ Finally, let's add some features to the ``smallworld`` table.
 
 #. Click the :guilabel:`Play` button to execute the commands.
 
-#. Have a look at the newly created ``smallworld`` table back in pgAdmin.  Right-click on :guilabel:`Tables` and go to :guilabel:`Refresh`, then right-click on the ``smallworld`` table, then go to :guilabel:`View Data`, then :guilabel:`View All Rows`.
+#. Have a look at the newly created ``smallworld`` table back in pgAdmin. Right-click on :guilabel:`Tables` and go to :guilabel:`Refresh`, then right-click on the ``smallworld`` table, then go to :guilabel:`View Data`, then :guilabel:`View All Rows`.
 
    .. figure:: img/pg_smallworld_newdata.png
-      :align: center
 
-      *Data table*
+      Data table
 
 Function examples
 -----------------
@@ -153,7 +148,7 @@ The following example uses the ``ST_AsText`` function to demystify the binary ge
 
    .. code-block:: sql
    
-      SELECT the_geom FROM smallworld;
+      SELECT geom FROM smallworld;
       
    ::
    
@@ -165,7 +160,7 @@ The following example uses the ``ST_AsText`` function to demystify the binary ge
 
    .. code-block:: sql
    
-      SELECT ST_AsText(the_geom) from smallworld;
+      SELECT ST_AsText(geom) from smallworld;
       
    ::
    
@@ -186,7 +181,7 @@ Retrieval functions expose properties or measures from a geometry.
 
    .. code-block:: sql
    
-      SELECT Name, ST_Perimeter(the_geom) FROM countries LIMIT 5;
+      SELECT Name, ST_Perimeter(geom) FROM countries LIMIT 5;
       
    ::
    
@@ -224,7 +219,7 @@ Generation functions
 
 Generation functions create new geometries from others. 
 
-We'll use the :command:`ST_Buffer` function to create a buffer zone around the cities in the ``cities`` layer.  We'll call this layer ``citybuffers``.
+We'll use the :command:`ST_Buffer` function to create a buffer zone around the cities in the ``cities`` layer. We'll call this layer ``citybuffers``.
 
 #. To create the buffer zone, we first create a table to hold our geometries:
 
@@ -234,29 +229,27 @@ We'll use the :command:`ST_Buffer` function to create a buffer zone around the c
         id serial primary key       
       );
     
-      SELECT AddGeometryColumn('','citybuffers','the_geom',4326,'MULTIPOLYGON',2);
+      SELECT AddGeometryColumn('','citybuffers','geom',4326,'MULTIPOLYGON',2);
 
 #. Next, insert into our :command:`buffer` table new geometries generated from the :command:`ST_Buffer` function.
     
    .. code-block:: sql
 
-      INSERT INTO citybuffers (the_geom)
-      SELECT ST_Multi(ST_Buffer(the_geom,2)) FROM cities;
+      INSERT INTO citybuffers (geom)
+      SELECT ST_Multi(ST_Buffer(geom,2)) FROM cities;
 
 Buffers. It's what every spatial analyst dreams about. 
 
 .. figure:: img/pg_udigbuffers.png
-   :align: center
 
-   *Visualizing buffers*
+   Visualizing buffers
 
 We buffered with a value of 2, but 2 what?
-
 
 Bonus
 ~~~~~
 
-* What are the units we're dealing with and why are they problematic.  Why are we using them?
+* What are the units we're dealing with and why are they problematic. Why are we using them?
 * Try this ...
 
    .. code-block:: sql
@@ -270,4 +263,4 @@ Bonus
    
       2617254.72493923
 
-  What does this value mean?
+ What does this value mean?

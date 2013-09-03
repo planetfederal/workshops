@@ -20,7 +20,7 @@ Feature editing tools
       * - .. image:: img/gx_icon_editfeature.png
         - Edit Existing Feature
         - Initiates the workflow to edit and/or delete an existing feature in the selected layer.
-         
+
 Creating new features
 ---------------------
 
@@ -31,12 +31,10 @@ Use the following workflow to create points for several other cities you've been
 #. You should be logged into GeoExplorer, and your ``smallworld`` layer should be loaded, visible and selected.
 
    .. figure:: img/gx_create_selected.png
-      :align: center
    
 #. Click the :guilabel:`Create Feature` button to make it active.
 
    .. figure:: img/gx_create_createfeaturebutton.png
-      :align: center
 
 #. Navigate to a memorable destination.
 
@@ -45,12 +43,10 @@ Use the following workflow to create points for several other cities you've been
 #. Once you've found your destination, click the location on the map. GeoExplorer places a blue marker on the map at your click point, and opens a small dialog box containing a table of attributes.
 
    .. figure:: img/gx_create_newmarker.png
-      :align: center
 
 #. Fill in the name of the :guilabel:`Place`, :guilabel:`Year` visited, and a short :guilabel:`Comment` (e.g. the purpose of your visit). If you want, while you're in edit mode, you can adjust your point on the map by dragging the temporary marker elsewhere.
 
    .. figure:: img/gx_create_newattributes.png
-      :align: center
 
 #. Once you're satisfied, click :guilabel:`Save`.
 
@@ -66,31 +62,26 @@ Let's now edit an existing feature.
 #. You should be logged into GeoExplorer, and your ``smallworld`` layer should be loaded, visible and selected. You should be zoomed in to a point (at zoom-level 10 or thereabouts).
 
    .. figure:: img/gx_edit_navigate.png
-      :align: center
 
 #. If it isn't already, click the **Edit Feature** button to make it active.
 
    .. figure:: img/gx_edit_editfeature.png
-      :align: center
 
 #. Click on the feature you wish to edit.
 
 #. A familiar dialog will pop up listing the attributes of the selected feature and highlighting its geometry.
 
    .. figure:: img/gx_edit_popup.png
-      :align: center
 
 #. Click the :guilabel:`Edit` button (at the bottom left of the dialog).  The pop-up will change to a mode where the field values can be edited.
 
 #. Change the year, or any other value, and move the point marker closer to the city center.
 
    .. figure:: img/gx_edit_makeedits.png
-      :align: center
 
 #. Click :guilabel:`Save`.
 
 .. note:: You've gone and edited the attributes and geometries of features in a spatial database over the web.  Nicely done!
-
 
 Deleting existing features
 --------------------------
@@ -98,7 +89,6 @@ Deleting existing features
 Again for the sake of example, let's assume that at least one of your destinations was bogus and delete it.
 
    .. figure:: img/gx_delete_navigate.png
-      :align: center
 
 #. You should be logged into GeoExplorer, and your ``smallworld`` layer should be loaded, visible and selected. You should be zoomed into a feature at zoom-level 10 or thereabouts.
 
@@ -113,9 +103,7 @@ Again for the sake of example, let's assume that at least one of your destinatio
 #. Click the :guilabel:`Delete` button. This opens a prompt asking for confirmation that you do want to delete the feature. Click :guilabel:`Yes`.
 
    .. figure:: img/gx_delete_confirmation.png
-      :align: center
 
-      *Delete confirmation*
+      Delete confirmation
 
 #. Your feature will be deleted, both from the map and the database.
-

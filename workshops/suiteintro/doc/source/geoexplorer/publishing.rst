@@ -1,9 +1,7 @@
 .. _geoexplorer.publishing:
 
-Publishing Map Widgets
+Publishing map widgets
 ======================
-
-GeoExplorer has a good interface and offers some great tools for editing both maps and layers, but it might not be for everyone. Maybe it takes up too much room on your page? Maybe it offers too many tools for your application?
 
 In this section, we'll use GeoExplorer's **Export Map** tool to publish our composed layout as a custom map application that can be embedded on a web page.
 
@@ -23,37 +21,33 @@ Export Map tool
 Export Your Saved Map
 ---------------------
 
-Exporting your map to a web page is a quick process.  However, first we need a web page to export our map to.  Thankfully, there is a template HTML file in our :file:`<workshop>\\html` directory.
+Exporting your map to a web page is a quick process. However, first we need a web page to export our map to. Thankfully, there is a template HTML file in our :file:`<workshop>\\html` directory.
 
 The unadorned template looks a little like this:
 
    .. figure:: img/gx_publish_preview.png
-      :align: center
       
-      *Without a map, it's just a bunch of gibberish*
+      Without a map, it's just a bunch of gibberish
 
 Now let's have a quick look at the **code**.
 
 #. Open the :file:`GNN.html` file in your text editor. 
 
     .. figure:: img/gx_publish_unedited.png
-       :align: center
     
-       *The HTML page we'll be editing*
+       The HTML page we'll be editing
 
-#. Now back to publishing our map. Continuing the previous exercise, you should be logged in to GeoExplorer.  Open the map layout you saved previously.
+#. Now back to publishing our map. Continuing the previous exercise, you should be logged in to GeoExplorer. Open the map layout you saved previously.
 
 #. Click the :guilabel:`Export Map` button to trigger the publishing process.
 
-    .. figure:: img/gx_export_toolbar.png
-       :align: center    
+   .. figure:: img/gx_export_toolbar.png
 
 #. The :guilabel:`Export Map` dialog opens, presenting a list of tools that can be added to the toolbar in your exported map. By default, all of the tool options are enabled.
 
    .. figure:: img/gx_dialog_export01.png
-      :align: center
-      
-      *Selecting map tools.*
+
+      Selecting map tools
 
 #. Adjust the selection of tools if desired.
 
@@ -62,9 +56,8 @@ Now let's have a quick look at the **code**.
 #. This screen provides you with a code snippet to embed your map application into a web-page template. Copy the code in the ``<iframe>...</iframe>`` block to your clipboard.
 
    .. figure:: img/gx_dialog_export02.png
-      :align: center
       
-      *Published map code snippet*
+      Published map code snippet
 
 #. Return to your text editor and scroll down to around line 32. Replace the comment shown below with GeoExplorer's HTML block.
 
@@ -75,16 +68,14 @@ Now let's have a quick look at the **code**.
 #. Your HTML file should now look something like this:
 
     .. figure:: img/gx_publish_edited.png
-       :align: center
 
 #. Save your HTML file, and return to your browser.
 
-#. **Refresh** (F5) the page.
+#. **Refresh** the page.
 
     .. figure:: img/gx_publish_gnnmap.png
-       :align: center
     
-       *A happy web page*
+       A happy web page
 
 #. Congratulations, you have published your first map!
 
@@ -108,7 +99,6 @@ At any time we can click the **Preview** button to get a glimpse of what our pub
 #. :guilabel:`Close` the preview pop-up.
 
     .. figure:: img/gx_publish_previewpanel.png
-       :align: center
 
 Dimensions
 ~~~~~~~~~~
@@ -123,12 +113,11 @@ In the second step, we have controls to specify the dimensions of our map.
    
 #. Changing these values updates the code in the ``<iframe>`` block with the new map size.
 
-    .. figure:: img/gx_publish_resize.png
-       :align: center
+   .. figure:: img/gx_publish_resize.png
 
 Bonus
 -----
 
-Change any of the map options that you're not happy with. Use the **Back** and **Next** buttons to move between the toolbar and dimension option screens.
+Change any of the map options. Use the **Back** and **Next** buttons to move between the toolbar and dimension option screens.
 
-Republish these changes into your **GNN** page, and confirm your changes.
+Republish these changes into your HTML page, and confirm your changes.

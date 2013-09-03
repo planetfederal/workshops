@@ -3,7 +3,7 @@
 Creating a GeoExt Floating Map Window
 =====================================
 
-In GeoExt, we use a "web application" paradigm, as opposed to a "web page" paradigm. This means that we won't create extensive markup. The basic ingredients of our map window will be:
+In GeoExt, we use a "web application" paradigm, as opposed to a "web page" paradigm. This means that we won't need to create extensive markup. The basic ingredients of our map window will be:
 
  * A minimal HTML document including JavaScript and CSS resources
  * JavaScript for application initialization
@@ -13,8 +13,6 @@ Example
 -------
 
 Let's take a look at a fully working example of a GeoExt map window.
-
-#. Copy the code below into your text editor and save it as :file:`<user>\\.opengeo\\data_dir\\www\\gxmap1.html`.
 
 .. code-block:: html
    :linenos:
@@ -64,11 +62,13 @@ Let's take a look at a fully working example of a GeoExt map window.
 
    </html>
 
+
+#. Using a basic text editor, copy the text above into a new file and save it as :file:`<user>\\.opengeo\\data_dir\\www\\gxmap1.html`.
+
 #. Open this file in your web browser: http://localhost:8080/geoserver/www/gxmap1.html
 
 #. Drag this map window around your browser!
 
 .. figure:: img/geoext_screen_gxmap1.png
-   :align: center
 
-   *A GeoExt MapWindow*
+   A GeoExt MapWindow

@@ -45,9 +45,8 @@ Layer context menu
 The Layer context menu opens when you right-click an item in the Layer list.
 
 .. figure:: img/gx_menu_layercontext.png
-   :align: center
 
-   *Layer context menu*
+   Layer context menu
 
 Its options mirror the Layer Tools (above) with the addition of the :command:`Zoom to layer extent` option.
 

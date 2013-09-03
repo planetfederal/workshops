@@ -5,13 +5,12 @@ Navigation tools
 
 Navigation tools allow you to zoom in and out and pan around maps. These tools are located in two places in the GeoExplorer interface:
 
-#. Toward the right of other tools in the **Toolbar**, and
+#. Toward the right of other tools in the **Toolbar**
 #. In the corners of the **Map Panel** 
 
    .. figure:: img/gx_navtools.png
-      :align: center
 
-      *GeoExplorer Navigation Tools*
+      GeoExplorer Navigation Tools
 
 Feel free to explore these controls as we review their definitions.
 

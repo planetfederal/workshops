@@ -8,16 +8,14 @@ Thus far in the workshop, we've composed a map using the very layers we stored i
 #. Click the :guilabel:`Login` button on the top right of the Toolbar.
 
    .. figure:: img/gx_icon_login.png
-      :align: center
 
-      *Login button*
+      Login button
       
-#. Enter your **Username** and **Password** as shown and click :guilabel:`OK`. These credentials are the same as for GeoServer (`admin` / `geoserver`  by default).
+#. Enter your **Username** and **Password** as shown and click :guilabel:`OK`. These credentials are the same as for GeoServer (``admin`` / ``geoserver``  by default).
 
    .. figure:: img/gx_dialog_login.png
-      :align: center
 
-      *Login dialog*
+      Login dialog
 
 #. After logging in successfully, you'll notice that we have a few more items on the *Button Bar* available to us.
 

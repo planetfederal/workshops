@@ -10,16 +10,14 @@ The first step in data loading is usually to create a Workspace.  This creates a
 #. Click on the :guilabel:`Workspaces` link on the left column, under :guilabel:`Data`.
 
    .. figure:: img/workspace_link.png
-      :align: center
 
-      *Click to go to the Workspaces page*
+      Click to go to the Workspaces page
 
 #. Click the :guilabel:`Add new workspace` link at the top center of the page.
 
    .. figure:: img/workspace_page.png
-      :align: center
 
-      *Workspaces page*
+      Workspaces page
 
 #. A workspace is comprised of a **Name** (also sometimes known as a "namespace prefix"), represented by a few characters, and a **Namespace URI**.  These two fields must uniquely identify the workspace.  Fill in the following information:
 
@@ -34,9 +32,8 @@ The first step in data loading is usually to create a Workspace.  This creates a
         - *Checked*
 
    .. figure:: img/workspace_new.png
-      :align: center
 
-      *Creating a new workspace*
+      Creating a new workspace
 
 #. When done, click :guilabel:`Submit`.
 

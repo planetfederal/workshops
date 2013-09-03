@@ -1,6 +1,6 @@
 .. _apps.gx:
 
-GeoExt Tutorial
+GeoExt tutorial
 ===============
 
 .. toctree::

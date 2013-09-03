@@ -1,6 +1,6 @@
 .. _ol-advancedmap:
 
-Adding Layers and Controls
+Adding layers and controls
 ==========================
 
 By default, all OpenLayers maps come with two default controls. We saw them in our previous example.
@@ -11,8 +11,8 @@ By default, all OpenLayers maps come with two default controls. We saw them in o
 
 In this section, we'll extend the template from our previous example with another control for zooming and panning, another layer, and a control that allows you to toggle layer visibility.
 
-A Starter Map
--------------
+A new starter map
+-----------------
 
 Let's start with a slight variation on our template OpenLayers map.
 
@@ -55,17 +55,16 @@ Let's start with a slight variation on our template OpenLayers map.
 
 #. Using a basic text editor. Copy the text above into a new file called :file:`map2.html`, and save it as :file:`<user>\\.opengeo\\data_dir\\www\\map2.html`.
 
-   This template is nearly identical to our previous map. This version has place holders for code we'll add to implement controls (// MAP OPTIONS //) and additional map layers (// OTHER LAYERS //).
+   This template is nearly identical to our previous map. This version has place holders for code we'll add to implement controls (``// MAP OPTIONS //``) and additional map layers (``// OTHER LAYERS //``).
 
 #. Verify that the map works by navigating to: http://localhost:8080/geoserver/www/map2.html
 
 .. figure:: img/ol_screen_map2.png
-   :align: center
 
-   *A basic (but soon to be extended) OpenLayers map*
+   A basic (but soon to be extended) OpenLayers map
 
-Adding Controls with Options
-----------------------------
+Adding controls
+---------------
 
 The PanZoom control is added to OpenLayers maps by default. However, when it is added explicitly you can configure an option for the zoom tool to include a slider bar with a "step" for each available zoom level. (For example, if you have 16 zoom levels, the default, your Zoom tool will have 16 possible positions for the slider.)
  
@@ -80,7 +79,7 @@ The PanZoom control is added to OpenLayers maps by default. However, when it is 
          ]
       };
                                   
-   It should be added at around line 17, replacing the placeholder '// MAP OPTIONS //'.
+   It should be added at around line 17, replacing the placeholder ``// MAP OPTIONS //``.
 
 #. The next thing we need to do is instruct the map constructor to use these options. Replace the line:
 
@@ -97,11 +96,10 @@ The PanZoom control is added to OpenLayers maps by default. However, when it is 
 #. Save the file and reload in the browser.
 
 .. figure:: img/ol_screen_map2_extended.png
-   :align: center
 
-   *An extended ZoomBar*
+   An extended ZoomBar
 
-Note that the zoom bar has too many zoom levels for the size of our small map window.  In this case, we could either make our map window larger, by replacing our map style with a large ``height`` value, as in:
+Note that the zoom bar has too many zoom levels for the size of our small map window. In this case, we could either make our map window larger, by replacing our map style with a large ``height`` value, as in:
 
 .. code-block:: html
 
@@ -125,14 +123,13 @@ Or, we could reduce the number of zoom levels in our map, by adding the ``numZoo
    };
 
 .. figure:: img/ol_screen_map2_zoomlevels.png
-   :align: center
 
-   *An extended ZoomBar with fewer zoom levels*
+   An extended ZoomBar with fewer zoom levels
    
 Bonus
 -----
 
-* Add other layers to your map. You'll need to include ...
+* Add other layers to your map. You'll need to include the following:
 
    * A variable to hold the layer definition (what type of layer will you add?)
   

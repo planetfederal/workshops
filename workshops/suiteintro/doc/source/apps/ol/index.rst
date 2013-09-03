@@ -1,6 +1,6 @@
 .. _apps.ol:
 
-OpenLayers Tutorial
+OpenLayers tutorial
 ===================
 
 .. toctree::

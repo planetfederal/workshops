@@ -5,31 +5,28 @@ Creating a PostGIS Database
 
 Now with some spatial database concepts under our belts, we'll use the GUI client **pgAdmin** to connect to the PostGIS server and create a spatially-enabled database.
 
-.. note:: PostgreSQL has a number of administrative front-ends. `psql <http://www.postgresql.org/docs/8.4/static/app-psql.html>`_ is a command-line tool for managing PostgreSQL databases and entering SQL queries. The desktop utility `pgAdmin <http://www.pgadmin.org/>`_ is a tool that provides similar functionality with a graphical front-end. In this workshop, we're going to use pgAdmin, but all of the queries that can be done in pgAdmin can also be done on the command line with :command:`psql`.
+.. note:: PostgreSQL has a number of administrative front-ends. `psql <http://www.postgresql.org/docs/9.2/static/app-psql.html>`_ is a command-line tool for managing PostgreSQL databases and entering SQL queries. The desktop utility `pgAdmin <http://www.pgadmin.org/>`_ is a tool that provides similar functionality with a graphical front-end. In this workshop, we're going to use pgAdmin, but all of the queries that can be done in pgAdmin can also be done on the command line with :command:`psql`.
 
 Start PostGIS and connect to pgAdmin
 ------------------------------------
 
-#. Make sure that the OpenGeo Suite is running.  If it isn't already, click the green :guilabel:`Start` button in the top right corner of the Dashboard.
+#. Make sure that OpenGeo Suite is running. If it isn't already, click the green :guilabel:`Start` button in the top right corner of the Dashboard.
 
    .. figure:: img/dashboard_start.png
-      :align: center
 
-      *This green button will start the OpenGeo Suite and all of its components*
+      This green button will start OpenGeo Suite and all of its components
 
 #. When started, you can click the **Manage** option under the *PostGIS* component to start the pgAdmin utility.
   
    .. figure:: img/dashboard_pgadmin.png
-      :align: center
 
-      *Launching pgAdmin*
+      Launching pgAdmin
       
-#. You should have a server entry for **PostGIS (localhost:54321)** already configured in pgAdmin. Double-click the entry, and when prompted for a password, you can leave it blank (or type in anything, it doesn't matter).  This will connect to the local PostGIS instance.
+#. You should have a server entry for **PostGIS (localhost:54321)** already configured in pgAdmin. Double-click the entry, and when prompted for a password, leave it blank.  This will connect to the local PostGIS instance.
 
    .. figure:: img/pgadmin_connect.png
-      :align: center
 
-      *Connecting to PostGIS*
+      Connecting to PostGIS
 
 .. note:: For this workshop, the PostGIS database has been installed with unrestricted access for local users (users connecting from the same machine on which the database is running). That means that it will accept **any** password you provide. If you need to connect from a remote computer, the password for the ``postgres`` user has been set to ``postgres``.  Obviously, a production instance would be set up with more security in mind.
 
@@ -39,20 +36,21 @@ Start PostGIS and connect to pgAdmin
 Create a database
 -----------------
 
-PostgreSQL has the notion of a **template database** that can be used to initialize a new database. When the OpenGeo Suite was installed, a spatially-enabled database called ``template_postgis`` was created in PostGIS. If we use ``template_postgis`` as a template when creating our new database, the new database will be spatially enabled.
+PostgreSQL has the notion of a **template database** that can be used to initialize a new database. When OpenGeo Suite was installed, a spatially-enabled database called ``template_postgis`` was created in PostGIS. If we use ``template_postgis`` as a template when creating our new database, the new database will be spatially enabled.
 
-.. warning:: Please don't click on the ``template_postgis`` database in pgAdmin.  You'll see why later, but trust us.
+.. warning:: Don't click on the ``template_postgis`` database in pgAdmin right now. You'll see why later, but trust us.
 
-#. Click/open the :guilabel:`Databases` tree and have a look at the available databases. The ``postgres`` database is the user database for the default ``postgres`` user and is not interesting to us here. The ``template_postgis`` database is what we are going to use to create spatial databases.
+#. Click/open the :guilabel:`Databases` tree and have a look at the available databases.
 
 #. Right-click the :guilabel:`Databases` item and select :guilabel:`New Database`.
 
    .. figure:: img/pgadmin_newdb.png
-      :align: center
 
-      *Creating a new database*
+      Creating a new database
 
 #. Fill in the **New Database** form as shown below and click :guilabel:`OK`.  
+
+   Properties tab:
 
    .. list-table::
 
@@ -60,26 +58,33 @@ PostgreSQL has the notion of a **template database** that can be used to initial
         - ``SuiteWorkshop``
       * - **Owner**
         - ``postgres``
+ 
+   Definition tab:
+
+   .. list-table::
+
       * - **Encoding**
         - ``UTF8``
       * - **Template**
         - ``template_postgis``
 
-   .. figure:: img/pgadmin_newdbvalues.png
-      :align: center
+   .. figure:: img/pgadmin_newdbvalues1.png
 
-      *Entering new database parameters*
+      New database parameters (Properties tab)
+
+   .. figure:: img/pgadmin_newdbvalues2.png
+
+      New database parameters (Definition tab)
+
 
    .. note:: If you receive an error indicating that the source database (``template_postgis``) is being accessed by other users, this is because you may have accidentally clicked on the ``template_postgis`` database, which marks it as being "accessed".  To remedy this:
    
-      * Select the database ``postgres``.
+      * Click the database ``postgres`` in the tree to select it.
       * Right-click on the ``PostGIS (localhost:54321)`` item and select :guilabel:`Disconnect`.
       * Double-click ``PostGIS (localhost:54321)`` to reconnect and connect again.
 
-#. Select the new ``SuiteWorkshop`` database and open it up to display the tree of objects. You'll see the ``public`` schema, a node called ``Tables``, and under that a couple of PostGIS-specific metadata tables:  ``geometry_columns`` and ``spatial_ref_sys``.
+#. Click the new ``SuiteWorkshop`` database and open it up to display the tree of objects. You'll see the ``public`` schema, a node called ``Tables``, and under that a PostGIS-specific metadata tables called ``spatial_ref_sys``. In the ``Views`` node, you'll see two views: ``geometry_columns`` and ``geography_columms``. We'll be working with the former as part of this workshop.
 
    .. figure:: img/pgadmin_dbobjects.png
-      :align: center
 
-      *New database tables in pgAdmin*
-
+      New database tables in pgAdmin

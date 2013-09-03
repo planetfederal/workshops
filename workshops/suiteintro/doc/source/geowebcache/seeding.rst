@@ -13,26 +13,22 @@ Let's set the cache properties of our tiling schema for our ``earth`` base map.
 #. To start, open GeoWebCache from the Dashboard:
 
 .. figure:: img/gwc_dashboard.png
-   :align: center
     
-   *Linking to GeoWebCache from the Dashboard*
+   Linking to GeoWebCache from the Dashboard
        
 #. The interface of GeoWebCache lists all configured GeoServer feature types currently being served by GeoServer. You'll see our ``earth`` layers along with others that ship by default.  
 
    .. figure:: img/gwc_screen_welcome.png
-      :align: center
 
 #. Locate our ``earthmap`` group layer in the list and click the :guilabel:`OpenLayers [png]` preview
 
    .. figure:: img/gwc_screen_cachedemo.png
-      :align: center
     
-   *OpenLayers preview of the cache in EPSG:4326 with PNG image format*
+   OpenLayers preview of the cache in EPSG:4326 with PNG image format
 
 #. Go back to the GeoWebCache main page and locate our ``earthmap`` layer group.  Click :guilabel:`Seed this layer`.
 
    .. figure:: img/gwc-screen_seedprops.png
-      :align: center
     
 #. On the next page, we can set our tiling strategy, including the scale levels, tile boundaries, and image format for our ``earthmap`` cache.  Make your values look like these:
 
@@ -75,13 +71,12 @@ Let's set the cache properties of our tiling schema for our ``earth`` base map.
 #. The :guilabel:`Submit` button kicks off the seeding process. Your computer will grind away for a while as the tiles are generated and placed in the cache directory.
 
    .. figure:: img/gwc_screen_seedstatus.png
-      :align: center
     
 #. Click :guilabel:`Refresh List` to see the count down for estimated time remaining. When the layer is fully cached, you will be redirected to the properties page.  
 
 We've successfully seeded our first map!
 
-Further details for how to configure your own tiling schema, including custom projections, can be found in the GeoWebCache `Documentation <http://geowebcache.org/docs/current/configuration/index.html>`_.
+Further details for how to configure your own tiling schema, including custom projections, can be found in the `GeoWebCache documentation <http://geowebcache.org/docs/current/configuration/index.html>`_.
 
 Bonus / Discussion
 ~~~~~~~~~~~~~~~~~~

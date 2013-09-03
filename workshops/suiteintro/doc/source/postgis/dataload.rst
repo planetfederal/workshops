@@ -9,9 +9,13 @@ This section focuses on the basic task of loading shapefiles into our database u
 
    .. note:: The PostGIS Shapefile (and DBF) loader can also be launched from within pgAdmin. From the :guilabel:`Plugins` menu, select :guilabel:`PostGIS Shapefile and DBF Loader`.
 
-#. Next, open the *Shape File* browser and navigate to the :file:`data` directory in the workshop package. Select the :file:`cities.shp` file. 
+#. Next, click *Add File* and navigate to the :file:`data` directory in the workshop package. Select the following files:
 
-#. Fill in the details for the :guilabel:`PostGIS Connection` section.
+   * :file:`cities.shp` 
+   * :file:`countries.shp` 
+   * :file:`ocean.shp` 
+
+#. Click *View connection details* and enter the following:
 
    .. list-table::
       :header-rows: 1
@@ -28,53 +32,23 @@ This section focuses on the basic task of loading shapefiles into our database u
         - ``SuiteWorkshop``
 
 
-#. When finished, click on the :guilabel:`Test Connection...` button to verify that the settings are correct.
+#. When finished, click **OK** to test the connection.
 
-   .. warning:: Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.  If you encounter errors, verify this setting first.
+   .. warning:: Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432. If you encounter errors, verify this setting first.
 
-#. Next, fill in the details for the :guilabel:`Configuration` section.
-
-   .. list-table::
-      :header-rows: 1
-
-      * - Option
-        - Value
-      * - **Destination Schema**
-        - ``public``
-      * - **SRID**
-        - ``4326``
-      * - **Destination Table**
-        - ``cities``
-      * - **Geometry Column**
-        - ``the_geom``
-
-#. Click the :guilabel:`Options` button and select :guilabel:`Load data using COPY rather than INSERT`. This will make the data load process a slightly faster.
-
-   .. figure:: img/pgshapeloader_options.png
-      :align: center
-
-      *pgShapeloader options*
+#. Next, edit the SRID column, and make sure that each entry reads **4326** (not **0**)
 
 #. Finally, click the :guilabel:`Import` button to launch the import process.
 
    .. figure:: img/pgshapeloader_main.png
-      :align: center
 
-      *Loading a shapefile into PostGIS*
-
-#. Repeat the import process for the 2 remaining shapefiles in the workshop data directory.
-
-     * ``countries.shp``
-     * ``ocean.shp``
-
-   Except for the input file and output table name (which is automatically updated), all the other fields in pgShapeLoader should remain the same.
+      Loading a shapefile into PostGIS
 
 #. When all of the files are loaded, go back to pgAdmin and click the :guilabel:`Refresh` button to update the tree view. You should see your three new tables show up in the :guilabel:`Tables` section of the tree.
 
    .. figure:: img/pgadmin_refreshed.png
-      :align: center
 
-      *pgAdmin view with newly-loaded tables*
+      pgAdmin view with newly-loaded tables
 
 Bonus: Visualizing PostGIS data
 -------------------------------
@@ -82,9 +56,8 @@ Bonus: Visualizing PostGIS data
 Geometries in PostGIS look a little something like this ...
 
 .. figure:: img/pg_matrix.png
-   :align: center
 
-   *Geometries in PostGIS a.k.a. "The Red Pill"*
+   Geometries in PostGIS
 
 .. code-block:: sql
 
@@ -117,4 +90,4 @@ If you have a client capable of connecting to PostGIS, go ahead and give it a qu
       * - **Database**
         - ``SuiteWorkshop``
 
-.. note:: Desktop GIS tools we recommend are `uDig <udig.org>`_ and `Quantum GIS <qgis.org>`_.  Both of these are available for free download.
+.. note:: We recommend the free `Quantum GIS <qgis.org>`_ as a desktop GIS tool.

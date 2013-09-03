@@ -1,9 +1,9 @@
 .. _index:
 
-Introduction to the OpenGeo Suite
-=================================
+Introduction to OpenGeo Suite
+=============================
 
-Welcome! This workshop will introduce you to the OpenGeo Suite, a complete web mapping solution.  The OpenGeo Suite includes the following components:
+Welcome! This workshop will introduce you to OpenGeo Suite, a complete web mapping solution. OpenGeo Suite includes the following components:
 
 * **PostGIS** - Spatial database
 * **GeoServer** - Web map / application server
@@ -12,9 +12,8 @@ Welcome! This workshop will introduce you to the OpenGeo Suite, a complete web m
 * **GeoExt** - Mapping application library
 
 .. figure:: suite/img/stack_all.png
-   :align: center
 
-   *The OpenGeo Suite stack*
+   The OpenGeo Suite stack
 
 We'll go into the details of each component throughout the workshop.
 

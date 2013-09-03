@@ -70,6 +70,5 @@ GeoServer recognizes styles in Styled Layer Descriptor (SLD) format.
 The following diagram summarizes how the carious concepts in this section interact:
 
 .. figure:: img/concepts.png
-   :align: center
 
-   *Relationships between workspaces, stores, layers, and layer groups*
+   Relationships between workspaces, stores, layers, and layer groups

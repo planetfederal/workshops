@@ -3,7 +3,7 @@
 Introducing OpenLayers and GeoExt
 =================================
 
-The OpenGeo Suite includes a few libraries for building custom web map applications.  This section will discuss the different projects and how they fit together.
+OpenGeo Suite includes some JavaScript libraries for building custom web map applications. These include OpenLayers and GeoExt
 
 OpenLayers
 ----------
@@ -26,27 +26,16 @@ GeoExt combines the geospatial controls of OpenLayers with the user interface co
 
 .. figure:: img/geoext_screen_sample.png
 
-GXP
----
-
-GXP is a client-side only JavaScript library, built on top of OpenLayers, GeoExt, and Ext JS. The purpose of GXP is twofold:
-
-  * Creating web mapping applications should be as simple as providing JSON configuration
-  * Creating an extensible framework in which it is easy to add new layer types and new tools.
-
-.. note:: GXP is unfortunately outside the scope of the workshop.
-
-Previous Examples
+Previous examples
 -----------------
 
 We've seen both OpenLayers and GeoExt applications in the preceding sections.
 
 * The GeoServer/GeoWebCache layer preview tools are built using OpenLayers
-* Our published map application (and GeoExplorer itself) use GeoExt
+* Our published map application (and GeoExplorer itself) are built with GeoExt
 
 In our evolving diagram of the OpenGeo Suite architecture, applications built using OpenLayers and/or GeoExt sit right at the top consuming layers, with/without GeoWebCache, from our local GeoServer.
 
 .. figure:: ../suite/img/stack_geoext.png
-   :align: center
 
-   *OpenLayers/GeoExt web-mapping applications in the OpenGeo Suite stack*
+   OpenLayers/GeoExt web-mapping applications in the OpenGeo Suite stack

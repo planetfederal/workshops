@@ -11,9 +11,8 @@ Web Servers
 A web server is a program that serves content (web pages, images, files, data, etc.) using HTTP (Hypertext Transfer Protocol). When you use your browser to connect to a website, you contact a web server. The web server takes the request, interprets it, and returns a response, which the browser renders on the screen.
 
 .. figure:: img/server-web.png
-   :align: center
 
-   *Web server request life-cycle*
+   Web server request life-cycle
 
 For example, when you request a web page, your request takes the form of a URL::
 
@@ -46,9 +45,8 @@ Because it wouldn't be useful to simply say "Give me all the geography ever", we
 Protocols that can be employed to make requests for geographic data include **Web Map Service (WMS)** and **Web Feature Service (WFS)**.
 
 .. figure:: img/server-mapping.png
-   :align: center
 
-   *A typical request life-cycle*
+   A typical request life-cycle
 
 Some popular web mapping servers:
 

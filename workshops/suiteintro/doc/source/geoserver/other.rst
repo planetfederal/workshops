@@ -27,11 +27,11 @@ A much newer development in GeoServer, WPS is only recently available in the cor
 
 For more information on WPS, please see the OGC site on the Web Processing Service protocol at `<http://www.opengeospatial.org/standards/wps>`_.
 
-REST Interface
+REST interface
 --------------
 
 GeoServer also has a RESTful API for loading and configuring GeoServer. 
 
 With this interface, one can create scripts (via bash, Python, etc) to batch load any number of files.
 
-Those interested in more information can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/restconfig/index.html.
+Those interested in more information can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/rest/.

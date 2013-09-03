@@ -9,18 +9,23 @@ Projects
 --------
 
 * `PostGIS <http://postgis.net>`_
+
   * http://opengeo.org/technology/postgis/
 
 * `GeoServer <http://geoserver.org/>`_
+
   * http://opengeo.org/technology/geoserver/
 
 * `GeoWebCache <http://geowebcache.org/>`_
+
   * http://opengeo.org/technology/geowebcache/
 
 * `OpenLayers <http://openlayers.org/>`_
+
   * http://opengeo.org/technology/openlayers/
 
 * `GeoExt <http://geoext.org/>`_
+
   * http://opengeo.org/technology/geoext/
 
 
@@ -47,5 +52,5 @@ OpenGeo
 
 * We build the best open source geospatial software designed for enterprise deployments.
 * Visit us at http://opengeo.org/
-* More about the OpenGeo Suite at http://opengeosuite.com/
+* More about OpenGeo Suite at http://opengeo.org/products/suite/
 * More education materials at http://workshops.opengeo.org/

@@ -16,14 +16,12 @@ Conveniently, the file :file:`<workshop>\\data\\rivers.zip` contains just a shap
 #. We've seen this dialog before, but this time there's an :guilabel:`Upload Data` button in the bottom left corner.
 
    .. figure:: img/gx_dialog_addwithupload.png
-      :align: center
    
 #. Click :guilabel:`Upload Data`.
 
 #. Fill in the fields in the :guilabel:`Upload Data` dialog, as shown.
 
    .. figure:: img/gx_dialog_upload.png
-      :align: center
    
 #. When you're ready, click :guilabel:`Upload`.
 
@@ -37,15 +35,13 @@ Conveniently, the file :file:`<workshop>\\data\\rivers.zip` contains just a shap
 #. When your layer has uploaded successfully, it will automatically appear in the list of :guilabel:`Available Layers` ready to be added to your map.
 
    .. figure:: img/gx_dialog_uploaded.png
-      :align: center
    
 #. Add the layer to your map, and click :guilabel:`Done` to close the :guilabel:`Available Layers` dialog.
 
    .. figure:: img/gx_dialog_uploadedadded.png
-      :align: center
-      
-      *Rivers layer in GeoExplorer*
-      
+
+      Rivers layer in GeoExplorer
+
 Bonus
 -----
 
