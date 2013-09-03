@@ -14,6 +14,7 @@ Let's start composing a custom map by adding some layers from our local GeoServe
 #. By default, the list of :guilabel:`Available Layers` is tuned to our local GeoServer instance. You should recognize some of the layer names from previous chapters. 
 
 #. Make sure that :guilabel:`Local GeoServer` is selected in the data source drop-down. Select the :guilabel:`earthmap` group layer and the :guilabel:`smallworld` feature layer that we previously created in GeoServer, and :guilabel:`Add` them to the map.
+
    .. figure:: img/gx_ourlayers.png
       
       Available Layers list
@@ -24,8 +25,8 @@ Let's start composing a custom map by adding some layers from our local GeoServe
 
 #. Back on your map, you can re-order your layers by selecting an item, and dragging and dropping it above or below another in the Layers Panel.  Re-order your layers, so they appear as follows:
 
-   * smallworld
-   * earthmap
+   #. smallworld
+   #. earthmap
    
 .. figure:: img/gx_composedmap.png
    
@@ -48,6 +49,8 @@ The `Available Layers` window includes our Local GeoServer and a selection of po
 
 #. Enter a valid URL to a WMS endpoint, and click the :guilabel:`Add Server` button.
 
-   .. note:: An example of this would be ``http://suite.opengeo.org/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities``
+   .. note:: An example of this would be::
+
+      http://suite.opengeo.org/geoserver/ows?service=wms&version=1.3.0&request=GetCapabilities
 
 #. Select your new server's name in the drop-down list to view all of the layers available from that server that can be added to your map.

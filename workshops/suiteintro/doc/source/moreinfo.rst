@@ -43,7 +43,7 @@ Developer mailing lists
 
 * PostGIS: http://lists.osgeo.org/mailman/listinfo/postgis-devel/
 * GeoServer: https://lists.sourceforge.net/lists/listinfo/geoserver-devel/
-* GeoWebCache: http://sourceforge.net/mailarchive/forum.php?forum_name=geowebcache-devel/
+* GeoWebCache: https://lists.sourceforge.net/lists/listinfo/geowebcache-devel/
 * OpenLayers: http://lists.osgeo.org/mailman/listinfo/openlayers-dev/
 * GeoExt: http://www.geoext.org/cgi-bin/mailman/listinfo/dev/
 

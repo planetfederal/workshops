@@ -5,13 +5,16 @@ Caching On-Demand
 
 GeoWebCache is integrated into GeoServer and activated by default. This means that just by using GeoServer, requesting map tiles through WMS, those tiles are stored via the integrated GeoWebCache and are available for future requests.
 
-In the GeoServer web admin, if you click :guilabel:`Caching Defaults` under :guilabel:`Tile Caching`, you will see the entries for global caching.
+Turn off automatic caching
+--------------------------
 
-For the purposes of this exercise, uncheck the four :guilabel:`Provided Services` (WMS, WMS-C, TMS, WMTS). This will turn off automatic caching and allow us to see the difference in performance between cached map tiles and uncached map tiles.
+#. In the GeoServer web admin, click :guilabel:`Caching Defaults` under :guilabel:`Tile Caching` to see the entries for global caching.
 
-.. figure:: img/gscaching.png
+#. For the purposes of this exercise, **uncheck the four :guilabel:`Provided Services`** (WMS, WMS-C, TMS, WMTS). This will turn off automatic caching and allow us to see the difference in performance between cached map tiles and uncached map tiles.
 
-   Integrated caching settings in GeoServer
+   .. figure:: img/gscaching.png
+
+      Integrated caching settings in GeoServer
 
 In this section we'll configure a GeoExplorer map to use cached images from GeoWebCache over top of our local WMS, and then compare cached delivery times with full WMS requests.
 

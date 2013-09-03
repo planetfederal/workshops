@@ -110,6 +110,7 @@ The OpenGeo Suite Dashboard is designed as a convenience to users, but it is not
 
     opengeo-suite start
 
-::
+  ::
+
     opengeo-suite stop
 

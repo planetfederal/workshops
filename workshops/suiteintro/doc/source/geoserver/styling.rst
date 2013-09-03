@@ -66,9 +66,9 @@ Loading Styles
 
    .. note:: The updated definition is saved as an SLD file on your local machine in :file:`<user>\\.opengeo\\data_dir\\styles\\`.
 
-#. Repeat this process for both the ``earth_countries`` and ``earth_ocean`` styles. The source SLDs should be in your file:`<workshop>\\styles\\` directory.
+#. Repeat this process for both the ``earth_countries`` and ``earth_ocean`` styles. The source SLDs should be in your :file:`<workshop>\\styles\\` directory.
 
-#. Preview one/all/some of the layers ... How does it look now?
+#. Preview one/all/some of the layers. How do they look now?
 
    .. figure:: img/gs_previewsld.png
    

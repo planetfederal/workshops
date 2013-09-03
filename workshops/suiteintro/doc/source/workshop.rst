@@ -26,7 +26,7 @@ The following are the high-level tasks that we'll accomplish:
 
      * GeoExplorer background
      * View, compose, and publish maps 
-     * Edit geospatial data.
+     * Edit geospatial data
 
 #. GeoWebCache
 
@@ -45,7 +45,7 @@ Data package
 
 We will assume that the contents of the workshop package is located on your desktop::
 
-  <user>\Desktop\suiteintro\`
+  <user>\Desktop\suiteintro\
 
 In this case, ``<user>`` is your local user's home directory. In a Windows installation, this is typically:
 
@@ -74,10 +74,9 @@ For example::
 Contents
 --------
 
-* ``<workshop>\\data`` - Spatial data used in the examples.
-* ``<workshop>\\doc`` - Workshop text (what you're reading right now).
-* ``<workshop>\\html`` - Template HTML files and images.
-* ``<workshop>\\software`` - OpenGeo Suite installer plus a few utilities that might be helpful.
-* ``<workshop>\\sql`` - SQL files used in the PostGIS section.
-* ``<workshop>\\styles`` - Styling directives for the spatial data used throughout this workshop.
+* ``<workshop>\data`` - Spatial data used in the examples.
+* ``<workshop>\doc`` - Workshop text (what you're reading right now).
+* ``<workshop>\html`` - Template HTML files and images.
+* ``<workshop>\sql`` - SQL files used in the PostGIS section.
+* ``<workshop>\styles`` - Styling directives for the spatial data used throughout this workshop.
 

@@ -12,8 +12,8 @@ A map is generated on a web page by four components:
 #. Style Declarations
 #. Map Initialization Code
 
-Simpleexample
----------------
+Simple example
+--------------
 
 Let's create and preview a simple, fully functional example of an OpenLayers map.
 

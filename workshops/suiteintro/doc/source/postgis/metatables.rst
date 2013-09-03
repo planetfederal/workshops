@@ -21,7 +21,7 @@ The ``geometry_columns`` view defines the dimension, geometry, and spatial refer
 
 .. figure:: img/pg_metatable_geometrycolumns.png
 
-   Contents of geometry_columns table
+   Contents of geometry_columns view
 
 geography_columns
 -----------------

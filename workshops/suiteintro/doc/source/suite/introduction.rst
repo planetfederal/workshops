@@ -31,6 +31,6 @@ OpenGeo Suite is a fully-open geospatial software stack for publishing your data
 
 .. figure:: img/stack_all.png
 
-   The OpenGeo Suite
+   OpenGeo Suite stack
 
 These are the key pieces we'll be using in this workshop.
