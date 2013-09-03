@@ -13,6 +13,9 @@ Tutorials are **practical walk-throughs** of actual application development exam
 `Building a GeoNames Heat Map <http://workshops.opengeo.org/tutorial-wordmap/>`_ - (`Demo <http://workshops.opengeo.org/tutorial-wordmap/_static/wordmap-full.html>`_)
   This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
 
+`Building a Census Map <http://workshops.opengeo.org/tutorial-censusmap/>`_ - (`Demo <http://workshops.opengeo.org/tutorial-censusmap/_static/code/censusmap-simple.html>`_)
+  This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
+
 
 Workshops
 ---------
