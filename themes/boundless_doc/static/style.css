@@ -5472,7 +5472,7 @@ input[type="color"]:focus::-webkit-input-placeholder,
   display: none;
 }
 #breadcrumbs {
-  padding: 10px 0;
+  padding: 0px 0;
 }
 #breadcrumbs .current {
   font-style: italic;
@@ -6713,10 +6713,10 @@ ol.comment-list {
   margin-left: -10px;
 }
 .site-footer {
-  padding-top: 30px;
+  padding-top: 0px;
   padding-left: 0;
   padding-right: 0;
-  padding-bottom: 20px;
+  padding-bottom: 0px;
   background-color: #1f3c49;
   color: #ffffff;
   font-size: 12px;
@@ -6802,7 +6802,7 @@ ol.comment-list {
 }
 .footer-sub-menu {
   text-align: center;
-  margin-top: 45px;
+  margin-top: 15px;
 }
 .footer-sub-menu li {
   display: inline-block;
