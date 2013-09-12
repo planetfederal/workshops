@@ -40,7 +40,7 @@ outline: none;
 /* Removes Firefox imposed outline */
 body {
 background: #fff;
-font-family: Helvetica, Arial, FreeSans, sans-serif;
+font-family: cantarell, Helvetica, Arial, FreeSans, sans-serif;
 padding: 0;
 font-size: 13px;
 margin: 0 !important;
@@ -313,7 +313,7 @@ border-bottom: 1px solid #89AAC3;
 }
 #pageheading h1 {
 font-weight: normal;
-font-family: Helvetica, Arial, FreeSans, sans-serif;
+font-family: cantarell, Helvetica, Arial, FreeSans, sans-serif;
 font-size: 18px;
 color: #0a2742;
 margin: 0 0 0 12px;
@@ -401,7 +401,7 @@ color: #33CCFF;
 ** COMMON STYLES
 */
 h1, h2, h3 {
-font-family: Helvetica, Arial, FreeSans, sans-serif;
+font-family: cantarell, Helvetica, Arial, FreeSans, sans-serif;
 }
 
 h1 {
@@ -745,7 +745,7 @@ margin-bottom: 10px;
 text-decoration: none;
 }
 .ogs h1 {
-font-family: "Optima",helvetica,"microsoft sans serif",arial,sans-serif;
+font-family: proxima-nova-semibold,"Optima","microsoft sans serif",arial,sans-serif;
 font-variant: small-caps;
 text-align: center;
 font-size: 2em;
@@ -804,7 +804,7 @@ border-bottom: solid 0px #ded;
 height: 2em;
 margin: 0;
 padding: 2px;
-font-family: Helvetica, Arial, sans-serif;
+font-family: cantarell,Helvetica, Arial, sans-serif;
 color: #486300;
 
 }
@@ -961,7 +961,7 @@ list-style: none;
 ul#schedule li .date {
 display: block;
 margin: 0;
-font-family: Helvetica, Arial, sans-serif;
+font-family: cantarell, Helvetica, Arial, sans-serif;
 font-size: 10px;
 color: #486300;
 float: right;
@@ -1263,7 +1263,7 @@ background: none;
 }
 #content.landing #landing_upper h1 {
 font-weight: bold;
-font-family: Optima, Helvetica, Arial, sans-serif;
+font-family: proxima-nova-semibold, Optima, Arial, sans-serif;
 font-size: 2em;
 color: #33231D;
 background: none;
