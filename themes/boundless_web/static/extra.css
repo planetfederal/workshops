@@ -171,6 +171,7 @@ pre {
   font-size: 100%;
   font-family: monospace;
   margin-bottom: 1em;
+  overflow: auto;
 }
 
 .figure {
@@ -207,8 +208,6 @@ margin: 0.5em 0 1em;
  img {
   width: expression(this.width > 580 ? 580: default);
   }
-
-
 }
 
 .admonition-title {
@@ -251,4 +250,47 @@ blockquote {
 /* Over-ride undesirable effect leaking in from opengeo style sheet */
 #content ul li:before {
   content: none;
+}
+
+#container {
+	min-height: 500px;
+	padding: 0;
+	text-align: left;
+	min-width: 960px;
+	width: auto;
+}
+
+.contents {
+	width: 910px;
+	margin: 0 auto;
+}
+
+#content {
+	line-height: 1.35em;
+	min-height: 200px;
+	padding: 0;
+	background: #ffffff;
+	z-index: -1;
+}
+
+#rightbar_main, .rightbar_main {
+	width: 590px;
+	float: left;
+	margin-left: 12px;
+	margin-bottom: 20px;
+	padding: 0;
+}
+
+#rightbar_bar, .rightbar_bar {
+	width: 270px;
+	float: right;
+	margin-right: 12px;
+	margin-bottom: 20px;
+	padding: 0;
+}
+
+
+.current_page_item a {
+	color: #ffffff !important;
+	background-color: #7db5d2 !important;
 }
