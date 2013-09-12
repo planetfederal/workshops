@@ -5211,7 +5211,7 @@ h2.big {
 }
 i {
   display: block;
-  background: url(images/spritesheet.png) no-repeat;
+  background: url(spritesheet.png) no-repeat;
 }
 i.search-icon {
   background-position: -3px -515px;
@@ -5479,7 +5479,7 @@ input[type="color"]:focus::-webkit-input-placeholder,
   font-weight: bold;
 }
 .hero {
-  background-image: url('images/hero.png');
+  background-image: url('hero.png');
 }
 #herotext {
   padding: 50px 0 0;
@@ -5517,19 +5517,19 @@ input[type="color"]:focus::-webkit-input-placeholder,
   margin: 10px 0;
 }
 .calloutinternal .icongear {
-  background: url('images/sritesheet.png') no-repeat -2px -333px;
+  background: url('spritesheet.png') no-repeat -2px -333px;
   width: 37px;
   height: 29px;
   display: inline-block;
 }
 .calloutinternal .iconman {
-  background: url('images/sritesheet.png') no-repeat -3px -394px;
+  background: url('spritesheet.png') no-repeat -3px -394px;
   width: 41px;
   height: 25px;
   display: inline-block;
 }
 .calloutinternal .iconchart {
-  background: url('images/sritesheet.png') no-repeat -3px -453px;
+  background: url('spritesheet.png') no-repeat -3px -453px;
   width: 33px;
   height: 31px;
   display: inline-block;
@@ -5804,7 +5804,7 @@ input[type="color"]:focus::-webkit-input-placeholder,
   background: #a1bf20;
 }
 .nav-tabs .arrow {
-  background: url('images/sritesheet.png') no-repeat -12px -11px;
+ background: url('spritesheet.png') no-repeat -12px -11px;
   width: 15px;
   height: 6px;
   position: absolute;
@@ -6856,7 +6856,7 @@ h4.widget-title {
 [id*="menu-opengeo-suite"] .menu-item {
   font-size: 21px;
   line-height: 1.5;
-  background-image: url('images/opengeo-suite-sprite.png');
+  background-image: url('opengeo-suite-sprite.png');
   background-repeat: no-repeat;
 }
 [id*="menu-opengeo-suite"] a {
@@ -6915,7 +6915,7 @@ h4.widget-title {
   margin: 12px 30px;
   padding: 4px 0 5px;
   font-size: 18px;
-  background-image: url('images/software-packages-sprite.png');
+  background-image: url('software-packages-sprite.png');
   background-repeat: no-repeat;
 }
 [id*="software-packages"] a {

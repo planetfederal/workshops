@@ -172,7 +172,7 @@
 <script src="http://boundlessgeo.com/wp-content/themes/open-geo/js/html5.js" type="text/javascript"></script>
 <![endif]-->
 
-<link rel="stylesheet" id="style-css" href="{{ pathto('_static/boundless.css', 1) }}" type="text/css" media="all">
+<link rel="stylesheet" id="style-css" href="{{ pathto('_static/style.css', 1) }}" type="text/css" media="all">
 <script type="text/javascript" src="{{ pathto('_static/jquery.js', 1) }}"></script>
 <script type="text/javascript" src="{{ pathto('_static/jquery-migrate.min.js', 1) }}"></script>
 
@@ -198,11 +198,18 @@
 					<div class="search dropdown">
 					  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="search-icon"></i></a>
 						  <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							  <form method="get" id="searchform" class="searchform" action="http://boundlessgeo.com/" role="search">
+						        <form class="search" action="{{ pathto('search') }}" method="get">
+						          <label for="q" class="screen-reader-text">Search</label>
+						          <input type="text" class="field" name="q" placeholder="Search …" />
+						          <input type="submit" class="submit" value="{{ _('Go') }}" />
+						          <input type="hidden" name="check_keywords" value="yes" />
+						          <input type="hidden" name="area" value="default" />
+						        </form>
+						<!--  <form method="get" id="searchform" class="searchform" action="http://opengeo.dev.integritystl.com/" role="search">
 								  <label for="s" class="screen-reader-text">Search</label>
 							  <input type="search" class="field" name="s" value="" id="s" placeholder="Search …">
 							  <input type="submit" class="submit" id="searchsubmit" value="Search">
-							  </form>
+							  </form>-->
 						  </div>
 					</div>
 				</div>
@@ -341,7 +348,7 @@
 
 </div><!-- container -->
 
-<!--<script type="text/javascript" src="http://boundlessgeo.com/wp-content/themes/open-geo/js/dropdown.js"></script>
+<script type="text/javascript" src="{{ pathto('_static/dropdown.js', 1) }}"></script>
 
   </body>
 </html>
