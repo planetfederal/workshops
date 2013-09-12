@@ -52,6 +52,23 @@ dt {
 	}
 }
 
+.menu-main-container ul li a.solutions:hover {
+	background: #00A78D;
+	color: #ffffff;
+}
+.menu-main-container ul li a.resources {
+	background: #7db5d2;
+	color: #ffffff;
+}
+.menu-main-container ul li a.about:hover {
+	background: #BCD64C;
+	color: #ffffff;
+}
+.menu-main-container ul li a.support:hover {
+	background: #FDCC32;
+	color: #ffffff;
+}
+
 ul#menu-solutions.menu {
 margin-left: -20px !important;
 }
@@ -169,7 +186,7 @@ pre {
   padding-left: 10px;
   padding-right: 10px;
   font-size: 100%;
-  font-family: monospace;
+  font-family: Source Code Pro, monospace;
   margin-bottom: 1em;
 }
 
