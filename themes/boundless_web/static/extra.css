@@ -269,3 +269,46 @@ blockquote {
 #content ul li:before {
   content: none;
 }
+
+
+#container {
+  min-height: 500px;
+  padding: 0;
+  text-align: left;
+  min-width: 960px;
+  width: auto;
+}
+
+.contents {
+  width: 910px;
+  margin: 0 auto;
+}
+
+#content {
+  line-height: 1.35em;
+  min-height: 200px;
+  padding: 0;
+  background: #ffffff;
+  z-index: -1;
+}
+
+#rightbar_main, .rightbar_main {
+  width: 590px;
+  float: left;
+  margin-left: 12px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+#rightbar_bar, .rightbar_bar {
+  width: 270px;
+  float: right;
+  margin-right: 12px;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.current_page_item a {
+  color: #ffffff !important;
+  background-color: #7db5d2 !important;
+}
