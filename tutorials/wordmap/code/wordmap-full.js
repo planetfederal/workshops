@@ -129,7 +129,7 @@ Ext.onReady(function () {
         flex: 0,
         margin: "0",
         padding: "0",
-        html: "<p align='right'><img src='http://projects.opengeo.org/common/theme/img/logo.png'/><br/><b>Geonames Heat Map</b></p><p align='left'>Search and map the patterns in two&nbsp;million geographic names. Any names that contain the query word are added to the heat map.</p>"
+        html: "<p align='right'><img width='220' src='http://boundlessgeo.com/wp-content/themes/open-geo/images/logo.png'/><br/><b>Geonames Heat Map</b></p><p align='left'>Search and map the patterns in two&nbsp;million geographic names. Any names that contain the query word are added to the heat map.</p>"
       },{
         xtype: "fieldset",
         title: "Enter a word",
