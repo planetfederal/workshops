@@ -48,7 +48,7 @@ var textField = new Ext.form.TextField({
 
 // Map panel, with text field embedded in top toolbar
 var mapPanel = new GeoExt.MapPanel({
-  title: "OpenGeo Geonames Heat Map",
+  title: "Boundless Geonames Heat Map",
   tbar: ["Enter a word to map:", textField],
   map: olMap
 });

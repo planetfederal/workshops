@@ -60,7 +60,7 @@ Ext.onReady(function () {
     region: "center",
     headerAsText: false,
     header: false,
-    title: "OpenGeo Word Map",
+    title: "Boundless Word Map",
     tbar: ["Enter a word to map:", wordField],
     map: olMap
   });
