@@ -21,9 +21,9 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
 
 7. Upload each SLD file in the styles/earth/ directory as a new style in GeoServer and associate each with its namesake layer.
 
-8. Create a layer group called "earth" that contains each of the layers loaded. Suggested order: ocean, cities, coastline, countries, rivers
+8. Load shadedrelief.tif as a GeoTIFF datastore and layer (again in the earth workspace).
 
-9. Load shadedrelief.tif as a GeoTIFF datastore and layer (again in the earth workspace).
+9. Create a layer group called "earth" that contains each of the layers loaded. Suggested order: shadedrelief, ocean, cities, coastline, countries, rivers
 
 10. Create a PostGIS database called advanced
     createdb -T template_postgis advanced
