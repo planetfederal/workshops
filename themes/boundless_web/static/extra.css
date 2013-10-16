@@ -1,11 +1,14 @@
 h1 {
 	font-size: 32px !important;
+	border-bottom: #dadada solid 3px !important;
+	padding-bottom: 5px !important;
+	margin-top: 20px !important;
 }
 
 h2 {
-	border-bottom: #dadada solid 3px !important;
+	border-bottom: #dadada solid 2px !important;
 	font-size: 21px !important;
-	font-weight: 600 !important;
+/*	font-weight: 600 !important; */
 	padding-top: 10px !important;
 	padding-bottom: 5px !important;
 }
@@ -13,7 +16,8 @@ h2 {
 
 p {
 	font-size: 14px !important;
-	margin-bottom: 30px !important;
+	margin-bottom: 15px !important;
+	margin-top: 15px !important;
 }
 
 dt {
@@ -114,6 +118,13 @@ ul#menu-about-menu.menu a:hover {
 	border-bottom: none !important;
 	margin-top: 20px;
 	color: #3D7199 !important;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+	margin-top: 10px;
+  margin-left: 15px;
+
+
 }
 
 #breadcrumbs a:link{
@@ -152,7 +163,7 @@ margin-bottom: 0.7em;
 ul,ol {
 margin-top: 1.0em;
 margin-bottom: 1.0em;
-list-style-type: none !important;
+/*list-style-type: none !important;*/
 }
 
 
@@ -174,8 +185,12 @@ a.headerlink:hover {
   font-size:80%;
 }
 
-#rightbar_main, #rightbar_bar {
+#rightbar_bar {
   font-size: 110%;
+}
+
+#rightbar_main {
+/*  font-size: 110%; */
 }
 
 pre {
@@ -185,9 +200,10 @@ pre {
   padding-bottom: 7px;
   padding-left: 10px;
   padding-right: 10px;
-  font-size: 100%;
+  font-size: 90%;
   font-family: Source Code Pro, monospace;
-  margin-bottom: 1em;
+  margin-bottom: 0em;
+  margin-top: 0em;
 }
 
 .figure {
@@ -224,26 +240,25 @@ margin: 0.5em 0 1em;
  img {
   width: expression(this.width > 580 ? 580: default);
   }
-
-
 }
 
-.admonition-title {
+p.admonition-title {
   font-weight: bold;
+  font-size: 130%;
   color: #486300;
 }
 
-.admonition {
+div.admonition {
   margin-bottom: 1em;
   border: 1px solid #ccc;
   background-color: #eee;
-  padding-top: 7px;
+  padding-top: 0px;
   padding-bottom: 0px;
   padding-left: 10px;
   padding-right: 10px;
 }
 
-.warning {
+div.warning {
   background-color: #ffe0e0;
 }
 
@@ -297,11 +312,13 @@ blockquote {
   float: left;
   margin-left: 12px;
   margin-bottom: 20px;
-  padding: 0;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
 }
 
 #rightbar_bar, .rightbar_bar {
-  width: 270px;
+  width: 210px;
   float: right;
   margin-right: 12px;
   margin-bottom: 20px;

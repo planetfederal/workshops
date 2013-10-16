@@ -35,8 +35,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Wordmapping with the OpenGeo Suite'
-copyright = u'2013, OpenGeo'
+project = u'Wordmapping with OpenGeo Suite'
+copyright = u'2013, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -162,8 +162,8 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'Wordmapping.tex', u'Wordmapping with the OpenGeo Suite',
-   u'OpenGeo', 'howto'),
+  ('index', 'Wordmapping.tex', u'Wordmapping with OpenGeo Suite',
+   u'Boundless', 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

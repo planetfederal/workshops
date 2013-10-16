@@ -312,10 +312,14 @@ With our data normalized, we are ready to create one style to rule them all!
 
    <?xml version="1.0" encoding="ISO-8859-1"?>
    <StyledLayerDescriptor version="1.0.0"
-     xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc"
-     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns="http://www.opengis.net/sld" 
+     xmlns:ogc="http://www.opengis.net/ogc"
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
      xmlns:gml="http://www.opengis.net/gml"
-     xsi:schemaLocation="http://www.opengis.net/sld http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
+     xsi:schemaLocation="http://www.opengis.net/sld 
+     http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
+     
      <NamedLayer>
        <Name>opengeo:stddev</Name>
        <UserStyle>
@@ -334,7 +338,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                 <Fill>
-                   <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                   <!-- CssParameters allowed are fill and fill-opacity -->
                    <CssParameter name="fill">#c51b7d</CssParameter>
                 </Fill>
              </PolygonSymbolizer>
@@ -355,7 +359,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                <Fill>
-                 <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                 <!-- CssParameters allowed are fill and fill-opacity -->
                  <CssParameter name="fill">#e9a3c9</CssParameter>
                </Fill>
              </PolygonSymbolizer>
@@ -376,7 +380,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                <Fill>
-                 <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                 <!-- CssParameters allowed are fill and fill-opacity -->
                  <CssParameter name="fill">#fde0ef</CssParameter>
                </Fill>
              </PolygonSymbolizer>
@@ -397,7 +401,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                <Fill>
-                 <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                 <!-- CssParameters allowed are fill and fill-opacity -->
                  <CssParameter name="fill">#e6f5d0</CssParameter>
                </Fill>
              </PolygonSymbolizer>
@@ -418,7 +422,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                <Fill>
-                 <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                 <!-- CssParameters allowed are fill and fill-opacity -->
                  <CssParameter name="fill">#a1d76a</CssParameter>
                </Fill>
              </PolygonSymbolizer>
@@ -434,7 +438,7 @@ With our data normalized, we are ready to create one style to rule them all!
              </ogc:Filter>
              <PolygonSymbolizer>
                 <Fill>
-                   <!-- CssParameters allowed are fill (the color) and fill-opacity -->
+                   <!-- CssParameters allowed are fill and fill-opacity -->
                    <CssParameter name="fill">#4d9221</CssParameter>
                 </Fill>
              </PolygonSymbolizer>
