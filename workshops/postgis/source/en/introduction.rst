@@ -99,13 +99,13 @@ A common question from people familiar with open source databases is, "Why wasn'
 
 PostgreSQL has:
 
-  * Proven reliability and transactional integrity by default (ACID)
-  * Careful support for SQL standards (full SQL92)
-  * Pluggable type extension and function extension
-  * Community-oriented development model
-  * No limit on column sizes ("TOAST"able tuples) to support big GIS objects
-  * Generic index structure (GiST) to allow R-Tree index
-  * Easy to add custom functions
+* Proven reliability and transactional integrity by default (ACID)
+* Careful support for SQL standards (full SQL92)
+* Pluggable type extension and function extension
+* Community-oriented development model
+* No limit on column sizes ("TOAST"able tuples) to support big GIS objects
+* Generic index structure (GiST) to allow R-Tree index
+* Easy to add custom functions
 
 Combined, PostgreSQL provides a very easy development path to add new spatial types. In the proprietary world, only Illustra (now Informix Universal Server) allows such easy extension. This is no coincidence; Illustra is a proprietary re-working of the original PostgreSQL code base from the 1980's. 
 
