@@ -5,7 +5,10 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
 
 
 1. Install the OpenGeo Suite. The software is not included in this bundle, but you can get it for free here: 
-   http://opengeo.org/products/suite/
+  http://repo.opengeo.org/suite/releases/enterprise/windows/OpenGeoSuite-3.1.exe
+  http://repo.opengeo.org/suite/releases/enterprise/mac/OpenGeoSuite-3.1.dmg
+  http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-centos.pdf
+  http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-ubuntu.pdf
 
 2. Create a PostGIS database called earth
    createdb -T template_postgis earth
@@ -21,9 +24,9 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
 
 7. Upload each SLD file in the styles/earth/ directory as a new style in GeoServer and associate each with its namesake layer.
 
-8. Create a layer group called "earth" that contains each of the layers loaded. Suggested order: ocean, cities, coastline, countries, rivers
+8. Load shadedrelief.tif as a GeoTIFF datastore and layer (again in the earth workspace).
 
-9. Load shadedrelief.tif as a GeoTIFF datastore and layer (again in the earth workspace).
+9. Create a layer group called "earth" that contains each of the layers loaded. Suggested order: shadedrelief, ocean, cities, coastline, countries, rivers
 
 10. Create a PostGIS database called advanced
     createdb -T template_postgis advanced
