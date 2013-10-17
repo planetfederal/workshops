@@ -22,7 +22,7 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
 
 6. Load each table from the PostGIS store into GeoServer as a layer using the same names as the tables.
 
-7. Upload each SLD file in the styles/earth/ directory as a new style in GeoServer and associate each with its namesake layer. Use capital letters for style names.
+7. Upload each SLD file in the styles/earth/ directory as a new style in GeoServer and associate each with its namesake layer. The first letter of the style names should be capitalised.
 
 8. Load shadedrelief.tif as a GeoTIFF datastore and layer (again in the earth workspace).
 
