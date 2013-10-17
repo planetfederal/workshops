@@ -33,7 +33,7 @@ master_doc = 'index'
 
 # General substitutions.
 project = u'Introduction to PostGIS'
-copyright = u'2012, Paul Ramsey, OpenGeo | Mark Leslie, LISAsoft'
+copyright = u'2012, Paul Ramsey, Boundless | Mark Leslie, LISAsoft'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.

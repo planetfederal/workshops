@@ -32,8 +32,8 @@ source_suffix = '.rst'
 master_doc = 'contents'
 
 # General substitutions.
-project = u'OpenGeo Education Center'
-copyright = u'2009-2010, OpenGeo'
+project = u'Education Center'
+copyright = u'2009-2010, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -79,7 +79,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'opengeo_v1'
+html_theme = 'boundless_web'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -91,7 +91,7 @@ html_theme_path = ['../../../../themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'OpenGeo Education Center'
+html_title = 'Education Center'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -146,7 +146,7 @@ html_copy_source = False
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OpenGeoEducation'
+htmlhelp_basename = 'Education'
 
 
 # Options for LaTeX output
@@ -161,8 +161,8 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('contents', 'OpenGeoEducation.tex', u'OpenGeo Education Center',
-   u'OpenGeo', 'manual'),
+  ('contents', 'Education.tex', u'Education Center',
+   u'Boundless', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

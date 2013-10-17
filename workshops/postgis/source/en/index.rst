@@ -6,8 +6,8 @@ Introduction to PostGIS
 Getting Started
 ---------------
 
-* This workshop uses a data bundle. Download it from  http://files.opengeo.org/workshopmaterials/postgis-workshop-201207.zip and unzip it in a convenient location.
-* This workshop uses the OpenGeo Suite. Download it from http://opengeo.org/technology/suite/download/ and place it in a convenient location.
+* This workshop uses a data bundle. Download it from  http://files.boundlessgeo.com/workshopmaterials/postgis-workshop-201207.zip and unzip it in a convenient location.
+* This workshop uses OpenGeo Suite. Download it from http://boundlessgeo.com/solutions/opengeo-suite/download/ and place it in a convenient location.
 
 Workshop Materials
 ------------------

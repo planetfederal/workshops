@@ -3,7 +3,7 @@
 Section 2: Installation
 =======================
 
-We will be using the OpenGeo Suite as our software package, as it includes PostGIS/PostgreSQL in a single fast installation for Windows, Apple OS/X, and Linux. The Suite also includes GeoServer, OpenLayers, and a number of web visualization utilities.
+We will be using OpenGeo Suite as our software package, as it includes PostGIS/PostgreSQL in a single fast installation for Windows, Apple OS/X, and Linux. The Suite also includes GeoServer, OpenLayers, and a number of web visualization utilities.
 
 .. note::
 
@@ -13,24 +13,24 @@ We will be using the OpenGeo Suite as our software package, as it includes PostG
 
   The precise directions in this document are for Windows, but for OS/X the installation is largely the same. Once the Suite is installed, the directions for both operating systems should be almost identical.  
 
-#. Find the OpenGeo Suite installer for your platform (download from http://opengeo.org/technology/suite/download/). The Windows installer will be named something like  :file:`opengeosuite-3.0.0.exe`, the Mac OSX installer like :file:`opengeosuite-3.0.0.dmg`).  Double click to begin.
+#. Find OpenGeo Suite installer for your platform (download from http://boundlessgeo.com/solutions/opengeo-suite/download/). The Windows installer will be named something like  :file:`opengeosuite-3.0.0.exe`, the Mac OSX installer like :file:`opengeosuite-3.0.0.dmg`).  Double click to begin.
 
-#. Enjoy the warm welcome, courtesy of OpenGeo, then click **Next**.
+#. Enjoy the warm welcome, courtesy of Boundless, then click **Next**.
 
    .. image:: ./screenshots/install_01.png
 
 
-#. The OpenGeo Suite is licensed under the GNU GPL, which is reproduced on the licensing page.  Click **I Agree**.
+#. OpenGeo Suite is licensed under the GNU GPL, which is reproduced on the licensing page.  Click **I Agree**.
 
    .. image:: ./screenshots/install_02.png
 
 
-#. The directory where the OpenGeo Suite will reside is the usual ``C:\Program Files\`` location. The data will be placed in your home directory, under the :file:`.opengeo` directory.  Click **Next**.
+#. The directory where OpenGeo Suite will reside is the usual ``C:\Program Files\`` location. The data will be placed in your home directory, under the :file:`.opengeo` directory.  Click **Next**.
 
    .. image:: ./screenshots/install_03.png
 
 
-#. The installer will create a number of shortcuts in the OpenGeo folder in the Start Menu. Click **Next**.
+#. The installer will create a number of shortcuts in the Boundless folder in the Start Menu. Click **Next**.
 
    .. image:: ./screenshots/install_04.png
 

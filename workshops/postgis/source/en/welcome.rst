@@ -3,18 +3,16 @@
 Welcome
 *******
 
-About OpenGeo
-=============
+About Boundless
+===============
 
-`OpenGeo <http://opengeo.org/>`_ is bringing the best practices of open source software to governments and other organizations around the world.
+`Boundless <http://boundlessgeo.com/>`_ is bringing the best practices of open source software to governments and other organizations around the world.
 
 * We provide enterprises with supported, tested, and integrated open source solutions to help open government.
 * We support open source communities by employing key developers for PostGIS, GeoServer, GeoWebCache, GeoExt, and OpenLayers.
-* We have an eight year history of providing successful consulting services and products to clients like MassGIS, Tri-Met, Landgate, Google, The Work Bank, and the Open Geospatial Consortium.
-* We believe open and accessible information empowers people to effect real change. OpenGeo's goal is to make geospatial information more open: publicly available, accessible on compelling platforms that people want to use.
+* We have a ten-year history of providing successful consulting services and products to clients like MassGIS, Tri-Met, Landgate, Google, The Work Bank, and the Open Geospatial Consortium.
+* We believe open and accessible information empowers people to effect real change. Our goal is to make geospatial information more open: publicly available, accessible on compelling platforms that people want to use.
 * We strive to build software that meets and exceeds the desires of clients, because our market success proves the value of our work.
-
-OpenGeo is the geospatial division of `OpenPlans <http://openplans.org/>`_, a New York-based 501(c)(3) non-profit which informs and engages communities through journalism and open source software. 
 
 Workshop Conventions
 ====================

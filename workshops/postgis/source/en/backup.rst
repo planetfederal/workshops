@@ -229,7 +229,7 @@ These steps are taking from the PostgreSQL manual on `continuous archiving and p
 
 .. note::
 
-  The OpenGeo Suite version 2.X includes PostgreSQL 8.4, which only has support for using online backup as described above. In OpenGeo Suite 3.X, PostgreSQL 9.2 will be included, which will add options for continuous log streaming, and hot standby servers.
+  OpenGeo Suite version 2.X includes PostgreSQL 8.4, which only has support for using online backup as described above. In OpenGeo Suite 3.X, PostgreSQL 9.2 will be included, which will add options for continuous log streaming, and hot standby servers.
 
 
 

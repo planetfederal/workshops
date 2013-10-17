@@ -6,7 +6,7 @@ Section 3: Creating a Spatial Database
 The Dashboard and PgAdmin
 -------------------------
 
-The "Dashboard" is the central application to access all portions of the OpenGeo Suite.
+The "Dashboard" is the central application to access all portions of OpenGeo Suite.
 
 When you first start the dashboard, it provides a reminder about the default password for accessing GeoServer.
 

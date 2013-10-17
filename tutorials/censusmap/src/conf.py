@@ -35,8 +35,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Census Mapping with the OpenGeo Suite'
-copyright = u'2013, OpenGeo'
+project = u'Census Mapping with OpenGeo Suite'
+copyright = u'2013, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -82,7 +82,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'opengeo_v1'
+html_theme = 'boundless_web'
 
 # The style sheet to use for HTML and HTML Help pages. A file of that name
 # must exist either in Sphinx' static/ path, or in one of the custom paths
@@ -162,8 +162,8 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'CensusMap.tex', u'Census Mapping with the OpenGeo Suite',
-   u'OpenGeo', 'howto'),
+  ('index', 'CensusMap.tex', u'Census Mapping with OpenGeo Suite',
+   u'Boundless', 'howto'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
