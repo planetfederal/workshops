@@ -183,7 +183,6 @@ To find out what tables (layers) live in the store (if you didn't already know),
 The output should look like::
 
   dem
-  globe
   parks
   rails
   roads
@@ -291,7 +290,6 @@ Now let's put our layers together in a layer group. More accurately, we want to 
        <layer>parks</layer>
        <layer>rails</layer>
        <layer>roads</layer>
-       <layer>globe</layer>
      </layers>
      <styles>
        <!-- existing -->
@@ -306,7 +304,6 @@ Now let's put our layers together in a layer group. More accurately, we want to 
        <style>Parks</style>
        <style>Rails</style>
        <style>Roads</style>
-       <style>Globe</style>
      </styles>
    </layerGroup>
 
