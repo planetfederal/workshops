@@ -10,7 +10,7 @@ Turn off automatic caching
 
 #. In the GeoServer web admin, click :guilabel:`Caching Defaults` under :guilabel:`Tile Caching` to see the entries for global caching.
 
-#. For the purposes of this exercise, **uncheck the four :guilabel:`Provided Services`** (WMS, WMS-C, TMS, WMTS). This will turn off automatic caching and allow us to see the difference in performance between cached map tiles and uncached map tiles.
+#. For the purposes of this exercise, **uncheck the first of the four :guilabel:`Provided Services`** (direct integration with GeoServer WMS). This will turn off automatic WMS caching and allow us to see the difference in performance between cached map tiles and uncached map tiles.
 
    .. figure:: img/gscaching.png
 
