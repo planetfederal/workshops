@@ -12,7 +12,7 @@ by SQL Server, Oracle Spatial and PostGIS.
 Getting Started
 ---------------
 
-* This workshop uses a software/data bundle http://s3.opengeo.org/spdb-005.zip
+* This workshop uses a software/data bundle http://files.opengeo.org/workshopmaterials/spdb-005.zip
 * Download the bundle and unzip it in a convenient location.
 
 Workshop Modules
