@@ -202,8 +202,12 @@ pre {
   padding-right: 10px;
   font-size: 90%;
   font-family: Source Code Pro, monospace;
-  margin-bottom: 0em;
-  margin-top: 0em;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+cite {
+  font-family: Source Code Pro, monospace;
 }
 
 .figure {

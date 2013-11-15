@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Reader type="drivers.las.reader">
+<Option name="debug">false</Option>
+<Option name="filename">20090429_42122c8225_ld_p23.laz</Option>
+<Option name="verbose">0</Option>
+<Metadata name="drivers.las.reader" type="blank">
+  <Metadata name="spatialreference" type="spatialreference">COMPD_CS[&quot;unknown&quot;,
+      GEOGCS[&quot;NAD83&quot;,
+          DATUM[&quot;North_American_Datum_1983&quot;,
+              SPHEROID[&quot;GRS 1980&quot;,6378137,298.2572221010042,
+                  AUTHORITY[&quot;EPSG&quot;,&quot;7019&quot;]],
+              AUTHORITY[&quot;EPSG&quot;,&quot;6269&quot;]],
+          PRIMEM[&quot;Greenwich&quot;,0],
+          UNIT[&quot;degree&quot;,0.0174532925199433],
+          AUTHORITY[&quot;EPSG&quot;,&quot;4269&quot;]],
+      VERT_CS[&quot;NAVD88 height&quot;,
+          VERT_DATUM[&quot;North American Vertical Datum 1988&quot;,2005,
+              AUTHORITY[&quot;EPSG&quot;,&quot;5103&quot;],
+              EXTENSION[&quot;PROJ4_GRIDS&quot;,&quot;g2003conus.gtx,g2003alaska.gtx,g2003h01.gtx,g2003p01.gtx&quot;]],
+          AXIS[&quot;Up&quot;,UP],
+          UNIT[&quot;metre&quot;,1,
+              AUTHORITY[&quot;EPSG&quot;,&quot;9001&quot;]],
+          AUTHORITY[&quot;EPSG&quot;,&quot;5703&quot;]]]</Metadata>
+  <Metadata name="compressed" type="boolean">true</Metadata>
+  <Metadata name="dataformat_id" type="nonNegativeInteger">1</Metadata>
+  <Metadata name="major_version" type="nonNegativeInteger">1</Metadata>
+  <Metadata name="minor_version" type="nonNegativeInteger">2</Metadata>
+  <Metadata name="filesource_id" type="nonNegativeInteger">0</Metadata>
+  <Metadata name="global_encoding" type="nonNegativeInteger">0</Metadata>
+  <Metadata name="project_id" type="uuid">00000000-0000-0000-0000-000000000000</Metadata>
+  <Metadata name="system_id" type="string"/><Metadata name="software_id" type="string">TerraScan</Metadata>
+  <Metadata name="creation_doy" type="nonNegativeInteger">0</Metadata>
+  <Metadata name="creation_year" type="nonNegativeInteger">0</Metadata>
+  <Metadata name="header_size" type="nonNegativeInteger">227</Metadata>
+  <Metadata name="dataoffset" type="nonNegativeInteger">599</Metadata>
+  <Metadata name="scale_x" type="double">1e-07</Metadata>
+  <Metadata name="scale_y" type="double">1e-07</Metadata>
+  <Metadata name="scale_z" type="double">0.001</Metadata>
+  <Metadata name="offset_x" type="double">0</Metadata>
+  <Metadata name="offset_y" type="double">0</Metadata>
+  <Metadata name="offset_z" type="double">0</Metadata>
+  <Metadata name="minx" type="double">-122.8874999</Metadata>
+  <Metadata name="miny" type="double">42.3125</Metadata>
+  <Metadata name="minz" type="double">421.205</Metadata>
+  <Metadata name="maxx" type="double">-122.8749998</Metadata>
+  <Metadata name="maxy" type="double">42.325</Metadata>
+  <Metadata name="maxz" type="double">467.413</Metadata>
+  <Metadata name="count" type="nonNegativeInteger">11418635</Metadata>
+  <Metadata name="vlr_0" type="base64Binary">AwA=
+    <Metadata name="reserved" type="nonNegativeInteger">43707</Metadata>
+    <Metadata name="user_id" type="string">NOAA_CSC</Metadata>
+    <Metadata name="record_id" type="nonNegativeInteger">128</Metadata>
+    <Metadata name="description" type="string">QA Level</Metadata>
+  </Metadata>
+  <Metadata name="vlr_1" type="base64Binary">FwA=
+    <Metadata name="reserved" type="nonNegativeInteger">43707</Metadata>
+    <Metadata name="user_id" type="string">NOAA_CSC</Metadata>
+    <Metadata name="record_id" type="nonNegativeInteger">130</Metadata>
+    <Metadata name="description" type="string">Project ID</Metadata>
+  </Metadata>
+  <Metadata name="vlr_2" type="base64Binary">AgA=
+    <Metadata name="reserved" type="nonNegativeInteger">43707</Metadata>
+    <Metadata name="user_id" type="string">NOAA_CSC</Metadata>
+    <Metadata name="record_id" type="nonNegativeInteger">129</Metadata>
+    <Metadata name="description" type="string">Sort Order</Metadata>
+  </Metadata>
+  <Metadata name="vlr_3" type="base64Binary">AQABAAAABQAABAAAAQACAAAIAAABAK0QBggAAAEAjiMAEAAAAQDvEwMQAAABACkj
+    <Metadata name="reserved" type="nonNegativeInteger">43707</Metadata>
+    <Metadata name="user_id" type="string">LASF_Projection</Metadata>
+    <Metadata name="record_id" type="nonNegativeInteger">34735</Metadata>
+    <Metadata name="description" type="string">Projection Parameters</Metadata>
+  </Metadata>
+  <Metadata name="vlr_4" type="base64Binary">AgAAAAIBAAAAAAAAUMMAAP////////////////////8CAAYAFAACAAcACAACAA==
+    <Metadata name="reserved" type="nonNegativeInteger">43707</Metadata>
+    <Metadata name="user_id" type="string">laszip encoded</Metadata>
+    <Metadata name="record_id" type="nonNegativeInteger">22204</Metadata>
+    <Metadata name="description" type="string">by laszip of LAStools (121127)</Metadata>
+  </Metadata>
+</Metadata>
+</Reader>

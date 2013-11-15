@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Pipeline version="1.0">
+  <Writer type="drivers.pgpointcloud.writer">
+    <Option name="connection">dbname='lidar' user='postgres'</Option>
+    <Option name="table">medford</Option>
+    <Option name="srid">4326</Option>
+    <Filter type="filters.chipper">
+      <Option name="capacity">400</Option>
+      <Filter type="filters.cache">
+        <Reader type="drivers.las.reader">
+          <Option name="filename">20090429_42122c8225_ld_p23.laz</Option>
+          <Option name="spatialreference">EPSG:4326</Option>
+        </Reader>
+      </Filter>
+    </Filter>
+  </Writer>
+</Pipeline>
