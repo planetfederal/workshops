@@ -490,7 +490,7 @@ Now, publish the buildings in GeoServer.
 
   * On the "Publishing" tab:
 
-    * Set the KML options
+    * Set the `KML options <http://docs.geoserver.org/stable/en/user/googleearth/features/kmlregionation.html>`_
     
     .. image:: ./img/gs_kmlconfig.jpg
     
@@ -505,7 +505,7 @@ We now have a viewable layer! View it in KML (you might have to zoom in) using t
 
 .. note::
 
-  As you zoom in, you'll notice Google Earth refreshing the view from time to time, as GeoServer generates new raster overviews. Eventually, the updates stop, as you get close enough that GeoServer sends KML vectors instead of rasters. You can alter the switch over point by changing the `kmscore` parameter in the KML URL: smaller values bias towards using rasters, larger ones bias towards using vectors.
+  As you zoom in, you'll notice Google Earth refreshing the view from time to time, as GeoServer generates new raster overviews. Eventually, the updates stop, as you get close enough that GeoServer sends KML vectors instead of rasters. You can alter the switch over point by changing the `kmscore <http://docs.geoserver.org/stable/en/user/googleearth/features/kmlscoring.html>`_ parameter in the KML URL: smaller values bias towards using rasters, larger ones bias towards using vectors.
   
 When you get zoomed right in, you'll notice something odd about our buildings: **they are flat!** We want 3D buildings, how can we get them? We'll start by calculating the building heights, using our pointcloud data.
 
@@ -652,7 +652,7 @@ Rarely does one stand in front of a building and ask "I wonder how far above sea
 
 We have a good source of elevation information over all whole study area, in the form of the LIDAR data. What we need are features that are at ground height, nearby to buildings, and not occluded by other non-ground features. 
 
-**Road center-lines** are almost guaranteed to be free of occluding structures (with the exception of the occasional overpass) and are almost always at the prevailing "ground level".If we calculate the elevation of road center-lines, we can determine building height by subtracting the elevation of the nearest road from the elevation of the building.
+**Road center-lines** are almost guaranteed to be free of occluding structures (with the exception of the occasional overpass) and are almost always at the prevailing "ground level". If we calculate the elevation of road center-lines, we can determine building height by subtracting the elevation of the nearest road from the elevation of the building.
 
 * From the `Jackson County data portal <http://www.smartmap.org/Portal/gis-data.aspx>`_, we can download the `road center-lines (Streets.shp.zip) <http://www.smartmap.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=68>`_ for the county.
 
@@ -689,9 +689,11 @@ We have a good source of elevation information over all whole study area, in the
     -- Add a column for buffered streets
     ALTER TABLE streets 
     ADD COLUMN geom_buffered geometry(Polygon, 4326);
+    
     -- Buffer the streets into the column
     UPDATE streets 
     SET geom_buffered = ST_Buffer(geom::geography, 2)::geometry;
+    
     -- Index the buffered streets
     CREATE INDEX streets_buffered_gix 
     ON streets USING GIST (geom_buffered);
@@ -793,7 +795,7 @@ Conclusion
 
 We've successfully carried out analysis and visualization of small LIDAR data set
 
-* Loaded the data via the PDAL commandline tools
+* Loaded the data via the PDAL command-line tools
 * Styled the data using GeoServer's interpolated style
 * Added elevation to vector features using SQL analysis
 * Visualized 3D vectors using KML output
