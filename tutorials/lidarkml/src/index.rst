@@ -1,7 +1,7 @@
 
 .. note:: 
 
-  Check out the `final elevated buildings in Google Earth <_static/buildings-elevated.kml>`_ and play!
+  Check out the `final elevated buildings in Google Earth <http://apps.opengeo.org:8080/geoserver/wms/kml?layers=opengeo:buildings&mode=refresh&kmscore=50&format_options=lookatbbox:bbox=-122.8808,42.3311,-122.8806,42.3313>`_ and play!
 
 
 Introduction
@@ -56,7 +56,7 @@ Install the following software:
   Once you've installed Suite, ensure that 
   
   * you can connect to the database with PgAdmin or `psql`, and 
-  * you can connect to GeoServer (http://localhost:8080/geoserver/) using your web browser
+  * you can connect to GeoServer at http://localhost:8080/geoserver/ using your web browser
 
 
 Getting Data
@@ -67,7 +67,7 @@ LIDAR
 
 Thanks to open data initiatives, both LIDAR data and vector data are not hard to come by. This workshop uses data from the State of Oregon.
 
-For LIDAR data, we'll use a survey `conducted by the Oregon Departing of Geology in 2009 <http://catalog.data.gov/dataset/2009-oregon-department-of-geology-and-mineral-industries-dogami-lidar-medfordc9f32>`_. It covers a large area of Jackson County, including the City of Medford.
+For LIDAR data, we'll use a survey `conducted by the Oregon Department of Geology in 2009 <http://catalog.data.gov/dataset/2009-oregon-department-of-geology-and-mineral-industries-dogami-lidar-medfordc9f32>`_ and stored by NOAA. It covers a large area of Jackson County, including the City of Medford.
 
 .. image:: ./img/oregon.jpg
    :width: 98%
@@ -77,7 +77,7 @@ The data is collected into individual "LASZIP" files, of about 70MB in size each
 .. image:: ./img/lidar_area.jpg
    :width: 98%
 
-The `data directory <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/>`_ includes all the tiles as well as a shape file that provides a spatial index of where each tile is.
+The `NOAA data directory <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/>`_ includes all the tiles as well as a shape file that provides a spatial index of where each tile is.
 
 The tile we are going to use covers both a residential and commercial area of Medford.
 
@@ -122,7 +122,7 @@ Now we can load the data!
 PDAL
 ----
 
-`PDAL`_, the "point data abstraction library", is for manipulating spatial point cloud data. In includes a code library (for integration into applications) and a command-line tool (`pdal`, an application that uses the library). Point clouds are often captured by LIDAR sensors but also captured using stereo photogrammetry, pulsed sonar, and many other sensor types.
+`PDAL`_, the "point data abstraction library", is for manipulating spatial point cloud data. It includes a code library (for integration into applications) and a command-line tool, `pdal`, that makes use of the library. Point clouds are often captured by LIDAR sensors but also captured using stereo photogrammetry, pulsed sonar, and many other sensor types.
 
 We can use the `pdal` command-line program to read some metadata about our LAZ file::
 
@@ -143,10 +143,12 @@ The return is an unformatted XML mess, unfortunately, but if you read the `forma
 We can also use `PDAL`_ to build up a processing pipeline that can
 
 * read and write to different point cloud formats
+
   * Oracle PointCloud
   * PostgreSQL PointCloud (what we are using)
   * LAS/LAZ
   * Text/CSV
+
 * translate, rescale and reproject the points
 * generate a grid from points
 * calculate the bounds of a point collection
@@ -156,10 +158,18 @@ We can also use `PDAL`_ to build up a processing pipeline that can
 We are going to build up a "pipeline" to read our LAZ file, crack the collection into smaller 400-point tiles, and then write the data into our `lidar` database.
 
 .. image:: ./img/pdal_flow.jpg
+  :class: inline
 
-The PDAL "`pipeline file <http://www.pointcloud.org/pipeline/index.html>`_" is an XML file that describes the processing. Each process wraps the process preceding it, resulting in a "nesting dolls" structure, in which the first process (the reader) is in the center and the last (the writer) is on the outside.
+The PDAL "`pipeline file <http://www.pointcloud.org/pipeline.html>`_" is an XML file that describes the processing. Each process wraps the process preceding it, resulting in a "nesting dolls" structure, in which the first process (the reader) is in the center and the last (the writer) is on the outside.
 
-Here is our pipeline file. Note that we are using "EPSG:4326" are your spatial referencing system, since that's what we learned from the metadata. **Copy this into a pipeline file**, `laz2pg.xml <_static/laz2pg.xml>`_:
+Here is our pipeline file. Note that we are using "EPSG:4326" are your spatial referencing system, since that's what we learned from the metadata. 
+
+* Our reader is a `drivers.las.reader`,
+* our writer is a `drivers.pgpointcloud.writer`, and
+* in between, we are applying a `filters.chipper`.
+* For more information about PDAL pipeline filters and reader/writers see the `pipeline reference documentation <http://www.pointcloud.org/pipeline/index.html>`_.
+
+**Copy this into a pipeline file**, `laz2pg.xml <_static/laz2pg.xml>`_:
 
 .. code-block:: xml
 
@@ -303,14 +313,14 @@ What's going on here? Zoom in a few steps and things become clearer.
   
 .. image:: ./img/patches_near.jpg
 
-There are 28547 patches, and all drawn on one small preview, they look like a dark mass. But zoomed in, we can see the detail of the small blocks of points, each with about 400 points inside. 
+There are 28547 patches and, when all drawn on one small preview, they look like a dark mass. But zoomed in, we can see the detail of the small blocks of points, each with about 400 points inside. 
 
 However, as dark splotches, they leave much to be desired! It would be nicer if they were colored according to their elevation, so we need to **add a Style** to GeoServer with the colors we desire.
 
 * Configure a new style in GeoServer by going to the *Styles* section, and selecting **Add a new style**.
 * Set the style name to *elevation_ramp*
 * Set the style workspace to *opengeo* 
-* Paste in the style definition (below) for elevation_ramp.xml and hit the *Save* button at the bottom
+* Paste in the style definition (below) for `elevation_ramp.xml <_static/elevation_ramp.xml>`_ and hit the *Save* button at the bottom.
 
 .. code-block:: xml
 
@@ -368,7 +378,7 @@ However, as dark splotches, they leave much to be desired! It would be nicer if 
     </NamedLayer>
   </StyledLayerDescriptor>
   
-This is not a standard SLD style, it doesn't have rules defining the color breaks. Instead, it uses the `<ogc:Function>` `Interpolate` to create a continuous color ramp style, with color breaks suggested in this `blog post <http://blog.thematicmapping.org/2012/06/creating-color-relief-and-slope-shading.html>`_.
+This is not a standard SLD style, it doesn't have rules defining the color breaks. Instead, it uses GeoServers's `interpolated styling feature <http://docs.geoserver.org/latest/en/user/styling/sld-tipstricks/transformation-func.html#interpolate>`_ to create a continuous color ramp style, using the color breaks suggested in this `blog post <http://blog.thematicmapping.org/2012/06/creating-color-relief-and-slope-shading.html>`_.
 
 * Go to the *Layers* section
 * Select the *medford_patches* layer to configure
@@ -385,7 +395,7 @@ Now the (small) variation in the patch elevation can be seen. In fact, the varia
 Putting Buildings on the Map
 ============================
 
-Unzip the **BuildingFootprints.zip** file we downloaded earlier, you should end up with a collection of files::
+Unzip the **BuildingFootprints.zip** file we downloaded earlier, and you should end up with a collection of files::
 
   BuildingFootprints.shx  
   BuildingFootprints.dbf  
@@ -420,23 +430,23 @@ It's pretty clear this is "Oregon Stateplane NAD83 in Feet", but what "SRID" num
 * Paste in the definition from `BuildingFootprints.prj`
 * The answer is `2270 <http://prj2epsg.org/epsg/2270>`_
 
-So, now we can load the data, using `shp2pgsql`, into a table named `buildings`::
+Using `shp2pgsql` we can load the data into a table named `buildings`::
 
   shp2pgsql -s 2270 -D BuildingFootprints.shp buildings | psql -d lidar 
   
 Now we have a `buildings` table::
 
             Table "public.buildings"
-     Column   |            Type           
+     Column   |            Type
   ------------+-----------------------------
-   gid        | integer                     
-   objectid   | numeric(10,0)               
-   layer      | character varying(32)       
-   elevation  | numeric                     
-   shape_star | numeric                     
-   shape_stle | numeric                     
-   shape_area | numeric                     
-   shape_len  | numeric                     
+   gid        | integer
+   objectid   | numeric(10,0) 
+   layer      | character varying(32) 
+   elevation  | numeric 
+   shape_star | numeric 
+   shape_stle | numeric 
+   shape_area | numeric 
+   shape_len  | numeric 
    geom       | geometry(MultiPolygon,2270) 
   Indexes:
       "buildings_pkey" PRIMARY KEY, btree (gid)
@@ -454,34 +464,340 @@ Since our LIDAR data is all in geographic coordinates (EPSG:4326) and we're goin
   -- Index the table
   CREATE INDEX buildings_gix ON buildings USING GIST (geom);
   
+To make the rest of our analysis go faster, we'll delete all the buildings that don't line up with our LIDAR example data.
 
+.. code-block:: sql
 
+  -- Find the LIDAR extent
+  SELECT st_extent(pa::geometry) FROM medford;
+  -- BOX(-122.8874999 42.3125,-122.8749998 42.325)
 
+  -- Delete unneeded building polygons
+  DELETE FROM buildings 
+  WHERE NOT ST_Contains(
+    ST_MakeEnvelope(-122.8874999, 42.3125, -122.8749998, 42.325, 4326),
+    geom);
+
+Now, publish the buildings in GeoServer.
+
+* Add a new layer, publishing the `buildings` layer.
+* Configure the `buildings` layer.
+
+  * On the "Data" tab:
+
+    * Native bounding box, click on “Compute from data”
+    * Lat/Lon bounding box, click on “Compute from native bounds”
+
+  * On the "Publishing" tab:
+
+    * Set the KML options
     
-Topics TO DO
-============
+    .. image:: ./img/gs_kmlconfig.jpg
+    
+  * On the "Tile Caching" tab:
 
-* Enable pointcloud, postgis, pointcloud_postgis
-* Create PDAL chain and load
-* Metadata about LIDAR (pdal info? PC\_*)
-* Thematic view of chip outlines in GeoServer
-  * http://docs.geoserver.org/latest/en/user/styling/sld-tipstricks/transformation-func.html#interpolate
-  * http://blog.thematicmapping.org/2012/06/creating-color-relief-and-slope-shading.html
-  * visualize it using interpolation transformation on the chip boundaries
-  * visualize it using interpolation transformation on the points?
-* Load buildings
-  * http://prj2epsg.org/epsg/2270
-  * note on coordinate systems, matching them to LIDAR?
-  * find elevation of a building footprint
-  * find elevations of all of them, add to table
-* KML output template for buildings
-  * Using Heights TMPL to extrude
-  * http://docs.geoserver.org/stable/en/user/googleearth/tutorials/heights/heights.html#tutorials-heights
+    * Tile Caching, uncheck "Create cached layer for this layer"
+    * Click "Save"
+
+We now have a viewable layer! View it in KML (you might have to zoom in) using the `KML reflector <http://docs.geoserver.org/latest/en/user/googleearth/features/kmlreflector.html>`_ feature of GeoServer.
+
+* http://localhost:8080/geoserver/wms/kml?layers=opengeo:buildings&format_options=lookatbbox:bbox=-122.8808,42.3311,-122.8806,42.3313&mode=refresh&kmscore=50
+
+.. note::
+
+  As you zoom in, you'll notice Google Earth refreshing the view from time to time, as GeoServer generates new raster overviews. Eventually, the updates stop, as you get close enough that GeoServer sends KML vectors instead of rasters. You can alter the switch over point by changing the `kmscore` parameter in the KML URL: smaller values bias towards using rasters, larger ones bias towards using vectors.
   
-::
+When you get zoomed right in, you'll notice something odd about our buildings: **they are flat!** We want 3D buildings, how can we get them? We'll start by calculating the building heights, using our pointcloud data.
 
-  <altitudeMode>absolute</altitudeMode>
-  <extrude>1</extrude>
+
+Buildings & Pointclouds
+=======================
+
+Let's zoom in and find a particular building to analyze (if you zoom in close enough to get vector KML, the buildings become clickable)
+
+.. image:: ./img/building_13103.jpg
+
+We can see building #13103 (that's the primary key `gid` from the database) has a limited number of attributes, but including an elevation, 1446.43! Our LIDAR data ranged about 450 meters, so the elevation on the buildings is probably in feet.
+
+What elevation can we calculate for building #13103 using the LIDAR table?
+
+Here's how the logic works visually.
+
+* Start with the building.
+
+  .. image:: ./img/pc_analysis_1.png
+  
+* Find all the patches that intersect that building.
+
+  .. image:: ./img/pc_analysis_2.png
+
+* Turn those patches into individual points.
+
+  .. image:: ./img/pc_analysis_3.png
+
+* Filter those points using the building outline.
+
+  .. image:: ./img/pc_analysis_4.png
+  
+* Finally average the point elevations to get a value for the building.
+
+Here's what it looks like in SQL.
+
+.. code-block:: sql
+
+  -- We run a set of subqueries sequentially using 
+  -- the "with" keyword
+  WITH 
+  -- Get the one building we are interested in
+  building AS (
+    SELECT geom FROM buildings 
+    WHERE buildings.gid = 13103
+  ),
+  -- All the patches that intersect that building
+  patches AS (
+    SELECT pa FROM medford 
+    JOIN building ON PC_Intersects(pa, geom)
+  ),
+  -- All the points in that patch
+  pa_pts AS (
+    SELECT PC_Explode(pa) AS pts FROM patches
+  ),
+  -- All the points in our one building
+  building_pts AS (
+    SELECT pts FROM pa_pts JOIN building
+    ON ST_Intersects(geom, pts::geometry)
+  )
+  -- Summarize those points by elevation
+  SELECT 
+    Avg(PC_Get(pts, 'z')) AS lidar_feet
+  FROM building_pts;
+  
+And the result is **441.075 meters**, which is **1447.1** feet, which is almost exactly the same as the value from the buildings file, 1446.43!
+
+That's pretty intense, but can we add LIDAR-derived elevation to **all our buildings?** Yes, but it will take some processing time. First we add a column to accept the value, then we run an update.
+
+.. code-block:: sql
+
+  -- Add column for our calculate Z value
+  ALTER TABLE buildings ADD COLUMN z real;
+
+  -- Update into the column
+  UPDATE buildings SET z = elevs.z
+  FROM (
+    -- For every building, all intersecting patches
+    WITH patches AS (
+      SELECT 
+        buildings.gid AS buildings_gid,
+        medford.id AS medford_id,
+        medford.pa AS pa
+      FROM medford
+      JOIN buildings
+      ON PC_Intersects(pa, geom)
+    ),
+    -- Explode those patches into points, remembering
+    -- which building they were associated with
+    pa_pts AS (
+      SELECT buildings_gid, PC_Explode(pa) AS pts FROM patches
+    )
+    -- Use the building associations to efficiently
+    -- spatially test the points against the building footprints
+    -- Summarize per building
+    SELECT 
+      buildings_gid,
+      Avg(PC_Get(pts, 'z')) AS z 
+    FROM pa_pts 
+    JOIN buildings
+    ON buildings.gid = buildings_gid
+    WHERE ST_Intersects(buildings.geom, pts::geometry)
+    GROUP BY buildings_gid
+  ) AS elevs
+  -- Join calculated elevations to original buildings table
+  WHERE elevs.buildings_gid = gid;
+
+Our table is updated! Check out the original and calculated elevations (we have to convert the `z` column from meters to feet to compare it with the `elevation` column):
+
+.. code-block:: sql
+
+  SELECT z AS z_m, z*3.28084 AS z_ft, elevation AS elevation_ft
+  FROM buildings;
+
+They are in pretty good agreement::
+
+     z_m   |       z_ft       | elevation_ft  
+  ---------+------------------+---------------
+   438.128 | 1437.42663560303 | 1434.43000000
+   433.556 |  1422.4291678418 | 1413.63200000
+   435.489 | 1428.76987573853 | 1406.25400000
+   439.244 | 1441.09014682129 | 1422.58200000
+   433.738 | 1423.02460105347 | 1416.93600000
+   429.648 | 1409.60687857788 | 1403.92400000
+   437.264 | 1434.59264585083 | 1425.84000000
+   430.607 | 1412.75115040894 | 1404.03675300
+
+In case we want to visualize it later, let's put the elevation difference (in meters) into the table as well:
+
+.. code-block:: sql
+
+  -- Add a column for elevation difference
+  ALTER TABLE buildings ADD COLUMN z_diff real;
+  -- Save the elevation difference (in meters)
+  UPDATE buildings SET z_diff = z - elevation/3.28084;
+  
+Elevation versus Height
+=======================
+  
+Rarely does one stand in front of a building and ask "I wonder how far above sea-level that building is?"  Practically, what we are interested in is the building **heights**, but so far we have calculated the building **elevations**.
+
+**How can we calculate building heights?** We need to calculate the elevation of the ground, and subtract that from the elevation of the building.
+
+We have a good source of elevation information over all whole study area, in the form of the LIDAR data. What we need are features that are at ground height, nearby to buildings, and not occluded by other non-ground features. 
+
+**Road center-lines** are almost guaranteed to be free of occluding structures (with the exception of the occasional overpass) and are almost always at the prevailing "ground level".If we calculate the elevation of road center-lines, we can determine building height by subtracting the elevation of the nearest road from the elevation of the building.
+
+* From the `Jackson County data portal <http://www.smartmap.org/Portal/gis-data.aspx>`_, we can download the `road center-lines (Streets.shp.zip) <http://www.smartmap.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=68>`_ for the county.
+
+* Unzip the file and load the streets into PostGIS::
+
+    shp2pgsql -s 2270 -D Streets.shp streets | psql -d lidar 
+  
+* Convert the streets into geographic coordinates to match the buildings and LIDAR data
+
+  .. code-block:: sql
+
+    -- Update SRID and transform all geoms
+    ALTER TABLE streets
+    ALTER COLUMN geom
+    TYPE geometry(MultiLineString,4326)
+    USING ST_Transform(geom, 4326);
+
+    -- Index the table
+    CREATE INDEX streets_gix ON streets USING GIST (geom);
+
+    -- Delete unneeded streets
+    DELETE FROM streets 
+    WHERE NOT ST_Contains(
+      ST_MakeEnvelope(-122.8874999,42.3125,-122.8749998,42.325,4326), 
+      geom);
+
+* Add a streets `z` column to hold the elevation information, and populate it from LIDAR
+
+  .. code-block:: sql
+
+    -- Add column for our calculated Z value
+    ALTER TABLE streets ADD COLUMN z real;
+
+    -- Add a column for buffered streets
+    ALTER TABLE streets 
+    ADD COLUMN geom_buffered geometry(Polygon, 4326);
+    -- Buffer the streets into the column
+    UPDATE streets 
+    SET geom_buffered = ST_Buffer(geom::geography, 2)::geometry;
+    -- Index the buffered streets
+    CREATE INDEX streets_buffered_gix 
+    ON streets USING GIST (geom_buffered);
+    
+    -- Update into the column
+    UPDATE streets SET z = elevs.z
+    FROM (
+      -- For every street, all intersecting patches
+      WITH patches AS (
+        SELECT 
+          streets.gid AS streets_gid,
+          medford.id AS medford_id,
+          medford.pa AS pa
+        FROM medford
+        JOIN streets
+        ON PC_Intersects(pa, geom)
+      ),
+      -- Explode those patches into points, remembering
+      -- which streets they were associated with
+      pa_pts AS (
+        SELECT streets_gid, PC_Explode(pa) AS pts FROM patches
+      )
+      -- Use the streets associations to efficiently
+      -- spatially test the points against a street buffer
+      -- Summarize per street
+      SELECT 
+        streets_gid,
+        Avg(PC_Get(pts, 'z')) AS z 
+      FROM pa_pts 
+      JOIN streets
+      ON streets.gid = streets_gid
+      WHERE ST_Intersects(geom_buffered, pts::geometry)
+      GROUP BY streets_gid
+    ) AS elevs
+    -- Join calculated elevations to original buildings table
+    WHERE elevs.streets_gid = gid;
+
+* Add a buildings `height` column to hold the height information, and populate it from the streets
+
+  .. code-block:: sql
+
+    -- Add column for our calculated height
+    ALTER TABLE buildings ADD COLUMN height real;
+
+    -- Update the building heights by subtracting elevation of 
+    -- the nearest street from the elevation of the building
+    UPDATE buildings SET height = heights.height
+    FROM (
+      WITH candidates AS (
+        SELECT 
+          b.gid AS building_gid, 
+          s.gid AS street_gid, 
+          s.z AS streets_z, 
+          b.z as buildings_z
+        FROM buildings b, streets s
+        WHERE ST_DWithin(b.geom, s.geom, 0.001)
+        ORDER BY 
+          building_gid, 
+          ST_Distance(b.geom, s.geom)
+      )
+      SELECT DISTINCT ON (building_gid) 
+        building_gid, street_gid,  
+        buildings_z - streets_z AS height
+      FROM candidates
+    ) AS heights
+    WHERE heights.building_gid = buildings.gid;
+
+
+Putting 3D Buildings on the Map
+===============================
+
+Now that we have elevations (twice!) on our buildings data and height data too, we can make an even more visually compelling display by "extruding" the footprints.
+
+* First, navigate to the `buildings` layer configuration.
+
+  * Under the "Data" tab, click the "Reload feature type..." link so GeoServer is aware of our new `height`, `z` and `z_diff` columns.
+  
+    .. image:: ./img/gs_reloadft.jpg
+
+* Now you need to find your GeoServer "data directory"
+  
+  * Under Linux, look under `/var/lib/geoserver`
+  * Under Windows, look under `TODO`
+  * Under OSX, look under `TODO`
+  
+* Inside the data directory, locate the `workspaces/opengeo/lidar/buildings` directory
+* Create a text file in that directory named `height.ftl` with the contents `${height.value}`
+
+That's it! Now open up the layer in KML and zoom in close to see the result:
+
+* http://localhost:8080/geoserver/wms/kml?layers=opengeo:buildings&mode=refresh&kmscore=50&format_options=lookatbbox:bbox=-122.8808,42.3311,-122.8806,42.3313
+
+.. image:: ./img/ge_buildings.jpg
+  :width: 98%
+
+
+Conclusion
+==========
+
+We've successfully carried out analysis and visualization of small LIDAR data set
+
+* Loaded the data via the PDAL commandline tools
+* Styled the data using GeoServer's interpolated style
+* Added elevation to vector features using SQL analysis
+* Visualized 3D vectors using KML output
+
 
 
 
