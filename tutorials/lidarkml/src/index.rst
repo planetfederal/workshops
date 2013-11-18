@@ -92,7 +92,7 @@ The tile we are going to use covers both a residential and commercial area of Me
   
   `OpenGeo Suite 4`_ ships with a collection of "command line tools", including the very useful `ogr2ogr` tool that allows format conversion. After downloading and unzipping the `tileindex.zip <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/tileindex.zip>`_ file, just run::
   
-    ogr2ogr -f KML tileindex.kml 2009_OR_DOGAMI_Medford_index.shx
+    ogr2ogr -f KML tileindex.kml 2009_OR_DOGAMI_Medford_index.shp
 
 
 Building Footprints
@@ -773,9 +773,9 @@ Now that we have elevations (twice!) on our buildings data and height data too, 
 
 * Now you need to find your GeoServer "data directory"
   
-  * Under Linux, look under `/var/lib/geoserver`
-  * Under Windows, look under `TODO`
-  * Under OSX, look under `TODO`
+  * Under Linux, look under `/var/lib/opengeo/geoserver`
+  * Under OSX, look under `\$HOME/Library/Containers/com.boundlessgeo.geoserver/Data/Library/Application Support/GeoServer/data_dir`
+  * Under Windows, look under `C:\\ProgramData\\Boundless\\OpenGeo\\geoserver`
   
 * Inside the data directory, locate the `workspaces/opengeo/lidar/buildings` directory
 * Create a text file in that directory named `height.ftl` with the contents `${height.value}`
