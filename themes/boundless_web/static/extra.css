@@ -132,7 +132,6 @@ ul#menu-about-menu.menu a:hover {
 }
 
 #toc.section ul li ul{
-	margin-top:10px !important;
 	list-style: disc !important;
 }
 
@@ -158,12 +157,6 @@ visibility: visible;
 h3,ol {
 margin-top: 1.0em;
 margin-bottom: 0.7em;
-}
-
-ul,ol {
-margin-top: 1.0em;
-margin-bottom: 1.0em;
-/*list-style-type: none !important;*/
 }
 
 
@@ -257,7 +250,7 @@ div.admonition {
   border: 1px solid #ccc;
   background-color: #eee;
   padding-top: 0px;
-  padding-bottom: 0px;
+  padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -332,4 +325,12 @@ blockquote {
 .current_page_item a {
   color: #ffffff !important;
   background-color: #7db5d2 !important;
+}
+
+img.inline {
+  border: none;
+  -webkit-box-shadow: none;
+  -o-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
