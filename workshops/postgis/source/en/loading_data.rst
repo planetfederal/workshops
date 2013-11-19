@@ -7,61 +7,61 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 
 #. First, return to the Dashboard, and click on the **Import shapefiles** link in the PostGIS section. The GUI shapefile importer pgShapeLoader will launch.
 
-   .. image:: ./screenshots/pgshapeloader_01.png
+  .. image:: ./screenshots/pgshapeloader_01.png
 
 #. Fill in the connection details for the *PostGIS Connection* section and click on the **OK** button. The loader will test the connection and report back in the log window.
 
-   .. list-table::
+  .. list-table::
 
-      * - **Username**
-        - ``postgres``
-      * - **Password**
-        - ``postgres``
-      * - **Server Host**
-        - ``localhost`` ``54321``
-      * - **Database**
-        - ``nyc``
+    * - **Username**
+      - ``postgres``
+    * - **Password**
+      - ``postgres``
+    * - **Server Host**
+      - ``localhost`` ``54321``
+    * - **Database**
+      - ``nyc``
 
   .. image:: ./screenshots/pgshapeloader_02.png
 
   .. note:: 
 
-     Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
+    Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
 
 #. Next, open the *Add File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
 
 #. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shape file, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.)
 
-   .. image:: ./screenshots/pgshapeloader_01a.png
+  .. image:: ./screenshots/pgshapeloader_01a.png
 
 #. Fill in the details for the *Configuration* section.
 
-   .. list-table::
+  .. list-table::
 
-      * - **Destination Schema**
-        - ``public``
-      * - **SRID**
-        - ``26918``
-      * - **Destination Table**
-        - ``nyc_census_blocks``
-      * - **Geometry Column**
-        - ``geom``
+    * - **Destination Schema**
+      - ``public``
+    * - **SRID**
+      - ``26918``
+    * - **Destination Table**
+      - ``nyc_census_blocks``
+    * - **Geometry Column**
+      - ``geom``
 
 #. Click the **Options** button to review the loading options. The loader will use the fast "COPY" mode and create a spatial index by default after loading the data.
 
-   .. image:: ./screenshots/pgshapeloader_03.png
+  .. image:: ./screenshots/pgshapeloader_03.png
 
 #. Finally, click the **Import** button and watch the import process. It may take a few minutes to load, but this is the largest file in our test set.
 
 #. Repeat the import process for the remaining shapefiles in the data directory. You can load multiple files in one import by adding multiple files before pressing the **Import** button:
 
-   * ``nyc_streets.shp``
-   * ``nyc_neighborhoods.shp``
-   * ``nyc_subway_stations.shp``
+  * ``nyc_streets.shp``
+  * ``nyc_neighborhoods.shp``
+  * ``nyc_subway_stations.shp``
  
 #. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Databases > nyc > Schemas > public > Tables** section of the tree.
 
-   .. image:: ./screenshots/refresh.png
+  .. image:: ./screenshots/refresh.png
  
  
 Shapefiles? What's that?
@@ -71,13 +71,13 @@ You may be asking yourself -- "What's this shapefile thing?"  A "shapefile" comm
 
 Mandatory files:
 
-  * ``.shp`` — shape format; the feature geometry itself
-  * ``.shx`` — shape index format; a positional index of the feature geometry 
-  * ``.dbf`` — attribute format; columnar attributes for each shape, in dBase III
+* ``.shp`` — shape format; the feature geometry itself
+* ``.shx`` — shape index format; a positional index of the feature geometry 
+* ``.dbf`` — attribute format; columnar attributes for each shape, in dBase III
     
 Optional files include:
 
-  * ``.prj`` — projection format; the coordinate system and projection information, a plain text file describing the projection using well-known text format
+* ``.prj`` — projection format; the coordinate system and projection information, a plain text file describing the projection using well-known text format
 
 The pgShapeLoader makes shape data usable in PostGIS by converting it from binary data into a series of SQL commands that are then run in the database to load the data. 
 
@@ -91,7 +91,7 @@ An "SRID" stands for "Spatial Reference IDentifier." It defines all the paramete
 
 You can see the definition of our workshop map projection by looking it up either in an online database,
 
-  http://spatialreference.org/ref/epsg/26918/
+* http://spatialreference.org/ref/epsg/26918/
 
 or directly inside PostGIS with a query to the ``spatial_ref_sys`` table.
 
@@ -101,7 +101,7 @@ or directly inside PostGIS with a query to the ``spatial_ref_sys`` table.
   
 .. note::
 
-   The PostGIS ``spatial_ref_sys`` table is an OGC-standard table that defines all the spatial reference systems known to the database. The data shipped with PostGIS, lists over 3000 known spatial reference systems and details needed to transform/re-project between them.  
+  The PostGIS ``spatial_ref_sys`` table is an OGC-standard table that defines all the spatial reference systems known to the database. The data shipped with PostGIS, lists over 3000 known spatial reference systems and details needed to transform/re-project between them.  
    
 In both cases, you see a textual representation of the **26918** spatial reference system (pretty-printed here for clarity):
 
@@ -160,5 +160,5 @@ Try using this software to connect your PostGIS database.  The application can b
 
 .. rubric:: Footnotes
 
-.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation. May 2010 <http://postgis.net/docs/manual-2.0/postgis_installation.html#PGInstall>
+.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation. May 2010 <http://postgis.net/docs/manual-2.1/postgis_installation.html#PGInstall>
 

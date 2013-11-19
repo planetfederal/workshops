@@ -12,10 +12,10 @@ Validity is most important for polygons, which define bounded areas and require 
 
 Some of the rules of polygon validity feel obvious, and others feel arbitrary (and in fact, are arbitrary).
 
- * Polygon rings must close.
- * Rings that define holes should be inside rings that define exterior boundaries.
- * Rings may not self-intersect (they may neither touch nor cross one another).
- * Rings may not touch other rings, except at a point.
+* Polygon rings must close.
+* Rings that define holes should be inside rings that define exterior boundaries.
+* Rings may not self-intersect (they may neither touch nor cross one another).
+* Rings may not touch other rings, except at a point.
 
 The last two rules are in the arbitrary category. There are other ways to define polygons that are equally self-consistent but the rules above are the ones used by the :term:`OGC` :term:`SFSQL` standard that PostGIS conforms to.
 
@@ -37,7 +37,9 @@ Let's see what the database thinks the area of our polygon is:
 
 .. code-block:: sql
 
-  SELECT ST_Area(ST_GeometryFromText('POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'));
+  SELECT ST_Area(ST_GeometryFromText(
+           'POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'
+         ));
   
 ::
 
@@ -55,7 +57,9 @@ In the previous example we had one polygon that we **knew** was invalid. How do 
 
 .. code-block:: sql
 
-  SELECT ST_IsValid(ST_GeometryFromText('POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'));
+  SELECT ST_IsValid(ST_GeometryFromText(
+           'POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'
+         ));
 
 :: 
 
@@ -65,7 +69,9 @@ Now we know that the feature is invalid, but we don't know why. We can use the :
 
 .. code-block:: sql
 
-  SELECT ST_IsValidReason(ST_GeometryFromText('POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'));
+  SELECT ST_IsValidReason(ST_GeometryFromText(
+           'POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'
+         ));
 
 ::
 
@@ -124,6 +130,7 @@ For example, here's a classic invalidity -- the "banana polygon" -- a single rin
   POLYGON((0 0, 2 0, 1 1, 2 2, 3 1, 2 0, 4 0, 4 4, 0 4, 0 0))
   
 .. image:: ./validity/banana.png
+  :class: inline
 
 Running the zero-offset buffer on the polygon returns a valid :term:`OGC` polygon, consisting of an outer and inner ring that touch at one point.
 

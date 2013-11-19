@@ -20,101 +20,96 @@ Here's a reminder of the functions we saw in the last section. They should be us
 
 Also remember the tables we have available:
 
- * ``nyc_census_blocks`` 
+* ``nyc_census_blocks`` 
  
-   * blkid, popn_total, boroname, geom
+  * blkid, popn_total, boroname, geom
  
- * ``nyc_streets``
+* ``nyc_streets``
  
-   * name, type, geom
+  * name, type, geom
    
- * ``nyc_subway_stations``
+* ``nyc_subway_stations``
  
-   * name, geom
+  * name, geom
  
- * ``nyc_neighborhoods``
+* ``nyc_neighborhoods``
  
-   * name, boroname, geom
+  * name, boroname, geom
 
 Exercises
 ---------
 
- * **"What is the geometry value for the street named 'Atlantic Commons'?"**
+* **"What is the geometry value for the street named 'Atlantic Commons'?"**
  
-   .. code-block:: sql
+  .. code-block:: sql
 
-     SELECT ST_AsText(geom)
-       FROM nyc_streets
-       WHERE name = 'Atlantic Commons';
+    SELECT ST_AsText(geom)
+      FROM nyc_streets
+      WHERE name = 'Atlantic Commons';
 
-   ::
+  ::
    
-     MULTILINESTRING((586782 4504202,586864 4504216))
+    MULTILINESTRING((586782 4504202,586864 4504216))
      
- * **"What neighborhood and borough is Atlantic Commons in?"**
+* **"What neighborhood and borough is Atlantic Commons in?"**
      
-   .. code-block:: sql
+  .. code-block:: sql
 
-     SELECT name, boroname 
-     FROM nyc_neighborhoods 
-     WHERE ST_Intersects(
-       geom,
-       ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918)
-     );
+    SELECT name, boroname 
+    FROM nyc_neighborhoods 
+    WHERE ST_Intersects(
+      geom,
+      ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918)
+    );
 
-   ::
+  ::
      
-          name    | boroname 
-      ------------+----------
-       Fort Green | Brooklyn
+        name    | boroname 
+    ------------+----------
+    Fort Green | Brooklyn
      
-   .. note::
+  .. note::
    
-      "Hey, why did you change from a 'MULTILINESTRING' to a 'LINESTRING'?" Spatially they 
-      describe the same shape, so going from a single-item multi-geometry to a singleton 
-      saves a few keystrokes. 
+    "Hey, why did you change from a 'MULTILINESTRING' to a 'LINESTRING'?" Spatially they describe the same shape, so going from a single-item multi-geometry to a singleton saves a few keystrokes. 
       
-      More importantly, we also rounded the coordinates to make
-      them easier to read, which does actually change results: we couldn't use the 
-      ST_Touches() predicate to find out which roads join Atlantic Commons, because
-      the coordinates are not exactly the same anymore.
+    More importantly, we also rounded the coordinates to make them easier to read, which does actually change results: we couldn't use the ST_Touches() predicate to find out which roads join Atlantic Commons, because the coordinates are not exactly the same anymore.
 
 
- * **"What streets does Atlantic Commons join with?"** 
+* **"What streets does Atlantic Commons join with?"**
  
-   .. code-block:: sql
+  .. code-block:: sql
 
-     SELECT name 
-     FROM nyc_streets 
-     WHERE ST_DWithin(
-       geom, 
-       ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918),
-       0.1
-     );
+    SELECT name 
+    FROM nyc_streets 
+    WHERE ST_DWithin(
+      geom, 
+      ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918),
+      0.1
+    );
     
-   ::
+  ::
   
-          name      
-     ---------------
-      S Oxford St
+         name      
+    ---------------
+     S Oxford St
       Cumberland St
 
-   .. image:: ./spatial_relationships/atlantic_commons.jpg
+  .. image:: ./spatial_relationships/atlantic_commons.jpg
   
 
- * **"Approximately how many people live on (within 50 meters of) Atlantic Commons?"**
+* **"Approximately how many people live on (within 50 meters of) Atlantic Commons?"**
  
-   .. code-block:: sql
+  .. code-block:: sql
 
-     SELECT Sum(popn_total)
-       FROM nyc_census_blocks
-       WHERE ST_DWithin(
-        geom,
-        ST_GeomFromText('LINESTRING((586782 4504202,586864 4504216)', 26918),
-        50
-        );
+    SELECT Sum(popn_total)
+      FROM nyc_census_blocks
+      WHERE ST_DWithin(
+       geom,
+       ST_GeomFromText('LINESTRING((586782 4504202,586864 4504216)', 26918),
+       50
+      );
         
-   :: 
+  :: 
    
-     1186 
+    1186 
    

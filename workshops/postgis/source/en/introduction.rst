@@ -32,6 +32,7 @@ Second-generation spatial systems store some data in relational databases (usual
 Spatial databases fully integrate spatial data with an object relational database.  The orientation changes from GIS-centric to database-centric.     
 
 .. image:: ./introduction/beginning.png
+  :class: inline
 
 .. note:: A spatial database management system may be used in applications besides the geographic world.  Spatial databases are used to manage data related to the anatomy of the human body, large-scale integrated circuits, molecular structures, and electro-magnetic fields, among others.
 
@@ -40,9 +41,9 @@ Spatial Data Types
 ------------------
 
 An ordinary database has strings, numbers, and dates. A spatial database adds additional (spatial) types for representing **geographic features**. These spatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes.  
-
 .. image:: ./introduction/hierarchy.png
-   :align: center
+  :align: center
+  :class: inline
 
 Spatial data types are organized in a type hierarchy.  Each sub-type inherits the structure (attributes) and the behavior (methods or functions) of its super-type. 
 
@@ -57,7 +58,8 @@ The natural sort order of numbers, strings, and dates is simple to determine -- 
 A **bounding box** is the smallest rectangle -- parallel to the coordinate axes -- capable of containing a given feature.
 
 .. image:: ./introduction/boundingbox.png
-   :align: center
+  :align: center
+  :class: inline
 
 Bounding boxes are used because answering the question "is A inside B?" is very computationally intensive for polygons but very fast in the case of rectangles.  Even the most complex polygons and linestrings can be represented by a simple bounding box.
 

@@ -7,19 +7,21 @@ The "`Dimensionally Extended 9-Intersection Model <http://en.wikipedia.org/wiki/
 
 First, every spatial object has:
 
- * An interior
- * A boundary
- * An exterior
+* An interior
+* A boundary
+* An exterior
 
 For polygons, the interior, boundary and exterior are obvious:
 
 .. image:: ./screenshots/de9im1.jpg
+  :class: inline
 
 The interior is the part bounded by the rings; the boundary is the rings themselves; the exterior is everything else in the plane.
 
 For linear features, the interior, boundary and exterior are less well-known:
 
 .. image:: ./screenshots/de9im2.jpg
+  :class: inline
 
 The interior is the part of the line bounded by the ends; the boundary is the ends of the linear feature, and the exterior is everything else in the plane.
 
@@ -28,6 +30,7 @@ For points, things are even stranger: the interior is the point; the boundary is
 Using these definitions of interior, exterior and boundary, the relationships between any pair of spatial features can be characterized using the dimensionality of the nine possible intersections between the interiors/boundaries/exteriors of a pair of objects.
 
 .. image:: ./screenshots/de9im3.jpg
+  :class: inline
 
 For the polygons in the example above, the intersection of the interiors is a 2-dimensional area, so that portion of the matrix is filled out with a "2". The boundaries only intersect at points, which are zero-dimensional, so that portion of the matrix is filled out with a 0.
 
@@ -36,10 +39,12 @@ When there is no intersection between components, the square the matrix is fille
 Here's another example, of a linestring partially entering a polygon:
 
 .. image:: ./screenshots/de9im4.jpg
+  :class: inline
 
 The DE9IM matrix for the interaction is this:
 
 .. image:: ./screenshots/de9im5.jpg
+  :class: inline
 
 Note that the boundaries of the two objects don't actually intersect at all (the end point of the line interacts with the interior of the polygon, not the boundary, and vice versa), so the B/B cell is filled in with an "F". 
 
@@ -48,6 +53,7 @@ While it's fun to visually fill out DE9IM matrices, it would be nice if a comput
 The previous example can be simplified using a simple box and line, with the same spatial relationship as our polygon and linestring:
 
 .. image:: ./screenshots/de9im6.jpg
+  :class: inline
 
 And we can generate the DE9IM information in SQL:
 
@@ -88,6 +94,7 @@ However, the power of DE9IM matrices is not in generating them, but in using the
 Suppose we have a data model that includes **Lakes** and **Docks**, and suppose further that Docks must be inside lakes, and must touch the boundary of their containing lake at one end. Can we find all the docks in our database that obey that rule?
 
 .. image:: ./screenshots/de9im7.jpg
+  :class: inline
 
 Our legal docks have the following characteristics:
 
@@ -99,6 +106,7 @@ Our legal docks have the following characteristics:
 So their DE9IM matrix looks like this:
 
 .. image:: ./screenshots/de9im8.jpg
+  :class: inline
 
 So to find all the legal docks, we would want to find all the docks that intersect lakes (a super-set of **potential** candidates we use for our join key), and then find all the docks in that set which have the legal relate pattern.
 
@@ -114,8 +122,8 @@ Note the use of the three-parameter version of :command:`ST_Relate`, which retur
 
 However, for looser pattern searches, the three-parameter allows substitution characters in the pattern string:
 
- * "*" means "any value in this cell is acceptable"
- * "T" means "any non-false value (0, 1 or 2) is acceptable"
+* "*" means "any value in this cell is acceptable"
+* "T" means "any non-false value (0, 1 or 2) is acceptable"
 
 So for example, one possible dock we did not include in our example graphic is a dock with a two-dimensional intersection with the lake boundary:
 
@@ -125,10 +133,12 @@ So for example, one possible dock we did not include in our example graphic is a
     VALUES ('LINESTRING (140 230, 150 250, 210 230)',true);
 
 .. image:: ./screenshots/de9im9.jpg
+  :class: inline
 
 If we are to include this case in our set of "legal" docks, we need to change the relate pattern in our query. In particular, the intersection of the dock interior lake boundary can now be either 1 (our new case) or F (our original case). So we use the "*" catchall in the pattern.
 
 .. image:: ./screenshots/de9im10.jpg
+  :class: inline
 
 And the SQL looks like this:
 
@@ -149,6 +159,7 @@ Data Quality Testing
 The TIGER data is carefully quality controlled when it is prepared, so we expect our data to meet strict standards. For example: no census block should overlap any other census block. Can we test for that?
 
 .. image:: ./screenshots/de9im11.jpg
+  :class: inline
 
 Sure!
 
@@ -166,6 +177,7 @@ Sure!
 Similarly, we would expect that the roads data is all end-noded. That is, we expect that intersections only occur at the ends of lines, not at the mid-points. 
 
 .. image:: ./screenshots/de9im12.jpg
+  :class: inline
 
 We can test for that by looking for streets that intersect (so we have a join) but where the intersection between the boundaries is not zero-dimensional (that is, the end points don't touch):
 

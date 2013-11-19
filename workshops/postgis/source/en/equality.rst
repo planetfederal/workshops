@@ -9,6 +9,7 @@ Equality
 Determining equality when dealing with geometries can be tricky.  PostGIS supports three different functions that can be used to determine different levels of equality, though for clarity we will use the definitions below.  To illustrate these functions, we will use the following polygons.
 
 .. image:: ./equality/polygon-table.png
+  :class: inline
 
 These polygons are loaded using the following commands.
 

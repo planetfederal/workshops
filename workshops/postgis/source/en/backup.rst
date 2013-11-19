@@ -5,8 +5,8 @@ Section 32: PostgreSQL Backup and Restore
 
 There are lots of ways to backup a PostgreSQL database, and the one you choose will depend a great deal on how you are using the database.
 
- * For relatively static databases, the basic pg_dump/pg_restore tools can be used to take periodic snapshots of the data.
- * For frequently changing data, using an "online backup" scheme allows continuous archiving of updates to a secure location.
+* For relatively static databases, the basic pg_dump/pg_restore tools can be used to take periodic snapshots of the data.
+* For frequently changing data, using an "online backup" scheme allows continuous archiving of updates to a secure location.
 
 Online backup is the basis for replication and stand-by systems for `high availability <http://www.postgresql.org/docs/current/static/high-availability.html>`_, particularly for versions of PostgreSQL >= 9.0.
 
@@ -16,8 +16,8 @@ Laying Out your Data
 
 As discussed in :ref:`schemas`, ensuring that production data is always stored in separate schemas is a very important **best practice** in managing data. There are two reasons:
 
- * Backing up and restoring data in schemas is much simpler than managing lists of tables to be backed up individually.
- * Keeping data tables out of the "public" schema allows far easier upgrades, as discussed in :ref:`upgrades`.
+* Backing up and restoring data in schemas is much simpler than managing lists of tables to be backed up individually.
+* Keeping data tables out of the "public" schema allows far easier upgrades, as discussed in :ref:`upgrades`.
 
 
 Basic Backup and Restore
@@ -35,9 +35,9 @@ Enter the name of the backup file you want to create.
 
 Note that there are three backup format options: compress, tar and plain.
 
- * **Plain** is just a textual SQL file. This is the simplest format and in many ways the most flexible, since it can be editing or altered easily and then loaded back into a database, allowing offline changes to things like ownership or other global information.
- * **Tar** using a UNIX archive format to hold components of the dump in separate files. Using the tar format allows the pg_restore_ utility to selectively restore parts of the dump.
- * **Compress** is like the Tar format, but compresses the internal components individually, allowing them to be selectively restored without decompressing the entire archive.
+* **Plain** is just a textual SQL file. This is the simplest format and in many ways the most flexible, since it can be editing or altered easily and then loaded back into a database, allowing offline changes to things like ownership or other global information.
+* **Tar** using a UNIX archive format to hold components of the dump in separate files. Using the tar format allows the pg_restore_ utility to selectively restore parts of the dump.
+* **Compress** is like the Tar format, but compresses the internal components individually, allowing them to be selectively restored without decompressing the entire archive.
 
 We'll check the Compress option and go, saving out a backup file.
 
@@ -84,9 +84,7 @@ Dumping just data, without function signatures, is where having data in schemas 
 
   pg_dump --port=54321 -format=c --schema=census --file=census.backup
 
-Now when we list the contents of the dump, we see just the data tables we wanted:
-
-:: 
+Now when we list the contents of the dump, we see just the data tables we wanted::
 
   pg_restore --list census.backup
 
@@ -217,15 +215,15 @@ Restoring from the Archive
 
 These steps are taking from the PostgreSQL manual on `continuous archiving and point-in-time recovery <http://www.postgresql.org/docs/current/static/continuous-archiving.html>`_.
 
- * Stop the server, if it's running.
- * If you have the space to do so, copy the whole cluster data directory and any tablespaces to a temporary location in case you need them later. Note that this precaution will require that you have enough free space on your system to hold two copies of your existing database. If you do not have enough space, you should at least save the contents of the cluster's pg_xlog subdirectory, as it might contain logs which were not archived before the system went down.
- * Remove all existing files and subdirectories under the cluster data directory and under the root directories of any tablespaces you are using.
- * Restore the database files from your file system backup. Be sure that they are restored with the right ownership (the database system user, not root!) and with the right permissions. If you are using tablespaces, you should verify that the symbolic links in pg_tblspc/ were correctly restored.
- * Remove any files present in pg_xlog/; these came from the file system backup and are therefore probably obsolete rather than current. If you didn't archive pg_xlog/ at all, then recreate it with proper permissions, being careful to ensure that you re-establish it as a symbolic link if you had it set up that way before.
- * If you have unarchived WAL segment files that you saved in step 2, copy them into pg_xlog/. (It is best to copy them, not move them, so you still have the unmodified files if a problem occurs and you have to start over.)
- * Create a recovery command file recovery.conf in the cluster data directory (see Chapter 26). You might also want to temporarily modify pg_hba.conf to prevent ordinary users from connecting until you are sure the recovery was successful.
- * Start the server. The server will go into recovery mode and proceed to read through the archived WAL files it needs. Should the recovery be terminated because of an external error, the server can simply be restarted and it will continue recovery. Upon completion of the recovery process, the server will rename recovery.conf to recovery.done (to prevent accidentally re-entering recovery mode later) and then commence normal database operations.
- * Inspect the contents of the database to ensure you have recovered to the desired state. If not, return to step 1. If all is well, allow your users to connect by restoring pg_hba.conf to normal.
+* Stop the server, if it's running.
+* If you have the space to do so, copy the whole cluster data directory and any tablespaces to a temporary location in case you need them later. Note that this precaution will require that you have enough free space on your system to hold two copies of your existing database. If you do not have enough space, you should at least save the contents of the cluster's pg_xlog subdirectory, as it might contain logs which were not archived before the system went down.
+* Remove all existing files and subdirectories under the cluster data directory and under the root directories of any tablespaces you are using.
+* Restore the database files from your file system backup. Be sure that they are restored with the right ownership (the database system user, not root!) and with the right permissions. If you are using tablespaces, you should verify that the symbolic links in pg_tblspc/ were correctly restored.
+* Remove any files present in pg_xlog/; these came from the file system backup and are therefore probably obsolete rather than current. If you didn't archive pg_xlog/ at all, then recreate it with proper permissions, being careful to ensure that you re-establish it as a symbolic link if you had it set up that way before.
+* If you have unarchived WAL segment files that you saved in step 2, copy them into pg_xlog/. (It is best to copy them, not move them, so you still have the unmodified files if a problem occurs and you have to start over.)
+* Create a recovery command file recovery.conf in the cluster data directory (see Chapter 26). You might also want to temporarily modify pg_hba.conf to prevent ordinary users from connecting until you are sure the recovery was successful.
+* Start the server. The server will go into recovery mode and proceed to read through the archived WAL files it needs. Should the recovery be terminated because of an external error, the server can simply be restarted and it will continue recovery. Upon completion of the recovery process, the server will rename recovery.conf to recovery.done (to prevent accidentally re-entering recovery mode later) and then commence normal database operations.
+* Inspect the contents of the database to ensure you have recovered to the desired state. If not, return to step 1. If all is well, allow your users to connect by restoring pg_hba.conf to normal.
 
 .. note::
 
@@ -236,11 +234,11 @@ These steps are taking from the PostgreSQL manual on `continuous archiving and p
 Links
 -----
 
- * `pg_dump <http://www.postgresql.org/docs/current/static/app-pgdump.html>`_
- * `pg_dumpall <http://www.postgresql.org/docs/current/static/app-pg-dumpall.html>`_
- * `pg_restore <http://www.postgresql.org/docs/current/static/app-pgrestore.html>`_
- * `PostgreSQL High Availability <http://www.postgresql.org/docs/current/static/high-availability.html>`_
- * `PostgreSQL High Availability Continuous Archiving and PITR <http://www.postgresql.org/docs/current/static/continuous-archiving.html>`_
+* `pg_dump <http://www.postgresql.org/docs/current/static/app-pgdump.html>`_
+* `pg_dumpall <http://www.postgresql.org/docs/current/static/app-pg-dumpall.html>`_
+* `pg_restore <http://www.postgresql.org/docs/current/static/app-pgrestore.html>`_
+* `PostgreSQL High Availability <http://www.postgresql.org/docs/current/static/high-availability.html>`_
+* `PostgreSQL High Availability Continuous Archiving and PITR <http://www.postgresql.org/docs/current/static/continuous-archiving.html>`_
 
 .. _pg_dump: http://www.postgresql.org/docs/current/static/app-pgdump.html
 .. _pg_dumpall: http://www.postgresql.org/docs/current/static/app-pg-dumpall.html

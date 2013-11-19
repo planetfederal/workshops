@@ -113,9 +113,9 @@ Reload configuration
 
 After these changes are made, save changes and reload the configuration.  
 
- * This is done by right-clicking on the Server PostGIS (localhost:54321) in pgAdmin, selecting to *Disconnect*
- * Clicking *Shutdown* in the OpenGeo Dashboard, then clicking *Start*. 
- * Finally reconnecting to the server in pgAdmin (right-click on the server and select *Connect*).
+* This is done by right-clicking on the Server PostGIS (localhost:54321) in pgAdmin, selecting to *Disconnect*
+* Clicking *Shutdown* in the OpenGeo Dashboard, then clicking *Start*. 
+* Finally reconnecting to the server in pgAdmin (right-click on the server and select *Connect*).
  
  
  

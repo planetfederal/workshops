@@ -20,44 +20,44 @@ Here's a reminder of some of the functions we have seen.  Hint: they should be u
  
 Also remember the tables we have available:
 
- * ``nyc_census_blocks`` 
+* ``nyc_census_blocks`` 
  
-   * name, popn_total, boroname, geom
+  * name, popn_total, boroname, geom
  
- * ``nyc_streets``
+* ``nyc_streets``
  
-   * name, type, geom
+  * name, type, geom
    
- * ``nyc_subway_stations``
+* ``nyc_subway_stations``
  
-   * name, routes, geom
+  * name, routes, geom
  
- * ``nyc_neighborhoods``
+* ``nyc_neighborhoods``
  
-   * name, boroname, geom
+  * name, boroname, geom
 
 Exercises
 ---------
 
- * **"What subway station is in 'Little Italy'? What subway route is it on?"**
+* **"What subway station is in 'Little Italy'? What subway route is it on?"**
  
-   .. code-block:: sql
+  .. code-block:: sql
  
-     SELECT s.name, s.routes 
-     FROM nyc_subway_stations AS s
-     JOIN nyc_neighborhoods AS n 
-     ON ST_Contains(n.geom, s.geom)  
-     WHERE n.name = 'Little Italy';
+    SELECT s.name, s.routes 
+    FROM nyc_subway_stations AS s
+    JOIN nyc_neighborhoods AS n 
+    ON ST_Contains(n.geom, s.geom)  
+    WHERE n.name = 'Little Italy';
 
-   :: 
+  :: 
   
-       name    | routes 
-    -----------+--------
+      name    | routes 
+   -----------+--------
      Spring St | 6
-     
- * **"What are all the neighborhoods served by the 6-train?"** (Hint: The ``routes`` column in the ``nyc_subway_stations`` table has values like 'B,D,6,V' and 'C,6')
+   
+* **"What are all the neighborhoods served by the 6-train?"** (Hint: The ``routes`` column in the ``nyc_subway_stations`` table has values like 'B,D,6,V' and 'C,6')
  
-   .. code-block:: sql
+  .. code-block:: sql
   
     SELECT DISTINCT n.name, n.boroname 
     FROM nyc_subway_stations AS s
@@ -65,7 +65,7 @@ Exercises
     ON ST_Contains(n.geom, s.geom)  
     WHERE strpos(s.routes,'6') > 0;
     
-   ::
+  ::
   
             name        | boroname  
     --------------------+-----------
@@ -85,43 +85,43 @@ Exercises
      Parkchester        | The Bronx
      Soundview          | The Bronx
 
-   .. note::
+  .. note::
   
-     We used the ``DISTINCT`` keyword to remove duplicate values from our result set where there were more than one subway station in a neighborhood.
+    We used the ``DISTINCT`` keyword to remove duplicate values from our result set where there were more than one subway station in a neighborhood.
     
- * **"After 9/11, the 'Battery Park' neighborhood was off limits for several days. How many people had to be evacuated?"**
+* **"After 9/11, the 'Battery Park' neighborhood was off limits for several days. How many people had to be evacuated?"**
  
-   .. code-block:: sql
+  .. code-block:: sql
  
-     SELECT Sum(popn_total)
-     FROM nyc_neighborhoods AS n
-     JOIN nyc_census_blocks AS c 
-     ON ST_Intersects(n.geom, c.geom)  
-     WHERE n.name = 'Battery Park';
+    SELECT Sum(popn_total)
+    FROM nyc_neighborhoods AS n
+    JOIN nyc_census_blocks AS c 
+    ON ST_Intersects(n.geom, c.geom)  
+    WHERE n.name = 'Battery Park';
    
-   :: 
+  :: 
 
-     9928
+    9928
     
- * **"What are the population density (people / km^2) of the 'Upper West Side' and 'Upper East Side'?"** (Hint: There are 1000000 m^2 in one km^2.)
+* **"What are the population density (people / km^2) of the 'Upper West Side' and 'Upper East Side'?"** (Hint: There are 1000000 m^2 in one km^2.)
  
-   .. code-block:: sql
+  .. code-block:: sql
    
-     SELECT 
-       n.name, 
-       Sum(c.popn_total) / (ST_Area(n.geom) / 1000000.0) AS popn_per_sqkm
-     FROM nyc_census_blocks AS c
-     JOIN nyc_neighborhoods AS n
-     ON ST_Intersects(c.geom, n.geom)
-     WHERE n.name = 'Upper West Side'
-     OR n.name = 'Upper East Side'
-     GROUP BY n.name, n.geom;
+    SELECT 
+      n.name, 
+      Sum(c.popn_total) / (ST_Area(n.geom) / 1000000.0) AS popn_per_sqkm
+    FROM nyc_census_blocks AS c
+    JOIN nyc_neighborhoods AS n
+    ON ST_Intersects(c.geom, n.geom)
+    WHERE n.name = 'Upper West Side'
+    OR n.name = 'Upper East Side'
+    GROUP BY n.name, n.geom;
      
-   ::
+  ::
    
-           name       |  popn_per_sqkm   
-     -----------------+------------------
-      Upper East Side | 47943.3590089405
-      Upper West Side | 39729.5779474286
+          name       |  popn_per_sqkm   
+    -----------------+------------------
+     Upper East Side | 47943.3590089405
+     Upper West Side | 39729.5779474286
 
      

@@ -5,10 +5,10 @@ Section 22: Linear Referencing
 
 Linear referencing is a means of representing features that are can be described by referencing a base set of linear features. Common examples of features that are modelled using linear referencing are:
 
-  * Highway assets, which are referenced using miles along a highway network
-  * Road maintenance operations, which are referenced as occurring along a road network between a pair of mile measurements.
-  * Aquatic inventories, where fish presence is recorded as existing between a pair of mileage-upstream measurements.
-  * Hydrologic characterizations ("reaches") of streams, recorded with a from- and to- mileage.
+* Highway assets, which are referenced using miles along a highway network
+* Road maintenance operations, which are referenced as occurring along a road network between a pair of mile measurements.
+* Aquatic inventories, where fish presence is recorded as existing between a pair of mileage-upstream measurements.
+* Hydrologic characterizations ("reaches") of streams, recorded with a from- and to- mileage.
   
 The benefit of linear referencing models is that the dependent spatial observations do not need to be separately recorded from the base observations, and updates to the base observation layer can be carried out knowing that the dependent observations will automatically track the new geometry.
 
@@ -108,10 +108,10 @@ Viewing the original (red star) and event (blue circle) points with the streets,
 Function List
 -------------
 
-  * `ST_Line_Interpolate_Point(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Line_Interpolate_Point.html>`_: Returns a point interpolated along a line.
-  * `ST_Line_Locate_Point(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Line_Locate_Point.html>`_: Returns a float between 0 and 1 representing the location of the closest point on LineString to the given Point. 
-  * `ST_Line_Substring(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Line_Substring.html>`_: Return a linestring being a substring of the input one starting and ending at the given fractions of total 2d length. 
-  * `ST_Locate_Along_Measure(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Locate_Along_Measure.html>`_: Return a derived geometry collection value with elements that match the specified measure. 
-  * `ST_Locate_Between_Measures(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Locate_Between_Measures.html>`_: Return a derived geometry collection value with elements that match the specified range of measures inclusively. 
-  * `ST_AddMeasure(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_AddMeasure.html>`_: Return a derived geometry with measure elements linearly interpolated between the start and end points. If the geometry has no measure dimension, one is added. 
+* `ST_Line_Interpolate_Point(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Line_Interpolate_Point.html>`_: Returns a point interpolated along a line.
+* `ST_Line_Locate_Point(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Line_Locate_Point.html>`_: Returns a float between 0 and 1 representing the location of the closest point on LineString to the given Point. 
+* `ST_Line_Substring(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Line_Substring.html>`_: Return a linestring being a substring of the input one starting and ending at the given fractions of total 2d length. 
+* `ST_Locate_Along_Measure(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Locate_Along_Measure.html>`_: Return a derived geometry collection value with elements that match the specified measure. 
+* `ST_Locate_Between_Measures(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Locate_Between_Measures.html>`_: Return a derived geometry collection value with elements that match the specified range of measures inclusively. 
+* `ST_AddMeasure(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_AddMeasure.html>`_: Return a derived geometry with measure elements linearly interpolated between the start and end points. If the geometry has no measure dimension, one is added. 
 

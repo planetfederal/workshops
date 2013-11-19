@@ -13,8 +13,8 @@ Users and Roles
 
 In this chapter we will create two useful production users:
 
- * A read-only user for use in a publishing application.
- * A read/write user for use by a developer in building a software or analyzing data.
+* A read-only user for use in a publishing application.
+* A read/write user for use by a developer in building a software or analyzing data.
 
 Rather than creating users and granting them the necessary powers, we will create two roles with the right powers and then create two users and add them to the appropriate roles. That way we can easily reuse the roles when we create further users.
 
@@ -92,8 +92,8 @@ Read/write Users
 
 There are two kinds of read/write scenarios we need to consider:
 
- * Web applications and others that need to write to existing data tables.
- * Developers or analysts that need to create new tables and geometry columns as part of their work.
+* Web applications and others that need to write to existing data tables.
+* Developers or analysts that need to create new tables and geometry columns as part of their work.
 
 For web applications that require write access to data tables, we just need to grant extra permissions to the tables themselves, and we can continue to use the ``postgis_reader`` role.
 
@@ -128,37 +128,39 @@ Encryption
 
 PostgreSQL provides a lot of `encryption facilities <http://www.postgresql.org/docs/current/static/encryption-options.html>`_, many of them optional, some of them on by default.
 
- * By default, all passwords are MD5 encrypted. The client/server handshake double encrypts the MD5 password to prevent re-use of the hash by anyone who intercepts the password.
- * `SSL connections <http://www.postgresql.org/docs/current/static/libpq-ssl.html>`_ are optionally available between the client and server, to encrypt all data and login information. SSL certificate authentication is also available when SSL connections are used.
- * Columns inside the database can be encrypted using the pgcrypto_ module, which includes hashing algorithms, direct ciphers (blowfish, aes) and both public key and symmetric PGP encryption.
+* By default, all passwords are MD5 encrypted. The client/server handshake double encrypts the MD5 password to prevent re-use of the hash by anyone who intercepts the password.
+* `SSL connections <http://www.postgresql.org/docs/current/static/libpq-ssl.html>`_ are optionally available between the client and server, to encrypt all data and login information. SSL certificate authentication is also available when SSL connections are used.
+* Columns inside the database can be encrypted using the pgcrypto_ module, which includes hashing algorithms, direct ciphers (blowfish, aes) and both public key and symmetric PGP encryption.
 
 SSL Connections
 ~~~~~~~~~~~~~~~
 
 In order to use SSL connections, both your client and server must support SSL. OpenGeo Suite ships PostgreSQL with SSL support built, but not enabled, so we have to carry out a few steps to turn it on first.
 
- * First, turn off the Suite, since activating SSL will require a restart.
- * Next, we acquire or generate an SSL certificate and key. The certificate will need to have no passphrase on it, or the database server won't be able to start up. You can generate a self-signed key as follows:: 
-     
-     # Create a new certificate, filling out the certification info as prompted
-     openssl req -new -text -out server.req
-     
-     # Strip the passphrase from the certificate
-     openssl rsa -in privkey.pem -out server.key
-     
-     # Convert the certificate into a self-signed cert
-     openssl req -x509 -in server.req -text -key server.key -out server.crt
+* First, turn off the Suite, since activating SSL will require a restart.
+* Next, we acquire or generate an SSL certificate and key. The certificate will need to have no passphrase on it, or the database server won't be able to start up. You can generate a self-signed key as follows:
 
-     # Set the permission of the key to private read/write
-     chmod og-rwx server.key
+  :: 
      
-  * Copy the ``server.crt`` and ``server.key`` into the OpenGeo Suite PostgreSQL data directory.
+    # Create a new certificate, filling out the certification info as prompted
+    openssl req -new -text -out server.req
+     
+    # Strip the passphrase from the certificate
+    openssl rsa -in privkey.pem -out server.key
+     
+    # Convert the certificate into a self-signed cert
+    openssl req -x509 -in server.req -text -key server.key -out server.crt
 
-  * Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on". In pgAdmin, go to *File > Open ...*, and navigate to and open ``C:\Documents and Settings\%USER\.opengeo\pgdata\%USER"\postgresql.conf``
+    # Set the permission of the key to private read/write
+    chmod og-rwx server.key
+     
+* Copy the ``server.crt`` and ``server.key`` into the OpenGeo Suite PostgreSQL data directory.
 
-    .. image:: ./screenshots/ssl_conf.jpg
+* Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on". In pgAdmin, go to *File > Open ...*, and navigate to and open ``C:\Documents and Settings\%USER\.opengeo\pgdata\%USER"\postgresql.conf``
 
-  * Now re-start OpenGeo Suite; the server is ready for SSL operation.
+  .. image:: ./screenshots/ssl_conf.jpg
+
+* Now re-start OpenGeo Suite; the server is ready for SSL operation.
 
 With the server enabled for SSL, creating an encrypted connection is easy. In PgAdmin, create a new server connection (File > Add Server...), and set the SSL parameter to “require”.
 
@@ -186,26 +188,26 @@ Data Encryption
 
 The pgcrypto_ module has a huge range of encryption options, so we will only demonstrate the simplest use case: encrypting a column of data using a symmetric cipher.
 
- * First, enable pgcrypto by loading the contrib SQL file, either in PgAdmin or psql.
+* First, enable pgcrypto by loading the contrib SQL file, either in PgAdmin or psql.
 
-   :: 
+  :: 
      
-      pgsql/8.4/share/postgresql/contrib/pgcrypto.sql
+    pgsql/8.4/share/postgresql/contrib/pgcrypto.sql
 
 
- * Then, test the encryption function.
+* Then, test the encryption function.
 
-   .. code-block:: sql
+  .. code-block:: sql
       
-      -- encrypt a string using blowfish (bf)
-      SELECT encrypt('this is a test phrase', 'mykey', 'bf');
+    -- encrypt a string using blowfish (bf)
+    SELECT encrypt('this is a test phrase', 'mykey', 'bf');
 
- * And make sure it's reversible too!
+* And make sure it's reversible too!
 
-   .. code-block:: sql
+  .. code-block:: sql
       
-      -- round-trip a string using blowfish (bf)
-      SELECT decrypt(encrypt('this is a test phrase', 'mykey', 'bf'), 'mykey', 'bf');
+    -- round-trip a string using blowfish (bf)
+    SELECT decrypt(encrypt('this is a test phrase', 'mykey', 'bf'), 'mykey', 'bf');
 
 
 Authentication
@@ -213,11 +215,11 @@ Authentication
 
 PostgreSQL supports many different `authentication methods <http://www.postgresql.org/docs/current/static/auth-methods.html>`_, to allow easy integration into existing enterprise architectures. For production purposes, the following methods are commonly used:
 
- * **Password** is the basic system where the passwords are stored by the database, with MD5 encryption.
- * Kerberos_ is a standard enterprise authentication method, which is used by both the GSSAPI_ and SSPI_ schemes in PostgreSQL. Using SSPI_, PostgreSQL can authenticate against Windows servers.
- * LDAP_ is another common enterprise authentication method. The `OpenLDAP <http://www.openldap.org/>`_ server bundled with most Linux distributions provides an open source implementation of LDAP_.
- * **Certificate** authentication is an option if you expect all client connections to be via SSL and are able to manage the distribution of keys.
- * PAM_ authentication is an option if you are on Linux or Solaris and use the PAM_ scheme for transparent authentication provision.
+* **Password** is the basic system where the passwords are stored by the database, with MD5 encryption.
+* Kerberos_ is a standard enterprise authentication method, which is used by both the GSSAPI_ and SSPI_ schemes in PostgreSQL. Using SSPI_, PostgreSQL can authenticate against Windows servers.
+* LDAP_ is another common enterprise authentication method. The `OpenLDAP <http://www.openldap.org/>`_ server bundled with most Linux distributions provides an open source implementation of LDAP_.
+* **Certificate** authentication is an option if you expect all client connections to be via SSL and are able to manage the distribution of keys.
+* PAM_ authentication is an option if you are on Linux or Solaris and use the PAM_ scheme for transparent authentication provision.
 
 Authentication methods are controlled by the ``pg_hba.conf`` file. The "HBA" in the file name stands for "host based access", because in addition to allowing you to specify the authentication method to use for each database, it allows you to limit host access using network addresses.
 
@@ -238,11 +240,11 @@ Here is an example ``pg_hba.conf`` file:
 
 The file consists of five columns
 
- * **TYPE** determines the kind of access, either "local" for connections from the same server or "host" for remote connections.
- * **DATABASE** specifies what database the configuration line refers to or "all" for all databases
- * **USER** specifies what users the line refers to or "all" for all users
- * **CIDR-ADDRESS** specifies the network limitations for remote connections, using network/netmask syntax
- * **METHOD** specifies the authentication protocol to use. "trust" skips authentication entirely and simply accepts any valid username without challenge.
+* **TYPE** determines the kind of access, either "local" for connections from the same server or "host" for remote connections.
+* **DATABASE** specifies what database the configuration line refers to or "all" for all databases
+* **USER** specifies what users the line refers to or "all" for all users
+* **CIDR-ADDRESS** specifies the network limitations for remote connections, using network/netmask syntax
+* **METHOD** specifies the authentication protocol to use. "trust" skips authentication entirely and simply accepts any valid username without challenge.
 
 It's common for local connections to be trusted, since access to the server itself is usually privileged. Remote connections are disabled by default when PostgreSQL is installed: if you want to connect from remote machines, you'll have to add an entry.
 
@@ -252,9 +254,9 @@ The line for ``nyc`` in the example above is an example of a remote access entry
 Links
 -----
 
- * `PostgreSQL Authentication <http://www.postgresql.org/docs/current/static/auth-methods.html>`_
- * `PostgreSQL Encrpyption <http://www.postgresql.org/docs/current/static/encryption-options.html>`_
- * `PostgreSQL SSL Support <http://www.postgresql.org/docs/current/static/libpq-ssl.html>`_
+* `PostgreSQL Authentication <http://www.postgresql.org/docs/current/static/auth-methods.html>`_
+* `PostgreSQL Encrpyption <http://www.postgresql.org/docs/current/static/encryption-options.html>`_
+* `PostgreSQL SSL Support <http://www.postgresql.org/docs/current/static/libpq-ssl.html>`_
 
 
 

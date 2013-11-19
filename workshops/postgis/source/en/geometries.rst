@@ -36,6 +36,7 @@ In conformance with the Simple Features for SQL (:term:`SFSQL`) specification, P
 * The second table, ``geometry_columns``, provides a listing of all "features" (defined as an object with geometric attributes), and the basic details of those features.  
 
 .. image:: ./geometries/table01.png
+  :class: inline
 
 In our introductory example, the :command:`Populate_Geometry_Columns()` function finds all the columns in the database that contain geometry and updates the ``geometry_columns`` table to include references to them.  
 
@@ -61,9 +62,9 @@ The Simple Features for SQL (:term:`SFSQL`) specification, the original guiding 
 
 Our example table contains a mixture of different geometry types. We can collect general information about each object using functions that read the geometry metadata.
 
- * :command:`ST_GeometryType(geometry)` returns the type of the geometry
- * :command:`ST_NDims(geometry)` returns the number of dimensions of the geometry
- * :command:`ST_SRID(geometry)` returns the spatial reference identifier number of the geometry
+* :command:`ST_GeometryType(geometry)` returns the type of the geometry
+* :command:`ST_NDims(geometry)` returns the number of dimensions of the geometry
+* :command:`ST_SRID(geometry)` returns the spatial reference identifier number of the geometry
 
 .. code-block:: sql
 
@@ -86,7 +87,8 @@ Points
 ~~~~~~
 
 .. image:: ./introduction/points.png
-   :align: center
+  :align: center
+  :class: inline
 
 A spatial **point** represents a single location on the Earth.  This point is represented by a single coordinate (including either 2-, 3- or 4-dimensions).  Points are used to represent objects when the exact details, such as shape and size, are not important at the target scale.  For example, cities on a map of the world can be described as points, while a map of a single state might represent cities as polygons.  
 
@@ -102,8 +104,8 @@ A spatial **point** represents a single location on the Earth.  This point is re
 
 Some of the specific spatial functions for working with points are:
 
- * :command:`ST_X(geometry)` returns the X ordinate
- * :command:`ST_Y(geometry)` returns the Y ordinate
+* :command:`ST_X(geometry)` returns the X ordinate
+* :command:`ST_Y(geometry)` returns the Y ordinate
 
 So, we can read the ordinates from a point like this:
 
@@ -126,7 +128,8 @@ Linestrings
 ~~~~~~~~~~~
 
 .. image:: ./introduction/lines.png
-   :align: center
+  :align: center
+  :class: inline
 
 A **linestring** is a path between locations.  It takes the form of an ordered series of two or more points.  Roads and rivers are typically represented as linestrings.  A linestring is said to be **closed** if it starts and ends on the same point.  It is said to be **simple** if it does not cross or touch itself (except at its endpoints if it is closed).  A linestring can be both **closed** and **simple**.
 
@@ -146,10 +149,10 @@ The following SQL query will return the geometry associated with one linestring 
 
 Some of the specific spatial functions for working with linestrings are:
 
- * :command:`ST_Length(geometry)` returns the length of the linestring
- * :command:`ST_StartPoint(geometry)` returns the first coordinate as a point
- * :command:`ST_EndPoint(geometry)` returns the last coordinate as a point
- * :command:`ST_NPoints(geometry)` returns the number of coordinates in the linestring
+* :command:`ST_Length(geometry)` returns the length of the linestring
+* :command:`ST_StartPoint(geometry)` returns the first coordinate as a point
+* :command:`ST_EndPoint(geometry)` returns the last coordinate as a point
+* :command:`ST_NPoints(geometry)` returns the number of coordinates in the linestring
 
 So, the length of our linestring is:
 
@@ -169,6 +172,7 @@ Polygons
 
 .. image:: ./introduction/polygons.png
   :align: center
+  :class: inline
 
 A polygon is a representation of an area.  The outer boundary of the polygon is represented by a ring.  This ring is a linestring that is both closed and simple as defined above.  Holes within the polygon are also represented by rings.
 
@@ -197,11 +201,11 @@ The first polygon has only one ring. The second one has an interior "hole". Most
 
 Some of the specific spatial functions for working with polygons are:
 
- * :command:`ST_Area(geometry)` returns the area of the polygons
- * :command:`ST_NRings(geometry)` returns the number of rings (usually 1, more of there are holes)
- * :command:`ST_ExteriorRing(geometry)` returns the outer ring as a linestring
- * :command:`ST_InteriorRingN(geometry,n)` returns a specified interior ring as a linestring
- * :command:`ST_Perimeter(geometry)` returns the length of all the rings
+* :command:`ST_Area(geometry)` returns the area of the polygons
+* :command:`ST_NRings(geometry)` returns the number of rings (usually 1, more of there are holes)
+* :command:`ST_ExteriorRing(geometry)` returns the outer ring as a linestring
+* :command:`ST_InteriorRingN(geometry,n)` returns a specified interior ring as a linestring
+* :command:`ST_Perimeter(geometry)` returns the length of all the rings
 
 We can calculate the area of our polygons using the area function:
 
@@ -223,10 +227,10 @@ Collections
 
 There are four collection types, which group multiple simple geometries into sets.  
 
- * **MultiPoint**, a collection of points
- * **MultiLineString**, a collection of linestrings
- * **MultiPolygon**, a collection of polygons
- * **GeometryCollection**, a heterogeneous collection of any geometry (including other collections)
+* **MultiPoint**, a collection of points
+* **MultiLineString**, a collection of linestrings
+* **MultiPolygon**, a collection of polygons
+* **GeometryCollection**, a heterogeneous collection of any geometry (including other collections)
 
 Collections are another concept that shows up in GIS software more than in generic graphics software. They are useful for directly modeling real world objects as spatial objects. For example, how to model a lot that is split by a right-of-way? As a **MultiPolygon**, with a part on either side of the right-of-way.
 
@@ -248,10 +252,10 @@ Our example collection contains a polygon and a point:
 
 Some of the specific spatial functions for working with collections are:
 
- * :command:`ST_NumGeometries(geometry)` returns the number of parts in the collection
- * :command:`ST_GeometryN(geometry,n)` returns the specified part
- * :command:`ST_Area(geometry)` returns the total area of all polygonal parts
- * :command:`ST_Length(geometry)` returns the total length of all linear parts
+* :command:`ST_NumGeometries(geometry)` returns the number of parts in the collection
+* :command:`ST_GeometryN(geometry,n)` returns the specified part
+* :command:`ST_Area(geometry)` returns the total area of all polygonal parts
+* :command:`ST_Length(geometry)` returns the total length of all linear parts
 
 
 
@@ -260,41 +264,41 @@ Geometry Input and Output
 
 Within the database, geometries are stored on disk in a format only used by the PostGIS program. In order for external programs to insert and retrieve useful geometries, they need to be converted into a format that other applications can understand. Fortunately, PostGIS supports emitting and consuming geometries in a large number of formats:
 
- * Well-known text (:term:`WKT`)
+* Well-known text (:term:`WKT`)
  
-   * :command:`ST_GeomFromText(text)` returns ``geometry``
-   * :command:`ST_AsText(geometry)` returns ``text``
-   * :command:`ST_AsEWKT(geometry)` returns ``text``
+  * :command:`ST_GeomFromText(text)` returns ``geometry``
+  * :command:`ST_AsText(geometry)` returns ``text``
+  * :command:`ST_AsEWKT(geometry)` returns ``text``
    
- * Well-known binary (:term:`WKB`)
+* Well-known binary (:term:`WKB`)
  
-   * :command:`ST_GeomFromWKB(bytea)` returns ``geometry``
-   * :command:`ST_AsBinary(geometry)` returns ``bytea``
-   * :command:`ST_AsEWKB(geometry)` returns ``bytea``
+  * :command:`ST_GeomFromWKB(bytea)` returns ``geometry``
+  * :command:`ST_AsBinary(geometry)` returns ``bytea``
+  * :command:`ST_AsEWKB(geometry)` returns ``bytea``
    
- * Geographic Mark-up Language (:term:`GML`)
+* Geographic Mark-up Language (:term:`GML`)
  
-   * :command:`ST_GeomFromGML(text)` returns ``geometry``
-   * :command:`ST_AsGML(geometry)` returns ``text``
+  * :command:`ST_GeomFromGML(text)` returns ``geometry``
+  * :command:`ST_AsGML(geometry)` returns ``text``
    
- * Keyhole Mark-up Language (:term:`KML`)
+* Keyhole Mark-up Language (:term:`KML`)
  
-   * :command:`ST_GeomFromKML(text)` returns ``geometry``
-   * :command:`ST_AsKML(geometry)` returns ``text``
+  * :command:`ST_GeomFromKML(text)` returns ``geometry``
+  * :command:`ST_AsKML(geometry)` returns ``text``
    
- * :term:`GeoJSON`
+* :term:`GeoJSON`
  
-   * :command:`ST_AsGeoJSON(geometry)` returns ``text``
+  * :command:`ST_AsGeoJSON(geometry)` returns ``text``
    
- * Scalable Vector Graphics (:term:`SVG`)
+* Scalable Vector Graphics (:term:`SVG`)
  
-   * :command:`ST_AsSVG(geometry)` returns ``text``
+  * :command:`ST_AsSVG(geometry)` returns ``text``
  
 The most common use of a constructor is to turn a text representation of a geometry into an internal representation:
 
 .. code-block::sql
 
- select ST_GeomFromText('POINT(583571 4506714)',26918);
+  SELECT ST_GeomFromText('POINT(583571 4506714)',26918);
  
 Note that in addition to a text parameter with a geometry representation, we also have a numeric parameter providing the :term:`SRID` of the geometry.
  

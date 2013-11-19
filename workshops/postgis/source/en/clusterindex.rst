@@ -8,12 +8,14 @@ Databases can only retrieve information as fast as they can get it off of disk. 
 Data is written to disk opportunistically, so there is not necessarily any correlation between the order data is stored on the disk and the way it will be accessed or organized by applications.
 
 .. image:: ./screenshots/clustering1.jpg
+  :class: inline
 
 One way to speed up access to data is to ensure that records which is likely to be retrieved together in the same result set are located in similar physical locations on the hard disk platters. This is called "clustering". 
 
 The right clustering scheme to use can be tricky, but a general rule applies: indexes define a natural ordering scheme for data which is similar to the access pattern that will be used in retrieving the data.
 
 .. image:: ./screenshots/clustering2.jpg
+  :class: inline
 
 Because of this, ordering the data on the disk in the same order as the index can provide a speed advantage in some cases.
 
@@ -36,10 +38,12 @@ The command re-writes the ``nyc_census_blocks`` in the order defined by the spat
 One of the surprises of the R-Tree is that an R-Tree built incrementally on spatial data might not have high spatial coherence of the leaves. For example, see this visualization of the spatial index leaves of an index on roads in the province of British Columbia.
 
 .. image:: ./screenshots/clustering3.jpg
+  :class: inline
 
 We would prefer to cluster using a more spatially compact tree, like this balanced R-Tree.
 
 .. image:: ./screenshots/clustering4.jpg
+  :class: inline
 
 We don't have a balanced R-Tree algorithm available in PostGIS, but we do have a useful proxy that puts spatial data into a spatially autocorrelated order, the **ST_GeoHash()** function.
 

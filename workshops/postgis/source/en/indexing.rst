@@ -26,16 +26,16 @@ Now, watch the "Timing" meter at the lower right-hand corner of the pgAdmin quer
 .. code-block:: sql
 
   SELECT blocks.blkid
-  FROM nyc_census_blocks blocks
-  JOIN nyc_subway_stations subways
-  ON ST_Contains(blocks.geom, subways.geom)
-  WHERE subways.name = 'Broad St';
+   FROM nyc_census_blocks blocks
+   JOIN nyc_subway_stations subways
+   ON ST_Contains(blocks.geom, subways.geom)
+   WHERE subways.name = 'Broad St';
   
 ::
 
-       blkid      
- -----------------
-  360610007003006
+        blkid      
+  -----------------
+   360610007003006
   
 The ``nyc_census_blocks`` table is very small (only a few thousand records) so even without an index, the query only takes **55 ms** on my test computer.
 
@@ -43,7 +43,9 @@ Now add the spatial index back in and run the query again.
 
 .. code-block:: sql
 
-  CREATE INDEX nyc_census_blocks_geom_gist ON nyc_census_blocks USING GIST (geom);
+  CREATE INDEX nyc_census_blocks_geom_gist 
+    ON nyc_census_blocks 
+    USING GIST (geom);
 
 .. note:: The ``USING GIST`` clause tells PostgreSQL to use the generic index structure (GIST) when building the index.  If you receive an error that looks like ``ERROR: index row requires 11340 bytes, maximum size is 8191`` when creating your index, you have likely neglected to add the ``USING GIST`` clause.
 
@@ -55,6 +57,7 @@ How Spatial Indexes Work
 Standard database indexes create a hierarchical tree based on the values of the column being indexed. Spatial indexes are a little different -- they are unable to index the geometric features themselves  and instead index the bounding boxes of the features.
 
 .. image:: ./indexing/bbox.png
+  :class: inline
 
 In the figure above, the number of lines that intersect the yellow star is **one**, the red line. But the bounding boxes of features that intersect the yellow box is **two**, the red and blue ones. 
 

@@ -14,33 +14,33 @@ In the workshop ``\data\`` directory, is a file that includes attribute data, bu
 
 In this section we will
 
- * Load the ``nyc_census_sociodata.sql`` table
- * Create a spatial table for census tracts 
- * Join the attribute data to the spatial data
- * Carry out some analysis using our new data
+* Load the ``nyc_census_sociodata.sql`` table
+* Create a spatial table for census tracts 
+* Join the attribute data to the spatial data
+* Carry out some analysis using our new data
  
 Loading nyc_census_sociodata.sql
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- #. Open the SQL query window in PgAdmin
- #. Select **File->Open** from the menu and browse to the ``nyc_census_sociodata.sql`` file
- #. Press the "Run Query" button
- #. If you press the "Refresh" button in PgAdmin, the list of tables should now include at ``nyc_census_sociodata`` table
+#. Open the SQL query window in PgAdmin
+#. Select **File->Open** from the menu and browse to the ``nyc_census_sociodata.sql`` file
+#. Press the "Run Query" button
+#. If you press the "Refresh" button in PgAdmin, the list of tables should now include at ``nyc_census_sociodata`` table
  
 Creating a Census Tracts Table
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
 As we saw in the previous section, we can build up higher level geometries from the census block by summarizing on substrings of the ``blkid`` key. In order to get census tracts, we need to summarize grouping on the first 11 characters of the ``blkid``.
  
-  ::
+::
 
-    360610001009000 = 36 061 00100 9000
+  360610001009000 = 36 061 00100 9000
 
-    36     = State of New York 
-    061    = New York County (Manhattan)
-    000100 = Census Tract
-    9      = Census Block Group
-    000    = Census Block
+  36     = State of New York 
+  061    = New York County (Manhattan)
+  000100 = Census Tract
+  9      = Census Block Group
+  000    = Census Block
 
 Create the new table using the :command:`ST_Union` aggregate:
  
@@ -55,7 +55,8 @@ Create the new table using the :command:`ST_Union` aggregate:
    GROUP BY tractid;
      
    -- Index the tractid
-   CREATE INDEX nyc_census_tract_geoms_tractid_idx ON nyc_census_tract_geoms (tractid);
+   CREATE INDEX nyc_census_tract_geoms_tractid_idx 
+     ON nyc_census_tract_geoms (tractid);
      
    -- Update the geometry_columns table
    SELECT Populate_Geometry_Columns();
@@ -77,7 +78,8 @@ Join the table of tract geometries to the table of tract attributes with a stand
   ON g.tractid = a.tractid;
     
   -- Index the geometries
-  CREATE INDEX nyc_census_tract_gidx ON nyc_census_tracts USING GIST (geom);
+  CREATE INDEX nyc_census_tract_gidx 
+    ON nyc_census_tracts USING GIST (geom);
     
   -- Update the geometry_columns table
   SELECT Populate_Geometry_Columns();
@@ -134,8 +136,8 @@ In our interesting query (in :ref:`interestingquestion`) we used the :command:`S
 
 To avoid this kind of double counting there are two methods:
 
- * The simple method is to ensure that each tract only falls in **one** summary area (using :command:`ST_Centroid(geometry)`)
- * The complex method is to divide crossing tracts at the borders (using :command:`ST_Intersection(geometry,geometry)`)
+* The simple method is to ensure that each tract only falls in **one** summary area (using :command:`ST_Centroid(geometry)`)
+* The complex method is to divide crossing tracts at the borders (using :command:`ST_Intersection(geometry,geometry)`)
  
 Here is an example of using the simple method to avoid double counting in our graduate education query:
 

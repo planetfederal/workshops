@@ -18,8 +18,8 @@ ST_Centroid / ST_PointOnSurface
 
 A common need when composing a spatial query is to replace a polygon feature with a point representation of the feature. This is useful for spatial joins (as discussed in :ref:`polypolyjoins`) because using :command:`ST_Intersects(geometry,geometry)` on two polygon layers often results in double-counting: a polygon on a boundary will intersect an object on both sides; replacing it with a point forces it to be on one side or the other, not both.
 
- * :command:`ST_Centroid(geometry)` returns a point that is approximately on the center of mass of the input argument. This simple calculation is very fast, but sometimes not desirable, because the returned point is not necessarily in the feature itself. If the input feature has a convexity (imagine the letter 'C') the returned centroid might not be in the interior of the feature.
- * :command:`ST_PointOnSurface(geometry)` returns a point that is guaranteed to be inside the input argument. It is substantially more computationally expensive than the centroid operation.
+* :command:`ST_Centroid(geometry)` returns a point that is approximately on the center of mass of the input argument. This simple calculation is very fast, but sometimes not desirable, because the returned point is not necessarily in the feature itself. If the input feature has a convexity (imagine the letter 'C') the returned centroid might not be in the interior of the feature.
+* :command:`ST_PointOnSurface(geometry)` returns a point that is guaranteed to be inside the input argument. It is substantially more computationally expensive than the centroid operation.
  
 .. image:: ./geometry_returning/centroid.jpg
 
@@ -77,22 +77,22 @@ ST_Union
 
 In the previous example we intersected geometries, creating a new geometry that had lines from both the inputs. The :command:`ST_Union` does the reverse; it takes inputs and removes common lines. There are two forms of the :command:`ST_Union` function: 
 
- * :command:`ST_Union(geometry, geometry)`: A two-argument version that takes in two geometries and returns the merged union.  For example, our two-circle example from the previous section looks like this when you replace the intersection with a union.
+* :command:`ST_Union(geometry, geometry)`: A two-argument version that takes in two geometries and returns the merged union.  For example, our two-circle example from the previous section looks like this when you replace the intersection with a union.
  
-   .. code-block:: sql
+  .. code-block:: sql
 
-     -- What is the total area these two circles cover?
-     -- Using ST_Buffer to make the circles!
+    -- What is the total area these two circles cover?
+    -- Using ST_Buffer to make the circles!
  
-     SELECT ST_AsText(ST_Union(
-       ST_Buffer('POINT(0 0)', 2),
-       ST_Buffer('POINT(3 0)', 2)
-     ));
+    SELECT ST_AsText(ST_Union(
+      ST_Buffer('POINT(0 0)', 2),
+      ST_Buffer('POINT(3 0)', 2)
+    ));
   
-   .. image:: ./geometry_returning/union.jpg
+  .. image:: ./geometry_returning/union.jpg
    
 
- * :command:`ST_Union([geometry])`: An aggregate version that takes in a set of geometries and returns the merged geometry for the entire group. The aggregate ST_Union can be used with the ``GROUP BY`` SQL statement to create carefully merged subsets of basic geometries. It is very powerful,
+* :command:`ST_Union([geometry])`: An aggregate version that takes in a set of geometries and returns the merged geometry for the entire group. The aggregate ST_Union can be used with the ``GROUP BY`` SQL statement to create carefully merged subsets of basic geometries. It is very powerful,
  
 As an example of :command:`ST_Union` aggregation, consider our ``nyc_census_blocks`` table. Census geography is carefully constructed so that larger geographies can be built up from smaller ones. So, we can create a census tracts map by merging the blocks that form each tract (as we do later in :ref:`creatingtractstable`). Or, we can create a county map by merging blocks that fall within each county.
 

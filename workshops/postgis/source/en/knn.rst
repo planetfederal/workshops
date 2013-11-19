@@ -64,8 +64,8 @@ Because the index is built using the bounding boxes of geometries, the distances
 
 The syntax of the index-based KNN query places a special "index-based distance operator" in the ORDER BY clause of the query, in this case "<->". There are two index-based distance operators, 
 
- * **<->** means "distance between box centers"
- * **<#>** means "distance between box edges"
+* **<->** means "distance between box centers"
+* **<#>** means "distance between box edges"
 
 One side of the index-based distance operator must be a literal geometry value. We can get away with a subquery that returns as single geometry, or we could include a :term:`WKT` geometry instead.
 

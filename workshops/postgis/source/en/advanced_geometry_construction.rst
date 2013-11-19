@@ -11,8 +11,8 @@ Although it is a database of all the stations, it doesn't allow easy visualizati
 
 Our task is made especially difficult by two issues:
 
-  * The ``routes`` column of ``nyc_subway_stations`` has multiple route identifiers in each row, so a station that might appear in multiple routes appears only once in the table.
-  * Related to the previous issue, there is no route ordering information in the stations table, so while it is possible to find all the stations in a particular route, it's not possible using the attributes to determine what the order in which trains travel through the stations.
+* The ``routes`` column of ``nyc_subway_stations`` has multiple route identifiers in each row, so a station that might appear in multiple routes appears only once in the table.
+* Related to the previous issue, there is no route ordering information in the stations table, so while it is possible to find all the stations in a particular route, it's not possible using the attributes to determine what the order in which trains travel through the stations.
 
 The second problem is the harder one: given an unordered set of points in a route, how do we order them to match the actual route.
 
@@ -32,8 +32,8 @@ If we start at one of the end stations, the next station on the line seems to al
 
 There are two ways to run such an iterative routine in a database:
 
- * Using a procedural language, like `PL/PgSQL <http://www.postgresql.org/docs/current/static/plpgsql.html>`_.
- * Using recursive `common table expressions <http://www.postgresql.org/docs/current/static/queries-with.html>`_.
+* Using a procedural language, like `PL/PgSQL <http://www.postgresql.org/docs/current/static/plpgsql.html>`_.
+* Using recursive `common table expressions <http://www.postgresql.org/docs/current/static/queries-with.html>`_.
 
 Common table expressions (CTE) have the virtue of not requiring a function definition to run. Here's the CTE to calculate the route line of the 'Q' train, starting from the northernmost stop (where ``gid`` is 304).
 
@@ -59,14 +59,14 @@ Common table expressions (CTE) have the virtue of not requiring a function defin
 
 The CTE consists of two halves, unioned together:
 
-  * The first half establishes a start point for the expression. We get the initial geometry and initialize the array of visited identifiers, using the record of "gid" 304 (the end of the line).
-  * The second half iterates until it finds no further records. At each iteration it takes in the value at the previous iteration via the self-reference to "next_stop". We search every stop on the Q line (**strpos(s.routes,'Q')**) that we have not already added to our visited list (**NOT n.idlist @> ARRAY[s.gid]**) and order them by their distance from the previous point, taking just the first one (the nearest).
+* The first half establishes a start point for the expression. We get the initial geometry and initialize the array of visited identifiers, using the record of "gid" 304 (the end of the line).
+* The second half iterates until it finds no further records. At each iteration it takes in the value at the previous iteration via the self-reference to "next_stop". We search every stop on the Q line (**strpos(s.routes,'Q')**) that we have not already added to our visited list (**NOT n.idlist @> ARRAY[s.gid]**) and order them by their distance from the previous point, taking just the first one (the nearest).
   
 Beyond the recursive CTE itself, there are a number of advanced PostgreSQL array features being used here:
 
-  * We are using ARRAY! PostgreSQL supports arrays of any type. In this case we have an array of integers, but we could also build an array of geometries, or any other PostgreSQL type.
-  * We are using **array_append** to build up our array of visited identifiers.
-  * We are using the **@>** array operator ("array contains") to find which of the Q train stations we have already visited. The **@>** operators requires ARRAY values on both sides, so we have to turn the individual "gid" numbers into single-entry arrays using the ARRAY[] syntax.
+* We are using ARRAY! PostgreSQL supports arrays of any type. In this case we have an array of integers, but we could also build an array of geometries, or any other PostgreSQL type.
+* We are using **array_append** to build up our array of visited identifiers.
+* We are using the **@>** array operator ("array contains") to find which of the Q train stations we have already visited. The **@>** operators requires ARRAY values on both sides, so we have to turn the individual "gid" numbers into single-entry arrays using the ARRAY[] syntax.
   
 When you run the query, you get each geometry in the order it is found (which is the route order), as well as the list of identifiers already visited. Wrapping the geometries into the PostGIS `ST_MakeLine <http://postgis.net/docs/manual-2.0/ST_MakeLine.html>`_ aggregate function turns the set of geometries into a single linear output, constructed in the provided order.
 
@@ -98,8 +98,8 @@ Which looks like this:
 
 Except, two problems:
 
-  * We are only calculating one subway route here, we want to calculate all the routes.
-  * Our query includes a piece of *a priori* knowledge, the initial station identifier that serves as the seed for the search algorithm that builds the route.
+* We are only calculating one subway route here, we want to calculate all the routes.
+* Our query includes a piece of *a priori* knowledge, the initial station identifier that serves as the seed for the search algorithm that builds the route.
 
 Let's tackle the hard problem first, figuring out the first station on a route without manually eyeballing the set of stations that make up the route.
 
@@ -129,8 +129,8 @@ To work out the end stations of every route, we first have to work out what rout
     
 Note the use of two advanced PostgreSQL ARRAY functions:
 
-  * **string_to_array** takes in a string and splits it into an array using a separator character. `PostgreSQL supports arrays <http://www.postgresql.org/docs/current/static/arrays.html>`_ of any type, so it's possible to build arrays of strings, as in this case, but also of geometries and geographies as we'll see later in this example.
-  * **unnest** takes in an array and builds a new row for each entry in the array. The effect is to take a "horizontal" array embedded in a single row and turn it into a "vertical" array with a row for each value.
+* **string_to_array** takes in a string and splits it into an array using a separator character. `PostgreSQL supports arrays <http://www.postgresql.org/docs/current/static/arrays.html>`_ of any type, so it's possible to build arrays of strings, as in this case, but also of geometries and geographies as we'll see later in this example.
+* **unnest** takes in an array and builds a new row for each entry in the array. The effect is to take a "horizontal" array embedded in a single row and turn it into a "vertical" array with a row for each value.
 
 The result is a list of all the unique subway route identifiers.
 
@@ -248,8 +248,8 @@ So the northern most stop, the end point, appears to also be the stop furthest f
 
 We've added two sub-queries this time:
 
-  * **stops_distance** joins the centers points back to the stations table and calculates the distance between the stations and center for each route. The result is ordered such that the records come out in batches for each route, with the furthest station as the first record of the batch.
-  * **first_stops** filters the **stops_distance** output by only taking the first record for each distinct group. Because of the way we ordered **stops_distance** the first record is the furthest record, which means it's the station we want to use as our starting seed to build each subway route.
+* **stops_distance** joins the centers points back to the stations table and calculates the distance between the stations and center for each route. The result is ordered such that the records come out in batches for each route, with the furthest station as the first record of the batch.
+* **first_stops** filters the **stops_distance** output by only taking the first record for each distinct group. Because of the way we ordered **stops_distance** the first record is the furthest record, which means it's the station we want to use as our starting seed to build each subway route.
   
 Now we know every route, and we know (approximately) what station each route starts from: we're ready to generate the route lines!
 
@@ -331,8 +331,8 @@ Here's what our final table looks like visualized in QGIS:
 
 As usual, there are some problems with our simple understanding of the data:
 
-  * there are actually two 'S' (short distance "shuttle") trains, one in Manhattan and one in the Rockaways, and we join them together because they are both called 'S';
-  * the '4' train (and a few others) splits at the end of one line into two terminuses, so the "follow one line" assumption breaks and the result has a funny hook on the end.
+* there are actually two 'S' (short distance "shuttle") trains, one in Manhattan and one in the Rockaways, and we join them together because they are both called 'S';
+* the '4' train (and a few others) splits at the end of one line into two terminuses, so the "follow one line" assumption breaks and the result has a funny hook on the end.
 
 Hopefully this example has provided a taste of some of the complex data manipulations that are possible combining the advanced features of PostgreSQL and PostGIS.
 
@@ -340,8 +340,8 @@ Hopefully this example has provided a taste of some of the complex data manipula
 See Also
 --------
 
-  * `PostgreSQL Arrays <http://www.postgresql.org/docs/current/static/arrays.html>`_
-  * `PostgreSQL Array Functions <http://www.postgresql.org/docs/current/static/functions-array.html>`_
-  * `PostgreSQL Recursive Common TABLE Expressions <http://www.postgresql.org/docs/current/static/queries-with.html>`_
-  * `PostGIS ST_MakeLine <http://postgis.net/docs/manual-2.0/ST_MakeLine.html>`_
+* `PostgreSQL Arrays <http://www.postgresql.org/docs/current/static/arrays.html>`_
+* `PostgreSQL Array Functions <http://www.postgresql.org/docs/current/static/functions-array.html>`_
+* `PostgreSQL Recursive Common TABLE Expressions <http://www.postgresql.org/docs/current/static/queries-with.html>`_
+* `PostGIS ST_MakeLine <http://postgis.net/docs/manual-2.0/ST_MakeLine.html>`_
   

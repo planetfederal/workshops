@@ -8,13 +8,14 @@ It is very common to have data in which the coordinate are "geographics" or "lat
 Unlike coordinates in Mercator, UTM, or Stateplane, geographic coordinates are **not cartesian coordinates**. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane.  Rather, these **spherical coordinates** describe angular coordinates on a globe. In spherical coordinates a point is specified by the angle of rotation from a reference meridian (longitude), and the angle from the equator (latitude).
 
 .. image:: ./geography/cartesian_spherical.jpg
+  :class: inline
 
 You can treat geographic coordinates as approximate cartesian coordinates and continue to do spatial calculations. However, measurements of distance, length and area will be nonsensical. Since spherical coordinates measure **angular** distance, the units are in "degrees." Further, the approximate results from indexes and true/false tests like intersects and contains can become terribly wrong. The distance between points get larger as problem areas like the poles or the international dateline are approached.
 
 For example, here are the coordinates of Los Angeles and Paris.
 
- * Los Angeles: ``POINT(-118.4079 33.9434)``
- * Paris: ``POINT(2.3490 48.8533)``
+* Los Angeles: ``POINT(-118.4079 33.9434)``
+* Paris: ``POINT(2.3490 48.8533)``
  
 The following calculates the distance between Los Angeles and Paris using the standard PostGIS cartesian :command:`ST_Distance(geometry, geometry)`.  Note that the SRID of 4326 declares a geographic spatial reference system.
 
@@ -131,23 +132,23 @@ The difference is under the covers: the geography index will correctly handle qu
 
 There are only a small number of native functions for the geography type:
  
- * :command:`ST_AsText(geography)` returns ``text``
- * :command:`ST_GeographyFromText(text)` returns ``geography``
- * :command:`ST_AsBinary(geography)` returns ``bytea``
- * :command:`ST_GeogFromWKB(bytea)` returns ``geography``
- * :command:`ST_AsSVG(geography)` returns ``text``
- * :command:`ST_AsGML(geography)` returns ``text``
- * :command:`ST_AsKML(geography)` returns ``text``
- * :command:`ST_AsGeoJson(geography)` returns ``text``
- * :command:`ST_Distance(geography, geography)` returns ``double``
- * :command:`ST_DWithin(geography, geography, float8)` returns ``boolean``
- * :command:`ST_Area(geography)` returns ``double``
- * :command:`ST_Length(geography)` returns ``double``
- * :command:`ST_Covers(geography, geography)` returns ``boolean``
- * :command:`ST_CoveredBy(geography, geography)` returns ``boolean``
- * :command:`ST_Intersects(geography, geography)` returns ``boolean``
- * :command:`ST_Buffer(geography, float8)` returns ``geography`` [#Casting_note]_
- * :command:`ST_Intersection(geography, geography)` returns ``geography`` [#Casting_note]_
+* :command:`ST_AsText(geography)` returns ``text``
+* :command:`ST_GeographyFromText(text)` returns ``geography``
+* :command:`ST_AsBinary(geography)` returns ``bytea``
+* :command:`ST_GeogFromWKB(bytea)` returns ``geography``
+* :command:`ST_AsSVG(geography)` returns ``text``
+* :command:`ST_AsGML(geography)` returns ``text``
+* :command:`ST_AsKML(geography)` returns ``text``
+* :command:`ST_AsGeoJson(geography)` returns ``text``
+* :command:`ST_Distance(geography, geography)` returns ``double``
+* :command:`ST_DWithin(geography, geography, float8)` returns ``boolean``
+* :command:`ST_Area(geography)` returns ``double``
+* :command:`ST_Length(geography)` returns ``double``
+* :command:`ST_Covers(geography, geography)` returns ``boolean``
+* :command:`ST_CoveredBy(geography, geography)` returns ``boolean``
+* :command:`ST_Intersects(geography, geography)` returns ``boolean``
+* :command:`ST_Buffer(geography, float8)` returns ``geography`` [#Casting_note]_
+* :command:`ST_Intersection(geography, geography)` returns ``geography`` [#Casting_note]_
  
 Creating a Geography Table
 --------------------------
@@ -208,9 +209,9 @@ Why (Not) Use Geography
 
 Geographics are universally accepted coordinates -- everyone understands what latitude/longitude mean, but very few people understand what UTM coordinates mean. Why not use geography all the time?
 
- * First, as noted earlier, there are far fewer functions available (right now) that directly support the geography type. You may spend a lot of time working around geography type limitations.
- * Second, the calculations on a sphere are computationally far more expensive than cartesian calculations. For example, the cartesian formula for distance (Pythagoras) involves one call to sqrt(). The spherical formula for distance (Haversine) involves two sqrt() calls, an arctan() call, four sin() calls and two cos() calls. Trigonometric functions are very costly, and spherical calculations involve a lot of them.
- 
+* First, as noted earlier, there are far fewer functions available (right now) that directly support the geography type. You may spend a lot of time working around geography type limitations.
+* Second, the calculations on a sphere are computationally far more expensive than cartesian calculations. For example, the cartesian formula for distance (Pythagoras) involves one call to sqrt(). The spherical formula for distance (Haversine) involves two sqrt() calls, an arctan() call, four sin() calls and two cos() calls. Trigonometric functions are very costly, and spherical calculations involve a lot of them.
+
 The conclusion? 
 
 If your data is geographically compact (contained within a state, county or city), use the ``geometry`` type with a cartesian projection that makes sense with your data. See the http://spatialreference.org site and type in the name of your region for a selection of possible reference systems.

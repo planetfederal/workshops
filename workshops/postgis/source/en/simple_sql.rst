@@ -33,17 +33,17 @@ The query will run for a few (mili)seconds and return the 129 results.
 
 But what exactly happened here?  To understand, let's begin with the four "verbs" of SQL, 
 
- * ``SELECT``, returns rows in response to a query
- * ``INSERT``, adds new rows to a table
- * ``UPDATE``, alters existing rows in a table
- * ``DELETE``, removes rows from a table
+* ``SELECT``, returns rows in response to a query
+* ``INSERT``, adds new rows to a table
+* ``UPDATE``, alters existing rows in a table
+* ``DELETE``, removes rows from a table
  
 We will be working almost exclusively with ``SELECT`` in order to ask questions of tables using spatial functions.
 
 SELECT queries
 --------------
 
-A select query is generally of the form:
+A select query is generally of the form::
 
   SELECT some_columns FROM some_data_source WHERE some_condition;
   
