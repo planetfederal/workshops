@@ -162,7 +162,7 @@ We are going to build up a "pipeline" to read our LAZ file, crack the collection
 
 The PDAL "`pipeline file <http://www.pointcloud.org/pipeline.html>`_" is an XML file that describes the processing. Each process wraps the process preceding it, resulting in a "nesting dolls" structure, in which the first process (the reader) is in the center and the last (the writer) is on the outside.
 
-Here is our pipeline file. Note that we are using "EPSG:4326" are your spatial referencing system, since that's what we learned from the metadata. 
+Here is our pipeline file. Note that we are using "EPSG:4326" for the spatial referencing system, since that's what we learned from the metadata. 
 
 * Our reader is a `drivers.las.reader`,
 * our writer is a `drivers.pgpointcloud.writer`, and
@@ -569,7 +569,7 @@ Here's what it looks like in SQL.
   )
   -- Summarize those points by elevation
   SELECT 
-    Avg(PC_Get(pts, 'z')) AS lidar_feet
+    Avg(PC_Get(pts, 'z')) AS lidar_meters
   FROM building_pts;
   
 And the result is **441.075 meters**, which is **1447.1** feet, which is almost exactly the same as the value from the buildings file, 1446.43!
