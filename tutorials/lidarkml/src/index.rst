@@ -35,7 +35,7 @@ This tutorial will explore loading and exploiting a LIDAR data set:
 * downloading the data and loading it into PostgreSQL using the LIDAR tools included in `OpenGeo Suite 4`_;
 * visualizing and exposing some of the data using GeoServer and Google Earth;
 * analyzing and elevating a building footprints layer against the LIDAR; and,
-* visualizing the elevated buildings using GeoServer and Google Early.
+* visualizing the elevated buildings using GeoServer and Google Earth.
 
 
 Installing Software
@@ -48,6 +48,7 @@ Install the following software:
   * Ubuntu users: Ensure that the `postgresql-9.3-pointcloud` extension for PostgreSQL and `pdal` LIDAR tools are installed, they may not be automatically installed with the `opengeo` package.
   * RHEL/Centos users: Ensure that the `pointcloud-postgresql93` extension for PostgreSQL and `pdal` LIDAR tools are installed, they may not be automatically installed with the `opengeo` package.
   * All users: Check that you can run the command-line `pdal` and `shp2pgsql` programs.
+  * **Windows users**: As of November 2013, Suite 4 does not include the `pdal` tools, which will make this tutorial hard to complete. The next minor release of the Suite for Windows should include `pdal`.
   
 * `Google Earth <http://earth.google.com>`_
 
@@ -215,7 +216,7 @@ The `schema` column is hard to read in the output format from PostgreSQL, but a 
 
 We can use our knowledge of the schema, and the functions in the `pointcloud` extension to learn more about our point cloud data.
 
-.. code-block::sql
+.. code-block:: sql
 
   -- How many points are in our cloud? (11418635)
   SELECT Sum(PC_NumPoints(pa)) 
@@ -261,6 +262,8 @@ We can use our knowledge of the schema, and the functions in the `pointcloud` ex
   )
   SELECT ST_AsEWKT(pt::geometry) FROM pts LIMIT 1;
   -- SRID=4326;POINT(-122.8874601 42.3125002 439.384)
+
+There is more information about the `pointcloud` database extension and the SQL functions available in it the `extension documentation page <https://github.com/pramsey/pointcloud/blob/master/README.md>`_.
 
 
 Putting LIDAR on the Map
