@@ -102,9 +102,9 @@ Exercises
  
   .. code-block:: sql
 
-  SELECT Count(*) 
-    FROM nyc_census_blocks
-    WHERE ST_NumInteriorRings(ST_GeometryN(geom,1)) > 0;
+    SELECT Count(*) 
+      FROM nyc_census_blocks
+      WHERE ST_NumInteriorRings(ST_GeometryN(geom,1)) > 0;
 
   .. note::
    

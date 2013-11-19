@@ -98,10 +98,10 @@ Suppose we have a data model that includes **Lakes** and **Docks**, and suppose 
 
 Our legal docks have the following characteristics:
 
- * Their interiors have a linear (1D) intersection with the lake interior
- * Their boundaries have a point (0D) intersection with the lake interior
- * Their boundaries **also** have a point (0D) intersection with the lake boundary
- * Their interiors have no intersection (F) with the lake exterior
+* Their interiors have a linear (1D) intersection with the lake interior
+* Their boundaries have a point (0D) intersection with the lake interior
+* Their boundaries **also** have a point (0D) intersection with the lake boundary
+* Their interiors have no intersection (F) with the lake exterior
 
 So their DE9IM matrix looks like this:
 

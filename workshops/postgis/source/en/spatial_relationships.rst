@@ -145,8 +145,8 @@ The :command:`ST_Distance(geometry A, geometry B)` calculates the *shortest* dis
 
 For testing whether two objects are within a distance of one another, the :command:`ST_DWithin` function provides an index-accelerated true/false test. This is useful for questions like "how many trees are within a 500 meter buffer of the road?". You don't have to calculate an actual buffer, you just have to test the distance relationship.
 
-  .. figure:: ./spatial_relationships/st_dwithin.png
-     :align: center
+.. figure:: ./spatial_relationships/st_dwithin.png
+  :align: center
     
 Using our Broad Street subway station again, we can find the streets nearby (within 10 meters of) the subway stop:
 

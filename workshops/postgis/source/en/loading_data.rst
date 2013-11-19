@@ -7,61 +7,61 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 
 #. First, return to the Dashboard, and click on the **Import shapefiles** link in the PostGIS section. The GUI shapefile importer pgShapeLoader will launch.
 
-  .. image:: ./screenshots/pgshapeloader_01.png
+   .. image:: ./screenshots/pgshapeloader_01.png
 
 #. Fill in the connection details for the *PostGIS Connection* section and click on the **OK** button. The loader will test the connection and report back in the log window.
 
-  .. list-table::
+   .. list-table::
 
-    * - **Username**
-      - ``postgres``
-    * - **Password**
-      - ``postgres``
-    * - **Server Host**
-      - ``localhost`` ``54321``
-    * - **Database**
-      - ``nyc``
+     * - **Username**
+       - ``postgres``
+     * - **Password**
+       - ``postgres``
+     * - **Server Host**
+       - ``localhost`` ``54321``
+     * - **Database**
+       - ``nyc``
 
-  .. image:: ./screenshots/pgshapeloader_02.png
+   .. image:: ./screenshots/pgshapeloader_02.png
 
-  .. note:: 
+   .. note:: 
 
-    Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
+     Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
 
 #. Next, open the *Add File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
 
 #. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shape file, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.)
 
-  .. image:: ./screenshots/pgshapeloader_01a.png
-
+   .. image:: ./screenshots/pgshapeloader_01a.png
+ 
 #. Fill in the details for the *Configuration* section.
 
-  .. list-table::
+   .. list-table::
 
-    * - **Destination Schema**
-      - ``public``
-    * - **SRID**
-      - ``26918``
-    * - **Destination Table**
-      - ``nyc_census_blocks``
-    * - **Geometry Column**
-      - ``geom``
+     * - **Destination Schema**
+       - ``public``
+     * - **SRID**
+       - ``26918``
+     * - **Destination Table**
+       - ``nyc_census_blocks``
+     * - **Geometry Column**
+       - ``geom``
 
 #. Click the **Options** button to review the loading options. The loader will use the fast "COPY" mode and create a spatial index by default after loading the data.
 
-  .. image:: ./screenshots/pgshapeloader_03.png
+   .. image:: ./screenshots/pgshapeloader_03.png
 
 #. Finally, click the **Import** button and watch the import process. It may take a few minutes to load, but this is the largest file in our test set.
 
 #. Repeat the import process for the remaining shapefiles in the data directory. You can load multiple files in one import by adding multiple files before pressing the **Import** button:
 
-  * ``nyc_streets.shp``
-  * ``nyc_neighborhoods.shp``
-  * ``nyc_subway_stations.shp``
+   * ``nyc_streets.shp``
+   * ``nyc_neighborhoods.shp``
+   * ``nyc_subway_stations.shp``
  
 #. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Databases > nyc > Schemas > public > Tables** section of the tree.
 
-  .. image:: ./screenshots/refresh.png
+   .. image:: ./screenshots/refresh.png
  
  
 Shapefiles? What's that?

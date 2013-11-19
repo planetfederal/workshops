@@ -40,7 +40,8 @@ Spatial databases fully integrate spatial data with an object relational databas
 Spatial Data Types
 ------------------
 
-An ordinary database has strings, numbers, and dates. A spatial database adds additional (spatial) types for representing **geographic features**. These spatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes.  
+An ordinary database has strings, numbers, and dates. A spatial database adds additional (spatial) types for representing **geographic features**. These spatial data types abstract and encapsulate spatial structures such as boundary and dimension. In many respects, spatial data types can be understood simply as shapes.
+
 .. image:: ./introduction/hierarchy.png
   :align: center
   :class: inline

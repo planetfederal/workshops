@@ -79,7 +79,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'opengeo_v2'
+html_theme = 'boundless_web'
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['../../../../themes']
