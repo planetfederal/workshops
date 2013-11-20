@@ -1,0 +1,53 @@
+Data_Item                                             Item_Description                                             UnitDecimal  US_Total    Minimum     Maximum     Source
+STATECOU  FIPS State and County code
+PST045212 Resident total population estimate (July 1) 2012                                                         ABS    0      313914040          71   313914040  CENSUS
+PST040210 Resident total population, estimates base (April 1) 2010                                                 ABS    0      308747508          82   308747508  CENSUS
+PST120212 Resident total population, percent change - April 1, 2010 to July 1, 2012                                PCT    1            1.7       -18.1        25.6  CENSUS
+POP010210 Resident population (April 1 - complete count) 2010                                                      ABS    0      308745538          82   308745538  CENSUS
+AGE135212 Resident population under 5 years, percent, 2012                                                         PCT    1            6.4         0.0        13.3  CENSUS
+AGE295212 Resident population under 18 years, percent, 2012                                                        PCT    1           23.5         0.0        41.4  CENSUS
+AGE775212 Resident population 65 years and over, percent, 2012                                                     PCT    1           13.7         3.6        49.3  CENSUS
+SEX255212 Resident population: total females, percent, 2012                                                        PCT    1           50.8        30.1        57.0  CENSUS
+RHI125212 Resident population: White alone, percent, 2012                                                          PCT    1           77.9         4.1        99.2  CENSUS
+RHI225212 Resident population: Black or African American alone, percent, 2012                                      PCT    1           13.1         0.0        85.4  CENSUS
+RHI325212 Resident population: American Indian and Alaska Native alone, percent, 2012                              PCT    1            1.2         0.0        93.2  CENSUS
+RHI425212 Resident population: Asian alone, percent, 2012                                                          PCT    1            5.1         0.0        43.3  CENSUS
+RHI525212 Resident population: Native Hawaiian and Other Pacific Islander alone, percent, 2012                     PCT    1            0.2         0.0        48.9  CENSUS
+RHI625212 Resident population: Two or More Races, percent, 2012                                                    PCT    1            2.4         0.0        29.5  CENSUS
+RHI725212 Resident population: Hispanic or Latino, percent, 2012                                                   PCT    1           16.9         0.2        95.6  CENSUS
+RHI825212 Resident population: White alone, not Hispanic or Latino, percent, 2012                                  PCT    1           63.0         3.2        98.6  CENSUS
+POP715211 Population 1 year and over by residence - same house, one year ago, percent, 2007-2011                   PCT    1           84.6        49.0       100.0  CENSUS
+POP645211 Place of birth, foreign born, percent,  2007-2011                                                        PCT    1           12.8         0.0        63.4  CENSUS
+POP815211 Population 5 years and over, percent speaking language other than English at home, 2007-2011             PCT    1           20.3         0.0        95.9  CENSUS
+EDU635211 Educational attainment - persons 25 years and over - percent high school graduate or higher, 2007-2011   PCT    1           85.4        46.3        98.6  CENSUS
+EDU685211 Educational attainment - persons 25 years and over - percent bachelor's degree or higher, 2007-2011      PCT    1           28.2         4.2        72.0  CENSUS
+VET605211 Veterans - total, 2007-2011                                                                              ABS    0       22215303           0    22215303  CENSUS
+LFE305211 Average travel time to work for workers 16 years and over not working at home, 2007-2011                 MIN    1           25.4         4.3        42.5  CENSUS
+HSG010211 Housing unit estimates, 2011                                                                             ABS    0      132312404          48   132312404  CENSUS
+HSG445211 Owner-occupied housing units - percent of total occupied housing units, 2007-2011                        PCT    1           66.1         0.0        93.7  CENSUS
+HSG096211 Housing units by units in structure - multi-dwelling structure, percent, 2007-2011                       PCT    1           25.9         0.0        98.4  CENSUS
+HSG495211 Median value of specified owner-occupied housing units, 2007-2011                                        DOL    0         186200           0      993900  CENSUS
+HSD410211 Households, 2007-2011                                                                                    ABS    0      114761359          27   114761359  CENSUS
+HSD310211 Average household size, 2007-2011                                                                        AVG    2           2.60        1.20        4.77  CENSUS
+INC910211 Per capita income in the past 12 months (in 2011 inflation-adjusted dollars), 2007-2011                  DOL    0          27915        7887       61290  CENSUS
+INC110211 Median household income, 2007-2011                                                                       DOL    0          52762       19344      120332  CENSUS
+PVY020211 People of all ages in poverty, percent, 2007-2011                                                        PCT    1           14.3         0.0        53.5  CENSUS
+BZA010211 Private nonfarm establishments, 2011                                                                     ABS    0        7354043           3     7354043  CENSUS
+BZA110211 Private nonfarm employment for pay period including March 12, 2011                                       ABS    0      113425965          10   113425965  CENSUS
+BZA115211 Private nonfarm employment for pay period including March 12, 2011, percent change, 2010-2011            PCT    1            1.3       -40.8       288.2  CENSUS
+NES010211 Nonemployer: total (NAICS 00) - establishments, 2011                                                     ABS    0       22491080          13    22491080  CENSUS
+SBO001207 Total number of firms, 2007                                                                              ABS    0       27092908          27    27092908  CENSUS
+SBO315207 Total Black-owned firms, percent, 2007                                                                   PCT    1            7.1         0.2        66.7  CENSUS
+SBO115207 Total American Indian- and Alaska Native-owned firms, percent, 2007                                      PCT    1            0.9         0.2        71.8  CENSUS
+SBO215207 Total Asian-owned firms, percent, 2007                                                                   PCT    1            5.7         0.3        56.6  CENSUS
+SBO515207 Total Native Hawaiian- and Other Pacific Islander-owned firms, percent, 2007                             PCT    1            0.1         0.0        10.5  CENSUS
+SBO415207 Total Hispanic-owned firms, percent, 2007                                                                PCT    1            8.3         0.3        78.0  CENSUS
+SBO015207 Total Women-owned firms, percent, 2007                                                                   PCT    1           28.8         6.5        56.2  CENSUS
+MAN450207 Manufacturing: total (NAICS 31-33) - value of shipments, 2007                                            TH$    0     5319456312       56903  5319456312  CENSUS
+WTN220207 Wholesale trade: merchant wholesalers (NAICS 42) - sales of establishments with payroll, 2007            TH$    0     4174286516           0  4174286516  CENSUS
+RTN130207 Retail trade: total (NAICS 44-45) - sales of establishments with payroll, 2007                           TH$    0     3917663456           0  3917663456  CENSUS
+RTN131207 Retail trade: total (NAICS 44-45) - sales of establishments with payroll per capita, 2007                DOL    0          12990           0       80800  CENSUS
+AFN120207 Accommodation and Food Services: total (NAICS 72) - sales of establishments with payroll, 2007           TH$    0      613795732           0   613795732  CENSUS
+BPS030212 New private housing units authorized by building permits - total, 2012 (20,000-place universe)           ABS    0         829658           0      829658  CENSUS
+LND110210 Land area in square miles, 2010                                                                          SQM    2     3531905.43           2  3531905.43  CENSUS
+POP060210 Population per square mile, 2010                                                                         RTE    1           87.4         0.0     69467.5  CENSUS
