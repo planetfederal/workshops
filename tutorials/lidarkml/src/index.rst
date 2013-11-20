@@ -73,19 +73,19 @@ For LIDAR data, we'll use a survey `conducted by the Oregon Department of Geolog
 .. image:: ./img/oregon.jpg
    :width: 98%
 
-The data is collected into individual "LASZIP" files, of about 70MB in size each. For simplicity we're only going to use one tile, but there's no reason you could not use multiple tiles for this example.
+The data is collected into individual "LASZIP" files, of about 70MB in size each. For simplicity we're only going to use one file, but there's no reason you could not use multiple files for this example.
 
 .. image:: ./img/lidar_area.jpg
    :width: 98%
 
-The `NOAA data directory <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/>`_ includes all the tiles as well as a shape file that provides a spatial index of where each tile is.
+The `NOAA data directory <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/>`_ includes all the files as well as a shape file that provides a spatial index of where each file is.
 
-The tile we are going to use covers both a residential and commercial area of Medford.
+The file we are going to use covers both a residential and commercial area of Medford.
 
 .. image:: ./img/lidar_tile.jpg
    :width: 98%
 
-**Download** LIDAR tile `20090429_42122c8225_ld_p23.laz <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/20090429_42122c8225_ld_p23.laz>`_ now.
+**Download** LIDAR file `20090429_42122c8225_ld_p23.laz <http://www.csc.noaa.gov/htdata/lidar1_z/geoid12a/data/1171/20090429_42122c8225_ld_p23.laz>`_ now.
 
 .. note::
 
@@ -99,7 +99,7 @@ The tile we are going to use covers both a residential and commercial area of Me
 Building Footprints
 -------------------
 
-In our analysis, we'll be using the LIDAR data to determine the height of the buildings within our LIDAR tile. To do that, we need building outlines! Fortunately, Jackson County has an `open data program <http://www.smartmap.org/Portal/gis-data.aspx>`_.
+In our analysis, we'll be using the LIDAR data to determine the height of the buildings within our LIDAR file. To do that, we need building outlines! Fortunately, Jackson County has an `open data program <http://www.smartmap.org/Portal/gis-data.aspx>`_.
 
 **Download** the shape file `BuildingFootprints.zip <http://www.smartmap.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=43>`_ now.
 
@@ -153,10 +153,10 @@ We can also use `PDAL`_ to build up a processing pipeline that can
 * translate, rescale and reproject the points
 * generate a grid from points
 * calculate the bounds of a point collection
-* crack a big collection of points into smaller coherent "tiles"
+* crack a big collection of points into smaller coherent "patches"
 * add color to points from an external raster image
 
-We are going to build up a "pipeline" to read our LAZ file, crack the collection into smaller 400-point tiles, and then write the data into our `lidar` database.
+We are going to build up a "pipeline" to read our LAZ file, crack the collection into smaller 400-point patches, and then write the data into our `lidar` database.
 
 .. image:: ./img/pdal_flow.jpg
   :class: inline
@@ -168,7 +168,7 @@ Here is our pipeline file. Note that we are using "EPSG:4326" for the spatial re
 * Our reader is a `drivers.las.reader`,
 * our writer is a `drivers.pgpointcloud.writer`, and
 * in between, we are applying a `filters.chipper`.
-* For more information about PDAL pipeline filters and reader/writers see the `pipeline reference documentation <http://www.pointcloud.org/pipeline/index.html>`_.
+* For more information about PDAL pipeline filters and reader/writers see the `stage reference documentation <http://www.pointcloud.org/stages/index.html>`_.
 
 **Copy this into a pipeline file**, `laz2pg.xml <_static/laz2pg.xml>`_:
 
@@ -240,7 +240,7 @@ We can use our knowledge of the schema, and the functions in the `pointcloud` ex
   --  "pt":[-122.887,42.3125,439.384,42,1,1,1,0,1,6,181,343,419629,1.14073e+07,0]
   -- }
   
-  -- How many tiles do we have? (28547)
+  -- How many patches do we have? (28547)
   SELECT Count(*) 
   FROM medford;
 
@@ -392,7 +392,7 @@ Now, go to the *Layer Preview* section, and under *medford_patches* click *Go*.
 
 .. image:: ./img/patches_colored.jpg
 
-Now the (small) variation in the patch elevation can be seen. In fact, the variation is so small over the tile that larger commercial buildings actually stand out from the ground they are sitting on.
+Now the (small) variation in the patch elevation can be seen. In fact, the variation is so small over the file extent that larger commercial buildings actually stand out from the ground they are sitting on.
 
 
 Putting Buildings on the Map
