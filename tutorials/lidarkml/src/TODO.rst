@@ -1,0 +1,3 @@
+- Add a section on 1st/2nd return and correcting for folliage
+- Add a section showing an intensity map
+- Add a section using the classification to find ground heights
