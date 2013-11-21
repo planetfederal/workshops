@@ -1,7 +1,5 @@
 
-.. note:: 
-
-  Check out the `final elevated buildings in Google Earth <http://apps.opengeo.org:8080/geoserver/wms/kml?layers=opengeo:buildings&mode=refresh&kmscore=50&format_options=lookatbbox:bbox=-122.8808,42.3311,-122.8806,42.3313>`_ and play!
+.. Check out the `final elevated buildings in Google Earth <http://apps.opengeo.org:8080/geoserver/wms/kml?layers=opengeo:buildings&mode=refresh&kmscore=50&format_options=lookatbbox:bbox=-122.8808,42.3311,-122.8806,42.3313>`_ and play!
 
 
 Introduction
