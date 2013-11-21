@@ -52,6 +52,12 @@ The following are actual course materials given at our various training classes 
 `Spatial Database Tips and Tricks <http://workshops.boundlessgeo.com/postgis-spatialdbtips/>`_
   How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
+`Introduction to OpenGeo Suite QGIS plugin <http://qgis.boundlessgeo.com/static/docs/index.html>`_
+  The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Suite through `QGIS <http://qgis.org>`_, a free, open source desktop GIS client. If you prefer using a GUI (graphic user interface) to work with geospatial data try out QGIS and our Suite-QGIS plugin!
+
+`Introduction to GeoGit <http://geogit.org/workshop/>`_
+  GeoGit is a Distributed Version Control System (DVCS) specially designed to handle geospatial data. It takes inspiration from the source code versioning system `Git <http://git-scm.com/>`_, but employs an approach best suited to the nature of the spatial data it manages. It is currently under active development.
+
 
 About these materials
 ---------------------
