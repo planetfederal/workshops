@@ -18,11 +18,18 @@ p {
 	font-size: 14px !important;
 	margin-bottom: 15px !important;
 	margin-top: 15px !important;
+        line-height: 150%;
 }
 
 dt {
 	font-family: "proxima-nova", sans-serif !important;
 	font-size: 18px !important;
+        margin-top: 10px;
+}
+
+dd {  
+        line-height: 150%;
+        margin-bottom: 10px;
 }
 
 #masthead{

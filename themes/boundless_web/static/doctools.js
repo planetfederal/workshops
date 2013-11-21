@@ -161,7 +161,7 @@ var Documentation = {
    * highlight the search words provided in the url in the text
    */
   highlightSearchWords : function() {
-    var params = $.getQueryParameters();
+    var params = jQuery.getQueryParameters();
     var terms = (params.highlight) ? params.highlight[0].split(/\s+/) : [];
     if (terms.length) {
       var body = $('div.body');
@@ -180,7 +180,7 @@ var Documentation = {
    * init the modindex toggle buttons
    */
   initModIndex : function() {
-    var togglers = $('img.toggler').click(function() {
+    var togglers = jQuery('img.toggler').click(function() {
       var src = $(this).attr('src');
       var idnum = $(this).attr('id').substr(7);
       console.log($('tr.cg-' + idnum).toggle());
@@ -227,6 +227,6 @@ var Documentation = {
 // quick alias for translations
 _ = Documentation.gettext;
 
-$(document).ready(function() {
+jQuery(document).ready(function($) {
   Documentation.init();
 });

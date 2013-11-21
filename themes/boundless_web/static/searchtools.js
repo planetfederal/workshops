@@ -18,7 +18,7 @@ jQuery.makeSearchSummary = function(text, keywords, hlwords) {
   var excerpt = ((start > 0) ? '...' : '') +
   $.trim(text.substr(start, 240)) +
   ((start + 240 - text.length) ? '...' : '');
-  var rv = $('<div class="context"></div>').text(excerpt);
+  var rv = jQuery('<div class="context"></div>').text(excerpt);
   $.each(hlwords, function() {
     rv = rv.highlightText(this, 'highlight');
   });
@@ -218,10 +218,10 @@ var Search = {
   _pulse_status : -1,
 
   init : function() {
-      var params = $.getQueryParameters();
+      var params = jQuery.getQueryParameters();
       if (params.q) {
           var query = params.q[0];
-          $('input[name="q"]')[0].value = query;
+          jQuery('input[name="q"]')[0].value = query;
           this.performSearch(query);
       }
   },
@@ -270,13 +270,13 @@ var Search = {
    */
   performSearch : function(query) {
     // create the required interface elements
-    this.out = $('#search-results');
-    this.title = $('<h2>' + _('Searching') + '</h2>').appendTo(this.out);
-    this.dots = $('<span></span>').appendTo(this.title);
-    this.status = $('<p style="display: none"></p>').appendTo(this.out);
-    this.output = $('<ul class="search"/>').appendTo(this.out);
+    this.out = jQuery('#search-results');
+    this.title = jQuery('<h2>' + _('Searching') + '</h2>').appendTo(this.out);
+    this.dots = jQuery('<span></span>').appendTo(this.title);
+    this.status = jQuery('<p style="display: none"></p>').appendTo(this.out);
+    this.output = jQuery('<ul class="search"/>').appendTo(this.out);
 
-    $('#search-progress').text(_('Preparing search...'));
+    jQuery('#search-progress').text(_('Preparing search...'));
     this.startPulse();
 
     // index already loaded, the browser was quick!
@@ -328,7 +328,7 @@ var Search = {
     var files = null;
     var objectResults = [];
     var regularResults = [];
-    $('#search-progress').empty();
+    jQuery('#search-progress').empty();
 
     // lookup as object
     if (object != null) {
@@ -420,13 +420,13 @@ var Search = {
       // results left, load the summary and display it
       if (results.length) {
         var item = results.pop();
-        var listItem = $('<li style="display:none"></li>');
-        listItem.append($('<a/>').attr(
+        var listItem = jQuery('<li style="display:none"></li>');
+        listItem.append(jQuery('<a/>').attr(
           'href',
           item[0] + DOCUMENTATION_OPTIONS.FILE_SUFFIX +
           highlightstring + item[2]).html(item[1]));
         if (item[3]) {
-          listItem.append($('<span> (' + item[3] + ')</span>'));
+          listItem.append(jQuery('<span> (' + item[3] + ')</span>'));
           Search.output.append(listItem);
           listItem.slideDown(5, function() {
             displayNextItem();
@@ -462,6 +462,6 @@ var Search = {
   }
 }
 
-$(document).ready(function() {
+jQuery(document).ready(function($) {
   Search.init();
 });
