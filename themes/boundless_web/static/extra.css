@@ -25,6 +25,7 @@ dt {
 	font-family: "proxima-nova", sans-serif !important;
 	font-size: 18px !important;
         margin-top: 10px;
+        clear: both;
 }
 
 dd {  
@@ -241,9 +242,17 @@ margin: 0.5em 0 1em;
 }
 
 .section {
+ clear: both;
+ 
  img {
   width: expression(this.width > 580 ? 580: default);
   }
+}
+
+.section img.inline-img {
+  display: inline;
+  float: left;
+  margin-right: 20px;
 }
 
 p.admonition-title {

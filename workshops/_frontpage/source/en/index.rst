@@ -9,13 +9,25 @@ Tutorials
 Tutorials are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
 
 `Building a GeoNames Heat Map <http://workshops.boundlessgeo.com/tutorial-wordmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-wordmap/_static/wordmap-full.html>`_)
-  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
+  |heatmap| 
+This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
+
+  .. |heatmap| image:: images/heatmap_demo.png
+                :class: inline-img
 
 `Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap-simple.html>`_)
-  This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
+  |censusmap|
+This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
+
+  .. |censusmap| image:: images/censusmap_demo.png
+                  :class: inline-img
 
 `LIDAR Analysis and Visualization <http://workshops.boundlessgeo.com/tutorial-lidar/>`_ 
-  This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
+  |lidarmap|
+This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
+
+  .. |lidarmap| image:: images/lidarmap_demo.png
+                 :class: inline-img
 
 Workshops
 ---------
