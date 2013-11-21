@@ -14,7 +14,7 @@ Tutorials are **practical walk-throughs** of actual application development exam
 `Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap-simple.html>`_)
   This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
 
-`LIDAR Analysis and Visualization with OpenGeo Suite <http://workshops.boundlessgeo.com/tutorial-lidar/>`_ 
+`LIDAR Analysis and Visualization <http://workshops.boundlessgeo.com/tutorial-lidar/>`_ 
   This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
 
 Workshops
