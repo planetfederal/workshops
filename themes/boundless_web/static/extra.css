@@ -1,11 +1,19 @@
-h1 {
+.page-header {
+	margin-bottom: 30px;
+}
+
+.secondarynav li.menu-item-6432 a {
+	background: #6aaacb;
+}
+
+#content h1 {
 	font-size: 32px !important;
 	border-bottom: #dadada solid 3px !important;
 	padding-bottom: 5px !important;
 	margin-top: 20px !important;
 }
 
-h2 {
+#content h2 {
 	border-bottom: #dadada solid 2px !important;
 	font-size: 21px !important;
 /*	font-weight: 600 !important; */
@@ -14,21 +22,21 @@ h2 {
 }
 
 
-p {
+#content p {
 	font-size: 14px !important;
 	margin-bottom: 15px !important;
 	margin-top: 15px !important;
         line-height: 150%;
 }
 
-dt {
+#content dt {
 	font-family: "proxima-nova", sans-serif !important;
 	font-size: 18px !important;
         margin-top: 10px;
         clear: both;
 }
 
-dd {  
+#content dd {  
         line-height: 150%;
         margin-bottom: 10px;
 }
@@ -100,8 +108,7 @@ ul#menu-solutions.menu a:hover {
 }
 
 ul#menu-resources.menu a:hover {
-	color: #7db5d2 !important;
-	text-decoration: underline !important;
+	color: #fff !important;
 }
 
 ul#menu-about-menu.menu a:hover {
