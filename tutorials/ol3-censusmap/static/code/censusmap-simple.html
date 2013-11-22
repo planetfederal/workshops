@@ -16,7 +16,7 @@
       #map { 
         padding-top: 50px;
       }
-      .overlay {
+      .legend {
         position: absolute;
         z-index: 1;
         left: 10px;
@@ -81,7 +81,8 @@
       </form>
     </nav>
     <div id="map">
-      <img class="overlay img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized">
+      <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
+      <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
       <div id="popup" class="ol-popup">
           <button id="popup-closer" class="close">&times;</button>
           <div id="popup-content"></div>

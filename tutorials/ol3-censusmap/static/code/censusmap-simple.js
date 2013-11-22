@@ -21,15 +21,8 @@ olMap = new ol.Map({
   })
 });
 
-// Add behaviour to dropdown
-var topics = document.getElementById('topics');
-topics.onchange = function() {
-  wmsLayer.getSource().updateParams({
-    'viewparams': 'column:' + topics.options[topics.selectedIndex].value
-  });
-};
-
 // Load variables into dropdown
+var topics = document.getElementById('topics');
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "../data/DataDict.txt");
 xhr.onload = function() {
@@ -44,14 +37,15 @@ xhr.onload = function() {
 };
 xhr.send();
 
-// Add behaviour to the popup's close button
-var popupContainer = document.getElementById('popup');
-document.getElementById('popup-closer').onclick = function() {
-  popupContainer.style.display = 'none';
-  return false;
+// Add behaviour to dropdown
+topics.onchange = function() {
+  wmsLayer.getSource().updateParams({
+    'viewparams': 'column:' + topics.options[topics.selectedIndex].value
+  });
 };
 
 // Create an ol.Overlay with the popup so it is anchored to the map
+var popupContainer = document.getElementById('popup');
 var popup = new ol.Overlay({
   element: popupContainer
 });
@@ -69,3 +63,9 @@ olMap.on('singleclick', function(evt) {
     }
   });
 });
+
+// Add behaviour to the popup's close button
+document.getElementById('popup-closer').onclick = function() {
+  popupContainer.style.display = 'none';
+  return false;
+};
