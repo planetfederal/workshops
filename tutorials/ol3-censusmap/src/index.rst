@@ -595,7 +595,7 @@ The base HTML page, `censusmap-simple.html`_, contains script and stylesheet inc
           #map { 
             padding-top: 50px;
           }
-          .overlay {
+          .legend {
             position: absolute;
             z-index: 1;
             left: 10px;
@@ -616,7 +616,8 @@ The base HTML page, `censusmap-simple.html`_, contains script and stylesheet inc
           </form>
         </nav>
         <div id="map">
-          <img class="overlay img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized">
+          <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
+          <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
         </div>
         <script type="text/javascript" src="censusmap-simple.js"></script>
       </body>
@@ -651,23 +652,12 @@ The real code is in the `censusmap-simple.js`_ file. We start by creating an `Op
 
 We configure an `OpenLayers Map`_, assign the layers, and give it a map view with a center and zoom level. Now the map will load.
 
-Next we add an *onchange* event handler for the dropdown, which updates the layer with WMS parameters for the selected variable when a new topic/layer is selected.
-
-.. code-block:: javascript
-
-    // Add behaviour to dropdown
-    var topics = document.getElementById('topics');
-    topics.onchange = function() {
-      wmsLayer.getSource().updateParams({
-        'viewparams': 'column:' + topics.options[topics.selectedIndex].value
-      });
-    };
-
-Finally, we read the `DataDict.txt`_ file into the *select* element, by adding an *option* child for each line. The *select* element with the id *topics* will be our drop-down list of available columns.
+The *select* element with the id *topics* will be our drop-down list of available columns. We load the `DataDict.txt`_ file, and fill the *select* element with its contents. This is done by adding an *option* child for each line.
 
 .. code-block:: javascript
 
     // Load variables into dropdown
+    var topics = document.getElementById('topics');
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "../data/DataDict.txt");
     xhr.onload = function() {
@@ -681,6 +671,17 @@ Finally, we read the `DataDict.txt`_ file into the *select* element, by adding a
       }
     };
     xhr.send();
+
+Finally, we add an *onchange* event handler for the dropdown, which updates the layer with WMS parameters for the selected variable when a new topic/layer is selected.
+
+.. code-block:: javascript
+
+    // Add behaviour to dropdown
+    topics.onchange = function() {
+      wmsLayer.getSource().updateParams({
+        'viewparams': 'column:' + topics.options[topics.selectedIndex].value
+      });
+    };
 
 
 Look at the the `censusmap-simple.js`_ file to see the whole application in one page.
@@ -760,14 +761,8 @@ Finally, we need some JavaScript to add behaviour to the popup's close button, t
 
 .. code-block:: javascript
 
-  // Add behaviour to the popup's close button
-  var popupContainer = document.getElementById('popup');
-  document.getElementById('popup-closer').onclick = function() {
-    popupContainer.style.display = 'none';
-    return false;
-  };
-
   // Create an ol.Overlay with the popup so it is anchored to the map
+  var popupContainer = document.getElementById('popup');
   var popup = new ol.Overlay({
     element: popupContainer
   });
@@ -786,11 +781,17 @@ Finally, we need some JavaScript to add behaviour to the popup's close button, t
     });
   });
 
+  // Add behaviour to the popup's close button
+  document.getElementById('popup-closer').onclick = function() {
+    popupContainer.style.display = 'none';
+    return false;
+  };
+
 
 Conclusion
 ----------
 
-We've built an application for browsing 51 different census variables, using less than 51 lines of code, and demonstrating:
+We've built an application for browsing 51 different census variables, using less than 51 lines of JavaScript application code, and demonstrating:
 
 * SQL views provide a powerful means of manipulating data on the fly.
 * Standard deviations make for attractive visualization breaks.
