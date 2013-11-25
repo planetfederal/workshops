@@ -91,7 +91,7 @@ html_theme_path = ['../../../../themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = 'Education Center'
+html_title = 'Workshops'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -146,7 +146,7 @@ html_copy_source = False
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'Education'
+htmlhelp_basename = 'Workshops'
 
 # Page subheading
 html_context = {'subheading': 'Our practical walk-throughs of actual application development examples from start to finish. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
@@ -163,7 +163,7 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('contents', 'Education.tex', u'Education Center',
+  ('contents', 'Education.tex', u'Workshops',
    u'Boundless', 'manual'),
 ]
 

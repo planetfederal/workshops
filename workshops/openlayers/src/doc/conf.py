@@ -161,7 +161,7 @@ html_show_sourcelink = False
 htmlhelp_basename = 'OpenLayersWorkshopdoc'
 
 # Page subheading
-html_context = {'subheading': '.'}
+html_context = {'subheading': 'A high-performance, GIS JavaScript library for web-based maps. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
 
 # -- Options for LaTeX output --------------------------------------------------
 
