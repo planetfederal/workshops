@@ -3,10 +3,10 @@ Course Materials at Boundless
 
 `Boundless <http://boundlessgeo.com/>`_ is devoted to building and supporting tools that help organizations share their information online. We believe that access to knowledge is a fundamental good, so we make our training materials available online under an open document license, for everyone to use and reuse.
 
-Tutorials
+Workshops
 ---------
 
-Tutorials are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
+Our workshops are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
 
 `Building a GeoNames Heat Map <http://workshops.boundlessgeo.com/tutorial-wordmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-wordmap/_static/wordmap-full.html>`_)
   |heatmap| 

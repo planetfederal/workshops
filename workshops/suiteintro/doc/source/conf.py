@@ -160,6 +160,8 @@ html_show_sourcelink = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'IntroductiontoTheOpenGeoSuitedoc'
 
+# Page subheading
+html_context = { 'subheading': 'Power web, mobile, and desktop mapping applications across the enterprise. <a href="http://boundlessgeo.com/solutions/opengeo-suite/">More info</a>' }
 
 # -- Options for LaTeX output --------------------------------------------------
 

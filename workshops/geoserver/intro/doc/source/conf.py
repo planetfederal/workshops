@@ -157,6 +157,8 @@ html_show_sourcelink = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'IntroductiontoGeoServerdoc'
 
+# Page subheading
+html_context = { 'subheading': 'Publish, process and edit maps and features using open standards. <a href="http://boundlessgeo.com/solutions/solutions-software/geoserver/">More info</a> }
 
 # -- Options for LaTeX output --------------------------------------------------
 

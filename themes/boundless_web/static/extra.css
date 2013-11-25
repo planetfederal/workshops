@@ -2,8 +2,35 @@
 	margin-bottom: 30px;
 }
 
+.page-header a {
+	color: #fff;
+}
+.page-header a:hover {
+	text-decoration: none;
+	color: #7db5d2;
+}
+.page-header h1 {
+	font-size: 34px;
+}
+.page-header p a {
+	font-size: 80%;
+	padding-left: 10px;
+}
+
 .secondarynav li.menu-item-6432 a {
 	background: #6aaacb;
+}
+
+.pagination-nav {
+	margin-top: 40px;
+}
+
+.pagination-nav .left {
+	float: left;
+}
+
+.pagination-nav .right {
+	float: right;
 }
 
 #content h1 {
@@ -333,7 +360,7 @@ blockquote {
   margin-left: 12px;
   margin-bottom: 20px;
   background: #ffffff;
-  padding: 30px;
+  padding: 10px 30px 30px;
   border-radius: 10px;
 }
 

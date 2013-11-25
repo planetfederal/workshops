@@ -23,7 +23,7 @@ import sys, os
 extensions = []
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = [ '_templates' ]
+templates_path = [ '' ]
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -143,6 +143,8 @@ html_copy_source = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'GeostackIntro'
 
+# Page subheading
+html_context = {'subheading': 'PostGIS extends the PostgreSQL with robust spatial database management capabilities. <a href="http://boundlessgeo.com/solutions/solutions-software/postgis/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------

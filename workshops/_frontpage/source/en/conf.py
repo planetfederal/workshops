@@ -32,7 +32,7 @@ source_suffix = '.rst'
 master_doc = 'contents'
 
 # General substitutions.
-project = u'Education Center'
+project = u'Workshops'
 copyright = u'2009-2010, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
@@ -148,6 +148,8 @@ html_copy_source = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'Education'
 
+# Page subheading
+html_context = {'subheading': 'Our practical walk-throughs of actual application development examples from start to finish. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------

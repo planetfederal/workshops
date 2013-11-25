@@ -160,6 +160,8 @@ html_show_sourcelink = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'OpenLayersWorkshopdoc'
 
+# Page subheading
+html_context = {'subheading': '.'}
 
 # -- Options for LaTeX output --------------------------------------------------
 
