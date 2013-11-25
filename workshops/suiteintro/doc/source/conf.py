@@ -37,7 +37,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Introduction to The OpenGeo Suite'
+project = u'Introduction to OpenGeo Suite'
 copyright = u'OpenGeo'
 
 # The version info for the project you're documenting, acts as replacement for

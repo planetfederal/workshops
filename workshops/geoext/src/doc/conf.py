@@ -160,6 +160,8 @@ html_show_sourcelink = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'GeoExtWorkshopdoc'
 
+# Page subheading
+html_context = { 'subheading' : 'GeoExt is a young UI library for building web-based GIS applications.' }
 
 # -- Options for LaTeX output --------------------------------------------------
 

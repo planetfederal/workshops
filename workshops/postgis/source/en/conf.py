@@ -144,7 +144,7 @@ html_copy_source = False
 htmlhelp_basename = 'GeostackIntro'
 
 # Page subheading
-html_context = {'subheading': 'PostGIS extends the PostgreSQL with robust spatial database management capabilities. <a href="http://boundlessgeo.com/solutions/solutions-software/postgis/">More info</a>'}
+html_context = {'subheading': 'PostGIS extends PostgreSQL with robust spatial database management capabilities. <a href="http://boundlessgeo.com/solutions/solutions-software/postgis/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------

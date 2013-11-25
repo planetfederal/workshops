@@ -149,7 +149,7 @@ html_copy_source = False
 htmlhelp_basename = 'Workshops'
 
 # Page subheading
-html_context = {'subheading': 'Our practical walk-throughs of actual application development examples from start to finish. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
+html_context = {'subheading': 'Our practical walk-throughs of actual application development examples from start to finish.' } 
 
 # Options for LaTeX output
 # ------------------------
