@@ -122,7 +122,7 @@ the WFS protocol here, we cannot do that. Instead, we can call the protocol's
             }
         }]);
  
-#.  Save your file and reload `<@workshop_url@/map.html>`_. Make some
+#.  Save your file and reload :file:`map.html`. Make some
     changes and hit "Save". Reload the page to see that your changes were
     persisted.
 

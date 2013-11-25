@@ -112,7 +112,7 @@ grid:
         });
     
 #.  After saving your changes, point your browser to
-    `<@workshop_url@/map.html>`_. You should see a new grid in the application,
+    :file:`map.html`. You should see a new grid in the application,
     and geometries rendered on the map in orange. When clicking a row in the
     grid, its geometry gets highlighted on the map. And when clicking a feature
     on a map, its attributes will be highlighted in the grid.
@@ -322,7 +322,7 @@ grid.
     response is available, ``reconfigure`` is called.
 
 #.  After saving your changes, point your browser to
-    `<@workshop_url@/map.html>`_. When you have added a layer to the map that
+    :file:`map.html`. When you have added a layer to the map that
     is available as WFS also and select it in the tree, the grid will be
     populated with the layer's feature attributes, and the features will be
     rendered on the map.
