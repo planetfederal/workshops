@@ -30,10 +30,14 @@
 
 .pagination-nav .left {
 	float: left;
+	max-width: 50%;
+	text-align: left;
 }
 
 .pagination-nav .right {
 	float: right;
+	max-width: 50%;
+	text-align: right;
 }
 
 #content h1 {
