@@ -345,7 +345,7 @@ blockquote {
 }
 
 .contents {
-  width: 910px;
+  width: 940px;
   margin: 0 auto;
 }
 
@@ -358,9 +358,8 @@ blockquote {
 }
 
 #rightbar_main, .rightbar_main {
-  width: 590px;
+  width: 620px;
   float: left;
-  margin-left: 12px;
   margin-bottom: 20px;
   background: #ffffff;
   padding: 10px 30px 30px;

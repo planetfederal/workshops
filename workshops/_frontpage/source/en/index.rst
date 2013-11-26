@@ -46,11 +46,15 @@ The following are actual course materials given at our various training classes 
 `Introduction to OpenLayers <http://workshops.boundlessgeo.com/openlayers-intro/>`_ - (`Download <http://boundlessgeo.com/resources/workshops/>`_)
   This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13.
 
-`Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ - (`Download <http://boundlessgeo.com/resources/workshops/>`_/`readme <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_)
+`Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ - (`Download <http://boundlessgeo.com/resources/workshops/>`_/`Readme <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_)
   First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more.
 
 `Spatial Database Tips and Tricks <http://workshops.boundlessgeo.com/postgis-spatialdbtips/>`_
   How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
+
+
+More Workshops
+--------------
 
 `Introduction to OpenGeo Suite QGIS plugin <http://qgis.boundlessgeo.com/static/docs/index.html>`_
   The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Suite through `QGIS <http://qgis.org>`_, a free, open source desktop GIS client. If you prefer using a GUI (graphic user interface) to work with geospatial data try out QGIS and our Suite-QGIS plugin!
