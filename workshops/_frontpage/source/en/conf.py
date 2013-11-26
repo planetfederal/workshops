@@ -149,7 +149,7 @@ html_copy_source = False
 htmlhelp_basename = 'Workshops'
 
 # Page subheading
-html_context = {'subheading': 'Our practical walk-throughs of actual application development examples from start to finish.' } 
+html_context = {'subheading': 'Introductory courses and walk-through tutorials of our open source tools.' } 
 
 # Options for LaTeX output
 # ------------------------
