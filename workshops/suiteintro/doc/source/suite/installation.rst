@@ -5,6 +5,10 @@ Installing OpenGeo Suite
 
 In this section we will install OpenGeo Suite on your workshop machine.
 
+.. todo:: Basically this entire page, including all screenshots, needs to be updated.
+
+.. todo:: Make sure pgAdmin is installed.
+
 Installation
 ------------
 
@@ -14,11 +18,7 @@ The OpenGeo Suite executable file is located in the workshop package in the :fil
 
 #. **Double-click** the file :file:`OpenGeoSuite-<version>.exe` to begin the installation.
 
-#. On some systems, you might see a Windows Security warning. We promise the software is safe, so click :guilabel:`Run` to launch the installer.
-
-   .. figure:: img/installation_security.png
-     
-      Windows Security warning
+   .. note:: On some systems, you might see a Windows Security warning. We promise the software is safe, so click :guilabel:`Run` to launch the installer.
 
 #. At the ``Welcome`` screen, click :guilabel:`Next`.
 
@@ -50,7 +50,11 @@ The OpenGeo Suite executable file is located in the workshop package in the :fil
 
       Component selection
 
-   .. note:: All components are installed by default except for some proprietary extensions that require additional files to function. We will not be using these in this workshop.
+#. We will be using the :guilabel:`pgAdmin` and :guilabel:`psql` components in this workshop. They are found in the :guilabel:`Client Tools` tree. Check these two components and click guilabel:`Next`.
+
+   .. figure:: img/installation_pgclient.png
+
+      Selecting PostGIS client tools
 
 #. When you are ready, click :guilabel:`Install` to start the installation.
 
@@ -64,44 +68,24 @@ The OpenGeo Suite executable file is located in the workshop package in the :fil
 
       Installation progress
 
-#. After installation, click :guilabel:`Finish` to start OpenGeo Suite and launch the Dashboard.
+#. After installation, click :guilabel:`Finish`.
 
    .. figure:: img/installation_finish.png
 
       OpenGeo Suite has been installed
-      
-The Dashboard is presented in detail the next section.
 
-However, to complete this installation process, we're going to review a few of the initialization steps that need to be performed when you run the OpenGeo Suite Dashboard for the first time.
+Starting and stopping services
+------------------------------
 
-#. This *Welcome* screen confirms your (default) credentials for authenticating to GeoServer. Click **Close** to proceed. You can uncheck the :guilabel:`Show this dialog ...` box to prevent this dialog from launching in the future if you'd like.
+OpenGeo Suite has been installed and is now running by default. There are two system services related to OpenGeo Suite:
 
-   .. figure:: img/dashboard_geoservercredentials.png
-      
-      GeoServer Administration credentials
-      
-Although OpenGeo Suite has been installed, it's not actually running yet. In fact, if you ever re-start your machine, it does not start automatically. Whenever the software isn't running, the Dashboard will display a green :guilabel:`Start` button in the top right corner.
+* **OpenGeo Jetty** - Controls GeoServer and other web applications
+* **OpenGeo Postgres** - Controls PostgreSQL/PostGIS database
 
-#. Click :guilabel:`Start` to launch the service components that make up OpenGeo Suite. A dialog will display during the startup process, and will disappear once the software is running.
+You can start and stop these services from the Start Menu by going to :menuselection:`OpenGeo Suite --> GeoServer/PostGIS --> Start/Stop`
 
-   .. figure:: img/dashboard_startup.png
-   
-      Starting OpenGeo Suite from the Dashboard
-   
-#. On certain operating systems, you might be presented with a *Security Alert* about your PostgreSQL Server. You can click **OK** here. PostgreSQL is the database server that sits underneath PostGIS; we trust it. Optionally, you can check the box to not *show this message again*. 
+.. figure:: img/installation_startstop.png
 
-   .. figure:: img/dashboard_postgresql.png
-      
-      Security Alert for PostgreSQL Server
-  
-#. Again, on certain operating systems, you might see a *Security Alert* about your Java platform trying to make changes to the local firewall. You can click **Unblock** here. The Java platform is the web application container that GeoServer and other web-applications run in; we also trust this component.
+   Start Menu entries for starting and stopping OpenGeo Suite services
 
-   .. figure:: img/dashboard_javavm.png
-      
-      Security Alert for the Java Platform
-
-#. Once completed, you'll be back at the main Dashboard interface with OpenGeo Suite up and running.
-
-   .. figure:: img/dashboard_running.png
-      
-      OpenGeo Suite Dashboard (running)
+You can also start and stop these services through the standard Windows Services dialog.

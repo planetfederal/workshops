@@ -3,7 +3,7 @@
 Introducing OpenGeo Suite
 =========================
 
-In this section, we'll introduce OpenGeo Suite and illustrate a few of the terms and concepts involved in setting up a geospatial "stack".
+In this section, we'll introduce OpenGeo Suite and illustrate a few of the terms and concepts involved in setting up a geospatial stack.
 
 What's a stack?
 ---------------
@@ -29,8 +29,10 @@ OpenGeo Suite is a fully-open geospatial software stack for publishing your data
 
 * **GeoWebCache** - A server that accelerates the delivery of map images by pre-drawing and caching.
 
+* **QGIS** - A desktop-based tool for viewing and interacting with geospatial data and maps.
+
 .. figure:: img/stack_all.png
 
    OpenGeo Suite stack
 
-These are the key pieces we'll be using in this workshop.
+.. todo:: Update figure.
