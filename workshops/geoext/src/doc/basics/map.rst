@@ -89,8 +89,7 @@ Let's take a look at a fully working example of a simple GeoExt application:
 #.  Copy the text above into a new file called :file:`map.html`, and save
     it in the root of the workshop folder.
 
-#.  Open the working application in your web browser:
-    `<@workshop_url@/map.html>`_
+#.  Open :file:`map.html` in your web browser.
 
 .. figure:: map1.png
    

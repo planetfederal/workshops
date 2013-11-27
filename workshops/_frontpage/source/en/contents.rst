@@ -1,6 +1,6 @@
 .. _contents:
 
-Education Center
+Workshops
 ================
 
 .. toctree::

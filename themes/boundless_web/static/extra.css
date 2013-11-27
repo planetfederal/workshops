@@ -1,9 +1,43 @@
 .page-header {
 	margin-bottom: 30px;
 }
+.page-header a {
+	color: #fff;
+}
+.page-header a:hover {
+	text-decoration: none;
+	color: #7db5d2;
+}
+.page-header h1 {
+	font-size: 48px;
+}
+.page-header p a {
+	font-size: 80%;
+	padding-left: 10px;
+	color: #7db5d2;
+}
+.page-header p a:hover {
+	color: #fff;
+}
 
 .secondarynav li.menu-item-6432 a {
 	background: #6aaacb;
+}
+
+.pagination-nav {
+	margin-top: 40px;
+}
+
+.pagination-nav .left {
+	float: left;
+	max-width: 50%;
+	text-align: left;
+}
+
+.pagination-nav .right {
+	float: right;
+	max-width: 50%;
+	text-align: right;
 }
 
 #content h1 {
@@ -315,7 +349,7 @@ blockquote {
 }
 
 .contents {
-  width: 910px;
+  width: 940px;
   margin: 0 auto;
 }
 
@@ -328,12 +362,11 @@ blockquote {
 }
 
 #rightbar_main, .rightbar_main {
-  width: 590px;
+  width: 620px;
   float: left;
-  margin-left: 12px;
   margin-bottom: 20px;
   background: #ffffff;
-  padding: 30px;
+  padding: 10px 30px 30px;
   border-radius: 10px;
 }
 

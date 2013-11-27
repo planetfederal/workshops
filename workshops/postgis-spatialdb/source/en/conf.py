@@ -149,6 +149,8 @@ html_copy_source = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'SpatialDatabaseIntro'
 
+# Page subheading
+html_context = { 'subheading': 'Learn to build applications that query and process spatial data.' }
 
 # Options for LaTeX output
 # ------------------------

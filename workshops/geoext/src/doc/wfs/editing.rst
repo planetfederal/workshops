@@ -99,8 +99,7 @@ selection in the selection model (only one feature can be edited at a time).
         ],
 
 
-#.  After saving your changes, point your browser to
-    `<@workshop_url@/map.html>`_. You should see the new Delete and Create
+#.  After saving your changes, point your browser to :file:`map.html`. You should see the new Delete and Create
     buttons, and when you select a feature you can modify its vertices.
 
 .. figure:: editing.png

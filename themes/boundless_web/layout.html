@@ -33,7 +33,7 @@
     {%- if display_toc %}
       {%- block sidebartoc %}
       <div id="toc" class="section">
-        <h4 class="pngfix">Table Of Contents</h4>
+        <h4 class="pngfix">Page Contents</h4>
         {{ toc }}
         <div class="section-footer"></div>
       </div>
@@ -244,8 +244,8 @@
 </section>
 <header class="page-header">
 	<div class="container">
-		<h1 class="page-title">Workshops</h1>
-		<p>Tutorials are practical walk-throughs of actual application development examples from start to finish.</p>
+		<h1 class="page-title"><a href="{{ pathto('index') }}">{{ project }}</a></h1>
+		<p>{{ subheading }}</p>
 	</div>
 </header>
   {%- endblock %}

@@ -160,6 +160,8 @@ html_show_sourcelink = False
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'OpenLayersWorkshopdoc'
 
+# Page subheading
+html_context = {'subheading': 'A high-performance, geospatial JavaScript library for web-based maps. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
 
 # -- Options for LaTeX output --------------------------------------------------
 
