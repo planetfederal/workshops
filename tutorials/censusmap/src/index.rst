@@ -1,7 +1,10 @@
 
 .. note:: 
 
-  Check out the `full demonstration application <_static/code/censusmap-simple.html>`_ and play!
+  Check out the full demonstration application and play:
+  
+  * `Bootstrap / OpenLayers 3 version <_static/code/censusmap-ol3.html>`_
+  * `Ext JS / GeoExt / OpenLayers 2 version <_static/code/censusmap-simple.html>`_
 
 
 Introduction
@@ -616,7 +619,9 @@ We already saw our map visualized in a bare `OpenLayers`_ map frame in the *Laye
 
 We want an application that provides a user interface component that manipulates the source WMS URL, altering the URL `viewparams <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ parameter.
 
-We'll build the app using the `ExtJS`_ for the basic widgets, `GeoExt`_ to integrate the map into the widget library, and `OpenLayers`_ as the map component.
+To build the application with `OpenLayers 3`_ and `Bootstrap`_, continue with the :doc:`Framing the Map with OpenLayers 3 <ol3>` tutorial.
+
+Continue here if you are interested in building the application using `ExtJS`_ for the basic widgets, `GeoExt`_ to integrate the map into the widget library, and `OpenLayers`_ as the map component.
 
 The base HTML page, `censusmap-simple.html`_, just contains script includes bringing in our various javascript libraries:
 
@@ -773,6 +778,8 @@ We've built an application for browsing 51 different census variables, using sca
 .. _OpenStreetMap: http://openstreetmap.org
 .. _Suite installation instructions: http://suite.opengeo.org/opengeo-docs/installation/index.html
 .. _OpenLayers: http://openlayers.org
+.. _OpenLayers 3: http://ol3js.org/
+.. _Bootstrap: http://getbootstrap.com/
 .. _censusmap-simple.js: _static/code/censusmap-simple.js
 .. _censusmap-simple.html: _static/code/censusmap-simple.html
 .. _DataDict.json: _static/code/DataDict.json

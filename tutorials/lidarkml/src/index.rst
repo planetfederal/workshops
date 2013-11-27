@@ -320,7 +320,7 @@ However, as dark splotches, they leave much to be desired! It would be nicer if 
 
 * Configure a new style in GeoServer by going to the *Styles* section, and selecting **Add a new style**.
 * Set the style name to *elevation_ramp*
-* Set the style workspace to *opengeo* 
+* Set the style workspace to be blank (that is, a global style)
 * Paste in the style definition (below) for `elevation_ramp.xml <_static/elevation_ramp.xml>`_ and hit the *Save* button at the bottom.
 
 .. code-block:: xml
@@ -789,6 +789,126 @@ That's it! Now open up the layer in KML and zoom in close to see the result:
 
 .. image:: ./img/ge_buildings.jpg
   :width: 98%
+
+
+Trees Make the Buildings Grow
+=============================
+
+If you explore the 3D KML view of the buildings for a while, you may come across some odd neighborhoods, like this one.
+
+.. image:: ./img/ge_buildings_trees1.jpg
+  :width: 98%
+
+Three story mansions seem a bit out of place in this residential area, and what's with the clock tower in the back yard? Something is amiss here.
+
+What we're seeing is the effect of the tree canopy on the LIDAR data. The laser pulses are reflecting back from the trees as well as the houses, and the trees overhand the footprint of the buildings, so the average elevation of points within the building polygons is artificially inflated.
+
+How can we fix this?
+
+LIDAR data of trees will generate more than one return reflection for each outgoing pulse, and the further away the reflection, the later the light will return. Rather than generating our buildings heights as the average of **all** LIDAR points, we want to average only the **last returns** for each pulse; the returns that are the deepest.
+
+We can generate this kind of average just by filtering our input points, only the "last return"--those points for which "return number" is equal to "number of returns".
+
+However, a lot of pulses that hit trees will just bounce back once from the outer canopy, giving *only* a first return. What are we going to do?
+
+One answer would be to *only* work with last returns that came from multi-return pulses. But that would leave *no* data in areas without tree cover. So we need an approach that can do the right thing with tree canopies *and* without them. 
+
+A simple solution is to heavily weight last returns that are from multi-return pulses, so that in areas of mixed return types, the deeper returns have more effect. We can do this be replacing our ``Avg()`` function in the LIDAR calculation with a weighted average:
+
+.. code-block:: sql
+
+  -- numerator
+  Sum(CASE WHEN PC_Get(pts,'ReturnNumber') = 1
+       THEN PC_Get(pts, 'z')
+       WHEN PC_Get(pts,'ReturnNumber') = 2
+       THEN 10*PC_Get(pts, 'z')
+       ELSE 100*PC_Get(pts, 'z') END) /
+  -- denominator
+  Sum(CASE WHEN PC_Get(pts,'ReturnNumber') = 1
+      THEN 1
+      WHEN PC_Get(pts,'ReturnNumber') = 2
+      THEN 10
+      ELSE 100 END) AS z
+
+Now we're ready to re-run both our elevation calculation and our height calculation to see the effect on the final KML output.
+
+.. code-block:: sql
+
+  -- Update into the buildings Z column
+  UPDATE buildings SET z = elevs.z
+  FROM (
+    -- For every building, all intersecting patches
+    WITH patches AS (
+      SELECT 
+        buildings.gid AS buildings_gid,
+        medford.id AS medford_id,
+        medford.pa AS pa
+      FROM medford
+      JOIN buildings
+      ON PC_Intersects(pa, geom)
+    ),
+    -- Explode those patches into points, remembering
+    -- which building they were associated with
+    pa_pts AS (
+      SELECT buildings_gid, PC_Explode(pa) AS pts FROM patches
+    )
+    -- Use the building associations to efficiently
+    -- spatially test the points against the building footprints
+    -- Summarize per building
+    SELECT 
+      buildings_gid,
+      -- Use a weighted average that heavily favors
+      -- multi-return pulses
+      Sum(CASE WHEN PC_Get(pts,'ReturnNumber') = 1
+           THEN PC_Get(pts, 'z')
+           WHEN PC_Get(pts,'ReturnNumber') = 2
+           THEN 10*PC_Get(pts, 'z')
+           ELSE 100*PC_Get(pts, 'z') END) /
+      Sum(CASE WHEN PC_Get(pts,'ReturnNumber') = 1
+          THEN 1
+          WHEN PC_Get(pts,'ReturnNumber') = 2
+          THEN 10
+          ELSE 100 END) AS z
+    FROM pa_pts 
+    JOIN buildings
+    ON buildings.gid = buildings_gid
+    WHERE ST_Intersects(buildings.geom, pts::geometry)
+    -- Only use the last returns in this calculation
+    AND PC_Get(pts,'ReturnNumber') = PC_Get(pts,'NumberOfReturns')
+    GROUP BY buildings_gid
+  ) AS elevs
+  -- Join calculated elevations to original buildings table
+  WHERE elevs.buildings_gid = gid;
+  
+  -- Update the building heights by subtracting elevation of 
+  -- the nearest street from the elevation of the building
+  UPDATE buildings SET height = heights.height
+  FROM (
+    WITH candidates AS (
+      SELECT 
+        b.gid AS building_gid, 
+        s.gid AS street_gid, 
+        s.z AS streets_z, 
+        b.z as buildings_z
+      FROM buildings b, streets s
+      WHERE ST_DWithin(b.geom, s.geom, 0.001)
+      ORDER BY 
+        building_gid, 
+        ST_Distance(b.geom, s.geom)
+    )
+    SELECT DISTINCT ON (building_gid) 
+      building_gid, street_gid,  
+      buildings_z - streets_z AS height
+    FROM candidates
+  ) AS heights
+  WHERE heights.building_gid = buildings.gid;
+
+Now have a look at the buildings in 3D. The clock tower is cut down to size, and the multi-story mansions are much reduced. 
+
+.. image:: ./img/ge_buildings_trees2.jpg
+  :width: 98%
+
+The canopy data is still slightly biasing up the results--a more sophisticated filtering technique would be needed to get a true "bare earth" LIDAR point-cloud--but in general our simple filter and weighted average have done the trick!
 
 
 Conclusion
