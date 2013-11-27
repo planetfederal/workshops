@@ -14,7 +14,7 @@ Home screen
 
 The main Dashboard page show links to PostGIS configuration and documentation for PostGIS, GeoServer, GeoWebCache, and GeoExplorer.
 
-.. figure:: img/dashboard_home.png
+.. figure:: img/dashboard.png
 
    OpenGeo Suite Dashboard
 

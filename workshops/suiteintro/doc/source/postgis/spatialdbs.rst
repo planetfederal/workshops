@@ -52,34 +52,30 @@ In addition to these "base type" functions, a spatial database provides a functi
 
 Spatial functions are commonly categorized by their category of operation:
 
-* Management 
+**Management** 
 
-   * Make me a new geometry column in a table (**AddGeometryColumn**)
-   * Update all of the existing geometry columns (**Populate_Geometry_Columns**)
+* Make me a new geometry column in a table (**AddGeometryColumn**)
+* Update all of the existing geometry columns (**Populate_Geometry_Columns**)
 
-* Conversion 
+**Conversion**
 
-   * Show the text representation of this point (**ST_AsText**)
-   * Convert this text string into a valid PostGIS geometry (**ST_GeomFromText**)   
+* Show the text representation of this point (**ST_AsText**)
+* Convert this text string into a valid PostGIS geometry (**ST_GeomFromText**)   
 
-* Retrieval
+**Retrieval**
 
-   * How long is this line? (**ST_Length**)
-   * What is the perimeter of Uzbekistan? (**ST_Perimeter**)
+* How long is this line? (**ST_Length**)
+* What is the perimeter of Uzbekistan? (**ST_Perimeter**)
 
-* Comparison
+**Comparison**
 
-   * Is France next to Finland? (**ST_Touches**)
-   * Is Paris in China? (**ST_Contains**)
+* Is France next to Finland? (**ST_Touches**)
+* Is Paris in China? (**ST_Contains**)
 
-* Generation
+**Generation**
 
-   * Calculate a 20km exclusion limit around Moose Factory! (**ST_Buffer**)
-   * Consolidate New York and New Jersey! (**ST_Union**)
-
-.. figure:: img/pg_spatial_functions.png
-
-   List of some PostGIS functions (as viewed in pgAdmin)
+* Calculate a 20km exclusion limit around Moose Factory! (**ST_Buffer**)
+* Consolidate New York and New Jersey! (**ST_Union**)
 
 Spatial Indexes
 ---------------

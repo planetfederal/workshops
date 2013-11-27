@@ -11,6 +11,8 @@ Providing optimized access to large amounts of spatial data, PostGIS is a fundam
 
    PostGIS in OpenGeo Suite stack
 
+.. todo:: Update figure
+
 PostgreSQL
 ----------
 

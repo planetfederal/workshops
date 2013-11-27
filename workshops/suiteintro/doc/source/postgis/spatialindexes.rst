@@ -52,7 +52,7 @@ It's worth stressing that just creating an index is not enough to allow PostgreS
 
 Vacuuming is so critical for the efficient running of the database that PostgreSQL provides an "auto-vacuum" option.
 
-Enabled by default, running the auto-vacuum command both vacuums (recovers space) and analyzes (updates statistics) on your tables at sensible intervals determined by the level of activity. While this is essential for highly transactional databases, it is not advisable to wait for an autovacuum run after adding indexes or bulk-loading data. If a large batch update is performed, you should manually run ``VACUUM``.
+Enabled by default, running the auto-vacuum command both vacuums (recovers space) and analyzes (updates statistics) on your tables at sensible intervals determined by the level of activity. While this is essential for highly transactional databases, it is not advisable to wait for an auto-vacuum run after adding indexes or bulk-loading data. If a large batch update is performed, you should manually run ``VACUUM``.
 
 Vacuuming and analyzing the database can be performed separately as needed. Issuing ``VACUUM`` command will not update the database statistics; likewise issuing an ``ANALYZE`` command will not recover unused table rows. Both commands can be run against the entire database, a single table, or a single column.
 

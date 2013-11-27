@@ -3,6 +3,8 @@
 PostGIS metatables and views
 ============================
 
+.. todo:: Screenshots all don't need to be fixed, but show XP chrome.
+
 When our new PostGIS database was created via the ``template_postgis`` database, it received all all 700+ PostGIS functions, as well as one table (``spatial_ref_sys``) and two views (``geometry_columns`` and ``geography_columns``).
 
 spatial_ref_sys
@@ -18,6 +20,8 @@ geometry_columns
 ----------------
 
 The ``geometry_columns`` view defines the dimension, geometry, and spatial reference system for each spatial table in the PostGIS database that contains a geometry type.
+
+Here is an example of the ``geometry_columns`` table. (Our table is currently empty.)
 
 .. figure:: img/pg_metatable_geometrycolumns.png
 
@@ -38,4 +42,4 @@ Bonus
 -----
 
 * Expand the ``Functions`` tree in our new database's objects, and look at the contents.
-* Which of the three tenets of a spatial database was not created from the template database?  Why not?
+* Which of the three tenets of a spatial database was not created from the template database? Why not?

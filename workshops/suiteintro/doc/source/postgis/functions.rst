@@ -3,6 +3,8 @@
 Spatial functions and queries
 =============================
 
+.. todo:: Most figures should be updated.
+
 PostGIS adds several hundred geometry-specific functions to PostgreSQL. Discussing all of them is far beyond the scope of this workshop! However, in this section, we'll work through a short example to introduce function syntax, and add another table to our ``SuiteWorkshop`` database.
 
 Accessing spatial functions
@@ -29,9 +31,9 @@ This short example will show how to spatially enable a newly-created table in ou
 
 #. If it isn't already, open up your pgAdmin SQL Query Tool. (:menuselection:`Tools --> Query Tool`)
 
-.. figure:: img/pgadmin_sqlbutton.png
+.. figure:: img/pgadmin_querybutton.png
 
-   Loading the Query Tool
+   Loading the SQL Query tool
 
 #. Open the file :file:`<workshop>\\sql\\smallworld_create.sql`, or copy and paste the following block into the SQL Editor.
 
