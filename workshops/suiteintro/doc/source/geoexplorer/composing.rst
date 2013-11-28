@@ -3,6 +3,8 @@
 Composing a Map
 ===============
 
+.. todo:: Figures showing list of layers need to be updated.
+
 Let's start composing a custom map by adding some layers from our local GeoServer.
 
 #. Click the :guilabel:`Add Layer` button. The :guilabel:`Available Layers` dialog opens.

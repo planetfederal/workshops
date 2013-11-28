@@ -12,3 +12,5 @@ In our evolving diagram of OpenGeo Suite architecture, GeoExplorer sits at the t
 .. figure:: ../suite/img/stack_geoext.png
 
    GeoExplorer (GeoExt) in the OpenGeo Suite stack
+
+.. todo:: Update figure.

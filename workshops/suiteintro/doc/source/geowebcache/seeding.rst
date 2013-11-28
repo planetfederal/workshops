@@ -15,6 +15,8 @@ Let's set the cache properties of our tiling schema for our ``earth`` base map.
 .. figure:: img/gwc_dashboard.png
     
    Linking to GeoWebCache from the Dashboard
+
+.. todo:: Update figure.
        
 #. The interface of GeoWebCache lists all configured GeoServer feature types currently being served by GeoServer. You'll see our ``earth`` layers along with others that ship by default.  
 

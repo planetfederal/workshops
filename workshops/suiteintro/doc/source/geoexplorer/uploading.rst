@@ -3,6 +3,7 @@
 Uploading data
 ==============
 
+
 There's one other useful feature hidden away behind GeoExplorer's :guilabel:`Login` button: The ability to upload data directly to GeoServer.
 
 GeoExplorer allows you to upload one or more Shapefiles or GeoTIFFs, provided they are packaged into an archive (ZIP, GZ, TAR, etc.)  Single GeoTIFF files can actually be uploaded without an archive, however single SHPs cannot, as all of the associated files in a SHP (DBF, SHX, etc.) need to be packaged up together.
@@ -16,6 +17,8 @@ Conveniently, the file :file:`<workshop>\\data\\rivers.zip` contains just a shap
 #. We've seen this dialog before, but this time there's an :guilabel:`Upload Data` button in the bottom left corner.
 
    .. figure:: img/gx_dialog_addwithupload.png
+
+   .. todo:: Update figure.
    
 #. Click :guilabel:`Upload Data`.
 

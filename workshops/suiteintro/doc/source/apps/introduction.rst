@@ -36,6 +36,8 @@ We've seen both OpenLayers and GeoExt applications in the preceding sections.
 
 In our evolving diagram of the OpenGeo Suite architecture, applications built using OpenLayers and/or GeoExt sit right at the top consuming layers, with/without GeoWebCache, from our local GeoServer.
 
+.. todo:: Update figure.
+
 .. figure:: ../suite/img/stack_geoext.png
 
    OpenLayers/GeoExt web-mapping applications in the OpenGeo Suite stack

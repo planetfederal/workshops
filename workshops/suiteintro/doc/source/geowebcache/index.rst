@@ -11,6 +11,8 @@ In our evolving diagram of OpenGeo Suite architecture, GeoWebCache sits atop Geo
 
    GeoWebCache in OpenGeo Suite stack
 
+.. todo:: Update figure.
+
 GeoWebCache can operate in one of two ways: as a separate "map proxy" to GeoServer and other map servers, and directly integrated with GeoServer.
 
 .. toctree::
