@@ -31,7 +31,7 @@ In the previous sections, we loaded multiple layers from PostGIS. Now we'll use 
 
    .. figure:: img/layergroup_addlayerlink.png
 
-      Addding layers to the layergroup
+      Link to add layers to the layer group
 
 #. Select each of the following layers so that they appear in this order:
 

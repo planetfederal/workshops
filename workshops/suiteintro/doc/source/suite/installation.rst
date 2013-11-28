@@ -5,10 +5,6 @@ Installing OpenGeo Suite
 
 In this section we will install OpenGeo Suite on your workshop machine.
 
-.. todo:: Basically this entire page, including all screenshots, needs to be updated.
-
-.. todo:: Make sure pgAdmin is installed.
-
 Installation
 ------------
 
