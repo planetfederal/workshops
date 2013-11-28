@@ -13,4 +13,4 @@ In the evolving diagram of our OpenGeo Suite architecture GeoServer sits on top 
 
    GeoServer in the OpenGeo Suite stack
 
-	
+.. todo:: Update figure.

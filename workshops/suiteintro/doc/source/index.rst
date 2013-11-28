@@ -10,10 +10,13 @@ Welcome! This workshop will introduce you to OpenGeo Suite, a complete web mappi
 * **GeoWebCache** - Tile cache server
 * **OpenLayers** - Browser-based map display library 
 * **GeoExt** - Mapping application library
+* **QGIS** - Desktop mapping client
 
 .. figure:: suite/img/stack_all.png
 
    The OpenGeo Suite stack
+
+.. todo:: Update figure.
 
 We'll go into the details of each component throughout the workshop.
 

@@ -3,7 +3,9 @@
 Publishing data from a file
 ===========================
 
-In this section, we will load a single GeoTIFF from the file-system. This GeoTIFF contains shaded relief for land area, using standard tri-band RGB values (0-255).
+.. todo:: Update figures.
+
+In this section, we will load a single GeoTIFF from the file-system. This GeoTIFF contains shaded relief for a land area, using standard tri-band RGB values (0-255).
 
 Adding a store
 --------------

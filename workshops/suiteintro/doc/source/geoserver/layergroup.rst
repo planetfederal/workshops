@@ -27,7 +27,11 @@ In the previous sections, we loaded multiple layers from PostGIS. Now we'll use 
 
    .. note::  Skip the Bounds and other form fields for now.
 
-#. Now we will add layers to our layer group. Click on the :guilabel:`Add Layer` link.
+#. Now we will add layers to our layer group. Scroll down click the :guilabel:`Add Layer` link.
+
+   .. figure:: img/layergroup_addlayerlink.png
+
+      Addding layers to the layergroup
 
 #. Select each of the following layers so that they appear in this order:
 

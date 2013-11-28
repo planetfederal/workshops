@@ -47,15 +47,9 @@ We will assume that the contents of the workshop package is located on your desk
 
   <user>\Desktop\suiteintro\
 
-In this case, ``<user>`` is your local user's home directory. In a Windows installation, this is typically:
+In this case, ``<user>`` is your local user's home directory. In a Windows installation, this is typically::
 
-* Windows XP::
-  
-    C:\Documents and Settings\Doug\ 
-
-* Windows Vista/7::
-
-    C:\Users\Doug\
+  C:\Users\Doug\
 
 For example::
 
@@ -63,19 +57,22 @@ For example::
 
 .. note:: We wil refer to the workshop directory as ``<workshop>`` throughout the course.
 
-In some cases, we'll be adding and/or saving files to a Tomcat virtual directory. This is located inside your user directory::
+In some cases, we'll be adding and/or saving files to a Tomcat virtual directory. This is located at::
 
-  <user>\.opengeo\data_dir\www\
+  C:\ProgramData\Boundless\OpenGeo\geoserver
 
-For example::
+or more generally at::
 
-  C:\Users\Doug\.opengeo\data_dir\www\
+  %ProgramData%\Boundless\OpenGeo\geoserver
+
+
+.. note:: On Linux, the data directory is located at :file:`/var/lib/opengeo/geoserver`, and on OS X, at :file:`~/Library/Application Support/GeoServer/data_dir`
 
 Contents
 --------
 
 * ``<workshop>\data`` - Spatial data used in the examples.
-* ``<workshop>\doc`` - Workshop text (what you're reading right now).
+* ``<workshop>\doc`` - Workshop text (this document).
 * ``<workshop>\html`` - Template HTML files and images.
 * ``<workshop>\sql`` - SQL files used in the PostGIS section.
 * ``<workshop>\styles`` - Styling directives for the spatial data used throughout this workshop.

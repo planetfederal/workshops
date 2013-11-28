@@ -3,6 +3,8 @@
 Creating a Workspace
 ====================
 
+.. todo:: Low priority figure replacement.
+
 The first step in data loading is usually to create a Workspace.  This creates a virtual container for your project data. Multiple layers from multiple sources can be contained inside a workspace, with the provision that each layer name is unique within the workspace.
 
 #. Navigate to the main :ref:`geoserver.webadmin` page.

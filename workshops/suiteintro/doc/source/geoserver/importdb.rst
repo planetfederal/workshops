@@ -3,6 +3,8 @@
 Importing data from PostGIS
 ===========================
 
+.. todo:: Low priority figure updates.
+
 In this section we're going load several PostGIS tables simultaneously into GeoServer. 
 
 We could easily just follow the same steps we used to load our GeoTIFF, for each table in our PostGIS store; however, that would get a little repetitive. 
@@ -26,7 +28,19 @@ Import From PostGIS store
 
       Import from data source
 
-#. Fill out the following form. Many fields will be left as the default, but make sure that the database name is ``SuiteWorkshop``:
+#. Fill out the following form.
+
+   .. list-table::
+      :header-rows: 1
+
+      * - Database
+        - ``SuiteWorkshop``
+      * - Port
+        - ``5432``
+      * - Username
+        - ``postgres``
+      * - Password
+        - ``[blank]``
 
    .. figure:: img/gs_importerparams.png
       
@@ -50,30 +64,16 @@ Import From PostGIS store
       
       Import results
 
-#. If the SRS is not populated automatically, check all of the relevant layers and click :guilabel:`Declare SRS`. The next screen allows you to select the coordinate system that applies to your data.
-
-   .. figure:: img/gs_importsrs.png
-      
-      Declare SRS
-
-   It's a long list, but we can narrow the results down using the :guilabel:`Search` field. Enter :guilabel:`4326`, and press **Enter**.  The search results are narrowed to a single result: The coordinate system '(Geographic) WGS84' that describes our data.
+   .. note:: If the SRS is not populated automatically, check all of the relevant layers and click :guilabel:`Declare SRS`. The next screen will allow you to select the coordinate system that applies to your data. 
 
 That's about it! In a consolidated number of steps, you have declared a store, and imported and published a handful of layers in GeoServer. This is the recommended approach when importing many layers from PostGIS or a directory of Shapefiles.
-
-.. note:: The top line of the ``Import Results`` page includes a small link to :guilabel:`Undo import`.
 
 Layer Preview
 -------------
 
 As a final step to our bulk data load, let's preview some of what we've done.
 
-#. From the list of layers in the ``Import Results`` screen, find the ``countries`` layer.
-
-   .. figure:: img/gs_importpreview.png
-
-      Layer Preview page
-
-#. Click the :guilabel:`OpenLayers` link to the right of the ``countries`` entry.
+#. From the list of layers in the ``Import Results`` screen, find the ``countries`` layer. Click the :guilabel:`Go` link to the right of the ``countries`` entry to open the layer in OpenLayers.
 
 #. A new tab will open up in your browser, showing your layer inside an OpenLayers application. 
 

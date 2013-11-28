@@ -3,7 +3,7 @@
 GeoServer Concepts
 ==================
 
-GeoServer uses lots of terminology, that can be confusing if you are not used to web-mapping. This section introduces the GeoServer terms that we will use in upcoming sections.
+GeoServer uses lots of terminology that can be confusing if unfamiliar. This section introduces the GeoServer terms that we will use in upcoming sections.
 
 Workspace
 ---------
@@ -14,7 +14,7 @@ Workspaces are usually used as a prefix to a layer or store. For example, a laye
 
 Stores and layers must all have an associated workspace.
 
-.. note:: Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been ``http://opengeo.org/nyc`` in which case the full layer name would be ``http://opengeo.org/nyc:streets`` GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference.
+.. note:: Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been ``http://boundlessgeo.com/nyc`` in which case the full layer name would be ``http://boundlessgeo.com/nyc:streets`` GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference.
 
 Store
 -----

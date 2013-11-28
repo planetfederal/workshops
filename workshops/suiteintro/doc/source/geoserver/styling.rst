@@ -16,7 +16,7 @@ In this section, we will:
 Loading Styles
 --------------
 
-#. From the GeoServer menu, click on the :guilabel:`Styles` link
+#. From the GeoServer menu, click on the :guilabel:`Styles` link,
 
    .. figure:: img/gs_linkstyles.png
    
@@ -24,11 +24,7 @@ Loading Styles
 
    .. figure:: img/gs_liststyles.png
    
-#. Find the ``earth_cities`` style in your list. Scroll, page and/or sort if you have to. 
-
-   .. figure:: img/gs_earthstyles.png
-
-#. Click the entry to open the SLD **Style Editor**.
+#. Find the ``earth_cities`` style in your list. Click the entry to open the SLD **Style Editor**.
 
    .. figure:: img/gs_opensld.png
    

@@ -3,6 +3,8 @@
 GeoServer web interface
 =======================
 
+.. todo:: Update all figures.
+
 GeoServer includes a web-based administration interface through which most data/service configurations can be made. This interface lessens the need to edit configuration files by hand.
 
 This section will give a brief overview to the web interface.
@@ -38,12 +40,7 @@ For security reasons, most GeoServer configuration tasks require that you log in
 Navigation
 ----------
 
-The links in the left-hand column load management pages for specific features of GeoServer, such as:
-
-* Status
-* Data
-* Services
-* Security
+The links in the left-hand column load management pages for specific features of GeoServer, such as :guilabel:`Data`, :guilabel:`Services`, and :guilabel:`Security`.
 
 Links in the right-hand column of the main page lead to the capabilities documents for each service (WFS, WMS, WCS).  
 
@@ -60,7 +57,7 @@ You can use the :guilabel:`Layer Preview` link to easily view layers currently b
 
       Navigating to the Layer Preview page
 
-#. Preview a few layers by clicking on the :guilabel:`OpenLayers` link next to each layer.
+#. Preview the layers by clicking on the :guilabel:`OpenLayers` link next to each layer.
 
    .. figure:: img/layerpreviewpage.png
 
