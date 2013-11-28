@@ -1,10 +1,7 @@
 
 .. note:: 
 
-  Check out the full demonstration application and play:
-  
-  * `Bootstrap / OpenLayers 3 version <_static/code/censusmap-ol3.html>`_
-  * `Ext JS / GeoExt / OpenLayers 2 version <_static/code/censusmap-simple.html>`_
+  Check out the `full demonstration application <_static/code/censusmap.html>`_ and play!
 
 
 Introduction
@@ -22,15 +19,14 @@ This tutorial builds a very simple application that uses a single thematic style
 
 For this adventure in map building, we use the following tools, which if you are following along you will want to install now:
 
-* OpenGeo Suite 3 (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
-* Perl (installed by default on Linux, MacOSX, use `ActivePerl`_ for Windows)
+* OpenGeo Suite 4 (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
 
 The basic structure of the application will be
 
 * A spatial table of counties in PostGIS, that will join with
 * An attribute table with many census variables of interest, themed by
 * A thematic style in GeoServer, browsed with
-* A simple pane-based application in GeoExt, allowing the user to choose the census variable of interest.
+* A simple pane-based application in OpenLayers, allowing the user to choose the census variable of interest.
 
 This application exercises all the tiers of the OpenGeo Suite!
 
@@ -219,7 +215,7 @@ For example, this SQL definition will allow us to substitute any column we want 
 
    SELECT 
      census.fips, 
-     couties.geom,
+     counties.geom,
      %column% AS data
    FROM census JOIN counties USING (fips)
 
@@ -280,7 +276,7 @@ Our new parametric SQL view will look like this:
    )
    SELECT 
      census.fips, 
-     couties.geom,
+     counties.geom,
      %column% as data
      (%column% - avg)/stddev AS normalized_data
    FROM stats, 
@@ -538,7 +534,7 @@ Building the App
 Preparing the Metadata
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The first thing we need for our app is a data file that maps the short, meaningless column names in our `census` table to human readable information. Fortunately, the `DataDict.txt`_ file we downloaded earlier has all the information we need. Here's a couple example lines::
+The first thing we need for our app is a data file that maps the short, meaningless column names in our *census* table to human readable information. Fortunately, the `DataDict.txt`_ file we downloaded earlier has all the information we need. Here's a couple example lines::
 
    POP010210 Resident population (April 1 - complete count) 2010                                                      ABS    0      308745538          82   308745538  CENSUS
    AGE135212 Resident population under 5 years, percent, 2012                                                         PCT    1            6.4         0.0        13.3  CENSUS
@@ -565,51 +561,7 @@ Each line has the column name, a human readable description, and some other meta
 | Source           | 163            | 8      |
 +------------------+----------------+--------+
 
-We're going to consume this information in a JavaScript web application, so we want to turn the text file into a JSON file. Here's a little `perl <http://perl.org>`_ script that does that:
-
-.. code-block:: perl
-
-   @cols = (1, 11, 116, 120, 127, 139, 151, 163);
-   @lens = (10, 105, 4, 7, 12, 12, 12, 8);
-   @names = ("name", "desc", "unit", "dec", "total", "min", "max", "source");
-
-   $lineno = 0;
-
-   # json list start
-   print "[";
-
-   while(<>) {
-
-     # increment line number
-     $lineno++;
-
-     # skip first two lines
-     next if $lineno <= 2;
-
-     # comma between each dictionary
-     print ",\n" if $lineno > 3;
-
-     # json dictionary start
-     print "{\n";
-     # read each field
-     for ( $i = 0; $i < 8; $i++ ) {
-       # clip out the field
-       $val = substr($_, $cols[$i]-1, $lens[$i]);
-       # strip white space from ends
-       $val =~ s/^\s*//g;
-       $val =~ s/\s*$//g;
-       # print out json dictionary entry
-       print ",\n" if $i;
-       printf '"%s":"%s"', $names[$i], $val;
-     }
-     # json dictionary end
-     print "\n}";
-   }
-
-   # json list end
-   print "]\n";
-
-Running the script on the `DataDict.txt`_ file creates a JSON data file that we'll call `DataDict.json`_ .
+We're going to consume the first two columns of this information in a JavaScript web application. The text file can easily be read in and split into lines. So with start position and length of Name and Description it will be easy to extract these and to populate a topics dropdown.
 
 
 Framing the Map
@@ -619,174 +571,212 @@ We already saw our map visualized in a bare `OpenLayers`_ map frame in the *Laye
 
 We want an application that provides a user interface component that manipulates the source WMS URL, altering the URL `viewparams <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ parameter.
 
-To build the application with `OpenLayers 3`_ and `Bootstrap`_, continue with the :doc:`Framing the Map with OpenLayers 3 <ol3>` tutorial.
+We'll build the app using `Bootstrap`_ for a straightforward layout with CSS, and `OpenLayers`_ as the map component.
 
-Continue here if you are interested in building the application using `ExtJS`_ for the basic widgets, `GeoExt`_ to integrate the map into the widget library, and `OpenLayers`_ as the map component.
-
-The base HTML page, `censusmap-simple.html`_, just contains script includes bringing in our various javascript libraries:
+The base HTML page, `censusmap.html`_, contains script and stylesheet includes bringing in our various libraries. A custom stylesheet gives us a fullscreen map with a legend overlay. Bootstrap css classes are used to style the navigation bar. Containers for the map and a header navigation bar with the aforementioned topics dropdown are also included, and an image element with the legend image from a WMS *GetLegendGraphic* request is put inside the map container.
 
 .. code-block:: html
 
-   <html>
-     <head>
-       <title>OpenGeo Census Map</title>
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Boundless Census Map</title>
+      <!-- Bootstrap -->
+      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css" type="text/css">
+      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap-theme.min.css" type="text/css">
+      <script src="resources/jquery-1.10.2.min.js"></script>
+      <script src="resources/bootstrap/js/bootstrap.min.js"></script>
+      <!-- OpenLayers -->
+      <link rel="stylesheet" href="resources/ol3/ol.css">
+      <script src="resources/ol3/ol.js"></script>
+      <!-- Our Application -->
+      <style>
+        html, body, #map {
+          height: 100%;
+        }
+        #map {
+          padding-top: 50px;
+        }
+        .legend {
+          position: absolute;
+          z-index: 1;
+          left: 10px;
+          bottom: 10px;
+          opacity: 0.6;
+        }
+      </style>
+    </head>
+    <body>
+      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Boundless Census Map</a>
+        </div>
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+            <select id="topics" class="form-control"></select>
+          </div>
+        </form>
+      </nav>
+      <div id="map">
+        <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
+        <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
+      </div>
+      <script type="text/javascript" src="censusmap.js"></script>
+    </body>
+  </html>
 
-       <!-- ExtJS Scripts and Styles -->
-       <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/3.4.1.1/adapter/ext/ext-base.js"></script>
-       <script type="text/javascript" src="http://cdn.sencha.com/ext/gpl/3.4.1.1/ext-all.js"></script>
-       <link rel="stylesheet" type="text/css" 
-             href="http://cdn.sencha.com/ext/gpl/3.4.1.1/resources/css/ext-all.css" />
-       <link rel="stylesheet" type="text/css" 
-             href="http://cdn.sencha.com/ext/gpl/3.4.1.1/examples/shared/examples.css" />
-       <link rel="stylesheet" id="opengeo-theme" 
-             href="resources/css/xtheme-opengeo.css" />
-       <!-- OpenLayers Script -->
-    
-       <script src="http://www.openlayers.org/api/2.12/OpenLayers.js"></script>
-
-       <!-- GeoExt Script -->
-       <script type="text/javascript" src="http://api.geoext.org/1.1/script/GeoExt.js"></script>
-
-       <!-- Our Application -->
-       <script type="text/javascript" src="censusmap-simple.js"></script>
-
-     </head>
-     <body>
-     </body>
-   </html>
-
-The real code is in the `censusmap-simple.js`_ file. We start by creating an `OpenStreetMap`_ base layer, and adding our parameterized census layer on top as a WMS layer.
-
-.. code-block:: javascript
-
-   // Base map
-   var osmLayer = new OpenLayers.Layer.OSM();
-
-   // Census map layer
-   var wmsLayer = new OpenLayers.Layer.WMS("WMS", 
-     "http://localhost:8080/geoserver/wms", 
-     {
-       format: "image/png8",
-       transparent: true,
-       layers: "opengeo:normalized"
-     }, {
-       opacity: 0.6,
-     }
-   );
-
-   // Map with projection into (required when mixing base map with WMS)
-   olMap = new OpenLayers.Map({
-     projection: "EPSG:900913",
-     units: "m",
-     layers: [wmsLayer, osmLayer]
-   });
-
-Next we read the `DataDict.json`_ file into an `Ext.data.JsonStore` and build a `Ext.form.ComboBox` around that store.
+The real code is in the `censusmap.js`_ file. We start by creating an `OpenStreetMap`_ base layer, and adding our parameterized census layer on top as an image layer with a `WMS Layer source`_.
 
 .. code-block:: javascript
 
-   var columnInfo = new Ext.data.JsonStore({
-     url: "DataDict.json",
-     fields: ["name", "desc", "unit", "dec", "total", "min", "max", "source"]
-   });
-   // Read the JSON file
-   columnInfo.load();
+  // Base map
+  var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
 
-   var censusField = new Ext.form.ComboBox({
-     store: columnInfo,
-     displayField: "desc",
-     mode: "local",
-     width: 400,
-     triggerAction: "all",
-     emptyText:"Choose a column...",
-     listeners: {
-       select: function(combo, rec, idx) {
-         var vp = { viewparams: "column:"+rec.get("name") };
-         wmsLayer.mergeNewParams(vp);
-       }
-     } 
-   });
+  // Census map layer
+  var wmsLayer = new ol.layer.Image({
+    source: new ol.source.ImageWMS({
+      url: 'http://apps.opengeo.org/geoserver/wms',
+      params: {'LAYERS': 'opengeo:normalized'}
+    }),
+    opacity: 0.6
+  });
 
-The combo box will be our drop-down list of available columns. When it is selected (via the "select" event) it will merge the new column name into the WMS layer parameters.
+  // Map object
+  olMap = new ol.Map({
+    target: 'map',
+    renderer: ol.RendererHint.CANVAS,
+    layers: [osmLayer, wmsLayer],
+    view: new ol.View2D({
+      center: [-10764594.0, 4523072.0],
+      zoom: 5
+    })
+  });
 
-Now we wrap the map and drop-down into an application frame.
+We configure an `OpenLayers Map`_, assign the layers, and give it a map view with a center and zoom level. Now the map will load.
 
-.. code-block:: javascript
-
-   // Viewport wraps map panel in full-screen handler
-   var viewPort = new Ext.Viewport({
-      layout: "fit",
-      items: [{
-         xtype: "gx_mappanel",
-         ref: "mappanel",
-         title: "Census Variables by County",
-         tbar: [
-            "Select a column to map: ", 
-            censusField, 
-            "->", 
-            "Below Average",
-            {
-              xtype: "box",
-              html: "<img src='colors.png'/>"
-            },
-            "Above Average"],
-         map: olMap
-      }]
-   });
-
-* The `Ext.Viewport` fills the whole browser window
-* The `gx_mappanel` fills the whole viewport
-* The toolbar contains the drop down, and a very small legend in the form of a color bar
-
-Finally, we center the map and activate the application.
+The *select* element with the id *topics* will be our drop-down list of available columns. We load the `DataDict.txt`_ file, and fill the *select* element with its contents. This is done by adding an *option* child for each line.
 
 .. code-block:: javascript
 
-   olMap.setCenter([-10764594.0, 4523072.0],5);
+  // Load variables into dropdown
+  $.get("../data/DataDict.txt", function(response) {
+    // We start at line 3 - line 1 is column names, line 2 is not a variable
+    $(response.split('\n').splice(2)).each(function(index, line) {
+      $('#topics').append($('<option>')
+        .val(line.substr(0, 10).trim())
+        .html(line.substr(10, 105).trim()));
+    });
+  });
 
-   // Fire off the ExtJS 
-   Ext.onReady(function () {
-     viewPort.show();
-   });
+Finally, we add an *onchange* event handler for the dropdown, which updates the layer with WMS parameters for the selected variable when a new topic/layer is selected.
 
-Look at the the `censusmap-simple.js`_ file to see the whole application in one page.
+.. code-block:: javascript
 
-When we open the `censusmap-simple.html`_ file, we see the application in action.
+  // Add behaviour to dropdown
+  $('#topics').change(function() {
+    wmsLayer.getSource().updateParams({
+      'viewparams': 'column:' + $('#topics>option:selected').val()
+    });
+  });
+
+Look at the the `censusmap.js`_ file to see the whole application in one page.
+
+When we open the `censusmap.html`_ file, we see the application in action.
 
 .. image:: ./img/census_hispanic.png 
    :width: 95%
 
+
+Bonus Task
+~~~~~~~~~~
+
+With some additional markup and css plus a few more lines of JavaScript code, we can even handle map clicks: When clicking on the map, we send a WMS GetFeatureInfo request, and display the result in a popup.
+
+Most of the following markup, css and JavaScript code comes directly from the `OpenLayers Popup Example`_. The only difference is that we use ``ol.Map#getFeatureInfo()`` instead of just displaying the clicked coordinates.
+
+First we need some markup for the popup, which we add to our HTML page, inside the map div. With popup added, the map div looks like this:
+
+.. code-block:: html
+
+  <div id="map">
+    <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
+    <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
+    <div id="popup" data-html="true" data-placement="auto" data-title="&times;"></div>
+  </div>
+
+To style the popup, we need some additional css in the existing ``<style>`` block on our HTML page:
+
+.. code-block:: css
+
+  .popover {
+    max-width: 440px;
+  }
+  .popover-title {
+    float: right;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .popover-content iframe {
+    width: 400px;
+    height: 120px;
+    border: 0;
+  }
+
+Finally, we need some JavaScript to add behaviour to the popup's close button, to create an ``ol.Overlay`` so the popup is anchored to the map, and to trigger a GetFeatureInfo request when the map is clicked:
+
+.. code-block:: javascript
+
+  // Create an ol.Overlay with a popup anchored to the map
+  var popup = new ol.Overlay({
+    element: $('#popup')
+  });
+  olMap.addOverlay(popup);
+
+  // Handle map clicks to send a GetFeatureInfo request and open the popup
+  olMap.on('singleclick', function(evt) {
+    olMap.getFeatureInfo({
+      pixel: evt.getPixel(),
+      success: function (info) {
+        popup.setPosition(evt.getCoordinate());
+        $('#popup')
+          .popover({content: info.join('')})
+          .popover('show');
+        // Close popup when user clicks on the 'x'
+        $('.popover-title').click(function() {
+          $('#popup').popover('hide');
+        });
+      }
+    });
+  });
+
 Conclusion
 ----------
 
-We've built an application for browsing 51 different census variables, using scarcely more than 51 lines of code, and demonstrating:
+We've built an application for browsing 51 different census variables, using less than 51 lines of JavaScript application code, and demonstrating:
 
-* SQL views provide a powerful means of manipulating data on the fly
-* Standard deviations make for attractive visualization breaks
-* Professionally generated color palettes are better than programmer generated ones
-* Simple GeoExt applications are easy to build
-* Census data can be really, really interesting! 
-
-
-
+* SQL views provide a powerful means of manipulating data on the fly.
+* Standard deviations make for attractive visualization breaks.
+* Professionally generated color palettes are better than programmer generated ones.
+* Simple OpenLayers applications are easy to build.
+* Census data can be really, really interesting!
+* The applicatin is easy to extend. With 20 more lines of code we can handle clicks and display feature information.
 
 
-.. _GeoExt: http://www.geoext.org/
-.. _ExtJS: http://www.sencha.com/products/extjs
-.. _OpenLayers WMS Layer: http://dev.openlayers.org/docs/files/OpenLayers/Layer/WMS-js.html
-.. _OpenLayers Map: http://dev.openlayers.org/docs/files/OpenLayers/Map-js.html
+
+
+
+.. _WMS Layer source: http://ol3js.org/en/master/apidoc/ol.source.ImageWMS.html
+.. _OpenLayers Map: http://ol3js.org/en/master/apidoc/ol.Map.html
+.. _OpenLayers Popup Example: http://ol3js.org/en/master/examples/popup.html
 .. _OpenStreetMap: http://openstreetmap.org
 .. _Suite installation instructions: http://suite.opengeo.org/opengeo-docs/installation/index.html
-.. _OpenLayers: http://openlayers.org
-.. _OpenLayers 3: http://ol3js.org/
-.. _Bootstrap: http://getbootstrap.com/
-.. _censusmap-simple.js: _static/code/censusmap-simple.js
-.. _censusmap-simple.html: _static/code/censusmap-simple.html
-.. _DataDict.json: _static/code/DataDict.json
-.. _DataDict.txt: _static/code/DataDict.txt
-.. _DataSet.txt: _static/code/DataSet.txt
-.. _stddev.xml: _static/code/stddev.xml
+.. _OpenLayers: http://ol3js.org
+.. _Bootstrap: http://getbootstrap.com
+.. _censusmap.js: _static/code/censusmap.js
+.. _censusmap.html: _static/code/censusmap.html
+.. _DataDict.txt: _static/data/DataDict.txt
+.. _DataSet.txt: _static/data/DataSet.txt
+.. _stddev.xml: _static/data/stddev.xml
 .. _Create a spatial database: http://suite.opengeo.org/opengeo-docs/dataadmin/pgGettingStarted/createdb.html
-.. _ActivePerl: http://www.activestate.com/activeperl
-
 
