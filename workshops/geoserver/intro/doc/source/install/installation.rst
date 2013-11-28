@@ -1,59 +1,86 @@
 .. _geoserver.install.installing:
 
-Installing the OpenGeo Suite
-============================
 
-In this section you will install the OpenGeo Suite on your system. This will provide everything necessary to get started with GeoServer.
+
+Installing OpenGeo Suite
+========================
+
+In this section we will install OpenGeo Suite on your workshop machine.
 
 GeoServer, being a Java servlet, typically requires a Java Runtime Environment (JRE) as well as a servlet container in order to function. Both a JRE and a servlet container are included with the OpenGeo Suite, so separate installation is not needed here.
 
-The OpenGeo Suite executable file is located on your desktop in the :file:`software` folder. Double click to start the installation process.
+Installation
+------------
 
-#. At the **Welcome** screen, click :guilabel:`Next`.
+The OpenGeo Suite executable file is located in the workshop package in the :file:`software` folder.
 
-   .. figure:: img/welcome.png
+.. note:: During this installation, please keep all of the default settings.
 
-      Welcome screen
+#. **Double-click** the file :file:`OpenGeoSuite-<version>.exe` to begin the installation.
 
-#. Read the **License Agreement** then click :guilabel:`I Agree`.
+   .. note:: On some systems, you might see a Windows Security warning. We promise the software is safe, so click :guilabel:`Run` to launch the installer.
 
-   .. figure:: img/license.png
+#. At the ``Welcome`` screen, click :guilabel:`Next`.
+
+   .. figure:: img/installation_welcome.png
+
+      OpenGeo Suite installation Welcome screen
+
+#. Read the *License Agreement*, then click :guilabel:`I Agree`.
+
+   .. figure:: img/installation_license.png
 
       License Agreement
 
-#. Select the **Destination folder** where you would like to install the OpenGeo Suite, and click :guilabel:`Next`.
+#. Select the *Destination Folder* where you would like to install OpenGeo Suite, and click :guilabel:`Next`.
 
-   .. figure:: img/directory.png
+   .. figure:: img/installation_directory.png
 
       Destination folder for the installation
 
-#. Select the name and location of the **Start Menu folder** to be created, and click :guilabel:`Next`.
+#. Select the name and location of the *Start Menu Folder* that will be created for the Suite components, and click :guilabel:`Next`.
 
-   .. figure:: img/startmenu.png
+   .. figure:: img/installation_startmenu.png
 
-      Start Menu folder to be created
+      Start Menu Folder to be created for the installation
 
-#. Select the **components** you wish to install, and click :guilabel:`Next`.
+#. Choose the components you wish to install.
 
-   .. figure:: img/components.png
+   .. figure:: img/installation_components.png
 
       Component selection
 
-#. Click :guilabel:`Install` to perform the installation.
+#. When you are ready, click :guilabel:`Install` to start the installation.
 
-   .. figure:: img/ready.png
+   .. figure:: img/installation_ready.png
 
       Ready to install
 
 #. Please wait while the installation proceeds.
 
-   .. figure:: img/install.png
+   .. figure:: img/installation_install.png
 
-      Installation
+      Installation progress
 
-#. After installation, click :guilabel:`Finish` to launch the OpenGeo Suite Dashboard, from which you can start the OpenGeo Suite.
+#. After installation, click :guilabel:`Finish`.
 
-   .. figure:: img/finish.png
+   .. figure:: img/installation_finish.png
 
-      The OpenGeo Suite successfully installed
+      OpenGeo Suite has been installed
+
+Starting and stopping services
+------------------------------
+
+OpenGeo Suite has been installed and is now running by default. There are two system services related to OpenGeo Suite:
+
+* **OpenGeo Jetty** - Controls GeoServer and other web applications
+* **OpenGeo Postgres** - Controls PostgreSQL/PostGIS database
+
+You can start and stop these services from the Start Menu by going to :menuselection:`OpenGeo Suite --> GeoServer/PostGIS --> Start/Stop`
+
+.. figure:: img/installation_startstop.png
+
+   Start Menu entries for starting and stopping OpenGeo Suite services
+
+You can also start and stop these services through the standard Windows Services dialog.
 
