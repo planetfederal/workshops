@@ -202,7 +202,7 @@ Drawing the Map
 
 Our challenge now is to set up a rendering system that can easily render any of our 51 columns of census data as a map.
 
-We could define **51 layers in GeoServer**, and set up 51 separate styles to provide attractive renderings of each variable. But that would be a lot of work, and we're ***much too lazy** to do that. What we want is a **single layer** that can be re-used to render any column of interest. 
+We could define **51 layers in GeoServer**, and set up 51 separate styles to provide attractive renderings of each variable. But that would be a lot of work, and we're **much too lazy** to do that. What we want is a **single layer** that can be re-used to render any column of interest. 
 
 One Layer to Rule them All
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -687,8 +687,8 @@ When we open the `censusmap.html`_ file, we see the application in action.
    :width: 95%
 
 
-Bonus Task
-~~~~~~~~~~
+Clickability
+~~~~~~~~~~~~
 
 With some additional markup and css plus a few more lines of JavaScript code, we can even handle map clicks: When clicking on the map, we send a WMS GetFeatureInfo request, and display the result in a popup.
 
@@ -760,7 +760,7 @@ We've built an application for browsing 51 different census variables, using les
 * Professionally generated color palettes are better than programmer generated ones.
 * Simple OpenLayers applications are easy to build.
 * Census data can be really, really interesting!
-* The applicatin is easy to extend. With 20 more lines of code we can handle clicks and display feature information.
+* The application is easy to extend. With 20 more lines of code we can handle clicks and display feature information.
 
 
 
