@@ -3,30 +3,30 @@
 For more information
 ====================
 
-For more information on OpenGeo and the software communities we support, please see the following links.
+For more information on Boundless and the software communities we support, please see the following links.
 
 Projects
 --------
 
 * `PostGIS <http://postgis.net>`_
 
-  * http://opengeo.org/technology/postgis/
+  * http://boundlessgeo.com/solutions/solutions-software/postgis/
 
 * `GeoServer <http://geoserver.org/>`_
 
-  * http://opengeo.org/technology/geoserver/
+  * http://boundlessgeo.com/solutions/solutions-software/geoserver/
 
 * `GeoWebCache <http://geowebcache.org/>`_
 
-  * http://opengeo.org/technology/geowebcache/
+  * http://boundlessgeo.com/solutions/solutions-software/geowebcache/
 
 * `OpenLayers <http://openlayers.org/>`_
 
-  * http://opengeo.org/technology/openlayers/
+  * http://boundlessgeo.com/solutions/solutions-software/openlayers/
 
 * `GeoExt <http://geoext.org/>`_
 
-  * http://opengeo.org/technology/geoext/
+  * http://boundlessgeo.com/solutions/solutions-software/geoext/
 
 
 User mailing lists
@@ -47,10 +47,10 @@ Developer mailing lists
 * OpenLayers: http://lists.osgeo.org/mailman/listinfo/openlayers-dev/
 * GeoExt: http://www.geoext.org/cgi-bin/mailman/listinfo/dev/
 
-OpenGeo
--------
+Boundless
+---------
 
 * We build the best open source geospatial software designed for enterprise deployments.
-* Visit us at http://opengeo.org/
-* More about OpenGeo Suite at http://opengeo.org/products/suite/
-* More education materials at http://workshops.opengeo.org/
+* Visit us at http://boundlessgeo.com/
+* More about OpenGeo Suite at http://boundlessgeo.com/solutions/opengeo-suite/
+* More education materials at http://workshops.boundlessgeo.com/
