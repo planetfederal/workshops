@@ -15,7 +15,7 @@ This application displays a web-based dynamic heat map, based on querying a data
   .. |heatmap| image:: images/heatmap_demo.png
                 :class: inline-img
 
-`Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap-simple.html>`_)
+`Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap.html>`_)
   |censusmap|
 This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
 
