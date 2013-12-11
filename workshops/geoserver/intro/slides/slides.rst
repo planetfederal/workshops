@@ -5,12 +5,8 @@ Intro to GeoServer
 
 .. image:: ../doc/source/geoserver.png
 
-OpenGeo
--------
-
-.. date:: date
-
-May 21, 2013
+Boundless
+---------
 
 Presenter notes
 ---------------
@@ -67,10 +63,10 @@ Section 1: Installing
 .. image:: ../doc/source/geoserver.png
    :width: 50%
 
-...is a core component of...
+...is a core component of **OpenGeo Suite**.
 
-.. image:: ../doc/source/install/img/suitelogo.png
-   :width: 50%
+.. todo:: ../doc/source/install/img/suitelogo.png
+
 
 Presenter notes
 ---------------
@@ -103,7 +99,7 @@ GeoExplorer is based on the GeoExt framework and contains code from OpenLayers.
 Installation
 ============
 
-.. image:: ../doc/source/install/img/welcome.png
+.. image:: ../doc/source/install/img/installation_welcome.png
 
 Presenter notes
 ---------------
@@ -119,7 +115,7 @@ There are many cases where you might want to install the components separately; 
 Installation
 ============
 
-.. image:: ../doc/source/install/img/install.png
+.. image:: ../doc/source/install/img/installation_install.png
 
 Presenter notes
 ---------------
@@ -144,28 +140,6 @@ The OpenGeo Suite comes with a Dashboard. The Dashboard is launched (semi-)autom
 The Dashboard provides a single interface that allows you to access all components of the OpenGeo Suite, including: links to common tasks, configuration, management, and application logs. The dashboard also provides links to a library of documentation - user guides/manuals from each of the  contributing projects, as well as some OpenGeo-Specific templates, recipies and suggestions for Getting-Started.
 
 The Dashboard runs on the host machine as both a standalone application and in a browser. While both incarnations boast the same set of features, the desktop version might feel a bit more capable, since it can launch external system processes (Start/Shutdown) and applications (PGADMIN). [Note greyed out options].
-
---------------------------------------------------
-
-Preferences
-===========
-
-.. image:: ../doc/source/install/img/dashboard_prefs.png
-
-Presenter notes
----------------
-
-You can configure the OpenGeo Suite through the Preferences page.
-
-Warning: You must stop and start the OpenGeo Suite for any changes to take effect.
-
-The OpenGeo Suite runs a web server on your host machine that responds on a specific port (the default is 8080). You can alter this by changing the Port value. Click Save when done. Restart the OpenGeo Suite for the change to take effect.
-
-GeoServer data and configuration is stored in what is known as the data directory. You can point the OpenGeo Suite to a different GeoServer data directory if you'd like by changing the value of Data Directory. Click Save when done. Restart the OpenGeo Suite for the change to take effect.
-
-Most GeoServer administrative tasks require authentication. The default username and password for the GeoServer that is contained in the OpenGeo Suite is admin / geoserver. To change these credentials, enter new values in the Username and Password fields. You will need to type the password again in the Confirm field. Click Save when done. Restart the OpenGeo Suite for the change to take effect.
-
-The Dashboard is also available in your browser at http://localhost:8080/dashboard when the OpenGeo Suite is running. Preferences and start/stop functionality are disabled in the web-based Dashboard, but all other functionality is available.
 
 --------------------------------------------------
 
@@ -1694,9 +1668,12 @@ Finally, select None under the Base Maps list. The map should now look identical
 Editing an existing style
 =========================
 
-.. image:: ../doc/source/styling/img/gx_loginbutton.png
+Click to log in, and then enter credentials:
 
-.. image:: ../doc/source/styling/img/gx_logindialog.png
+.. image:: ../doc/source/styling/img/gx_loginbutton.png
+   :width: 40%
+
+.. todo:: ../doc/source/styling/img/gx_logindialog.png
 
 Presenter notes
 ---------------
@@ -1904,6 +1881,16 @@ Presenter notes
 ---------------
 
 The legend is generated from the <Title> tags inside the SLD that the layer is using. You can verify this by opening up the cities.sld in a text editor, or from within GeoServer. In this case, the rules in the SLD are based on colors used to better distinguish countries on the map.
+
+--------------------------------------------------
+
+Displaying a legend
+===================
+
+.. image:: ../doc/source/googleearth/img/legend_sldtitle.png
+
+Presenter notes
+---------------
 
 --------------------------------------------------
 
@@ -2119,15 +2106,16 @@ Join a live discussion at #geoserver, on irc.freenode.net.
 For more information
 ====================
 
-.. image:: ../doc/source/moreinfo/img/opengeo.png
+.. image:: ../doc/source/moreinfo/img/boundless.png
+   :width: 50%
 
-http://opengeo.org
-------------------
+http://boundlessgeo.com
+-----------------------
 
 Presenter notes
 ---------------
 
-OpenGeo helps to develop GeoServer and funds development through its OpenGeo Suite. Learn more at http://opengeo.org.
+Boundless helps to develop GeoServer and funds development through its OpenGeo Suite. Learn more at http://boundlessgeo.com.
 
 --------------------------------------------------
 
