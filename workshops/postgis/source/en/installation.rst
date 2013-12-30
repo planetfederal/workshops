@@ -18,40 +18,48 @@ We will be using OpenGeo Suite as our software package, as it includes PostGIS/P
 #. Enjoy the warm welcome, courtesy of Boundless, then click **Next**.
 
    .. image:: ./screenshots/install_01.png
+     :class: inline
 
 
 #. OpenGeo Suite is licensed under the GNU GPL, which is reproduced on the licensing page.  Click **I Agree**.
 
    .. image:: ./screenshots/install_02.png
+     :class: inline
 
 
 #. The directory where OpenGeo Suite will reside is the usual ``C:\Program Files\`` location. The data will be placed in your home directory, under the :file:`.opengeo` directory.  Click **Next**.
 
    .. image:: ./screenshots/install_03.png
+     :class: inline
 
 
 #. The installer will create a number of shortcuts in the Boundless folder in the Start Menu. Click **Next**.
 
    .. image:: ./screenshots/install_04.png
+     :class: inline
 
 
-#. All the components of the Suite are mandatory at this point. Click **Next**.
+#. Make sure the **PostGIS** component and the **Client Tools** components are selected. Click **Next**.
 
    .. image:: ./screenshots/install_05.png
+     :class: inline
 
 
 #. Ready for install!  Click **Install**.
 
    .. image:: ./screenshots/install_06.png
+     :class: inline
 
 
 #. The installation process will run for a couple of minutes.
 
    .. image:: ./screenshots/install_07.png
+     :class: inline
 
 
 #. When the installation is complete, launch the Dashboard to start the next section of the workshop! Click **Finish**.
 
    .. image:: ./screenshots/install_08.png
+     :class: inline
 
 

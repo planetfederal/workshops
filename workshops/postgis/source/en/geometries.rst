@@ -19,9 +19,8 @@ In the previous :ref:`section <loading_data>`, we loaded a variety of data.  Bef
     ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
     ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
     
-  SELECT Populate_Geometry_Columns();
-  
   SELECT name, ST_AsText(geom) FROM geometries;
+
 
 .. image:: ./geometries/start01.png
 
@@ -33,12 +32,10 @@ Metadata Tables
 In conformance with the Simple Features for SQL (:term:`SFSQL`) specification, PostGIS provides two tables to track and report on the geometry types available in a given database. 
 
 * The first table, ``spatial_ref_sys``, defines all the spatial reference systems known to the database and will be described in greater detail later.  
-* The second table, ``geometry_columns``, provides a listing of all "features" (defined as an object with geometric attributes), and the basic details of those features.  
+* The second table (actually, a view), ``geometry_columns``, provides a listing of all "features" (defined as an object with geometric attributes), and the basic details of those features.  
 
 .. image:: ./geometries/table01.png
   :class: inline
-
-In our introductory example, the :command:`Populate_Geometry_Columns()` function finds all the columns in the database that contain geometry and updates the ``geometry_columns`` table to include references to them.  
 
 Lets have a look at the ``geometry_columns`` table in our database.  Paste this command in the Query Tool as before:
 
@@ -368,8 +365,6 @@ It's very common to use the casting notation when working with :term:`WKT`, as w
 
 Function List
 -------------
-
-`Populate_Geometry_Columns <http://postgis.net/docs/manual-2.0/Populate_Geometry_Columns.html>`_: Ensures geometry columns have appropriate spatial constraints and exist in the geometry_columns table..
 
 `ST_Area <http://postgis.net/docs/manual-2.0/ST_Area.html>`_: Returns the area of the surface if it is a polygon or multi-polygon. For "geometry" type area is in SRID units. For "geography" area is in square meters.
 

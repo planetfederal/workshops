@@ -8,7 +8,7 @@ Using the ``nyc_census_blocks`` table, answer the following questions (don't pea
 Here is some helpful information to get started.  Recall from the :ref:`About Our Data <about_data>` section our ``nyc_census_blocks`` table definition.
 
 .. list-table::
-   :widths: 20 80
+  :widths: 20 80
 
   * - **blkid**
     - A 15-digit code that uniquely identifies every census **block**. Eg: 360050001009000

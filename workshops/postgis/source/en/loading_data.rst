@@ -8,6 +8,7 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 #. First, return to the Dashboard, and click on the **Import shapefiles** link in the PostGIS section. The GUI shapefile importer pgShapeLoader will launch.
 
    .. image:: ./screenshots/pgshapeloader_01.png
+     :class: inline
 
 #. Fill in the connection details for the *PostGIS Connection* section and click on the **OK** button. The loader will test the connection and report back in the log window.
 
@@ -18,21 +19,20 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
      * - **Password**
        - ``postgres``
      * - **Server Host**
-       - ``localhost`` ``54321``
+       - ``localhost`` ``5432``
      * - **Database**
        - ``nyc``
 
    .. image:: ./screenshots/pgshapeloader_02.png
+     :class: inline
 
-   .. note:: 
-
-     Setting the port number to **54321** is very important! The OpenGeo PostGIS runs on port 54321, not the default PostgreSQL port of 5432.
 
 #. Next, open the *Add File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
 
 #. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shape file, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.)
 
    .. image:: ./screenshots/pgshapeloader_01a.png
+     :class: inline
  
 #. Fill in the details for the *Configuration* section.
 
@@ -50,6 +50,7 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 #. Click the **Options** button to review the loading options. The loader will use the fast "COPY" mode and create a spatial index by default after loading the data.
 
    .. image:: ./screenshots/pgshapeloader_03.png
+     :class: inline
 
 #. Finally, click the **Import** button and watch the import process. It may take a few minutes to load, but this is the largest file in our test set.
 
@@ -101,7 +102,7 @@ or directly inside PostGIS with a query to the ``spatial_ref_sys`` table.
   
 .. note::
 
-  The PostGIS ``spatial_ref_sys`` table is an OGC-standard table that defines all the spatial reference systems known to the database. The data shipped with PostGIS, lists over 3000 known spatial reference systems and details needed to transform/re-project between them.  
+  The PostGIS ``spatial_ref_sys`` table is an :term:`OGC`-standard table that defines all the spatial reference systems known to the database. The data shipped with PostGIS, lists over 3000 known spatial reference systems and details needed to transform/re-project between them.  
    
 In both cases, you see a textual representation of the **26918** spatial reference system (pretty-printed here for clarity):
 
@@ -137,26 +138,12 @@ The easy answer is to use a computer.  Plug the contents of the ``.prj`` file in
 Data you receive from local agencies -- such as New York City -- will usually be in a local projection noted by "state plane" or "UTM".  Our projection is "Universal Transverse Mercator (UTM) Zone 18 North" or EPSG:26918.  
 
 
-Things to Try: Spatially Enable an Existing Database
-----------------------------------------------------
-
-You have already seen how to create a database using the ``postgis_template`` in pgAdmin. However when installing from source or adding PostGIS functionality to an existing database, it is not always appropriate to create a fresh database from the PostGIS template.
-
-For PostGIS 2.0 and up (and OpenGeo Suite 3.1 and up) you can spatially enable your database with one command:
-
-.. code-block:: sql
-
-  CREATE EXTENSION postgis;
-  
-That's it! You're ready to start!
-
-    
-Things to Try: View data using uDig
+Things to Try: View data using QGIS
 -----------------------------------
 
-`uDig <http://udig.refractions.org>`_, (User-friendly Desktop Internet GIS), is a desktop GIS viewer/editor for quickly looking at data. You can view a number of data formats including flat shapefiles and a PostGIS database. Its graphical interface allows for easy exploration of your data, as well as simple testing and fast styling. 
+`QGIS <http://qgis.org>`_, is a desktop GIS viewer/editor for quickly looking at data. You can view a number of data formats including flat shapefiles and a PostGIS database. Its graphical interface allows for easy exploration of your data, as well as simple testing and fast styling. 
 
-Try using this software to connect your PostGIS database.  The application can be downloaded from http://udig.refractions.net/download
+Try using this software to connect your PostGIS database.  The application can be downloaded from http://qgis.org
 
 .. rubric:: Footnotes
 

@@ -37,13 +37,10 @@ For example, if the US Park Service wanted to enforce a marine traffic zone arou
 
   -- Make a new table with a Liberty Island 500m buffer zone
   CREATE TABLE liberty_island_zone AS
-  SELECT ST_Buffer(geom,500) AS geom
+  SELECT ST_Buffer(geom,500)::geometry(Polygon,26918) AS geom
   FROM nyc_census_blocks
   WHERE blkid = '360610001009000';
 
-  -- Update the geometry_columns table
-  SELECT Populate_Geometry_Columns(); 
-  
 .. image:: ./geometry_returning/liberty_positive.jpg
 
 The :command:`ST_Buffer` function also accepts negative distances and builds inscribed polygons within polygonal inputs. For lines and points you will just get an empty return.
@@ -115,13 +112,10 @@ So, we can create a county map by merging all geometries that share the same fir
   -- Create a nyc_census_counties table by merging census blocks
   CREATE TABLE nyc_census_counties AS
   SELECT 
-    ST_Union(geom) AS geom, 
+    ST_Union(geom)::Geometry(MultiPolygon,26918) AS geom, 
     SubStr(blkid,1,5) AS countyid
   FROM nyc_census_blocks
   GROUP BY countyid;
-  
-  -- Update the geometry_columns table
-  SELECT Populate_Geometry_Columns();
   
 .. image:: ./geometry_returning/union_counties.png
 

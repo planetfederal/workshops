@@ -57,9 +57,7 @@ Create the new table using the :command:`ST_Union` aggregate:
    -- Index the tractid
    CREATE INDEX nyc_census_tract_geoms_tractid_idx 
      ON nyc_census_tract_geoms (tractid);
-     
-   -- Update the geometry_columns table
-   SELECT Populate_Geometry_Columns();
+
 
 Join the Attributes to the Spatial Data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -81,8 +79,6 @@ Join the table of tract geometries to the table of tract attributes with a stand
   CREATE INDEX nyc_census_tract_gidx 
     ON nyc_census_tracts USING GIST (geom);
     
-  -- Update the geometry_columns table
-  SELECT Populate_Geometry_Columns();
 
 .. _interestingquestion:
 

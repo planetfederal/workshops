@@ -30,8 +30,6 @@ These polygons are loaded using the following commands.
     (5, 'Polygon 5', 'POLYGON((-2 -1.732,2 -1.732,2 1.732, 
         -2 1.732,-2 -1.732))');
         
-   SELECT Populate_Geometry_Columns();
-
 .. image:: ./equality/start13.png
 
 Exactly Equal
