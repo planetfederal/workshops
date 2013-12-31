@@ -73,7 +73,7 @@ Links to have on hand
 
 * PostGIS - http://postgis.net/ 
 
-  - Docs - http://postgis.net/docs/manual-2.0/
+  - Docs - http://postgis.net/docs/manual-2.1/
 
 * PostgreSQL - http://www.postgresql.org/ 
 
@@ -82,13 +82,13 @@ Links to have on hand
   - JDBC Driver - http://jdbc.postgresql.org/
   - .Net Driver - http://npgsql.projects.postgresql.org/
   - Python Driver - http://www.pygresql.org/
-  - C/C++ Driver - http://www.postgresql.org/docs/8.4/static/libpq.html
+  - C/C++ Driver - http://www.postgresql.org/docs/9.1/static/libpq.html
 
 * PgAdmin III - http://www.pgadmin.org/ 
 
 * Open Source Desktop Clients
 
-  - uDig - http://udig.refractions.net/
   - QGIS - http://qgis.org/
   - OpenJUMP - http://openjump.org/
+  - uDig - http://udig.refractions.net/
 

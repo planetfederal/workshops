@@ -22,6 +22,7 @@ A common need when composing a spatial query is to replace a polygon feature wit
 * :command:`ST_PointOnSurface(geometry)` returns a point that is guaranteed to be inside the input argument. It is substantially more computationally expensive than the centroid operation.
  
 .. image:: ./geometry_returning/centroid.jpg
+  :class: inline
 
 
 ST_Buffer
@@ -30,6 +31,7 @@ ST_Buffer
 The buffering operation is common in GIS workflows, and is also available in PostGIS. :command:`ST_Buffer(geometry,distance)` takes in a buffer distance and geometry type and outputs a polygon with a boundary the buffer distance away from the input geometry. 
 
 .. image:: ./geometry_returning/st_buffer.png
+  :class: inline
 
 For example, if the US Park Service wanted to enforce a marine traffic zone around Liberty Island, they might build a 500 meter buffer polygon around the island. Liberty Island is a single census block in our ``nyc_census_blocks`` table, so we can easily extract and buffer it.
 
@@ -42,10 +44,12 @@ For example, if the US Park Service wanted to enforce a marine traffic zone arou
   WHERE blkid = '360610001009000';
 
 .. image:: ./geometry_returning/liberty_positive.jpg
+  :class: inline
 
 The :command:`ST_Buffer` function also accepts negative distances and builds inscribed polygons within polygonal inputs. For lines and points you will just get an empty return.
 
 .. image:: ./geometry_returning/liberty_negative.jpg
+  :class: inline
 
 
 ST_Intersection
@@ -66,6 +70,7 @@ The :command:`ST_Intersection(geometry A, geometry B)` function returns the spat
   ));
 
 .. image:: ./geometry_returning/intersection.jpg
+  :class: inline
 
 
 
@@ -87,6 +92,7 @@ In the previous example we intersected geometries, creating a new geometry that 
     ));
   
   .. image:: ./geometry_returning/union.jpg
+    :class: inline
    
 
 * :command:`ST_Union([geometry])`: An aggregate version that takes in a set of geometries and returns the merged geometry for the entire group. The aggregate ST_Union can be used with the ``GROUP BY`` SQL statement to create carefully merged subsets of basic geometries. It is very powerful,
@@ -118,6 +124,7 @@ So, we can create a county map by merging all geometries that share the same fir
   GROUP BY countyid;
   
 .. image:: ./geometry_returning/union_counties.png
+  :class: inline
 
 An area test can confirm that our union operation did not lose any geometry. First, we calculate the area of each individual census block, and sum those areas grouping by census county id.
 
@@ -183,13 +190,13 @@ However, this is only because the boundaries of the census counties are so long 
 Function List
 -------------
 
-`ST_AsText(text) <http://postgis.net/docs/manual-2.0/ST_AsText.html>`_: Returns the Well-Known Text (WKT) representation of the geometry/geography without SRID metadata.
+`ST_AsText(text) <http://postgis.net/docs/manual-2.1/ST_AsText.html>`_: Returns the Well-Known Text (WKT) representation of the geometry/geography without SRID metadata.
 
-`ST_Buffer(geometry, distance) <http://postgis.net/docs/manual-2.0/ST_Buffer.html>`_: For geometry: Returns a geometry that represents all points whose distance from this Geometry is less than or equal to distance. Calculations are in the Spatial Reference System of this Geometry. For geography: Uses a planar transform wrapper. 
+`ST_Buffer(geometry, distance) <http://postgis.net/docs/manual-2.1/ST_Buffer.html>`_: For geometry: Returns a geometry that represents all points whose distance from this Geometry is less than or equal to distance. Calculations are in the Spatial Reference System of this Geometry. For geography: Uses a planar transform wrapper. 
 
-`ST_Intersection(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Intersection.html>`_: Returns a geometry that represents the shared portion of geomA and geomB. The geography implementation does a transform to geometry to do the intersection and then transform back to WGS84.
+`ST_Intersection(geometry A, geometry B) <http://postgis.net/docs/manual-2.1/ST_Intersection.html>`_: Returns a geometry that represents the shared portion of geomA and geomB. The geography implementation does a transform to geometry to do the intersection and then transform back to WGS84.
 
-`ST_Union() <http://postgis.net/docs/manual-2.0/ST_Union.html>`_: Returns a geometry that represents the point set union of the Geometries.
+`ST_Union() <http://postgis.net/docs/manual-2.1/ST_Union.html>`_: Returns a geometry that represents the point set union of the Geometries.
 
 `substring(string [from int] [for int]) <http://www.postgresql.org/docs/current/static/functions-string.html>`_: PostgreSQL string function to extract substring matching SQL regular expression.
 

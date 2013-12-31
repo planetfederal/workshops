@@ -102,7 +102,7 @@ We can use the :command:`ST_IsValid(geometry)` function to test our tables too:
 Repairing Invalidity
 --------------------
 
-First the bad news: there is no guaranteed way to fix invalid geometries. The worst case scenario is identifying them with the :command:`ST_IsValid(geometry)` function, moving them to a side table, exporting that table, and repairing them externally.
+First the bad news: there is no 100% guaranteed way to fix invalid geometries. The worst case scenario is identifying them with the :command:`ST_IsValid(geometry)` function, moving them to a side table, exporting that table, and repairing them externally.
 
 Here's an example of SQL to move invalid geometries out of the main table into a side table suitable for dumping to an external cleaning process.
 
@@ -116,12 +116,39 @@ Here's an example of SQL to move invalid geometries out of the main table into a
   -- Remove them from the main table
   DELETE FROM nyc_neighborhoods
   WHERE NOT ST_IsValid(geom);
-  
+
 A good tool for visually repairing invalid geometry is OpenJump (http://openjump.org) which includes a validation routine under **Tools->QA->Validate Selected Layers**.
 
-Now the good news: a large proportion of invalidities **can be fixed inside the database** using the :command:`ST_Buffer` function.
+Now the good news: a large proportion of invalidities **can be fixed inside the database** using either:
 
-The buffer trick takes advantage of the way buffers are built: a buffered geometry is a brand new geometry, constructed by offsetting lines from the original geometry. If you offset the original lines by **nothing** (zero) then the new geometry will be structurally identical to the original one, but because it is built using the :term:`OGC` topology rules, it will be valid.
+* the :command:`ST_MakeValid` function or,
+* the :command:`ST_Buffer` function.
+
+ST_MakeValid
+~~~~~~~~~~~~
+
+:command:`ST_MakeValid` attempts to repair invalidities without only minimal alterations to the input geometries. No vertices are dropped or moved, the structure of the object is simply re-arranged. This is a good thing for clean, but invalid data, and a bad thing for messy and invalid data. 
+
+.. code-block:: sql
+
+  -- Fix the invalid figure-8 polygon
+  SELECT ST_AsText(ST_MakeValid(
+           'POLYGON((0 0, 0 1, 1 1, 2 1, 2 2, 1 2, 1 1, 1 0, 0 0))'
+         ));
+         
+::
+
+  MULTIPOLYGON(
+    ((0 0,0 1,1 1,1 0,0 0)),
+    ((1 1,1 2,2 2,2 1,1 1))
+  )
+
+:command:`ST_MakeValid` successfully converts the figure-8 into a multi-polygon that represents the same area.
+
+ST_Buffer
+~~~~~~~~~
+
+Cleaning using the buffer trick takes advantage of the way buffers are built: a buffered geometry is a brand new geometry, constructed by offsetting lines from the original geometry. If you offset the original lines by **nothing** (zero) then the new geometry will be structurally identical to the original one, but because it is built using the :term:`OGC` topology rules, it will be valid.
 
 For example, here's a classic invalidity -- the "banana polygon" -- a single ring that encloses an area but bends around to touch itself, leaving a "hole" which is not actually a hole.
 
@@ -149,5 +176,5 @@ Running the zero-offset buffer on the polygon returns a valid :term:`OGC` polygo
 
 .. note::
 
-  The "banana polygon" (or "inverted shell") is a case where the :term:`OGC` topology model for valid geometry and the model used internally by ESRI differ. The ESRI model considers rings that touch to be invalid, and prefers the banana form for this kind of shape. The OGC model is the reverse. 
+  The "banana polygon" (or "inverted shell") is a case where the :term:`OGC` topology model for valid geometry and the model used internally by ESRI differ. The ESRI model considers rings that touch to be invalid, and prefers the banana form for this kind of shape. The OGC model is the reverse. Neither is "correct", they are just different ways to model the same situation.
   

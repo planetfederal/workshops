@@ -221,13 +221,13 @@ If, on the other hand, you need to measure distance with a dataset that is geogr
 Function List
 -------------
 
-`ST_Distance(geometry, geometry) <http://postgis.net/docs/manual-2.0/ST_Distance.html>`_: For geometry type Returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography type defaults to return spheroidal minimum distance between two geographies in meters.
+`ST_Distance(geometry, geometry) <http://postgis.net/docs/manual-2.1/ST_Distance.html>`_: For geometry type Returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography type defaults to return spheroidal minimum distance between two geographies in meters.
 
-`ST_GeographyFromText(text) <http://postgis.net/docs/manual-2.0/ST_GeographyFromText.html>`_: Returns a specified geography value from Well-Known Text representation or extended (WKT).
+`ST_GeographyFromText(text) <http://postgis.net/docs/manual-2.1/ST_GeographyFromText.html>`_: Returns a specified geography value from Well-Known Text representation or extended (WKT).
 
-`ST_Transform(geometry, srid) <http://postgis.net/docs/manual-2.0/ST_Transform.html>`_: Returns a new geometry with its coordinates transformed to the SRID referenced by the integer parameter.
+`ST_Transform(geometry, srid) <http://postgis.net/docs/manual-2.1/ST_Transform.html>`_: Returns a new geometry with its coordinates transformed to the SRID referenced by the integer parameter.
 
-`ST_X(point) <http://postgis.net/docs/manual-2.0/ST_X.html>`_: Returns the X coordinate of the point, or NULL if not available. Input must be a point.
+`ST_X(point) <http://postgis.net/docs/manual-2.1/ST_X.html>`_: Returns the X coordinate of the point, or NULL if not available. Input must be a point.
 
 
 .. rubric:: Footnotes

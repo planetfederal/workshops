@@ -92,7 +92,7 @@ What's going on here? Notionally (the actual evaluation order is optimized under
 
 .. note:: 
 
-   The ``JOIN`` clause combines two ``FROM`` items.  By default, we are using an ``INNER JOIN``, but there are four other types of joins. For further information see the `join_type <http://www.postgresql.org/docs/8.1/interactive/sql-select.html>`_ definition in the PostgreSQL documentation.
+   The ``JOIN`` clause combines two ``FROM`` items.  By default, we are using an ``INNER JOIN``, but there are four other types of joins. For further information see the `join_type <http://www.postgresql.org/docs/9.1/interactive/sql-select.html#SQL-FROM>`_ definition in the PostgreSQL documentation.
 
 We can also use distance tests as a join key, to create summarized "all items within a radius" queries. Let's explore the racial geography of New York using distance queries.
 
@@ -243,11 +243,11 @@ As before, the joins create a virtual table of all the possible combinations ava
 Function List
 -------------
 
-`ST_Contains(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Contains.html>`_: Returns true if and only if no points of B lie in the exterior of A, and at least one point of the interior of B lies in the interior of A.
+`ST_Contains(geometry A, geometry B) <http://postgis.net/docs/manual-2.1/ST_Contains.html>`_: Returns true if and only if no points of B lie in the exterior of A, and at least one point of the interior of B lies in the interior of A.
 
-`ST_DWithin(geometry A, geometry B, radius) <http://postgis.net/docs/manual-2.0/ST_DWithin.html>`_: Returns true if the geometries are within the specified distance of one another. 
+`ST_DWithin(geometry A, geometry B, radius) <http://postgis.net/docs/manual-2.1/ST_DWithin.html>`_: Returns true if the geometries are within the specified distance of one another. 
 
-`ST_Intersects(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Intersects.html>`_: Returns TRUE if the Geometries/Geography "spatially intersect" - (share any portion of space) and FALSE if they don't (they are Disjoint). 
+`ST_Intersects(geometry A, geometry B) <http://postgis.net/docs/manual-2.1/ST_Intersects.html>`_: Returns TRUE if the Geometries/Geography "spatially intersect" - (share any portion of space) and FALSE if they don't (they are Disjoint). 
 
 `round(v numeric, s integer) <http://www.postgresql.org/docs/current/interactive/functions-math.html>`_: PostgreSQL math function that rounds to s decimal places
 
@@ -257,5 +257,5 @@ Function List
 
 .. rubric:: Footnotes
 
-.. [#PostGIS_Doco] http://postgis.net/docs/manual-2.0/
+.. [#PostGIS_Doco] http://postgis.net/docs/manual-2.1/
 
