@@ -19,19 +19,19 @@ The benefit of linear referencing models is that the dependent spatial observati
 Creating Linear References
 --------------------------
 
-If you have an existing point table that you want to reference to a linear network, use the :command:`ST_Line_Locate_Point` function, which takes a line and point, and returns the proportion along the line that the point can be found.
+If you have an existing point table that you want to reference to a linear network, use the :command:`ST_LineLocatePoint` function, which takes a line and point, and returns the proportion along the line that the point can be found.
 
 .. code-block:: sql
 
   -- Simple example of locating a point half-way along a line
-  SELECT ST_Line_Locate_Point('LINESTRING(0 0, 2 2)', 'POINT(1 1)');
+  SELECT ST_LineLocatePoint('LINESTRING(0 0, 2 2)', 'POINT(1 1)');
   -- Answer 0.5
   
   -- What if the point is not on the line? It projects to closest point
-  SELECT ST_Line_Locate_Point('LINESTRING(0 0, 2 2)', 'POINT(0 2)');
+  SELECT ST_LineLocatePoint('LINESTRING(0 0, 2 2)', 'POINT(0 2)');
   -- Answer 0.5
   
-We can convert the **nyc_subway_stations** into an "event table" relative to the streets by using :command:`ST_Line_Locate_Point`.
+We can convert the **nyc_subway_stations** into an "event table" relative to the streets by using :command:`ST_LineLocatePoint`.
 
 .. code-block:: sql
 
@@ -59,7 +59,7 @@ We can convert the **nyc_subway_stations** into an "event table" relative to the
     DISTINCT ON (subways_gid) 
     subways_gid, 
     streets_gid,
-    ST_Line_Locate_Point(streets_geom, subways_geom) AS measure,
+    ST_LineLocatePoint(streets_geom, subways_geom) AS measure,
     distance
   FROM ordered_nearest;
 
@@ -68,12 +68,12 @@ We can convert the **nyc_subway_stations** into an "event table" relative to the
 
 Once we have an event table, it's fun to turn it back into a spatial view, so we can visualize the events relative to the original points they were derived from.
 
-To go from a measure to a point, we use the :command:`ST_Line_Interpolate_Point` function. Here's our previous simple examples reversed:
+To go from a measure to a point, we use the :command:`ST_LineInterpolatePoint` function. Here's our previous simple examples reversed:
 
 .. code-block:: sql
 
   -- Simple example of locating a point half-way along a line
-  SELECT ST_AsText(ST_Line_Interpolate_Point('LINESTRING(0 0, 2 2)', 0.5));
+  SELECT ST_AsText(ST_LineInterpolatePoint('LINESTRING(0 0, 2 2)', 0.5));
 
   -- Answer POINT(1 1)
 
@@ -85,15 +85,11 @@ And we can join the **nyc_subway_station_events** tables back to the **nyc_stree
   CREATE OR REPLACE VIEW nyc_subway_stations_lrs AS
   SELECT 
     events.subways_gid,
-    ST_Line_Interpolate_Point(ST_GeometryN(streets.geom, 1), events.measure)AS geom,
+    ST_LineInterpolatePoint(ST_GeometryN(streets.geom, 1), events.measure)::Geometry(Point,26918) AS geom,
     events.streets_gid
   FROM nyc_subway_station_events events
   JOIN nyc_streets streets 
   ON (streets.gid = events.streets_gid);
-
-  -- Add a metadata reference so client software can see this view
-  INSERT INTO geometry_columns 
-  VALUES ('','public','nyc_subway_stations_lrs','geom',2, 26918, 'POINT');
 
 Viewing the original (red star) and event (blue circle) points with the streets, you can see how the events are snapped directly to the closest street lines.
 
@@ -108,8 +104,8 @@ Viewing the original (red star) and event (blue circle) points with the streets,
 Function List
 -------------
 
-* `ST_Line_Interpolate_Point(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Line_Interpolate_Point.html>`_: Returns a point interpolated along a line.
-* `ST_Line_Locate_Point(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_Line_Locate_Point.html>`_: Returns a float between 0 and 1 representing the location of the closest point on LineString to the given Point. 
+* `ST_LineInterpolatePoint(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_LineInterpolatePoint.html>`_: Returns a point interpolated along a line.
+* `ST_LineLocatePoint(geometry A, geometry B) <http://postgis.net/docs/manual-2.0/ST_LineLocatePoint.html>`_: Returns a float between 0 and 1 representing the location of the closest point on LineString to the given Point. 
 * `ST_Line_Substring(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Line_Substring.html>`_: Return a linestring being a substring of the input one starting and ending at the given fractions of total 2d length. 
 * `ST_Locate_Along_Measure(geometry A, double measure) <http://postgis.net/docs/manual-2.0/ST_Locate_Along_Measure.html>`_: Return a derived geometry collection value with elements that match the specified measure. 
 * `ST_Locate_Between_Measures(geometry A, double from, double to) <http://postgis.net/docs/manual-2.0/ST_Locate_Between_Measures.html>`_: Return a derived geometry collection value with elements that match the specified range of measures inclusively. 

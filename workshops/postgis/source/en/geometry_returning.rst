@@ -41,7 +41,7 @@ For example, if the US Park Service wanted to enforce a marine traffic zone arou
   CREATE TABLE liberty_island_zone AS
   SELECT ST_Buffer(geom,500)::geometry(Polygon,26918) AS geom
   FROM nyc_census_blocks
-  WHERE blkid = '360610001009000';
+  WHERE blkid = '360610001001001';
 
 .. image:: ./geometry_returning/liberty_positive.jpg
   :class: inline
@@ -103,13 +103,14 @@ To carry out the merge, note that the unique key ``blkid`` actually embeds infor
 
 ::
 
-  360610001009000 = 36 061 00100 9 000
+  360610001001001 = 36 061 000100 1 001
   
   36     = State of New York
   061    = New York County (Manhattan)
   000100 = Census Tract
-  9      = Census Block Group
-  000    = Census Block
+  1      = Census Block Group
+  001    = Census Block
+
   
 So, we can create a county map by merging all geometries that share the same first 5 digits of their ``blkid``. Be patient; this is computationally expensive and can take a minute or two.
 
@@ -136,13 +137,13 @@ An area test can confirm that our union operation did not lose any geometry. Fir
 
 ::
 
-  countyid |       area       
- ----------+------------------
-  36005    | 109807439.720947
-  36047    | 184906575.839355
-  36061    | 58973521.6225586
-  36081    | 283764734.207275
-  36085    | 149806077.958252
+   countyid |       area       
+  ----------+------------------
+   36005    | 110196022.906506
+   36047    | 181927497.678368
+   36061    | 59091860.6261323
+   36081    | 283194473.613692
+   36085    | 150758328.111199
 
 Then we calculate the area of each of our new county polygons from the county table:
 
@@ -153,13 +154,13 @@ Then we calculate the area of each of our new county polygons from the county ta
 
 ::
 
-  countyid |       area       
- ----------+------------------
-  36005    | 109807439.720947
-  36047    | 184906575.839355
-  36061    | 58973521.6225586
-  36081    | 283764734.207275
-  36085    | 149806077.958252
+   countyid |       area       
+  ----------+------------------
+   36005    | 110196022.906507
+   36047    | 181927497.678367
+   36061    | 59091860.6261324
+   36081    | 283194473.593646
+   36085    | 150758328.111199
 
 The same answer! We have successfully built an NYC county table from our census blocks data.
 

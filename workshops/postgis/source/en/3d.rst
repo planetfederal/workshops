@@ -103,7 +103,8 @@ You can create a multi-dimensional index on data of any dimensionality (even mix
 
 .. code-block:: sql
 
-  CREATE INDEX nyc_streets_gix_nd ON nyc_streets USING GIST (geom gist_geometry_ops_nd);
+  CREATE INDEX nyc_streets_gix_nd ON nyc_streets 
+  USING GIST (geom gist_geometry_ops_nd);
   
 The ``gist_geometry_ops_nd`` parameter tells PostGIS to use the N-D index instead of the standard 2-D index.
 
@@ -112,13 +113,16 @@ Once you have the index built, you can use it in queries with the ``&&&`` index 
 .. code-block:: sql
 
   -- Returns true (both 3-D on the zero plane)
-  SELECT 'POINT Z (1 1 0)'::geometry &&& 'POLYGON ((0 0 0, 0 2 0, 2 2 0, 2 0 0, 0 0 0))'::geometry;
+  SELECT 'POINT Z (1 1 0)'::geometry &&& 
+         'POLYGON ((0 0 0, 0 2 0, 2 2 0, 2 0 0, 0 0 0))'::geometry;
   
   -- Returns false (one 2-D one 3-D)
-  SELECT 'POINT Z (1 1 1)'::geometry &&& 'POLYGON ((0 0, 0 2, 2 2, 2 0, 0 0))'::geometry;
+  SELECT 'POINT Z (1 1 1)'::geometry &&& 
+         'POLYGON ((0 0, 0 2, 2 2, 2 0, 0 0))'::geometry;
   
   -- Returns true (the volume around the linestring interacts with the point)
-  SELECT 'LINESTRING Z(0 0 0, 1 1 1)'::geometry &&& 'POINT(0 1 1)'::geometry;
+  SELECT 'LINESTRING Z(0 0 0, 1 1 1)'::geometry &&& 
+         'POINT(0 1 1)'::geometry;
 
 To search the ``nyc_streets`` table using the N-D index, just replace the usual ``&&`` 2-D index operator with the ``&&&`` operator.
 
@@ -127,12 +131,14 @@ To search the ``nyc_streets`` table using the N-D index, just replace the usual 
   -- N-D index operator
   SELECT gid, name 
   FROM nyc_streets 
-  WHERE geom &&& ST_SetSRID('LINESTRING(586785 4492901,587561 4493037)',26918);
+  WHERE geom &&& 
+        ST_SetSRID('LINESTRING(586785 4492901,587561 4493037)',26918);
 
   -- 2-D index operator
   SELECT gid, name 
   FROM nyc_streets 
-  WHERE geom && ST_SetSRID('LINESTRING(586785 4492901,587561 4493037)',26918);
+  WHERE geom && 
+        ST_SetSRID('LINESTRING(586785 4492901,587561 4493037)',26918);
 
 The results should be the same. In general the N-D index is very slightly slower than the 2-D index, so only use the N-D index where you are certain that N-D queries will improve the selectivity of your queries.
 

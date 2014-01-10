@@ -95,7 +95,7 @@ Exercises
 
   :: 
    
-    14572.1575543757
+    14601.3987215548
 
 
 * **"How many census blocks in New York City have a hole in them?"**
@@ -112,7 +112,7 @@ Exercises
 
   :: 
    
-    45 
+    43
    
 * **"What is the total length of streets (in kilometers) in New York City?"** (Hint: The units of measurement of the spatial data are meters, there are 1000 meters in a kilometer.)
   

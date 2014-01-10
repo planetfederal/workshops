@@ -31,7 +31,7 @@ First, let's retrieve a representation of a point from our ``nyc_subway_stations
 
 ::
 
-     name   |                      geom                      |      st_astext
+     name   |                      geom                          |      st_astext
   ----------+----------------------------------------------------+-----------------------
    Broad St | 0101000020266900000EEBD4CF27CF2141BC17D69516315141 | POINT(583571 4506714)
  

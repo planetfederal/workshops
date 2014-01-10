@@ -101,7 +101,7 @@ Exercises
    
   :: 
 
-    9928
+    17153
     
 * **"What are the population density (people / km^2) of the 'Upper West Side' and 'Upper East Side'?"** (Hint: There are 1000000 m^2 in one km^2.)
  
@@ -121,7 +121,7 @@ Exercises
    
           name       |  popn_per_sqkm   
     -----------------+------------------
-     Upper East Side | 47943.3590089405
-     Upper West Side | 39729.5779474286
+     Upper East Side | 48524.4877489857
+     Upper West Side | 40152.4896080024
 
      

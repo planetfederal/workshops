@@ -37,7 +37,7 @@ Using this information it is possible to reconstruct the state of the edit table
       name VARCHAR(200),
       oneway VARCHAR(10),
       type VARCHAR(50),
-      geom GEOMETRY,
+      geom GEOMETRY(MultiLinestring,26918),
       created TIMESTAMP,
       created_by VARCHAR(32),
       deleted TIMESTAMP,
