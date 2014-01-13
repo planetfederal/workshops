@@ -34,9 +34,8 @@ The ``geography_columns`` view defines the dimension, geometry, each spatial tab
 
 Geography and Geometry are similar in that they can both represent the same type of spatial data, but differ in a few crucial ways:
 
-The Geometry column type can hold geometric data of any type and in any (or no) projection and CRS. It is not optimized for dealing with geodetic measurements (distances on the sphere).
-
-The Geography type, while able to handle geodetic measurements, are much more limited, in that all coordinates are assumed to be WGS84 (4326) and there are fewer compatible functions when compared to Geometry.
+* The Geometry column type can hold geometric data of any type and in any (or no) projection and CRS. It is not optimized for dealing with geodetic measurements (distances on the sphere).
+* The Geography type, while able to handle geodetic measurements, are much more limited, in that all coordinates are assumed to be WGS84 (4326) and there are fewer compatible functions when compared to Geometry.
 
 Bonus
 -----

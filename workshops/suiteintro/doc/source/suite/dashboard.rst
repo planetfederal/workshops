@@ -39,7 +39,7 @@ The OpenGeo Suite Dashboard is designed as a convenience to users, but it is not
 
 * All **web applications** such as **GeoServer** can be accessed directly through the browser. OpenGeo Suite runs locally at the port where it was installed (the default is 8080). Some helpful URLs for this workshop are:
 
-   * GeoServer - ``http://localhost:8080/geoserver``
-   * GeoWebCache - ``http://localhost:8080/geowebcache``
-   * GeoExplorer - ``http://localhost:8080/geoexplorer``
+  * GeoServer - ``http://localhost:8080/geoserver``
+  * GeoWebCache - ``http://localhost:8080/geowebcache``
+  * GeoExplorer - ``http://localhost:8080/geoexplorer``
 

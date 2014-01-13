@@ -34,6 +34,7 @@ Spatial data types
 Spatial data types are organized in a type hierarchy. Each sub-type inherits the structure (properties) and the behavior (methods or functions) of its super-type. 
 
 .. figure:: img/hierarchy.png
+   :class: inline
 
    Data type hierarchy
 
@@ -54,8 +55,7 @@ Spatial functions are commonly categorized by their category of operation:
 
 **Management** 
 
-* Make me a new geometry column in a table (**AddGeometryColumn**)
-* Update all of the existing geometry columns (**Populate_Geometry_Columns**)
+* Read the current version information (**PostGIS_Version**)
 
 **Conversion**
 

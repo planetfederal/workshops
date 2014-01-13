@@ -40,7 +40,7 @@ A common question from people familiar with open source databases is, "Why wasn'
 Why not just use Shapefiles?
 ----------------------------
 
-The `shapefile <http://en.wikipedia.org/wiki/Shapefile>`_ (and other file formats) have been the standard way of storing and interacting with spatial data since GIS software was first written. However, these "flat" files have the following disadvantages:
+The `shapefile <http://en.wikipedia.org/wiki/Shapefile>`_ (and other file formats) have been the standard way of storing and interacting with spatial data for over 20 years. However, these "flat" files have the following disadvantages:
 
 * **Files require special software to read and write.**  SQL is an abstraction for random data access and analysis. Without that abstraction, you will need to write all the access and analysis code yourself.
 * **Concurrent users can cause corruption.** While it's possible to write extra code to ensure that multiple writes to the same file do not corrupt the data, by the time you have solved the problem and also solved the associated performance problem, you will have written the better part of a database system. Why not just use a standard database?
