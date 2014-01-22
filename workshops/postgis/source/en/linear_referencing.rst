@@ -91,10 +91,6 @@ And we can join the **nyc_subway_station_events** tables back to the **nyc_stree
   JOIN nyc_streets streets 
   ON (streets.gid = events.streets_gid);
 
-  -- Add a metadata reference so client software can see this view
-  INSERT INTO geometry_columns 
-  VALUES ('','public','nyc_subway_stations_lrs','geom',2, 26918, 'POINT');
-
 Viewing the original (red star) and event (blue circle) points with the streets, you can see how the events are snapped directly to the closest street lines.
 
 .. image:: ./screenshots/lrs1.jpg

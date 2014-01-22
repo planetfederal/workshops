@@ -172,7 +172,7 @@ Sure!
     AND a.gid != b.gid
   LIMIT 10;
 
-  -- Answer: 0, the data is clean
+  -- Answer: 10, there's some funny business
 
 Similarly, we would expect that the roads data is all end-noded. That is, we expect that intersections only occur at the ends of lines, not at the mid-points. 
 

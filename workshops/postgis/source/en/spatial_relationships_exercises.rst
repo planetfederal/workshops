@@ -66,7 +66,7 @@ Exercises
      
         name    | boroname 
     ------------+----------
-    Fort Green | Brooklyn
+     Fort Green | Brooklyn
      
   .. note::
    
@@ -92,7 +92,7 @@ Exercises
          name      
     ---------------
      S Oxford St
-      Cumberland St
+     Cumberland St
 
   .. image:: ./spatial_relationships/atlantic_commons.jpg
   
@@ -105,11 +105,11 @@ Exercises
       FROM nyc_census_blocks
       WHERE ST_DWithin(
        geom,
-       ST_GeomFromText('LINESTRING((586782 4504202,586864 4504216)', 26918),
+       ST_GeomFromText('LINESTRING(586782 4504202,586864 4504216)', 26918),
        50
       );
         
   :: 
    
-    1186 
+    1438 
    

@@ -35,7 +35,7 @@ Now, watch the "Timing" meter at the lower right-hand corner of the pgAdmin quer
 
         blkid      
   -----------------
-   360610007003006
+   360610007001009
   
 The ``nyc_census_blocks`` table is very small (only a few thousand records) so even without an index, the query only takes **55 ms** on my test computer.
 
@@ -88,7 +88,7 @@ Let's compare an index-only query for the population of the 'West Village' to a 
   
 ::
 
-  50325
+  49821
   
 Now let's do the same query using the more exact :command:`ST_Intersects` function.
 
@@ -102,7 +102,7 @@ Now let's do the same query using the more exact :command:`ST_Intersects` functi
   
 ::
 
-  27141
+  26718
 
 A much lower answer! The first query summed up every block that intersected the neighborhood's bounding box; the second query only summed up those blocks that intersected the neighborhood itself.
 

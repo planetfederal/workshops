@@ -5,7 +5,7 @@ Spatial indexes
 
 Recall that spatial indexing is one of the three key features of a spatial database. Indexes are what make using a spatial database for large data sets possible. Without indexing, any search for a feature would require a "sequential scan" of every record in the database. Indexing speeds up searching by organizing the data into a search tree which can be quickly traversed to find a particular record. 
 
-Spatial indexes are one of the greatest assets of PostGIS. In the previous example building spatial joins requires comparing whole tables with each other. This can get very time-consuming: joining two tables of 10,000 records each without indexes would require 100,000,000 comparisons; with indexes the cost could be as low as 20,000 comparisons.
+Spatial indexes are one of the greatest assets of PostGIS. Without indexes, joining two tables of 10,000 records each without indexes would require 100,000,000 comparisons; **with indexes**, the cost could be as low as 20,000 comparisons.
 
 When we loaded our tables, pgShapeLoader automatically created a spatial index called ``<layer>_gist``
 

@@ -72,14 +72,14 @@ Installing a fresh GIS client on your workstations is a bit beyond the scope of 
 
 If you have a client capable of connecting to PostGIS, go ahead and give it a quick try. Recall the connection parameters from earlier:
 
-   .. list-table::
+.. list-table::
 
-      * - **Username**
-        - ``postgres``
-      * - **Password**
-        - ``[blank]``
-      * - **Server Host**
-        - ``localhost`` ``5432``
-      * - **Database**
-        - ``SuiteWorkshop``
+  * - **Username**
+    - ``postgres``
+  * - **Password**
+    - ``[blank]``
+  * - **Server Host**
+    - ``localhost`` ``5432``
+  * - **Database**
+    - ``SuiteWorkshop``
 

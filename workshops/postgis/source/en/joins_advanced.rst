@@ -34,13 +34,14 @@ As we saw in the previous section, we can build up higher level geometries from 
  
 ::
 
-  360610001009000 = 36 061 00100 9000
-
-  36     = State of New York 
+  360610001001001 = 36 061 000100 1 001
+  
+  36     = State of New York
   061    = New York County (Manhattan)
   000100 = Census Tract
-  9      = Census Block Group
-  000    = Census Block
+  1      = Census Block Group
+  001    = Census Block
+
 
 Create the new table using the :command:`ST_Union` aggregate:
  
@@ -106,16 +107,17 @@ We sum up the statistics we are interested, then divide them together at the end
   
    graduate_pct |       name        | boroname  
   --------------+-------------------+-----------
-           40.4 | Carnegie Hill     | Manhattan
-           40.2 | Flatbush          | Brooklyn
-           34.8 | Battery Park      | Manhattan
-           33.9 | North Sutton Area | Manhattan
-           33.4 | Upper West Side   | Manhattan
-           33.3 | Upper East Side   | Manhattan
-           32.0 | Tribeca           | Manhattan
-           31.8 | Greenwich Village | Manhattan
-           29.8 | West Village      | Manhattan
-           29.7 | Central Park      | Manhattan
+           47.6 | Carnegie Hill     | Manhattan
+           42.2 | Upper West Side   | Manhattan
+           41.1 | Battery Park      | Manhattan
+           39.6 | Flatbush          | Brooklyn
+           39.3 | Tribeca           | Manhattan
+           39.2 | North Sutton Area | Manhattan
+           38.7 | Greenwich Village | Manhattan
+           38.6 | Upper East Side   | Manhattan
+           37.9 | Murray Hill       | Manhattan
+           37.4 | Central Park      | Manhattan
+    
     
 .. note::
 
@@ -154,18 +156,18 @@ Note that the query takes longer to run now, because the :command:`ST_Centroid` 
 
 ::
 
-   graduate_pct |       name        | boroname  
-  --------------+-------------------+-----------
-           49.2 | Carnegie Hill     | Manhattan
-           39.5 | Battery Park      | Manhattan
-           34.3 | Upper East Side   | Manhattan
-           33.6 | Upper West Side   | Manhattan
-           32.5 | Greenwich Village | Manhattan
-           32.2 | Tribeca           | Manhattan
-           31.3 | North Sutton Area | Manhattan
-           30.8 | West Village      | Manhattan
-           30.1 | Downtown          | Brooklyn
-           28.4 | Cobble Hill       | Brooklyn
+   graduate_pct |        name         | boroname  
+  --------------+---------------------+-----------
+           48.0 | Carnegie Hill       | Manhattan
+           44.2 | Morningside Heights | Manhattan
+           42.1 | Greenwich Village   | Manhattan
+           42.0 | Upper West Side     | Manhattan
+           41.4 | Tribeca             | Manhattan
+           40.7 | Battery Park        | Manhattan
+           39.5 | Upper East Side     | Manhattan
+           39.3 | North Sutton Area   | Manhattan
+           37.4 | Cobble Hill         | Brooklyn
+           37.4 | Murray Hill         | Manhattan
   
 Avoiding double counting changes the results! 
 
@@ -194,7 +196,7 @@ However, the question runs into some problems of double counting: many people wi
   
 ::
 
-  8008278
+  8175032
   
 With the population of the people in New York within 500 meters of a subway station:
 
@@ -207,7 +209,7 @@ With the population of the people in New York within 500 meters of a subway stat
   
 ::
 
-  10556898
+  10855873
 
 There's more people close to the subway than there are people! Clearly, our simple SQL is making a big double-counting error. You can see the problem looking at the picture of the buffered subways.
 
@@ -228,7 +230,7 @@ The solution is to ensure that we have only distinct census blocks before passin
 
 ::
 
-  4953599
+  5005743
 
 That's better! So a bit over half the population of New York is within 500m (about a 5-7 minute walk) of the subway.
 

@@ -51,36 +51,38 @@ For example: **"What is the population and racial make-up of the neighborhoods o
 
 ::
 
-   neighborhood_name  | population | white_pct | black_pct 
- ---------------------+------------+-----------+-----------
-  Carnegie Hill       |      19909 |      91.6 |       1.5
-  North Sutton Area   |      21413 |      90.3 |       1.2
-  West Village        |      27141 |      88.1 |       2.7
-  Upper East Side     |     201301 |      87.8 |       2.5
-  Greenwich Village   |      57047 |      84.1 |       3.3
-  Soho                |      15371 |      84.1 |       3.3
-  Murray Hill         |      27669 |      79.2 |       2.3
-  Gramercy            |      97264 |      77.8 |       5.6
-  Central Park        |      49284 |      77.8 |      10.4
-  Tribeca             |      13601 |      77.2 |       5.5
-  Midtown             |      70412 |      75.9 |       5.1
-  Chelsea             |      51773 |      74.7 |       7.4
-  Battery Park        |       9928 |      74.1 |       4.9
-  Upper West Side     |     212499 |      73.3 |      10.4
-  Financial District  |      17279 |      71.3 |       5.3
-  Clinton             |      26347 |      64.6 |      10.3
-  East Village        |      77448 |      61.4 |       9.7
-  Garment District    |       6900 |      51.1 |       8.6
-  Morningside Heights |      41499 |      50.2 |      24.8
-  Little Italy        |      14178 |      39.4 |       1.2
-  Yorkville           |      57800 |      31.2 |      33.3
-  Inwood              |      50922 |      29.3 |      14.9
-  Lower East Side     |     104690 |      28.3 |       9.0
-  Washington Heights  |     187198 |      26.9 |      16.3
-  East Harlem         |      62279 |      20.2 |      46.2
-  Hamilton Heights    |      71133 |      14.6 |      41.1
-  Chinatown           |      18195 |      10.3 |       4.2
-  Harlem              |     125501 |       5.7 |      80.5
+    neighborhood_name  | population | white_pct | black_pct 
+  ---------------------+------------+-----------+-----------
+   Carnegie Hill       |      18763 |      90.1 |       1.4
+   North Sutton Area   |      22460 |      87.6 |       1.6
+   West Village        |      26718 |      87.6 |       2.2
+   Upper East Side     |     203741 |      85.0 |       2.7
+   Soho                |      15436 |      84.6 |       2.2
+   Greenwich Village   |      57224 |      82.0 |       2.4
+   Central Park        |      46600 |      79.5 |       8.0
+   Tribeca             |      20908 |      79.1 |       3.5
+   Gramercy            |     104876 |      75.5 |       4.7
+   Murray Hill         |      29655 |      75.0 |       2.5
+   Chelsea             |      61340 |      74.8 |       6.4
+   Upper West Side     |     214761 |      74.6 |       9.2
+   Midtown             |      76840 |      72.6 |       5.2
+   Battery Park        |      17153 |      71.8 |       3.4
+   Financial District  |      34807 |      69.9 |       3.8
+   Clinton             |      32201 |      65.3 |       7.9
+   East Village        |      82266 |      63.3 |       8.8
+   Garment District    |      10539 |      55.2 |       7.1
+   Morningside Heights |      42844 |      52.7 |      19.4
+   Little Italy        |      12568 |      49.0 |       1.8
+   Yorkville           |      58450 |      35.6 |      29.7
+   Inwood              |      50047 |      35.2 |      16.8
+   Washington Heights  |     169013 |      34.9 |      16.8
+   Lower East Side     |      96156 |      33.5 |       9.1
+   East Harlem         |      60576 |      26.4 |      40.4
+   Hamilton Heights    |      67432 |      23.9 |      35.8
+   Chinatown           |      16209 |      15.2 |       3.8
+   Harlem              |     134955 |      15.1 |      67.1
+
+
 
 
 What's going on here? Notionally (the actual evaluation order is optimized under the covers by the database) this is what happens:
@@ -108,9 +110,9 @@ First, let's get the baseline racial make-up of the city.
 
 :: 
 
-        white_pct      |      black_pct      | popn_total 
-  ---------------------+---------------------+------------
-   44.6586020115685295 | 26.5945063345703034 |    8008278
+      white_pct     |    black_pct     | popn_total 
+  ------------------+------------------+------------
+   44.0039500762811 | 25.5465789002416 |    8175032
 
 
 So, of the 8M people in New York, about 44% are "white" and 26% are "black". 
@@ -172,9 +174,9 @@ Let's summarize the racial make-up of within 200 meters of the A-train line.
 
 ::
 
-        white_pct      |      black_pct      | popn_total 
-  ---------------------+---------------------+------------
-   42.0805466940877366 | 23.0936148851067964 |     185259
+      white_pct     |    black_pct     | popn_total 
+  ------------------+------------------+------------
+   45.5901255900202 | 22.0936235670937 |     189824
 
 So the racial make-up along the A-train isn't radically different from the make-up of New York City as a whole. 
 
@@ -215,27 +217,28 @@ Now we can join the table of subway lines onto our original query.
 
      route | white_pct | black_pct | popn_total 
     -------+-----------+-----------+------------
-     S     |      30.1 |      59.5 |      32730
-     3     |      34.3 |      51.8 |     201888
-     2     |      33.6 |      45.5 |     535414
-     5     |      32.1 |      45.1 |     407324
-     C     |      41.3 |      35.9 |     430194
-     4     |      34.7 |      30.9 |     328292
-     B     |      36.1 |      30.6 |     261186
-     Q     |      52.9 |      26.3 |     259820
-     J     |      29.5 |      23.6 |     126764
-     A     |      42.1 |      23.1 |     370518
-     Z     |      29.5 |      21.5 |      81493
-     D     |      39.8 |      20.9 |     233855
-     G     |      44.8 |      20.0 |     138602
-     L     |      53.9 |      17.1 |     104140
-     6     |      52.7 |      16.3 |     257769
-     1     |      54.8 |      12.6 |     659028
-     F     |      60.0 |       8.6 |     438212
-     M     |      50.0 |       7.8 |     166721
-     E     |      69.4 |       5.3 |      86118
-     R     |      57.7 |       4.8 |     389124
-     7     |      42.4 |       3.8 |     107543
+     S     |      39.8 |      46.5 |      33301
+     3     |      42.7 |      42.1 |     223047
+     5     |      33.8 |      41.4 |     218919
+     2     |      39.3 |      38.4 |     291661
+     C     |      46.9 |      30.6 |     224411
+     4     |      37.6 |      27.4 |     174998
+     B     |      40.0 |      26.9 |     256583
+     A     |      45.6 |      22.1 |     189824
+     J     |      37.6 |      21.6 |     132861
+     Q     |      56.9 |      20.6 |     127112
+     Z     |      38.4 |      20.2 |      87131
+     D     |      39.5 |      19.4 |     234931
+     L     |      57.6 |      16.8 |     110118
+     G     |      49.6 |      16.1 |     135012
+     6     |      52.3 |      15.7 |     260240
+     1     |      59.1 |      11.3 |     327742
+     F     |      60.9 |       7.5 |     229439
+     M     |      56.5 |       6.4 |     174196
+     E     |      66.8 |       4.7 |      90958
+     R     |      58.5 |       4.0 |     196999
+     N     |      59.7 |       3.5 |     147792
+     7     |      35.7 |       3.5 |     102401
 
 
 As before, the joins create a virtual table of all the possible combinations available within the constraints of the ``JOIN ON`` restrictions, and those rows are then fed into a ``GROUP`` summary. The spatial magic is in the ``ST_DWithin`` function, that ensures only census blocks close to the appropriate subway stations are included in the calculation.

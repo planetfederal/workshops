@@ -33,12 +33,6 @@ Number of records: 36592
      - Number of people self-identifying as "Asian" in the block
    * - **popn_other**
      - Number of people self-identifying with other categories in the block
-   * - **hous_total**
-     - Number of housing units in the block
-   * - **hous_own**
-     - Number of owner-occupied housing units in the block
-   * - **hous_rent**
-     - Number of renter-occupied housing units in the block
    * - **boroname**
      - Name of the New York borough. Manhattan, The Bronx, Brooklyn, Staten Island, Queens
    * - **geom**
@@ -140,18 +134,24 @@ There is a rich collection of social-economic data collected during the census p
      - An 11-digit code that uniquely identifies every census **tract**. Eg: 36005000100
    * - **transit_total**
      - Number of workers in the tract
-   * - **transit_public**
-     - Number of workers in the tract who take public transit
    * - **transit_private**
      - Number of workers in the tract who use private automobiles / motorcycles
+   * - **transit_public**
+     - Number of workers in the tract who take public transit
+   * - **transit_walk**
+     - Number of workers in the tract who walk
    * - **transit_other**
      - Number of workers in the tract who use other forms like walking / biking
+   * - **transit_none**
+     - Number of workers in the tract who work from home
    * - **transit_time_mins**
      - Total number of minutes spent in transit by all workers in the tract (minutes)
    * - **family_count**
      - Number of familes in the tract
    * - **family_income_median**
      - Median family income in the tract (dollars)
+   * - **family_income_mean**
+     - Average family income in the tract (dollars)
    * - **family_income_aggregate**
      - Total income of all families in the tract (dollars)
    * - **edu_total**

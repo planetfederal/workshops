@@ -10,34 +10,34 @@ The following are the high-level tasks that we'll accomplish:
 
 #. PostGIS
 
-     * Spatial database overview 
-     * Create a spatial database
-     * Load shapefiles into database tables 
-     * Introduce some basic functions and operations
+   * Spatial database overview 
+   * Create a spatial database
+   * Load shapefiles into database tables 
+   * Introduce some basic functions and operations
 
 #. GeoServer
 
-     * GeoServer concepts
-     * Basic GeoServer administration tasks
-     * Load data into GeoServer from PostGIS tables and files
-     * Publish that data through web services
+   * GeoServer concepts
+   * Basic GeoServer administration tasks
+   * Load data into GeoServer from PostGIS tables and files
+   * Publish that data through web services
 
 #. GeoExplorer
 
-     * GeoExplorer background
-     * View, compose, and publish maps 
-     * Edit geospatial data
+   * GeoExplorer background
+   * View, compose, and publish maps 
+   * Edit geospatial data
 
 #. GeoWebCache
 
-     * Introduce tile caching concepts
-     * Strategies for tile caching
-     * Accelerate map rendering with tile caching
+   * Introduce tile caching concepts
+   * Strategies for tile caching
+   * Accelerate map rendering with tile caching
 
 #. OpenLayers & GeoExt
 
-     * Introduce very basic HTML, CSS and JavaScript
-     * Use OpenLayers and GeoExt to create a desktop-like map application in a web browser
+   * Introduce very basic HTML, CSS and JavaScript
+   * Use OpenLayers and GeoExt to create a desktop-like map application in a web browser
 
 
 Data package

@@ -105,7 +105,7 @@ Let's convert the coordinates of the 'Broad St' subway station into geographics:
 
   POINT(-74.0106714688735 40.7071048155841)
 
-If you load data or create a new geometry without specifying an SRID, the SRID value will be -1.  Recall in :ref:`geometries`, that when we created our ``geoemetries`` table we didn't specify an SRID. If we query our database, we should expect all the ``nyc_`` tables to have an SRID of 26918, while  the ``geometries`` table defaulted to an SRID of -1.
+If you load data or create a new geometry without specifying an SRID, the SRID value will be 0.  Recall in :ref:`geometries`, that when we created our ``geoemetries`` table we didn't specify an SRID. If we query our database, we should expect all the ``nyc_`` tables to have an SRID of 26918, while  the ``geometries`` table defaulted to an SRID of 0.
 
 To view a table's SRID assignment, query the database's ``geometry_columns`` table.
 
@@ -122,7 +122,7 @@ To view a table's SRID assignment, query the database's ``geometry_columns`` tab
    nyc_neighborhoods   | 26918
    nyc_streets         | 26918
    nyc_subway_stations | 26918
-   geometries          |    -1
+   geometries          |     0
 
   
 However, if you know what the SRID of the coordinates is supposed to be, you can set it post-facto, using :command:`ST_SetSRID` on the geometry. Then you will be able to transform the geometry into other systems.

@@ -14,7 +14,7 @@ The word-driven heat map is a cool idea, and could be applied to all kinds of te
 
 For this adventure in map building, we'll build our own version of the Yelp word map, using the following tools, which if you are following along you will want to install now:
 
-* OpenGeo Suite 3 (available for Linux, Mac OSX and Windows, follow the `Suite installation instructions`_)
+* OpenGeo Suite 4 (available for Linux, Mac OSX and Windows)
 
 The basic structure of the application will be
 
@@ -33,6 +33,21 @@ The application flow will:
 * Be displayed in a map window in the web interface by GeoExt. 
 
 This application exercises all the tiers of the OpenGeo Suite!
+
+Installation
+------------
+
+This tutorial requires the **WPS Extension** to generate heat-map overlays, so you need to ensure it's included during installation.
+
+* During Windows installation, make sure the WPS option under the GeoServer components is **checked**.
+* Under Linux, make sure you install the ``geoserver-wps`` package (same package name for both Red Hat and Ubuntu).
+* Under OSX, you have to add WPS manually after installation.
+
+  * Start GeoServer. 
+  * Under the GeoServer icon in the menu bar, select "Open Webapps Directory"
+  * From there, navigate down to ``geoserver/WEB-INF/lib``
+  * Download http://r2d2.opengeo.org/suite/release/4.0/opengeosuite-4.0-wps.zip and copy the contents into the ``geoserver/WEB-INF/lib`` directory
+  * Restart GeoServer (quit, and then start again)
 
 
 Find the Data
@@ -266,7 +281,7 @@ Once you have entered the SQL query, go down to the "SQL view parameters section
 
 * The "word" parameter should be guessed and filled into the parameter list.
 * Set the default value to "ocean".
-* Set the "validation regular expression" to "^[\w\d\s]*$"
+* Set the "validation regular expression" to "^[\\w\\d\\s]*$"
   * This expression only allows letters, numbers and spaces, including empty (zero length) values.
 
 .. image:: ./img/sqlviewdetails1.png
@@ -341,7 +356,7 @@ You will need to build the web application somewhere that is accessible by a web
 
   The OpenGeo Suite ships with an `/apps` directory, especially for deploying your spatial apps. It has the advantage of running under the same web container as GeoServer itself, allowing applications to easily perform vector read/write operations. The `/apps` directory is in different places for different operating systems:
   
-  * **OSX** in `/opt/opengeo/suite/webapps/apps`. You may need to `sudo mkdir wordmap` to get a working directory, then `sudo chown wordmap username` to take ownership of it. Then you can access your application files at http://localhost:8080/apps/wordmap
+  * **OSX** use the "Open Webapps Directory" option under the GeoServer toolbar icon, and in there create a ``wordmap`` subdirectory. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Windows** in `C:\\Program Files\\OpenGeo\\OpenGeo Suite\\webapps\\apps`. Make a `wordmap` sub-directory. Then you can access your application files at http://localhost:8080/apps/wordmap
   * **Linux** in **TBD**
 
@@ -611,14 +626,86 @@ And what the `final result <_static/wordmap-simple.html>`_ looks like:
 Add the Heat Map
 ----------------
 
-So, a very pretty application, but we were promised a heat map, and so far, this is only a dot map!
+So, a very pretty application, but we were promised a heat map, and so far, this is only a dot map! We need to add a heat map style
 
-Amazingly, adding a heat map is the simplest part of the whole exercise, because the OpenGeo Suite ships with a `heatmap` style already defined and ready to take input from any point source.
+#. Click "Styles" in the GeoServer admin navigation bar
+#. Select "Add a new style"
+#. Name the style "heatmap"
+#. Paste the following into the code area
 
-You can see the `heatmap` style in the GeoServer Styles panel.
+.. code-block:: xml
 
-.. image:: ./img/style_view.png
-   :width: 95%
+  <?xml version="1.0" encoding="ISO-8859-1"?>
+  <StyledLayerDescriptor version="1.0.0"
+     xsi:schemaLocation="http://www.opengis.net/sld StyledLayerDescriptor.xsd"
+     xmlns="http://www.opengis.net/sld"
+     xmlns:ogc="http://www.opengis.net/ogc"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <NamedLayer>
+      <Name>Heatmap</Name>
+      <UserStyle>
+        <Title>Heatmap</Title>
+        <Abstract>A heatmap surface</Abstract>
+        <FeatureTypeStyle>
+          <Transformation>
+           <ogc:Function name="gs:Heatmap">
+             <ogc:Function name="parameter">
+               <ogc:Literal>data</ogc:Literal>
+             </ogc:Function>
+             <ogc:Function name="parameter">
+               <ogc:Literal>radiusPixels</ogc:Literal>
+               <ogc:Function name="env">
+                 <ogc:Literal>radius</ogc:Literal>
+                 <ogc:Literal>100</ogc:Literal>
+               </ogc:Function>
+             </ogc:Function>
+             <ogc:Function name="parameter">
+               <ogc:Literal>pixelsPerCell</ogc:Literal>
+               <ogc:Literal>10</ogc:Literal>
+             </ogc:Function>
+             <ogc:Function name="parameter">
+               <ogc:Literal>outputBBOX</ogc:Literal>
+               <ogc:Function name="env">
+                 <ogc:Literal>wms_bbox</ogc:Literal>
+               </ogc:Function>
+             </ogc:Function>
+             <ogc:Function name="parameter">
+               <ogc:Literal>outputWidth</ogc:Literal>
+               <ogc:Function name="env">
+                 <ogc:Literal>wms_width</ogc:Literal>
+               </ogc:Function>
+             </ogc:Function>
+             <ogc:Function name="parameter">
+               <ogc:Literal>outputHeight</ogc:Literal>
+               <ogc:Function name="env">
+                 <ogc:Literal>wms_height</ogc:Literal>
+               </ogc:Function>
+             </ogc:Function>
+           </ogc:Function>
+          </Transformation>
+          <Rule>
+            <RasterSymbolizer>
+            <!-- specify geometry attribute to pass validation -->
+              <Geometry>
+                <ogc:PropertyName>geom</ogc:PropertyName>
+              </Geometry>
+              <Opacity>0.6</Opacity>
+              <ColorMap type="ramp" >
+                <ColorMapEntry color="#FFFFFF" quantity="0"    label="nodata" opacity="0" />
+                <ColorMapEntry color="#FFFFFF" quantity="0.02" label="nodata" opacity="0" />
+                <ColorMapEntry color="#4444FF" quantity=".1"   label="nodata" />
+                <ColorMapEntry color="#FF0000" quantity=".5"   label="values" />
+                <ColorMapEntry color="#FFFF00" quantity="1.0"  label="values" />
+              </ColorMap>
+            </RasterSymbolizer>
+          </Rule>
+        </FeatureTypeStyle>
+      </UserStyle>
+    </NamedLayer>
+  </StyledLayerDescriptor>
+
+Then hit the "Save" button, and we're ready to heatmap! (The parameters of the heat map style are `explained here <http://docs.geoserver.org/stable/en/user/styling/sld-extensions/rendering-transform.html#heatmap-generation>`_.)
 
 To enable the heat map in our application, we just need to specify that style in our WMS URL. So make a change to the OpenLayers WMS layer in the application:
 

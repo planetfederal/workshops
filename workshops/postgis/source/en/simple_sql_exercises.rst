@@ -52,7 +52,7 @@ Now the questions:
      
   :: 
    
-    8008278 
+    8175032 
    
   .. note:: 
    
@@ -68,19 +68,8 @@ Now the questions:
      
   :: 
    
-    1332650 
+    1385108 
   
-* **"What is the average number of people living in each housing unit in New York City?"**
- 
-  .. code-block:: sql
-
-    SELECT Sum(popn_total)/Sum(hous_total) AS popn_per_house
-      FROM nyc_census_blocks;
-
-  :: 
-   
-    2.6503540522400804 
-   
 * **"For each borough, what percentage of the population is white?"**
 
   .. code-block:: sql
@@ -93,13 +82,14 @@ Now the questions:
 
   :: 
    
-       boroname    |      white_pct      
-    ---------------+---------------------
-     Brooklyn      | 41.2005552206888663
-     The Bronx     | 29.8655310846808990
-     Manhattan     | 54.3594013771837665
-     Queens        | 44.0806610271290794
-     Staten Island | 77.5968611401579346
+       boroname    |    white_pct     
+    ---------------+------------------
+     Brooklyn      | 42.8011737932687
+     Manhattan     | 57.4493039480463
+     The Bronx     | 27.9037446899448
+     Queens        |  39.722077394591
+     Staten Island | 72.8942034860154
+   
  
 Function List
 -------------

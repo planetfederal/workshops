@@ -22,7 +22,6 @@ Functions are expressed in Structured Query Language (SQL) statements. For examp
 
    Running a SQL command in pgAdmin
 
-.. note:: Technically, the language of PostgreSQL is **PL/pgSQL** (Procedural Language/PostgreSQL Structured Query Language), which resembles and is compliant with standard SQL, but includes much more procedural control (such as loops). Note also that there are other procedural languages available to use in PostgreSQL, but PL/pgSQL is the default and by far the most common.
 
 Creating a spatially-enabled table
 ----------------------------------
@@ -45,34 +44,14 @@ This short example will show how to spatially enable a newly-created table in ou
         gid serial PRIMARY KEY, 
         "placename" varchar(50), 
         "comment" varchar(255), 
-        "year" numeric);
+        "year" numeric,
+        "geom" geometry(Point,4326)
+        );
       
-      SELECT AddGeometryColumn(
-        '', 
-        'smallworld', 
-        'geom', 
-        '4326',
-        'POINT', 
-        2);
             
 #. Click the :guilabel:`Play` button to execute the commands.
 
-The first line in the code-block :command:`CREATE TABLE ...`, created a table with the specified columns and keys. This is stock SQL with no spatial component. The second line is the spatial part. The command :command:`AddGeometryColumn` performs the following procedures:
-
-   #. Inserts an entry to the ``geometry_columns`` view, identifying:
-   
-      * The table that has a geometry column ``smallworld``
-      * The name of that geometry column ``geom``
-      * The SRID of the geometries ``4326``
-      * The geometry type of the geometries ``POINT``
-      * The dimensionality of the geometries ``2``  
-     
-   #. Adds a Geometry column (called ``geom``) to the feature table using an ``SQL ALTER TABLE`` statement; 
-   #. Adds a set of constraints to the feature table make sure new features are: 
-   
-      * In SRID ``4326``,
-      * Geometry type ``POINT``
-      * Of ``2`` dimensions
+The first line in the code-block :command:`CREATE TABLE ...`, created a table with the specified columns and keys. This is stock SQL with no spatial component until the end: the last line defines a ``geom`` column for a ``Point`` geometry with SRID of ``4326``.
 
 If we have a look at the entries in the ``geometry_columns`` view, we can see the row for the spatially enabled ``smallworld`` table.
 
@@ -228,17 +207,16 @@ We'll use the :command:`ST_Buffer` function to create a buffer zone around the c
    .. code-block:: sql
 
       CREATE TABLE citybuffers (
-        id serial primary key       
+        id serial primary key,
+        geom geometry(Polygon,4326)
       );
     
-      SELECT AddGeometryColumn('','citybuffers','geom',4326,'MULTIPOLYGON',2);
-
 #. Next, insert into our :command:`buffer` table new geometries generated from the :command:`ST_Buffer` function.
     
    .. code-block:: sql
 
       INSERT INTO citybuffers (geom)
-      SELECT ST_Multi(ST_Buffer(geom,2)) FROM cities;
+      SELECT ST_Buffer(geom,2) FROM cities;
 
 Buffers. It's what every spatial analyst dreams about. 
 
@@ -254,15 +232,15 @@ Bonus
 * What are the units we're dealing with and why are they problematic. Why are we using them?
 * Try this ...
 
-   .. code-block:: sql
-   
-      SELECT ST_Distance(
-         ST_GeographyFromText('POINT(-104.8566 39.6411)'), -- Denver
-         ST_GeographyFromText('POINT(-73.9991 40.7217)') -- New York
-      ); 
-      
-   ::
+  .. code-block:: sql
+
+    SELECT ST_Distance(
+       ST_GeographyFromText('POINT(-104.8566 39.6411)'), -- Denver
+       ST_GeographyFromText('POINT(-73.9991 40.7217)') -- New York
+    ); 
+  
+  ::
    
       2617254.72493923
 
- What does this value mean?
+  What does this value mean?

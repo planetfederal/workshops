@@ -75,7 +75,9 @@ The database has been created, but it has not been spatially enabled yet. That i
 
       SQL query button
 
-#. The SQL query window will open. In the :guilabel:`SQL Editor` tab at the top of the window, type the following::
+#. The SQL query window will open. In the :guilabel:`SQL Editor` tab at the top of the window, type the following:
+
+   .. code-block:: sql
 
      CREATE EXTENSION postgis;
 
