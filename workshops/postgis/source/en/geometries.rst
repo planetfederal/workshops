@@ -263,7 +263,7 @@ Within the database, geometries are stored on disk in a format only used by the 
 
 * Well-known text (:term:`WKT`)
  
-  * :command:`ST_GeomFromText(text)` returns ``geometry``
+  * :command:`ST_GeomFromText(text, srid)` returns ``geometry``
   * :command:`ST_AsText(geometry)` returns ``text``
   * :command:`ST_AsEWKT(geometry)` returns ``text``
    
@@ -304,11 +304,13 @@ The following SQL query shows an example of :term:`WKB` representation (the call
 .. code-block:: sql
 
   SELECT encode(
-    ST_AsBinary(ST_GeometryFromText('LINESTRING(0 0 0,1 0 0,1 1 2)')), 
+    ST_AsBinary(ST_GeometryFromText('LINESTRING(0 0,1 0)')), 
     'hex');
 
-.. image:: ./geometries/represent-04.png
+::
 
+  01020000000200000000000000000000000000000000000000000000000000f03f0000000000000000
+  
 For the purposes of this workshop we will continue to use WKT to ensure you can read and understand the geometries we're viewing.  However, most actual processes, such as viewing data in a GIS application, transferring data to a web service, or processing data remotely, WKB is the format of choice.  
 
 Since WKT and WKB were defined in the  :term:`SFSQL` specification, they do not handle 3- or 4-dimensional geometries.  For these cases PostGIS has defined the Extended Well Known Text (EWKT) and Extended Well Known Binary (EWKB) formats.  These provide the same formatting capabilities of WKT and WKB with the added dimensionality.
@@ -317,17 +319,40 @@ Here is an example of a 3D linestring in WKT:
 
 .. code-block:: sql
 
-  SELECT ST_AsEWKT(ST_GeometryFromText('LINESTRING(0 0 0,1 0 0,1 1 2)'));
+  SELECT ST_AsText(ST_GeometryFromText('LINESTRING(0 0 0,1 0 0,1 1 2)'));
 
-.. image:: ./geometries/represent-05.png
+::
+
+  LINESTRING Z (0 0 0,1 0 0,1 1 2)
+
+Note that the text representation changes! This is because the text input routine for PostGIS is liberal in what it consumes. It will consume 
+
+* hex-encoded EWKB, 
+* extended well-known text, and 
+* ISO standard well-known text.
+
+On the output side, the :command:`ST_AsText` function is conservative, and only emits ISO standard well-known text.
+
+In addition to the :command:`ST_GeometryFromText` function, there are many other ways to create geometries from well-known text or similar formatted inputs:
 
 .. code-block:: sql
 
-  SELECT encode(ST_AsEWKB(ST_GeometryFromText(
-      'LINESTRING(0 0 0,1 0 0,1 1 2)')), 'hex');
+  -- Using ST_GeomFromText with the SRID parameter
+  SELECT ST_GeomFromText('POINT(2 2)',4326);
 
-.. image:: ./geometries/represent-06.png
+  -- Using ST_GeomFromText without the SRID parameter
+  SELECT ST_SetSRID(ST_GeomFromText('POINT(2 2)'),4326);
+  
+  -- Using a ST_Make* function
+  SELECT ST_SetSRID(ST_MakePoint(2, 2), 4326);
+  
+  -- Using PostgreSQL casting syntax and ISO WKT
+  SELECT ST_SetSRID('POINT(2 2)'::geometry, 4326);
+  
+  -- Using PostgreSQL casting syntax and extended WKT
+  SELECT 'SRID=4326;POINT(2 2)'::geometry;
 
+  
 In addition to emitters for the various forms (WKT, WKB, GML, KML, JSON, SVG), PostGIS also has consumers for four (WKT, WKB, GML, KML). Most applications use the WKT or WKB geometry creation functions, but the others work too. Here's an example that consumes GML and output JSON:
 
 .. code-block:: sql
