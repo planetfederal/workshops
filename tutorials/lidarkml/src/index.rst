@@ -97,9 +97,9 @@ The file we are going to use covers both a residential and commercial area of Me
 Building Footprints
 -------------------
 
-In our analysis, we'll be using the LIDAR data to determine the height of the buildings within our LIDAR file. To do that, we need building outlines! Fortunately, Jackson County has an `open data program <http://www.smartmap.org/Portal/gis-data.aspx>`_.
+In our analysis, we'll be using the LIDAR data to determine the height of the buildings within our LIDAR file. To do that, we need building outlines! Fortunately, Jackson County has an `open data program <http://gis.jacksoncounty.org/Portal/gis-data.aspx>`_.
 
-**Download** the shape file `BuildingFootprints.zip <http://www.smartmap.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=43>`_ now.
+**Download** the shape file `BuildingFootprints.zip <http://gis.jacksoncounty.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=43>`_ now.
 
 
 Loading LIDAR into the Database
