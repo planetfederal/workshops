@@ -24,7 +24,7 @@ Ext.onReady(function () {
     styles: "point,heatmap"
   }, {
     opacity: 0.6,
-    singleTile: true,
+    singleTile: true
   });
 
   var geographicProj = new OpenLayers.Projection("EPSG:4326");
@@ -124,7 +124,7 @@ Ext.onReady(function () {
       items: [{
         xtype: "box",
         layout: "fit",
-        height: "160",
+        height: 160,
         border: "0",
         flex: 0,
         margin: "0",
