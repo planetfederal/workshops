@@ -98,7 +98,7 @@
 
   <link rel="profile" href="http://gmpg.org/xfn/11">
   {%- block basecss %}
-  <link rel="stylesheet" href="http://boundlessgeo.com/wp-content/themes/open-geo/style.css" type="text/css"/> 
+  <link rel="stylesheet" href="http://boundlessgeo.com/wp-content/themes/open-geo/style.css" type="text/css"/>
   {%- endblock %}
   {%- for link, type, title in page_links %}
   <link rel="alternate" type="{{ type|e(true) }}" title="{{ title|e(true) }}" href="{{ link|e(true) }}" />
@@ -125,8 +125,8 @@
   <script type="text/javascript" src="{{ pathto('_static/doctools.js', 1) }}"></script>
   <script type="text/javascript" src="{{ pathto('_static/searchtools.js', 1) }}"></script>
   <script type="text/javascript" src="{{ pathto('searchindex.js', 1) }}"></script>
-  <!-- 
-  <script type="text/javascript" src="http://opengeo.org/include/superfish/js/jquery-1.2.6.min.js"></script> 
+  <!--
+  <script type="text/javascript" src="http://opengeo.org/include/superfish/js/jquery-1.2.6.min.js"></script>
   <script type="text/javascript" src="http://opengeo.org/include/superfish/js/hoverIntent.js"></script>
   <script type="text/javascript" src="http://opengeo.org/include/superfish/js/superfish.js"></script>
   <script type="text/javascript" src="http://opengeo.org/include/superfish/js/supersubs.js"></script>
@@ -186,43 +186,35 @@
   {%- block header %}
 
 	<div id="wrapper">
-		<header id="masthead" class="site-header" role="banner">
-			<div class="container">
-				<a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="http://boundlessgeo.com/wp-content/themes/open-geo/images/logo.png"></a>
+    <header id="masthead" class="site-header" role="banner">
+      <div class="container">
+        <a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="http://boundlessgeo.com/wp-content/themes/open-geo/images/logo.png"></a>
+        <div class="menu-main-container">
+          <div id="menu-main" class="menu">
+            <div id="menu-item-22" class="solutions-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-22 menu-item-depth-0"><a href="http://boundlessgeo.com/solutions/" >Solutions</a></div>
+            <div id="menu-item-23" class="resources-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-23 menu-item-depth-0"><a href="http://boundlessgeo.com/resources/" >Resources</a></div>
+            <div id="menu-item-24" class="about-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-24 menu-item-depth-0"><a href="http://boundlessgeo.com/about/" >About</a></div>
+            <div id="menu-item-8837" class="support-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-8837 menu-item-depth-0"><a href="http://boundlessgeo.com/blog/" >Blog</a></div>
+          </div>
+        </div>
+        <div class="search dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon search-icon"></i></a>
+          <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <form method="get" id="searchform" class="searchform" action="http://boundlessgeo.com/" role="search">
+              <label for="s" class="screen-reader-text">Search</label>
+              <input type="search" class="field" name="s" value="" id="s" placeholder="Search &hellip;" />
+              <input type="submit" class="submit" id="searchsubmit" value="Search" />
+            </form>
+          </div><!-- .dropdown-menu -->
+        </div><!-- .search .dropdown -->
 
-				<div class="pull-right">
-					<div class="pull-left">
-						<div class="menu-main-container">
-							<ul id="menu-main" class="menu">
-                <li class="solutions-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-22"><a href="http://boundlessgeo.com/solutions/">Solutions</a></li>
-                <li class="resources-primary menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-16 current_page_item menu-item-23"><a href="http://boundlessgeo.com/resources/">Resources</a></li>
-                <li class="about-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-24"><a href="http://boundlessgeo.com/about/">About</a></li>
-                <li class="support-primary menu-item menu-item-type-post_type menu-item-object-page menu-item-25"><a href="http://boundlessgeo.com/support/">Support</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="search dropdown">
-					  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="search-icon"></i></a>
-						  <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-							  <form method="get" id="searchform" class="searchform" action="http://boundlessgeo.com/" role="search">
-								  <label for="s" class="screen-reader-text">Search</label>
-							  <input type="search" class="field" name="s" value="" id="s" placeholder="Search …">
-							  <input type="submit" class="submit" id="searchsubmit" value="Search">
-							  </form>
-						  </div>
-					</div>
-					<div class="download-link">
-						<ul id="menu-download-link" class="menu">
-							<li id="menu-item-5817" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5817">
-								<a href="http://boundlessgeo.com/download/">Download</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-			</div><!--closes container-->
-
-		</header>
+        <div class="download-link">
+          <ul id="menu-main-nav-action-link" class="menu">
+            <li id="menu-item-8838" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-8838"><a href="http://boundlessgeo.com/support/" >Customer Support</a></li>
+          </ul>
+        </div>
+      </div><!-- .container-->
+    </header><!-- #masthead -->
   {%- endblock %}
 
   {%- block secondary_nav %}
@@ -238,7 +230,7 @@
               <li id="menu-item-5318" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5318"><a href="http://boundlessgeo.com/resources/case-studies/" >Case Studies</a></li>
               <li id="menu-item-5891" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5891"><a href="http://boundlessgeo.com/resources/white-papers/" >White Papers</a></li>
            </ul>
-         </div>		
+         </div>
       </div>
     </div>
 </section>
