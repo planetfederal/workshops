@@ -5,7 +5,7 @@ PostGIS metatables and views
 
 .. todo:: Screenshots all don't need to be fixed, but show XP chrome.
 
-When our new PostGIS database was created via the ``template_postgis`` database, it received all all 700+ PostGIS functions, as well as one table (``spatial_ref_sys``) and two views (``geometry_columns`` and ``geography_columns``).
+When our new PostGIS database, it received all all 700+ PostGIS functions, as well as one table (``spatial_ref_sys``) and two views (``geometry_columns`` and ``geography_columns``).
 
 spatial_ref_sys
 ---------------

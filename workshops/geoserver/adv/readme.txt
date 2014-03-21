@@ -10,8 +10,10 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
   http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-centos.pdf
   http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-ubuntu.pdf
 
-2. Create a PostGIS database called earth
-   createdb -T template_postgis earth
+2. Create a PostGIS database called earth:
+   createdb earth
+   Turn on the PostGIS extension with SQL: 
+   create extension postgis
 
 3. Load all shapefiles in the data/earth/ directory into PostGIS using pgShapeLoader or psql:
    for f in *shp; do shp2pgsql -g geom -s 4326 $f ${f/.shp/} | psql earth
@@ -29,7 +31,9 @@ The following instructions will show how to prepare a fresh OpenGeo Suite instal
 9. Create a layer group called "earth" that contains each of the layers loaded. Suggested order: shadedrelief, ocean, cities, coastline, countries, rivers. This should NOT be in workspace "earth".
 
 10. Create a PostGIS database called advanced
-    createdb -T template_postgis advanced
+    createdb advanced
+    Turn on the PostGIS extension with SQL: 
+    create extension postgis
 
 11. Load all shapefiles in the data/advanced/ directory into PostGIS using pgShapeLoader or psql:
     for f in *shp; do shp2pgsql -g geom -s 4326 $f ${f/.shp/} | psql advanced
