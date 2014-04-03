@@ -4,11 +4,7 @@ Advanced GeoServer workshop
 The following instructions will show how to prepare a fresh OpenGeo Suite installation for the Advanced GeoServer workshop.
 
 
-1. Install the OpenGeo Suite. The software is not included in this bundle, but you can get it for free here: 
-  http://repo.opengeo.org/suite/releases/enterprise/windows/OpenGeoSuite-3.1.exe
-  http://repo.opengeo.org/suite/releases/enterprise/mac/OpenGeoSuite-3.1.dmg
-  http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-centos.pdf
-  http://repo.opengeo.org/suite/releases/enterprise/OpenGeoSuite-3.1-README-ubuntu.pdf
+1. Install the OpenGeo Suite. The software is not included in this bundle.
 
 2. Create a PostGIS database called earth:
    createdb earth
