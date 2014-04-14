@@ -91,7 +91,7 @@ Answer an interesting question! "List top 10 New York neighborhoods ordered by t
 .. code-block:: sql
   
   SELECT 
-    Round(100.0 * Sum(t.edu_graduate_dipl) / Sum(t.edu_total), 1) AS graduate_pct, 
+    100.0 * Sum(t.edu_graduate_dipl) / Sum(t.edu_total) AS graduate_pct, 
     n.name, n.boroname 
   FROM nyc_neighborhoods n 
   JOIN nyc_census_tracts t 
@@ -142,7 +142,7 @@ Here is an example of using the simple method to avoid double counting in our gr
 .. code-block:: sql
 
   SELECT 
-    Round(100.0 * Sum(t.edu_graduate_dipl) / Sum(t.edu_total), 1) AS graduate_pct, 
+    100.0 * Sum(t.edu_graduate_dipl) / Sum(t.edu_total) AS graduate_pct, 
     n.name, n.boroname 
   FROM nyc_neighborhoods n 
   JOIN nyc_census_tracts t 
