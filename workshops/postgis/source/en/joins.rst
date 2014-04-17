@@ -40,8 +40,8 @@ For example: **"What is the population and racial make-up of the neighborhoods o
   SELECT 
     neighborhoods.name AS neighborhood_name, 
     Sum(census.popn_total) AS population,
-    100.0 * Sum(census.popn_white) / Sum(census.popn_total AS white_pct,
-    100.0 * Sum(census.popn_black) / Sum(census.popn_total AS black_pct
+    100.0 * Sum(census.popn_white) / Sum(census.popn_total) AS white_pct,
+    100.0 * Sum(census.popn_black) / Sum(census.popn_total) AS black_pct
   FROM nyc_neighborhoods AS neighborhoods
   JOIN nyc_census_blocks AS census
   ON ST_Intersects(neighborhoods.geom, census.geom)
