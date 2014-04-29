@@ -1,7 +1,7 @@
 Course Materials at Boundless
 =============================
 
-`Boundless <http://boundlessgeo.com/>`_ is devoted to building and supporting tools that help organizations share their information online. We believe that access to knowledge is a fundamental good, so we make our training materials available online under an open document license, for everyone to use and reuse.
+`Boundless <http://boundlessgeo.com/>`_ is devoted to building and supporting tools that help organizations share their information online. We believe that access to knowledge is a fundamental good, so we make our training materials available online under an open document license, for everyone to use and reuse. If you require more hands on training please visit our `education center <http://boundlessgeo.com/resources/training/>`_  to see what courses we offer. 
 
 Tutorials
 ---------
