@@ -194,16 +194,6 @@ PostGIS began following the :term:`OGC` :term:`SFSQL` document early in the deve
 
 The ISO SQL/MM-Spatial specification, which is a superset of the :term:`SFSQL` document, is now being used as a development guideline in function and type naming. So, the SQL function syntax used by PostGIS is the same as DB2, Informix, ESRI, and Netezza which all use the ISO specification as a guideline.
 
-The primary limitation of PostGIS compared to SQL Server and Oracle is direct support for "geographic coordinates" (sometimes known as "geodetic coordinates") -- coordinates represented as latitude and longitude.  Lat/lon data are "spherical coordinates", not cartesian coordinates, and handling them in generality requires some specialized code.  
-
-.. note::
-
-  Geodetic support is currently in development and will be included with the next major release (1.5 or 20) of PostGIS.
-
-All the code in PostGIS assumes coordinates are cartesian, and lat/lon handling doesn't work in cases where that assumption breaks down: over the poles, across the international date line, and in measurements expected to return planar (not spherical) units.  There are some utility functions for handling spherical coordinates in PostGIS (e.g. ST_Distance_Sphere()), and it is easy to re-project coordinates (using ST_Transform()) from lat/lon into a cartesian space, but the support for geographic coordinates is not transparent.
-
-Oracle includes lat/lon support via a subset of functions that are flagged as being geodetic coordinate aware.  SQL Server has built a second spatial type, specifically for handling lat/lon data, called the "geography" type.  When PostGIS adds full support for geographic coordinates, it will likely follow the SQL Server example and use a distinct type.
-
 PostGIS and PostgreSQL are both open source software projects, licensed under the `GNU GPL <http://www.opensource.org/licenses/gpl-2.0.php>`_ and `BSD <http://www.opensource.org/licenses/bsd-license.php>`_ licenses, respectively.  
 
 PostgreSQL can be downloaded from http://postgresql.org/download in source or binary form. Binary builds include the "stack builder" utility, which can be used to directly download an appropriate binary build of PostGIS. The PostGIS source code and documentation are available from http://postgis.net/.

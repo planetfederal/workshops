@@ -12,14 +12,17 @@ In all these approaches, the storage engine is abstracted away, behind a web ser
 There is a tendency in defining architectures to design for all possible futures, so one can end up with a design like this SOA architecture from ESRI:
 
 .. image:: ../img/architecture-esri.png
+  :class: inline
 
 Even the lighter OpenGeo architecture has more moving parts than some applications require:
 
 .. image:: ../img/architecture-opengeo.png
+  :class: inline
 
 For this workshop, we are going to strip down the architecture to the database, a scriptable web tier, and a web client.  For visualization purposes, we'll keep map rendering functionality in the middle tier, but we'll also explore some client side rendering. 
 
 .. image:: ../img/architecture-workshop.png
+  :class: inline
 
 The idea is to keep the amount of software between the end user and the database as thin as we can, so we can really explore what is possible with the database alone. The web client will be used primarily to gather input data (in the form of clicks) and display outputs (as markers or table results), which is more aesthetically pleasing than just typing into a SQL terminal.
 
@@ -30,7 +33,7 @@ The actual tools we will use are:
 
 * PostgreSQL/PostGIS as the spatial database
 * Tomcat/JSP as the scriptable web tier
-* OpenLayers as the map client
+* OpenLayers 2 as the map client
 * PgAdmin as the database management tool
 * GeoServer for map rendering
 
