@@ -73,39 +73,25 @@ There are two upgrade scenarios for PostGIS too, but they are slightly different
 
 There are two kinds of PostGIS upgrade scenarios:
 
-* A "minor upgrade" when the software version increases at the "patch" or "minor" level. For example, from 1.5.3 to 1.5.3, or from 1.4.4 to 1.5.0. Patch upgrades fix bugs only and do not add new features. Minor upgrades fix add new features or change behaviour.
-* A "major upgrade" when the "major" version increases. This is extremely rare. For example, from 0.9.4 to 1.0.0, or from 1.5.4 to 2.0.0. Major upgrades change the on-disk storage format for geometries and require a full database dump and restore.
+* A "minor or patch upgrade" is when the software version increases at the "patch" or "minor" level. For example, from 2.0.1 to 2.0.2, or from 2.0.2 to 2.1.0. Patch upgrades fix bugs only and do not add new features. Minor upgrades fix add new features or change behaviour.
+* A "major upgrade" is when the "major" version increases. This is extremely rare. For example, from 0.9.4 to 1.0.0, or from 1.5.4 to 2.0.0. Major upgrades change the on-disk storage format for geometries and require a full database dump and restore.
 
 
-Minor PostGIS Upgrades
-~~~~~~~~~~~~~~~~~~~~~~
+Minor/Patch PostGIS Upgrades
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PostGIS deals with minor upgrades be redefining all the PostGIS function bindings to point to the latest version of the software. Fortunately this can be done without touching the data tables itself, just by updates to the PostgreSQL system tables.
+PostGIS deals with minor and upgrades through the ``EXTENSION`` mechanism. If you spatially-enabled your database using ``CREATE EXTENSION postgis``, you can update your database using the same functionality.
 
-Minor Upgrades
-**************
+First, install the new software so it is available to the database.
 
-For upgrades between minor version (1.4 to 1.5) PostGIS supplies a upgrade files. There are two such files in the PostGIS 1.5 distribution:
+Then, run the SQL to upgrade your PostGIS extension.
 
-* postgis_upgrade_13_to_15.sql
-* postgis_upgrade_14_to_15.sql
+.. code-block:: sql
 
-To upgrade simply
+  -- To upgrade to 2.1.2
+  ALTER EXTENSION postgis UPDATE TO '2.1.2';
 
-* Install the new version of PostGIS
-* Apply the appropriate upgrade file to all your PostGIS-enabled databases.
 
-Patch Upgrades
-**************
-
-For upgrades between patch version (1.5.2 to 1.5.3) PostGIS supplies a single upgrade file:
-
-* postgis_upgrade_15_minor.sql
-
-To upgrade simply
-
-* Install the new version of PostGIS
-* Apply the upgrade file to all your PostGIS-enabled databases.
 
 Major PostGIS Upgrades
 ~~~~~~~~~~~~~~~~~~~~~~
