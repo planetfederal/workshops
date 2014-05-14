@@ -192,7 +192,7 @@ Full-text searching makes use of specialized PostgreSQL types: `tsvector` and `t
       'oak':1,6 'plural':4
      (1 row)
   
-  Note that the duplicate cases of the noun "oak" (singular and plural forms) have been merged, as have the verb tenses (present and past) of "bait". Full text search understands and searches words within the context of language.
+  Note that the duplicate cases of the noun "oak" (singular and plural forms) have been merged, as have the verb tenses (present and past) of "age". Full text search understands and searches words within the context of language.
    
 * A `tsquery <http://www.postgresql.org/docs/current/static/datatype-textsearch.html>`_ is a type the describes both the words to be searched for, and the logic to be applied in returning the results.
 
