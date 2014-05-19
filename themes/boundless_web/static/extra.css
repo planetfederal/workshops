@@ -70,7 +70,7 @@
         clear: both;
 }
 
-#content dd {  
+#content dd {
         line-height: 150%;
         margin-bottom: 10px;
 }
@@ -180,8 +180,27 @@ ul#menu-about-menu.menu a:hover {
 	color: #3D7199 !important;
 }
 
+#toc.section ul {
+  list-style: none !important;
+  margin-left: 0;
+  padding-left: 0;
+  font-weight: bold;
+  font-family: "proxima-nova", helvetica, arial, sans-serif;
+}
+#toc.section ul li {
+  margin-bottom: 20px;
+}
+
 #toc.section ul li ul{
 	list-style: disc !important;
+  margin-left: 0;
+  padding-left: 20px;
+  font-weight: normal;
+  font-family: "cantarell", helvetica, arial, sans-serif;
+}
+
+#toc.section ul li ul li {
+  margin-bottom: 0;
 }
 
 a.headerlink {
@@ -284,7 +303,7 @@ margin: 0.5em 0 1em;
 
 .section {
  clear: both;
- 
+
  img {
   width: expression(this.width > 580 ? 580: default);
   }

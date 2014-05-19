@@ -10,21 +10,21 @@ The tutorials below are **practical walk-throughs** of actual application develo
 
 `Building a GeoNames Heat Map <http://workshops.boundlessgeo.com/tutorial-wordmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-wordmap/_static/wordmap-full.html>`_)
   |heatmap| 
-This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
+  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States. 
 
   .. |heatmap| image:: images/heatmap_demo.png
                 :class: inline-img
 
 `Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ - (`Demo <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap.html>`_)
   |censusmap|
-This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
+  This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.
 
   .. |censusmap| image:: images/censusmap_demo.png
                   :class: inline-img
 
 `LIDAR Analysis and Visualization <http://workshops.boundlessgeo.com/tutorial-lidar/>`_ 
   |lidarmap|
-This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
+  This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
 
   .. |lidarmap| image:: images/lidarmap_demo.png
                  :class: inline-img
@@ -77,5 +77,8 @@ More Boundless Services
 `OpenGeo Suite <http://boundlessgeo.com/opengeo-suite/>`_
   OpenGeo Suite bundles PostGIS, GeoServer, GeoWebCache and OpenLayers into one integrated, supported, web mapping application stack. OpenGeo Suite can be integrated into existing infrastructures, deployed stand-alone, or deployed in cloud-computing environments.
 
-`Core Development <http://boundlessgeo.com/solutions/solutions-software/software/>`_
-  Boundless employs core committers and steering committee members for all the open source projects we support. That gives you unparalleled access to then talent and connections necessary to get new features built and integrated into the projects.
+`Online and On-Site Training <http://boundlessgeo.com/resources/training>`_
+  Our interactive online courses offer high quality training options right from your desk. A one-time payment gives you access to training content, video examples, quizzes and more. These courses were created by our expert trainers to help you get the most out of your busy schedule. To get started see our course catalog.
+
+`Professional Services <http://boundlessgeo.com/solutions/professional-services/>`_
+  Our expert technologists will work side-by-side with your team to guarantee that  best practices are met at every phase of your project, helping you make the most of your investment in Boundless technologies.

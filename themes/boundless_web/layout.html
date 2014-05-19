@@ -39,20 +39,6 @@
       </div>
       {%- endblock %}
     {%- endif %}
-      {%- block sidebarrel %}
-        {%- if (prev or next) %}
-        <div class="section">
-          <h3>Continue Reading</h3>
-          {%- if prev %}
-          <p style="margin-top:1em"><b>Previous:</b> <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></p>
-          {%- endif %}
-          {%- if next %}
-          <p><b>Next:</b> <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></p>
-          {%- endif %}
-          </ul>
-        </div>
-        {%- endif %}
-      {%- endblock %}
       {%- if sourcename %}
         <div class="section">
         <h4>This Page</h4>
@@ -251,18 +237,6 @@
     {%- block document %}
       {% block body %}{% endblock %}
     {%- endblock %}
-
-    {%- if (prev or next) %}
-      <!-- Next/Prev -->
-      <div class="selfclear pagination-nav">
-        {%- if prev %}
-          <div class="left"><strong>Previous</strong>: <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></div>
-        {%- endif %}
-        {%- if next %}
-          <div class="right"><strong>Next</strong>: <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></div>
-        {%- endif %}
-      </div>
-    {%- endif %}
 
   </div> <!-- rightbar_main -->
 
