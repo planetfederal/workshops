@@ -35,19 +35,19 @@ Workshops
 The following are actual course materials given at our various training classes in New York City and at conferences around the world. As our list of courses grows, we will be posting more materials here.
 
 `Introduction to OpenGeo Suite <http://workshops.boundlessgeo.com/suiteintro/>`_ 
-  This course will introduce attendees to the `OpenGeo Suite <http://boundlessgeo.com/opengeo-suite/>`_, a complete web mapping solution. The course will include an introduction to spatial analysis with PostGIS, loading and serving data with GeoServer, map optimization with GeoWebCache, styling, composing, and publishing maps with GeoExplorer, and creating your own web map applications with OpenLayers and GeoExt. This workshop is also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+  This course will introduce attendees to the `OpenGeo Suite <http://boundlessgeo.com/opengeo-suite/>`_, a complete web mapping solution. The course will include an introduction to spatial analysis with PostGIS, loading and serving data with GeoServer, map optimization with GeoWebCache, styling, composing, and publishing maps with GeoExplorer, and creating your own web map applications with OpenLayers and GeoExt. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 `Introduction to PostGIS <http://workshops.boundlessgeo.com/postgis-intro/>`_ 
-  As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial database. Installation, loading data, configuration, spatial SQL queries, indexing, tuning and viewing are among the topics touched on in this overview workshop. This workshop is also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+  As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial database. Installation, loading data, configuration, spatial SQL queries, indexing, tuning and viewing are among the topics touched on in this overview workshop. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 `Introduction to GeoServer <http://workshops.boundlessgeo.com/geoserver-intro/>`_ 
-  Updated for 2013. Learn to load, style, and publish maps and data using GeoServer. This workshop is also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+  Updated for 2013. Learn to load, style, and publish maps and data using GeoServer. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 `Introduction to OpenLayers <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
-  This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. This workshop is also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+  This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 `Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ 
-  First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more. This workshop is also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_. `README <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_ on how to get started.
+  First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_. `README <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_ on how to get started.
 
 `Spatial Database Tips and Tricks <http://workshops.boundlessgeo.com/postgis-spatialdbtips/>`_
   How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
