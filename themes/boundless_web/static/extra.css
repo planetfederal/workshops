@@ -195,6 +195,7 @@ ul#menu-about-menu.menu a:hover {
 #toc.section ul li ul{
 	list-style: disc !important;
   margin-left: 0;
+  margin-top: 0;
   padding-left: 20px;
   font-weight: normal;
   font-family: "proxima-nova", helvetica, arial, sans-serif;
