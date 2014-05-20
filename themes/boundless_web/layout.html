@@ -29,27 +29,33 @@
 {%- endmacro %}
 
 {%- macro sidebar() %}
-  {%- if builder != 'htmlhelp' %}
-    {%- if display_toc %}
-      {%- block sidebartoc %}
-      <div id="toc" class="section">
-        <h4 class="pngfix">Contents</h4>
-        <h5 style="font-weight: bold;margin-top:15px;">
-          <a href="http://workshops.boundlessgeo.com/#tutorials" style="text-decoration: none;"><span>Tutorials</span></a>
-        </h5>
-        <p>Practical walkthroughs of app development examples using OpenGeo Suite.</p>
-        <h5 style="font-weight: bold;margin-top:15px;">
-          <a href="http://workshops.boundlessgeo.com/#workshops" style="text-decoration: none;">Workshops</a>
-        </h5>
-        <p>Course materials given at our various training classes in NYC and conferences around the world.</p>
-        <h5 style="font-weight: bold;margin-top:15px;">
-          <a href="http://workshops.boundlessgeo.com/#more-boundless-services" style="text-decoration: none;">More Boundless Services</a>
-        </h5>
-        <p> Boundless reduces the cost and time of deploying and managing open source geospatial software. Learn more about Suite, plus our Support, Developer Tools, Maintenance, Pro Services, and Training offerings.</p>
-        <br/>
-      </div>
+  {% if pagename == 'index' %}
+    {% include 'index.html' %}
+  {% else %}
+    {%- if builder != 'htmlhelp' %}
+      {%- if display_toc %}
+        {%- block sidebartoc %}
+        <div id="toc" class="section">
+          <h4 class="pngfix">Table Of Contents</h4>
+          {{ toc }}
+          <div class="section-footer"></div>
+        </div>
+        {%- endblock %}
+      {%- endif %}
+      {%- block sidebarrel %}
+        {%- if (prev or next) %}
+        <div class="section">
+          <h3>Continue Reading</h3>
+          {%- if prev %}
+          <p style="margin-top:1em"><b>Previous:</b> <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></p>
+          {%- endif %}
+          {%- if next %}
+          <p><b>Next:</b> <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></p>
+          {%- endif %}
+          </ul>
+        </div>
+        {%- endif %}
       {%- endblock %}
-    {%- endif %}
       {%- if sourcename %}
         <div class="section">
         <h4>This Page</h4>
@@ -68,17 +74,17 @@
       {{ rendertemplate(customsidebar) }}
       {%- endif %}
       {%- block sidebarsearch %}{%- endblock %}
-
+    {%- endif %}
   {%- endif %}
 
    <h4>About Boundless</h4>
    <p>Boundless provides <a href="http://boundlessgeo.com/solutions/">commercial open source software</a> for internet mapping and geospatial application development. We are dedicated to the growth and support of open source software.</p>
 
-    <h4>License</h4>
-    <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Non Commercial-Attribution-Share Alike 3.0 United States License</a>.  Feel free to use this material, but we ask that you please retain the Boundless branding, logos and style.</p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a></p>
-
+   <h4>License</h4>
+   <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Non Commercial-Commons Attribution-Share Alike 3.0 United States License</a>.  Feel free to use this material, but we ask that you please retain the Boundless branding, logos and style.</p>
+   <p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a></p>
 {%- endmacro -%}
+
 {%- block doctype -%}
 <!DOCTYPE html>
 {%- endblock %}
@@ -248,16 +254,18 @@
     {%- block document %}
       {% block body %}{% endblock %}
     {%- endblock %}
-    {%- if (prev or next) %}
-      <!-- Next/Prev -->
-      <div class="selfclear pagination-nav">
-        {%- if prev %}
-          <div class="left"><strong>Previous</strong>: <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></div>
-        {%- endif %}
-        {%- if next %}
-          <div class="right"><strong>Next</strong>: <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></div>
-        {%- endif %}
-      </div>
+    {% if pagename != 'index' %}
+      {%- if (prev or next) %}
+        <!-- Next/Prev -->
+        <div class="selfclear pagination-nav">
+          {%- if prev %}
+            <div class="left"><strong>Previous</strong>: <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></div>
+          {%- endif %}
+          {%- if next %}
+            <div class="right"><strong>Next</strong>: <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></div>
+          {%- endif %}
+        </div>
+      {%- endif %}
     {%- endif %}
     <br/><br/>
     <div class="text-center"><a href="#top">&uarr; Back to Top</a></div>
