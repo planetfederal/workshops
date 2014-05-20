@@ -38,6 +38,7 @@ The tutorials below are **practical walk-throughs** of actual application develo
 
 
 |
+|
 Workshops
 ---------
 
@@ -55,22 +56,22 @@ As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial databa
 
 
 `Introduction to GeoServer <http://workshops.boundlessgeo.com/geoserver-intro/>`_ 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Updated for 2013. Learn to load, style, and publish maps and data using GeoServer. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 
 `Introduction to OpenLayers <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 
 `Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_. `README <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_ on how to get started.
 
 
 `Spatial Database Tips and Tricks <http://workshops.boundlessgeo.com/postgis-spatialdbtips/>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
 
@@ -79,7 +80,7 @@ More Workshops
 --------------
 
 `Introduction to OpenGeo Suite QGIS plugin <http://qgis.boundlessgeo.com/static/docs/index.html>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Suite through `QGIS <http://qgis.org>`_, a free, open source desktop GIS client. If you prefer using a GUI (graphic user interface) to work with geospatial data try out QGIS and our Suite-QGIS plugin!
 
 
@@ -109,5 +110,5 @@ Our interactive online courses offer high quality training options right from yo
 
 
 `Professional Services <http://boundlessgeo.com/solutions/professional-services/>`_
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Our expert technologists will work side-by-side with your team to guarantee that  best practices are met at every phase of your project, helping you make the most of your investment in Boundless technologies.
