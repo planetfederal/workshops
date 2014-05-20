@@ -181,7 +181,7 @@
 </head>
 <body class="page">
   {%- block header %}
-
+  <a name="top"></a>
 	<div id="wrapper">
     <header id="masthead" class="site-header" role="banner">
       <div class="container">
@@ -248,14 +248,13 @@
     {%- block document %}
       {% block body %}{% endblock %}
     {%- endblock %}
-
+    <div class="pull-right"><a href="#top">&uarr; Back to Top</a></div>
   </div> <!-- rightbar_main -->
 
   <div id="rightbar_bar">
     {{ sidebar() }}
 <!-- {%- block rellinkbar %}{{ rellinkbar() }}{% endblock %} -->
   </div> <!-- rightbar_bar -->
-
   </div> <!-- content -->
 
 {%- block footer %}
