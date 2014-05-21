@@ -1,3 +1,7 @@
+body {
+  background-color: #f2f2f2 !important;
+}
+
 .page-header {
 	margin-bottom: 30px;
 }
@@ -40,14 +44,14 @@
 	text-align: right;
 }
 
-#content h1 {
+#workshops_content h1 {
 	font-size: 32px !important;
 	border-bottom: #dadada solid 3px !important;
 	padding-bottom: 5px !important;
 	margin-top: 20px !important;
 }
 
-#content h2 {
+#workshops_content h2 {
 	border-bottom: #dadada solid 2px !important;
 	font-size: 21px !important;
 /*	font-weight: 600 !important; */
@@ -56,36 +60,29 @@
 }
 
 
-#content p {
+#workshops_content p {
 	font-size: 14px !important;
 	margin-bottom: 15px !important;
 	margin-top: 15px !important;
         line-height: 150%;
 }
 
-#content dt {
+#workshops_content dt {
 	font-family: "proxima-nova", sans-serif !important;
 	font-size: 18px !important;
-        margin-top: 10px;
-        clear: both;
+  margin-top: 10px;
+  clear: both;
 }
 
-#content dd {
-        line-height: 150%;
-        margin-bottom: 10px;
+#workshops_content dd {
+  line-height: 150%;
+  margin-bottom: 10px;
 }
 
 #masthead{
 	background-color:#ffffff !important;
 }
 
-#wrapper{
-	background-color: #f2f2f2 !important;
-}
-
-#content{
-	background-color: #f2f2f2 !important;
-}
 
 #footer {
 	background: #1f3c49 !important;
@@ -358,7 +355,7 @@ blockquote {
 }
 
 /* Over-ride undesirable effect leaking in from opengeo style sheet */
-#content ul li:before {
+#workshops_content ul li:before {
   content: none;
 }
 
@@ -376,11 +373,11 @@ blockquote {
   margin: 0 auto;
 }
 
-#content {
+#workshops_content {
   line-height: 1.35em;
   min-height: 200px;
   padding: 0;
-  background: #ffffff;
+  background: #f2f2f2;
   z-index: -1;
 }
 
@@ -399,11 +396,6 @@ blockquote {
   margin-right: 12px;
   margin-bottom: 20px;
   padding: 0;
-}
-
-.current_page_item a {
-  color: #ffffff !important;
-  background-color: #7db5d2 !important;
 }
 
 img.inline {
