@@ -103,12 +103,21 @@
   {%- for link, type, title in page_links %}
   <link rel="alternate" type="{{ type|e(true) }}" title="{{ title|e(true) }}" href="{{ link|e(true) }}" />
   {%- endfor %}
+  <link rel="alternate" type="application/rss+xml" title="Boundless &raquo; Education Center Comments Feed" href="http://boundlessgeo.com/resources/training/feed/" />
+  <link rel='stylesheet' id='ppm-accordion-plugin-style-css'  href='http://boundlessgeo.com/wp-content/plugins/ppm-accordion-ultimate/css/style.css?ver=3.6.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='shslider-css'  href='http://boundlessgeo.com/wp-content/plugins/simple-html-slider-pro/css/shslider.css?ver=3.6.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='ssbaFont-css'  href='http://fonts.googleapis.com/css?family=Indie+Flower&#038#038;ver=3.6.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='ssba-page-styles-css'  href='http://boundlessgeo.com/wp-content/plugins/simple-share-buttons-adder/css/page-style.css?ver=3.6.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='style-css'  href='http://boundlessgeo.com/wp-content/themes/open-geo/style.css?ver=3.6.1' type='text/css' media='all' />
+  <link rel='stylesheet' id='page-list-style-css'  href='http://boundlessgeo.com/wp-content/plugins/page-list/css/page-list.css?ver=4.2' type='text/css' media='all' />
+  <script>var jquery_placeholder_url = 'http://boundlessgeo.com/wp-content/plugins/gravity-forms-placeholders/jquery.placeholder-1.0.1.js';</script><script type='text/javascript' src='http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
+  <script type='text/javascript' src='http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
+  <script type='text/javascript' src='http://boundlessgeo.com/wp-content/plugins/ppm-accordion-ultimate/js/ppm-accordion-main.js?ver=3.6.1'></script>
+  <script type='text/javascript' src='http://boundlessgeo.com/wp-content/plugins/gravity-forms-placeholders/gf.placeholders.js?ver=1.0'></script>
+
   <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
   <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
   <!-- <link rel="stylesheet" type="text/css" href="http://opengeo.org/include/superfish/css/superfish.css" media="screen" /> -->
-
-  <script type="text/javascript" src="http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery.js?ver=1.10.2"></script>
-  <script type="text/javascript" src="http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1"></script>
 
   <script type="text/javascript">
     var DOCUMENTATION_OPTIONS = {
@@ -118,7 +127,6 @@
         FILE_SUFFIX: '{{ file_suffix }}'
     };
   </script>
-  <script type="text/javascript" src="{{ pathto('_static/jquery.js', 1) }}"></script>
   <script type="text/javascript" src="{{ pathto('_static/underscore.js', 1) }}"></script>
   <script type="text/javascript" src="{{ pathto('_static/doctools.js', 1) }}"></script>
   <script type="text/javascript" src="{{ pathto('_static/searchtools.js', 1) }}"></script>
@@ -158,18 +166,6 @@
     })();
 //]]></script>
 {%- endblock %}
-<link rel="alternate" type="application/rss+xml" title="Boundless &raquo; Education Center Comments Feed" href="http://boundlessgeo.com/resources/training/feed/" />
-<link rel='stylesheet' id='ppm-accordion-plugin-style-css'  href='http://boundlessgeo.com/wp-content/plugins/ppm-accordion-ultimate/css/style.css?ver=3.6.1' type='text/css' media='all' />
-<link rel='stylesheet' id='shslider-css'  href='http://boundlessgeo.com/wp-content/plugins/simple-html-slider-pro/css/shslider.css?ver=3.6.1' type='text/css' media='all' />
-<link rel='stylesheet' id='ssbaFont-css'  href='http://fonts.googleapis.com/css?family=Indie+Flower&#038#038;ver=3.6.1' type='text/css' media='all' />
-<link rel='stylesheet' id='ssba-page-styles-css'  href='http://boundlessgeo.com/wp-content/plugins/simple-share-buttons-adder/css/page-style.css?ver=3.6.1' type='text/css' media='all' />
-<link rel='stylesheet' id='style-css'  href='http://boundlessgeo.com/wp-content/themes/open-geo/style.css?ver=3.6.1' type='text/css' media='all' />
-<link rel='stylesheet' id='page-list-style-css'  href='http://boundlessgeo.com/wp-content/plugins/page-list/css/page-list.css?ver=4.2' type='text/css' media='all' />
-<script>var jquery_placeholder_url = 'http://boundlessgeo.com/wp-content/plugins/gravity-forms-placeholders/jquery.placeholder-1.0.1.js';</script><script type='text/javascript' src='http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery.js?ver=1.10.2'></script>
-<script type='text/javascript' src='http://boundlessgeo.com/wordpress/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.2.1'></script>
-<script type='text/javascript' src='http://boundlessgeo.com/wp-content/plugins/ppm-accordion-ultimate/js/ppm-accordion-main.js?ver=3.6.1'></script>
-<script type='text/javascript' src='http://boundlessgeo.com/wp-content/plugins/gravity-forms-placeholders/gf.placeholders.js?ver=1.0'></script>
-
   <!--
   <script type="text/javascript" src="http://opengeo.org/include/superfish/js/jquery-1.2.6.min.js"></script>
   <script type="text/javascript" src="http://opengeo.org/include/superfish/js/hoverIntent.js"></script>
