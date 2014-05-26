@@ -1,0 +1,464 @@
+{"rules":[
+
+{
+  "name":"admin_01234",
+  "filter":{
+    "boundary":["administrative"],
+    "admin_level":["0","1","2","3","4"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "admin_level":{"name":"admin_level", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"admin_5678",
+  "filter":{
+    "boundary":["administrative"],
+    "admin_level":["5","6","7","8"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "admin_level":{"name":"admin_level", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"admin_other",
+  "filter":{
+    "boundary":["administrative"],
+    "admin_level":[]
+  },
+  "exclude":{
+    "admin_level":["0","1","2","3","4","5","6","7","8"]
+  },  
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "admin_level":{"name":"admin_level", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"buildings_lz",
+  "filter":{
+    "geom":["closed"],
+    "building":["station","supermarket"],
+    "railway":["station"],
+    "amenity":["place_of_worship"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"POLYGON"},
+    "building":{"name":"building", "type":"STRING"},
+    "railway":{"name":"railway", "type":"STRING"},
+    "amenity":{"name":"amenity", "type":"STRING"}
+  }
+},
+
+{
+  "name":"buildings",
+  "filter":{
+    "geom":["closed"],
+    "building":[],
+    "aeroway":["terminal"]
+  },
+  "exclude":{
+    "building":["no","station","supermarket","planned"],
+    "railway":["station"],
+    "amenity":["place_of_worship"]
+  },  
+  "fields":{
+    "geom":{"name":"way","type":"POLYGON"},
+    "aeroway":{"name":"aeroway", "type":"STRING"},
+    "building":{"name":"building", "type":"STRING"}
+  }
+},
+
+{
+  "name":"glaciers_text",
+  "filter":{
+    "geom":["closed"],
+    "natural":["glacier"]
+  },
+  "exclude":{
+    "building":[]
+  },  
+  "fields":{
+    "geom":{"name":"way","type":"POLYGON"},
+    "name":{"name":"name", "type":"STRING"},
+    "way_area":{"name":"way_area", "type":"DOUBLE"}
+  }
+},
+
+{
+  "name":"highway_area_casing",
+  "filter":{
+    "geom":["closed"],
+    "highway":["residential","unclassified","pedestrian","service","footway","track","path","platform"],
+    "railway":["platform"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "railway":{"name":"railway", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"highway_area_fill",
+  "filter":{
+    "geom":["closed"],
+    "highway":["residential","unclassified","pedestrian","service","footway","living_street","track","path","platform","services"],
+    "railway":["platform"],
+    "aeroway":["runway","taxiway","helipad"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "railway":{"name":"railway", "type":"STRING"},
+    "aeroway":{"name":"aeroway", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"landcover_line",
+  "filter":{
+    "geom":["open"],
+    "man_made":["cutline"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"LINESTRING"},
+    "man_made":{"name":"man_made", "type":"STRING"}
+  }
+},
+
+{
+  "name":"landcover",
+  "filter":{
+    "geom":["closed"],
+    "landuse":[],
+    "leisure":[],
+    "aeroway":["apron","aerodrome"],
+    "amenity":["parking","university","college","school","hospital","kindergarten","grave_yard"],
+    "military":["barracks","danger_area"],
+    "natural":["field","beach","desert","heath","mud","grassland","wood","sand","scrub"],
+    "power":["station","sub_station","generator"],
+    "tourism":["attraction","camp_site","caravan_site","picnic_site","zoo"],
+    "highway":["services","rest_area"]
+  },
+  "exclude":{
+    "building":[]
+  },  
+  "fields":{
+    "geom":{"name":"way","type":"POLYGON"},
+    "aeroway":{"name":"aeroway", "type":"STRING"},
+    "amenity":{"name":"amenity", "type":"STRING"},
+    "landuse":{"name":"landuse", "type":"STRING"},
+    "leisure":{"name":"leisure", "type":"STRING"},
+    "man_made":{"name":"man_made", "type":"STRING"},
+    "military":{"name":"military", "type":"STRING"},
+    "natural":{"name":"natural", "type":"STRING"},
+    "power":{"name":"power", "type":"STRING"},
+    "tourism":{"name":"tourism", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "religion":{"name":"religion", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"landuse_overlay",
+  "filter":{
+    "geom":["closed"],
+    "landuse":["military"],
+    "leisure":["nature_reserve"]
+  },
+  "exclude":{
+    "building":[]
+  },  
+  "fields":{
+    "geom":{"name":"way","type":"POLYGON"},
+    "landuse":{"name":"landuse", "type":"STRING"},
+    "leisure":{"name":"leisure", "type":"STRING"}
+  }
+},
+
+{
+  "name":"minor_roads_casing",
+  "filter":{
+    "geom":["open"],
+    "highway":["motorway","motorway_link","trunk","trunk_link","primary","primary_link","secondary","secondary_link","tertiary","tertiary_link","residential","unclassified","road","service","pedestrian","raceway","living_street"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "tunnel":{"name":"tunnel", "type":"STRING"},
+    "service":{"name":"service", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"minor_roads_fill",
+  "filter":{
+    "geom":["open"],
+    "highway":[],
+    "aeroway":["runway","taxiway"],
+    "railway":["light_rail","narrow_gauge","funicular","rail","subway","tram","spur","siding","platform","disused","abandoned","construction","miniature","turntable"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "horse":{"name":"horse", "type":"STRING"},
+    "bicycle":{"name":"bicycle", "type":"STRING"},
+    "foot":{"name":"foot", "type":"STRING"},
+    "construction":{"name":"construction", "type":"STRING"},
+    "aeroway":{"name":"aeroway", "type":"STRING"},
+    "tunnel":{"name":"tunnel", "type":"STRING"},
+    "bridge":{"name":"bridge", "type":"STRING"},
+    "railway":{"name":"railway", "type":"STRING"},
+    "service":{"name":"service", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"placenames_capital",
+  "filter":{
+    "place":["city","metropolis","town"],
+    "capital":["yes","true","1"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"POINT"},
+    "place":{"name":"place", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"},
+    "ref":{"name":"ref", "type":"STRING"}
+  }
+},
+
+{
+  "name":"placenames_large",
+  "filter":{
+    "place":["country","state"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"POINT"},
+    "place":{"name":"place", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"},
+    "ref":{"name":"ref", "type":"STRING"}
+  }
+},
+
+{
+  "name":"placenames_medium",
+  "filter":{
+    "place":["city","metropolis","town","large_town","small_town"]
+  },
+  "exclude":{
+    "capital":["yes", "true", "1"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"POINT"},
+    "name":{"name":"name", "type":"STRING"},
+    "place":{"name":"place", "type":"STRING"}
+  }
+},
+
+{
+  "name":"placenames_small",
+  "filter":{
+    "place":["suburb","village","large_village","hamlet","locality","isolated_dwelling","farm"]
+  },
+  "fields":{
+    "geom":{"name":"way","type":"POINT"},
+    "name":{"name":"name", "type":"STRING"},
+    "place":{"name":"place", "type":"STRING"}
+  }
+},
+
+{
+  "name":"polygon_barrier",
+  "filter":{
+    "geom":["closed"],
+    "barrier":[],
+    "natural":["hedge"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "barrier":{"name":"barrier", "type":"STRING"},
+    "natural":{"name":"natural", "type":"STRING"}
+  }
+},
+
+{
+  "name":"roads_text_name",
+  "filter":{
+    "geom":["open"],
+    "highway":[],
+    "name":[]
+  },
+  "exclude":{
+    "waterway":[],
+    "leisure":[],
+    "landuse":[]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"}
+  }
+},
+
+{
+  "name":"roads_text_ref_low_zoom",
+  "filter":{
+    "geom":["open"],
+    "highway":["motorway","trunk","primary","secondary"]
+  },
+  "exclude":{
+    "ref":null
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "ref":{"name":"ref", "type":"STRING"}
+  }
+},
+
+{
+  "name":"roads_text_ref",
+  "filter":{
+    "geom":["open"],
+    "highway":[],
+    "aeroway":[]
+  },
+  "exclude":{
+    "ref":null
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "aeroway":{"name":"aeroway", "type":"STRING"},
+    "ref":{"name":"ref", "type":"STRING"}
+  }
+},
+
+{
+  "name":"roads",
+  "filter":{
+    "geom":["open"],
+    "highway":[],
+    "railway":[]
+  },
+  "exclude":{
+    "railway":["preserved"],
+    "service":["spur","siding","yard"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "highway":{"name":"highway", "type":"STRING"},
+    "tunnel":{"name":"tunnel", "type":"STRING"},
+    "railway":{"name":"railway", "type":"STRING"},
+    "z_order":{"name":"z_order", "type":"INTEGER"}
+  }
+},
+
+{
+  "name":"sports_grounds",
+  "filter":{
+    "geom":["closed"],
+    "leisure":["sports_centre","stadium","pitch","track"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "leisure":{"name":"leisure", "type":"STRING"}
+  }
+},
+
+{
+  "name":"water_areas_overlay",
+  "filter":{
+    "geom":["closed"],
+    "natural":["marsh","wetland"]
+  },
+  "exclude":{
+    "building":[]
+  },  
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "natural":{"name":"natural", "type":"STRING"}
+  }
+},
+
+{
+  "name":"water_areas",
+  "filter":{
+    "geom":["closed"],
+    "natural":["lake","water","land","glacier","mud","bay"],
+    "waterway":["dock","mill_pond","riverbank","canal"],
+    "landuse":["reservoir","water","basin"]
+  },
+  "exclude":{
+    "building":[]
+  },  
+  "fields":{
+    "geom":{"name":"way", "type":"POLYGON"},
+    "natural":{"name":"natural", "type":"STRING"},
+    "waterway":{"name":"waterway", "type":"STRING"},
+    "landuse":{"name":"landuse", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"}
+  }
+},
+
+{
+  "name":"water_lines_casing",
+  "filter":{
+    "geom":["open"],
+    "waterway":["stream","drain","ditch"]
+  },
+  "exclude":{
+    "tunnel":["yes","true","1"]
+  },  
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "waterway":{"name":"waterway", "type":"STRING"}
+  }
+},
+
+{
+  "name":"water_lines_low_zoom",
+  "filter":{
+    "geom":["open"],
+    "waterway":["river"]
+  },
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "waterway":{"name":"waterway", "type":"STRING"}
+  }
+},
+
+{
+  "name":"water_lines",
+  "filter":{
+    "geom":["open"],
+    "waterway":["weir","river","canal","derelict_canal","stream","drain","ditch","wadi"]
+  },
+  "exclude":{
+    "bridge":["yes","true","1","aqueduct"]
+  },  
+  "fields":{
+    "geom":{"name":"way", "type":"LINESTRING"},
+    "waterway":{"name":"waterway", "type":"STRING"},
+    "disused":{"name":"disused", "type":"STRING"},
+    "lock":{"name":"lock", "type":"STRING"},
+    "name":{"name":"name", "type":"STRING"},
+    "tunnel":{"name":"tunnel", "type":"STRING"}
+  }
+}
+
+]}
+
+
