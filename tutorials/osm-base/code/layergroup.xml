@@ -1,0 +1,28 @@
+<layerGroup>
+  <name>osm</name>
+  <workspace>osm</workspace>
+  <layers>
+    <layer>agriculture</layer>
+    <layer>beach</layer>
+    <layer>forest</layer>
+    <layer>grass</layer>
+    <layer>water-outline</layer>
+    <layer>water</layer>
+    <layer>park</layer>
+    <layer>aero-poly</layer>
+    <layer>parking-area</layer>
+    <layer>amenity-areas</layer>
+    <layer>building</layer>
+    <layer>route-tunnels</layer>
+    <layer>route-bridge-0</layer>
+    <layer>route-bridge-1</layer>
+    <layer>route-bridge-2</layer>
+    <layer>route-bridge-3</layer>
+    <layer>route-bridge-4</layer>
+    <layer>route-bridge-5</layer>
+    <layer>route-line</layer>
+    <layer>route-fill</layer>
+    <layer>placenames-medium</layer>
+    <layer>highway-label</layer>
+  </layers>
+</layerGroup>

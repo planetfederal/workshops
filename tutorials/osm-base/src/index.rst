@@ -143,7 +143,80 @@ For each table, we will need to rule in our `GeoGit data mapping`_ file that ext
 
 
 
+curl -v -u admin:geoserver -XPOST -d@layergroup.xml -H "Content-type: text/xml" \
+  http://localhost:8080/geoserver/rest/workspaces/osm/layergroups
+
+curl -v -u admin:geoserver -XDELETE \
+  http://localhost:8080/geoserver/rest/workspaces/osm/layergroups/osm
+
+
+#
+# add layer/style information for every SLD file in our collection
+#
+for sldfile in *.sld; do
+
+  # strip the extension from the filename to use for layer/style names
+  layername=`basename $sldfile .sld`
   
+  # create a new featuretype in the store, assuming the table 
+  # already exists and is named $layername
+  # this automatically creates a layer of the same name
+  curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" \
+    -d "<featureType><name>$layername</name></featureType>" \
+    http://localhost:8080/geoserver/rest/workspaces/osm/datastores/openstreetmap/featuretypes?recalculate=nativebbox,latlonbbox
+
+  # create an empty style object in the workspace, using the same name
+  curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" \
+    -d "<style><name>$layername</name><filename>$sldfile</filename></style>" \
+    http://localhost:8080/geoserver/rest/workspaces/osm/styles
+
+  # upload the SLD definition to the style
+  curl -v -u admin:geoserver -XPUT -H "Content-type: application/vnd.ogc.sld+xml" \
+    -d @$sldfile http://localhost:8080/geoserver/rest/workspaces/osm/styles/$layername
+
+  # associate the style with the layer as the default style
+  curl -v -u admin:geoserver -XPUT -H "Content-type: text/xml" \
+    -d "<layer><defaultStyle><name>$layername</name><workspace>osm</workspace></defaultStyle></layer>" \
+    http://localhost:8080/geoserver/rest/layers/osm:$layername
+
+done
+
+
+for sldfile in *.sld; do
+
+  # strip the extension from the filename to use for layer/style names
+  layername=`basename $sldfile .sld`
+
+  curl -v -u admin:geoserver -XDELETE \
+    http://localhost:8080/geoserver/rest/layers/$layername?recurse=true
+
+  curl -v -u admin:geoserver -XDELETE \
+    http://localhost:8080/geoserver/rest/workspaces/osm/styles/$layername
+
+done
+
+
+
+Load Data
+=========
+
+From: https://mapzen.com/metro-extracts
+This: https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip
+
+:: 
+
+  shp2pgsql -S -g way -D -s 4326 -I -i victoria.osm-line.shp planet_osm_line | psql osm2
+  shp2pgsql -S -g way -D -s 4326 -I -i victoria.osm-point.shp planet_osm_point | psql osm2
+  shp2pgsql -g way -D -s 4326 -I -i victoria.osm-polygon.shp planet_osm_polygon | psql osm2
+
+From: http://openstreetmapdata.com/data/coastlines
+This: http://data.openstreetmapdata.com/coastlines-split-4326.zip
+
+:: 
+  shp2pgsql -s 4326 -I -D lines.shp coastlines | psql osm2  
+
+
+
 Conclusion
 ----------
 
