@@ -202,7 +202,8 @@ Load Data
 
 From: https://mapzen.com/metro-extracts
 This: https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip
-
+      https://s3.amazonaws.com/metro-extracts.mapzen.com/denver-boulder.osm2pgsql-shapefiles.zip
+      
 :: 
 
   shp2pgsql -S -g way -D -s 4326 -I -i victoria.osm-line.shp planet_osm_line | psql osm2
@@ -215,6 +216,25 @@ This: http://data.openstreetmapdata.com/coastlines-split-4326.zip
 :: 
   shp2pgsql -s 4326 -I -D lines.shp coastlines | psql osm2  
 
+CREATE TABLE polys AS
+WITH bounds AS (
+ SELECT ST_SetSRID(ST_Extent(way)::geometry,4326) AS geom FROM planet_osm_line
+ ),
+edges AS (
+  SELECT (ST_Dump(ST_Intersection(c.geom, b.geom))).geom AS geom
+  FROM coastlines c, bounds b
+  WHERE ST_Intersects(b.geom, c.geom)
+  UNION
+  SELECT (ST_Dump(ST_Difference(ST_ExteriorRing(b.geom), c.geom))).geom AS geom
+  FROM coastlines c, bounds b
+  WHERE ST_Intersects(ST_ExteriorRing(b.geom), c.geom)
+  UNION
+  SELECT (ST_Dump(ST_Difference(c.geom, ST_ExteriorRing(b.geom)))).geom AS geom
+  FROM coastlines c, bounds b
+  WHERE ST_Intersects(ST_ExteriorRing(b.geom), c.geom)
+)
+SELECT 1::integer, (ST_Dump(ST_Polygonize(geom))).geom::geometry(Polygon,4326) AS geom
+FROM edges;
 
 
 Conclusion

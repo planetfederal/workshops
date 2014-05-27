@@ -39,7 +39,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -76,7 +76,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -113,7 +113,7 @@
               <sld:CssParameter name="fill">#09131A</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -143,7 +143,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -180,7 +180,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -217,7 +217,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -254,7 +254,7 @@
               <sld:CssParameter name="fill">#09131A</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -290,7 +290,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -326,7 +326,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -362,7 +362,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -398,7 +398,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -434,7 +434,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -470,7 +470,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -506,7 +506,7 @@
               <sld:CssParameter name="fill">#14250E</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -542,7 +542,7 @@
               <sld:CssParameter name="fill">#09131A</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -579,7 +579,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -616,7 +616,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -653,7 +653,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -690,7 +690,7 @@
               <sld:CssParameter name="fill">#000000</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -727,7 +727,7 @@
               <sld:CssParameter name="fill">#14250E</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -764,7 +764,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -801,7 +801,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -838,7 +838,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -875,7 +875,7 @@
               <sld:CssParameter name="fill">#444444</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -912,7 +912,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -949,7 +949,7 @@
               <sld:CssParameter name="fill">#644405</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -986,7 +986,7 @@
               <sld:CssParameter name="fill">#14250E</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
         <sld:Rule>
@@ -1023,7 +1023,7 @@
               <sld:CssParameter name="fill">#09131A</sld:CssParameter>
             </sld:Fill>
             <sld:VendorOption name="followLine">True</sld:VendorOption>
-            <sld:VendorOption name="group">False</sld:VendorOption>
+            <sld:VendorOption name="group">True</sld:VendorOption>
           </sld:TextSymbolizer>
         </sld:Rule>
       </sld:FeatureTypeStyle>
@@ -1036,15 +1036,54 @@
                 <ogc:PropertyName>oneway</ogc:PropertyName>
                 <ogc:Literal>yes</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>trunk</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>highway</ogc:PropertyName>
+                  <ogc:Literal>trunk</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:Or>
+                  <ogc:PropertyIsEqualTo>
+                    <ogc:PropertyName>highway</ogc:PropertyName>
+                    <ogc:Literal>primary</ogc:Literal>
+                  </ogc:PropertyIsEqualTo>
+                  <ogc:Or>
+                    <ogc:PropertyIsEqualTo>
+                      <ogc:PropertyName>highway</ogc:PropertyName>
+                      <ogc:Literal>motorway</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                    <ogc:PropertyIsEqualTo>
+                      <ogc:PropertyName>highway</ogc:PropertyName>
+                      <ogc:Literal>secondary</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                  </ogc:Or>
+                </ogc:Or>
+              </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <sld:MinScaleDenominator>5000.0</sld:MinScaleDenominator>
           <sld:MaxScaleDenominator>12500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
+
+          <sld:TextSymbolizer>
+            <sld:Label>
+              <ogc:Literal>&#x2192;</ogc:Literal>
+            </sld:Label>
+            <sld:Font>
+              <sld:CssParameter name="font-family">DejaVu Sans</sld:CssParameter>
+              <sld:CssParameter name="font-size">12</sld:CssParameter>
+            </sld:Font>
+            <sld:LabelPlacement>
+              <sld:LinePlacement>
+                <sld:PerpendicularOffset>0</sld:PerpendicularOffset>
+              </sld:LinePlacement>
+            </sld:LabelPlacement>            
+            <sld:Fill>
+              <sld:CssParameter name="fill">#94adb5</sld:CssParameter>
+            </sld:Fill>
+            <sld:VendorOption name="followLine">true</sld:VendorOption>
+            <sld:VendorOption name="forceLeftToRight">false</sld:VendorOption>
+          </sld:TextSymbolizer>
+
+          <!-- <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
                 <sld:WellKnownName>circle</sld:WellKnownName>
@@ -1052,7 +1091,7 @@
               </sld:Mark>
               <sld:Size>6</sld:Size>
             </sld:Graphic>
-          </sld:PointSymbolizer>
+          </sld:PointSymbolizer> -->
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
@@ -1061,109 +1100,54 @@
                 <ogc:PropertyName>oneway</ogc:PropertyName>
                 <ogc:Literal>yes</ogc:Literal>
               </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>primary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>5000.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>12500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>motorway</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>5000.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>12500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>secondary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>5000.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>12500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>oneway</ogc:PropertyName>
-              <ogc:Literal>yes</ogc:Literal>
-            </ogc:PropertyIsEqualTo>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>5000.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>12500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>trunk</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
+              <ogc:Or>
+                <ogc:PropertyIsEqualTo>
+                  <ogc:PropertyName>highway</ogc:PropertyName>
+                  <ogc:Literal>trunk</ogc:Literal>
+                </ogc:PropertyIsEqualTo>
+                <ogc:Or>
+                  <ogc:PropertyIsEqualTo>
+                    <ogc:PropertyName>highway</ogc:PropertyName>
+                    <ogc:Literal>primary</ogc:Literal>
+                  </ogc:PropertyIsEqualTo>
+                  <ogc:Or>
+                    <ogc:PropertyIsEqualTo>
+                      <ogc:PropertyName>highway</ogc:PropertyName>
+                      <ogc:Literal>motorway</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                    <ogc:PropertyIsEqualTo>
+                      <ogc:PropertyName>highway</ogc:PropertyName>
+                      <ogc:Literal>secondary</ogc:Literal>
+                    </ogc:PropertyIsEqualTo>
+                  </ogc:Or>
+                </ogc:Or>
+              </ogc:Or>
             </ogc:And>
           </ogc:Filter>
           <sld:MinScaleDenominator>2500.0</sld:MinScaleDenominator>
           <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
+
+          <sld:TextSymbolizer>
+            <sld:Label>
+              <ogc:Literal>&#x2192;</ogc:Literal>
+            </sld:Label>
+            <sld:Font>
+              <sld:CssParameter name="font-family">DejaVu Sans</sld:CssParameter>
+              <sld:CssParameter name="font-size">13</sld:CssParameter>
+            </sld:Font>
+            <sld:LabelPlacement>
+              <sld:LinePlacement>
+                <sld:PerpendicularOffset>0</sld:PerpendicularOffset>
+              </sld:LinePlacement>
+            </sld:LabelPlacement>            
+            <sld:Fill>
+              <sld:CssParameter name="fill">#94adb5</sld:CssParameter>
+            </sld:Fill>
+            <sld:VendorOption name="followLine">true</sld:VendorOption>
+            <sld:VendorOption name="forceLeftToRight">false</sld:VendorOption>
+          </sld:TextSymbolizer>
+          
+          <!-- <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
                 <sld:WellKnownName>circle</sld:WellKnownName>
@@ -1171,197 +1155,8 @@
               </sld:Mark>
               <sld:Size>6</sld:Size>
             </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>primary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>2500.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>motorway</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>2500.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>secondary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>2500.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:PropertyIsEqualTo>
-              <ogc:PropertyName>oneway</ogc:PropertyName>
-              <ogc:Literal>yes</ogc:Literal>
-            </ogc:PropertyIsEqualTo>
-          </ogc:Filter>
-          <sld:MinScaleDenominator>2500.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>trunk</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MaxScaleDenominator>2500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>primary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MaxScaleDenominator>2500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>motorway</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MaxScaleDenominator>2500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <ogc:Filter>
-            <ogc:And>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>oneway</ogc:PropertyName>
-                <ogc:Literal>yes</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-              <ogc:PropertyIsEqualTo>
-                <ogc:PropertyName>highway</ogc:PropertyName>
-                <ogc:Literal>secondary</ogc:Literal>
-              </ogc:PropertyIsEqualTo>
-            </ogc:And>
-          </ogc:Filter>
-          <sld:MaxScaleDenominator>2500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
-            <sld:Graphic>
-              <sld:Mark>
-                <sld:WellKnownName>circle</sld:WellKnownName>
-                <sld:Stroke/>
-              </sld:Mark>
-              <sld:Size>6</sld:Size>
-            </sld:Graphic>
-          </sld:PointSymbolizer>
+          </sld:PointSymbolizer> -->
+
         </sld:Rule>
         <sld:Rule>
           <ogc:Filter>
@@ -1371,7 +1166,28 @@
             </ogc:PropertyIsEqualTo>
           </ogc:Filter>
           <sld:MaxScaleDenominator>2500.0</sld:MaxScaleDenominator>
-          <sld:PointSymbolizer>
+
+          <sld:TextSymbolizer>
+            <sld:Label>
+              <ogc:Literal>&#x2192;</ogc:Literal>
+            </sld:Label>
+            <sld:Font>
+              <sld:CssParameter name="font-family">DejaVu Sans</sld:CssParameter>
+              <sld:CssParameter name="font-size">14</sld:CssParameter>
+            </sld:Font>
+            <sld:LabelPlacement>
+              <sld:LinePlacement>
+                <sld:PerpendicularOffset>0</sld:PerpendicularOffset>
+              </sld:LinePlacement>
+            </sld:LabelPlacement>            
+            <sld:Fill>
+              <sld:CssParameter name="fill">#94adb5</sld:CssParameter>
+            </sld:Fill>
+            <sld:VendorOption name="followLine">true</sld:VendorOption>
+            <sld:VendorOption name="forceLeftToRight">false</sld:VendorOption>
+          </sld:TextSymbolizer>
+
+          <!-- <sld:PointSymbolizer>
             <sld:Graphic>
               <sld:Mark>
                 <sld:WellKnownName>circle</sld:WellKnownName>
@@ -1379,7 +1195,7 @@
               </sld:Mark>
               <sld:Size>6</sld:Size>
             </sld:Graphic>
-          </sld:PointSymbolizer>
+          </sld:PointSymbolizer> -->
         </sld:Rule>
       </sld:FeatureTypeStyle>
     </sld:UserStyle>

@@ -6,28 +6,17 @@
       <sld:FeatureTypeStyle>
         <sld:Name>name</sld:Name>
         <sld:Rule>
-          <sld:MinScaleDenominator>12500.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>50000.0</sld:MaxScaleDenominator>
+          <sld:MaxScaleDenominator>5000.0</sld:MaxScaleDenominator>
           <sld:LineSymbolizer>
             <sld:Stroke>
-              <sld:CssParameter name="stroke">#CAC0C0</sld:CssParameter>
-              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+              <sld:CssParameter name="stroke">#BEB2B2</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.4</sld:CssParameter>
             </sld:Stroke>
           </sld:LineSymbolizer>
           <sld:PolygonSymbolizer>
             <sld:Fill>
               <sld:CssParameter name="fill">#D5CECE</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
-            </sld:Fill>
-          </sld:PolygonSymbolizer>
-        </sld:Rule>
-        <sld:Rule>
-          <sld:MinScaleDenominator>100000.0</sld:MinScaleDenominator>
-          <sld:MaxScaleDenominator>200000.0</sld:MaxScaleDenominator>
-          <sld:PolygonSymbolizer>
-            <sld:Fill>
-              <sld:CssParameter name="fill">#D5CECE</sld:CssParameter>
-              <sld:CssParameter name="fill-opacity">0.2</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.5</sld:CssParameter>
             </sld:Fill>
           </sld:PolygonSymbolizer>
         </sld:Rule>
@@ -48,12 +37,38 @@
           </sld:PolygonSymbolizer>
         </sld:Rule>
         <sld:Rule>
+          <sld:MinScaleDenominator>12500.0</sld:MinScaleDenominator>
+          <sld:MaxScaleDenominator>50000.0</sld:MaxScaleDenominator>
+          <sld:LineSymbolizer>
+            <sld:Stroke>
+              <sld:CssParameter name="stroke">#CAC0C0</sld:CssParameter>
+              <sld:CssParameter name="stroke-width">0.2</sld:CssParameter>
+            </sld:Stroke>
+          </sld:LineSymbolizer>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#D5CECE</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.4</sld:CssParameter>
+            </sld:Fill>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+        <sld:Rule>
           <sld:MinScaleDenominator>50000.0</sld:MinScaleDenominator>
           <sld:MaxScaleDenominator>100000.0</sld:MaxScaleDenominator>
           <sld:PolygonSymbolizer>
             <sld:Fill>
               <sld:CssParameter name="fill">#D5CECE</sld:CssParameter>
               <sld:CssParameter name="fill-opacity">0.3</sld:CssParameter>
+            </sld:Fill>
+          </sld:PolygonSymbolizer>
+        </sld:Rule>
+        <sld:Rule>
+          <sld:MinScaleDenominator>100000.0</sld:MinScaleDenominator>
+          <sld:MaxScaleDenominator>200000.0</sld:MaxScaleDenominator>
+          <sld:PolygonSymbolizer>
+            <sld:Fill>
+              <sld:CssParameter name="fill">#D5CECE</sld:CssParameter>
+              <sld:CssParameter name="fill-opacity">0.2</sld:CssParameter>
             </sld:Fill>
           </sld:PolygonSymbolizer>
         </sld:Rule>
