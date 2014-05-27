@@ -1,38 +1,45 @@
 DROP TABLE IF EXISTS "aero-poly";
-CREATE TABLE "aero-poly" AS ( SELECT way,aeroway 
-FROM planet_osm_polygon
-WHERE "aeroway" IN ('apron','runway','taxiway','helipad')
-ORDER BY z_order asc );
+CREATE TABLE "aero-poly" AS ( 
+  SELECT way,aeroway 
+  FROM planet_osm_polygon
+  WHERE "aeroway" IN ('apron','runway','taxiway','helipad')
+  ORDER BY z_order ASC );
 CREATE INDEX "aero-poly_way_idx" ON "aero-poly" USING gist (way);
 
 DROP TABLE IF EXISTS "agriculture";
-CREATE TABLE "agriculture" AS ( SELECT way,landuse FROM planet_osm_polygon
-WHERE "landuse" IN ('allotments','farm','farmland','farmyard',
- 'orchard','vineyard')
-ORDER BY z_order asc );
+CREATE TABLE "agriculture" AS ( 
+  SELECT way,landuse FROM planet_osm_polygon
+  WHERE "landuse" IN ('allotments','farm','farmland','farmyard',
+                      'orchard','vineyard')
+  ORDER BY z_order ASC );
 CREATE INDEX "agriculture_way_idx" ON "agriculture" USING gist (way);
 
 DROP TABLE IF EXISTS "amenity-areas";
-CREATE TABLE "amenity-areas" AS (select way,amenity from planet_osm_polygon
-where amenity in ('hospital','college','school','university')
-and (building is null or building not in ('no')));
+CREATE TABLE "amenity-areas" AS (
+  SELECT way,amenity FROM planet_osm_polygon
+  WHERE amenity IN ('hospital','college','school','university')
+  AND (building IS NULL OR building NOT IN ('no'))
+);
 CREATE INDEX "amenity-areas_way_idx" ON "amenity-areas" USING gist (way);
 
 DROP TABLE IF EXISTS "beach";
-CREATE TABLE "beach" AS ( SELECT way,"natural"
+CREATE TABLE "beach" AS ( 
+  SELECT way,"natural"
   FROM planet_osm_polygon
   WHERE "natural" = 'beach'
-  ORDER BY z_order asc
+  ORDER BY z_order ASC
 );
 CREATE INDEX "beach_way_idx" ON "beach" USING gist (way);
 
 DROP TABLE IF EXISTS "building";
-CREATE TABLE "building" AS ( SELECT way,building,aeroway
-FROM planet_osm_polygon
-WHERE ("building" IS NOT NULL
-AND "building" != 'no')
-OR "aeroway" IN ('terminal')
-ORDER BY z_order asc );
+CREATE TABLE "building" AS ( 
+  SELECT way,building,aeroway
+  FROM planet_osm_polygon
+  WHERE ("building" IS NOT NULL
+  AND "building" != 'no')
+  OR "aeroway" IN ('terminal')
+  ORDER BY z_order ASC 
+);
 CREATE INDEX "building_way_idx" ON "building" USING gist (way);
 
 DROP TABLE IF EXISTS "forest";
@@ -42,7 +49,7 @@ CREATE TABLE "forest" AS ( SELECT *, (CASE
             WHEN way_area >= 100000 THEN 'medium'
             ELSE 'small' END) AS size FROM planet_osm_polygon
           WHERE "natural" IN ('wood') OR "landuse" IN ('forest','wood')
-          ORDER BY z_order asc );
+          ORDER BY z_order ASC );
 CREATE INDEX "forest_way_idx" ON "forest" USING gist (way);
 
 DROP TABLE IF EXISTS "grass";
@@ -53,16 +60,19 @@ CREATE TABLE "grass" AS ( SELECT way,landuse, (CASE
             ELSE 'small' END) AS size FROM planet_osm_polygon
           WHERE "landuse" IN ('grass', 'greenfield', 'meadow')
             OR "natural" IN ('fell', 'heath', 'scrub')
-          ORDER BY z_order asc );
+          ORDER BY z_order ASC 
+        );
 CREATE INDEX "grass_way_idx" ON "grass" USING gist (way);
 
 DROP TABLE IF EXISTS "highway-label";
-CREATE TABLE "highway-label" AS (select way,name,highway, case when oneway in
-  ('yes','true','1') then 'yes'::text end as oneway
-from planet_osm_line
-where "highway" is not null
-and ("name" is not null or "oneway" is not null)
-order by z_order asc );
+CREATE TABLE "highway-label" AS (
+  SELECT way,name,highway, 
+    CASE WHEN oneway IN ('yes','true','1') THEN 'yes'::text END AS oneway
+  FROM planet_osm_line
+  WHERE "highway" IS NOT NULL
+  AND ("name" IS NOT NULL OR "oneway" IS NOT NULL)
+  ORDER BY z_order ASC 
+);
 CREATE INDEX "highway-label_way_idx" ON "highway-label" USING gist (way);
 
 DROP TABLE IF EXISTS "park";
@@ -78,20 +88,24 @@ CREATE TABLE "park" AS ( SELECT *, (CASE
 CREATE INDEX "park_way_idx" ON "park" USING gist (way);
 
 DROP TABLE IF EXISTS "parking-area";
-CREATE TABLE "parking-area" AS (select way,amenity from planet_osm_polygon
-where amenity = 'parking'
+CREATE TABLE "parking-area" AS (
+  SELECT way,amenity 
+  FROM planet_osm_polygon
+  WHERE amenity = 'parking'
 );
 CREATE INDEX "parking-area_way_idx" ON "parking-area" USING gist (way);
 
 DROP TABLE IF EXISTS "placenames-medium";
-CREATE TABLE "placenames-medium" AS ( SELECT way,place,name
+CREATE TABLE "placenames-medium" AS ( 
+  SELECT way,place,name
   FROM planet_osm_point
   WHERE place IN ('city','metropolis','town','large_town','small_town')
 );
 CREATE INDEX "placenames-medium_way_idx" ON "placenames-medium" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-0";
-CREATE TABLE "route-bridge-0" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-0" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -103,7 +117,8 @@ CREATE TABLE "route-bridge-0" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-0_way_idx" ON "route-bridge-0" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-1";
-CREATE TABLE "route-bridge-1" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-1" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -115,7 +130,8 @@ CREATE TABLE "route-bridge-1" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-1_way_idx" ON "route-bridge-1" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-2";
-CREATE TABLE "route-bridge-2" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-2" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -127,7 +143,8 @@ CREATE TABLE "route-bridge-2" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-2_way_idx" ON "route-bridge-2" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-3";
-CREATE TABLE "route-bridge-3" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-3" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -139,7 +156,8 @@ CREATE TABLE "route-bridge-3" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-3_way_idx" ON "route-bridge-3" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-4";
-CREATE TABLE "route-bridge-4" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-4" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -151,7 +169,8 @@ CREATE TABLE "route-bridge-4" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-4_way_idx" ON "route-bridge-4" USING gist (way);
 
 DROP TABLE IF EXISTS "route-bridge-5";
-CREATE TABLE "route-bridge-5" AS ( SELECT way,highway,railway,aeroway,tunnel
+CREATE TABLE "route-bridge-5" AS ( 
+  SELECT way,highway,railway,aeroway,tunnel
   FROM planet_osm_line
   WHERE ( "highway" IS NOT NULL
   OR "railway" IS NOT NULL
@@ -163,7 +182,8 @@ CREATE TABLE "route-bridge-5" AS ( SELECT way,highway,railway,aeroway,tunnel
 CREATE INDEX "route-bridge-5_way_idx" ON "route-bridge-5" USING gist (way);
 
 DROP TABLE IF EXISTS "route-fill";
-CREATE TABLE "route-fill" AS ( select way, highway, horse, bicycle, foot, 
+CREATE TABLE "route-fill" AS ( 
+  SELECT way, highway, horse, bicycle, foot, 
     aeroway,
     case when tunnel in ('yes', 'true', '1')
       then 'yes'::text
@@ -178,40 +198,42 @@ CREATE TABLE "route-fill" AS ( select way, highway, horse, bicycle, foot,
       ('parking_aisle', 'drive-through', 'driveway')
       then 'INT-minor'::text else service 
       end as service
-  from planet_osm_line
-  where highway is not null
-    or aeroway in ( 'runway','taxiway' )
-    or railway in ( 'light_rail', 'narrow_gauge', 'funicular',
+  FROM planet_osm_line
+  WHERE highway IS NOT NULL
+    OR aeroway IN ( 'runway','taxiway' )
+    OR railway IN ( 'light_rail', 'narrow_gauge', 'funicular',
       'rail', 'subway', 'tram', 'spur', 'siding', 'platform',
       'disused', 'abandoned', 'construction', 'miniature' )
-  order by z_order);
+  ORDER BY z_order);
 CREATE INDEX "route-fill_way_idx" ON "route-fill" USING gist (way);
 
 DROP TABLE IF EXISTS "route-line";
-CREATE TABLE "route-line" AS ( select way,highway,aeroway,
-    case when tunnel in ( 'yes', 'true', '1' ) then 'yes'::text
+CREATE TABLE "route-line" AS ( 
+  SELECT way,highway,aeroway,
+    case when tunnel IN ( 'yes', 'true', '1' ) then 'yes'::text
       else 'no'::text end as tunnel,
-    case when service in ( 'parking_aisle',
+    case when service IN ( 'parking_aisle',
       'drive-through','driveway' ) then 'INT-minor'::text
       else service end as service
-  from planet_osm_line
-  where highway in ( 'motorway', 'motorway_link',
+  FROM planet_osm_line
+  WHERE highway in ( 'motorway', 'motorway_link',
     'trunk', 'trunk_link', 'primary', 'primary_link',
     'secondary', 'secondary_link', 'tertiary', 'tertiary_link', 
     'residential', 'unclassified', 'road', 'service',
     'pedestrian', 'raceway', 'living_street' )
   OR "aeroway" IN ('apron','runway','taxiway')
-  order by z_order);
+  ORDER BY z_order);
 CREATE INDEX "route-line_way_idx" ON "route-line" USING gist (way);
 
 DROP TABLE IF EXISTS "route-tunnels";
-CREATE TABLE "route-tunnels" AS ( select way,highway from planet_osm_line 
-  where highway in
+CREATE TABLE "route-tunnels" AS ( 
+  SELECT way,highway FROM planet_osm_line 
+  WHERE highway IN
   ( 'motorway', 'motorway_link', 'trunk', 'trunk_link', 
     'primary', 'primary_link', 'secondary', 'secondary_link',
     'tertiary', 'tertiary_link', 'residential', 'unclassified' )
-  and tunnel in ( 'yes', 'true', '1' )
-  order by z_order );
+  AND tunnel IN ( 'yes', 'true', '1' )
+  ORDER BY z_order );
 CREATE INDEX "route-tunnels_way_idx" ON "route-tunnels" USING gist (way);
 
 DROP TABLE IF EXISTS "route-turning-circles";
@@ -220,17 +242,19 @@ CREATE TABLE "route-turning-circles" AS ( SELECT highway,way FROM planet_osm_poi
 CREATE INDEX "route-turning-circles_way_idx" ON "route-turning-circles" USING gist (way);
 
 DROP TABLE IF EXISTS "water-outline";
-CREATE TABLE "water-outline" AS ( SELECT "natural", "landuse", "waterway", "way"
+CREATE TABLE "water-outline" AS ( 
+  SELECT "natural", "landuse", "waterway", "way"
   FROM planet_osm_polygon
   WHERE "natural" IN ('lake','water')
   OR "waterway" IN ('canal','mill_pond','riverbank')
   OR "landuse" IN ('basin','reservoir','water')
-  ORDER BY z_order asc
+  ORDER BY z_order ASC
 );
 CREATE INDEX "water-outline_way_idx" ON "water-outline" USING gist (way);
 
 DROP TABLE IF EXISTS "water";
-CREATE TABLE "water" AS ( SELECT "natural", "landuse", "waterway", "way"
+CREATE TABLE "water" AS ( 
+  SELECT "natural", "landuse", "waterway", "way"
   FROM planet_osm_polygon
   WHERE "natural" IN ('lake','water')
   OR "waterway" IN ('canal','mill_pond','riverbank')
@@ -240,7 +264,8 @@ CREATE TABLE "water" AS ( SELECT "natural", "landuse", "waterway", "way"
 CREATE INDEX "water_way_idx" ON "water" USING gist (way);
 
 DROP TABLE IF EXISTS "wetland";
-CREATE TABLE "wetland" AS (select way,"natural" from planet_osm_polygon
-where "natural" in ('marsh','wetland')
+CREATE TABLE "wetland" AS (
+  SELECT way,"natural" FROM planet_osm_polygon
+  WHERE "natural" IN ('marsh','wetland')
 );
 CREATE INDEX "wetland_way_idx" ON "wetland" USING gist (way);
