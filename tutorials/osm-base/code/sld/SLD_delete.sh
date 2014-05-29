@@ -4,23 +4,21 @@
 restapi=http://localhost:8080/geoserver/rest
 login=admin:geoserver
 workspace=osm
+store=openstreetmap
 
 for sldfile in *.sld; do
 
   # strip the extension from the filename to use for layer/style names
   layername=`basename $sldfile .sld`
 
-  # Delete layer and associated objects
-  curl -v -u $login -XDELETE \
-    $restapi/workspaces/$workspace/layers/$layername?recurse=true
+  # Delete layer 
+  curl -v -u $login -XDELETE $restapi/layers/$workspace:$layername
 
-  sleep 1
+  # Delete featuretype 
+  curl -v -u $login -XDELETE $restapi/workspaces/$workspace/datastores/$store/featuretypes/$layername
 
-  # Delete style just to make sure
-  curl -v -u $login -XDELETE \
-    $restapi/workspaces/$workspace/styles/$layername
+  # Delete style 
+  curl -v -u admin:geoserver -XDELETE $restapi/workspaces/$workspace/styles/$layername
 
-  sleep 1
-  
 done
 

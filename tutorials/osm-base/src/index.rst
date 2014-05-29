@@ -322,12 +322,12 @@ Create a `layergroup.xml`_ file with the following content:
 Now, run the following command to upload it to the server (you may need to change the login credentials if you have altered them from the default)::
 
   curl -v -u admin:geoserver -XPOST -d@layergroup.xml -H "Content-type: text/xml" \
-    http://localhost:8080/geoserver/rest/workspaces/osm/layergroups
+    http://localhost:8080/geoserver/rest/layergroups
 
 If you find you want to change the definition, you can delete it from the catalogue with the command below, and then run the upload again::
 
   curl -v -u admin:geoserver -XDELETE \
-    http://localhost:8080/geoserver/rest/workspaces/osm/layergroups/osm
+    http://localhost:8080/geoserver/rest/layergroups/osm
 
 
 View the Result
