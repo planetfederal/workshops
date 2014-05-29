@@ -1,6 +1,6 @@
 .. note::
 
-  Check out the `demonstration map <_static/osm-full.html>`_ and play!
+  Check out the `demonstration map <_static/osm-full.html>`_ to see the final product!
 
 Introduction
 ============
@@ -15,6 +15,7 @@ Building a map using OSM data can be daunting: you have to extract data from the
 This tutorial will explore deploying a cartographic product using a small set of easy-to-install tools:
 
 * `OpenGeo Suite`_, for rendering the data and publishing it to the world.
+* ``bash`` scripts and ``curl`` to automate map configuration.
 
 
 Installation
@@ -37,7 +38,9 @@ We will be building a street map of a single city. To keep data volumes small, w
 
 Extracts of OpenStreetMap data for individiual cities are available from `Mapzen metro extracts <https://mapzen.com/metro-extracts>`_. We will be using the extract for `Victoria, BC <https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip>`_, download it and unzip.
 
-Inside the extra are a point file, a line file and a polygon file. In order to line the table names up with our processing downstream, we will name them ``planet_osm_point``, ``planet_osm_line`` and ``planet_osm_polygon`` during import. If you import with the `pgShapeLoader`_ GUI, remember to
+* https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip
+
+Inside the zip archive are a point file, line file and polygon file. In order to line the table names up with our processing later in this tutorial, we will name them ``planet_osm_point``, ``planet_osm_line`` and ``planet_osm_polygon`` during import. If you import with the `pgShapeLoader`_ GUI, remember to
 
 * set the SRID of the data to 4326 (longitude/latitude)
 * set the table names appropriately as above
@@ -49,20 +52,20 @@ Or, you can use the commandline ``shp2pgsql`` utility and do the uploads this wa
   shp2pgsql -g way -s 4326 -I -D -i -S victoria.osm-line.shp planet_osm_line | psql osm
   shp2pgsql -g way -s 4326 -I -D -i victoria.osm-polygon.shp planet_osm_polygon | psql osm
 
-Note that we're "piping" (using the "|" character) the output of the conversion directly to the ``psql`` utility. You might need to add some connection flags there to connect to your local database. There are a lot of loader flags in play here, so it's worth listing what they all do:
+Note that we're "piping" (using the "|" character) the output of the conversion directly to the ``psql`` utility. You might need to add some connection flags there to connect to your local database. There are a lot of ``shp2pgsql`` loader flags in play here, so it's worth listing what they all do:
 
-* "**-g**" controls the column name to use for geometries, we use "way"
-* "**-s**" controls the SRID to apply to the data, we use "4326" for "WGS84 lon/lat"
-* "**-I**" adds a spatial index to the table after loading
-* "**-D**" uses "dump" mode for a faster loading process
-* "**-i**" ensures that all integer types use 32-bit integers
-* "**-S**" ensures that geometry column types are "simple" not "aggregate" (eg, "linestring", not "multilinestring")
+* ``-g`` controls the column name to use for geometries, we use "way"
+* ``-s`` controls the SRID to apply to the data, we use "4326" for "WGS84 lon/lat"
+* ``-I`` adds a spatial index to the table after loading
+* ``-D`` uses "dump" mode for a faster loading process
+* ``-i`` ensures that all integer types use 32-bit integers
+* ``-S`` ensures that geometry column types are "simple" not "aggregate" (eg, "linestring", not "multilinestring")
 
 
 OSM Ocean Data
 --------------
 
-The OSM dump files include roads and land features, but not coastlines or ocean features. In order to get map-ready ocean, we need to download a different file.
+The OSM city files include roads and land features, but not coastlines or ocean features. In order to get mapping-ready ocean, we need to download a different file.
 
 You can download the `whole ocean file <http://openstreetmapdata.com/data/water-polygons>`_ from http://openstreetmapdata.com. However, it's really large, and takes some processing to use in a small project. You can download a clipped set of oceans for our test area from here:
 
@@ -79,7 +82,7 @@ Clipping Your Own Ocean
 If you want to download the big file and clip it yourself, here are the steps.
 
 * Download the full ocean polygon file, from http://openstreetmapdata.com/data/water-polygons
-* Load the file into an ``ocean_all`` table, so it can be clipped down to size::
+* Load the file into an ``ocean_all`` table, so it can be clipped down to size in the database::
 
     shp2pgsql -s 4326 -I -D water_polygons.shp ocean_all | psql osm
 
@@ -87,15 +90,16 @@ If you want to download the big file and clip it yourself, here are the steps.
   calculates the extent of the working area, then uses that extent to clip the world table
   down to just the local extent.
 
-.. code-block:: sql
+  .. code-block:: sql
 
-  CREATE TABLE ocean AS
-  WITH bounds AS (
-   SELECT ST_SetSRID(ST_Extent(way)::geometry,4326) AS geom FROM planet_osm_line
-   )
-  SELECT 1 AS id, ST_Intersection(b.geom, o.geom) AS geom
-  FROM bounds b, ocean_all o
-  WHERE ST_Intersects(b.geom, o.geom);
+    CREATE TABLE ocean AS
+    WITH bounds AS (
+      SELECT ST_SetSRID(ST_Extent(way)::geometry,4326) AS geom 
+      FROM planet_osm_line
+      )
+    SELECT 1 AS id, ST_Intersection(b.geom, o.geom) AS geom
+    FROM bounds b, ocean_all o
+    WHERE ST_Intersects(b.geom, o.geom);
 
 
 Create Layer Tables
@@ -141,7 +145,7 @@ Configure GeoServer
 ===================
 
 Create Workspace
-~~~~~~~~~~~~~~~~
+----------------
 
 We will store our database and view and style definitions in a single "workspace" for easier management. `Login to GeoServer`_, and create a new `workspace`_.
 
@@ -150,7 +154,7 @@ We will store our database and view and style definitions in a single "workspace
 Use ``osm`` as the workspace name, to match up to the rest of the tutorial.
 
 Create Data Store
-~~~~~~~~~~~~~~~~~
+-----------------
 
 We need to connect to our PostGIS database that holds all our tables, so define a new `PostGIS data store <http://suite.opengeo.org/opengeo-docs/geoserver/data/database/postgis.html>`_.
 
@@ -161,7 +165,7 @@ We need to connect to our PostGIS database that holds all our tables, so define 
 * Add the other connection parameters to your database below
 
 Add Layers and Styles
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Because building a cartographic product from 25 input layers is a complex undertaking, we aren't going to go layer by layer, but rather upload an existing configuration into GeoServer to product the output.
 
@@ -170,7 +174,7 @@ Because building a cartographic product from 25 input layers is a complex undert
 Now, there are two approaches to applying the styles, a manual approach and an automatic approach.
 
 Manual Style Loading
-********************
+~~~~~~~~~~~~~~~~~~~~
 
 For each SLD file in the directory, carry out the following steps:
 
@@ -193,7 +197,7 @@ For each SLD file in the directory, carry out the following steps:
 Repeat until every SLD file has been used to create a style, and associated with an appropriate layer/table in the database.
 
 Automatic Style Loading
-***********************
+~~~~~~~~~~~~~~~~~~~~~~~
 
 If you have Linux or OSX, you can use the automatic approach (if you are good at Windows scripting, you can probably adapt this approach). This requires the ``curl`` utility, which is available by default on Linux and OSX.
 
@@ -249,10 +253,10 @@ Once you're done, click on the *Styles* and *Layers* panes to see the results.
 
 
 Create a Layer Group
-~~~~~~~~~~~~~~~~~~~~
+--------------------
 
 Manual Layer Group
-******************
+~~~~~~~~~~~~~~~~~~
 
 Now we have 25 layers, all nicely styled... but we don't want 25 layers, we want one map! 
 
@@ -262,7 +266,7 @@ Again, you can hand-build a layer group, go to the *Layer Groups* pane, and crea
 
 
 Automatic Layer Group
-*********************
+~~~~~~~~~~~~~~~~~~~~~
 
 We can use a single ``curl`` call to add a layer group definition.
 
@@ -312,7 +316,7 @@ If you find you want to change the definition, you can delete it from the catalo
 
 
 View the Result
----------------
+===============
 
 Now that all the layers and styles and layer groups are configured, you can see the result!
 
@@ -326,11 +330,11 @@ Open it up (Click "Go" after the OpenLayers dropdown), and you'll see the result
 
 
 Alter the SLDs
---------------
+==============
 
 You can edit the SLDs directly from the *Styles* pane, one at a time. This has the advantage of providing access to the "Validate" function, which is important to ensure the changes you are making are valid SLD.
 
-For batch changes (global changes to things like font names, for example) sometimes it's easier to update all the SLD files on the desktop, and then re-upload them. For the re-upload process, the following script provides a quick way to refresh all the SLD files on the server in one pass:
+For batch changes (global changes to things like font names, for example) sometimes it's easier to update all the SLD files in your local directory, and then re-upload them. For the re-upload process, the following script provides a quick way to refresh all the SLD files on the server in one pass:
 
 .. code-block:: sh
 
@@ -346,15 +350,67 @@ For batch changes (global changes to things like font names, for example) someti
 
 
 Nicer Web Interface
--------------------
+===================
 
 The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is some code for a simple `OpenLayers3`_ viewer that uses the ``osm`` layer group as a base map element.
 
+.. code-block:: html
 
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <link rel="stylesheet"
+            href="http://ol3js.org/en/master/css/ol.css" 
+            type="text/css">
+      </style>
+      <script src="http://ol3js.org/en/master/build/ol.js" 
+              type="text/javascript"></script>
+      <style>
+        .map {
+          height: 600px;
+          width: 100%;
+        }
+      <title>OpenStreetMap Base</title>
+    </head>
+    <body>
+      <div id="map" class="map"></div>
+      <script type="text/javascript">
+
+        var map = new ol.Map({
+          target: 'map',
+          /** Display map in web mercator */
+          projection: 'EPSG:3857',
+          layers: [
+            new ol.layer.Image({
+              source: new ol.source.ImageWMS({
+                /** Note use of workspace osm in the WMS url */
+                url: 'http://localhost:8080/geoserver/osm/wms',
+                params: {
+                  /** Workspace spec'ed above means we don't need it here */
+                  'LAYERS': 'osm',
+                  /** PNG for street maps, JPG for aerials */
+                  'FORMAT': 'image/png'
+                },
+                /** @type {ol.source.wms.ServerType} */ 
+                serverType: 'geoserver'
+              })
+            })
+          ],
+          view: new ol.View2D({
+            /** Coordinates in lon/lat, easy to understand, transform to web mercator */
+            center: ol.proj.transform([-123.36310, 48.42484], 'EPSG:4326', 'EPSG:3857'),
+            zoom: 14
+          })
+        });
+        
+      </script>
+    </body>
+  </html>
+ 
 
 
 Conclusion
-----------
+==========
 
 In this tutorial, we have seen:
 
@@ -368,10 +424,10 @@ The possibilities are endless!
 
 
 
-.. _sld.zip: _static/code/sld.zip
-.. _create_tables.sql: _static/code/create_tables.sql
-.. _create_views.sql: _static/code/create_views.sql
-.. _layergroup.xml: _static/code/layergroup.xml
+.. _sld.zip: _static/sld.zip
+.. _create_tables.sql: _static/create_tables.sql
+.. _create_views.sql: _static/create_views.sql
+.. _layergroup.xml: _static/layergroup.xml
 
 .. _OpenLayers3: http://ol3js.org
 .. _OpenLayers: http://openlayers.org

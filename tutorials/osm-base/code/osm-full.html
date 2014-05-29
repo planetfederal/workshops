@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="http://ol3js.org/en/master/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 600px;
+        width: 100%;
+      }
+    </style>
+    <script src="http://ol3js.org/en/master/build/ol.js" type="text/javascript"></script>
+    <title>OpenStreetMap Base</title>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+
+      var map = new ol.Map({
+        target: 'map',
+        /** Display map in web mercator */
+        projection: 'EPSG:3857',
+        layers: [
+          new ol.layer.Image({
+            source: new ol.source.ImageWMS({
+              /** Note use of workspace osm in the WMS url */
+              url: 'http://apps.opengeo.org/geoserver/osm/wms',
+              params: {
+                /** Workspace spec'ed above means we don't need it here */
+                'LAYERS': 'osm',
+                /** PNG for street maps, JPG for aerials */
+                'FORMAT': 'image/png'
+              },
+              /** @type {ol.source.wms.ServerType} */ 
+              serverType: 'geoserver'
+            })
+          })
+        ],
+        view: new ol.View2D({
+          /** Coordinates in lon/lat, easy to understand, transform to web mercator */
+          center: ol.proj.transform([-123.36310, 48.42484], 'EPSG:4326', 'EPSG:3857'),
+          zoom: 14
+        })
+      });
+    </script>
+  </body>
+</html>
+ 
