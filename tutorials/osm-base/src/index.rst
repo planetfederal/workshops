@@ -73,7 +73,7 @@ You can download the `whole ocean file <http://openstreetmapdata.com/data/water-
 
 Once you have downloaded the ocean file, unzip it, then load it into the database::
 
-  shp2pgsql -s 4326 -I -D ocean.shp ocean | psql osm
+  shp2pgsql -g geom -s 4326 -I -D ocean.shp ocean | psql osm
 
 
 Clipping Your Own Ocean
@@ -134,11 +134,11 @@ Run the SQL commands in `create_tables.sql`_. They will create the following tab
 * water
 * wetland
 
-And of course, we have already loaded an ``ocean`` table, so that is in the database **too**!
+If you want to get rid of the tables, here's a `drop_table.sql`_ file to use. And of course, we have already loaded an ``ocean`` table, so that is in the database **too**!
 
 * ocean
 
-There is also a `create_views.sql`_ file, which does the same transformation, only without copying data. Using views instead of tables will cause your map rendering to run slower, however.
+There is also a `create_views.sql`_ file (and `drop_views.sql`_ too), which does the same transformation, only without copying data. Using views instead of tables will cause your map rendering to run slower, however.
 
 
 Configure GeoServer
@@ -217,35 +217,46 @@ This script assumes you are using a standard bash shell. It uses the `GeoServer 
   #
   restapi=http://localhost:8080/geoserver/rest
   login=admin:geoserver
+  workspace=osm
+
   for sldfile in *.sld; do
 
     # strip the extension from the filename to use for layer/style names
     layername=`basename $sldfile .sld`
-  
-    # create a new featuretype in the store, assuming the table 
+
+    # create a new featuretype in the store, assuming the table
     # already exists in the database and is named $layername
     # this step automatically creates a layer of the same name
-    * as a side effect
+    # as a side effect
     curl -v -u $login -XPOST -H "Content-type: text/xml" \
       -d "<featureType><name>$layername</name></featureType>" \
-      $restapi/workspaces/osm/datastores/openstreetmap/featuretypes?recalculate=nativebbox,latlonbbox
+      $restapi/workspaces/$workspace/datastores/postgis/featuretypes?recalculate=nativebbox,latlonbbox
+
+    sleep 1
 
     # create an empty style object in the workspace, using the same name
     curl -v -u $login -XPOST -H "Content-type: text/xml" \
       -d "<style><name>$layername</name><filename>$sldfile</filename></style>" \
-      $restapi/workspaces/osm/styles
+      $restapi/workspaces/$workspace/styles
+
+    sleep 1
 
     # upload the SLD definition to the style
     curl -v -u $login -XPUT -H "Content-type: application/vnd.ogc.sld+xml" \
       -d @$sldfile \
-      $restapi/workspaces/osm/styles/$layername
+      $restapi/workspaces/$workspace/styles/$layername
+
+    sleep 1
 
     # associate the style with the layer as the default style
     curl -v -u $login -XPUT -H "Content-type: text/xml" \
-      -d "<layer><defaultStyle><name>$layername</name><workspace>osm</workspace></defaultStyle></layer>" \
-      $restapi/layers/osm:$layername
+      -d "<layer><defaultStyle><name>$layername</name><workspace>$workspace</workspace></defaultStyle></layer>" \
+      $restapi/layers/$workspace:$layername
+
+    sleep 1
 
   done
+
 
 The script runs one iteration for each SLD file, using the file name to create a layer/featuretype that matches the table in the database with that name, and populates an associated style with it.
 
@@ -430,7 +441,9 @@ The possibilities are endless!
 
 .. _sld.zip: _static/sld.zip
 .. _create_tables.sql: _static/create_tables.sql
+.. _drop_tables.sql: _static/drop_tables.sql
 .. _create_views.sql: _static/create_views.sql
+.. _drop_views.sql: _static/drop_views.sql
 .. _layergroup.xml: _static/layergroup.xml
 
 .. _OpenLayers3: http://ol3js.org
