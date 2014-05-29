@@ -171,6 +171,10 @@ Because building a cartographic product from 25 input layers is a complex undert
 
 * All the styles for this exercise are in `sld.zip`_. Download and unzip it.
 
+.. note:: 
+
+   These styles were automatically derived from the "`OSM streets <https://github.com/mapbox/open-streets-style>`_" stylesheet.
+
 Now, there are two approaches to applying the styles, a manual approach and an automatic approach.
 
 Manual Style Loading
