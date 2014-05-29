@@ -276,7 +276,7 @@ Create a `layergroup.xml`_ file with the following content:
 
   <layerGroup>
     <name>osm</name>
-    <workspace>osm</workspace>
+    <title>OpenStreetMap Base</title>
     <layers>
       <layer>agriculture</layer>
       <layer>beach</layer>
@@ -359,17 +359,14 @@ The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is
   <!doctype html>
   <html lang="en">
     <head>
-      <link rel="stylesheet"
-            href="http://ol3js.org/en/master/css/ol.css" 
-            type="text/css">
-      </style>
-      <script src="http://ol3js.org/en/master/build/ol.js" 
-              type="text/javascript"></script>
+      <link rel="stylesheet" href="http://ol3js.org/en/master/css/ol.css" type="text/css">
       <style>
         .map {
           height: 600px;
           width: 100%;
         }
+      </style>
+      <script src="http://ol3js.org/en/master/build/ol.js" type="text/javascript"></script>
       <title>OpenStreetMap Base</title>
     </head>
     <body>
@@ -379,17 +376,19 @@ The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is
         var map = new ol.Map({
           target: 'map',
           /** Display map in web mercator */
-          projection: 'EPSG:3857',
           layers: [
-            new ol.layer.Image({
-              source: new ol.source.ImageWMS({
+            new ol.layer.Tile({
+              source: new ol.source.TileWMS({
                 /** Note use of workspace osm in the WMS url */
-                url: 'http://localhost:8080/geoserver/osm/wms',
+                url: 'http://localhost:8080/geoserver/wms',
+                projection: 'EPSG:3857',
+                extent: [-20037508.34,-20037508.34,20037508.34,20037508.34],
                 params: {
                   /** Workspace spec'ed above means we don't need it here */
                   'LAYERS': 'osm',
                   /** PNG for street maps, JPG for aerials */
-                  'FORMAT': 'image/png'
+                  'FORMAT': 'image/png',
+                  'TILED' : 'true'
                 },
                 /** @type {ol.source.wms.ServerType} */ 
                 serverType: 'geoserver'
@@ -402,11 +401,12 @@ The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is
             zoom: 14
           })
         });
-        
       </script>
     </body>
   </html>
  
+ 
+Check out the `demonstration map <_static/osm-full.html>`_ online to see the final product!
 
 
 Conclusion

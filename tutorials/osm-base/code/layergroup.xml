@@ -1,6 +1,6 @@
 <layerGroup>
   <name>osm</name>
-  <workspace>osm</workspace>
+  <title>OpenStreetMap Base</title>
   <layers>
     <layer>agriculture</layer>
     <layer>beach</layer>

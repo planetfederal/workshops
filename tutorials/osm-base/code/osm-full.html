@@ -18,17 +18,19 @@
       var map = new ol.Map({
         target: 'map',
         /** Display map in web mercator */
-        projection: 'EPSG:3857',
         layers: [
-          new ol.layer.Image({
-            source: new ol.source.ImageWMS({
+          new ol.layer.Tile({
+            source: new ol.source.TileWMS({
               /** Note use of workspace osm in the WMS url */
-              url: 'http://apps.opengeo.org/geoserver/osm/wms',
+              url: 'http://localhost:8080/geoserver/wms',
+              projection: 'EPSG:3857',
+              extent: [-20037508.34,-20037508.34,20037508.34,20037508.34],
               params: {
                 /** Workspace spec'ed above means we don't need it here */
                 'LAYERS': 'osm',
                 /** PNG for street maps, JPG for aerials */
-                'FORMAT': 'image/png'
+                'FORMAT': 'image/png',
+                'TILED' : 'true'
               },
               /** @type {ol.source.wms.ServerType} */ 
               serverType: 'geoserver'

@@ -17,7 +17,7 @@ CREATE INDEX "agriculture_way_idx" ON "agriculture" USING gist (way);
 DROP TABLE IF EXISTS "amenity-areas";
 CREATE TABLE "amenity-areas" AS (
   SELECT way,amenity FROM planet_osm_polygon
-  WHERE amenity IN ('hospital','college','school','university')
+  WHERE amenity IN ('hospital','college','school','university') 
   AND (building IS NULL OR building NOT IN ('no'))
 );
 CREATE INDEX "amenity-areas_way_idx" ON "amenity-areas" USING gist (way);
