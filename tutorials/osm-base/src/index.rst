@@ -208,7 +208,7 @@ If you have Linux or OSX, you can use the automatic approach (if you are good at
 This script assumes you are using a standard bash shell. It uses the `GeoServer REST API <http://suite.opengeo.org/opengeo-docs/geoserver/rest/index.html>`_ to alter the configuration catalogue without requiring pointing and clicking.
 
 * Enter the directory that contains the SLD files.
-* Run the script below. (If you have changed your "admin" password, you may need to alter the script.)
+* Run the `SLD_create.sh`_ script below. (If you have changed your "admin" password, or used different names for the workspace or datastore, you may need to alter the script.)
 
 .. code-block:: sh
 
@@ -250,8 +250,7 @@ This script assumes you are using a standard bash shell. It uses the `GeoServer 
 
   done
 
-
-The script runs one iteration for each SLD file, using the file name to create a layer/featuretype that matches the table in the database with that name, and populates an associated style with it.
+The script runs one iteration for each SLD file, using the file name to create a layer/featuretype that matches the table in the database with that name, and populates an associated style with it. (If you want to reverse the process, there's an `SLD_delete.sh`_ script too.)
 
 Once you're done, click on the *Styles* and *Layers* panes to see the results.
 
@@ -433,6 +432,8 @@ The possibilities are endless!
 
 
 .. _sld.zip: _static/sld.zip
+.. _SLD_create.sh: _static/sld/SLD_create.sh
+.. _SLD_delete.sh: _static/sld/SLD_delete.sh
 .. _create_tables.sql: _static/create_tables.sql
 .. _drop_tables.sql: _static/drop_tables.sql
 .. _create_views.sql: _static/create_views.sql
