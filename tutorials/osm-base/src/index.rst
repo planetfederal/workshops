@@ -245,7 +245,7 @@ This script assumes you are using a standard bash shell. It uses the `GeoServer 
 
     # associate the style with the layer as the default style
     curl -v -u $login -XPUT -H "Content-type: text/xml" \
-      -d "<layer><defaultStyle><name>$layername</name><workspace>$workspace</workspace></defaultStyle></layer>" \
+      -d "<layer><enabled>true</enabled><defaultStyle><name>$layername</name><workspace>$workspace</workspace></defaultStyle></layer>" \
       $restapi/layers/$workspace:$layername
 
   done
