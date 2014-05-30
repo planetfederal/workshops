@@ -134,7 +134,7 @@ Run the SQL commands in `create_tables.sql`_. They will create the following tab
 * water
 * wetland
 
-If you want to get rid of the tables, here's a `drop_table.sql`_ file to use. And of course, we have already loaded an ``ocean`` table, so that is in the database **too**!
+If you want to get rid of the tables, here's a `drop_tables.sql`_ file to use. And of course, we have already loaded an ``ocean`` table, so that is in the database **too**!
 
 * ocean
 
