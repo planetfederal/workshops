@@ -22,3 +22,4 @@ for sldfile in *.sld; do
 
 done
 
+curl -v -u admin:geoserver -XDELETE http://localhost:8080/geoserver/rest/workspaces/osm/layers/park?recurse=true

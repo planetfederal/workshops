@@ -35,3 +35,7 @@ for sldfile in *.sld; do
     $restapi/layers/$workspace:$layername
 
 done
+
+
+curl -v -u admin:@pp\$4boundleSS -XPOST -d@layergroup.xml -H "Content-type: text/xml" \
+  http://apps.opengeo.org/geoserver/rest/workspaces/osm/layergroups
