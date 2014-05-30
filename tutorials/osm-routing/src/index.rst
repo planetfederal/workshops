@@ -27,7 +27,7 @@ We will need the following software during our tutorial:
 
    There are many ways to install pgRouting, depending on your system's operating system and architecture. The following steps can be used to install pgRouting on 64-bit Ubuntu 12.04 alongside OpenGeo Suite 4.0.2:
 
-   .. code-block:: c
+   .. code-block:: bash
 
        wget http://ftp.debian.org/debian/pool/main/p/pgrouting/postgresql-9.3-pgrouting_2.0.0-2_amd64.deb
        wget http://ftp.debian.org/debian/pool/main/c/cgal/libcgal10_4.4-1+b1_amd64.deb
@@ -441,7 +441,7 @@ Using the layer name `nearest_vertex`, publish the following SQL query:
     v.id = (SELECT 
               id 
             FROM edges_noded_vertices_pgr 
-            ORDER BY the_geom <-> 'SRID=3857;POINT(%x% %y%)'::geometry LIMIT 1) 
+            ORDER BY the_geom <-> ST_SetSRID(ST_MakePoint(%x%, %y%), 3857) LIMIT 1) 
     AND (e.source = v.id OR e.target = v.id) 
   GROUP BY v.id, v.the_geom
 
