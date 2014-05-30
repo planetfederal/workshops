@@ -1,9 +1,9 @@
 Introduction
 ------------
 
-At Boundless we champion open standards as well as open source.The great thing about using open standards is that technology outside of OpenGeo Suite snaps into place when we need it. One piece of functionality that doesn’t exist in Suite is routing, which allows us to calculate the fastest, cheapest or shortest path between two points.
+At Boundless we champion open standards as well as open source. The great thing about using open standards is that technology outside of OpenGeo Suite snaps into place when we need it. One piece of functionality that hasn’t existed in Suite is routing, which allows us to calculate the fastest, cheapest or shortest path between two points.
 
-The tool in this case is pgRouting, which is an extension to PostgreSQL and PostGIS that can generate such paths. With the right data set, this allows us to easily create a routing application with OpenGeo Suite to help our users find the optimal route based on their criteria.
+The tool in this case is `pgRouting <http://pgrouting.org/>`_, which is an extension to PostgreSQL and PostGIS that can generate such paths. With the right data set, this allows us to easily create a routing application with OpenGeo Suite to help our users find the optimal route based on their criteria.
 
 .. image:: ./img/route1.png
    :width: 95%
@@ -11,7 +11,9 @@ The tool in this case is pgRouting, which is an extension to PostgreSQL and Post
 Understanding shortest-path routing
 -----------------------------------
 
-The first thing to understand about shortest-path routing is that there is nothing fundamentally spatial about it, but it does integrate very well with spatial applications. As an analogy, compare the early London Tube maps which `situate stations geographically <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1932>`_ with the familiar `schematic-style maps <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1933>`_ that replaced them in the 1930s. pgRouting needs a network programmed in a PostgreSQL database that shows the relative position of stations rather than their actual spatial positions. When the networks *do* contain spatial data, however, we can build accurate routing applications that show the shortest route through the network and what route it translates into spatially.
+The first thing to understand about shortest-path routing is that there is nothing fundamentally spatial about it, but it does integrate very well with spatial applications. As an analogy, compare the early London Tube maps which `situate stations geographically <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1932>`_ with the familiar `schematic-style maps <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1933>`_ that replaced them in the 1930s. 
+
+pgRouting needs a 'routing network' loaded into a PostgreSQL database that shows the relative position of other stations rather than their actual spatial positions. When the networks *do* contain spatial data, however, we can build accurate routing applications that show the shortest route through the network and what route it translates into spatially.
 
 Requirements
 ------------
@@ -21,7 +23,27 @@ We will need the following software during our tutorial:
 * OpenGeo Suite 4
 * pgRouting 2
 
-Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in our documentation.
+.. note::
+
+   There are many ways to install pgRouting, depending on your system's operating system and architecture. The following steps can be used to install pgRouting on 64-bit Ubuntu 12.04 alongside OpenGeo Suite 4.0.2:
+
+   .. code-block:: c
+
+       wget http://ftp.debian.org/debian/pool/main/p/pgrouting/postgresql-9.3-pgrouting_2.0.0-2_amd64.deb
+       wget http://ftp.debian.org/debian/pool/main/c/cgal/libcgal10_4.4-1+b1_amd64.deb
+       wget http://ftp.debian.org/debian/pool/main/b/boost1.54/libboost-thread1.54.0_1.54.0-5_amd64.deb
+       wget http://ftp.debian.org/debian/pool/main/b/boost1.54/libboost-system1.54.0_1.54.0-5_amd64.deb
+       wget http://ftp.debian.org/debian/pool/main/b/boost1.55/libboost-thread1.55.0_1.55.0+dfsg-1_amd64.deb
+       wget http://ftp.debian.org/debian/pool/main/b/boost1.55/libboost-system1.55.0_1.55.0+dfsg-1_amd64.deb
+
+       sudo dpkg -i libboost-system1.54.0_1.54.0-5_amd64.deb
+       sudo dpkg -i libboost-thread1.54.0_1.54.0-5_amd64.deb 
+       sudo dpkg -i libboost-system1.55.0_1.55.0+dfsg-1_amd64.deb 
+       sudo dpkg -i libboost-thread1.55.0_1.55.0+dfsg-1_amd64.deb 
+       sudo dpkg -i libcgal10_4.4-1+b1_amd64.deb
+       sudo dpkg -i postgresql-9.3-pgrouting_2.0.0-2_amd64.deb 
+
+Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in `our documentation <http://suite.opengeo.org/docs/latest/installation/index.html>`_.
 
 You should be familiar with the following topics before starting this tutorial:
 
@@ -733,6 +755,8 @@ We will finish off the script by forcing the application to calculate the first 
   getVertex(sourceMarker);
   getVertex(targetMarker);
   getRoute();
+
+If you install `map.html` and `routing.js` into your OpenGeo Suite's Tomcat or Jetty `root` directory, you should find your application running at http://localhost:8080/map.html.
   
 Ideas for improvement
 ---------------------
