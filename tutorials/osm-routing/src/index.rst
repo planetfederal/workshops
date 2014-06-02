@@ -776,7 +776,7 @@ Improper routes like these occur when the original OpenStreetMap data has two ve
 .. image:: ./img/topology4.png
    :width: 50%
 
-Unfortunately, there's not much we can do but wait for OpenStreetMap to receive an update to fix these broken intersections (or you can `fix it yourself! <http://wiki.openstreetmap.org/wiki/Getting_Involved>`_).
+Unfortunately, there's not much we can do but wait for OpenStreetMap to receive an update to fix these broken intersections (or you can `fix them yourself! <http://wiki.openstreetmap.org/wiki/Getting_Involved>`_).
 
 In the meantime, here are a few ideas on how we could easily improve the application:
 
