@@ -585,7 +585,7 @@ The change handler for a marker movement is very simple: we will keep a record o
 .. code-block:: javascript
 
   function changeHandler(e) {
-    if (mouseDown) {
+    if (pointerDown) {
       changed = true;
       currentMarker = e.target;
     }
@@ -611,11 +611,11 @@ We need to register when the user has started or stopped dragging a marker so th
 .. code-block:: javascript
 
   map.on('pointerdown', function(evt) {
-    mouseDown = true;
+    pointerDown = true;
   });
   
   map.on('pointerup', function(evt) {
-    mouseDown = false;
+    pointerDown = false;
 
     // if we were dragging a marker, recalculate the route
     if (currentMarker) {
