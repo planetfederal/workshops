@@ -247,3 +247,9 @@ latex_elements = {
 
 # If false, no module index is generated.
 latex_use_modindex = False
+
+# -- Options for internationalization --------------------------------------------------
+locale_dirs = ['locale/']   # path is example but recommended.
+gettext_compact = False	    # optional
+language = 'it'
+
