@@ -646,7 +646,7 @@ The real code is in the `censusmap.js`_ file. We start by creating an `OpenStree
     target: 'map',
     renderer: ol.RendererHint.CANVAS,
     layers: [osmLayer, wmsLayer],
-    view: new ol.View2D({
+    view: new ol.View({
       center: [-10764594.0, 4523072.0],
       zoom: 5
     })
