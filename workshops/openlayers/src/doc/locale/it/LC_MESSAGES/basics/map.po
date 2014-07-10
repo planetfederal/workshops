@@ -1,0 +1,72 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-08 11:25+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.6\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../../basics/map.rst:4
+msgid "Creating a Map"
+msgstr "Creare una mappa"
+
+#: ../../basics/map.rst:6
+msgid ""
+"In OpenLayers, a map is a collection of layers and various controls for "
+"dealing with user interaction. A map is generated with three basic "
+"ingredients: :ref:`markup <openlayers.basics.dissect.markup>`, :ref:`style "
+"declarations <openlayers.basics.dissect.style>`, and :ref:`initialization "
+"code <openlayers.basics.dissect.code>`."
+msgstr ""
+"In OpenLayers una mappa è costituita da un insieme di layer e vari controlli "
+"per gestire la user experience. Una mappa è generata da tre ingredienti "
+"base: :ref:`markup <openlayers.basics.dissect.markup>`, :ref:`dichiarazioni "
+"di stile <openlayers.basics.dissect.style>`, e :ref:`inizializzazione del "
+"codice <openlayers.basics.dissect.code>`."
+
+#: ../../basics/map.rst:11
+msgid "Working Example"
+msgstr "Esempio funzionante"
+
+#: ../../basics/map.rst:13
+msgid "Let's take a look at a fully working example of an OpenLayers map."
+msgstr ""
+"Diamo uno sguardo ad un esempio completamente funzionante di una mappa "
+"OpenLayer."
+
+#: ../../basics/map.rst:47
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../basics/map.rst:48
+msgid ""
+"Copy the text above into a new file called :file:`map.html`, and save it in "
+"the root of the workshop folder."
+msgstr ""
+"Copiare il testo sopra in un nuovo file chiamato :file:`map.html`, e salvare "
+"nella cartella di origine del workshop. "
+
+#: ../../basics/map.rst:50
+msgid "Open the working map in your web browser: @workshop_url@/map.html"
+msgstr ""
+"Aprire la mappa funzionante nel tuo browser Web: @workshop_url@/map.html"
+
+#: ../../basics/map.rst:54
+msgid "A working map of displaying imagery of the world."
+msgstr "Una mappa che visualizza l'immagine del mondo."
+
+#: ../../basics/map.rst:56
+msgid ""
+"Having successfully created our first map, we'll continue by looking more "
+"closely at :ref:`the parts <openlayers.basics.dissect>`."
+msgstr ""
+"Avendo creato con successo la nostra prima mappa continueremo a guardare più "
+"da vicino la at :ref:`parte <openlayers.basics.dissect>`."

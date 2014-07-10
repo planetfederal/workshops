@@ -1,0 +1,154 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-04 11:26+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../controls/scaleline.rst:4
+msgid "Displaying a Scale Bar"
+msgstr "Visualizzare una barra di scala"
+
+#: ../../controls/scaleline.rst:6
+msgid ""
+"Another typical widget to display on maps is a scale bar.  OpenLayers "
+"provides an ``OpenLayers.Control.ScaleLine`` for just this.  We'll continue "
+"building on the :ref:`previous example <openlayers.controls.overview."
+"example>` by adding a scale bar."
+msgstr ""
+"Un'altra tipica caratteristica da visualizzare sulle mappe è la barra di "
+"scala. OpenLayers fornisce un oggetto ``OpenLayers.Control.ScaleLine`` che "
+"fa esattamente questo. Quindi continueremo a migliorare :ref:`l'esempio "
+"precedente <openlayers.controls.overview.example>` aggiungendo la scala."
+
+#: ../../controls/scaleline.rst:9
+msgid "Creating a ScaleLine Control"
+msgstr "Creare un controllo ScaleLine"
+
+#: ../../controls/scaleline.rst:12 ../../controls/scaleline.rst:47
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../controls/scaleline.rst:13
+msgid ""
+"Open the ``map.html`` produced in the :ref:`previous example <openlayers."
+"controls.overview.example>` in your text editor."
+msgstr ""
+"Aprire il file ``map.html`` creato nel :ref:`precedente esempio <openlayers."
+"controls.overview.example>` sul vostro editor di testo."
+
+#: ../../controls/scaleline.rst:15
+msgid ""
+"Somewhere in the map initialization (below the ``map`` constructor), add the "
+"following code to create a new scale line control for your map:"
+msgstr ""
+"In qualche punto dell'inizializzazione della mappa (sotto al costruttore "
+"``map``) aggiungere il pezzo di codice seguente per creare un nuovo "
+"controllo per visualizzare la scala sulla mappa:"
+
+#: ../../controls/scaleline.rst:22 ../../controls/scaleline.rst:62
+msgid ""
+"Save your changes and open ``map.html`` in your browser: @workshop_url@/map."
+"html"
+msgstr ""
+"Salvare le modifiche e aprire ``map.html`` nel browser: @workshop_url@/map."
+"html"
+
+#: ../../controls/scaleline.rst:26
+msgid ""
+"A default (and very hard to see) scale bar in the bottom left-hand corner"
+msgstr ""
+"Una barra di scala di base (e piuttosto difficile da vedere) nell'angolo in "
+"basso a sinistra"
+
+#: ../../controls/scaleline.rst:31
+msgid "Moving the ScaleLine Control"
+msgstr "Spostare il controllo ScaleLine"
+
+#: ../../controls/scaleline.rst:33
+msgid ""
+"You may find the scale bar a bit hard to read over the Medford imagery. "
+"There are a few approaches to take in order to improve scale visibility.  If "
+"you want to keep the control inside the map viewport, you can add some style "
+"declarations within the CSS of your document. To test this out, you can "
+"include a background color and padding to the scale bar with something like "
+"the following:"
+msgstr ""
+"Potrebbe risultare un pochino difficile leggere la scala sopra all'immagine "
+"Medford. Esistono alcuni approcci per migliorare la visibilità della scala. "
+"Se volete tenere il controllo sempre internamente al viewport della mappa, "
+"potreste aggiungere alcune dichiarazioni di stile dentro al CSS del vostro "
+"documento. Per verificarlo provate ad includere un colore di background e un "
+"padding alla barra di scala come per esempio qui sotto:"
+
+#: ../../controls/scaleline.rst:44
+msgid ""
+"However, for the sake of this exercise, let's say you think the map viewport "
+"is getting unbearably crowded. To avoid such over-crowding, you can display "
+"the scale in a different location. To accomplish this, we need to first "
+"create an additional element in our markup and then tell the scale control "
+"to render itself within this new element."
+msgstr ""
+"Comunque, per gli scopi di questi esercizi, diciamo che non è plausibile "
+"immaginare un viewport della mappa così troppo \"affollato\". Per evitare "
+"questo sovraffollamento è sufficiente visualizzare la scala in una posizione "
+"differente. Per realizzare questo abbiamo bisogno, per prima cosa, di creare "
+"un elemento aggiuntivo nel nostro HTML e poi di dire al controllo della "
+"scala di essere restituito dentro a questo nuovo elemento.  "
+
+#: ../../controls/scaleline.rst:48
+msgid ""
+"Remove any scale style declarations, and create a new block level element in "
+"the ``<body>`` of your page. To make this element easy to refer to, we'll "
+"give it an ``id`` attribute. Insert the following markup somewhere in the "
+"``<body>`` of your ``map.html`` page. (Placing the scale element right after "
+"the map viewport element ``<div id=\"map-id\"></div>`` makes sense.):"
+msgstr ""
+"Rimuovere qualsiasi dichiarazione di stile della scala e creare un nuovo "
+"elemento nel ``<body>`` della nostra pagina. Per fare in modo che questo "
+"elemento sia facilmente referenziabile gli attribuiremo un ``id``. Inseriamo "
+"da qualche parte nel ``<body>`` della nostra pagina ``map.html`` il seguente "
+"markup HTML. (Ha senso posizionare l'elemento di scala dopo il viewport "
+"della mappa ``<div id=\"map-id\"></div>``.):"
+
+#: ../../controls/scaleline.rst:54
+msgid ""
+"Now modify the code creating the scale control so that it refers to the "
+"``scaleline-id`` element:"
+msgstr ""
+"Ora modificare il codice creando il controllo di scala in modo che si "
+"riferisca all'elemento ``scaleline-id``:"
+
+#: ../../controls/scaleline.rst:64
+msgid ""
+"You may decide that you want to add a bit of style to the widget. To do "
+"this, we can use the ``#scaleline-id`` selector in our CSS. Make the font "
+"smaller and give the widget some margin, by adding the following style "
+"declarations:"
+msgstr ""
+"Si potrebbe decidere di aggiungere una porzione di stile al widget. Per "
+"farlo possiamo utilizzare il selettore ``#scaleline-id`` nel nostro CSS. "
+"Possiamo fare il font più piccolo e dare un certo margine al widget "
+"aggiungendo queste dichiarazioni di stile qui sotto:"
+
+#: ../../controls/scaleline.rst:73
+msgid ""
+"Now save your changes and view ``map.html`` again in your browser: "
+"@workshop_url@/map.html"
+msgstr ""
+"Ora salvare le modifiche e visualizzare sempre il file ``map.html`` nel "
+"browser: @workshop_url@/map.html"
+
+#: ../../controls/scaleline.rst:77
+msgid "A custom styled scale bar outside the map viewport."
+msgstr ""
+"Uno stile di scala personalizzato al di fuori del viewport della mappa."

@@ -1,0 +1,154 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-09 22:43+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: geobeyond <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.6\n"
+
+#: ../../integration/jqui-dialog.rst:4
+msgid "The jQuery UI Dialog"
+msgstr "La finestra Dialog jQuery UI"
+
+#: ../../integration/jqui-dialog.rst:6
+msgid ""
+"If you are adding a map to a larger website, and you are already using "
+"jQuery UI for interface components, it makes good sense to create \"popups\" "
+"for your map that will be integrated with the style of the rest of your "
+"site. The jQuery UI ``dialog`` function provides a flexible way to produce "
+"themeable dialogs that serve a variety of purposes."
+msgstr ""
+"Se state aggiungendo una mappa ad un sito Web più largo e state già "
+"utilizzando jQuery UI per l'interfaccia dei componenti allora avrebbe molto "
+"senso creare dei \"popup\" per la mappa che si integrino con lo stile "
+"restante di tutto il sito. La funzione ``dialog`` di jQuery UI consente un "
+"modo flessibile di produrre finestre di dialogo tematizzabili che possono "
+"servire a parecchi scopi."
+
+#: ../../integration/jqui-dialog.rst:8
+msgid ""
+"The :ref:`previous example <openlayers.integration.jqui-slider.example` "
+"started with existing markup and used the ``jQuery`` function to select and "
+"modify DOM elements. The ``jQuery`` function can also be used to create "
+"elements given a string of HTML."
+msgstr ""
+"Il :ref:`precedente esempio <openlayers.integration.jqui-slider.example` era "
+"iniziato con HTML esistente a cui era stata aggiunta una funzione ``jQuery`` "
+"per selezionare e modificare gli elementi del DOM. La stessa funzione può "
+"anche essere usata per creare elementi data una stringa HTML."
+
+#: ../../integration/jqui-dialog.rst:10
+msgid ""
+"The code below creates a ``<div>`` element and turns it into a modeless "
+"dialog:"
+msgstr ""
+"Il codice sotto crea un elemento ``<div>`` e lo trasforma in una finestra "
+"dialog:"
+
+#: ../../integration/jqui-dialog.rst:16
+msgid ""
+"This technique is used in the tasks below to create dialogs populated with "
+"information from a feature's attribute values."
+msgstr ""
+"Questa è la tecnica utilizzata negli esempi sotto per creare finestre di "
+"dialogo popolate con le informazioni degli attributi delle feature."
+
+#: ../../integration/jqui-dialog.rst:20
+msgid "Displaying Feature Information in a Dialog"
+msgstr "Visualizzare informazioni delle feature in una finestra Dialog"
+
+#: ../../integration/jqui-dialog.rst:23
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../integration/jqui-dialog.rst:24
+msgid ""
+"At the end of the :ref:`previous section <openlayers.integration.jqui-"
+"slider>`, you should have something like the code below in your ``map.html`` "
+"file. Open this file in your text editor and confirm the contents are "
+"similar to the following:"
+msgstr ""
+"Al termine della :ref:`sezione precedente <openlayers.integration.jqui-"
+"slider>`, dovresti aver ottenuto qualcosa come nel file ``map.html`` sotto. "
+"Aprire il file in un editor di testo e verificare che i contenuti siano "
+"simili a:"
+
+#: ../../integration/jqui-dialog.rst:97
+msgid ""
+"To this example, we'll be adding an ``OpenLayers.Control.SelectFeature`` "
+"control so that the user can select a feature. In your map initialization "
+"code, add the following `after` the creation of your ``buildings`` layer:"
+msgstr ""
+"In questo esempio aggiungeremo un controllo ``OpenLayers.Control."
+"SelectFeature`` in modo tale che l'utente possa selezionare una feature. Nel "
+"codice di inizializzazione della mappa, aggiungere il codice seguente "
+"`after` dopo la creazione del layer ``buildings``:"
+
+#: ../../integration/jqui-dialog.rst:105
+msgid ""
+"Next we need to create a listener for the ``featureselected`` event on our "
+"``buildings`` layer.  We'll create a dialog that populates with feature "
+"information, when the user selects a feature by clicking on it with the "
+"mouse.  In addition, we want to remove the dialog when a feature is "
+"unselected.  We can do this by listening for the ``featureunselected`` "
+"event.  Insert the following in your map initialization code somewhere "
+"`after` the creation of the ``buildings`` layer:"
+msgstr ""
+"Successivamente dobbiamo creare un listenere per l'evento "
+"``featureselected`` sul nostro layer ``buildings``. Creeremo una finestra di "
+"dialogo che viene popolata dalle informazioni della feature quando l'utente "
+"seleziona una feature facendovi click con il mouse. Inoltre vogliamo "
+"rimuovere la finestra quando la feature non è più selezionata. Possiamo fare "
+"tutto ciò intercettando l'evento ``featureunselected``. Inserite da qualche "
+"parte nel vostro codice di inizializzazione della mappa `dopo` la creazione "
+"del layer ``buildings`` il blocco seguente:"
+
+#: ../../integration/jqui-dialog.rst:123
+msgid ""
+"Save your changes to ``map.html`` and open the page in your browser: "
+"@workshop_url@/map.html"
+msgstr ""
+"Salvare le modifiche a ``map.html`` e aprire la pagina nel browser: "
+"@workshop_url@/map.html"
+
+#: ../../integration/jqui-dialog.rst:128
+msgid "A map that displays feature information in a dialog."
+msgstr ""
+"Una mappa che visualizza informazioni sulle feature in una finestra di "
+"dialogo."
+
+#: ../../integration/jqui-dialog.rst:132
+msgid "Bonus Tasks"
+msgstr "Attività Bonus"
+
+#: ../../integration/jqui-dialog.rst:133
+msgid ""
+"Find the appropriate documentation to determine how to make the feature "
+"dialog with modal behavior.  Create a modal dialog for displaying feature "
+"information so a user will need to close it before interacting with anything "
+"else in the application."
+msgstr ""
+"Trovate l'appropriata documentazione per determinare come fare una finestra "
+"di dialogo della feature con un comportamento modale. Create tale finestra "
+"per visualizzare le informazioni della feature in maniera che l'utente dovrà "
+"chiuderla prima di interagire con qualsiasi altra cosa nell'applicazione."
+
+#: ../../integration/jqui-dialog.rst:135
+msgid ""
+"Experiment with editing the style declarations in the head of the page in "
+"order to change the look of the displayed information. You can use the "
+"jQuery ``addClass`` function to add a class name to an element before "
+"calling ``dialog()``."
+msgstr ""
+"Sperimentare con la modifica delle dichiarazioni di stile all'inizio della "
+"pagina in maniera tale da cambiare il look delle informazioni visualizzate. "
+"E' possibile usare la funzione ``addClass`` di jQuery per aggiungere una "
+"classe ad un elemento prima di chiamare ``dialog()``."

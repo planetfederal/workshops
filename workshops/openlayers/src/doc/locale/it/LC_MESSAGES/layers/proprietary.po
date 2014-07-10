@@ -1,0 +1,133 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-04 18:05+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../layers/proprietary.rst:4
+msgid "Proprietary Layers"
+msgstr "Layer proprietari"
+
+#: ../../layers/proprietary.rst:6
+msgid ""
+"In previous sections, we displayed layers based on a standards compliant :"
+"abbr:`WMS (OGC Web Map Service)` and a custom tile cache. Online mapping (or "
+"at least the tiled map client) was largely popularized by the availability "
+"of proprietary map tile services. OpenLayers provides layer types that work "
+"with these proprietary services through their APIs."
+msgstr ""
+"Nella sezione precedente abbiamo visualizzato layer basati sugli standard "
+"conformi con :abbr:`WMS (OGC Web Map Service)` e la cache di dati "
+"tassellati. Le mappe online (o almeno i client di mappe a tasselli) sono "
+"divenute largamente popolari grazie alla disponibilità di servizi di tile "
+"proprietari. OpenLayers fornisce dei tipi di layer attraverso le sue API che "
+"sono in grado di lavorare con questi servizi."
+
+#: ../../layers/proprietary.rst:8
+msgid ""
+"In this section, we'll build on the example developed in the :ref:`previous "
+"section <openlayers.layers.cached.example>` by adding a layer using tiles "
+"from Bing, and we'll toss in a layer switcher so you can decide which layers "
+"you want visible."
+msgstr ""
+"In questa sezione costruiremo sulla base dell'esempio sviluppato nella :ref:"
+"`precedente sezione <openlayers.layers.cached.example>` un'estensione della "
+"mappa aggiungendo layer di tile da Bing e aggiungeremo un selettore di layer "
+"in modo che l'utente possa decidere quale layer rendere visibile. "
+
+#: ../../layers/proprietary.rst:13
+msgid "Bing!"
+msgstr "Bing!"
+
+#: ../../layers/proprietary.rst:15
+msgid "Let's add a Bing layer."
+msgstr "Aggiungiamo un layer Bing."
+
+#: ../../layers/proprietary.rst:18
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../layers/proprietary.rst:19
+msgid ""
+"In your ``map.html`` file, find where the :abbr:`OSM (OpenStreetMap)` layer "
+"is added in the map initialization code. Below the ``map.addLayer(osm);`` "
+"line, add the following:"
+msgstr ""
+"Nel nostro file ``map.html`` cercate dove è stato inserito il layer :abbr:"
+"`OSM (OpenStreetMap)`. Sotto alla linea ``map.addLayer(osm);`` aggiungere il "
+"seguente pezzo di codice:"
+
+#: ../../layers/proprietary.rst:29
+msgid ""
+"The Bing tiles API requires that you register for an API key to use with "
+"your mapping application.  The example here uses an API key that you should "
+"not use in production.  To use the Bing layer in production, register for an "
+"API key at https://www.bingmapsportal.com/."
+msgstr ""
+"Le API del servizio di tile Bing richiedono che siate registrati e "
+"acquisiate una chiave per utilizzarle nella vostra applicazione. L'esempio "
+"riportato sotto utilizza una chiave API che non dovrebbe essere utilizzata "
+"in un ambiente di produzione. Per usufruire del layer Bing in produzione, "
+"per favore registratevi e richiedete una chiave all'indirizzo https://www."
+"bingmapsportal.com/."
+
+#: ../../layers/proprietary.rst:31
+msgid ""
+"Now that we have more than one layer in our map, it is time to add a layer "
+"switcher that controls layer visibility. Somewhere in your map "
+"initialization code (below the part where we create the ``map``), include "
+"the following to create a layer switcher and add it to the map:"
+msgstr ""
+"Ora che abbiamo più di un layer nella nostra mappa è arrivato il momento di "
+"aggiungere un controllo che permetta di selezionare la visibilità dei layer. "
+"Andando sempre nel codice di inizializzazione della mappa (sotto alla parte "
+"dove creiamo ``map``), includiamo la seguente porzione di codice per creare "
+"uno switch dei layer e aggiungerlo alla mappa:"
+
+#: ../../layers/proprietary.rst:37
+msgid ""
+"Save your changes and reload ``map.html`` in your browser: @workshop_url@/"
+"map.html"
+msgstr ""
+"Salvare le modifiche e ricaricare il file ``map.html`` nel browser: "
+"@workshop_url@/map.html"
+
+#: ../../layers/proprietary.rst:39
+msgid ""
+"Open the Layer Switcher at the upper right-hand corner of the map view, and "
+"select \"Bing Roads\"."
+msgstr ""
+"Aprire il Layer Switcher sull'angolo in alto a destra della mappa e "
+"selezionare \"Bing Roads\"."
+
+#: ../../layers/proprietary.rst:43
+msgid "A map with a bing layer and OpenStreetMap tiles."
+msgstr "Una mappa con i tile di un layer Bing e OpenStreetMap."
+
+#: ../../layers/proprietary.rst:46
+msgid "Complete Working Example"
+msgstr "Esempio funzionante completo"
+
+#: ../../layers/proprietary.rst:48
+msgid "Your revised ``map.html`` file should look something like this:"
+msgstr ""
+"La revisione del file ``map.html`` dovrebbe assomigliare a qualcosa del "
+"genere:"
+
+#: ../../layers/proprietary.rst:98
+msgid ""
+"Next we'll move on from raster layers and begin working with :ref:`vector "
+"layers <openlayers.layers.vector>`."
+msgstr ""
+"Ora spostiamoci dalla trattazione dei layer raster per lavorare con i :ref:"
+"`layer vettoriali <openlayers.layers.vector>`."

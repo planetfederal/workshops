@@ -1,0 +1,268 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-04 19:49+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../layers/cached.rst:4
+msgid "Cached Tiles"
+msgstr "Tile in cache"
+
+#: ../../layers/cached.rst:6
+msgid ""
+"By default, the WMS layer makes requests for 256 x 256 (pixel) images to "
+"fill your map viewport and beyond. As you pan and zoom around your map, more "
+"requests for images go out to fill the areas you haven't yet visited. While "
+"your browser will cache some requested images, a lot of processing work is "
+"typically required for the server to dynamically render images."
+msgstr ""
+"Di base i layer WMS effettuano richieste per immagini 256 x 256 (pixel) che "
+"riempiono il viewport della mappa ed anche oltre. Come effettuerete "
+"operazioni di pan e zoom sulla mappa ulteriori richieste di immagini vengono "
+"eseguite per riempire le aree che non sono state ancora visitate. Mentre il "
+"vostro browser riempirà la cache con alcune delle immagini richieste una "
+"grosse mole di lavoro viene contestualmente eseguita sul server per "
+"restituire dinamicamente le immagini."
+
+#: ../../layers/cached.rst:8
+msgid ""
+"Since tiled layers (such as the WMS layer) make requests for images on a "
+"regular grid, it is possible for the server to cache these image requests "
+"and return the cached result next time you (or someone else) visits the same "
+"area - resulting in better performance all around."
+msgstr ""
+"Dal momento che i layer di tile (come quelli WMS) effettuano richieste per "
+"immagini su una griglia regolare, è possibile per il server mettere in cache "
+"queste immagini e ritornare il risultato in cache la prossima volta che "
+"qualche altro visiterà la medesima area - ottenendo, in generale, il "
+"risultato di avere migliori performance globali."
+
+#: ../../layers/cached.rst:14
+msgid "OpenLayers.Layer.XYZ"
+msgstr "OpenLayers.Layer.XYZ"
+
+#: ../../layers/cached.rst:16
+msgid ""
+"The Web Map Service specification allows a lot of flexibility in terms of "
+"what a client can request. Without constraints, this makes caching difficult "
+"or impossible in practice."
+msgstr ""
+"Le specifiche Web Map Service permettono notevole flessibilità nei termini "
+"di ciò che un client può richiedere. Senza alcun vincolo ciò può complicare "
+"l'operazione di caching o addirittura renderla impossibile nella pratica."
+
+#: ../../layers/cached.rst:18
+msgid ""
+"At the opposite extreme, a service might offer tiles only at a fixed set of "
+"zoom levels and only for a regular grid. These can be generalized as XYZ "
+"layers - you can consider X and Y to indicate the column and row of the grid "
+"and Z to represent the zoom level."
+msgstr ""
+"All'esatto estremo, un servizio potrebbe offrire le tile solo ad un fissato "
+"gruppo di livelli di zoom e solo per una griglia regolare. Questo concetto "
+"può essere generalizzato come layer XYZ - è possibile considerare X e Y come "
+"indicanti la colonna e la riga della griglia e Z come rappresentante del "
+"livello di zoom."
+
+#: ../../layers/cached.rst:24
+msgid "OpenLayers.Layer.OSM"
+msgstr "OpenLayers.Layer.OSM"
+
+#: ../../layers/cached.rst:26
+msgid ""
+"The `OpenStreetMap (OSM) <http://www.openstreetmap.org/>`_ project is an "
+"effort to collect and make freely available map data for the world. OSM "
+"provides a few different renderings of their data as cached tile sets. These "
+"renderings conform to the basic :ref:`XYZ grid <openlayers.layers.cached."
+"xyz>` arrangement and can be used in an OpenLayers map. The ``OpenLayers."
+"Layer.OSM`` constructor accesses OpenStreetMap tiles."
+msgstr ""
+"Il progetto `OpenStreetMap (OSM) <http://www.openstreetmap.org/>`_ è uno "
+"sforzo della community per collezionare e rendere gratuitamente disponibile "
+"su mappa i dati del mondo intero. OSM prevede alcuni differenti tipi di "
+"restituzione dei loro dati sotto forma di tile in cache. Queste restituzioni "
+"sono conformi alla specifica di :ref:`griglia XYZ <openlayers.layers.cached."
+"xyz>` e possono essere utilizzate in una mappa OpenLayers. Il costruttore "
+"``OpenLayers.Layer.OSM`` non fa altro che accedere alle tile di "
+"OpenStreetMap."
+
+#: ../../layers/cached.rst:31
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../layers/cached.rst:32
+msgid ""
+"Open the ``map.html`` file from the :ref:`previous section <openlayers."
+"layers.wms>` in a text editor and change the map initialization code to look "
+"like the following:"
+msgstr ""
+"Aprire il file ``map.html`` dalla :ref:`precedente sezione <openlayers."
+"layers.wms>` in un editor e modificare il codice di inizializzazione in "
+"maniera che risulti simile al seguente:"
+
+#: ../../layers/cached.rst:49
+msgid ""
+"In the ``<head>`` of the same document, add a few style declarations for the "
+"layer attribution."
+msgstr ""
+"Nel markup ``<head>`` dello stesso documento aggiungere qualche "
+"dichiarazione di stile per l'attribuzione del layer."
+
+#: ../../layers/cached.rst:65
+msgid ""
+"Save your changes, and refresh the page in your browser: @workshop_url@/map."
+"html"
+msgstr ""
+"Salvare le modifiche e ricaricare la pagina nel browser: @workshop_url@/map."
+"html "
+
+#: ../../layers/cached.rst:69
+msgid "A map with an OpenStreetMap layer."
+msgstr "Una mappa con un layer OpenStreetMap."
+
+#: ../../layers/cached.rst:73
+msgid "A Closer Look"
+msgstr "Uno sguardo da più vicino"
+
+#: ../../layers/cached.rst:76
+msgid "Projections"
+msgstr "Proiezioni"
+
+#: ../../layers/cached.rst:77
+msgid "Review the first 3 lines of the initialization script:"
+msgstr "Rivedere le prime 3 linee dello script di inizializzazione:"
+
+#: ../../layers/cached.rst:85
+msgid ""
+"Geospatial data can come in any number of coordinate reference systems. One "
+"data set might use geographic coordinates (longitude and latitude) in "
+"degrees, and another might have coordinates in a local projection with units "
+"in meters. A full discussion of coordinate reference systems is beyond the "
+"scope of this module, but it is important to understand the basic concept."
+msgstr ""
+"I dati geospaziali possono essere forniti in un certo numero di sistemi di "
+"riferimento delle coordinate (CRS). Un insieme di dati potrebbe usare "
+"coordinate geografiche (longitudine e latitudine) in gradi, e un altro "
+"potrebbe avere coordinate in una proiezione locale con unità in metri. Un "
+"approfondimento completo sui sistemi di riferimento delle coordinate va "
+"oltre gli scopi di questo modulo, ma è importante capire i concetti di "
+"base.  "
+
+#: ../../layers/cached.rst:87
+msgid ""
+"OpenLayers needs to know the coordinate system for your data. Internally, "
+"this is represented with an ``OpenLayers.Projection`` object. The "
+"``transform`` function also takes strings that represent the coordinate "
+"reference system (``\"EPSG:4326\"`` and ``\"EPSG:3857\"`` above)."
+msgstr ""
+"OpenLayers ha bisogno di conoscere il sistema di coordinate per i dati. "
+"Internamente, questo è rappresentato con un oggetto ``OpenLayers."
+"Projection``. La funzione ``transform`` anch'essa prende stringhe che "
+"rappresentano il sistema di riferimento delle coordinate"
+
+#: ../../layers/cached.rst:91
+msgid "Locations Transformed"
+msgstr "Posizioni trasformate"
+
+#: ../../layers/cached.rst:93
+msgid ""
+"The OpenStreetMap tiles that we will be using are in a Mercator projection. "
+"Because of this, we need to set the initial center using Mercator "
+"coordinates. Since it is relatively easy to find out the coordinates for a "
+"place of interest in geographic coordinates, we use the ``transform`` method "
+"to turn geographic coordinates (``\"EPSG:4326\"``) into Mercator coordinates "
+"(``\"EPSG:3857\"``)."
+msgstr ""
+"I tile di OpenStreetMap che saranno utilizzati sono nella proiezione "
+"Mercator. Per questo abbiamo bisogno di impostare il centro della mappa "
+"iniziale usando le coordinate di quel sistema di proiezione. Dal momento che "
+"è relativamente facile individuare le coordinate per un punto di interesse "
+"in coordinate geografiche useremo il metodo di trasformazione ``transform`` "
+"per convertirle da (``\"EPSG:4326\"``) nel corrispondente codice Mercator (``"
+"\"EPSG:3857\"``)."
+
+#: ../../layers/cached.rst:96
+msgid "Custom Map Options"
+msgstr "Opzioni di mappa personalizzate"
+
+#: ../../layers/cached.rst:102
+msgid ""
+"In the :ref:`previous example <openlayers.layers.wms.example>` we used the "
+"default options for our map. In this example, we set a custom map projection."
+msgstr ""
+"Nel :ref:`precedente esempio <openlayers.layers.wms.example>` utilizzavamo "
+"le opzioni di base per la nostra mappa. In questo esempio imposteremo delle "
+"proiezioni personalizzate."
+
+#: ../../layers/cached.rst:106
+msgid ""
+"The projections we used here are the only projections that OpenLayers knows "
+"about. For other projections, the map options need to contain two more "
+"properties: ``maxExtent`` and ``units``. This information can be looked up "
+"at http://spatialreference.org/, using the EPSG code."
+msgstr ""
+"Le proiezioni che utilizzeremo qui sono solo quelle conosciute alla libreria "
+"OpenLayers. Per altre proiezioni, le opzioni di mappa devono contenere due "
+"proprietà in più: ``maxExtent`` e ``units``. Queste informazioni possono "
+"essere consultate al sito http://spatialreference.org/ utilizzando il "
+"corrispettivo codice EPSG."
+
+#: ../../layers/cached.rst:112
+msgid "Layer Creation and Map Location"
+msgstr "Creazione del layer e posizione della mappa"
+
+#: ../../layers/cached.rst:119
+msgid ""
+"As before, we create a layer and add it to our map. This time, we accept all "
+"the default options for the layer."
+msgstr ""
+"Come prima creiamo un layer e lo aggiungiamo alla nostra mappa. Questa volta "
+"accettiamo di prendere tutte le opzioni di base per il layer."
+
+#: ../../layers/cached.rst:125
+msgid ""
+"Finally, we give our map a center (in Mercator coordinates) and set the zoom "
+"level to ``9``."
+msgstr ""
+"Infine diamo alla nostra mappa un centro (in coordinate Mercator) e "
+"impostiamo il livello di zoom a ``9``."
+
+#: ../../layers/cached.rst:128
+msgid "Style"
+msgstr "Stile"
+
+#: ../../layers/cached.rst:138
+msgid ""
+"A treatment of map controls is also outside the scope of this module, but "
+"these style declarations give you a sneak preview. By default, an "
+"``OpenLayers.Control.Attribution`` control is added to all maps. This lets "
+"layers display attribution information in the map viewport. The declarations "
+"above alter the style of this attribution for our map (notice the small "
+"Copyright line at the bottom left of the map)."
+msgstr ""
+"Un approfondimento dei controlli della mappa va oltre lo scopo di questo "
+"modulo, ma queste dichiarazioni di stile ci danno una veloce anteprima. Di "
+"base un controllo ``OpenLayers.Control.Attribution`` viene aggiunto a tutte "
+"le mappe. Ciò permette di visualizzare le informazioni di attribuzione del "
+"layer nel viewport della mappa. Le direttive sopra modificano lo stile di "
+"questa attribuzione per la nostra mappa (notate il piccolo Copyright in "
+"basso a sinistra)."
+
+#: ../../layers/cached.rst:140
+msgid ""
+"Having mastered layers with publicly available cached tile sets, let's move "
+"on to working with :ref:`proprietary layers <openlayers.layers.proprietary>`."
+msgstr ""
+"Dopo aver imparato a trattare i layer con servizi di tile in cache "
+"disponibili pubblicamente, spostiamoci sui :ref:`layer proprietari "
+"<openlayers.layers.proprietary>`."

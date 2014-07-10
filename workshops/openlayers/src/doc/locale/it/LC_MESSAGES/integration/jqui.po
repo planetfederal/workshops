@@ -1,0 +1,70 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-09 22:42+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: geobeyond <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.6\n"
+
+#: ../../integration/jqui.rst:4
+msgid "Exploring jQuery UI"
+msgstr "Approfondimenti jQuery UI"
+
+#: ../../integration/jqui.rst:6
+msgid ""
+"The jQuery library is focused on providing efficient shortcuts for accessing "
+"DOM elements, adding behavior to those elements, and simplifying typical "
+"AJAX coding patterns. The jQuery UI library builds on the jQuery core by "
+"providing themeable widgets. Both the UI library and the core are designed "
+"around--and dedicated to--unobtrusive JavaScript coding, by providing a "
+"concise workflow."
+msgstr ""
+"La libreria jQuery è focalizzata a fornire delle efficienti scorciatoie per "
+"accedere gli elementi DOM, ad aggiungere i comportamenti a questi elementi, "
+"e a semplificare i costrutti tipici del codice AJAX. L'estensione di "
+"interfaccia utente UI è costruita sulla base della jQuery core attraverso "
+"dei widget tematizzabili. Sia la UI che la parte core sono state progettate "
+"--e dedicate per-- una programmazione JavaScript leggera, attraverso un "
+"workflow conciso. "
+
+#: ../../integration/jqui.rst:12
+msgid "jQuery links:"
+msgstr "Link jQuery"
+
+#: ../../integration/jqui.rst:14
+msgid "jQuery http://jquery.com/"
+msgstr "jQuery http://jquery.com/"
+
+#: ../../integration/jqui.rst:15
+msgid "jQuery UI http://ui.jquery.com/"
+msgstr "jQuery UI http://ui.jquery.com/"
+
+#: ../../integration/jqui.rst:16
+msgid "jQuery UI Docs http://docs.jquery.com/UI"
+msgstr "Documentazione jQuery UI http://docs.jquery.com/UI"
+
+#: ../../integration/jqui.rst:18
+msgid ""
+"In addition to the links above, you'll find jQuery UI examples in the jquery-"
+"ui directory included with this workshop. Spend a bit of time reading the "
+"material on jQuery, including the demos and tutorials."
+msgstr ""
+"In aggiunta ai link sopra, troverete esempi di jQuery UI nella directory "
+"jquery-ui inclusa in questo workshop. Passate un po' di tempo a leggere il "
+"materiale che trovate su jQuery, inclusi i tutorial e le demo. "
+
+#: ../../integration/jqui.rst:22
+msgid ""
+"Given a basic understanding of jQuery UI, you're ready to move on to :ref:"
+"`creating an opacity slider <openlayers.integration.jqui-slider>`."
+msgstr ""
+"Avendo una comprensione base di jQuery UI, possiamo spostarci alla :ref:"
+"`creazione di uno slider di opacità <openlayers.integration.jqui-slider>`."

@@ -19,4 +19,5 @@ In this module you will create a map, dissect your map to understand the parts, 
     
     Create a map. <map>
     Dissect your map. <dissect>
-    Find documentation and additional learning resources. <resources>
+	Find documentation and additional learning resources. <resources>
+

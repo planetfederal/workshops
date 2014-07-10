@@ -1,0 +1,96 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-05 15:27+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../index.rst:2
+msgid "2013 OpenLayers 2 Workshop"
+msgstr "WorkShop OpenLayers 2 del 2013"
+
+#: ../../index.rst:4
+msgid ""
+"Welcome to the **OpenLayers Workshop**. This workshop is designed to give "
+"you a comprehensive overview of OpenLayers as a web mapping solution.  The "
+"exercises assume that you have set up a local GeoServer with the workshop "
+"data as described in the :doc:`setup` page."
+msgstr ""
+"Benvenuti al **Workshop su OpenLayers**. Questo tutoria è stato realizzato "
+"per darvi una comprensiva infarinatura sui concetti della libreria "
+"OpenLayers come soluzione per applicazioni Web basate su mappe. Gli esercizi "
+"che saranno proposti assumono che sia stata preparata una installazione di "
+"GeoServer locale con i dati che sono descritti nella pagina :doc:`setup`."
+
+#: ../../index.rst:9
+msgid ""
+"This workshop is presented as a set of modules. In each module the reader "
+"will perform a set of tasks designed to achieve a specific goal for that "
+"module. Each module builds upon lessons learned in previous modules and is "
+"designed to iteratively build up the reader's knowledge base."
+msgstr ""
+"Il workshop è presentato con un'insieme di moduli. In ciascuno il lettore "
+"completerà una serie di attività per raggiungere determinati obiettivi "
+"legati allo specifico modulo. Ogni modulo è costruito in modo da consentire "
+"di mettere in pratica le lezioni imparate nei precedenti e costruire passo "
+"dopo passo le conoscenze di base del lettore. "
+
+#: ../../index.rst:14
+msgid "The following modules will be covered in this workshop:"
+msgstr "Saranno affrontati i seguenti moduli nel workshop:"
+
+#: ../../index.rst:17
+msgid "Fundamentals"
+msgstr "I fondamentali"
+
+#: ../../index.rst:19
+msgid ":ref:`openlayers.basics`"
+msgstr ":ref:`openlayers.basics`"
+
+#: ../../index.rst:19
+msgid "Learn how to add a map to a webpage with OpenLayers."
+msgstr "Imparare ad aggiungere una mappa ad una pagina Web con OpenLayers."
+
+#: ../../index.rst:22
+msgid ":ref:`openlayers.layers`"
+msgstr ":ref:`openlayers.layers`"
+
+#: ../../index.rst:22
+msgid "Learn about raster and vector layers."
+msgstr "Imparare a conoscere i layer vettoriali e raster."
+
+#: ../../index.rst:26
+msgid ":ref:`openlayers.controls`"
+msgstr ":ref:`openlayers.controls`"
+
+#: ../../index.rst:25
+msgid "Learn about using map controls."
+msgstr "Imparare ad utilizzare i controlli della mappa."
+
+#: ../../index.rst:29
+msgid "Advanced Topics"
+msgstr "Concetti avanzati"
+
+#: ../../index.rst:31
+msgid ":ref:`openlayers.vector`"
+msgstr ":ref:`openlayers.vector`"
+
+#: ../../index.rst:31
+msgid "Explore vector layers in depth."
+msgstr "Approfondire i layer vettoriali."
+
+#: ../../index.rst:35
+msgid ":ref:`openlayers.integration`"
+msgstr ":ref:`openlayers.integration`"
+
+#: ../../index.rst:34
+msgid "Learn how to use OpenLayers with other JavaScript libraries."
+msgstr "Imparare ad utilizzare OpenLayers con altre librerie JavaScript."

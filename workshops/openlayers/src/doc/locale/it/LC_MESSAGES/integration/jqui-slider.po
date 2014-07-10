@@ -1,0 +1,171 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-09 22:43+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: geobeyond <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.6\n"
+
+#: ../../integration/jqui-slider.rst:4
+msgid "The jQuery UI Slider"
+msgstr "Lo slider jQuery UI"
+
+#: ../../integration/jqui-slider.rst:6
+msgid ""
+"The jQuery UI slider widget creates a draggable handle that can be "
+"configured to return a value based on the handle position. Raster layers in "
+"OpenLayers provide a ``setOpacity`` method that controls the image opacity "
+"and accepts values between 0 (totally transparent) and 1 (totally opaque). A "
+"jQuery UI slider widget is a user-friendly way to set layer opacity in an "
+"OpenLayers map."
+msgstr ""
+"Il widget dello slider jQuery UI crea un controllo muovibile che può essere "
+"configurato per ritornare un valore in base alla posizione dello stesso. I "
+"layer raster in OpenLayers prevedono un metodo ``setOpacity``che definisce "
+"l'opacità dell'immagine e accetta valori tra 0 (totalmente trasparente) e 1 "
+"(totalmente opaca). Il widget costituisce un modo molto accattivante e "
+"facile per impostare l'opacità di layer in una mappa."
+
+#: ../../integration/jqui-slider.rst:8
+msgid ""
+"A jQuery UI slider can be created with something like the following markup."
+msgstr ""
+"Uno slider jQuery UI può essere creato con qualcosa di simile al seguente "
+"HTML."
+
+#: ../../integration/jqui-slider.rst:16
+msgid ""
+"To give these elements the slider behavior, you would run the following code."
+msgstr ""
+"Per attribuire il comportamento dello slider a questi elementi si dovrebbe "
+"eseguire il codice seguente."
+
+#: ../../integration/jqui-slider.rst:22
+msgid ""
+"The ``jQuery`` function is also exported under the alias ``$``. In the "
+"examples below, you'll see the use of the ``$`` function. This is entirely "
+"equivalent to using the ``jQuery`` function."
+msgstr ""
+"La funzione ``jQuery`` è esportata anche con l'alias ``$``. Negli esempi di "
+"sotto vedrai come usare la funzione  ``$``. Ciò è altrettanto equivalente ad "
+"utilizzare la funzione ``jQuery``."
+
+#: ../../integration/jqui-slider.rst:25
+msgid "Using a Slider to Control Layer Opacity"
+msgstr "Usare uno Slider per controllare l'opacità di un layer"
+
+#: ../../integration/jqui-slider.rst:27
+msgid ""
+"We'll start with a working example that displays one :abbr:`WMS (OGC Web Map "
+"Service)` layer and one vector layer with features from a :abbr:`WFS (OGC "
+"Web Feature Service)`."
+msgstr ""
+"Cominceremo con un esempio funzionante che visualizza un layer :abbr:`WMS "
+"(OGC Web Map Service)` ed un vettoriale con feature provenienti da un :abbr:"
+"`WFS (OGC Web Feature Service)`."
+
+#: ../../integration/jqui-slider.rst:30
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../integration/jqui-slider.rst:31
+msgid ""
+"Open your text editor and save the following as ``map.html`` in the root of "
+"your workshop folder:"
+msgstr ""
+"Aprire il vostro editor di testo e salvare come file ``map.html`` nella "
+"radice della directory del workshop:"
+
+#: ../../integration/jqui-slider.rst:91
+msgid ""
+"Next we need to pull in the jQuery resources that our widgets will require. "
+"Add the following markup to the ``<head>`` of your ``map.html`` document:"
+msgstr ""
+"Successivamente abbiamo bisogno di importare le risorse jQuery richieste "
+"dalla nostra widget. Aggiungere il codice HTML seguente nell'``<head>`` del "
+"vostro documento ``map.html``:"
+
+#: ../../integration/jqui-slider.rst:99
+msgid ""
+"The slider widget needs some markup to start with.  Insert the following in "
+"the ``<body>`` of your ``map.html`` page, just after the map viewport, in "
+"order to create a container for the slider:"
+msgstr ""
+"Il widget dello slider ha bisogno di blocco di codice per poter essere "
+"eseguito. Inserite il blocco seguente nel ``<body>`` della vostra pagina "
+"``map.html``, proprio dopo il viewport della mappa, in modo da creare un "
+"container per lo slider:"
+
+#: ../../integration/jqui-slider.rst:105
+msgid ""
+"One bit of preparation before finalizing the code is to style the slider "
+"container.  In this case, we'll make the slider as wide as the map and give "
+"it some margin. Insert the following style declarations into the ``<style>`` "
+"element within the ``<head>`` of your document:"
+msgstr ""
+"Una piccola aggiunta prima di terminare il codice potrebbe consistere nel "
+"dare uno stile al container dello slider. In questo caso, faremo lo slider "
+"largo quanto la mappa e gli daremo un certo margine. Inserite le seguenti "
+"dichiarazioni di stile nell'elemento ``<style>`` all'interno dell'``<head>`` "
+"del documento:"
+
+#: ../../integration/jqui-slider.rst:114
+msgid ""
+"Having pulled in the required jQuery resources, created some markup for the "
+"widget, and given it some style, we're ready to add the code that creates "
+"the slider widget. In the ``<script>`` element that contains your map "
+"initialization code, insert the following to create the slider widget and "
+"set up a listener to change your layer opacity as the slider value changes:"
+msgstr ""
+"Dopo aver inserito la libreria richiesta, aggiungendo del codice HTML per il "
+"widget e dandogli un pò di stile siamo pronti a scrivere il codice che "
+"definisce il comportamento dello slider. Nell'elemento ``<script>`` che "
+"contiene il codice di inizializzazione della mappa, inseriamo il blocco che "
+"crea il widget e impostiamo un listenere per cambiare l'opacità del layer "
+"non appena cambia il valore:"
+
+#: ../../integration/jqui-slider.rst:125
+msgid ""
+"Save your changes to ``map.html`` and open the page in your browser: "
+"@workshop_url@/map.html"
+msgstr ""
+"Salvare le modifiche a ``map.html`` e aprire la pagina nel browser: "
+"@workshop_url@/map.html"
+
+#: ../../integration/jqui-slider.rst:129
+msgid "A map with a slider widget to control layer opacity."
+msgstr "Una mappa con uno slider per regolare l'opacità di un layer."
+
+#: ../../integration/jqui-slider.rst:133
+msgid "Bonus Task"
+msgstr "Attività Bonus"
+
+#: ../../integration/jqui-slider.rst:134
+msgid ""
+"In the jQuery documentation, find the options for the slider function that "
+"allow you to specify a number of incremental steps within the slider range. "
+"Experiment with adding discrete intervals to the slider range. Modify the "
+"end values of the range to restrict opacity settings."
+msgstr ""
+"Nella documentazione jQuery, cercate le opzioni per la funzione slider che "
+"permette di specificare un numero di passi ad incremento all'interno "
+"dell'intervallo dello slider. Sperimentare aggiungendo intervalli discreti "
+"al range dello slider. Modificare il valori finali del range per restringere "
+"le impostazioni di opacità."
+
+#: ../../integration/jqui-slider.rst:136
+msgid ""
+"Having mastered the jQuery UI slider, you're ready to start working with :"
+"ref:`dialogs <openlayers.integration.jqui-dialog>`."
+msgstr ""
+"Dopo aver appreso riguardo allo slider jQuery UI, possiamo spostarci a "
+"lavorare con le finestre di :ref:`dialogo <openlayers.integration.jqui-"
+"dialog>`."
