@@ -14,8 +14,8 @@ This module covers the basics of working with map layers.  In this module you wi
 
 .. toctree::
     :maxdepth: 1
-    
-    Request tiles from a Web Map Service. <wms>
-    Work with cached tiles. <cached>
-    Use proprietary tile providers. <proprietary>
-    Render data client side. <vector>
+
+    wms
+    cached
+    proprietary
+    vector

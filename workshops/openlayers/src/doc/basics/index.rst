@@ -16,8 +16,10 @@ In this module you will create a map, dissect your map to understand the parts, 
 
 .. toctree::
     :maxdepth: 1
-    
-    Create a map. <map>
-    Dissect your map. <dissect>
-	Find documentation and additional learning resources. <resources>
+
+    map
+    dissect
+    resources
+
+
 
