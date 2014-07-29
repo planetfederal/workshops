@@ -3,36 +3,38 @@
 Resources
 =========
 
-The following is a list of external sites related to GeoGit.
-
-.. todo:: Change from GeoServer
+The following is a list of external sites related to GeoGig.
 
 Home
 ----
 
-Visit the GeoServer home page at `<http://geoserver.org>`_.
+Visit the GeoGig homepage at http://geogit.org.
+
+.. todo:: Change to geogig.org at some point.
+
+.. todo:: See the Boundless home page on GeoGig at SOMEWHERE.
 
 Documentation
 -------------
 
-Full documentation for GeoServer is available at `<http://docs.geoserver.org>`_.
+.. todo:: Full documentation for GeoGig is available at SOMEWHERE.
 
 Mailing list
 ------------
 
-GeoServer has an active users mailing list, which you can subscribe to at `<https://lists.sourceforge.net/lists/listinfo/geoserver-users>`_.  If you're a developer, you can subscribe to the developer list at `<https://lists.sourceforge.net/lists/listinfo/geoserver-devel>`_.
+.. todo:: GeoGig has an active mailing list, which you can subscribe to at SOMEWHERE. 
 
 Bug tracking
 ------------
 
-JIRA, the GeoServer bug tracker, is hosted on `<http://codehaus.org>`_ at `<http://jira.codehaus.org/browse/GEOS>`_.
+.. todo:: GitHub? Is it public?
 
 IRC
 ---
 
-Join a live discussion at #geoserver, on irc.freenode.net.
+Join a live discussion at #geogig, on irc.freenode.net.
 
 Boundless
 ---------
 
-Boundless helps to develop GeoGit and funds development through its OpenGeo Suite. Learn more at `<http://boundlessgeo.com>`_.
+Boundless helps to develop GeoGig and funds development through its other flagship products such as OpenGeo Suite. Learn more at http://boundlessgeo.com.
