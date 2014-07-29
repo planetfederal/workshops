@@ -10,6 +10,11 @@ This workshop will introduce attendees to GeoGig, a distributed version control 
 
 The workshop is geared toward those with no prior GeoGig experience, but familiarity with basic GIS concepts is suggested. It will be useful to have familiarity with QGIS, the desktop GIS client, along with Git, the distributed version control system, but this is not required.
 
+Prerequisites
+-------------
+
+.. todo:: What needs to be installed? pgAdmin? QGIS? GeoGig? Verify these things? Or will it be part of the workshop.
+
 Topics covered
 --------------
 
