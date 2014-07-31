@@ -11,5 +11,5 @@ This section will describe how to use GeoGig on the command-line, including  inc
    setup
    commit
    branch
-   export
+   conflict
    remote
