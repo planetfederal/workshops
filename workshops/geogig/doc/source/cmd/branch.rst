@@ -10,7 +10,7 @@ In this section we will create a new branch and add commits to both the master b
 Create a new branch
 -------------------
 
-A new branch shares the same timline and history as its parent does, up until the point at which the branch was crated at which point the history diverges. Commits that happen on one branch are isolated from the other.
+A new branch shares the same timeline and history as its parent does, up until the point at which the branch was crated at which point the history diverges. Commits that happen on one branch are isolated from the other.
 
 .. todo:: A graphic of this.
 

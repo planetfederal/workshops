@@ -102,11 +102,3 @@ The merge cannot continue until the conflict is resolved.
 
 The conflict has been resolved and the merge has completed.
 
- 
-
-
-
-
-  
-
-   

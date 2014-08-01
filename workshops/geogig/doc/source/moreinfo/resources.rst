@@ -8,9 +8,7 @@ The following is a list of external sites related to GeoGig.
 Home
 ----
 
-Visit the GeoGig homepage at http://geogit.org.
-
-.. todo:: Change to geogig.org at some point.
+Visit the GeoGig homepage at http://geogig.org.
 
 .. todo:: See the Boundless home page on GeoGig at SOMEWHERE.
 

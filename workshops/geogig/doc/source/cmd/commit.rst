@@ -3,18 +3,34 @@
 Working with commits
 ====================
 
+With setup complete, we can now perform the basic task of a versioned repository: a commit.
+
+.. todo:: Mention logs / troubleshooting.
+
 Initial commit
 --------------
 
-With our repository created, we can now import data into it and make our first commit (snapshot). This will be the baseline from which we will work:
+We can now import data into our repository and make our first commit (snapshot). This will be the baseline from which we will work:
 
-#. Import the data from the database into the repository:
+#. From the :file:`repo` directory created in the previous section, import the data from the database into the repository:
 
    .. code-block:: console
 
-      geogig pg import --database bikenetwork -t bikenetwork --host localhost --port 8080 --user postgres --password
+      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
 
-   .. todo:: Verify this.
+   ::
+
+      Importing from database geogig
+
+      Importing bikepdx          (1/1)...
+      93%
+      6760 distinct features inserted in 6.243 s
+
+      Building final tree...
+
+      6772 features tree built in 1.206 s
+      100%
+      Import successful.
 
 #. The data from the PostGIS table will be imported into GeoGig, ready for versioning. Verify this:
 
@@ -22,7 +38,20 @@ With our repository created, we can now import data into it and make our first c
 
       geogig status
 
-   .. todo:: What will this show?
+   ::
+
+      # On branch master
+      # Changes not staged for commit:
+      #   (use "geogit add <path/to/fid>..." to update what will be committed
+      #   (use "geogit checkout -- <path/to/fid>..." to discard changes in working directory
+      #
+      #      added  bikepdx
+      #      added  bikepdx/6526
+      #      added  bikepdx/6527
+      #      added  bikepdx/6524
+      #      added  bikepdx/6525
+      ...
+      # 6773 total.
 
 Now that our repository is aware of our spatial data, we can add all the features to the repository so that we can commit them all.
 
@@ -34,7 +63,7 @@ Now that our repository is aware of our spatial data, we can add all the feature
 
       geogig add .
 
-   The ``.`` is a wildcard that states that everything should be added to the repository
+   The ``.`` is a wildcard that states that everything should be added to the repository.
 
 #. Run ``geogig status`` to see how the output has changed
 
@@ -64,9 +93,9 @@ On the other hand, the following commit messages are not-so-good:
 Making an attribute change
 --------------------------
 
-We are all set up now, so now it's time to do some work!
+Now it's time to do some editing!
 
-There are gaps in the bicycling system in Portland. One of the most famous is the "Sellwood Gap" , a one-mile long break in the Springwater Corridor, a 20 mile long rail-trail that stretches from the Willamette River to the very edge of the metropolitan area.
+There are gaps in the bicycling system in Portland. One of the most famous is the "Sellwood Gap", a one-mile long break in the Springwater Corridor, which is a 20 mile long rail-trail that stretches from the Willamette River to the very edge of the metropolitan area.
 
 Zoom in to this area. To find the Sellwood Gap, find the multi-use trail that parallels the river on the east side. Follow it south to the point where it curves away from the river.
 
@@ -88,7 +117,7 @@ Specifically, the attribute is called ``STATUS``, and we will want to change the
 
 #. Click the pencil icon again to save changes.
 
-We have made a very small change to our dataset and the map view changes accordingly. Now we wil want to commit this change.
+We have made a very small change to our dataset and the map view changes accordingly. Now we will want to commit this change.
 
 The process for adding a change to GeoGig is "Import, Add, Commit". We will perform all of those steps now.
 
@@ -98,7 +127,7 @@ The process for adding a change to GeoGig is "Import, Add, Commit". We will perf
 
       PG IMPORT command
 
-   This import command let GeoGit be aware that content has changed.
+   This import command let GeoGig be aware that content has changed.
 
 #. Now add the changes. If you want to add everything, type:
 
@@ -117,7 +146,6 @@ The process for adding a change to GeoGig is "Import, Add, Commit". We will perf
       geogig commit -m "The Sellwood Gap is now open"
 
 #. Your change has been made.
-
 
 Making a geometry change
 ------------------------
@@ -142,7 +170,7 @@ Specifically, your next task is to add a new bike lane. You can draw it anywhere
 
 #. Click :guilabel:`OK` when done.
 
-#Select :menuselection:`Layer --> Toggle Editing` to stop the editing process. Click :guilabel:`Save` when prompted.
+#. Select :menuselection:`Layer --> Toggle Editing` to stop the editing process. Click :guilabel:`Save` when prompted.
 
 With your new feature added, we can now add the feature to our repository via another commit.
 
@@ -177,7 +205,7 @@ Rolling back a change
 
 Perhaps adding in that new bikelane was a bit premature. Let's remove it.
 
-Now, we could remove it in one of two ways.
+Now, we could remove it in one of two ways:
 
 * We could remove the feature and make a new commit showing the removal. This would preserve the history of both commits
 * We could also roll back to the previous commit. This would eliminate the commit from the timeline, as if it never happened.

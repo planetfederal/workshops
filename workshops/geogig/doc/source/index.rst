@@ -10,10 +10,29 @@ This workshop will introduce attendees to GeoGig, a distributed version control 
 
 The workshop is geared toward those with no prior GeoGig experience, but familiarity with basic GIS concepts is suggested. It will be useful to have familiarity with QGIS, the desktop GIS client, along with Git, the distributed version control system, but this is not required.
 
-Prerequisites
--------------
+Prerequisites and software setup
+--------------------------------
 
-.. todo:: What needs to be installed? pgAdmin? QGIS? GeoGig? Verify these things? Or will it be part of the workshop.
+In order to perform this workshop, you will need the following software installed on your system:
+
+* OpenGeo Suite
+* QGIS
+* GeoGig
+
+Specifically, you will want PostGIS, as well as the PostgreSQL command line tools.
+
+.. todo:: Details on how to get them.
+
+We will assume that PostGIS is running at ``localhost`` on port ``5432``, and that both GeoGig and the PostgreSQL command-line tools are on the system ``PATH``.
+
+To verify the ``PATH`` settings, open a terminal and type:
+
+.. code-block:: console
+
+   psql --version
+   geogig --help
+
+If either of these two commands yield and error, check your ``PATH`` settings.
 
 Topics covered
 --------------
@@ -38,19 +57,15 @@ Workshop Materials
 The following directories will be found inside of the workshop bundle:
 
 :file:`doc`
-  The workshop documentation in HTML format.
-
-:file:`software`
-  The software to be installed during the workshop.
+  The workshop documentation in HTML format. (This document.)
 
 :file:`data`
-  Geospatial data to be used in the workshop.
+  Data and other project files to be used in the workshop.
 
-:file:`styles`
-  Style files to be used throughout the workshop.
+:file:`software`
+  The software to be installed prior to commencing the workshop.
 
 These directories should be placed on your desktop.
-
 
 Ready to Begin?
 ---------------
