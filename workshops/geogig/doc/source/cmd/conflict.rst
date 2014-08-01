@@ -37,7 +37,7 @@ Nonetheless, we will create a true conflict and resolve it manually.
 
    .. todo:: Is there a need for exporting?
 
-#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table) and find a row that corresponds to a feature. Make a note of the feature ID so you can find it again later.
+#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to a feature. Make a note of the feature ID so you can find it again later.
 
 #. Click the pencil to :guilabel:`Toggle Editing`.
 

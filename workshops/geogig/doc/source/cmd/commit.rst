@@ -1,4 +1,4 @@
-.. _cmd.commits:
+.. _cmd.commit:
 
 Working with commits
 ====================
