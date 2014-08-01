@@ -27,25 +27,32 @@ The following is a metadata description of the data file:
    :header-rows: 1
 
    * - Attribute
+     - Type
      - Description
    * - ``gid``
-     - Primary key identifier
-   * - ``comments``
-     - Description of the feature, if any
+     - Integer
+     - Identifier (primary key)
    * - ``segmentname``
+     - String
      - Name of the area where the feature exists (Example: ``SW MAIN ST``)
    * - ``status``
+     - String
      - Whether the bike lane exists or not. One of ``ACTIVE``, ``RECOMM``, or ``PLANNED``.
    * - ``facility``
+     - String
      - Short code for the type of bike lane. One of ``MTRAIL``, ``BLVD``, ``LANE``, ``SCONN``.
    * - ``facilityde``
+     - String
      - Human readable equivalent of ``facility`` attribute. One of ``Multi-use Trail``, ``Bike Boulevard``, ``Bike Lane``, ``Signed Connection``.
    * - ``yearbuilt``
+     - Integer
      - Year the bike lane was put into service
+   * - ``comments``
+     - String
+     - Description of the feature, if any
    * - ``shape_len``
+     - Float
      - Length of the feature (in feet)
-
-.. todo:: Remove projectid?
 
 Load data
 ---------
@@ -80,7 +87,7 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
    .. code-block:: console
 
-      psql -U postgres -f bikepdx.sql -d geogig
+      psql -U postgres -d geogig -f bikepdx.sql
 
    ::
 
@@ -142,20 +149,22 @@ We will be viewing the data using QGIS.
 
 #. Click :guilabel:`Connect`.
 
-#. Select the entry named :guilabel:`bikepdx` and click :guilabel:`OK`.
+#. Select the entry named :guilabel:`bikepdx` and click :guilabel:`Add`.
 
 Style layer
 -----------
 
 The data will be displayed in the main QGIS window. To improve the display, we will apply a style to the layer.
 
-#. In the Layers panel, right-click on the layer entry and select :guilabel:`Properties`.
+#. In the Layers panel, right-click on the layer entry (:guilabel:`bikepdx`) and select :guilabel:`Properties`.
 
 #. Click :guilabel:`Style` to bring up the style parameters.
 
-#. Click the :guilabel:`Load Style` button.
+#. Click the :guilabel:`Load Style` button and select :guilabel:`Load from file`.
 
 #. In the dialog, select the :file:`bikepdx.sld` file in the workshop :file:`data` directory and click :guilabel:`Open`.
+
+   .. note:: By default, only ``.qml`` files are shown in the file listing, so you may need to adjust the file list or type the filename in manually.
 
 #. Click :guilabel:`Apply` to apply the style to the layer.
 
@@ -178,6 +187,8 @@ User information can be set either globally, for all repositories managed by Geo
 
       geogig config --global user.name "Author"
       geogig config --global user.email "author@example.com"
+
+.. note:: If you encounter any errors with the geogig command line interface, please see the :ref:`cmd.troubleshoot` section.
 
 Create a GeoGig repository
 --------------------------
@@ -206,7 +217,6 @@ Create a GeoGig repository
 
 #. View a directory listing that shows all files and verify that the :file:`.geogig` directory has been created.
 
-   .. todo:: Is it worth going in and exploring this directory?
 
 More about the ``geogig`` command
 ---------------------------------
@@ -231,7 +241,7 @@ To see a list of the parameters associated with a given command, type ``help`` f
 
    geogig help show
 
-.. code-block:: console
+::
 
    Displays information about a commit, feature or feature type
    Usage: show [options] <reference>

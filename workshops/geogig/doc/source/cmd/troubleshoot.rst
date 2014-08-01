@@ -1,4 +1,4 @@
-.. _cmd.troubleshooting:
+.. _cmd.troubleshoot:
 
 Troubleshooting
 ===============
