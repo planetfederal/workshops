@@ -51,7 +51,7 @@ olMap.on('singleclick', function(evt) {
     success: function (info) {
       popup.setPosition(evt.getCoordinate());
       $('#popup') 
-        .popover('destroy'); 
+        .popover('destroy') 
         .popover({content: info.join('')}) 
         .popover('show'); 
       // Close popup when user clicks on the 'x'
