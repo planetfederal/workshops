@@ -47,7 +47,7 @@ The most authoritative source would be the county layer from the US census, but 
 
 The top entry is a `discussion on an Esri forum <http://forums.arcgis.com/threads/26330-Where-can-I-find-a-shapefile-with-all-US-counties-and-FIPS-code-for-each>`_ about county boundaries, and includes a file of just about the right size, so we will work with that one.
 
-* Download `UScounties.zip <http://forums.arcgis.com/attachment.php?attachmentid=5489&d=1300810899>`_
+* Download `UScounties.zip <_static/data/UScounties.zip>`_
 
 Census Data
 ~~~~~~~~~~~
