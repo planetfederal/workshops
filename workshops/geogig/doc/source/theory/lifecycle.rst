@@ -11,13 +11,13 @@ The following describes the lifecycle of data and what happens to it when it is 
 
   .. note:: For Git users, there is no equivalent to this step. Just copying files into the working directory is all that is necessary to "import" them.
 
-* **Add data**: Initially, all the data is staged so as to be ready to be commited.
+* **Add data**: Initially, all the data is staged so as to be ready to be committed.
 
 * **Commit data**: All data is committed to the repository as an initial snapshot.
 
 * **Make changes**: Changes to spatial data can be made using any standard GIS tool. 
 
-* **Import / add / commit data**: When the changes have been made, the process of importing, adding, and the commiting is repeated. The new snapshot that is created is a diff of the changes made since the previous commit.
+* **Import / add / commit data**: When the changes have been made, the process of importing, adding, and the committing is repeated. The new snapshot that is created is a "diff" of the changes made since the previous commit.
 
 * **Create a branch**: When you wish to create a separate area for working on a project, without the commits affecting the main development workflow, a branch is created.
 

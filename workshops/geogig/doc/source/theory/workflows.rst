@@ -3,6 +3,8 @@
 Common GIS workflows
 ====================
 
+.. todo:: Figures for these scenarios needed
+
 There are many ways that organizations work with geospatial data. In this section we'll highlight two typical workflows.
 
 Centralized GIS department
@@ -19,7 +21,7 @@ GeoGig supports this workflow. In this scenario, one person or group would have 
 Decentralized data collection
 -----------------------------
 
-Consider, in contrast to the above, a situation where multiple users are in the field doing data collection. No central authority exists; there are only the collectors.
+In contrast to the above, consider a situation where multiple users are in the field doing data collection. No central authority exists; there are only the collectors.
 
 GeoGig supports this workflow as well. In this scenario, each collector would have a cloned repository, which they would have ownership of and make changes to. These collector can, at their discretion, "pull" changes from other collectors to their own repository.
 

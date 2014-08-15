@@ -18,8 +18,8 @@ Distributed versus centralized versioning
 
 There are two main models of maintaining version control (with emphasis here on the word "control"):
 
-* **Centralized**: In this model, there is one canoncial repository that is managed by a central authority. Users either have access to the repository or they do not.
-* **Decentralized**: In this model, there is no canonical respository. Instead, every copy of repository is technically identical to any other. Anyone can make a copy of the repository and work with it and makes changes to it in their own "sandbox". One repository is usually considered the canonical one, but this is a convention and is not required. In this way, the decentralized model can emulate the centralied model, which can be convenient for users transitioning from one to the other.
+* **Centralized**: In this model, there is one canonical repository that is managed by a central authority. Users either have access to the repository or they do not.
+* **Decentralized**: In this model, there is no canonical respository. Instead, every copy of repository is technically identical to any other. Anyone can make a copy of the repository and work with it and makes changes to it in their own "sandbox". One repository is usually considered the canonical one, but this is a convention and is not required. In this way, the decentralized model can emulate the centralized model, which can be convenient for users transitioning from one to the other.
 
 .. todo:: Add figure showing both
 
