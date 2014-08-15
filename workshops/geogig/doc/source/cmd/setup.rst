@@ -207,14 +207,14 @@ The style will show different routes based on two different criteria (attributes
 
 * The type of route:
 
-  * A "multi-use trail" (``FACILITY == 'MTRAIL'``)
-  * A "bike boulevard" (``FACILITY == 'BLVD'``)
-  * A regular "bike lane" (``FACILITY == 'LANE'``)
+  * A "multi-use trail" (``facility == 'MTRAIL'``)
+  * A "bike boulevard" (``facility == 'BLVD'``)
+  * A regular "bike lane" (``facility == 'LANE'``)
 
 * The status of the route:
 
-  * An active route (``STATUS == 'ACTIVE'``)
-  * A non-active route (``STATUS <> 'ACTIVE'``)
+  * An active route (``status == 'ACTIVE'``)
+  * A non-active route (``status <> 'ACTIVE'``)
 
 With these criteria, we can generate six distinct rules for styling the different lines in the layer.
 

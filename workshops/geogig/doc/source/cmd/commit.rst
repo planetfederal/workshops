@@ -3,20 +3,22 @@
 Working with commits
 ====================
 
-With setup complete, we can now perform the basic task of a versioned repository: a commit.
+With setup complete, we can now perform the basic task of a versioned repository: a :term:`commit`.
 
 .. todo:: Mention logs / troubleshooting.
 
 Initial commit
 --------------
 
-We can now import data into our repository and make our first commit (snapshot). This will be the baseline from which we will work:
+We can now import data into our repository and make our first commit (snapshot). This will be the baseline from which we will work.
 
-#. From the :file:`repo` directory created in the previous section, import the data from the database into the repository:
+#. From the :file:`repo` directory created in the previous section, use the ``geogig pg import`` command to import the data from the database into the repository:
 
    .. code-block:: console
 
       geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+
+   .. note:: Adjust the connection parameters as necessary.
 
    ::
 
@@ -42,8 +44,8 @@ We can now import data into our repository and make our first commit (snapshot).
 
       # On branch master
       # Changes not staged for commit:
-      #   (use "geogit add <path/to/fid>..." to update what will be committed
-      #   (use "geogit checkout -- <path/to/fid>..." to discard changes in working directory
+      #   (use "geogig add <path/to/fid>..." to update what will be committed
+      #   (use "geogig checkout -- <path/to/fid>..." to discard changes in working directory
       #
       #      added  bikepdx
       #      added  bikepdx/6526
@@ -53,7 +55,7 @@ We can now import data into our repository and make our first commit (snapshot).
       ...
       # 6773 total.
 
-   On most terminals, the features that have been added are colored red.
+   On most terminals, the features that have been added are colored **red**.
 
 Now that our repository is aware of our spatial data, we can add all the features to the repository so that we can commit them all.
 
@@ -62,6 +64,8 @@ Now that our repository is aware of our spatial data, we can add all the feature
    .. code-block:: console
 
       geogig add bikepdx
+
+   .. note:: If we wanted to add only some features to the repository, we could run ``geogig add bikepdx/[id]`` where ``[id]`` is one of the feature IDs.
 
    ::
 
@@ -77,23 +81,19 @@ Now that our repository is aware of our spatial data, we can add all the feature
 
       # On branch master
       # Changes to be committed:
-      #   (use "geogit reset HEAD <path/to/fid>..." to unstage)
+      #   (use "geogig reset HEAD <path/to/fid>..." to unstage)
       #
       #      added  bikepdx
       #      added  bikepdx/6526
       #      added  bikepdx/6527
       #      added  bikepdx/6524
       #      added  bikepdx/6525
-      #      added  bikepdx/6522
-      #      added  bikepdx/6523
-      #      added  bikepdx/6520
-      #      added  bikepdx/6521
       ...
       # 6773 total.
 
-   On most terminals, the features that have been added are colored green.
+   On most terminals, the features that have been added are colored **green**.
 
-Now we are ready to make our first commit! A commit will include anything that's been added It requires only a message to describe the commit. This is a useful text string as the history for a project grows, so it important to make the message clear.
+Now we are ready to make our first commit. A commit will include anything that's been added. It requires only a message to describe the commit. This is a useful text string as the history for a project grows, so it is important to make the message clear.
 
 For example, the following commit messages are good, as they are a clear indication of what the commit entails:
 
@@ -101,16 +101,17 @@ For example, the following commit messages are good, as they are a clear indicat
 * "Removed Main St. feature"
 * "Renamed First Ave to First Avenue"
 
-On the other hand, the following commit messages are not-so-good:
+On the other hand, the following commit messages are not so good:
 
 * "Made changes"
 * "Added stuff"
+* "Commit"
 
-#. Commit our changes. Use the message "Initial commit of complete data layer" via the ``-m`` option:
+#. Commit our changes. Use the message "Initial commit of complete bikepdx layer" via the ``-m`` option:
 
    .. code-block:: console
 
-      geogig commit -m "Initial commit of complete data layer"
+      geogig commit -m "Initial commit of complete bikepdx layer"
 
    ::
 
@@ -118,38 +119,70 @@ On the other hand, the following commit messages are not-so-good:
       [3c52000828bbcaf7ec706dc98b336437cd53f51b] Initial commit of complete data layer
       Committed, counting objects...6772 features added, 0 changed, 0 deleted.
 
-We have made our first commit!
+Congratulations, we have made our first commit!
 
 Making an attribute change
 --------------------------
 
-Now it's time to do some editing.
+With a baseline created, it's time to do some editing.
 
 There are gaps in the bicycling system in Portland. One of the most famous is the "Sellwood Gap", a one-mile long break in the Springwater Corridor, which is a 20 mile long rail-trail that stretches from the Willamette River to the very edge of the metropolitan area.
 
-Zoom in to this area. To find the Sellwood Gap, find the multi-use trail (styled in drak green) that parallels the river on the east side. Follow it south to the point where it curves away from the river, and you will see that a section of it becomes dashed (so not an active path).
+Zoom in to this area. To find the Sellwood Gap, find the multi-use trail (styled in dark green) that parallels the river on the east side. Follow it south to the point where it curves away from the river, and you will see that a section of it becomes dashed (meaning that it is not an active path).
 
-.. todo:: Figure
+.. figure:: img/commit_sellwoodgap.png
 
-Let's say that all parties have gotten together and agreed to build this missing section of trail. At this point, you, in charge of updating the city's GIS data, would change that feature to an active section.
+   The "Sellwood Gap"
+
+.. note:: If you skipped the optional step on adding a background layer, your view will look different.
+
+Let's say that all interested parties have gotten together and agreed to build this missing section of trail. After construction, you, in charge of updating the city's GIS data, would change that feature to be an active section.
 
 Specifically, this would involve us making a single change: the attribute ``status`` for that feature should be changed from ``RECOMM`` to ``ACTIVE``.
 
-#. In QGIS, zoom to the area that contains this feature.
+#. If you haven't already, zoom to the area that contains this feature.
 
-#. Select :menuselection:`Layer --> Open Attribute Table` to see the attributes.
+#. Click the :guilabel:`bikepdx` entry in the :guilabel:`Layers` list to ensure it is selected and not any other layer.
 
-#. Click the pencil icon on the top left to :guilabel:`Toggle Editing`.
+#. Select :menuselection:`Layer --> Open Attribute Table`.
 
-#. Scroll down to the feature in question. The ``gid`` for this feature is ``6703``. You may wish to click on the ``gid`` column to sort numerically if it is not already.
+   .. figure:: img/commit_attributetablelink.png
 
-#. Double-click in the value of the ``status`` column. Change the value to :kbd:`ACTIVE` and press :kbd:`Enter`.
+      Open Attribute Table link
+
+#. This will bring up the attribute table for the layer.
+
+   .. figure:: img/commit_attributetable.png
+
+      Attribute table
+
+#. In the attribute table, click the pencil icon on the top left to :guilabel:`Toggle Editing`.
+
+   .. figure:: img/commit_toggleediting.png
+
+      Toggle Editing
+
+#. Scroll down to the feature in question. The ``id`` for this feature is ``6703``. You may wish to click on the ``id`` column to sort numerically if it is not already.
+
+   .. figure:: img/commit_attributetablefeature.png
+
+      Feature selected
+
+#. Double-click the value of the ``status`` column. Change the value to :kbd:`ACTIVE` and press :kbd:`Enter`.
+
+   .. figure:: img/commit_featureedited.png
+
+      Feature edited
 
 #. Click the pencil icon again to save changes.
 
-We have made a very small change to our dataset and the map view changes accordingly. Now we will want to commit this change.
+#. Close the attribute table dialog. We have made a very small change to our dataset and the map view changes accordingly.
 
-The process for adding a change to GeoGig is **Import, Add, Commit**. We will perform all of those steps now.
+   .. figure:: img/commit_sellwoodgapclosed.png
+
+      Sellwood Gap fixed
+
+Now we will want to commit this change. While the change was made in the database, **GeoGig is not yet aware of the change.** The process for making a change with GeoGig is: **Import, Add, Commit**. We will perform all of those steps now.
 
 #. On a terminal in the repository, type the following command:
 
@@ -173,13 +206,13 @@ The process for adding a change to GeoGig is **Import, Add, Commit**. We will pe
       100%
       Import successful.
 
-   .. todo:: Mention the inefficiency of this step? (Mitigated by the plugin?) Or mention later?
-
 #. Now add the changes. If you want to add everything, type:
 
    .. code-block:: console
 
       geogig add bikepdx
+
+   .. note:: Any unchanged features will be ignored.
 
    ::
 
@@ -189,9 +222,7 @@ The process for adding a change to GeoGig is **Import, Add, Commit**. We will pe
       1 features and 1 trees staged for commit
       0 features and 0 trees not staged for commit
 
-   .. todo:: But if you want to add a specific feature, type...
-
-#. Notice that the output says that only a single feeature is staged for commit. This makes sense; even though we have imported the entire table, GeoGig processes the import against the existing repository, and will only highlight the features that have changed.
+#. Notice that the output says that only a single feature is staged for commit. This makes sense; even though we have imported the entire table, GeoGig processes the import against the existing repository, and will only highlight the features that have changed.
 
 #. Run ``geogig status`` to see this single feature:
 
@@ -199,23 +230,24 @@ The process for adding a change to GeoGig is **Import, Add, Commit**. We will pe
 
       # On branch master
       # Changes to be committed:
-      #   (use "geogit reset HEAD <path/to/fid>..." to unstage)
+      #   (use "geogig reset HEAD <path/to/fid>..." to unstage)
       #
+      #      modified  bikepdx
       #      modified  bikepdx/6703
       # 2 total.
 
-   .. todo:: Why 2 total?
+   .. note:: If you're wondering why there are two changes to be committed when we have only changed a single feature, it is referring to the feature and its parent tree (the layer itself).
 
 #. Finally, we are ready to commit this change:
 
    .. code-block:: console
 
-      geogig commit -m "The Sellwood Gap is now open"
+      geogig commit -m "The Sellwood Gap has now been fixed"
 
    ::
 
       100%
-      [576af055303bccba2c0f7257bc92d3edcd10322e] The Sellwood Gap is now open
+      [576af055303bccba2c0f7257bc92d3edcd10322e] The Sellwood Gap has now been fixed
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
 #. Your change has been made.
