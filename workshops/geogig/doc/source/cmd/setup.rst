@@ -9,27 +9,34 @@ The City of Portland `maintains a site where this information can be downloaded 
 
 .. note::
 
-   Here are links to the direct downloads:
+   If you're interested, here are links to the original, direct downloads:
 
    * `Bicycle network SHP <ftp://ftp02.portlandoregon.gov/CivicApps/Bicycle_Network_pdx.zip>`_
    * `SHP metadata <https://www.portlandonline.com/cgis/metadata/viewer/display_rl.cfm?Meta_layer_id=53123&Db_type=sde>`_  
 
-We will store our data in PostGIS and work with the data in QGIS. And of course, we will make and store snapshots of our data along the way using GeoGig.
+   These downloads are not necessary for completion of this workshop.
 
-.. note:: The data has been modified from the original source, and many columns removed. Students may wish to download the original shapefile and note that many of the columns refer to an internal record-keeping method to show who made what changes and when. Specifically, the columns ``modifiedby`` (a name) and ``modifiedon`` (a date) would be completely unecessary when used with a version control system such as GeoGig, as that information would already be encoded in the repository history.
+We will store our data in PostGIS and work with the data in QGIS. And of course, we will make and store snapshots of our data using GeoGig.
+
+.. note::
+
+   The data has been modified from the original source, and many columns removed. Students may wish to download the original shapefile and note that many of the columns refer to an internal record-keeping method to show who made what changes and when.
+
+   Specifically, the columns ``modifiedby`` (a name) and ``modifiedon`` (a date) would be completely unecessary when used with a version control system such as GeoGig, as that information would already be encoded in the repository history.
 
 Data details
 ------------
 
-The following is a metadata description of the data file:
+The following is a description of the attributes contained in the data file:
 
 .. list-table::
+   :widths: 25 25 50
    :header-rows: 1
 
    * - Attribute
      - Type
      - Description
-   * - ``gid``
+   * - ``id``
      - Integer
      - Identifier (primary key)
    * - ``segmentname``
@@ -67,7 +74,9 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
       createdb -U postgres geogig
 
-   .. note:: These commands assume that the user name is ``postgres`` and that the host and port are stored. If you encounter errors, you may need to modify the commands to include extra information. For example:
+   .. note::
+
+      These commands assume that the user name is ``postgres`` and that the host and port are stored. If you encounter errors, you may need to modify the commands to include extra information. For example:
 
       .. code-block:: console
     
@@ -122,78 +131,201 @@ View data
 
 We will be viewing the data using QGIS.
 
-.. todo:: Add figures.
-
 #. Open QGIS.
 
+   .. figure:: img/setup_qgis.png
+
+      QGIS
+
 #. Go to :menuselection:`Layer --> Add PostGIS layers`.
+
+   .. figure:: img/setup_addpglink.png
+
+      Select this option to add a PostGIS layer to QGIS
+
+#. This will bring up the :guilabel:`Add PostGIS Table(s)` menu.
+
+   .. figure:: img/setup_addpgmenu.png
+
+      Add PostGIS Table(s) menu
 
 #. Click :guilabel:`New` to create a new PostGIS connection.
 
 #. Enter the following information:
 
-   * Name: ``OpenGeo Suite``
-   * Host: ``localhost``
-   * Port: ``8080``
-   * User name: ``postgres``
-   * Password: ``[blank]``
-   * Database: ``geogig``
+   * :guilabel:`Name`: ``OpenGeo Suite``
+   * :guilabel:`Host`: ``localhost``
+   * :guilabel:`Port`: ``5432``
+   * :guilabel:`User name`: ``postgres``
+   * :guilabel:`Password`: ``[blank]``
+   * :guilabel:`Database`: ``geogig``
+   * :guilabel:`Save User name`: [checked]
+   * :guilabel:`Save Password`: [checked]
 
-   .. note:: Modify connection parameters if necessary.
+   .. note:: Modify connection parameters as necessary.
 
-#. Check :guilabel:`Save Username` and :guilabel:`Save Password`.
+   .. figure:: img/setup_newpgconnection.png
 
-#. Click :guilabel:`Test connection` to ensure that the details were entered correctly.
+      PostGIS connection parameters
 
-#. Click :guilabel:`OK` to close the dialog.
+#. Click :guilabel:`Test connection` to ensure that the details were entered correctly. You should see the following dialog:
 
-#. Click :guilabel:`Connect`.
+   .. figure:: img/setup_connectionsuccess.png
 
-#. Select the entry named :guilabel:`bikepdx` and click :guilabel:`Add`.
+      A successful connection
+
+#. Click :guilabel:`OK`  twice to close both dialogs.
+
+#. You will get a warning about saving a password. While ordinarily you wouldn't want to do this, for the purpose of this workshop, this is okay.
+
+#. You will now see an entry in the list named :guilabel:`Connections` named :guilabel:`OpenGeo Suite`. 
+
+   .. figure:: img/setup_postgismenu.png
+
+      PostGIS menu with a connection
+
+#. Click :guilabel:`Connect`. This will populate the rest of the dialog.
+
+#. Click to expand the :guilabel:`Public` schema. You will see one entry for our ``bikepdx`` layer.
+
+   .. figure:: img/setup_postgismenuentry.png
+
+      PostGIS menu with table listing
+
+#. Click to select the entry named :guilabel:`bikepdx` and click :guilabel:`Add`.
+
+#. You will see the layer displayed in the main window of QGIS.
+
+   .. figure:: img/setup_unstyledlayer.png
 
 Style layer
 -----------
 
-The data will be displayed in the main QGIS window. To improve the display, we will apply a style to the layer.
+To improve the display and make working with our data easier, we will apply a style to our layer.
+
+The style will show different routes based on two different criteria (attributes):
+
+* The type of route:
+
+  * A "multi-use trail" (``FACILITY == 'MTRAIL'``)
+  * A "bike boulevard" (``FACILITY == 'BLVD'``)
+  * A regular "bike lane" (``FACILITY == 'LANE'``)
+
+* The status of the route:
+
+  * An active route (``STATUS == 'ACTIVE'``)
+  * A non-active route (``STATUS <> 'ACTIVE'``)
+
+With these criteria, we can generate six distinct rules for styling the different lines in the layer.
 
 #. In the Layers panel, right-click on the layer entry (:guilabel:`bikepdx`) and select :guilabel:`Properties`.
 
-#. Click :guilabel:`Style` to bring up the style parameters.
+   .. figure:: img/setup_propertieslink.png
 
-#. Click the :guilabel:`Load Style` button and select :guilabel:`Load from file`.
+      Layer properties link
 
-#. In the dialog, select the :file:`bikepdx.sld` file in the workshop :file:`data` directory and click :guilabel:`Open`.
+#. This will bring up the layer properties dialog. Click :guilabel:`Style` to bring up the style parameters if it isn't already selected.
 
-   .. note:: By default, only ``.qml`` files are shown in the file listing, so you may need to adjust the file list or type the filename in manually.
+   .. figure:: img/setup_stylemenu.png
+
+      Default QGIS style menu
+
+#. At the bottom of the dialog, click the :guilabel:`Load Style` button and select :guilabel:`Load from file`.
+
+   .. figure:: img/setup_loadstylelink.png
+
+      Loading a new style from file
+
+#. In the dialog, select the :file:`bikepdx.sld` file and click :guilabel:`Open`. This file is located in the workshop :file:`data` directory.
+
+   .. note:: By default, only ``.qml`` files are shown in the file listing, so you may need to adjust the file list to show :guilabel:`SLD File (*.sld)` or type the filename in manually.
+
+#. You will see the details of the style displayed in the dialog.
+
+   .. figure:: img/setup_styledetails.png
+
+      Details of the layer style
 
 #. Click :guilabel:`Apply` to apply the style to the layer.
 
-#. Click :guilabel:`OK`. The map window will be updated, showing the new style.
+#. Click :guilabel:`OK`. The map window will be updated, showing the new style. Note how the non-active routes are dashed, while the more "important" routes are thicker/darker.
 
-.. todo:: Add a background layer. Use OpenLayers plugin and OSM?
+   .. figure:: img/setup_styledlayer.png
+ 
+      Styled layer
 
-Our data is now ready to be versioned.
+With our layer styled, our data is now ready to be versioned. Feel free to explore the layer by zooming and panning around the map window.
+
+.. note:: Now is a good time to **save your project**. You should save your project periodically to prevent loss. A good name for the file would be :file:`geogig.qgs`.
+
+(Optional) Add a background layer
+---------------------------------
+
+To give this layer context, you may wish to add a background layer. **These steps are entirely optional** and can be skipped without loss of comprehension.
+
+We can use the OpenLayers QGIS plugin to pull in any number of standard web map layers, such as Google or Bing. The OpenLayers QGIS plugin is typically not installed in advance, so we'll install it here.
+
+#. Navigate to :menuselection:`Plugins --> Manage and Install Plugins`.
+
+   .. figure:: img/setup_pluginsmenu.png
+
+      Plugins menu
+
+#. This will bring up the Plugin Manager.
+
+   .. figure:: img/setup_pluginsall.png
+
+      List of all plugins
+
+#. Click :guilabel:`Not Installed` and select the :guilabel:`OpenLayers Plugin`.
+
+   .. figure:: img/setup_olplugin.png
+
+      OpenLayers plugin
+
+#. Click :guilabel:`Install plugin`. When finished you will see a confirmation dialog. 
+
+   .. figure:: img/setup_pluginsuccess.png
+
+      Plugin was successfully installed
+
+#. Click :guilabel:`Close` to close the Plugin Manager.
+
+#. Clicking the :guilabel:`Plugins` menu now shows a new entry: :guilabel:`OpenLayers Plugin`.
+
+   .. figure:: img/setup_olmenu.png
+
+      OpenLayers Plugin menu
+
+#. Select a suitable basemap. For example, the :guilabel:`Google Physical` map provides a nice contrast.
+
+#. The layer will be loaded. In the :guilabel:`Layers` panel on the left, drag the entry for :guilabel:`bikepdx` so that it is on top of the background layer and is not obscured.
+
+   .. figure:: img/setup_basemap.png
+
+      Basemap loaded
 
 GeoGig setup
 ------------
 
-Before we can use GeoGig, we will need to configure the tool. Specifically we will want to enter information about the user that will be doing the commit. This is important as the information will be contained in all commits performed by this user, allowing commits to have an author.
+Before we can use GeoGig, we will need to configure the tool. Specifically we will want to enter information about the user that will be doing the commit. The information we enter here will be contained in all commits performed by this user, associating changes with its author.
 
-User information can be set either globally, for all repositories managed by GeoGig, or on a per-repository basis. We will set this information globally.
+User information can be set globally, for all repositories managed by GeoGig, or on a per-repository basis. We will set this information globally.
 
-#. Enter the following information, replacing the information in quotes with your name and email:
+#. In a terminal, enter the following two commands, substituting your own information for what is in quotes:
 
    .. code-block:: console
 
       geogig config --global user.name "Author"
+
+   .. code-block:: console
+
       geogig config --global user.email "author@example.com"
 
-.. note:: If you encounter any errors with the geogig command line interface, please see the :ref:`cmd.troubleshoot` section.
+.. note:: If you encounter any errors with the ``geogig`` command line interface, please see the :ref:`cmd.troubleshoot` section.
 
 Create a GeoGig repository
 --------------------------
-
-#. Open a terminal window.
 
 #. Create a new directory and call it :file:`repo`. This directory will house the GeoGig repo.
 
@@ -201,7 +333,7 @@ Create a GeoGig repository
 
       mkdir repo
 
-   .. note:: As mentioned before, no spatial data will be contained in this directory. In fact, no files at all will be contained in this directory, save for the :file:`.geogig` subdirectory which wil contain non-human-readable details about the repository.
+   .. note:: As mentioned before, no spatial data will be contained in this directory. In fact, no files at all will be contained in this directory, save for the :file:`.geogig` subdirectory which will contain technical details about the repository.
 
 #. Switch to this directory.
 
@@ -216,7 +348,6 @@ Create a GeoGig repository
       geogig init .
 
 #. View a directory listing that shows all files and verify that the :file:`.geogig` directory has been created.
-
 
 More about the ``geogig`` command
 ---------------------------------
