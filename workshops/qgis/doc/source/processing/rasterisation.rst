@@ -41,9 +41,11 @@ Converting vectors to rasters
 
 If we proceed with the data configured as it currently is, the **Surficial geology** layer's complexity would cause our processing algorithms to be extremely slow due to the complex nature of the data. Since our goal is to see if there is a relationship between geology and antelope ranges, we want to be able to calculate statistics concerning the relationship between different layers. The best way to make these calculations practical is to convert the **Surficial geology** layer to a raster using a **Rasterize** process, but we will require a numerical attribute to assign to the raster sample points when we make the conversion. Therefore, to create a raster, we must first convert each of the **RECLASS** codes into a numeric value that will then be encoded in the raster, something which can be accomplished with a process named **Create equivalent numerical field**.
 
-#. Run the process **Create equivalent numerical field** from the :menuselection:`Scripts --> Vector` category with the inputs **Surficial geology** and **RECLASS**. A new layer named **Equivalent_numerical_field_layer** with an extra **NUM_FIELD** attribute will be created. Additionally, the script will also create a new non-spatial layer named **Equivalent_numberical_field_table** with a list of what each of the numerical values in the new raster layer refers to.
+#. Configure the process **Create equivalent numerical field** from the :menuselection:`Scripts --> Vector` category with the inputs **Surficial geology** and **RECLASS**. A new layer named **Equivalent_numerical_field_layer** with an extra **NUM_FIELD** attribute will be created. Additionally, the script will also create a new non-spatial layer named **Equivalent_numberical_field_table** with a list of what each of the numerical values in the new raster layer refers to.
 
    .. warning:: There is a **Create equivalent numerical field** process in the :menuselection:`QGIS geoalgorithms --> Vector table tools` cateogry. Functionally, the two will create equivalent output layers; however, only the process in the :menuselection:`Scripts --> Vector` category will create the reference table.
+
+#. Run the process, saving the results to ``workshop\results\surfifical_geology_lookup.csv``.
 
 #. Run the process **Rasterize** with the inputs **Equivalent_numerical_field_layer** and **NUM_FIELD**. We can keep the default size of 3000 by 3000 pixels. The new raster layer will appear in the layer list.
 
@@ -51,8 +53,10 @@ If we proceed with the data configured as it currently is, the **Surficial geolo
 
       **Suficial geology** after conversion to a raster
 
-#. Clip the new **Output layer** to the **Area of interest** layer using the **Clip raster by mask layer** algorithm from the processing toolbox. Make sure to use a :guilabel:`Nodata` value of :kbd:`-32768` and set :guilabel:`Keep resolution of output raster` to :kbd:`Yes`.
+#. Clip the new **Output layer** to the **Area of interest** layer using the **Clip raster by mask layer** algorithm from the processing toolbox. Make sure to use a :guilabel:`Nodata` value of :kbd:`-32768` and set :guilabel:`Keep resolution of output raster` to :kbd:`Yes`. Set the output file name to be ``workshop\temp\surfgeol_500k.tif``.
+
+   .. note:: We are using the ``temp`` directory to store useful files that we will use during the workshop, but which are not actual data sets.
 
 #. Delete **Equivalent_numerical_field_layer** and the non-clipped **Output layer** from the layer list since we no longer need these intermediary layers. We should now have a clipped raster that represents the geology of the land in our are of interest. Clicking on the raster with the identify tool will give us a value which can be referenced in the **Equivalent_numerical_field_table**. 
 
-#. Give our new layers some more descriptive names: **Surficial geology** for the new raster and **Surficial geology (RECLASS reference)** for our reference table.
+#. Give our new layers some more descriptive names: **Surficial geology** for the new raster and **Surficial geology (RECLASS lookup)** for our reference table.

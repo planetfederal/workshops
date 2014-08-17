@@ -12,6 +12,7 @@ the Free Software Foundation; either version 2 of the License, or
 ##Frequency Analysis=name
 ##Raster=group
 ##vector=vector polygon
+##id_field=field vector
 ##raster=raster
 ##band=number 1
 ##Frequency_analysis_table=output table
@@ -127,16 +128,16 @@ layers are in the same CRS - we assume they are.
                     myFeature.id())            
 
         intersected_geometry = raster_geometry.intersection(geometry)
-        
+
+        # fix multi-geometries which are created with non-polygons
         if intersected_geometry.type() != QGis.Polygon:
             geomcollection = intersected_geometry.asGeometryCollection()
-            intersected_geometry = geomcollection.pop()
-            for g in geomcollection:
-                if g.type() == QGis.Polygon:
-                    if intersected_geometry:
-                        intersected_geometry.combine(g)
-                    else:
-                        intersected_geometry = g
+            polygons = [ g for g in geomcollection if g.type() == QGis.Polygon ]
+            multipolygon = polygons.pop()
+            for p in polygons:
+                multipolygon = multipolygon.combine(p)
+            intersected_geometry = multipolygon
+            
         
         count, freq = numpy_stats(
             band,
@@ -198,7 +199,7 @@ and the frequency distribution of these pixel values.
     x_max = bbox.xMaximum()
     y_min = bbox.yMinimum()
     y_max = bbox.yMaximum()
-
+    
     start_column, start_row = mapToPixel(x_min, y_max, geo_transform)
     end_column, end_row = mapToPixel(x_max, y_min, geo_transform)
 
@@ -223,7 +224,7 @@ and the frequency distribution of these pixel values.
 
     # Create a temporary vector layer in memory
     mem_ds = mem_drv.CreateDataSource('out')
-    mem_layer = mem_ds.CreateLayer('poly', crs, ogr.wkbPolygon)
+    mem_layer = mem_ds.CreateLayer('poly', crs, ogr.wkbMultiPolygon)
 
     feat = ogr.Feature(mem_layer.GetLayerDefn())
     feat.SetGeometry(geom)
@@ -282,7 +283,7 @@ for stats in frequency_analysis.itervalues():
 values = list(set(values))
 
 layer_writer = VectorWriter(Frequency_analysis_layer, None, fields, provider.geometryType(), polygon_layer.crs())
-table_writer = TableWriter(Frequency_analysis_table, None, ['fid', 'majority'] + ['value: %d' % v for v in values])
+table_writer = TableWriter(Frequency_analysis_table, None, [id_field, 'majority'] + ['value: %d' % v for v in values])
 
 for i, feat in enumerate(features):
     progress.setPercentage(int(100 * i / n))
@@ -309,7 +310,7 @@ for i, feat in enumerate(features):
     layer_writer.addFeature(outFeat)   
     
     # write to table
-    row = [fid, majority]
+    row = [feat[id_field], majority]
     d = {f[0] : f[1] for f in freq}
     for v in values:
       if v in d:

@@ -10,3 +10,5 @@ Processing
    clip
    rasterisation
    statistics
+   groups
+   zonal_stats

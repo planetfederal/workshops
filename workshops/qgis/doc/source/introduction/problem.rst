@@ -26,7 +26,7 @@ Preparation
 
 #. Create a new ``workshop`` directory.
 
-#. Create ``data`` and ``downloads`` directories inside ``workshop``.
+#. Create ``data``, ``downloads``, ``results`` and ``temp`` directories inside ``workshop``.
 
 #. Download the data files into ``workshop\downloads``.
 
