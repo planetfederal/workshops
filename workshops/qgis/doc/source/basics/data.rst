@@ -13,7 +13,7 @@ We can now start adding some of our data to the *Antelope range analysis* projec
 
 #. Click the :guilabel:`Browse` button to open a file dialog.
 
-#. Find the ``ant14hh.shp`` file in your `downloads` directory.
+#. Find the ``Antelope_HuntAreasHerdUnits.zip`` file in your ``downloads`` directory.
 
 #. Click :guilabel:`Open` to load the file into your project.
 
@@ -31,7 +31,7 @@ We can now start adding some of our data to the *Antelope range analysis* projec
 
       Surficial geology layer
 
-Although both layers contain data for the state of Wyoming, QGIS has not been able to locate them at the same location on our map. This is because the two layers are using different coordinate reference systems (CRS) to record the data. This is a common problem when working with data from different sources and although QGIS can often render the data correctly, having data sets in multiple CRSs will lead to problems when we begin our processing tasks.
+Although both layers contain data for the state of Wyoming, QGIS has not been able to locate them at the same location on our map. This is because the two layers are using different :term:`coordinate reference system (CRS) <CRS>` to record the data. This is a common problem when working with data from different sources and although QGIS can often render the data correctly, having data sets in multiple CRSs will lead to problems when we begin our processing tasks.
 
 .. |vector| image:: images/vector.png
             :class: inline

@@ -14,19 +14,23 @@ Next, we will use some data from the `Wyoming State Geological Survey <http://ww
 
 The `Wyoming Geographic Information Science Center <http://www.uwyo.edu/wygisc/geodata/>`_ provides elevation models of the state that we can use to further analyse the antelope ranges.
 
+The `USGS National Gap Analysis Program <http://gapanalysis.usgs.gov/gaplandcover>`_ provides land cover data.
+
 In total, for this workshop, we will need the following files:
 
-* `Herd Units <http://wgfd.wyo.gov/web2011/Departments/Wildlife/docs/zipfiles_biggame/Antelope_HuntAreasHerdUnits.zip>`_
+* `Herd units <http://wgfd.wyo.gov/web2011/Departments/Wildlife/docs/zipfiles_biggame/Antelope_HuntAreasHerdUnits.zip>`_
+* `Seasonal range <http://wgfd.wyo.gov/web2011/Departments/Wildlife/docs/zipfiles_biggame/Antelope_SeasonalRange.zip>`_
 * `Surficial 500k <http://www.wsgs.uwyo.edu/data/gis/shapefiles/surgeol_500k.zip>`_
-* `Digital Elevation Model for Wyoming 90 meter <http://piney.wygisc.uwyo.edu/data/elevation/dem_90m.zip>`_
+* `Digital elevation model for Wyoming 90 meter <http://piney.wygisc.uwyo.edu/data/elevation/dem_90m.zip>`_
+* `Wyoming land cover data <https://s3.amazonaws.com/GapFTP/NAT_LC/State/IMG/gaplandcov_wy.zip>`_
 
 Preparation
 ^^^^^^^^^^^
 
 #. Create a new ``workshop`` directory.
 
-#. Create a ``data`` and a ``downloads`` directory inside ``workshop``.
+#. Create ``data``, ``downloads``, ``reference``, ``results`` and ``temp`` directories inside ``workshop``.
 
 #. Download the data files into ``workshop\downloads``.
 
-#. Unzip the data in each ``.zip`` file into its own directory inside ``workshop\data``.
+#. Most of the files you download can be used directly in QGIS. However, the ``surgeol_500k.zip`` file has all the data inside an extra directory, so unzip it inside ``workshop\downloads``. We also need to unzip the ``gaplandcov_wy.zip`` archive into the downloads directory.

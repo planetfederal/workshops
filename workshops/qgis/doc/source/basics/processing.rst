@@ -28,9 +28,13 @@ To do this, we will use one of QGIS's processes named **Dissolve**, which merges
 
 #. Click the ellipsis and then select :guilabel:`Save to file`.
 
-#. Save the new layer as ``workshop\data\epsg4267\ant14hh_dissolved.shp``.
+#. Save the new layer as ``workshop\data\ant14hh_dissolved.shp``.
 
 #. Ensure that :guilabel:`Open output file after running algorithm` is checked.
+
+   .. figure:: images/dissolve_dialog.png
+
+      Configuring the dissolve process
    
 #. Now that the process has been configured, click :guilabel:`Run` to start the process. Once finished our new layer will be added to the project.
 
