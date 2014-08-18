@@ -5,28 +5,44 @@ Glossary
 
 The following are terms commonly used when discussing GeoGig.
 
-.. todo:: NEED MORE TERMS
-
 .. glossary::
    :sorted:
 
    branch
-     A history path containing its own timeline and list of commits. Using multiple branches allows for parallel development.
+     History path containing its own timeline and list of commits. Using multiple branches allows for parallel development.
 
    master
-     The default branch name. In a common workflow, branches are created from the master branch and then merged back in at a later time
+     Default branch name. In a common workflow, branches are created from the master branch and then merged back in at a later time
 
    commit
      A snapshot of changes made to files in a repository. Commits have a timestamp, an author, a description, and contain a diff of the files changed.
 
    merge
-     The process of combining commits from one branch onto another branch.
+     Combines commits from one branch onto another branch.
 
    checkout
-     The process of switching to another branch.
+     Switches to another branch.
 
    log
-     The history of a repository. Contains a list of commits, unique IDs, and metadata about the committer.
+     History of a repository, containing a list of commits, unique IDs, and metadata about the committer.
 
    conflict
-     A contradictory state of a repository. Usually caused by merging from different branches.
+     Contradictory state of a repository. Usually caused by merging from different branches.
+
+   diff
+     Shows specific differences between two commits. Can also contain commits included between them on the timeline. 
+
+   show
+     Displays details about a single commit.
+
+   reset
+     Manages history and allows for "rolling back" commits.
+
+   timeline
+     The history of commits over time.
+
+   import
+     Loads information about a data source (such as a shapefile or database) into a GeoGig repository.
+
+   export
+     Loads information about a repository into a data source, such as a shapefile or database.
