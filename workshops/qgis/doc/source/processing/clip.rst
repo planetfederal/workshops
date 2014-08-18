@@ -74,3 +74,5 @@ Next, let's clip the **Digital elevation model** layer since it too covers Wyomi
 #. Remove the old **Digital elevation model** layer.
 
 #. Rename the newly-clipped layer to **Digital elevation model**.
+
+#. Repeat this process for the **Land cover** layer (remembering to copy the style from the old to the new layer).

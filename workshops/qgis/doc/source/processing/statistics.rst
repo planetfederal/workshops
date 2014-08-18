@@ -20,7 +20,7 @@ We will be using a new process named **Frequency Analysis** to calculate the bre
 
 #. Keep the default outputs and execute the script.
 
-#. Set the :guilabel:`Frequency_analysis_table` output to be ``workshop\results\surficial_geology_baseline.csv``.
+#. Set the :guilabel:`Frequency_analysis_table` output to be ``workshop\reference\surficial_geology_baseline.csv``.
 
    .. figure:: images/frequency_analysis_aoi.png
 

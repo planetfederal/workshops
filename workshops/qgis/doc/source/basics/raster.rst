@@ -13,5 +13,17 @@ Raster data
 
       Digital elevation model
 
+#. Repeat the conversion process with ``gaplandcov_WY.img``.
+
+#. Add the new file to the project.
+
+#. Copy the style from the original to the reprojected land cover layer.
+
+   .. figure:: images/landcover.png
+
+      Land cover layer
+
+#. Remove the old file from the project.
+
 .. |raster| image:: images/raster.png
             :class: inline

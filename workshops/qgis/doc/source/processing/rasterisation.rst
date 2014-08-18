@@ -45,7 +45,7 @@ If we proceed with the data configured as it currently is, the **Surficial geolo
 
    .. warning:: There is a **Create equivalent numerical field** process in the :menuselection:`QGIS geoalgorithms --> Vector table tools` cateogry. Functionally, the two will create equivalent output layers; however, only the process in the :menuselection:`Scripts --> Vector` category will create the reference table.
 
-#. Run the process, saving the results to ``workshop\results\surfifical_geology_lookup.csv``.
+#. Run the process, saving the results to ``workshop\reference\surfical_geology_lookup.csv``.
 
 #. Run the process **Rasterize** with the inputs **Equivalent_numerical_field_layer** and **NUM_FIELD**. We can keep the default size of 3000 by 3000 pixels. The new raster layer will appear in the layer list.
 
@@ -59,4 +59,4 @@ If we proceed with the data configured as it currently is, the **Surficial geolo
 
 #. Delete **Equivalent_numerical_field_layer** and the non-clipped **Output layer** from the layer list since we no longer need these intermediary layers. We should now have a clipped raster that represents the geology of the land in our are of interest. Clicking on the raster with the identify tool will give us a value which can be referenced in the **Equivalent_numerical_field_table**. 
 
-#. Give our new layers some more descriptive names: **Surficial geology** for the new raster and **Surficial geology (RECLASS lookup)** for our reference table.
+#. Give our new layers some more descriptive names: **Surficial geology** for the new raster and **Surficial geology (lookup)** for our reference table.

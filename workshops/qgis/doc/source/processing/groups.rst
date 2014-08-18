@@ -7,12 +7,14 @@ To help organise the data we have been adding to our layer list, we can use QGIS
 
 #. Select :guilabel:`Add New Group`.
 
-   .. figure:: image/add_layer_group.png
+   .. figure:: images/add_layer_group.png
 
       Adding a layer group
 
 #. Give the new group the name :kbd:`Data`.
 
-#. By dragging and dropping, move the following layers into the **Data** group: **Area of interest**, **Digital elevation model**, **Herd units**, **Seasonal ranges** and **Surficial geology** (vector). Since the **Surificial geology** raster is a temporary file we'll leave it outside of the **Data** group.
+#. By dragging and dropping, move the following layers into the **Data** group: **Area of interest**, **Digital elevation model**, **Herd units**, **Land cover**, **Seasonal ranges** and **Surficial geology** (vector). Since the **Surificial geology** raster is a temporary file we'll leave it outside of the **Data** group.
 
-#. Create a new group called **Results** and place the two tables into it.
+#. Create a new group called **Reference** and move the lookup table into it.
+
+#. Create a new group called **Results** and move the remaining table into it.
