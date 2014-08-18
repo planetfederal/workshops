@@ -47,4 +47,4 @@ Our first step will be to launch QGIS and create a new project file that we will
 
       Project properties
 
-#. Give your project a new name, :kbd:`Antelope range analysis`, and save it again.
+#. Give your project a new title, :kbd:`Antelope range analysis`, and save it again.

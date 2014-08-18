@@ -27,19 +27,19 @@ Before we continue with adding more data, we will want to see how to standardise
 
    .. note:: You can use the filter box to quickly find the CRS that you are looking for.
 
-#. Set the new file name to ``workshop\data\epsg4267\ant14hh.shp``.
+#. Set the new file name to ``workshop\data\ant14hh.shp``.
 
-   .. note:: You will need to create the new ``epsg4267`` subdirectory. This is where we will keep all the correctly projected data for use in this workshop.
+   .. note:: We will keep all the correctly projected data in the ``workshop\data`` directory.
 
 #. Click :guilabel:`OK` to save the new file.
 
 #. Repeat this process for the **surfgeol_500k** layer if necessary.
 
-   .. note:: If the layer is already in the **EPSG:4267** CRS, then you can simply copy all the ``surfgeol_500k`` files to the same ``workshop\data\epsg4267`` directory.
+   .. note:: If the layer is already in the **EPSG:4267** CRS, then you can simply copy all the ``surfgeol_500k`` files to the same ``workshop\data`` directory.
 
 #. Remove each of the current layers in the project by right clicking them and selecting :guilabel:`Remove`.
 
-#. Add the new layers from the ``workshop\data\epsg4267`` directory to the project.
+#. Add the new layers from the ``workshop\data`` directory to the project.
 
 #. Drag and drop the layers in the list so that the **ant14hh** layer is first. You should now see that the two layers line up on the map.
 

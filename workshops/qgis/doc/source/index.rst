@@ -3,7 +3,7 @@ OpenGeo Suite for Analysts
 
 This workshop is an introduction to performing spatial analysis using QGIS, a desktop geographic information system and a component of OpenGeo Suite by Boundless.
 
-No previous QGIS experience is assumed, but familiarity with GIS concepts is suggested.
+No previous QGIS experience is assumed, but familiarity with GIS concepts is strongly recommended.
 
 Prerequisites and software setup
 --------------------------------
@@ -39,6 +39,11 @@ Notes are used to provide information that is useful but not critical to the ove
 
 .. note:: QGIS extensions are usually written in Python, but a smaller number have also been written in C++.
 
+Warnings
+^^^^^^^^
+
+Warnings are used to provide information that is critical to the user to avoid problems during the workshop.
+
 .. warning:: Make sure to backup your project file before making these changes!
 
 Code
@@ -53,16 +58,25 @@ Code examples and excerpts will be displayed in an offset box:
    outFeat.setAttributes(attrs)
    writer.addFeature(outFeat)
 
-Files, variables and attributes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Files and paths
+^^^^^^^^^^^^^^^
 
-File names, paths, variables and attributes will be shown in ``fixed-width`` font.  
+File names, paths and variables will be shown ``like this``.
 
 For example:
 
-   Select the ``name`` attribute in the ``nyc_streets`` layer.
+   Find the ``streets.shp`` file in the ``workshop`` directory.
 
-Menus and Form elements
+Layers and attributes
+^^^^^^^^^^^^^^^^^^^^^
+
+The names of layers, attributes and so on will be shown **like this**.
+
+For example:
+
+    Check the value of the **name** attribute in the **streets** layer.
+
+Menus and form elements
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 Menus and form elements such as fields or check boxes and other on-screen artifacts are displayed :guilabel:`like this`.
@@ -85,5 +99,7 @@ Workshop sections
 
    introduction/index
    basics/index
+   processing/index
+   modeller/index
 
    glossary

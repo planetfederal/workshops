@@ -1,7 +1,5 @@
-.. _glossary:
-
-Appendix B: Glossary
-====================
+Glossary
+========
 
 .. glossary::
 
