@@ -225,5 +225,12 @@ The merge cannot continue until the conflict is resolved.
       [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Renamed Mt St Helens Ave to Volcano Road
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
-The conflict has now been resolved.
+#. The conflict has now been resolved. Delete the ``conflicting`` branch.
 
+   .. code-block:: console
+
+      geogig branch -d conflicting
+
+   ::
+
+      Deleted branch 'conflicting'.

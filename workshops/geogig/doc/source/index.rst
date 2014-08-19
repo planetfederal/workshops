@@ -34,7 +34,7 @@ To verify the ``PATH`` settings, open a terminal and type:
    psql --version
    geogig --help
 
-If either of these two commands yield an error, please check your ``PATH`` settings.
+If either of these two commands yields an error, please check your ``PATH`` settings.
 
 .. todo:: Do we talk about the memory problems that result in "Error occurred during initialization of VM / Could not reserve enough space for object heap"? Need to reduce memory usage if so: -Xmx2G --> -Xmx1G
 
