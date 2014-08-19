@@ -8,7 +8,6 @@ the Free Software Foundation; either version 2 of the License, or
 
 """
 
-
 ##Frequency Analysis=name
 ##Raster=group
 ##vector=vector polygon
@@ -138,7 +137,6 @@ layers are in the same CRS - we assume they are.
                 multipolygon = multipolygon.combine(p)
             intersected_geometry = multipolygon
             
-        
         count, freq = numpy_stats(
             band,
             intersected_geometry,
@@ -211,8 +209,6 @@ and the frequency distribution of these pixel values.
 
     src_offset = (start_column, start_row, width, height)
 
-    src_array = band.ReadAsArray(*src_offset)
-
     new_geo_transform = (
         (geo_transform[0] + (src_offset[0] * geo_transform[1])),
         geo_transform[1],
@@ -232,30 +228,49 @@ and the frequency distribution of these pixel values.
     feat.Destroy()
 
     # Rasterize it
-    rasterized_ds = driver.Create('', src_offset[2], src_offset[3], 1,
-                                  gdal.GDT_Byte)
+    rasterized_ds = driver.Create('', src_offset[2], src_offset[3], 1, gdal.GDT_Byte)
     rasterized_ds.SetGeoTransform(new_geo_transform)
     gdal.RasterizeLayer(rasterized_ds, [1], mem_layer, burn_values=[1])
-    rv_array = rasterized_ds.ReadAsArray()
 
-    # Mask the source data array with our current feature
-    # we take the logical_not to flip 0<->1 to get the correct mask effect
-    # we also mask out no data values explicitly
-    src_array = numpy.nan_to_num(src_array)
-    masked = numpy.ma.MaskedArray(
-        src_array,
-        mask=numpy.logical_or(
-            src_array == no_data,
-            numpy.logical_not(rv_array)
+    # scan the original raster row-by-row to gather statistics
+    count = 0
+    freq = {}
+    for r in range(height):
+        src_array = band.ReadAsArray(start_column, r + start_row, width, 1)
+        rv_array = rasterized_ds.ReadAsArray(0, r, width, 1)
+
+        # Mask the source data array with our current feature
+        # we take the logical_not to flip 0<->1 to get the correct mask effect
+        # we also mask out no data values explicitly
+        src_array = numpy.nan_to_num(src_array)
+        masked = numpy.ma.MaskedArray(
+            src_array,
+            mask=numpy.logical_or(
+                src_array == no_data,
+                numpy.logical_not(rv_array)
+            )
         )
-    )
 
-    # get sorted frequency counts
-    unmasked = masked.compressed() 
-    count = unmasked.size
-    freq = sorted(unique_count(unmasked), key=lambda l:l[1], reverse=True)
-
+        # get sorted frequency counts
+        compressed = masked.compressed()
+        if compressed.any():
+            for (k, v) in unique_count(compressed):
+                if k in freq:
+                    freq[k] = freq[k] + v
+                else:
+                    freq[k] = v
+            count = count + compressed.size
     return count, freq
+  
+def freq_min_max(freq):
+    min = None
+    max = None
+    for k, v in freq.iteritems():
+        if not min or v < freq[min]:
+            min = k
+        if not max or v > freq[max]:
+            max = k
+    return int(min), int(max)
   
 polygon_layer = processing.getObject(vector)
 raster_layer = processing.getObject(raster)
@@ -279,8 +294,9 @@ n = len(features)
 values = []
 for stats in frequency_analysis.itervalues():
     freq = stats['freq']
-    values = values + [ v for [v, f] in freq]
-values = list(set(values))
+    values = values + [ v for (v, f) in freq.iteritems()]
+values = sorted(list(set(values)))
+print values
 
 layer_writer = VectorWriter(Frequency_analysis_layer, None, fields, provider.geometryType(), polygon_layer.crs())
 table_writer = TableWriter(Frequency_analysis_table, None, [id_field, 'majority'] + ['value: %d' % v for v in values])
@@ -298,10 +314,9 @@ for i, feat in enumerate(features):
         majority_p = 0
         minority_p = 0
     else:
-        majority = int(freq[0][0])
-        minority = int(freq[-1][0])
-        majority_p = float(freq[0][1]) / count
-        minority_p = float(freq[-1][1]) / count
+        minority, majority = freq_min_max(freq)
+        majority_p = float(freq[majority]) / count
+        minority_p = float(freq[minority]) / count
         
     # write to layer
     outFeat.setGeometry(feat.geometry())
@@ -311,10 +326,9 @@ for i, feat in enumerate(features):
     
     # write to table
     row = [feat[id_field], majority]
-    d = {f[0] : f[1] for f in freq}
     for v in values:
-      if v in d:
-        row.append(float(d[v]) / count)
+      if v in freq:
+        row.append(float(freq[v]) / count)
       else:
         row.append(0)    
     table_writer.addRecord(row)
