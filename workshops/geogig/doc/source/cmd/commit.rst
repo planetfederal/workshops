@@ -3,14 +3,19 @@
 Working with commits
 ====================
 
-With setup complete, we can now perform the basic task of a versioned repository: a :term:`commit`.
+With setup complete, we can now perform the basic task of a versioned repository: making commits.
 
 .. todo:: Mention logs / troubleshooting.
 
 Initial commit
 --------------
 
-We can now import data into our repository and make our first commit (snapshot). This will be the baseline from which we will work.
+Our repository is empty, so we will need to make an initial :term:`commit`.
+
+Importing data
+~~~~~~~~~~~~~~
+
+We much :term:`import` data into our repository for our first commit. This will be the baseline from which we will work.
 
 #. From the :file:`repo` directory created in the previous section, use the ``geogig pg import`` command to import the data from the database into the repository:
 
@@ -57,6 +62,9 @@ We can now import data into our repository and make our first commit (snapshot).
 
    On most terminals, the features that have been added are colored **red**.
 
+Adding data
+~~~~~~~~~~~
+
 Now that our repository is aware of our spatial data, we can add all the features to the repository so that we can commit them all.
 
 #. Add all features to the repository:
@@ -93,6 +101,9 @@ Now that our repository is aware of our spatial data, we can add all the feature
 
    On most terminals, the features that have been added are colored **green**.
 
+Committing data
+~~~~~~~~~~~~~~~
+
 Now we are ready to make our first commit. A commit will include anything that's been added. It requires only a message to describe the commit. This is a useful text string as the history for a project grows, so it is important to make the message clear.
 
 For example, the following commit messages are good, as they are a clear indication of what the commit entails:
@@ -116,15 +127,18 @@ On the other hand, the following commit messages are not so good:
    ::
 
       100%
-      [3c52000828bbcaf7ec706dc98b336437cd53f51b] Initial commit of complete data layer
+      [cfdbd50c415a0d71b9a876eb51f90d5752e8f23b] Initial commit of complete data layer
       Committed, counting objects...6772 features added, 0 changed, 0 deleted.
 
-Congratulations, we have made our first commit!
+You have now made your first commit!
 
 Making an attribute change
 --------------------------
 
 With a baseline created, it's time to do some editing.
+
+Editing a feature
+~~~~~~~~~~~~~~~~~
 
 There are gaps in the bicycling system in Portland. One of the most famous is the "Sellwood Gap", a one-mile long break in the Springwater Corridor, which is a 20 mile long rail-trail that stretches from the Willamette River to the very edge of the metropolitan area.
 
@@ -181,6 +195,9 @@ Specifically, this would involve us making a single change: the attribute ``stat
    .. figure:: img/commit_sellwoodgapclosed.png
 
       Sellwood Gap fixed
+
+Committing the change
+~~~~~~~~~~~~~~~~~~~~~
 
 Now we will want to commit this change. While the change was made in the database, **GeoGig is not yet aware of the change.** The process for making a change with GeoGig is: **Import, Add, Commit**. We will perform all of those steps now.
 
@@ -247,37 +264,176 @@ Now we will want to commit this change. While the change was made in the databas
    ::
 
       100%
-      [576af055303bccba2c0f7257bc92d3edcd10322e] The Sellwood Gap has now been fixed
+      [603d4bf0069203a42ac513f635f49f725c2a4f2a] The Sellwood Gap has now been fixed
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
-#. Your change has been made.
+Your change has been made.
+
+
+Showing differences between commits
+-----------------------------------
+
+Our first commit entered every single feature into the repository. Our second commit changed a single attribute of a single feature.
+
+You can see specific differences between two commits by using the :term:`diff` command. 
+
+.. note:: The two commits need not be adjacent. If two commits referenced in the ``diff`` command have commits in between them, the sum total of differences (including all of those additional commits) will be displayed.
+
+In order to do this, we first need to learn about the commit log and commit IDs.
+
+Commit log
+~~~~~~~~~~
+
+The commit :term:`log` is a list of commits that are entered into the repository. It is a "history" of the repository.
+
+#. In a terminal, type the following command:
+
+   .. code-block:: console
+
+      geogig log
+
+   This will show the list of commits.
+
+   ::
+
+      Commit:  603d4bf0069203a42ac513f635f49f725c2a4f2a
+      Author:  Author <author@example.com>
+      Date:    (9 minutes ago) 2014-08-01 17:21:23 -0
+      Subject: The Sellwood Gap has now been fixed
+
+      Commit:  cfdbd50c415a0d71b9a876eb51f90d5752e8f23b
+      Author:  Author <author@example.com>
+      Date:    (19 minutes ago) 2014-08-01 17:10:30 -0
+      Subject: Initial commit of complete bikepdx layer
+
+#. If the full list is too much information, you can reduce the amount of information to one line:
+   
+   .. code-block:: console
+
+      geogig log --oneline
+
+   ::
+
+      603d4bf0069203a42ac513f635f49f725c2a4f2a The Sellwood Gap has now been fixed
+      cfdbd50c415a0d71b9a876eb51f90d5752e8f23b Initial commit of complete bikepdx layer
+
+   .. note:: There are lots of ways to filter this commit list, including by date and by author. Type ``geogig help log`` for a full list of options.
+
+Commit IDs
+~~~~~~~~~~
+
+The first line of each commit is the **commit ID**. Commit IDs are long alphanumeric strings that uniquely determine the commit. When referencing a commit, you can use this string. Thankfully though, you don't need to reference the entire string; **you only need enough of the beginning of the string to uniquely identify the commit**. 
+
+In this case, since we only have three commits, we don't need much of the string to be unique. Usually 7 characters is sufficient to uniquely identify the commit.
+
+.. note:: If you're interested: the chances of the first seven characters of two different commit IDs being identical is 1 in 36^7, about 78 billion!
+
+So if we wanted details about a specific commit, we would use the :term:`show` command:
+
+#. Get details about the most recent commit. Make sure to replace the commit ID with the one specific to your instance.
+
+   .. code-block:: console
+
+      geogig show 603d4bf
+
+   ::
+
+      Commit:        603d4bf0069203a42ac513f635f49f725c2a4f2a
+      Author:        Author <author@example.com>
+      Committer:     Author <author@example.com>
+      Author date:   (11 minutes ago) Fri Aug 1 17:39:15 PDT 2014
+      Committer date:(11 minutes ago) Fri Aug 1 17:39:15 PDT 2014
+      Subject:       The Sellwood Gap is now been fixed
+
+Running a diff
+~~~~~~~~~~~~~~
+
+With this, we have enough information to be able to see the difference ("run a diff") between two commits.
+
+#. Enter the following command:
+
+   .. code-block:: console
+
+      geogig diff cfdbd50 603d4bf
+
+   ::
+
+      3f6b2c... 3f6b2c... ee3419... cc3c61...   M  bikepdx/6703
+      status: ACTIVE -> RECOMM
+
+Here we see that the specific feature (``bikepdx/6703``) is listed as having been modified (``M``), and with the precise change detailed: (that the ``status`` attribute has changed from ``RECOMM`` to ``ACTIVE``,
+
+.. warning:: The order of the commit IDs is significant, being of the form ``before after``. Reversing the order in this case would show that the attribute was changed in the opposite way, from ``ACTIVE`` to ``RECOMM``.
+
 
 Making a geometry change
 ------------------------
 
-The city's bicycle plan is still incomplete. Luckily, you get to play master planner, and see if you can fix some of the other gaps left behind by the system as it stands today.
+The city's bicycle plan is still incomplete. In addition to lanes that are only planned and not built, there are also gaps in the plan itself. Luckily, in this workshop, you get to play master planner, and see if you can fix some of the other gaps left behind by the system as it stands today.
 
-Specifically, your next task is to add a new bike lane. You can draw it anywhere you want.
+Specifically, your next task is to add a new bike lane. You can draw it anywhere you want. (The specifics of the position of the feature is not important for this workshop.)
+
+Draw a new feature
+~~~~~~~~~~~~~~~~~~
 
 #. Select :menuselection:`Layer --> Toggle Editing` to start the editing process.
 
-#. On the :guilabel:`Digitizing` toolbar, click the button for :guilabel:`Add feature`. (Select :menuselection:`View --> Toolbars --> Digitizing` if this toolbar isn't visible.)
+   .. figure:: img/commit_toggleediting.png
 
-#. Click on the map to start the feature creation. Click to create each feature vertex.
+      Toggle editing
 
-#. Right-click when done. An attribute table dialog will display. Enter the following information, leaving all other fields as the default:
+#. The display will change, with a red "X" displaying over each vertex of every feature.
 
-   * ``gid``: ``6773``
-   * ``segmentnam``: [street name, if known]
+   .. figure:: img/commit_editx.png
+
+      Map window in Edit mode
+
+#. Zoom into an area of the map where you would like to place the new feature.
+
+   .. figure:: img/commit_addbefore.png
+
+      A zoomed in area of the map
+
+#. Now add a feature by selecting :menuselection:`Edit --> Add Feature`.
+
+   .. figure:: img/commit_addfeature.png
+
+      Add feature menu option
+
+#. Click on the map to place the initial vertex of the feature. Continue clicking to create each feature vertex.
+
+   .. figure:: img/commit_addduring.png
+
+      Drawing a new feature
+
+#. Right-click when done. An attribute table dialog will display. Fill out the form, specifically entering in the following values:
+
+   * ``id``: ``6773``
+   * ``segmentnam``: [approximate street name, if known]
    * ``status``: ``RECOMM``
-   * ``facility``: ``LANE``
-   * ``facilityde``: ``Bike Lane``
+   * ``facility``: ``MTRAIL``
+   * ``facilityde``: ``Multi-Use Trail``
+
+   .. figure:: img/commit_addattributes.png
+
+      Setting attributes for the new feature
 
 #. Click :guilabel:`OK` when done.
 
-#. Select :menuselection:`Layer --> Toggle Editing` to stop the editing process. Click :guilabel:`Save` when prompted.
+#. Your feature will be displayed and styled with a dashed line (because ``status`` is not ``ACTIVE``):
 
-With your new feature added, we can now add the feature to our repository via another commit.
+   .. figure:: img/commit_addafter.png
+
+      New feature added
+
+#. Select :menuselection:`Layer --> Toggle Editing` to complete the editing process. Click :guilabel:`Save` when prompted.
+
+Commit the new feature
+~~~~~~~~~~~~~~~~~~~~~~
+
+With the new feature added, we can now add it to our repository via another commit.
+
+.. note:: Remember: "Import, Add, Commit"
 
 #. On a terminal in the repository, type the following command:
 
@@ -285,7 +441,7 @@ With your new feature added, we can now add the feature to our repository via an
 
       geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
 
-   Once again, this import command lets GeoGig be aware that content has changed.
+   As before, this import command lets the GeoGig repository be aware that content has changed.
 
    ::
 
@@ -311,82 +467,119 @@ With your new feature added, we can now add the feature to our repository via an
 
       Counting unstaged elements...2
       Staging changes...
-      50%
+      100%
       1 features and 1 trees staged for commit
       0 features and 0 trees not staged for commit
 
-#. Finally, we are ready to commit this change:
+   .. note:: To see details about what is staged for commit, remember that you can run ``geogig status``.
+
+#. Finally, we are ready to commit this change, substituting the specific details about your new route:
 
    .. code-block:: console
 
-      geogig commit -m "New [name] bikeway added"
+      geogig commit -m "New recommended trail at Columbia and Argyle"
 
    ::
 
       100%
-      [c94fd44319a9307dce56a49bc47e3ca415278902] New 1024 St bikeway added
+      [0dda0de72d5ff4a15a6f8067bcfe1a6ef4f974d5] New recommended trail at Columbia and Argyle
       Committed, counting objects...1 features added, 0 changed, 0 deleted.
 
-#. Your change has been made.
- 
+Your change has been made.
+
+
 Rolling back a change
 ---------------------
 
-Perhaps adding in that new bikelane was a bit premature. Let's remove it.
+Perhaps adding in that new route into the system was a bit premature. Let's remove it.
 
-Now, we could remove it in one of two ways:
+We could remove the feature one of two ways:
 
-* Remove the feature and make a new commit showing the removal. This would preserve the history of both commits.
-* Roll back to the previous commit. This would eliminate the commit from the timeline, as if it never happened.
-
-.. note:: This process is only for removing the most recent commit(s). It is not trivial to remove a commit in between other commits that you wish to keep.
+* **Remove the feature and make a new commit** showing the removal. This would preserve the history of both commits.
+* **Roll back to the previous commit.** This would eliminate the commit from the timeline, as if it never happened.
 
 We will opt for the second option here: to roll back.
 
-First, let's look at the :term:`log`. This is the list of commits that we have supplied so far.
+.. warning:: The process of rolling back is only for removing the most recent commit(s). It is not trivial to remove a commit in between other commits that you wish to keep.
 
-#. In a terminal, type the following command:
+Performing the roll back
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Performing a roll back, as mentioned above, just means that we remove (delete) a commit from the timeline. In effect, the change ceases to have ever existed.
+
+This is done via the :term:`reset` command, setting the destination to the commit prior to the current one. The current state fo the repository is represented by the phrase **HEAD**, while the commit before is represented by **HEAD~1**, the commit before that **HEAD~2**, etc.
+
+The ``reset`` command can act with varying levels of severity after removing the commit:
+
+* **Soft**: The changes remain in the index and working tree, so that the changes would just need to be commited in order to be restored. This is useful if you would like to change the commit in some way.
+* **Mixed**: *(Default)* The changes remain only in the working tree, so that the changes would need to be **added and then commit** in order to be restored. This is also useful if you would like to change the commit in some way.
+* **Hard**: The changes do not remain at all. This is useful if you would like to remove all traces of the commit, and leave the repository is a pristine state.
+
+It is this last option that we will employ.
+
+.. warning:: Modifying history can result in lost data, so please be careful with these commands!
+
+#. To remove the most recent commit, run the following command:
 
    .. code-block:: console
 
-      geogig log
+      geogig reset HEAD~1 --hard
 
-   This will show the list of commits.
+   .. note:: You can also reference the commit by ID, but make sure that this is the last ID that you wish to keep, not the one that you wish to remove! In the case above, the command would be ``geogig reset 603d4bf``.
+
+#. There will be no output after the command. Run ``geogig status`` to see that there are no staged or unstaged changes:
 
    ::
 
-      Commit:  c94fd44319a9307dce56a49bc47e3ca41527890
-      Author:  Author <author@example.com>
-      Date:    (1 minutes ago) 2014-08-01 17:39:15 -06
-      Subject: New 1024 St bikeway added
+      # On branch master
+      nothing to commit (working directory clean)
 
-      Commit:  576af055303bccba2c0f7257bc92d3edcd10322
-      Author:  Author <author@example.com>
-      Date:    (19 minutes ago) 2014-08-01 17:21:23 -0
-      Subject: The Sellwood Gap is now open
+#. Now run ``geogig log`` to see that the commit is now gone.
 
-      Commit:  3c52000828bbcaf7ec706dc98b336437cd53f51
-      Author:  Author <author@example.com>
-      Date:    (29 minutes ago) 2014-08-01 17:10:30 -0
-      Subject: Initial commit of complete data layer
+   ::
 
-#. If the full list is too much information, you can reduce the amount of information to one line:
-   
+      Commit:  603d4bf0069203a42ac513f635f49f725c2a4f2a
+      Author:  Author <author@example.com>
+      Date:    (29 minutes ago) 2014-08-01 17:21:23 -0
+      Subject: The Sellwood Gap has now been fixed
+
+      Commit:  cfdbd50c415a0d71b9a876eb51f90d5752e8f23b
+      Author:  Author <author@example.com>
+      Date:    (39 minutes ago) 2014-08-01 17:10:30 -0
+      Subject: Initial commit of complete bikepdx layer
+
+Viewing the roll back
+~~~~~~~~~~~~~~~~~~~~~
+
+More importantly, we want to **view** the results of the rollback.
+
+Up to this point, we had been making changes in to the data via QGIS, and then storing those changes in GeoGig. But now, with our commits altered, we need to make our data (and thus QGIS) aware of the changes.
+
+This involves using the :term:`export` command. We will export the current state of the repository to our PostGIS database, and then update the view in QGIS.
+
+#. Export the current state of the repository back to PostGIS:
+
    .. code-block:: console
 
-      geogig log --oneline
+      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
 
    ::
 
-      c94fd44319a9307dce56a49bc47e3ca415278902 New 1024 St bikeway added
-      576af055303bccba2c0f7257bc92d3edcd10322e The Sellwood Gap is now open
-      3c52000828bbcaf7ec706dc98b336437cd53f51b Initial commit of complete data layer
+      Exporting bikepdx...
+      100%
+      bikepdx exported successfully to bikepdx
 
-   .. note:: There are lots of ways to filter this list, including by date and by author. Type ``geogig help log`` for a full list of options.
+   In the above command, many of the options are similar to the ``pg import`` command (``--host``, ``--user``, ``--port``). The following are the differences:
 
-.. todo:: Discuss commit IDs
+   * ``-o``: Overwrite the output table if it already exists
+   * ``--database``: The name of the PostGIS database
+   * ``bikepdx`` (first): Name of the tree in GeoGig
+   * ``bikepdx`` (second): Name of the table in PostGIS
 
-.. todo:: Perform the actual rollback
+#. Refresh the view in QGIS. This can most easily be done by panning the map window a little bit.
 
-With that, the commit has been removed from the history, and we are back to only two commits.
+You will see that the feature that was drawn is now no longer there.
 
+.. figure:: img/commit_featureremoved.png
+
+   The feature has been removed by GeoGig
