@@ -74,7 +74,7 @@ A new branch shares the same timeline and history as its parent does, up until t
 Making a commit on a branch
 ---------------------------
 
-Now that we are working on a new branch, there should be nothing different about our workflow: we make changes to our data and commit as necessary. The only differences happen when we want to merge with the master (or any other) branch.
+Now that we are working on a new branch, there should be nothing different about our workflow; we make changes to our data and commit as necessary. The only differences happen when we want to merge with the master (or any other) branch.
 
 #. Add a new feature (bike lane) to the layer. Refer to the previous section on :ref:`cmd.commit` for instructions if necessary. (For simplicity, you can recreate the same bike lane, or a new one, whatever you wish.)
 
