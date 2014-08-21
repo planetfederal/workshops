@@ -34,6 +34,7 @@ Contents
    introduction
    installation
    data
+   mapping
 
    glossary
    license
