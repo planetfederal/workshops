@@ -223,4 +223,12 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
       * master b20df6a Added loop around Powell Butte
         send   b20df6a Added loop around Powell Butte
 
-We have successfully completed the process of sharing a commit between two repositories.
+#. We have successfully completed the process of sharing a commit between two repositories. We can now delete the ``send`` branch, as it is not necessary anymore:
+
+   .. code-block:: console
+
+      geogig branch -d send
+
+   ::
+
+      Deleted branch 'send'.
