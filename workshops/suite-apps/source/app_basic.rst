@@ -125,7 +125,7 @@ Now you can open up the template by pointing your web browser at the port where 
 
 * http://localhost:9080
 
-**TODO** add in a screen shot of the unaltered template here
+.. image:: ./img/sdk_blank.png
 
 
 Working with the Template
@@ -156,7 +156,7 @@ The template is close to what we want: it has a base map and an overlay layer. H
 
 #. Reload http://localhost:9080 in your web browser, you should see the same template, with the census layer in place of the states layer.
 
-**TODO** add in a screen shot of the template with census data here
+   .. image:: ./img/sdk_census_nobar.png
 
 Now we can see our layer of interest, all that's left is to control it!
 
@@ -218,7 +218,8 @@ Add the following to the very end of the `src/app/app.js` file:
 
 Voila! We now have a live census mapping application, where changes in the form change the configuration of the map layer. Try out different variables and zoom around. When you click on the map, the template's built-in query functionality should show you the variable values and county names.
 
-**TODO** add a screenshot of the finished product
+.. image:: ./img/sdk_census_bar.png
+
 
 .. _DataDict.txt: _static/data/DataDict.txt
 .. _OpenLayers: http://openlayers.org
