@@ -3,12 +3,6 @@
 Application Building with OpenLayers
 ====================================
 
-TO DO
------
-
-* Fix the hyperlinks on this page
-
-
 About
 -----
 
@@ -49,11 +43,11 @@ Useful Links
 
 * `OpenGeo Suite`_ 
 
-  - `Docs <http://XXX/>`_
-  - `Downloads <http://boundlessgeo.com/solutions/opengeo-suite/download>`_
+  - `Docs <http://suite.opengeo.org/docs/latest/>`_
+  - `Downloads <http://boundlessgeo.com/solutions/opengeo-suite/download/>`_
 
-* ExtJS - http://www.secha.com/XXX 
-* BootstrapJS - http://XXX/ 
+* ExtJS - http://www.sencha.com/products/extjs/ 
+* BootstrapJS - http://getbootstrap.com/ 
 
 
 .. _OpenGeo Suite: http://boundlessgeo.com/solutions/opengeo-suite/

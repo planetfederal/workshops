@@ -103,7 +103,6 @@ With our data normalized, we are ready to create one style to rule them all!
 * The colors above weren't chosen randomly! I always use the `ColorBrewer <http://colorbrewer2.org/>`_ site when building themes, because ColorBrewer provides palettes that have been tested for maximum readability and to some extent aesthetic quality. Here's the palette I chose:
 
   .. image:: ./img/colorbrewer.png
-     :width: 95%
 
 * Configure a new style in GeoServer by going to the *Styles* section, and selecting **Add a new style**.
 * Set the style name to *stddev*
@@ -254,7 +253,7 @@ With our data normalized, we are ready to create one style to rule them all!
 Now we have a style, we just need to create a layer that uses it!
 
 Creating a SQL View
-------------------~
+-------------------
 
 First, we need a PostGIS store that connects to our database
 

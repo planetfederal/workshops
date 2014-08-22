@@ -45,8 +45,7 @@ Every ten years, the `US census <http://www.census.gov/2010census/>`_ collects a
 
 In this workshop we will build a simple application that uses a single thematic style to visualize several dozen census variables collated to the county level.
 
-.. image:: ./img/census_hispanic.png 
-   :width: 95%
+.. image:: ./img/sdk_census_bar.png 
 
 The basic structure of the application will be
 
@@ -55,6 +54,6 @@ The basic structure of the application will be
 * A thematic style in GeoServer, browsed with
 * A pane-based application in OpenLayers, allowing the user to choose the census variable of interest.
 
-This application exercises all the tiers of the OpenGeo Suite!
+This application exercises all the tiers of OpenGeo Suite!
 
 To this basic example, we will add extra features to demonstrate the capabilities of OpenLayers and ways of interacting with web services.
