@@ -1,0 +1,296 @@
+{%- set breadcrumbdelim = breadcrumbdelim is not defined and ' &raquo;' or breadcrumbdelim %}
+{%- set reldelim = reldelim is not defined and '|' or reldelim %}
+{%- macro breadcrumbs() %}
+<div>
+  {%- if coursename %}
+    <a href="{{ pathto('../index.html', 1) }}" title="Course Home">{{ coursename|striptags }}</a> {{ breadcrumbdelim }}&nbsp;
+  {%- endif %}
+  {%- block rootrellink %}
+  <a href="{{ pathto('index') }}">{{ project }}</a>
+  {%- endblock %}
+  {%- for parent in parents %}
+    {{ breadcrumbdelim }} <a href="{{ parent.link|e }}" accesskey="U">{{ parent.title }}</a>
+  {%- endfor %}
+  {% if pagename != 'index' %}
+    {{ breadcrumbdelim }} <a href="{{ link }}">{{ title|striptags }}</a>
+  {%- endif %}
+</div>
+{%- endmacro %}
+{%- macro rellinkbar() %}
+<ul id="relatedlinks" class="selfclear">
+  {%- for rellink in rellinks %}
+  <li{% if loop.first %} class="first"{% endif %}>
+    <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags }}"
+       accesskey="{{ rellink[2] }}">{{ rellink[3] }}</a>
+    {%- if not loop.first %}{{ reldelim }}{% endif %}</li>
+  {%- endfor %}
+  {%- block relbaritems %}{% endblock %}
+</ul>
+{%- endmacro %}
+
+{%- macro sidebar() %}
+  {%- if builder != 'htmlhelp' %}
+      {%- block sidebarrel %}
+        {%- if (prev or next) %}
+        <div class="sidebar_section">
+          <h4 class="sidebar_header">Continue Reading</h4>
+          {%- if prev %}
+          <p style="margin-top:1em"><b>Previous:</b> <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></p>
+          {%- endif %}
+          {%- if next %}
+          <p><b>Next:</b> <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></p>
+          {%- endif %}
+          </ul>
+        </div>
+        {%- endif %}
+      {%- endblock %}
+      {%- if customsidebar %}
+      {{ rendertemplate(customsidebar) }}
+      {%- endif %}
+      {%- block sidebarsearch %}{%- endblock %}
+
+  {%- endif %}
+  <div class="about sidebar_section">
+    <h4 class="sidebar_header">About Boundless</h4>
+    <p>Boundless provides <a href="http://boundlessgeo.com/solutions/">commercial open source software</a> for internet mapping and geospatial application development. We are dedicated to the growth and support of open source software.</p>
+  </div>
+
+{%- endmacro -%}
+{%- block doctype -%}
+<!DOCTYPE html>
+{%- endblock %}
+<html lang="en-US" prefix="og: http://ogp.me/ns#">
+<head>
+  <meta charset="UTF-8">
+  {{ metatags }}
+  {%- if not embedded %}
+    {%- set titlesuffix = " &mdash; "|safe + docstitle|e %}
+  {%- else %}
+    {%- set titlesuffix = "" %}
+  {%- endif %}
+  <title>Boundless : {{ project }}{% if pagename != 'index' %} : {{ title|striptags }}{%- endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="profile" href="http://gmpg.org/xfn/11">
+  {%- block basecss %}
+  <link rel="stylesheet" href="{{ pathto('_static/opengeo.css', 1) }}" type="text/css"/>
+  <!-- opengeo.css must go before bootstrap.css & style.css-->
+  <link rel="stylesheet" href="{{ pathto('_static/bootstrap/css/bootstrap.min.css', 1) }}" type="text/css"/>
+  {%- endblock %}
+  {%- for link, type, title in page_links %}
+  <link rel="alternate" type="{{ type|e(true) }}" title="{{ title|e(true) }}" href="{{ link|e(true) }}" />
+  {%- endfor %}
+  <link rel="stylesheet" href="{{ pathto('_static/' + style, 1) }}" type="text/css" />
+  <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+
+  {%- if use_opensearch %}
+  <link rel="search" type="application/opensearchdescription+xml"
+        title="Search within {{ docstitle }}"
+        href="{{ pathto('_static/opensearch.xml', 1) }}"/>
+  {%- endif %}
+  <link rel="shortcut icon" href="{{ pathto('_static/favicon.ico', 1) }}"/>
+  {%- block linktags %}
+      {%- if hasdoc('about') %}
+      <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
+      {%- endif %}
+      {%- if hasdoc('genindex') %}
+      <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+      {%- endif %}
+      {%- if hasdoc('search') %}
+      <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+      {%- endif %}
+      {%- if hasdoc('copyright') %}
+      <link rel="copyright" title="{{ _('Copyright') }}" href="{{ pathto('copyright') }}" />
+      {%- endif %}
+      <link rel="top" title="{{ docstitle|e }}" href="{{ pathto('index') }}" />
+      {%- if parents %}
+      <link rel="up" title="{{ parents[-1].title|striptags }}" href="{{ parents[-1].link|e }}" />
+      {%- endif %}
+      {%- if next %}
+      <link rel="next" title="{{ next.title|striptags }}" href="{{ next.link|e }}" />
+      {%- endif %}
+      {%- if prev %}
+      <link rel="prev" title="{{ prev.title|striptags }}" href="{{ prev.link|e }}" />
+      {%- endif %}
+  {%- endblock %}
+{%- block extrahead %}{% endblock %}
+
+<style>
+  @font-face {
+    font-family: 'cantarell';
+    src: url('{{ pathto("_static/fonts/cantarell-regular-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/cantarell-regular-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/cantarell-regular-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/cantarell-regular-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/cantarell-regular-webfont.svg#cantarellregular", 1) }}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'cantarell';
+    src: url('{{ pathto("_static/fonts/cantarell-bold-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/cantarell-bold-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/cantarell-bold-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/cantarell-bold-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/cantarell-bold-webfont.svg#cantarellbold", 1) }}') format('svg');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'cantarell';
+    src: url('{{ pathto("_static/fonts/cantarell-oblique-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/cantarell-oblique-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/cantarell-oblique-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/cantarell-oblique-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/cantarell-oblique-webfont.svg#cantarelloblique", 1) }}') format('svg');
+    font-weight: normal;
+    font-style: italic;
+  }
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('{{ pathto("_static/fonts/proximanova-light-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/proximanova-light-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/proximanova-light-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/proximanova-light-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/proximanova-light-webfont.svg#proxima_nova_ltlight", 1) }}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'proxima-nova';
+    src: url('{{ pathto("_static/fonts/proximanova-sbold-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/proximanova-sbold-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/proximanova-sbold-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/proximanova-sbold-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/proximanova-sbold-webfont.svg#proxima_nova_ltsemibold", 1) }}') format('svg');
+    font-weight: bold;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Source Code Pro';
+    src: url('{{ pathto("_static/fonts/sourcecodepro-regular-webfont.eot", 1) }}');
+    src: url('{{ pathto("_static/fonts/sourcecodepro-regular-webfont.eot?#iefix", 1) }}') format('embedded-opentype'),
+         url('{{ pathto("_static/fonts/sourcecodepro-regular-webfont.woff", 1) }}') format('woff'),
+         url('{{ pathto("_static/fonts/sourcecodepro-regular-webfont.ttf", 1) }}') format('truetype'),
+         url('{{ pathto("_static/fonts/sourcecodepro-regular-webfont.svg#source_code_proregular", 1) }}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face { font-family: "Glyphicons Halflings"; font-weight: normal;
+    src: url('{{ pathto("_static/bootstrap/fonts/glyphicons-halflings-regular.eot", 1) }}');
+    src: url('{{ pathto("_static/bootstrap/fonts/glyphicons-halflings-regular.eot#iefix", 1) }}') format('embedded-opentype'),
+    url('{{ pathto("_static/bootstrap/fonts/glyphicons-halflings-regular.woff", 1) }}') format('woff'),
+    url('{{ pathto("_static/bootstrap/fonts/glyphicons-halflings-regular.ttf", 1) }}') format('truetype'),
+    url('{{ pathto("_static/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular", 1) }}') format('svg'); }
+</style>
+
+<script type="text/javascript" src="{{ pathto('_static/modernizr.2.7.1.min.js', 1) }}"></script>
+
+</head>
+<body class="page">
+  <a name="top"></a>
+  {%- block header %}
+
+		<header id="masthead" class="site-header" role="banner">
+			<a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="{{ pathto('_static/logo.png', 1) }}"></a>
+		</header>
+  {%- endblock %}
+
+  {%- block secondary_nav %}
+  <section class="navi">
+    <div class="secondarynav">
+      <div class=" breadcrumbs pull-left">
+        {%- block breadcrumbbar %}{{ breadcrumbs() }}{% endblock %}
+      </div>
+
+
+      {%- if (prev or next) %}
+      <!-- Next/Prev -->
+      <ul class="right-nav list-unstyled">
+
+          <li class="next">
+            {%- if next %}
+            <a href="{{ next.link|e }}" title="next chapter"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            {%- endif %}
+          </li>
+          <li class="previous">
+            {%- if prev %}
+            <a href="{{ prev.link|e }}" title="previous chapter"><i class="glyphicon glyphicon-chevron-left"></i></a>
+            {%- endif %}
+          </li>
+
+          <li class="dropdown">
+            {%- if display_toc %}
+            <a class="dropdown-toggle" id="page-content" data-toggle="dropdown">
+              Page Content <i class="glyphicon glyphicon-chevron-down" style="font-size: 12px;"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="page-content">
+              {{ toc }}
+            </ul>
+            {%- endif %}
+          </li>
+
+      </ul>
+    {%- endif %}
+    </div>
+  </section>
+  {%- endblock %}
+
+  <!-- Page Content -->
+  <section>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-9 col-sm-12">
+          <div class="content">
+            {%- block document %}
+              {% block body %}{% endblock %}
+            {%- endblock %}
+
+            {%- if (prev or next) %}
+              <!-- Next/Prev -->
+              <div class="selfclear pagination-nav">
+                {%- if prev %}
+                  <div class="left"><strong>Previous</strong>: <a href="{{ prev.link|e }}" title="previous chapter">{{ prev.title }}</a></div>
+                {%- endif %}
+                {%- if next %}
+                  <div class="right"><strong>Next</strong>: <a href="{{ next.link|e }}" title="next chapter">{{ next.title }}</a></div>
+                {%- endif %}
+              </div>
+            {%- endif %}
+        </div>
+        </div>
+        <div class="col-md-3" id="sidebar">
+            {{ sidebar() }}
+          <!-- {%- block rellinkbar %}{{ rellinkbar() }}{% endblock %} -->
+        </div>
+      </div>
+    </div>
+    <div class="toplink text-center">
+      <a href="#top" class="green-icon"><i class="glyphicon glyphicon-arrow-up green-icon"></i> Top</a>
+    </div>
+  </section>
+  <!-- End Page Content -->
+
+{%- block footer %}
+  <footer class="site-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-sm-12 text-center">
+          {%- if hasdoc('copyright') %}
+            <a href="{{ pathto('copyright') }}">&copy; Copyright {{ copyright }}</a>
+          {%- else %}
+            <a href="http://boundlessgeo.com/">&copy; Copyright {{ copyright }}</a>
+          {%- endif %}
+	      </div>
+			</div>
+		</div>
+  </footer>
+{%- endblock %}
+
+  <a name="bottom"></a>
+
+  <script type="text/javascript" src="{{ pathto('_static/jquery.1.10.2.min.js', 1) }}"></script>
+  <script type="text/javascript" src="{{ pathto('_static/bootstrap/js/bootstrap.min.js', 1) }}"></script>
+
+  </body>
+</html>
