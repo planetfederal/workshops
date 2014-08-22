@@ -131,7 +131,7 @@ Now you can open up the template by pointing your web browser at the port where 
 Working with the Template
 -------------------------
 
-The template is close to what we want: it has a base map and an overlay layer. However, we want to change the overlay layer to by our special census data layer, so 
+The template is close to what we want: it has a base map and an overlay layer. However, we want to change the overlay layer to be our special census data layer, so:
 
 #. Get a text editor you like.
 #. Open the `src/app/app.js` file and edit the configuration section, replacing the highlighted lines as follows:
@@ -156,9 +156,70 @@ The template is close to what we want: it has a base map and an overlay layer. H
 
 #. Reload http://localhost:9080 in your web browser, you should see the same template, with the census layer in place of the states layer.
 
+**TODO** add in a screen shot of the template with census data here
 
+Now we can see our layer of interest, all that's left is to control it!
 
+Adding to the Template
+----------------------
 
+We want to add a form element that we can use to select which database column to show on the map. To do so we need to do two things:
+
+* add a place in the document where the form data can live, and
+* add the data from `DataDict.txt`_ to the form automatically.
+
+The first step, creating an empty form element is easy, we will put it into the header bar, inserting the form after the unordered list used for the tools menu:
+
+.. code-block:: html
+   :emphasize-lines: 2-5
+
+    </ul>
+    <form class="navbar-form navbar-right">
+      <div class="form-group">
+        <select id="topics" class="form-control"></select>
+      </div>
+    </form>
+    </div><!--/.navbar-collapse -->
+
+While you're at it, you can change the `<title>` of the page and set the value of the "navbar-brand" element to the title we want displayed, "**Census Mapper**".
+
+To load data from `DataDict.txt`_ we will use some `JQuery`_ magic. As discussed earlier, the data dictionary file is column aligned, so we can get the colums we are interested in using a substring function on each line. We want to skip the first two lines, which are not data, but otherwise each line gets written into an `<option>` element in the `<select>` form control.
+
+#. Make a directory `data` in the application folder (not within the `src` directory, but next to it).
+#. Copy the `DataDict.txt`_ file into the `data` directory.
+#. Add the following code at the very end of the `src/app/app.js` file:
+
+   .. code-block:: javascript
+
+      // Load variables into dropdown
+      $.get("../../data/DataDict.txt", function(response) {
+        // We start at line 3 - line 1 is column names, line 2 is not a variable
+        $(response.split('\n').splice(2)).each(function(index, line) {
+          $('#topics').append($('<option>')
+            .val(line.substr(0, 10).trim())
+            .html(line.substr(10, 105).trim()));
+       });
+      });
+
+If you reload the web browser at http://localhost:9080, you should now see the dropdown bar populated with the data dictionary column names.
+
+Finally, in order to affect the map, we need to tie actions on the dropdown bar to the configuration of our WMS tile layer in the map. The SQL view layer we are using in GeoServer responds to the `column` variable in the view parameters, so new selections in the form should alter that aspect of the WMS parameters.
+
+Add the following to the very end of the `src/app/app.js` file:
+
+.. code-block:: javascript
+
+   // Add behaviour to dropdown
+   $('#topics').change(function() {
+     wmsSource.updateParams({
+       'viewparams': 'column:' + $('#topics>option:selected').val()
+     });
+   });
+
+Voila! We now have a live census mapping application, where changes in the form change the configuration of the map layer. Try out different variables and zoom around. When you click on the map, the template's built-in query functionality should show you the variable values and county names.
+
+**TODO** add a screenshot of the finished product
 
 .. _DataDict.txt: _static/data/DataDict.txt
 .. _OpenLayers: http://openlayers.org
+.. _JQuery: http://jquery.org
