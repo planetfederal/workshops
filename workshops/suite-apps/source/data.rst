@@ -140,7 +140,7 @@ First, we need a table that has exactly the same number and type of columns as t
      POP060210 REAL
    );
 
-Copy this table definition into the 
+Copy this table definition into the SQL command window and press the *green triangle* button to run it.
 
 Once we have a blank table, we can load the file. In order to read the file, it must be in a location that is accessible by the database. I usually use the `/tmp` directory in UNIX or OSX and the `C:\\Temp` directory on Windows.
 
@@ -165,7 +165,6 @@ So we can get rid of the non-county entries by **deleting all the rows that have
    DELETE FROM census WHERE fips LIKE '%000';
 
 Which deletes the aggregate records for the 50 states and 2 territories from the table.
-
 
 Load Spatial Data
 ~~~~~~~~~~~~~~~~~
@@ -197,7 +196,11 @@ Note that, like the `census` table, the `counties` table also contains a **fips*
      "counties_pkey" PRIMARY KEY, btree (gid)
      "counties_geom_gist" gist (geom)
 
+To make the joins faster, add an index on the **fips** column in the `counties` table for good measure.
 
+.. code-block:: sql
+
+   CREATE INDEX counties_fips_idx ON counties (fips);
 
 
 

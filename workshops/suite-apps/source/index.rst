@@ -35,6 +35,7 @@ Contents
    installation
    data
    mapping
+   app_basic
 
    glossary
    license
