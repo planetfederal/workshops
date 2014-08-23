@@ -13,6 +13,8 @@ Our goal now is show the exact same workflows we saw in the :ref:`cmd` section, 
 
 .. todo:: Has the plugin already been installed? Or installed an not activated? Need to figure this out.
 
+.. warning:: This plugin is considered **beta software** and should not be used in production systems at the moment.  
+
 Rolling back changes
 --------------------
 
@@ -85,7 +87,7 @@ The GeoGig gateway is a command that exists in the same directory as the ``geogi
 
       GeoGig server correctly started and waiting for conections at port 25333
 
-   .. note:: The reason for the second terminal window is to let this process run in the background. 
+   .. note:: The reason for the second terminal window is to let this process run in the background. You may find it useful to refer to this window when performing operations with the plugin, as the underlying commands will be shown here in the background.
 
 Now we are ready to explore the plugin.
 
@@ -103,10 +105,6 @@ The plugin is first accessed through the ``GeoGig`` menu, which contains three o
 .. figure:: img/setup_geogigmenu.png
 
    GeoGig menu
-
-We will see more about all of these areas as we work with the plugin to manage our data.
-
-Setting global information
 
 Creating a new repo
 -------------------
@@ -139,19 +137,35 @@ In order to show the full lifecycle of working with repos with the plugin, we wi
 
 #. You will then be asked to enter credentials to connect to the underlying PostGIS layer. The repo itself doesn't know about PostGIS yet, but since the PostGIS layer is open in QGIS, it knows that is the layer that will be populated into the new repo. Enter your database credentials as set previously, and click :guilabel:`OK`. 
 
+   .. warning:: Even if you have no password set, enter any text in the field. Don't leave the password field blank. 
+
    .. figure:: img/setup_creds.png
 
       Credentials for GeoGig to connect to PostGIS
 
-   .. todo:: There may be a warning here about the ``geogigid`` field, not sure.
+   .. todo:
 
-#. The repo will be created, and listed in the dialog. Click :guilabel:`Open repository` to return to QGIS.
+#. You will be given a warning about a missing ``geogigid`` field. This field is used by the plugin in order to better track changes. Click :guilabel:`Yes` to create this column in the database table.
+
+   .. figure:: img/setup_idwarning.png
+
+      Warning about adding a geogigid field
+
+   .. todo:: Say more about the reasons to create this field.
+
+#. The repo will be created, and the data imported.
+
+   .. figure:: img/setup_importing.png
+
+      Importing
+
+#. The repo will then be listed in the dialog. Click :guilabel:`Open repository` to return to QGIS.
 
    .. figure:: img/setup_repolist.png
 
-      Repository list, showing repo_gui
+      Repository list showing new repository
 
-#. The GeoGit dialog will display on the right side. If you're running out of screen real estate, the dialog can be undocked by clicking the window icon at the top right of the panel.
+#. The GeoGig dialog will display on the right side. If you're running out of screen real estate, the dialog can be undocked by clicking the window icon at the top right of the panel.
 
    .. figure:: img/setup_explorer.png
 
@@ -159,3 +173,4 @@ In order to show the full lifecycle of working with repos with the plugin, we wi
 
 It is in this dialog that we will be performing all of the operations on the GeoGig repository, taking the place of the command line tool.
 
+.. note:: If you ever close this window and want to get it back again, navigate to :menuselection:`GeoGig --> GeoGig client`, select the repository, and click :guilabel:`Open repository`.
