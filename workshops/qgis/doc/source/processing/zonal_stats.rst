@@ -9,7 +9,9 @@ Now that we have a baseline to work with, we can calculate statistics on the geo
 
 #. Let's keep the layer in our results director: right click and save the layer as ``workshop/results/surficial_geology_ranges.shp``. Make sure to check the :guilabel:`Add saved file to map` option to automatically load this layer into our project.
 
-#. Rename the new layer **Seasonal ranges geology type**.
+#. Add a new **Surficial geology** sub-group to the **Results** group.
+
+#. Rename the new layer **Majority**.
 
 #. Style the new layer such that a different colour is used for each value of the **MAJ** attribute.
 
@@ -27,8 +29,8 @@ Now that we have a baseline to work with, we can calculate statistics on the geo
 
 #. Now run the **Frequency Analysis** process again, but this time using the vector input as the new **Output layer**. Set the table output to be ``workshop/results/surficial_geology_ranges.csv``.
 
-#. Rename the output table to **Seasonal ranges geology type (aggregate)**. This layer provides a data analyst with detailed information required to determine whether there is a corrolation between geology types and how antelope use the land during different seasons. Some initial observations are that only the ``CRUWIN`` range is characterised by a geology type other than ``8`` (``ri``), although we can also see that antelope tend not to populate areas with type ``3`` (``Ri``). It is entirely possible that a statistical analysis will not find any coorelation between geology and antelope ranges!
+#. Rename the output table to **Aggregate**. This layer provides a data analyst with detailed information required to determine whether there is a corrolation between geology types and how antelope use the land during different seasons. Some initial observations are that only the ``CRUWIN`` range is characterised by a geology type other than ``8`` (``ri``), although we can also see that antelope tend not to populate areas with type ``3`` (``Ri``). It is entirely possible that a statistical analysis will not find any coorelation between geology and antelope ranges!
 
 #. Delete the layer that was the output of the **Singleparts to multiparts** process (**Output layer**) since it is no longer needed.
 
-#. Move the two new layers we created in this exercise to the **Results** group.
+#. Move the two new layers we created in this exercise to the **Surficial geology** group.
