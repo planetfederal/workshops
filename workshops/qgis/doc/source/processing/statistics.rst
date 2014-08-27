@@ -20,7 +20,7 @@ We will be using a new process named **Frequency Analysis** to calculate the bre
 
 #. Keep the default outputs and execute the script.
 
-#. Set the :guilabel:`Frequency_analysis_table` output to be ``workshop\reference\surficial_geology_baseline.csv``.
+#. Set the :guilabel:`Frequency_analysis_table` output to be ``qgis\reference\surficial_geology_baseline.csv``.
 
    .. figure:: images/frequency_analysis_aoi.png
 
@@ -32,7 +32,7 @@ We will be using a new process named **Frequency Analysis** to calculate the bre
 
 #. Click the feature with the identify tool. The results will show that approximately 35% of the land is covered by geology type ``8``, which can be cross-referenced in our automatically-generated **Surficial geology (RECLASS lookup)** table and identified as type ``ri`` (defined as "residuum mixed with alluvium, eolian, slopewash, grus, and/or bedrock outcrops").
 
-#. Click :guilabel:`Run`.
+   .. note:: It is possible that when you run the script, the ``ri`` geology type will be encoded with a different number instead of ``8``.
 
 #. Open the attribute table for **Frequency_analysis_table**. Here we can see the complete breakdown of the geology into the various types; of note are: ``1`` (``sci``) at 20%; ``3`` (``Ri``) at 12%; and ``5`` (``ai``) at 8%.
 
@@ -44,4 +44,4 @@ We will be using a new process named **Frequency Analysis** to calculate the bre
 
 #. Delete the **Frequency_analysis_layer** from our project.
 
-#. Rename the **Frequency_analysis_table** to **Surficial geology (frequency analysis)**
+#. Rename the **Frequency_analysis_table** to **Baseline**.

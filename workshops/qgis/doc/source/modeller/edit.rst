@@ -19,6 +19,6 @@ Without changing the inputs to our model, we can accomplish this same task by ad
 
       Adding a baseline calculation
 
-#. Run the model, but save the three outputs to files in the `workshop\results` directory just as we did for the analysis of the **Surficial geometries** layer. 
+#. Run the model, but save the three outputs to files in the ``qgis\results`` directory just as we did for the analysis of the **Surficial geometries** layer. 
    
-#. Move the new additions into the correct groups in our layer list.
+#. Move the new additions into a new **Landcover** sub-group in our **Results** list.

@@ -28,10 +28,10 @@ In total, for this workshop, we will need the following files:
 Preparation
 ^^^^^^^^^^^
 
-#. Create a new ``workshop`` directory.
+#. Create a new ``qgis`` directory where we will hold all of our data and project files.
 
-#. Create ``data``, ``downloads``, ``reference``, ``results`` and ``temp`` directories inside ``workshop``.
+#. Create ``data``, ``downloads``, ``reference``, ``results`` and ``temp`` directories inside ``qgis``.
 
-#. Download the data files into ``workshop\downloads``.
+#. Download the data files into ``qgis\downloads``.
 
-#. Most of the files you download can be used directly in QGIS. However, the ``surgeol_500k.zip`` and ``soil500k.zip`` files have the data inside an extra sub-directory, so unzip them both inside ``workshop\downloads``. We also need to unzip the ``gaplandcov_wy.zip`` archive into the downloads directory.
+#. Most of the files you download can be used directly in QGIS. However, the ``surgeol_500k.zip`` and ``soil500k.zip`` files have the data inside an extra sub-directory, so unzip them both inside ``qgis\downloads``. We also need to unzip the ``gaplandcov_wy.zip`` archive into the downloads directory.

@@ -16,7 +16,7 @@ Let's revisit the **Dissolve process** and change some of the input parameters t
 
    .. note:: We could have used the **Antelope ranges** as the input since the extents of both these layers are identical.
 
-#. Save the new file to ``workshop\data\area_of_interest.shp``. 
+#. Save the new file to ``qgis\data\area_of_interest.shp``. 
    
 #. Rename the layer :kbd:`Area of interest`.
 

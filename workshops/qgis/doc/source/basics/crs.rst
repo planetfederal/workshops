@@ -27,19 +27,21 @@ Before we continue with adding more data, we will want to see how to standardise
 
    .. note:: You can use the filter box to quickly find the CRS that you are looking for.
 
-#. Set the new file name to ``workshop\data\ant14hh.shp``.
+#. Set the new file name to ``qgis\data\ant14hh.shp``.
 
-   .. note:: We will keep all the correctly projected data in the ``workshop\data`` directory.
+   .. note:: We will keep all the correctly projected data in the ``qgis\data`` directory.
 
 #. Click :guilabel:`OK` to save the new file.
 
-#. Repeat this process for the **surfgeol_500k** layer if necessary.
+   .. note:: It can take some time for QGIS to convert large data sets to a new CRS.
 
-   .. note:: If the layer is already in the **EPSG:4267** CRS, then you can simply copy all the ``surfgeol_500k`` files to the same ``workshop\data`` directory.
+#. Right click on the layer in the list select :menuselect:`Set Project CRS from Layer`.
+
+#. Repeat this process for the **surfgeol_500k** layer if necessary.
 
 #. Remove each of the current layers in the project by right clicking them and selecting :guilabel:`Remove`.
 
-#. Add the new layers from the ``workshop\data`` directory to the project.
+#. Add the new layers from the ``qgis\data`` directory to the project.
 
 #. Drag and drop the layers in the list so that the **ant14hh** layer is first. You should now see that the two layers line up on the map.
 

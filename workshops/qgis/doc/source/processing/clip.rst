@@ -20,7 +20,7 @@ First, let's throw out some features from the **Surficial geology** layer.
 
 #. Set :guilabel:`Clip layer` to **Area of interest**.
 
-#. Set the output to be a new file named ``workshop\data\surfgeol_500k_clipped.shp``.
+#. Set the output to be a new file named ``qgis\data\surfgeol_500k_clipped.shp``.
 
 #. Check the :guilabel:`Add result to canvas` box.
 
@@ -53,7 +53,7 @@ Next, let's clip the **Digital elevation model** layer since it too covers Wyomi
 
 #. Set the :guilabel:`Input file` to **Digital elevation model**.
 
-#. Set the :guilabel:`Output file` to ``workshop\data\dem_90m_clipped.tif``.
+#. Set the :guilabel:`Output file` to ``qgis\data\dem_90m_clipped.tif``.
 
 #. Set the :guilabel:`No data value` to :kbd:`-32768`.
 

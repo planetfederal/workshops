@@ -45,7 +45,7 @@ If we proceed with the data configured as it currently is, the **Surficial geolo
 
    .. warning:: There is a **Create equivalent numerical field** process in the :menuselection:`QGIS geoalgorithms --> Vector table tools` cateogry. Functionally, the two will create equivalent output layers; however, only the process in the :menuselection:`Scripts --> Vector` category will create the reference table.
 
-#. Run the process, saving the results to ``workshop\reference\surfical_geology_lookup.csv``.
+#. Run the process, saving the results to ``qgis\reference\surfical_geology_lookup.csv``.
 
 #. Run the process **Rasterize** with the inputs **Equivalent_numerical_field_layer** and **NUM_FIELD**. We can keep the default size of 3000 by 3000 pixels. The new raster layer will appear in the layer list.
 
@@ -53,7 +53,7 @@ If we proceed with the data configured as it currently is, the **Surficial geolo
 
       **Suficial geology** after conversion to a raster
 
-#. Clip the new **Output layer** to the **Area of interest** layer using the **Clip raster by mask layer** algorithm from the processing toolbox. Make sure to use a :guilabel:`Nodata` value of :kbd:`-32768` and set :guilabel:`Keep resolution of output raster` to :kbd:`Yes`. Set the output file name to be ``workshop\temp\surfgeol_500k.tif``.
+#. Clip the new **Output layer** to the **Area of interest** layer using the **Clip raster by mask layer** algorithm from the processing toolbox. Make sure to use a :guilabel:`Nodata` value of :kbd:`-32768` and set :guilabel:`Keep resolution of output raster` to :kbd:`Yes`. Set the output file name to be ``qgis\temp\surfgeol_500k.tif``.
 
    .. note:: We are using the ``temp`` directory to store useful files that we will use during the workshop, but which are not actual data sets.
 

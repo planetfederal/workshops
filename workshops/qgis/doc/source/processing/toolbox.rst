@@ -60,7 +60,7 @@ Script installation
 We will be using a few custom scripts in this workshop:
 
 * :download:`EquivalentNumField.py <downloads/EquivalentNumField.py>`
-* :download:`FrequencyStats.py.py <downloads/FrequencyStats.py>`
+* :download:`FrequencyStats.py <downloads/FrequencyStats.py>`
 
 #. Download the script.
 

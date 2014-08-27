@@ -8,3 +8,4 @@ Modeller
    model
    running
    edit
+   combining

@@ -33,11 +33,13 @@ Our first step will be to launch QGIS and create a new project file that we will
 
       Enabling the Processing Toolbox in the QGIS menu
 
-#. Although we haven't started working with any data yet, we can save our project file now by clicking :menuselection:`Project --> Save`. Give the file the name ``antelopes.qgs`` and save it in the ``workshop`` directory that we created earlier.
+#. Although we haven't started working with any data yet, we can save our project file now by clicking :menuselection:`Project --> Save`. Give the file the name ``antelopes.qgs`` and save it in the ``qgis`` directory that we created earlier.
 
    .. figure:: images/project_menu.png
 
       Project menu
+
+   .. warning:: To avoid losing work, it is strongly recommended that you save your project frequently. During this workshop, aim to save your project at the end of each exercise.
 
 #. QGIS projects contain references to the data we are working with, how the data is displayed and other configuration options. If you want to see some of these options, you can open the project settings by clicking :menuselection:`Project --> Properties`.
 

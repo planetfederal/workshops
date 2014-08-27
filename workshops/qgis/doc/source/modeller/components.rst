@@ -30,6 +30,6 @@ As outputs, we should will get a layer which has an extra **MAJ** attribute show
 
 Because we are starting from a raster, we will need to refer to the layer's metadata to understand the meaning of the different raster band values. In this case, the ``gaplandcov_wy.zip`` contains a file named ``gaplandcov_WY.img.vat.dbf``, which can be loaded into QGIS and which contains a description of each value, such as ``86`` meaning "cultivated cropland".
 
-#. Move ``gaplandcov_WY.img.vat.dbf`` to the ``workshop\reference`` directory.
+#. Move ``gaplandcov_WY.img.vat.dbf`` to the ``qgis\reference`` directory.
 
 #. Add the file to the project's **Reference** group and rename it :kbd:`Land cover (lookup)`.
