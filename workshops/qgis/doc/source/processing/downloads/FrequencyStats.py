@@ -266,11 +266,11 @@ def freq_min_max(freq):
     min = None
     max = None
     for k, v in freq.iteritems():
-        if not min or v < freq[min]:
+        if min is None or v < freq[min]:
             min = k
-        if not max or v > freq[max]:
+        if max is None or v > freq[max]:
             max = k
-    return int(min), int(max)
+    return min, max
   
 polygon_layer = processing.getObject(vector)
 raster_layer = processing.getObject(raster)
@@ -315,8 +315,10 @@ for i, feat in enumerate(features):
         minority_p = 0
     else:
         minority, majority = freq_min_max(freq)
-        majority_p = float(freq[majority]) / count
+        minority = int(minority)
+        majority = int(majority)
         minority_p = float(freq[minority]) / count
+        majority_p = float(freq[majority]) / count
         
     # write to layer
     outFeat.setGeometry(feat.geometry())
