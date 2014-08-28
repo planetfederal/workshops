@@ -13,8 +13,6 @@ As a final step, let's change the names of our layers to something more descript
 
 #. Change the name of **gaplndcov_WY** to :kbd:`Land cover`.
 
-#. Save your project. It is good practice to save your work periodically.
-
 .. note:: For analysis purposes, we will need a large amount of data added to our project; however, it is not always necessary to render each of the layers in QGIS. By clicking the check box next to each layer, we can turn of rendering to make QGIS funciton more quickly. You may want to disable the **Digital elevation model** and **Surficial geology** layers in your project.
 
    .. figure:: images/layer_disabled.png

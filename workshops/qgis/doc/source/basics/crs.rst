@@ -1,7 +1,11 @@
 Coordinate reference systems
 ============================
 
-Before we continue with adding more data, we will want to see how to standardise the CRSs that our layers and our project are using.
+Before we continue with adding more data, we will want to see how to standardise the CRSs that our layers and our project are using. We will be using a CRS named **US National Atlas Equal Area** (known by the code EPSG:2163) for this workshop.
+
+.. figure:: images/epsg2163.png
+
+   **US National Atlas Equal Area**
 
 #. To see what CRS any particular layer is in, right click a layer name and select :guilabel:`Set Layer CRS`. Open the CRS settings for the **ant14hh** layer.
 
@@ -23,7 +27,7 @@ Before we continue with adding more data, we will want to see how to standardise
 
 #. Click :guilabel:`Browse`.
 
-#. From the list of CRSs, select **EPSG:4267**.
+#. From the list of CRSs, select **EPSG:2163**.
 
    .. note:: You can use the filter box to quickly find the CRS that you are looking for.
 
@@ -33,11 +37,7 @@ Before we continue with adding more data, we will want to see how to standardise
 
 #. Click :guilabel:`OK` to save the new file.
 
-   .. note:: It can take some time for QGIS to convert large data sets to a new CRS.
-
-#. Right click on the layer in the list select :menuselect:`Set Project CRS from Layer`.
-
-#. Repeat this process for the **surfgeol_500k** layer if necessary.
+#. Repeat this process for the **surfgeol_500k** layer.
 
 #. Remove each of the current layers in the project by right clicking them and selecting :guilabel:`Remove`.
 
@@ -49,4 +49,10 @@ Before we continue with adding more data, we will want to see how to standardise
 
       Aligning layers in the project
 
-From now on, whenever we add any new data to our project, we will need to ensure that the data is in the **EPSG:4267** CRS.
+#. Right click on the layer in the list select :menuselection:`Set Project CRS from Layer`. From now on our project will be using the **US National Atlas Equal Area** spatial reference system, but whenever we add any new data to our project, we will still need to convert the data is in the **EPSG:2163** CRS before we run any processes.
+
+   .. note:: You may now use the :guilabel:`Project CRS` option when saving files.
+
+             .. figure:: images/project_crs.png
+
+                Using the project's CRS

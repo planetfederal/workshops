@@ -24,7 +24,7 @@ To do this, we will use one of QGIS's processes named **Dissolve**, which merges
 
 #. Set :guilabel:`Dissolve all` to **No** since we do not want to merge all polygons.
 
-#. Change the :guilabel:`Unique ID field` to **HERDNAME**.
+#. Change the :guilabel:`Unique ID field` to **HERDUNIT**.
 
 #. Click the ellipsis and then select :guilabel:`Save to file`.
 
