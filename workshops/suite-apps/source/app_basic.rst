@@ -48,7 +48,7 @@ We will build a map frame using the `OpenGeo Suite SDK <http://suite.opengeo.org
 .. note::
 
    * OSX, you may need to add ``/usr/local/opengeo/sdk/bin`` to your ``PATH`` environment variable.
-   * Windows, TODO
+   * Windows, verify that ``C:\Program Files\Boundless\OpenGeo Suite\sdk\bin`` (or wherever the sdk is installed) has been added to your ``PATH`` environment variable under Control Panel > System > Advanced > Environment Variables > System Variables. 
    * Linux, check that the ``suite-sdk`` program is on your ``PATH``
 
 Creating the Template
