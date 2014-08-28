@@ -1,5 +1,5 @@
-Final preparation
-=================
+Antelop ranges
+==============
 
 As a final step before we begin our analysis of the data, let's load the remaining required data sets using some of the techniques we have learnt thus far. Remember to reproject all the new layers to the correct CRS and save the files to the ``workspace\data`` directory.
 

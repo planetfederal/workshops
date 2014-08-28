@@ -4,7 +4,7 @@ Processing
 .. toctree::
    :maxdepth: 2
 
-   preparation
+   ranges
    toolbox
    running
    clip
