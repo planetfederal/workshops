@@ -5,6 +5,10 @@ Lines
 
 We will start our tour of CSS styling by looking at the representation of lines.
 
+.. figure:: img/LineSymbology.svg
+   
+   LineString Geometry
+
 Review of line symbology:
 
 * Lines are used to represent physical details that are too small to be represented at the current scale. Line work can also be used to model non-physical ideas such as network connectivity, or the boundary between land-use classifications. **The visual width of lines do not change depending on scale.**
@@ -17,17 +21,12 @@ Review of line symbology:
 
 For our exercises we are going to be using simple CSS documents, often consisting of a single rule, in order to focus on the properties used for line symbology.
 
-.. figure:: img/LineSymbology.svg
-   
-   LineString Geometry
-
 Each exercise makes use of the ``ne:roads`` layer.
-
 
 Reference:
 
 * :manual:`Line Symbology <extensions/css/properties.html#line-symbology>` (User Manual | CSS Property Listing)
-* :manual:`Lines <extensions/css/cookbook_line.html>` (User Manual | CSS Cookbook)
+* :manual:`Lines <extensions/css/cookbook/line.html>` (User Manual | CSS Cookbook)
 * :manual:`LineString <styling/sld-reference/linesymbolizer.html>` (User Manual | SLD Reference )
 
 Stroke
@@ -104,7 +103,7 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
          stroke-width: 2px;
        }
 
-#. The **stroke-dasharray** is used to define breaks rendering the line as a dot dash pattern
+#. The **stroke-dasharray** is used to define breaks rendering the line as a dot dash pattern.
 
    .. code-block:: css
       :emphasize-lines: 7 
@@ -120,14 +119,14 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
 
 #. Check the :guilabel:`Map` tab to preview the result.
 
-  .. image:: img/line_stroke.png
+   .. image:: img/line_stroke.png
 
 .. note:: The GeoServer rendering engine is quite sophisticated and allows the use of units of measure (such as :kbd:`m` or :kbd:`ft`). While we are using pixels in this example, real world units will be converted using the current scale.
 
 Z-Index
 -------
 
-The next example shows how to work around a limitation when using multiple strokes to render a line.
+The next exercise shows how to work around a limitation when using multiple strokes to render a line.
 
 .. figure:: img/LineStringZOrder.svg
 
@@ -167,21 +166,23 @@ The next example shows how to work around a limitation when using multiple strok
 Label
 -----
 
-Our next example is significant as it introduces the concept of a dynamic style (where the value of a property is defined by an attribute).
+Our next example is significant as it introduces the how text labels are generated.
 
 .. figure:: img/LineStringLabel.svg
    
    Use of Label Property
 
+This is also our first example making use of a dynamic style (where the value of a property is defined by an attribute from your data).
+
 #. To enable LineString labeling we will need to use the key properties for both **stroke** and **label**.
 
-.. code-block:: css
-   :emphasize-lines: 2,3
+   .. code-block:: css
+      :emphasize-lines: 2,3
 
-   * {
-     stroke: blue;
-     label: [name];
-   }
+      * {
+        stroke: blue;
+        label: [name];
+      }
 
 #. The SLD standard documents the default label position for each kind of Geometry. For LineStrings the initial label is positioned on the midway point of the line.
 
@@ -241,10 +242,11 @@ Our next example is significant as it introduces the concept of a dynamic style 
 
    .. image:: img/line_label_2.png
 
-How Labeling Works
-------------------
 
-The rendering engine collects all the generated labels during rendering, and then takes a second pass through all the labels to perform collision avoidance (to prevent labels overlapping). Even with collision avoidance you can still see areas where labels are so closely spaced that the result is illegible.
+How Labeling Works
+^^^^^^^^^^^^^^^^^^
+
+The rendering engine collects all the generated labels during rendering, and then takes a moment pass through all the labels to perform collision avoidance (to prevent labels overlapping). Even with collision avoidance you can spot areas where labels are so closely spaced that the result is hard to read.
 
 The parameters provided by SLD are general purpose and should be compatible with any rendering engine.
 
@@ -254,15 +256,15 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
     
     Update `line_example` with the following:
 
-   .. code-block:: css
+    .. code-block:: css
 
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-        -gt-label-padding: 10;
-      }
+       * {
+         stroke: blue;
+         label: [name];
+         font-fill: black;
+         label-offset: 7px;
+         -gt-label-padding: 10;
+       }
 
 #. The parameter **-gt-label-padding** provides additional space around our label for use in collision avoidance.
 
@@ -281,10 +283,10 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
 
    .. image:: img/line_label_3.png
 
-Follow Line (Optional)
-^^^^^^^^^^^^^^^^^^^^^^
+Follow Line
+^^^^^^^^^^^
 
-Vendor options can be used to enable some quite spectacular effects.
+Vendor options can be used to enable some quite spectacular effects, while still providing a style that can be used by other applications.
 
 #. Update `line_example` with the following:
 
@@ -409,20 +411,16 @@ This section explores using attribute selectors, using @scale selectors, and usi
       [@scale < 9000000] [scalerank > 7] {
         stroke: #888888;
         stroke-width: 2;
-      }s
-
+      }
       [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
         stroke: #777777;
       }
-
       [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
         stroke: #444444;
       }
-
       [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
         stroke: #000055;
       }
-
       [@scale > 70000000] [scalerank < 4] {
         stroke: black;
       }
@@ -436,8 +434,8 @@ This section explores using attribute selectors, using @scale selectors, and usi
 
    .. image:: img/line_06_adjust.png
 
-Bonus
------
+Explore
+-------
 
 Finished early? Here are some extra challenges to explore.
 
@@ -523,7 +521,7 @@ Finished early? Here are some extra challenges to explore.
      
       .. admonition:: Instructor Notes    
 
-         The Z-Order example produces multiple FeatureTypeSytle definitions, each acting like an "inner layer". This concept was covered in SU-01, using this exact same example.
+         The Z-Order example produces multiple FeatureTypeSytle definitions, each acting like an "inner layer".
   
          Each FeatureTypeStyle is rendered into its own raster, and the results merged in order. The legend shown in the map preview also provides a hint, as the rule from each FeatureType style is shown.
 
@@ -535,8 +533,8 @@ Finished early? Here are some extra challenges to explore.
    
       .. admonition:: Instructor Notes      
 
-         The use of a label shield is a vendor specific capability of the GeoServer rendering engine.
-    
+         The use of a label shield is a vendor specific capability of the GeoServer rendering engine. The tricky part of this exercise is finding the documentation online ( i.e. :manual:`Styled Marks in CSS <community/css/styled-marks.html>`).
+         
          .. code-block:: css
        
             * {
