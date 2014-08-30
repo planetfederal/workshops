@@ -7,7 +7,7 @@ Running a model is identical to runnning a regular process.
 
 #. Set the :guilabel:`Image` parameter to **Land cover**.
 
-#. Set the :guilabel:`Zones` parameter to **Seasonal ranages**.
+#. Set the :guilabel:`Zones` parameter to **Seasonal ranges**.
 
 #. Set the :guilabel:`Class` parameter to **RANGE**.
 

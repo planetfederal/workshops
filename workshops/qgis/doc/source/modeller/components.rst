@@ -11,7 +11,7 @@ Below is a simplified flowchart that shows the inputs and outputs of the entire 
 
    Inputs and outputs for **Surficial geology** analysis
 
-.. note:: The simplification in this diagram is that we are not showing the clipping of our input to the **Area of interest** layer or the creation of the **Surficial geology baseline** table.
+.. note:: The simplification in this diagram is that we are not showing the creation of the **Surficial geology baseline** table.
 
 QGIS allows us to create reusable "models" which define a set of inputs and steps so that we can create reusable components to use with different data inputs. This section will focus on creating these type of models.
 
@@ -32,4 +32,10 @@ Because we are starting from a raster, we will need to refer to the layer's meta
 
 #. Move ``gaplandcov_WY.img.vat.dbf`` to the ``qgis\reference`` directory.
 
-#. Add the file to the project's **Reference** group and rename it :kbd:`Land cover (lookup)`.
+#. Add the file to the project's **Reference** group and rename it :kbd:`Land cover`.
+
+#. Confirm that the values in the **Land cover** layer appear to match the reference table. For example, the red developed areas on the map have a value of ``583``, which is recorded as "Developed, Medium Intensity" in the reference table.
+
+   .. figure:: images/landcover_developed.png
+   
+      Developed areas

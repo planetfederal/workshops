@@ -5,6 +5,8 @@ Our first model did not create a baseline table that shows the overall breakdown
 
 Without changing the inputs to our model, we can accomplish this same task by adding additional processes that generate the extra output we'd like.
 
+#. Delete the output of our first attempt at writing a QGIS model.
+
 #. Open the existing model in the editor.
 
 #. Add a **Dissolve** process that takes **Zones** as an input and does not use an attribute, but rather dissolves all borders. This will create our areas of interest layer to measure against.
@@ -15,7 +17,7 @@ Without changing the inputs to our model, we can accomplish this same task by ad
    
 #. Set the ``raster`` input to be the ``Image`` input parameter. Set the table output to :kbd:`zonal baseline`.
 
-   .. figure:: images/raster_model_4.png
+   .. figure:: images/raster_model_5.png
 
       Adding a baseline calculation
 
