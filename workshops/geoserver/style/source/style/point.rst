@@ -5,6 +5,8 @@ Points
 
 The next stop of the CSS styling tour is the representation of points. 
 
+.. image:: img/PointSymbology.svg
+
 Review of point symbology:
 
 * Points are used to represent a location only, and do not form a shape. The visual width of lines do not change depending on scale.
@@ -15,15 +17,6 @@ Review of point symbology:
 
 As points have no inherent shape of of their own, emphasis is placed on marking locations with an appropriate symbol.
 
-Examples
---------
-
-The point symbology examples make use of simple CSS documents, often consisting of a single rule, to focus on the properties used to control point symbology. The Instruction and Explore sections provide an opportunity for continued work with rules and selectors.
-
-.. image:: img/PointSymbology.svg
-
-If you would like to follow along with these examples the ``ne:populated_places`` layer was used to construct each preview.
-
 Reference:
 
 * :manual:`Point Symbology <extensions/css/properties.html#point-symbology>` (User Manual | CSS Property Listing)
@@ -31,187 +24,271 @@ Reference:
 * :manual:`Styled Marks <user/extensions/css/styled-marks.html>` (User Manual | CSS Styling )
 * :manual:`Point <styling/sld-reference/pointsymbolizer.html>` (User Manual | SLD Reference )
 
+This exercise makes use of the ``ne:populated_places`` layer.
+
+#. Navigate to the **CSS Styles** page.
+
+#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:populated_places` from the list.
+
+   .. image:: img/point_01_preview.png
+
+#. Click :guilabel:`Create a new style` and choose the following:
+
+   .. list-table:: 
+      :widths: 30 70
+      :header-rows: 0
+
+      * - Workspace for new layer:
+        - :kbd:`No workspace`
+      * - New style name:
+        - :kbd:`point_example`
+
+   .. image:: img/point_02_create.png
+
+#. Replace the initial CSS definition with:
+
+   .. code-block:: css
+
+      * {
+        mark: symbol(circle);
+      }
+
+#. And use the :guilabel:`Map` tab to preview the result.
+
+   .. image:: img/point_03_map.png
+
 Mark
-^^^^
+----
 
-Points are represented with the mandatory property **mark**. As a **key property** the presence **mark** triggers the generation of an appropriate PointSymbolizer.
+Points are represented with the mandatory property **mark**.
 
-* The SLD standard provides "well-known" symbols for use with point symbology: ``circle``, ``square``, ``triangle``, ``arrow``, ``cross``, ``star``, and ``x``.
-* GeoServer provides a set of symbols for use in the construction of fill patterns.
+.. image:: img/PointSymbology.svg
 
-.. code-block:: css
+The SLD standard provides "well-known" symbols for use with point symbology: ``circle``, ``square``, ``triangle``, ``arrow``, ``cross``, ``star``, and ``x``.
+
+#. As a **key property** the presence **mark** triggers the generation of an appropriate PointSymbolizer.
+
+   .. code-block:: css
    
-   * {
-    mark: symbol(square);
-   }
+      * {
+       mark: symbol(square);
+      }
 
-.. image:: img/point_mark_1.png
+#. Map Preview:
 
-Before we continue we will use a selector to cut down the amount of data shown to a reasonable level.
+   .. image:: img/point_mark_1.png
 
-.. code-block:: css
+#. Before we continue we will use a selector to cut down the amount of data shown to a reasonable level.
+
+   .. code-block:: css
    
-   [ SCALERANK < 1 ] {
-     mark: symbol(square);
-   }
+      [ SCALERANK < 1 ] {
+        mark: symbol(square);
+      }
 
-.. image:: img/point_mark_2.png
+#. Resulting in a considerably cleaner image:
+   
+   .. image:: img/point_mark_2.png
 
-Additional properties are available to control a mark's presentation:
+#. Additional properties are available to control a mark's presentation:
 
-* The **mark-size** property is used to control symbol size.
+   The **mark-size** property is used to control symbol size.
 
-* The **mark-rotation** property controls orientation, accepting input in degrees.
+   The **mark-rotation** property controls orientation, accepting input in degrees.
+   
+   Trying these two settings together:
 
-.. code-block:: css
+   .. code-block:: css
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(square);
-     mark-size: 8;
-     mark-rotation: 45;
-   }
+      [ SCALERANK < 1 ] {
+        mark: symbol(square);
+        mark-size: 8;
+        mark-rotation: 45;
+      }
 
-.. image:: img/point_mark_3.png
+#. Result in each location being marked with a diamond:
+   
+   .. image:: img/point_mark_3.png
 
-Now that we have assigned out point location a symbol we can make use of a **pseudo-selector** to style the resulting shape.
+#. Now that we have assigned out point location a symbol we can make use of a **pseudo-selector** to style the resulting shape.
 
-In order to control the color we need to make use of a **pseudo-selector**. There are two approaches for styling our symbol above:
+   **:symbol** - provides styling for all the symbols in the CSS document.
 
-* **:symbol** - provides styling for all the symbols in the CSS document.
-* **:nth-symbol(1)** - if needed we could specify which symbol in the document we wish to modify.
-* **:mark** - provides styling for all the mark symbols in the CSS document.
-* **:nth-mark(1)** - provides styling for the first mark symbol in the CSS document.
+   **:mark** - provides styling for all the mark symbols in the CSS document.
+   
+   This form of pseudo-selector is used for all marks:
 
-.. code-block:: css
+   .. code-block:: css
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(square);
-     mark-size: 8;
-     mark-rotation: 45;
-   }
-   :mark{
-      fill: white;
-      stroke: black;
-   }
+      [ SCALERANK < 1 ] {
+        mark: symbol(square);
+        mark-size: 8;
+        mark-rotation: 45;
+      }
+      :mark{
+         fill: white;
+         stroke: black;
+      }
 
-.. image:: img/point_mark_4.png
+#. Updating the mark to a white square with a black outline.
 
-Marks can be composed of multiple symbols, each with its own settings:
+   .. image:: img/point_mark_4.png
 
-.. code-block:: css
+#. The second approach is used to individual configure symbols in the same document.
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(square),symbol(cross);
-     mark-size: 16,14;
-     mark-rotation: 0,45;
-   }
-   :nth-mark(1){
-      fill: red;
-      stroke: black;
-   }
-   :nth-mark(2){
-      fill: black;
-      stroke: white;
-   }
+   **:nth-symbol(1)** - if needed we could specify which symbol in the document we wish to modify.
 
-.. image:: img/point_mark_5.png
+   **:nth-mark(1)** - provides styling for the first mark symbol in the CSS document.
+   
+   Using this approach marks can be composed of multiple symbols, each with its own settings:
+
+   .. code-block:: css
+
+      [ SCALERANK < 1 ] {
+        mark: symbol(square),symbol(cross);
+        mark-size: 16,14;
+        mark-rotation: 0,45;
+      }
+      :nth-mark(1){
+         fill: red;
+         stroke: black;
+      }
+      :nth-mark(2){
+         fill: black;
+         stroke: white;
+      }
+
+#. Producing an interesting compound symbol effect:
+
+   .. image:: img/point_mark_5.png
 
 Graphic
-^^^^^^^
+-------
 
-Symbols can also be supplied by an external graphic. as shown with the initial airport.svg CSS example.
+Symbols can also be supplied by an external graphic,
 
-* The **mark** property can make use of a **url** reference to image files placed in the styles directory.
-* The **mark-mime** property is used to tell the rendering engine what file format to expect
+.. image:: img/Point_Graphic.svg
 
-.. code-block:: css
+This technique was shown with the initial file:`airport.svg` CSS example.
 
-   [ SCALERANK < 1 ] {
-     mark: url(port.svg);
-     mark-mime: "image/svg";
-   }
+#. To use an external graphic two pecies of information are required.
 
-.. image:: img/point_graphic_1.png
+   **mark** property is defined with a **url** reference to image.
+   
+   **mark-mime** property is used to tell the rendering engine what file format to expect
+   
+   This technique is used to reference files placed in the styles directory.
+    
+   .. code-block:: css
 
-The **mark** property **url** reference can also be used to reference external images. We can make use of the GeoServer logo provided by OpenGeo Suite dashboard.
+      [ SCALERANK < 1 ] {
+        mark: url(port.svg);
+        mark-mime: "image/svg";
+      }
 
-.. code-block:: css
+#. Drawing the provided shape in each location:
 
-   [ SCALERANK < 1 ] {
-        mark: url("http://localhost:8080/img/geoserver_suite_32.png");
-        mark-mime: "image/png";
-        mark-size: 16;
-   }
+   .. image:: img/point_graphic_1.png
 
-.. image:: img/point_graphic_2.png
+#. The **mark** property **url** reference can also be used to reference external images. We can make use of the GeoServer logo.
+
+   .. code-block:: css
+
+      [ SCALERANK < 1 ] {
+           mark: url("http://localhost:8080/img/geoserver_suite_32.png");
+           mark-mime: "image/png";
+           mark-size: 16;
+      }
+
+#. As shown in the map preview.
+
+   .. image:: img/point_graphic_2.png
 
 Label
-^^^^^
+-----
 
-Labeling is now familiar from our experience with LineString and Polygons. The key properties **mark** and **label** are required to label Point locations.
+Labeling is now familiar from our experience with LineString and Polygons.
 
-.. code-block:: css
+.. image:: img/Point_Label.svg
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(circle);
-     label: [NAME];
-   }
+The key properties **mark** and **label** are required to label Point locations.
 
-.. image:: img/point_label_1.png
+#. Replace ``point_example`` with the following:
 
-Each label is drawn starting from the provided point - which is unfortunate as it assures each label will overlap with the symbol used. To fix this limitation we will make use of the SLD controls for label placement:
+   .. code-block:: css
 
-* **Anchor (recommended)**
-  
-  The property **label-anchor** provides two values expressing how a label is aligned with respect to the starting label position.
+      [ SCALERANK < 1 ] {
+        mark: symbol(circle);
+        label: [NAME];
+      }
 
-* **Displacement (recommended)**
-  
-  The property **label-offset** is be used to provide an initial displacement using and x and y offset. For points this offset is recommended to adjust the label position away for the area used by the symbol.
+#. Confirm the result in ``Map`` preview.
 
-The property **label-anchor** defines an anchor position relative to the bounding box formed by the resulting label.  This anchor position is snapped to the label position generated by the point location and displacement offset.
+   .. image:: img/point_label_1.png
 
-Using these two facilities together we can center our labels below the symbol, taking care that the displacement used provides an offset just outside the area required for the symbol size.
+#. Each label is drawn starting from the provided point - which is unfortunate as it assures each label will overlap with the symbol used. To fix this limitation we will make use of the SLD controls for label placement:
 
-.. code-block:: css
+   **label-anchor** provides two values expressing how a label is aligned with respect to the starting label position.
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(circle);
-     mark-size: 10;
-     
-     label: [NAME];
-     label-offset: 0 -12;
-     label-anchor: 0.5 1.0;
-
-     font-fill: black;
-   }
-
-.. image:: img/point_label_2.png
+   **label-offset** is be used to provide an initial displacement using and x and y offset. For points this offset is recommended to adjust the label position away for the area used by the symbol.
    
-One remaining issue is the overlap between labels and symbols. GeoServer provides a vendor specific parameter to allow symbols to take part in label conflict resolution, preventing labels from overlapping any symbols. This severely limits the area available for labeling and is best used in conjunction with a large maximum displacement vendor option.
+   .. note::
+   
+      The property **label-anchor** defines an anchor position relative to the bounding box formed by the resulting label.  This anchor position is snapped to the label position generated by the point location and displacement offset.
 
-* The **-gt-mark-label-obstacle** vendor parameter asks the rendering engine to avoid drawing labels over top of the indicated symbol.
-* The **-gt-label-max-displacement** vendor parameter provides the rendering engine a maximum distance it is allowed to move labels during conflict resolution.
+#. Using these two facilities together we can center our labels below the symbol, taking care that the displacement used provides an offset just outside the area required for the symbol size.
 
-.. code-block:: css
+   .. code-block:: css
 
-   [ SCALERANK < 1 ] {
-     mark: symbol(circle);
-     mark-size: 10;
+      [ SCALERANK < 1 ] {
+        mark: symbol(circle);
+        mark-size: 10;
      
-     label: [NAME];
-     label-offset: 0 -12;
-     label-anchor: 0.5 1.0;
+        label: [NAME];
+        label-offset: 0 -12;
+        label-anchor: 0.5 1.0;
 
-     font-fill: black;
+        font-fill: black;
+      }
 
-     -gt-mark-label-obstacle: true;
-     -gt-label-max-displacement: 100;
-     -gt-label-padding: 2;
-   }
+#. Each label is now placed under the mark.
+   
+   .. image:: img/point_label_2.png
+
+#. One remaining issue is the overlap between labels and symbols.
+   
+   GeoServer provides a vendor specific parameter to allow symbols to take part in label conflict resolution, preventing labels from overlapping any symbols. This severely limits the area available for labeling and is best used in conjunction with a large maximum displacement vendor option.
+
+   **-gt-mark-label-obstacle** vendor parameter asks the rendering engine to avoid drawing labels over top of the indicated symbol.
+   
+   **-gt-label-max-displacement** vendor parameter provides the rendering engine a maximum distance it is allowed to move labels during conflict resolution.
+   
+   Update our example to use these two settings:
+
+   .. code-block:: css
+
+      [ SCALERANK < 1 ] {
+        mark: symbol(circle);
+        mark-size: 10;
+     
+        label: [NAME];
+        label-offset: 0 -12;
+        label-anchor: 0.5 1.0;
+
+        font-fill: black;
+
+        -gt-mark-label-obstacle: true;
+        -gt-label-max-displacement: 100;
+        -gt-label-padding: 2;
+      }
+
+#. Resulting in a considerably cleaner image:
+
+   .. image:: img/point_label_3.png
 
 
-.. image:: img/point_label_3.png
+Bonus
+-----
 
 .. only:: instructor
 
@@ -223,38 +300,7 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
       * recode to map from attribute to symbol
       * interpolate to change size by population
 
-.. admonition:: Exercise
-
-   1. Navigate to the **CSS Styles** page.
-   
-   #. Click :guilabel:`Choose a different layer` and select :kbd:`ne:populated_places` from the list.
-   
-      .. image:: img/point_01_preview.png
-   
-   #. Click :guilabel:`Create a new style` and choose the following:
-   
-      .. list-table:: 
-         :widths: 30 70
-         :header-rows: 0
-
-         * - Workspace for new layer:
-           - :kbd:`No workspace`
-         * - New style name:
-           - :kbd:`point_example`
-   
-      .. image:: img/point_02_create.png
-
-   #. Replace the initial CSS definition with:
-
-      .. code-block:: css
-   
-         * {
-           mark: symbol(circle);
-         }
-
-   #. And use the :guilabel:`Map` tab to preview the result.
-   
-      .. image:: img/point_03_map.png
+.. admonition:: Explore Dynamic Styling with Rules
    
    #. We will quickly use **scalerank** to select content based on @scale selectors.
 
@@ -514,7 +560,7 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
 
    #. If you would like to check your work the final file is here: :download:`point_example.sld </files/point_example.sld>`
 
-.. admonition:: Explore
+.. admonition:: Challenge Geometry Location
    
    .. only:: instructor
      
@@ -524,7 +570,11 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
     
          The use of selectors using the roads **type** attribute provides this opportunity.
 
-   #. The **mark** property can be used to render any geometry content.  Try this yourself by rendering a polygon layer using a **mark** property. 
+   #. The **mark** property can be used to render any geometry content.
+   
+   #. **Challenge:** Try this yourself by rendering a polygon layer using a **mark** property. 
+
+.. admonition:: Explore Dynamic Symbolization
 
    #. We went to a lot of work to set up selectors to choose between symbol(star) and symbol(circle) for capital cities.
    
@@ -539,7 +589,7 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
             mark: symbol(circle);
          }
    
-      When combined with checking another attribute, or checking @scale as in our example, this approach can quickly lead to many rules which can be difficulty to keep straight.
+   #. When combined with checking another attribute, or checking @scale as in our example, this approach can quickly lead to many rules which can be difficulty to keep straight.
    
       GeoServer recognizes this limitation of SLD Mark and ExternalGraphic and provides an opportunity for dynamic symbolization. This is accomplished by embedding small CQL expression in the string passed to symbol or url.
    
@@ -552,7 +602,7 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
                            'star','circle')}"
          );
    
-      Use this approach to rewrite the final example.
+   #. **Challenge::* Use this approach to rewrite the *Explore Dynamic Styling with Rule* example.
    
       .. only:: instructor
       
@@ -560,15 +610,20 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
        
             Example available here :download:`point_example.sld </files/point_example2.sld>`
 
-   #. Use the **Interpolate** function to smoothly change **mark-size** based on city population.
 
-.. admonition:: Challenge
+.. hide:
 
-   #. Use **GeoExplorer** or a **Layer Group** to explore how symbology works together to form a map.
+   #. Challenge: Use the **Interpolate** function to smoothly change **mark-size** based on city population.
+
+.. admonition:: Challenge Layer Group
+
+   #. Use a **Layer Group** to explore how symbology works together to form a map.
+      
+      * ne:NE1
+      * ne:states_provincces_shp
+      * ne: populated_places
    
-      Extend the ``ne:populated_places`` example for use with the ``ne:states_provinces_shp`` and ``ne:NE1`` layers.
-   
-      To help start things out here is a style for ``ne:states_provinces_shp``:
+   #. To help start things out here is a style for ``ne:states_provinces_shp``:
    
       .. code-block:: css
    
@@ -586,7 +641,11 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
             stroke-opacity: 50%;
          }
    
-      This background is relatively busy and care must be taken to ensure both symbols and labels are clearly visible.
+   #. This background is relatively busy and care must be taken to ensure both symbols and labels are clearly visible.
+   
+   #. **Challenge:** Do your best to style populated_places over this busy background.
+       
+      Here is an example with labels for inspiration:
    
       .. image:: img/point_challenge_1.png
    
@@ -621,7 +680,9 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
                  stroke: white;
                  stroke-opacity:0.75;
                }
-   
+
+.. admonition:: Explore True Type Fonts
+
    #. In addition to image formats GeoServer can make use other kinds of graphics, such as True Type fonts:
    
       .. code-block:: css
@@ -633,6 +694,21 @@ One remaining issue is the overlap between labels and symbols. GeoServer provide
             stroke: blue;
          } 
    
-      Additional fonts dropped in the :file:`styles` directory are available for use.
+   #. Additional fonts dropped in the :file:`styles` directory are available for use.
    
-      The GeoServer rendering engine allows Java developers to hook in additional symbol support. This facility is used by GeoServer to offer the shapes used for pattern fills. Community extensions allow the use of simple custom shapes and even charts.
+.. admonition:: Explore Custom Graphics
+
+   #. The GeoServer rendering engine allows Java developers to hook in additional symbol support.
+      
+      This facility is used by GeoServer to offer the shapes used for pattern fills. Community extensions allow the use of simple custom shapes and even charts.
+   
+   #. In GeoServer 2.6 support has been added for custom grpahics using the WKT Geometry representation. If you would like to try this functionality in earlier versions of GeoServer look up for the GeoTools WKT plugin.
+   
+      .. code-block:: css
+   
+         * {
+            mark: symbol("wkt://MULTILINESTRING((-0.25 -0.25, -0.125 -0.25), (0.125 -0.25, 0.25 -0.25), (-0.25 0.25, -0.125 0.25), (0.125 0.25, 0.25 0.25))");
+         }
+         :mark {
+            stroke: blue;
+         } 
