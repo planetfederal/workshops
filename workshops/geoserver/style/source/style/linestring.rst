@@ -66,7 +66,9 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
          stroke: blue;
        }
 
-#. And use the :guilabel:`Map` tab to preview the result.
+#. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
+   
+   You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
 
    .. image:: img/line.png
 

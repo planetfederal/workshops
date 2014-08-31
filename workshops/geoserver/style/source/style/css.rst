@@ -276,12 +276,14 @@ To confirm everything works, let's reproduce our airports style from the previou
            mark: url(airport.svg);
            mark-mime: "image/svg";
          }
+
+   #. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
+      
+      You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
    
       .. figure:: img/css_04_edit.png
 
          Editing the CSS example
-   
-   #. Click :guilabel:`Submit` to try out the style.
 
    #. The :guilabel:`Generated SLD` shows the SLD file produced.
    
