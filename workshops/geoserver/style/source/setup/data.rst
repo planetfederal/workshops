@@ -52,8 +52,9 @@ To setup up GeoServer yourself:
 #. Cleaning up the published vector layers:
    
    * Layer names have been shortened for publication - the :file:`ne_10m_admin_1_states_provinces_lines_ship.shp` is published  named ``states_provinces_shp``
-   * Appropriate SLD styles have been provided (from the uDig project).
-   
+   * Use ``EPSG:4326`` as the spatial reference system
+   * Appropriate SLD styles have been provided (from the uDig project)
+
    .. image:: img/cultural.png
 
 #. To clean up the published raster layers:
@@ -64,10 +65,10 @@ To setup up GeoServer yourself:
    .. image:: img/raster.png
 
    
-#. Create a ``basemap`` group layer consisting of:
+#. Optional: create a ``basemap`` group layer consisting of:
    
    .. image:: img/group.png
    
-#. The combined layers for a cohesive base map.
+   This offers a combined layer forming a cohesive base map.
    
    .. image:: img/basemap.png

@@ -1,5 +1,5 @@
-Install
-=======
+CSS Install
+===========
 
 This workshop course requires GeoServer with a few additional extensions.
 
@@ -15,7 +15,7 @@ The **CSS extension** is distributed as a supported GeoServer extension. Extensi
 
 .. note:: In a classroom setting this extension has already be installed.
 
-Installation instructions are provided here if needed:
+Installation instructions are provided here if needed.
 
 Manual Install
 --------------
@@ -26,8 +26,8 @@ To download and install the CSS extension by hand:
 
    * `Stable Release <http://geoserver.org/download/>`_ (GeoServer WebSite)
    
-   It is important to download the correct version of the geoserver plugin.
-   
+   It is important to download the version that matches the GeoServer you are running.
+
 #. Stop the GeoServer application.
 
 #. Navigate into the :file:`webapps/geoserver/WEB-INF/lib` folder.
@@ -43,7 +43,7 @@ To download and install the CSS extension by hand:
    .. figure:: img/install_css_menu.png
 
       CSS Styles installed
-         
+
 
 .. only:: windows
    

@@ -1,11 +1,11 @@
 .. _style.css:
 
-Styling with CSS
-================
+CSS
+===
 
-In the last section, we saw how to define a style directly with SLD, manage styles used when publishing a layer, and how styles (and their support files) are stored in the GeoServer data directory.
+In the last section, we saw how the OGC defines style using XML documents (called SLD files).
 
-We will now explore GeoServer styling in greater detail using a tool to generate our SLD files. The **Cascading Style Sheet (CSS)** GeoServer extension is used to generate SLD files using a syntax more familiar to web developers. 
+We will now explore GeoServer styling in greater detail using a tool to generate our SLD files. The **Cascading Style Sheet (CSS)** GeoServer extension is used to generate SLD files using a syntax more familiar to web developers.
 
 Using the CSS extension to define styles results in shorter examples that are easier to understand. At any point we will be able to review the generated SLD file.
 
@@ -13,14 +13,13 @@ Reference:
 
 * :manual:`CSS Styling <extensions/css/index.html>` (User Manual)
 
-Comparing SLD and CSS
----------------------
+Compare CSS to SLD
+------------------
    
-The CSS extension is built with the same GeoServer rendering engine in mind, providing access to all the functionality of SLD (along with vendor options for fine control of labeling). The two approaches use slightly different terminology: SLD uses terms familiar to mapping professionals, CSS uses ideas familiar to web developers. For example:
+The CSS extension is built with the same GeoServer rendering engine in mind, providing access to all the functionality of SLD (along with vendor options for fine control of labeling). The two approaches use slightly different terminology: SLD uses terms familiar to mapping professionals, CSS uses ideas familiar to web developers.
 
-
-SLD
-^^^
+SLD Style
+^^^^^^^^^
 
 **SLD** makes use of a series of **Rules** to select content for display. Content is selected using filters that support attribute, spatial and temporal queries.
 
@@ -28,16 +27,19 @@ Once selected, **content is transformed into a shape and drawn using symbolizers
 
 Content can be drawn by more than one rule, allowing for a range of effects.
 
-Refer to previous sections for examples of SLD.
+Here is an example :download:`SLD file </files/airports2.sld>` for reference: 
 
-CSS
-^^^
+.. literalinclude:: /files/airports2.sld
+   :language: xml
+
+CSS Style
+^^^^^^^^^
 
 **CSS** also makes use of rules, each rule making use of **selectors** to shortlist content for display. Each selector uses a CQL filter that suports attribute, spatial and temporal queries. Once selected, CSS Properties are used to describe how content is rendered.
 
 Content is not drawn by more than one rule. When content satisfies the conditions of more than one rule the resulting properties are combined using a process called inheritance. This technique of having a generic rule that is refined for specific cases is where the **Cascading** in Cascading Style Sheet comes from.
   
-Here is an example of a CSS style:
+Here is an example using CSS:
 
 .. code-block:: css
    
@@ -48,8 +50,13 @@ Here is an example of a CSS style:
 
 In this rule the **selector** :kbd:`*` is used to match **all content**. The rule defines **properties** indicating how this content is to be styled. The property :kbd:`mark` is used to indicate we want this content drawn as a **Point**. The value :kbd:`url(airport.svg)` is a URL reference to the image file used to represent each point. The :kbd:`mark-mime` property indicates the expected format of this image file.
 
+Syntax
+------
+
+This section provides a quick introduction to CSS concepts for mapping professionals who may not be familiar with web design.
+
 Key properties
---------------
+^^^^^^^^^^^^^^
 
 As we work through CSS styling examples you will note the use of **key properties**. These properties are required to trigger the creation of an appropriate symbolizer in SLD.
 
@@ -109,8 +116,8 @@ Reference:
 * :manual:`CSS Cookbook <extensions/css/cookbook.html>` (User Manual)
 * :manual:`CSS Examples <extensions/css/examples.html>` (User Manual)
 
-Rules and expressions
----------------------
+Rules
+^^^^^
 
 We have already seen the a CSS style composed of a single rule:
 
@@ -159,10 +166,10 @@ Reference:
 * :manual:`Filter Syntax <extensions/css/filters.html>` (User Manual)
 * :manual:`ECQL Reference <filter/ecql_reference.html>` (User Guide)
 
-Cascading rules
----------------
+Cascading
+^^^^^^^^^
 
-In our earlier example on feature attribute selection we repeated information. An alternate approach is to make use of CSS **Cascading** and factor out common properties into a general rule:
+In the above example feature attribute selection we repeated information. An alternate approach is to make use of CSS **Cascading** and factor out common properties into a general rule:
 
 .. code-block:: css
    
@@ -227,107 +234,187 @@ Reference:
 
 * :manual:`Styled Marks <extensions/css/styled-marks.html>` (User Guide)
 
-To confirm everything works, let's reproduce our airports style from the previous section.
+Tour
+----
 
-.. admonition:: Exercise
+To confirm everything works, let's reproduce the airports style above.
 
-   #. Navigate to the **CSS Styles** page. This page works with two selections (style being edited and data used for preview) and provides a number of actions for style management.
-      
-      .. figure:: img/css_01_actions.png
+.. note:: In preparing for FOSS4G we missed adding the airports layer. Please excuse the following review of GeoServer publication.
 
-         CSS Styles page
+#. Start up GeoServer and open http://localhost:8080/geoserver in your Browser.
 
-   #. Change our preview data to `training:airports`. This dataset will be used as a reference as we define our style.
+#. Login to web administration using:
+
+   .. list-table:: 
+      :widths: 30 70
+      :stub-columns: 1
+
+      * - User:
+        - :kbd:`admin`
+      * - Password:
+        - :kbd:`geoserver`
+
+   .. image:: img/layer_01_login.png
    
-      Click :guilabel:`Choose a different layer` and select :kbd:`training:airports` from the list.
+#. We missed adding the airport layer to the FOSS4G vm, lets do so now.
+
+   Navigate to :menuselect:`Data --> Layers` to open the :guilabel:`Layers` page.
    
-      .. figure:: img/css_02_choose_data.png
+   .. image:: img/layer_02_menu.png
 
-         Choosing the airports layer
+#. From the :guilabel:`Layers` page click :guilabel:`Add a new resource`
 
-   #. Each time we edit a CSS style, the contents of the associated SLD file are replaced. Rather then disrupt any of our existing styles we will create a new style.
+   .. image:: img/layer_03_add.png
 
-      Click :guilabel:`Create a new style` and choose the following:
+#. From the :guilabel:`New Layer` screen select:
+
+   .. list-table:: 
+      :widths: 30 70
+      :stub-columns: 1
+
+      * - Add layer from:
+        - :kbd:`ne:cultural`
    
-      .. list-table:: 
-         :widths: 30 70
-         :stub-columns: 1
+   ..image:: img/layer_04_new.png
 
-         * - Workspace for new layer:
-           - :kbd:`No workspace`
-         * - New style name:
-           - :kbd:`airport2`
-        
-      .. figure:: img/css_03_new_style.png
+#. From the list of available layers locate ``ne_10m_airports`` and click :guilabel:`Publish`
 
-         New style
-      
-   #. The initial style sheet is:
+   .. image:: img/layer_05_publish.png
    
-      .. code-block:: css
-      
-         * { fill: lightgrey; }
-      
-      Replace this definition with our airport CSS example:
+#. From the ``Edit Layer`` page find the section for ``Basic Resource Info`` and fill in following.
 
-      .. code-block:: css
+   .. list-table:: 
+      :widths: 30 70
+      :stub-columns: 1
+
+      * - Name:
+        - :kbd:`airports`
+      * - Title:
+        - :kbd:`Airports`
+
+   .. image:: img/layer_06_basic.png
+
+#. Find the ``Coordinate Reference System`` and confirm the following details.
    
-         * {
-           mark: url(airport.svg);
-           mark-mime: "image/svg";
-         }
+   .. list-table:: 
+      :widths: 30 70
+      :stub-columns: 1
 
-   #. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
-      
-      You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
+      * - Native SRS:
+        - :kbd:`EPSG:4326`
+      * - Declared SRS:
+        - :kbd:`EPSG:4326`
+
+   .. image:: img/layer_07_crs.png
    
-      .. figure:: img/css_04_edit.png
-
-         Editing the CSS example
-
-   #. The :guilabel:`Generated SLD` shows the SLD file produced.
+   This information is determined using the :file:`prj` file (and requires the file contain an **authority** element).
    
-      .. figure:: img/css_05_generated.png
-
-         Generated SLD
+#. Find the ``Bounding Boxes`` section click :guilabel:`Compute from data` followed by :guilabel:`Compute from native bounds`.
    
-   #. Click :guilabel:`Map` to preview using the selected data. You can use the mouse buttons to pan and scroll wheel to change scale.
+   This step is required for publication (calculating the bounds from the shape file header).
 
-      .. figure:: img/css_06_preview.png
+   .. image:: img/layer_08_bbox.png
 
-         Layer preview
-   
-   #. Click :guilabel:`Data` for a summary of the selected data.
-   
-      .. figure:: img/css_07_data.png
+#. Scroll down and click :guilabel:`Save` to publish the `ne:airports` layer.
 
-         Layer attributes
+   .. image:: img/layer_09_save.png
    
-   #. The :guilabel:`CSS Reference` tab embeds the :manual:`CSS Styling <extensions/css/index.html>` section of the user manual.
+#. Navigate to the **CSS Styles** page. This page works with two selections (style being edited and data used for preview) and provides a number of actions for style management.
+   
+   .. figure:: img/css_01_actions.png
+
+      CSS Styles page
+
+#. Change our preview data to `training:airports`. This dataset will be used as a reference as we define our style.
+
+   Click :guilabel:`Choose a different layer` and select :kbd:`training:airports` from the list.
+
+   .. figure:: img/css_02_choose_data.png
+
+      Choosing the airports layer
+
+#. Each time we edit a CSS style, the contents of the associated SLD file are replaced. Rather then disrupt any of our existing styles we will create a new style.
+
+   Click :guilabel:`Create a new style` and choose the following:
+
+   .. list-table:: 
+      :widths: 30 70
+      :stub-columns: 1
+
+      * - Workspace for new layer:
+        - :kbd:`No workspace`
+      * - New style name:
+        - :kbd:`airport2`
+     
+   .. figure:: img/css_03_new_style.png
+
+      New style
+   
+#. The initial style sheet is:
+
+   .. code-block:: css
+   
+      * { fill: lightgrey; }
+   
+   Replace this definition with our airport CSS example:
+
+   .. code-block:: css
+
+      * {
+        mark: url(airport.svg);
+        mark-mime: "image/svg";
+      }
+
+#. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
+   
+   You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
+
+   .. figure:: img/css_04_edit.png
+
+      Editing the CSS example
+
+#. The :guilabel:`Generated SLD` shows the SLD file produced.
+
+   .. figure:: img/css_05_generated.png
+
+      Generated SLD
+
+#. Click :guilabel:`Map` to preview using the selected data. You can use the mouse buttons to pan and scroll wheel to change scale.
+
+   .. figure:: img/css_06_preview.png
+
+      Layer preview
+
+#. Click :guilabel:`Data` for a summary of the selected data.
+
+   .. figure:: img/css_07_data.png
+
+      Layer attributes
+
+#. Finally the :guilabel:`CSS Reference` tab embeds the :manual:`CSS Styling <extensions/css/index.html>` section of the user manual.
+
+Bonus
+-----
+
+Finished early? For now please help your neighbour so we can proceed with the workshop.
+
+If you are really stuck please consider the following challenge rather than skipping ahead.
 
 .. admonition:: Explore
 
    #. Return to the :guilabel:`Data` tab and use the :guilabel:`Compute` link to determine the minimum and maximum for the **scalerank** attribute.
-      
-      .. only:: instructor
-       
-         .. admonition:: Instructor Notes             
-  
-            Should be 2 and 9 respectively.
-       
-   #. Try experimenting with the size of the icon:
-
-      .. code-block:: css
    
-         * {
-           mark: url(airport.svg);
-           mark-mime: "image/svg";
-           mark-size: 22;
-         }
+      .. only:: instructor
+    
+         .. admonition:: Instructor Notes
 
-.. admonition:: Challenge
+            Should be 2 and 9 respectively.
 
-   #. Create a CSS style for ``ne:ports`` and compare the result to your earlier work. How does the generated style differ from what we created by hand?
+.. admonition:: Challenge Compare SLD Generation
+
+   #. Compare the generated SLD differ from the hand generated :download:`SLD file </files/airports2.sld>` used as an example?
+   
+   #. **Challenge:** What differences can you spot?
       
       .. only:: instructor
        
@@ -337,16 +424,3 @@ To confirm everything works, let's reproduce our airports style from the previou
          
             The second difference is with the use of a fallback Mark when defining a PointSymbolizer. The CSS extension does not bother with a fallback as it knows the capabilities of the GeoServer rendering engine (and is not trying to create a reusable style).
 
-   #. How would you change from the SVG to PNG image?
-      
-      .. only:: instructor
-       
-         .. admonition:: Instructor Notes      
- 
-            .. code-block:: css
-   
-               * {
-                 mark: url(airport.png);
-                 mark-mime: "image/png";
-                 mark-size: 22;
-               }

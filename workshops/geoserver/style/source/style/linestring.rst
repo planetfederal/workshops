@@ -244,7 +244,6 @@ This is also our first example making use of a dynamic style (where the value of
 
    .. image:: img/line_label_2.png
 
-
 How Labeling Works
 ------------------
 

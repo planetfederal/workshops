@@ -8,10 +8,10 @@ The Open Geospatial Consortium standard for recording style is divided into two 
 * **Symbology Encoding (SE)**: Records a "feature type style" documenting how individual features are drawn using a series of rules.
 * **Style Layer Descriptor (SLD)**: Records which "feature type styles" may be used with a layer.
 
-The Symbology Encoding standard provides the terms we will be using to describe style:
+The **Symbology Encoding** standard provides the terms we will be using to describe style:
 
-* **Stroke**: Borders and outlines of shapes
-* **Fill**: Interior of shapes
+* **Stroke**: borders and outlines of shapes
+* **Fill**: interior of shapes
 
 Line symbolizer
 ---------------
@@ -149,4 +149,3 @@ From GeoServer's :file:`dem.sld` style:
         <ColorMapEntry color="#000000" quantity="2000" label="values" />
       </ColorMap>
     </RasterSymbolizer>
-
