@@ -134,7 +134,9 @@ The next exercise shows how to work around a limitation when using multiple stro
 
    Use of Z-Index
 
-#. Providing two strokes is often used to provide a contrasting edge (called casing) to thick line work. 
+#. Providing two strokes is often used to provide a contrasting edge (called casing) to thick line work.
+
+   Update ``line_example`` with the following:
 
    .. code-block:: css
 
@@ -178,6 +180,8 @@ This is also our first example making use of a dynamic style (where the value of
 
 #. To enable LineString labeling we will need to use the key properties for both **stroke** and **label**.
 
+   Update ``line_example`` with the following:
+   
    .. code-block:: css
       :emphasize-lines: 2,3
 
@@ -203,7 +207,6 @@ This is also our first example making use of a dynamic style (where the value of
 #. Additional properties can be supplied to fine-tune label presentation:
    
    .. code-block:: css
-      :emphasize-lines: 4,5
       
       * {
         stroke: blue;
@@ -247,25 +250,25 @@ This is also our first example making use of a dynamic style (where the value of
 How Labeling Works
 ------------------
 
-The rendering engine collects all the generated labels during rendering, and then takes a moment pass through all the labels to perform collision avoidance (to prevent labels overlapping). Even with collision avoidance you can spot areas where labels are so closely spaced that the result is hard to read.
+The rendering engine collects all the generated labels during the rendering of each layer. Then, during labeling, the engine sorts through the labels performing collision avoidance (to prevent labels overlapping). Finally the rendering engine draws the labels on top of the map. Even with collision avoidance you can spot areas where labels are so closely spaced that the result is hard to read.
 
 The parameters provided by SLD are general purpose and should be compatible with any rendering engine.
 
-To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These settings are used specifically for the GeoServer rendering engine and will be ignored by other systems. The GeoServer rendering engine marks each vendor specific paraemeter with the prefix **-gt**.
+To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These hints are used specifically for the GeoServer rendering engine and will be ignored by other systems. The GeoServer rendering engine marks each vendor specific parameter with the prefix **-gt-**.
 
-#.  The ability to take control of the labeling process is exactly the kind of hint a vendor specific parameter is intended for.
+#. The ability to take control of the labeling process is exactly the kind of hint a vendor specific parameter is intended for.
     
-    Update `line_example` with the following:
+   Update ``line_example`` with the following:
 
-    .. code-block:: css
+   .. code-block:: css
 
-       * {
-         stroke: blue;
-         label: [name];
-         font-fill: black;
-         label-offset: 7px;
-         -gt-label-padding: 10;
-       }
+      * {
+        stroke: blue;
+        label: [name];
+        font-fill: black;
+        label-offset: 7px;
+        -gt-label-padding: 10;
+      }
 
 #. The parameter **-gt-label-padding** provides additional space around our label for use in collision avoidance.
 
@@ -280,15 +283,81 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
         -gt-label-padding: 10;
       }
 
-#. Each label is now separated from its neighbor improving legibility.
+#. Each label is now separated from its neighbor, improving legibility.
 
    .. image:: img/line_label_3.png
 
+Scale
+-----
+
+This section explores the use of attribute selectors and the :kbd:`@scale` selector together to simplify the road dataset for display.
+
+#. Replace the `line_example` CSS definition with:
+
+   .. code-block:: css
+
+      [scalerank < 4] {
+        stroke: black;
+      }
+
+#. And use the :guilabel:`Map` tab to preview the result.
+
+   .. image:: img/line_04_scalerank.png
+
+#. The **scalerank** attribute is provided by the Natural Earth dataset to allow control of the level of detail based on scale. Our selector short-listed all content with scalerank 4 or lower, providing a nice quick preview when we are zoomed out.
+
+#. In addition to testing feature attributes, selectors can also be used to check the state of the rendering engine.
+
+   Replace your CSS with the following:
+
+   .. code-block:: css
+
+      [@scale > 35000000] {
+         stroke: black;
+      }
+      [@scale < 35000000] {
+         stroke: blue;
+      }
+
+#. As you adjust the scale in the :guilabel:`Map` preview (using the mouse scroll wheel) the color will change between black and blue. You can read the current scale in the bottom right corner, and the legend will change to reflect the current style.
+
+   .. image:: img/line_05_scale.png
+
+#. Putting these two ideas together allows control of level detail based on scale:
+
+   .. code-block:: css
+
+      [@scale < 9000000] [scalerank > 7] {
+        stroke: #888888;
+        stroke-width: 2;
+      }
+      [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
+        stroke: #777777;
+      }
+      [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
+        stroke: #444444;
+      }
+      [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
+        stroke: #000055;
+      }
+      [@scale > 70000000] [scalerank < 4] {
+        stroke: black;
+      }
+
+#. As shown above selectors can be combined in the same rule:
+
+   * Selectors separated by whitespace are combined CQL Filter AND
+   * Selectors separated by a comma are combined using CQL Filter OR
+
+   Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
+
+   .. image:: img/line_06_adjust.png
+   
 
 Bonus
 -----
 
-Finished early? Here are some oppertunites to explore what we have learned, and extra challenges requiring creativity and research.
+Finished early? Here are some opportunities to explore what we have learned, and extra challenges requiring creativity and research.
 
 In a classroom setting please divide the challenges between teams (this allows us to work through all the material in the time available).
 
@@ -299,71 +368,6 @@ In a classroom setting please divide the challenges between teams (this allows u
       As usual the Explore section invites readers to reapply the material covered in a slightly different context or dataset.
  
       The use of selectors using the roads **type** attribute provides this opportunity.
-
-.. admonition:: Explore Scale
-
-   This exercises explores using attribute selectors and the @scale selector together.
-   
-   #. Replace the `line_example` CSS definition with:
-
-      .. code-block:: css
-
-         [scalerank < 4] {
-           stroke: black;
-         }
-
-   #. And use the :guilabel:`Map` tab to preview the result.
-
-      .. image:: img/line_04_scalerank.png
-
-   #. The **scalerank** attribute is provided by the Natural Earth dataset to allow control of the level of detail based on scale. Our selector short-listed all content with scalerank 4 or lower, providing a nice quick preview when we are zoomed out.
-
-   #. In addition to testing feature attributes, selectors can also be used to check the state of the rendering engine.
-
-      Replace your CSS with the following:
-
-      .. code-block:: css
-
-         [@scale > 35000000] {
-            stroke: black;
-         }
-         [@scale < 35000000] {
-            stroke: blue;
-         }
-
-   #. As you adjust the scale in the :guilabel:`Map` preview (using the mouse scroll wheel) the color will change between black and blue. You can read the current scale in the bottom right corner, and the legend will change to reflect the current style.
-
-      .. image:: img/line_05_scale.png
-
-   #. Putting these two ideas together allows control of level detail based on scale:
-
-      .. code-block:: css
-
-         [@scale < 9000000] [scalerank > 7] {
-           stroke: #888888;
-           stroke-width: 2;
-         }
-         [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
-           stroke: #777777;
-         }
-         [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
-           stroke: #444444;
-         }
-         [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
-           stroke: #000055;
-         }
-         [@scale > 70000000] [scalerank < 4] {
-           stroke: black;
-         }
-
-   #. As shown above selectors can be combined in the same rule:
-
-      * Selectors separated by whitespace are combined CQL Filter AND
-      * Selectors separated by a comma are combined using CQL Filter OR
-
-      Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
-
-      .. image:: img/line_06_adjust.png
 
 .. admonition:: Explore Vendor Option Follow Line
 
@@ -381,7 +385,7 @@ In a classroom setting please divide the challenges between teams (this allows u
            -gt-label-follow-line: true;
          }
 
-   #. The property **stroke-width** has been used to make our line thicker in order (to provide a backdrop for our label). 
+   #. The property **stroke-width** has been used to make our line thicker in order to provide a backdrop for our label. 
 
       .. code-block:: css
          :emphasize-lines: 3

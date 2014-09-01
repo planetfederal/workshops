@@ -13,7 +13,7 @@ On Windows the following is recommended:
 
 The **CSS extension** is distributed as a supported GeoServer extension. Extensions are unpacked into the ``libs`` folder of the GeoServer application.
 
-.. note:: In a classroom setting this extension has already be installed.
+.. note:: In a classroom setting this extension has already been installed.
 
 Installation instructions are provided here if needed.
 

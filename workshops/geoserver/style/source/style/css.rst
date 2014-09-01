@@ -13,47 +13,10 @@ Reference:
 
 * :manual:`CSS Styling <extensions/css/index.html>` (User Manual)
 
-Compare CSS to SLD
-------------------
-   
-The CSS extension is built with the same GeoServer rendering engine in mind, providing access to all the functionality of SLD (along with vendor options for fine control of labeling). The two approaches use slightly different terminology: SLD uses terms familiar to mapping professionals, CSS uses ideas familiar to web developers.
-
-SLD Style
-^^^^^^^^^
-
-**SLD** makes use of a series of **Rules** to select content for display. Content is selected using filters that support attribute, spatial and temporal queries.
-
-Once selected, **content is transformed into a shape and drawn using symbolizers**. Symbolizers are configured using CSS Properties to document settings such as "fill" and "opacity".
-
-Content can be drawn by more than one rule, allowing for a range of effects.
-
-Here is an example :download:`SLD file </files/airports2.sld>` for reference: 
-
-.. literalinclude:: /files/airports2.sld
-   :language: xml
-
-CSS Style
-^^^^^^^^^
-
-**CSS** also makes use of rules, each rule making use of **selectors** to shortlist content for display. Each selector uses a CQL filter that suports attribute, spatial and temporal queries. Once selected, CSS Properties are used to describe how content is rendered.
-
-Content is not drawn by more than one rule. When content satisfies the conditions of more than one rule the resulting properties are combined using a process called inheritance. This technique of having a generic rule that is refined for specific cases is where the **Cascading** in Cascading Style Sheet comes from.
-  
-Here is an example using CSS:
-
-.. code-block:: css
-   
-   * {
-     mark: url(airport.svg);
-     mark-mime: "image/svg";
-   }
-
-In this rule the **selector** :kbd:`*` is used to match **all content**. The rule defines **properties** indicating how this content is to be styled. The property :kbd:`mark` is used to indicate we want this content drawn as a **Point**. The value :kbd:`url(airport.svg)` is a URL reference to the image file used to represent each point. The :kbd:`mark-mime` property indicates the expected format of this image file.
-
 Syntax
 ------
 
-This section provides a quick introduction to CSS concepts for mapping professionals who may not be familiar with web design.
+This section provides a quick introduction to CSS syntax for mapping professionals who may not be familiar with web design.
 
 Key properties
 ^^^^^^^^^^^^^^
@@ -61,8 +24,8 @@ Key properties
 As we work through CSS styling examples you will note the use of **key properties**. These properties are required to trigger the creation of an appropriate symbolizer in SLD.
 
 =========== ====================================================
-fill        Color (or graphic) for Polygon Fill
 stroke      Color (or graphic) for LineString or Polygon border
+fill        Color (or graphic) for Polygon Fill
 mark        Well-known Mark or graphic used for Point
 label       Text expression labeling
 halo-radius Size of halo used to outline label
@@ -70,7 +33,7 @@ halo-radius Size of halo used to outline label
 
 Using just these key properties and the selector :kbd:`*`, you will be able to visualize vector data.
 
-For example, here is the key property **fill** providing a gray fill for polygon data:
+For example, here is the key property **stroke** providing a gray representation for line or polygon data:
 
 .. code-block:: css
    
@@ -78,7 +41,7 @@ For example, here is the key property **fill** providing a gray fill for polygon
       stroke: gray;
    }
 
-Here is the key property **stroke** providing a blue representation for line or polygon data:
+Here is the key property **fill** providing a blue fill for polygon data:
 
 .. code-block:: css
    
@@ -119,7 +82,7 @@ Reference:
 Rules
 ^^^^^
 
-We have already seen the a CSS style composed of a single rule:
+We have already seen a CSS style composed of a single rule:
 
 .. code-block:: css
    
@@ -151,7 +114,7 @@ We can make a style consisting of more than one rule, carefully choosing the sel
 
 The feature attribute test performed above uses **Constraint Query Language (CQL)**. This syntax can be used to define filters to select content, similar to how the SQL WHERE statement is used. It can also be used to define expressions to access attribute values allowing their use when defining style properties.
 
-Rule selectors can also trigger based on the state of the rendering engine. In this example we are only applying labels to once zoomed in:
+Rule selectors can also be triggered based on the state of the rendering engine. In this example we are only applying labels when zoomed in:
 
 .. code-block:: css
 
@@ -234,6 +197,43 @@ Reference:
 
 * :manual:`Styled Marks <extensions/css/styled-marks.html>` (User Guide)
 
+Compare CSS to SLD
+------------------
+   
+The CSS extension is built with the same GeoServer rendering engine in mind, providing access to all the functionality of SLD (along with vendor options for fine control of labeling). The two approaches use slightly different terminology: SLD uses terms familiar to mapping professionals, CSS uses ideas familiar to web developers.
+
+SLD Style
+^^^^^^^^^
+
+**SLD** makes use of a series of **Rules** to select content for display. Content is selected using filters that support attribute, spatial and temporal queries.
+
+Once selected, **content is transformed into a shape and drawn using symbolizers**. Symbolizers are configured using CSS Properties to document settings such as "fill" and "opacity".
+
+Content can be drawn by more than one rule, allowing for a range of effects.
+
+Here is an example :download:`SLD file </files/airports2.sld>` for reference: 
+
+.. literalinclude:: /files/airports2.sld
+   :language: xml
+
+CSS Style
+^^^^^^^^^
+
+**CSS** also makes use of rules, each rule making use of **selectors** to shortlist content for display. Each selector uses a CQL filter that suports attribute, spatial and temporal queries. Once selected, CSS Properties are used to describe how content is rendered.
+
+Content is not drawn by more than one rule. When content satisfies the conditions of more than one rule the resulting properties are combined using a process called inheritance. This technique of having a generic rule that is refined for specific cases is where the **Cascading** in Cascading Style Sheet comes from.
+  
+Here is an example using CSS:
+
+.. code-block:: css
+   
+   * {
+     mark: url(airport.svg);
+     mark-mime: "image/svg";
+   }
+
+In this rule the **selector** :kbd:`*` is used to match **all content**. The rule defines **properties** indicating how this content is to be styled. The property :kbd:`mark` is used to indicate we want this content drawn as a **Point**. The value :kbd:`url(airport.svg)` is a URL reference to the image file used to represent each point. The :kbd:`mark-mime` property indicates the expected format of this image file.
+
 Tour
 ----
 
@@ -256,7 +256,7 @@ To confirm everything works, let's reproduce the airports style above.
 
    .. image:: img/layer_01_login.png
    
-#. We missed adding the airport layer to the FOSS4G vm, lets do so now.
+#. We missed adding the airport layer to the FOSS4G vm, so let's do so now.
 
    Navigate to :menuselect:`Data --> Layers` to open the :guilabel:`Layers` page.
    

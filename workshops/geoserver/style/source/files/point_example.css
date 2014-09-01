@@ -21,31 +21,26 @@
    mark: symbol(circle);
    label: [NAME];
 }
-
 [@scale > 8000000] [@scale < 17000000] [SCALERANK < 5]
 [FEATURECLA <> 'Admin-0 capital'] {
    mark: symbol(circle);
    label: [NAME];
 }
-
 [@scale > 17000000] [@scale < 35000000] [SCALERANK < 4]
 [FEATURECLA <> 'Admin-0 capital'] {
    mark: symbol(circle);
    label: [NAME];
 }
-
 [@scale > 35000000] [@scale < 70000000][SCALERANK < 3]
 [FEATURECLA <> 'Admin-0 capital'] {
    mark: symbol(circle);
    label: [NAME];
 }
-
 [@scale > 70000000] [@scale < 140000000][SCALERANK < 2]
 [FEATURECLA <> 'Admin-0 capital'] {
    mark: symbol(circle);
    label: [NAME];
 }
-
 [@scale > 140000000] [SCALERANK < 1]
 [FEATURECLA <> 'Admin-0 capital'] {
    mark: symbol(circle);

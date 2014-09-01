@@ -42,7 +42,7 @@ As an example we may wish to represent a point-of-interest data set with each lo
    
 In cartography, each "type" is presented to the user as a clearly distinct data set with its own visual representation in the map legend.
 
-This is contrasted with GIS, where the "points of interest" are managed as a single layer and complex styling is used produce the desired cartographic output.
+This is contrasted with GIS, where the "points of interest" are managed as a single layer and complex styling is used to produce the desired cartographic output.
 
 Technically the data set is themed by an attribute to produce this effect:
 
@@ -58,13 +58,17 @@ It is a challenge to explore cartography without getting stuck in the details of
 
 Selection of an appropriate color palette is difficult, with a tension between what looks good and what can be understood. The research project that produced the color palettes used by Color Brewer was based on comprehension tests.
   
-#. Navigate to http://colorbrewer2.org/js. The website provides a generic data set which we can use to determine how effective each choice is in communicating attribute differences. We will be using this website to explore how to effectively theme an attribute.
+#. Navigate to: http://colorbrewer2.org/
+
+   The website provides a generic data set which we can use to determine how effective each choice is in communicating attribute differences. We will be using this website to explore how to effectively theme an attribute.
   
    .. figure:: img/color_01_brewer.png
 
       Color Brewer
   
-#. The decisions we make when theming depend entirely on what point we are trying to communicate. In this scenario, we are going to communicate a vaccination schedule, county by county. Care should be taken to ensure each county appears equally important, and we should stay clear of red for anyone squeamish about needles. We need to ensure readers can quickly locate their county and look at the appropriate calendar entry.
+#. The decisions we make when theming depend entirely on what point we are trying to communicate.
+
+   In this scenario, we are going to communicate a vaccination schedule, county by county. Care should be taken to ensure each county appears equally important, and we should stay clear of red for anyone squeamish about needles. We need to ensure readers can quickly locate their county and look at the appropriate calendar entry.
   
 #. The first step is determining how many attribute values you are looking to communicate. Set :guilabel:`Number of data classes` to :kbd:`5`.
   
@@ -72,7 +76,7 @@ Selection of an appropriate color palette is difficult, with a tension between w
 
       Number of data classes
   
-#. Next select a color scheme (an approach to communicating our attribute values). Color brewer palettes using three different color schemes:
+#. Color brewer offers palettes using three different color schemes:
   
    =============== =============================
    Sequential      |sequential|
@@ -91,7 +95,9 @@ Selection of an appropriate color palette is difficult, with a tension between w
    .. |qualitative| image:: img/color_qualatative.png
                   :class: inline
   
-#. The nature of our data is qualitative (each attribute value is attached an equal importance, and there is no implied order that wish to communicate with color). Set :guilabel:`Nature of your data` to :kbd:`Qualitative`. This change drastically reduces the number of color schemes listed.
+   The nature of our data is qualitative (each attribute value is attached an equal importance, and there is no implied order that wish to communicate with color).
+
+#. Set :guilabel:`Nature of your data` to :kbd:`Qualitative`. This change drastically reduces the number of color schemes listed.
   
    .. figure:: img/color_03_qualitative.png
 

@@ -22,7 +22,7 @@ Review of raster symbology:
   
   * A scientific model can calculate a value for each sample location
   
-* Many raster formats organize information into bands of content. Values recorded in these bands and may be mapped into colors for display (a process similar the theming an attribute for vector data).
+* Many raster formats organize information into bands of content. Values recorded in these bands and may be mapped into colors for display (a process similar to theming an attribute for vector data).
   
   For imagery the raster data is already formed into red, green and blue bands for display.
   
@@ -77,40 +77,9 @@ The **raster-channels** is the **key property** for display of images and raster
         raster-channels: 2;
       }
 
-#. Isolating just the green band:
+#. Isolating just the green band (it wil be drawn as a grayscale image):
 
    .. image:: img/raster_image_2.png
-
-#. Additional properties are available to provide slight image processing during visualization.
-   
-   These facilities can be used to enhance the output (to look at small details) or to balance images from different sensors allowing them to be compared.
-
-#. The **raster-contrast-enhancement** property is used to turn on a range of post processing effects. Settings are provided for :kbd:`normalize` or :kbd:`histogram` or :kbd:`none`;
-
-   .. code-block:: css
-
-      * {
-          raster-channels: auto;
-          raster-contrast-enhancement: normalize;
-      }
-
-#. Producing the following image:
-   
-   .. image:: img/raster_image_3.png
-
-#. The **raster-gamma** property is used adjust the brightness of **raster-contrast-enhancement** output. Values less than 1 are used to brighten the image while values greater than 1 darken the image.
-
-   .. code-block:: css
-
-      * {
-         raster-channels: auto;
-         raster-contrast-enhancement: none;
-         raster-gamma: 1.5;
-      }
-
-#. Providing the following effect:
-   
-   .. image:: img/raster_image_4.png
 
 DEM
 ^^^
@@ -158,8 +127,8 @@ The ``usgs:dem`` layer used used for this exercise:
 
    .. image:: img/raster_dem_2.png
 
-Raster Color Map
-----------------
+Color Map
+---------
 
 The approach of mapping a data channel directly to a color channel is only suitable to quickly look at quantitative data.
 
@@ -199,91 +168,121 @@ For qualitative data (such as land use) or simply to use color, we need a differ
 
 #. Raster format for GIS work often supply a "no data" value, or contain a mask, limiting the dataset to only the locations with valid information.
 
+Custom
+------
+   
+We can use what we have learned about color maps to apply a color brewer palette to our data.
+
+This exploration focuses on accurately communicating differences in value, rather than strictly making a pretty picture. Care should be taken to consider the target audience and medium used during palette selection.
+
+#. Restore the ``raster_example`` CSS style to the following:
+
+   .. code-block:: css
+
+      * {
+        raster-channels: auto;
+      }
+
+#. Producing the following map preview.
+
+   .. image:: img/raster_01_auto.png
+
+#. To start with we can provide our own grayscale using two color map entries.
+
+   .. code-block:: css
+
+      * {
+        raster-channels: auto;
+        raster-color-map: color-map-entry(#000000, 0)
+                          color-map-entry(#FFFFFF, 4000);
+      }
+
+#. Use the :guilabel:`Map` tab to zoom in and take a look.
+   
+   This is much more direct representation of the source data. We have used our knowledge of elevations to construct a more accurate style.
+
+   .. image:: img/raster_02_straight.png
+
+#. While our straightforward style is easy to understand, it does leave a bit to be desired with respect to clarity.
+   
+   The eye has a hard time telling apart dark shades of black (or bright shades of white) and will struggle to make sense of this image. To address this limitation we are going to switch to the ColorBrewer **9-class PuBuGn** palette. This is a sequential palette that has been hand tuned to communicate a steady change of values. 
+ 
+   .. image:: img/raster_03_elevation.png
+
+#. Update your style with the following:
+
+   .. code-block:: css
+
+      * {
+        raster-channels: auto;
+        raster-color-map:
+           color-map-entry(#014636,   0)
+           color-map-entry(#016c59, 500)
+           color-map-entry(#02818a,1000)
+           color-map-entry(#3690c0,1500)
+           color-map-entry(#67a9cf,2000)
+           color-map-entry(#a6bddb,2500)
+           color-map-entry(#d0d1e6,3000)
+           color-map-entry(#ece2f0,3500)
+           color-map-entry(#fff7fb,4000);
+      }
+
+   .. image:: img/raster_04_PuBuGn.png
+
+#. A little bit of work with alpha (to mark the ocean as a no-data section):
+
+   .. code-block:: css
+
+      * {
+        raster-channels: auto;
+        raster-color-map:
+           color-map-entry(#014636,   0,0)
+           color-map-entry(#014636,   1)
+           color-map-entry(#016c59, 500)
+           color-map-entry(#02818a,1000)
+           color-map-entry(#3690c0,1500)
+           color-map-entry(#67a9cf,2000)
+           color-map-entry(#a6bddb,2500)
+           color-map-entry(#d0d1e6,3000)
+           color-map-entry(#ece2f0,3500)
+           color-map-entry(#fff7fb,4000);
+      }
+      
+#. And we are done:
+
+   .. image:: img/raster_05_alpha.png
+   
 Bonus
 -----
 
-.. admonition:: Explore Color Palette
+
+.. admonition:: Explore Contrast Enhancement
    
-   We can use what we have learned about color maps to apply a color brewer palette to our data.
+   #. A special effect that is effective with grayscale information is automatic contrast adjustment.
    
-   This exploration focuses on accurately communicating differences in value, rather than strictly making a pretty picture. Care should be taken to consider the target audience and medium used during palette selection.
-
-   #. Restore the ``raster_example`` CSS style to the following:
-
-      .. code-block:: css
-
-         * {
-           raster-channels: auto;
-         }
+   #. Make use of a simple contrast enhancement with ``usgs:dem``:
    
-   #. Producing the following map preview.
-
-      .. image:: img/raster_01_auto.png
-
-   #. Start with we can provide our own grayscale using two color map entries.
-
       .. code-block:: css
    
          * {
-           raster-channels: auto;
-           raster-color-map: color-map-entry(#000000, 0)
-                             color-map-entry(#FFFFFF, 4000);
+             raster-channels: auto;
+             raster-contrast-enhancement: normalize;
          }
+   
+   #. Can you explain what happens when zoom in to only show a land area (as indicated with the bounding box below)?
 
-   #. Use the :guilabel:`Map` tab to zoom in and take a look.
-      
-      This is much more direct representation of the source data. We have used our knowledge of elevations to construct a more accurate style.
+   .. image:: img/raster_contrast_1.png
    
-      .. image:: img/raster_02_straight.png
-   
-   #. While our straight forward style is easy to understand, it does leave a bit to be desired with respect to clarity.
       
-      The eye has a hard time telling apart dark shades of black (or bright shades of white) and will struggle to make sense of this image. To address this limitation we are going to switch to the ColorBrewer **9-class PuBuGn** palette. This is a sequential palette that has been hand tuned to communicate a steady change of values. 
+   .. only:: instructor
+       
+      .. admonition:: Instructor Notes      
+
+         What happens is insanity, normalize stretches the palette of the output image to use the full dynamic range. As long as we have ocean on the screen (with value 0) the land area was shown with roughly the same presentation.
     
-      .. image:: img/raster_03_elevation.png
-
-   #. Update your style with the following:
-
-      .. code-block:: css
-
-         * {
-           raster-channels: auto;
-           raster-color-map:
-              color-map-entry(#014636,   0)
-              color-map-entry(#016c59, 500)
-              color-map-entry(#02818a,1000)
-              color-map-entry(#3690c0,1500)
-              color-map-entry(#67a9cf,2000)
-              color-map-entry(#a6bddb,2500)
-              color-map-entry(#d0d1e6,3000)
-              color-map-entry(#ece2f0,3500)
-              color-map-entry(#fff7fb,4000);
-         }
-   
-      .. image:: img/raster_04_PuBuGn.png
-
-   #. A little bit of work with alpha (to mark the ocean as a no-data section):
-
-      .. code-block:: css
-
-         * {
-           raster-channels: auto;
-           raster-color-map:
-              color-map-entry(#014636,   0,0)
-              color-map-entry(#014636,   1)
-              color-map-entry(#016c59, 500)
-              color-map-entry(#02818a,1000)
-              color-map-entry(#3690c0,1500)
-              color-map-entry(#67a9cf,2000)
-              color-map-entry(#a6bddb,2500)
-              color-map-entry(#d0d1e6,3000)
-              color-map-entry(#ece2f0,3500)
-              color-map-entry(#fff7fb,4000);
-         }
-         
-   #. And we are done:
-   
-      .. image:: img/raster_05_alpha.png
+         .. image:: img/raster_contrast_2.png
+    
+         Once we zoom in to show only a land area, the lowest point on the screen (say 100) becomes the new black, radically altering what is displayed on the screen.
 
 .. admonition:: Challenge Intervals
 
@@ -323,33 +322,40 @@ Bonus
       
             .. image:: img/raster_interval.png
 
-.. admonition:: Explore Contrast Enhancement
+.. admonition:: Explore Image Processing
+
+   Additional properties are available to provide slight image processing during visualization.
+
+   .. note:: In this section are we going to be working around a preview issue where only the top left corner of the raster remains visible during image processing. This issue has been reported as  :geos:`6213`.
    
-   #. A special effect that is effective with grayscale information is automatic contrast adjustment.
-   
-   #. Make use of a simple contrast enhancement with ``usgs:dem``:
-   
+   Image processing can be used to enhance the output to highlight small details or to balance images from different sensors allowing them to be compared.
+
+   #. The **raster-contrast-enhancement** property is used to turn on a range of post processing effects. Settings are provided for :kbd:`normalize` or :kbd:`histogram` or :kbd:`none`;
+
       .. code-block:: css
-   
+
          * {
              raster-channels: auto;
              raster-contrast-enhancement: normalize;
          }
    
-   #. Can you explain what happens when zoom in to only show a land area (as indicated with the bounding box below)?
-
-   .. image:: img/raster_contrast_1.png
+   #. Producing the following image:
    
-      
-   .. only:: instructor
-       
-      .. admonition:: Instructor Notes      
+      .. image:: img/raster_image_3.png
 
-         What happens is insanity, normalize stretches the palette of the output image to use the full dynamic range. As long as we have ocean on the screen (with value 0) the land area was shown with roughly the same presentation.
-    
-         .. image:: img/raster_contrast_2.png
-    
-         Once we zoom in to show only a land area, the lowest point on the screen (say 100) becomes the new black, radically altering what is displayed on the screen.
+   #. The **raster-gamma** property is used adjust the brightness of **raster-contrast-enhancement** output. Values less than 1 are used to brighten the image while values greater than 1 darken the image.
+
+      .. code-block:: css
+
+         * {
+            raster-channels: auto;
+            raster-contrast-enhancement: none;
+            raster-gamma: 1.5;
+         }
+
+   #. Providing the following effect:
+   
+      .. image:: img/raster_image_4.png
 
 .. admonition:: Challenge Clear Digital Elevation Model Presentation
 

@@ -1,8 +1,7 @@
 /* populated places */
 [@scale < 4000000]{
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [13-SCALERANK];
    label: [NAME];
@@ -10,8 +9,7 @@
 }
 [@scale > 4000000] [@scale < 8000000] [SCALERANK < 7] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [12-SCALERANK];
    label: [NAME];
@@ -20,8 +18,7 @@
 
 [@scale > 8000000] [@scale < 17000000] [SCALERANK < 5] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [11-SCALERANK];
    label: [NAME];
@@ -30,8 +27,7 @@
 
 [@scale > 17000000] [@scale < 35000000] [SCALERANK < 4] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [11-SCALERANK];
    label: [NAME];
@@ -41,8 +37,7 @@
 
 [@scale > 35000000] [@scale < 70000000][SCALERANK < 3] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [10-SCALERANK];
    label: [NAME];
@@ -51,8 +46,7 @@
 
 [@scale > 70000000] [@scale < 140000000][SCALERANK < 2] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: [9-SCALERANK];
    label: [NAME];
@@ -61,8 +55,7 @@
 
 [@scale > 140000000] [SCALERANK < 1] {
    mark: symbol(
-     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),
-                     'star','circle')} "
+     "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
    );
    mark-size: 8;
    label: [NAME];

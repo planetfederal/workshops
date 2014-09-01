@@ -33,16 +33,16 @@ Configuration
    
    In a classroom setting GeoServer has been preconfigured with the appropriate data directory.
 
-To setup up GeoServer yourself:
+To set up GeoServer yourself:
 
-#. Use the **Importer** to add and publish the from :file:`ne-datapack`.
+#. Use the **Importer** to add and publish - 
    
-   Add the following TIF Coverage Stores:
+   the following TIF Coverage Stores:
    
    * dem/W100N40.TIF
    * ne/ne1/NE1_HR_LC_SR.tif
    
-   Add the following directory of shape files:
+   the following directories of shape files:
  
    * ne/ne1/physical   
    * ne/ne1/cultural
@@ -69,6 +69,6 @@ To setup up GeoServer yourself:
    
    .. image:: img/group.png
    
-   This offers a combined layer forming a cohesive base map.
+   This offers a combined layer, forming a cohesive base map.
    
    .. image:: img/basemap.png

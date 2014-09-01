@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="142px" height="176px" viewBox="0 0 142 176" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
     <title>LabelSymbology</title>
-    <description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+    <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
         <g id="LabelSymbology" sketch:type="MSArtboardGroup">
@@ -14,8 +15,8 @@
                     </text>
                 </g>
                 <circle id="Oval-1-copy-4" stroke="#000000" fill="#FFFFFF" sketch:type="MSShapeGroup" cx="54.5" cy="87.5" r="4.5"></circle>
-                <text sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="13" font-weight="526" sketch:alignment="middle" fill="#000000">
-                    <tspan x="38.3645" y="12">Centriod</tspan>
+                <text id="Centroid" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="13" font-weight="526" sketch:alignment="middle" fill="#000000">
+                    <tspan x="38.3645" y="12">Centroid</tspan>
                 </text>
             </g>
         </g>

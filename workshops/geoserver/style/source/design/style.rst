@@ -1,7 +1,7 @@
 Style
 =====
 
-The design choices made to represent content is the subject of cartography. The style used when rendering data into a visualization is the result of these decisions.
+The design choices made to represent content is a key aspect of cartography. The style used when rendering data into a visualisation is the result of these choices.
 
 The Open Geospatial Consortium standard for recording style is divided into two parts:
 
