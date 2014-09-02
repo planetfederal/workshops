@@ -114,11 +114,15 @@ If we merge the ``sandbox`` branch with the ``master`` branch, that one commit t
 
 #. This will bring up the merge dialog. As before, merges are done from the target, so because we are on the ``master`` branch, we will merge another branch onto it.
 
+   .. figure:: img/branch_merge.png
+
+      Merge dialog
+
 #. Select the ``sandbox`` branch in the branch selection dialog and click :guilabel:`Merge`.
 
    .. figure:: img/branch_mergesandbox.png
 
-      Merge dialog
+      Merging sandbox onto master
 
 #. The merge will proceed. QGIS will once again ask you to update the layer, so check the ``bikepdx`` box again and click :guilabel:`OK`.
 
