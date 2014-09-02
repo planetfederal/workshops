@@ -21,9 +21,9 @@ In order to perform this workshop, you will need the following software installe
 * GeoGig
 * GeoGig QGIS plugin
 
-PostgreSQL, PostGIS, and QGIS can be acquired as part of an `OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/>`_ installation. GeoGig can be , but thi
+PostgreSQL, PostGIS, and QGIS can be acquired as part of an `OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/>`_ installation. GeoGig can be obtained from the `GeoGig website <http://geogig.org>`_.
 
-.. todo:: Details on how to get everything.
+.. todo:: Details on how to get the GeoGig plugin?
 
 We will assume that PostGIS is running at ``localhost`` on port ``5432``, and that both GeoGig and the PostgreSQL command-line tools are on the system ``PATH``.
 
