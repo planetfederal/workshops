@@ -38,8 +38,8 @@ Contents
 Useful Links
 ------------
 
-* OpenLayers 2 - http://openlayers.org/ 
-* OpenLayers 3 - http://ol3js.org/ 
+* OpenLayers 2 - http://openlayers.org/two/ 
+* OpenLayers 3 - http://openlayers.org/ 
 
 * `OpenGeo Suite`_ 
 

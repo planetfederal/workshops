@@ -171,7 +171,7 @@ Load Spatial Data
 
 Loading the `UScounties.shp` file is pretty easy, either using the command line or the shape loader GUI. Just remember that our target table name is `counties`. Here's the command-line::
 
-   shp2pgsql -D -I -s 4326 UScounties.shp counties | psql census
+   shp2pgsql -D -I -s 4326 UScounties.shp counties | psql -U postgres census
 
 And this is what the GUI looks like:
 
