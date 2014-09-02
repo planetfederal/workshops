@@ -144,7 +144,7 @@ html_copy_source = False
 htmlhelp_basename = 'AppBuilding'
 
 # Page subheading
-html_context = {'subheading': 'OpenLayers is a JavaScript mapping framework for web applications. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
+html_context = {'subheading': 'Complete web applications using OpenLayers in the OpenGeo Suite. <a href="http://boundlessgeo.com/solutions/solutions-software/openlayers/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------
