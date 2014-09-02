@@ -30,6 +30,7 @@ Contents
    data
    mapping
    app_basic
+   app_extra
 
    glossary
    license
