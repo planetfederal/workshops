@@ -393,7 +393,7 @@ As you can see in the image above, the layer switcher of the ol3view template ov
 
       .layers-control {
         position: fixed;
-        bottom: 30px;
+        bottom: 35px;
         top: auto;
       }
 
