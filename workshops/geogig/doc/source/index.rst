@@ -27,14 +27,22 @@ PostgreSQL, PostGIS, and QGIS can be acquired as part of an `OpenGeo Suite <http
 
 We will assume that PostGIS is running at ``localhost`` on port ``5432``, and that both GeoGig and the PostgreSQL command-line tools are on the system ``PATH``.
 
-To verify the ``PATH`` settings, open a terminal and type:
+.. note::
+
+   On a standard OpenGeo Suite install for Windows, the ``psql`` and ``createdb`` commands can be found at:
+
+   * 32-bit Windows: :file:`C:\\Program Files\\Boundless\\OpenGeo\\pgsql\\bin`
+   * 64-bit Windows: :file:`C:\\Program Files (x86)\\Boundless\\OpenGeo\\pgsql\\bin`
+
+To verify the ``PATH`` settings, open a terminal and type these three commands:
 
 .. code-block:: console
 
    psql --version
-   geogig --help
+   createdb --version
+   geogig --version
 
-If either of these two commands yields an error, please check your ``PATH`` settings.
+If any of these commands yields an error, please check your ``PATH`` settings.
 
 .. todo:: Do we talk about the memory problems that result in "Error occurred during initialization of VM / Could not reserve enough space for object heap"? Need to reduce memory usage if so: -Xmx2G --> -Xmx1G
 
