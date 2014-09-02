@@ -1,4 +1,4 @@
-.. _app_basic:
+.. _app_extra:
 
 Extra Features
 **************
