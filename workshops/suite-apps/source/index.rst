@@ -1,10 +1,7 @@
 .. Application Building with OpenLayers master file
 
-Application Building with OpenLayers
-====================================
-
 About
------
+*****
 
 This workshop introduces building web applications using OpenLayers. Web applications usually run in a web browser, and use technologies like :term:`JavaScript`, :term:`HTML`, and :term:`CSS`. 
 
@@ -20,7 +17,7 @@ Building an application involves managing some state on the client and some on t
 
 
 Contents
---------
+********
 
 .. toctree::
    :maxdepth: 1
@@ -37,7 +34,7 @@ Contents
 
 
 Useful Links
-------------
+************
 
 * OpenLayers 2 - http://openlayers.org/two/ 
 * OpenLayers 3 - http://openlayers.org/ 

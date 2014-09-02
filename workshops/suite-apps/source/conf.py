@@ -32,7 +32,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Application Building with OpenLayers'
+project = u'Application Building with OpenGeo Suite'
 copyright = u'2014, Andreas Hocevar, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
