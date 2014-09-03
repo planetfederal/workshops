@@ -14,4 +14,3 @@ This section will describe how to use the GeoGig plugin for QGIS, enabling the s
    commit
    branch
    export
-   remote
