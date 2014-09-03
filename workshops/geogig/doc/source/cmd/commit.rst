@@ -583,3 +583,47 @@ You will see that the feature that was drawn is now no longer there.
 .. figure:: img/commit_featureremoved.png
 
    The feature has been removed by GeoGig
+
+(Optional) Exporting to alternate formats
+-----------------------------------------
+
+We exported the current state of the repository to PostGIS in order to sync up our QGIS view.
+
+But there are other reasons to export a GeoGig repository: to make a copy, to make a backup, or to convert to an alternate data format. It is this last situation that we will discuss here.
+
+GeoGig can export to a number of different formats, including:
+
+* Shapefile
+* GeoJSON
+* SpatiaLite
+* Oracle Spatial
+
+For a full list of options, please see the :ref:`GeoGig documentation <moreinfo.resources>`.
+
+.. note:: The same data sources are available for import as well.
+
+The command to export is ``geogig <format> export <parameters>``. For shapefile, ``<format>`` is ``shp``.
+
+#. Export the current state of the repository to a shapefile:
+
+   .. code-block:: console
+
+      geogig shp export -o bikepdx bikepdx.shp
+
+   ::
+
+      Exporting bikepdx...
+      100%
+      bikepdx exported successfully to bikepdx.shp
+
+   The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepd.shp``) is the name of the output file. And as before, ``-o`` means to overwrite an existing file (if any).
+
+#. Export the current state of the repository to a GeoJSON file:
+
+      geogig geojson export -o bikepdx bikepdx.json
+
+   ::
+
+      Exporting bikepdx...
+      100%
+      bikepdx exported successfully to bikepdx.json
