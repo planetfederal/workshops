@@ -42,7 +42,7 @@ Creating a model
 Multiple outputs
 ----------------
 
-We have already created a functional model that chains two processes together and provides useful output. However, with the exact same inputs, we can add another 'parallel' process to create the equivalent of our **Majority** layer. Remember that for this layer, we only need to run the **Frequency Analysis** algorithm to calculate the most common raster value in each zone.
+We have already created a functional model that chains two processes together and provides useful output. However, with the exact same inputs, we can add another 'parallel' process to create the equivalent of our majority layers. Remember that for this layer, we only need to run the **Frequency Analysis** algorithm to calculate the most common raster value in each zone.
 
 #. Create a **Frequency Analysis** process that takes the **Zones** parameter as the vector layer. Set the layer output to :kbd:`zonal majority`.
 

@@ -9,3 +9,4 @@ Modeller
    running
    edit
    combining
+   continuous

@@ -6,7 +6,7 @@ To run a process from the toolbox, you will need to provide inputs, which can be
 Area of interest
 ----------------
 
-Let's revisit the **Dissolve process** and change some of the input parameters to see how they will change the results. Instead of focusing on the herd units, let's create a new layer with just a single feature that shows the area covered by our antelope data. We are doing this because when we enable the **Seasonal ranges** and **Surficial geology** layers, we can see that the ranges layer does not in fact cover the entire state of Wisconsin (for example, areas which are covered by large bodies of water or are mountains of very high elevation are excluded). 
+Let's revisit the **Dissolve process** and change some of the input parameters to see how they will change the results. Instead of focusing on the herd units, let's create a new layer with just a single feature that shows the area covered by our antelope data. We are doing this because when we enable the **Seasonal ranges** and **Surficial geology** layers, we can see that the ranges layer does not in fact cover the entire state of Wyoming (for example, areas which are covered by large bodies of water or are mountains of very high elevation are excluded). 
 
 .. figure:: images/unclipped_surficial_layer.png
 

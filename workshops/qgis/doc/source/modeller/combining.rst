@@ -27,7 +27,7 @@ We have an additional vector layer that contains soil data that we can also use 
 
       Adding a **Rasterize** process to the model
 
-#. Add a new **Zone analysis** process (which is actually the model we created earlier!). The ``Image`` input will be the output of our **Rasterize** process.
+#. Add a new **Zone analysis** process (which is actually the model we created earlier!). The ``Image`` input will be the output of our **Rasterize** process. You will also need to set the output names of the model: ``zonal baseline``, ``zonal majority`` and ``zonal statistics``.
 
    .. figure:: images/vector_model_3.png
 
@@ -35,4 +35,6 @@ We have an additional vector layer that contains soil data that we can also use 
 
 #. Save the model.
 
-#. Run the **Zone analysis (vector)** model using the **Soils** layer as the vector input and **SMU** as the attribute to rasterize with. We will again use :kbd:`Majority`, :kbd:`Aggregate` and :kbd:`Baseline` as outputs to match our previous analyses. Move these results to a new **Soils** sub-group.
+#. Run the **Zone analysis (vector)** model using the **Soils** layer as the vector input and **SMU** as the attribute to rasterize with. We will again use :kbd:`Soils (reference)`, :kbd:`Soils (majority)`, :kbd:`Soils (stats)` and :kbd:`Soils (baseline)` as outputs to match our previous analyses.
+
+#. Move the results to the correct groups and add appropriate styling.

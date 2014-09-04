@@ -7,7 +7,6 @@ Processing
    ranges
    toolbox
    running
-   clip
    rasterisation
    statistics
    groups
