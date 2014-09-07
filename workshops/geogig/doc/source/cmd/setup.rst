@@ -345,7 +345,7 @@ Create a GeoGig repository
 
    .. code-block:: console
 
-      geogig init .
+      geogig init
 
 #. View a directory listing that shows all files and verify that the :file:`.geogig` directory has been created.
 

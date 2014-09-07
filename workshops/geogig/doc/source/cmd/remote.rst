@@ -64,12 +64,12 @@ In this situation, we only have a single machine, but we can still use the ``ser
       95%
       Done.
 
-   #. Verify the history of the clone is identical to the original by going into that directory and running ``geogig log``:
+#. Verify the history of the clone is identical to the original by going into that directory and running ``geogig log``:
 
-      .. code-block:: console
+   .. code-block:: console
 
-         cd repo_clone
-         geogig log --oneline
+      cd repo_clone
+      geogig log --oneline
 
 .. note::
 

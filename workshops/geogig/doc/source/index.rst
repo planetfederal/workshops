@@ -19,7 +19,6 @@ In order to perform this workshop, you will need the following software installe
 * PostGIS
 * QGIS
 * GeoGig
-* GeoGig QGIS plugin
 
 PostgreSQL, PostGIS, and QGIS can be acquired as part of an `OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/>`_ installation. GeoGig can be obtained from the `GeoGig website <http://geogig.org>`_.
 
@@ -57,11 +56,11 @@ The following material will be covered in this workshop:
 :ref:`cmd`
   A tour of the GeoGig command line interface, including creating and managing commits and branches, as well as merging from different repositories.
 
-:ref:`gui`
-  A tour of the GeoGit graphical interface in QGIS.
-
 :ref:`moreinfo`
   More information about GeoGit including links and a glossary of terms.
+
+:ref:`workflow`
+  Introducing a workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
 
 Workshop Materials
 ------------------
@@ -91,5 +90,5 @@ Great! Head to the first section, :ref:`theory`.
 
    theory/index
    cmd/index
-   gui/index
+   workflow/index
    moreinfo/index
