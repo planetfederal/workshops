@@ -102,5 +102,3 @@ Workshop sections
    processing/index
    modeller/index
    publishing/index
-
-   glossary
