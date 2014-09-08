@@ -1,9 +1,9 @@
 Reusable components
 ===================
 
-Since our initial analysis of ranges based on geology did not seem to produce the resutls we had hoped for, we can repeat the analysis with another data set to see if we can pin down what influences the seasonal land usage of Wyoming's antelopes. Before we start, however, we should recognise that all the steps that we performed will be identical each time we do this type of analysis.
+Since our initial analysis of ranges based on geology did not seem to produce the results we had hoped for, we can repeat the analysis with another data set to see if we can pin down what influences the seasonal land usage of Wyoming's antelopes. Before we start, however, we should recognise that all the steps that we performed will be identical each time we do this type of analysis.
 
-For example, if we look at the varios inputs and outputs, we can see that we supplied four parameters (two layers and one attribute from each); if we decide to use a different data set (for example, instead of **Surficial geology**, we may use a layer that shows soil types) we merely need to alter the inputs, but the process remains the same.
+For example, if we look at the various inputs and outputs, we can see that we supplied four parameters (two layers and one attribute from each); if we decide to use a different data set (for example, instead of **Surficial geology**, we may use a layer that shows soil types) we merely need to alter the inputs, but the process remains the same.
 
 Below is a simplified flowchart that shows the inputs and outputs of the entire processing chain:
 
@@ -32,7 +32,7 @@ Because we are starting from a raster, we will need to refer to the layer's meta
 
 #. Move ``gaplandcov_WY.img.vat.dbf`` to the ``qgis\reference`` directory.
 
-#. Add the file to the project's **Reference** group and rename it :kbd:`Land cover`.
+#. Add the file to the project's **Reference** group and rename it :kbd:`Land cover (reference)`.
 
 #. Confirm that the values in the **Land cover** layer appear to match the reference table. For example, the red developed areas on the map have a value of ``583``, which is recorded as "Developed, Medium Intensity" in the reference table.
 

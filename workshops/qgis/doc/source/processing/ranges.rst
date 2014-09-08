@@ -16,6 +16,8 @@ A number of these ranges are marked with a ``CRU`` prefix, indicating that they 
 
 #. Load ``Antelope_SeasonalRange.zip`` and rename it as :kbd:`Seasonal ranges`. 
    
+#. Save as a new file in the ``qgis\data`` directory and reproject to our project's CRS.
+
 #. Open the style settings for the **Seasonal ranges** layer and apply :download:`this QGIS style file <downloads/ranges.qml>` by using the :guilabel:`Load Style ...` button.
 
    .. figure:: images/load_style.png

@@ -34,7 +34,7 @@ To get aggregate statistics of the geological breakdown for every range type (ra
 
       Output layer with ``YRL`` feature information
 
-#. Rename the output table to **Surficial geology (stats)**. This layer provides a data analyst with detailed information required to determine whether there is a corrolation between geology types and how antelope use the land during different seasons. Some initial observations are that only the ``CRUWIN`` range is characterised by a geology type other than ``8`` (``ri``), although we can also see that antelope tend not to populate areas with type ``3`` (``Ri``). It is entirely possible that a statistical analysis will not find any coorelation between geology and antelope ranges!
+#. Rename the output table to **Surficial geology (stats)**. This layer provides a data analyst with detailed information required to determine whether there is a corelation between geology types and how antelope use the land during different seasons. Some initial observations are that only the ``CRUWIN`` range is characterised by a geology type other than ``8`` (``ri``), although we can also see that antelope tend not to populate areas with type ``3`` (``Ri``). It is entirely possible that a statistical analysis will not find any corelation between geology and antelope ranges!
 
 #. Move **Surficial geology (stats)** to the **Surficial geology** sub-group.
 

@@ -1,4 +1,4 @@
-Dicrete and continuous data
+Discrete and continuous data
 ===========================
 
 When performing an analysis on our land cover raster or converted vector data, but we also have the **Digital elevation model** raster that we would like to analyze. Elevation data sets are continuous, so our **Frequency analysis** process, which counts unique raster values, will not be suitable for this particular task. However, QGIS also comes with another algorithm that is intended for use with continuous data; this algorithm provides minimum, maximum, average and median values, all of which are added to the original vector data set. There is no tabular output equivalent to the statistics tables we have been generating, since all this data can be encoded directly into the vector tables.

@@ -28,13 +28,13 @@ We will be using a new process named **Frequency Analysis** to calculate the bre
 
 #. A new layer named **Frequency_analysis_layer** with a single feature will appear in the layer list.
 
-#. Click the feature with the identify tool. The results will show that approximately 36% of the land is covered by geology type ``9``, which can be cross-referenced in our automatically-generated **Surficial geology (RECLASS lookup)** table and identified as type ``ri`` (defined as "residuum mixed with alluvium, eolian, slopewash, grus, and/or bedrock outcrops").
+#. Click the feature with the identify tool. The results will show that approximately 36% of the land is covered by geology type ``9``, which can be cross-referenced in our automatically-generated **Surficial geology (reference)** table and identified as type ``ri`` (defined as "residuum mixed with alluvium, eolian, slopewash, grus, and/or bedrock outcrops").
 
    .. note:: It is possible that when you run the script, the ``ri`` geology type will be encoded with a different number instead of ``9``.
 
 #. Open the attribute table for **Frequency_analysis_table**. Here we can see the complete breakdown of the geology into the various types; of note are: ``1`` (``sci``) at 20%; ``3`` (``Ri``) at 12%; and ``6`` (``ai``) at 8%.
 
-   .. note:: QGIS also provides a visual representation of this breakdown if you open the :guilabel:`Histogram` tab on the properties dialog for the **Surficial geology** raster.
+   .. note:: QGIS also provides a visual representation of this breakdown if you open the :guilabel:`Histogram` tab on the properties dialog for the **Surficial geology** raster. However, this histogram will be for the *entire* layer, not just the parts we are interested in.
 
       .. figure:: images/histogram.png
 
