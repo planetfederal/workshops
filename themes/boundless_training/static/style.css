@@ -377,14 +377,6 @@ blockquote p, .admonition-instructor-notes {
   box-shadow: 0.33em 0.33em 0.17em #888, 0.33em 0.33em 1em rgba(0,0,0,0.3);
 }
 
-.highlight-python {
-  width: 90%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-}
-
 dl.docutils {
   width: 90%;
   display: block;
