@@ -256,3 +256,30 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
    ::
 
       Deleted branch 'send'.
+
+Repository locks
+----------------
+
+When the server is running, the repository is considered 'locked' and you may not run any operations using ``geogig`` on the command line. GeoGig does, however, let us work on the repository through a special web console that you can reach with your web-browser at http://localhost:8182/repo/console/. Because this presents a security risk, you must explicitly turn this feature on using the following configuration command: ``geogig config web.console.enabled true``.
+
+#. Stop the server by typing :kbd:`Ctrl-C`. 
+
+#. Activate the web console for this repository. 
+   
+   .. code-block:: console
+
+      geogig config web.console.enabled true
+
+#. Start the server again.
+   
+   .. code-block:: console
+
+      geogig serve
+   
+#. Navigate to http://localhost:8182/repo/console/ in your browser.
+
+   .. figure:: img/console.png
+
+      Web console
+
+#. Check the repository logs.
