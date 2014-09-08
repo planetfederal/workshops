@@ -20,7 +20,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
 
 #. Delete some of the recommended routes in QGIS.
 
@@ -28,7 +28,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
       geogig add bikepdx
       geogig commit -m "Rejected proposals."
 
@@ -38,7 +38,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
       geogig add bikepdx
       geogig commit -m "Accepted proposals."
 
@@ -53,7 +53,6 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
       * alice  ba63233 Accepted proposals.
         bob    cf894ee Added loop around Powell Butte
         master cf894ee Added loop around Powell Butte
-        qa     cf894ee Added loop around Powell Butte
 
 #. At this point, Alice has decided that she wants to make her changes available to the data manager responsible the quality assurance.
 
@@ -80,11 +79,17 @@ Bob has been tasked with updating the data set when bike route construction has 
 
    .. code-block:: console
 
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
 
 #. Change some planned routes to active and set the current year for the **yearbuilt** attribute.
 
-#. Import, add and commit the changes with the message *"Update newly-activated paths."*
+#. Import, add and commit the changes.
+
+   .. code-block:: console
+
+      geogig pg import --database portland -t bikepdx
+      geogig add bikepdx
+      geogig commit -m "Update newly-activated paths"
 
 #. Fix some incorrectly named paths.
 
@@ -101,7 +106,6 @@ Bob has been tasked with updating the data set when bike route construction has 
         alice  cf894ee Added loop around Powell Butte
       * bob    1a3b19a Fix path names.
         master cf894ee Added loop around Powell Butte
-        qa     cf894ee Added loop around Powell Butte
 
    .. note:: Alice's branch is still the same as **master** even though we know she has made some changes! This is because Bob hasn't checked the server to see if there are any new updates.
 

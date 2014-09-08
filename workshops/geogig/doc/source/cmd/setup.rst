@@ -68,11 +68,11 @@ Our data is stored as a SQL dump. This will need to be loaded into a PostGIS dat
 
 We will use the command line applications ``createdb`` and ``psql`` to perform this input.
 
-#. On a terminal, create a database named ``geogig``:
+#. On a terminal, create a database named ``portland``:
 
    .. code-block:: console
 
-      createdb -U postgres geogig
+      createdb -U postgres portland
 
    .. note::
 
@@ -80,13 +80,13 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
       .. code-block:: console
     
-         createdb -U pgowner -h example.com -p 54321 geogig
+         createdb -U pgowner -h example.com -p 54321 portland
 
 #. Next, add the PostGIS extension to the database:
 
    .. code-block:: console
 
-      psql -U postgres -d geogig -c "create extension postgis;"
+      psql -U postgres -d portland -c "create extension postgis;"
 
    ::
 
@@ -96,7 +96,7 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
    .. code-block:: console
 
-      psql -U postgres -d geogig -f bikepdx.sql
+      psql -U postgres -d portland -f bikepdx.sql
 
    ::
 
@@ -117,7 +117,7 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
    .. code-block:: console
 
-      psql -U postgres -d geogig -c "SELECT Count(*) FROM bikepdx"
+      psql -U postgres -d portland -c "SELECT Count(*) FROM bikepdx"
 
    ::
 
@@ -158,7 +158,7 @@ We will be viewing the data using QGIS.
    * :guilabel:`Port`: ``5432``
    * :guilabel:`User name`: ``postgres``
    * :guilabel:`Password`: ``[blank]``
-   * :guilabel:`Database`: ``geogig``
+   * :guilabel:`Database`: ``portland``
    * :guilabel:`Save User name`: [checked]
    * :guilabel:`Save Password`: [checked]
 
@@ -381,3 +381,16 @@ To see a list of the parameters associated with a given command, type ``help`` f
           Produce machine-readable output
           Default: false
 
+``geogig-console``
+------------------
+
+GeoGig also comes with a command ``geogig-console`` which opens a dedicated GeoGig shell, allowing you to run GeoGig commands without typing ``geogig`` first.
+
+.. code-block:: console
+
+   (geogig):/home/boundless/repo $ init
+   Initialized empty Geogig repository in /home/boundless/repo/.geogig
+   (geogig):/home/boundless/repo (master) $ log
+   No commits to show
+   
+.. note:: ``geogig-console`` is still in development and some terminals can produce artifacts on the line which make it difficult to use.

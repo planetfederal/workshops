@@ -96,7 +96,7 @@ Now that we are working on a new branch, there should be nothing different about
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
 
    ::
 
@@ -170,7 +170,7 @@ So if we were to switch over to the master branch, the commit will "not have hap
    .. code-block:: console
 
       geogig checkout master
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
 
 
 Merging branches
@@ -236,7 +236,7 @@ We will now merge the ``sandbox`` branch onto the ``master`` branch.
 
    .. code-block:: console
 
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
     
    ::
 

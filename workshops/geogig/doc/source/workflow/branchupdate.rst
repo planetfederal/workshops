@@ -32,7 +32,7 @@ Fortunately, GeoGig is smart enough to take care of all the hard work when mergi
  
        geogig checkout master
        geogig pull
-       geogig checkout alice
+       geogig checkout bob
        geogig merge master
  
 At the end, both Alice and Bob will be in sync with master again. In practice, Alice and Bob will probably not synchronise at the same time (they have different work schedules), but GeoGig is smart enough to keep their histories in line even when they are not working in parallel.

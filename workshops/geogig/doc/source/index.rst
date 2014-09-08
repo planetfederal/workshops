@@ -56,11 +56,11 @@ The following material will be covered in this workshop:
 :ref:`cmd`
   A tour of the GeoGig command line interface, including creating and managing commits and branches, as well as merging from different repositories.
 
-:ref:`moreinfo`
-  More information about GeoGit including links and a glossary of terms.
-
 :ref:`workflow`
   Introducing a workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
+
+:ref:`moreinfo`
+  More information about GeoGit including links and a glossary of terms.
 
 Workshop Materials
 ------------------

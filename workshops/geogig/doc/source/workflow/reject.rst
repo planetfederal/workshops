@@ -33,6 +33,8 @@ Now that the data manager is happy that the commits are correct, he can merge th
 
 .. code-block:: console
 
+   geogig checkout master
+   geogig merge alice
    geogig push
 
 The next time Alice checks the server for updates, she'll get the data manager's changes in her local repository.

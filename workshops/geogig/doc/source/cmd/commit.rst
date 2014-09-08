@@ -21,7 +21,7 @@ We much :term:`import` data into our repository for our first commit. This will 
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
 
    .. note:: Adjust the connection parameters as necessary.
 
@@ -205,7 +205,7 @@ Now we will want to commit this change. While the change was made in the databas
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
 
    This is the same import command as above. It makes the GeoGig repository aware that content has changed.
 
@@ -439,7 +439,7 @@ With the new feature added, we can now add it to our repository via another comm
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
 
    As before, this import command lets the GeoGig repository be aware that content has changed.
 
@@ -561,7 +561,7 @@ This involves using the :term:`export` command. We will export the current state
 
    .. code-block:: console
 
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
 
    ::
 
@@ -619,6 +619,8 @@ The command to export is ``geogig <format> export <parameters>``. For shapefile,
    The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepd.shp``) is the name of the output file. And as before, ``-o`` means to overwrite an existing file (if any).
 
 #. Export the current state of the repository to a GeoJSON file:
+
+   .. code-block:: console
 
       geogig geojson export -o bikepdx bikepdx.json
 

@@ -7,7 +7,7 @@ It is now your job to review and approve the work that has been done by the anal
 
    .. code-block:: console
 
-      cd alice
+      cd qa
 
 #. Although the server knows about Alice and Bob's changes, we won't until we download them from the server.
 
@@ -64,9 +64,9 @@ It is now your job to review and approve the work that has been done by the anal
 
    .. code-block:: console
 
-      geogig pg export-diff alice master -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig shp export-diff alice master bikepdx diff.shp
 
-#. Review the removed and changed routes in QGIS.
+#. Open ``diff.shp`` in QGIS and review the removed and changed routes.
    
 #. Let's assume we are also happy with Alice's work. We can now merge both Alice's and Bob's changes into **master**.
 
@@ -87,3 +87,9 @@ It is now your job to review and approve the work that has been done by the anal
    ::
 
       0a7f572c325916e28631356208b3c1be2eb117ee Merge branch refs/heads/alice
+
+#. Push the changes to the server.
+
+   .. code-block:: console
+
+      geogig serve

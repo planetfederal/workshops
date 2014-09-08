@@ -65,7 +65,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
       geogig add bikepdx
       geogig commit -m "Renamed Mt St Helens Ave to Volcano Road"
 
@@ -79,7 +79,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    .. code-block:: console
 
-      geogig pg export -o --host localhost --port 5432 --user postgres --database geogig bikepdx bikepdx
+      geogig pg export -o --database portland bikepdx bikepdx
 
    ::
 
@@ -105,7 +105,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
       geogig add bikepdx
       geogig commit -m "Renamed Mt St Helens Ave to 1980 Eruption Road"
 

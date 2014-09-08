@@ -151,7 +151,7 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
 
    .. code-block:: console
 
-      geogig pg import --database geogig -t bikepdx --host localhost --port 5432 --user postgres
+      geogig pg import --database portland -t bikepdx
       geogig add bikepdx
       geogig commit -m "Added loop around Powell Butte"
 
