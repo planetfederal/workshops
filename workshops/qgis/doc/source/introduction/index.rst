@@ -8,5 +8,4 @@ Introduction
    goals
    opengeosuite
    qgis
-   plugin
    problem

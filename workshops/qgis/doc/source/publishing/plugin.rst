@@ -1,6 +1,12 @@
 OpenGeo Explorer
 ================
 
+OpenGeo Explorer is a plugin for configuring the components of OpenGeo Suite through QGIS. It can be used to prepare data in PostGIS or style and publish directly to GeoServer, all within the QGIS interface. OpenGeo Explorer makes it easier than ever to go from desktop to server, using all the functionality of QGIS to configure GeoServer.
+
+.. figure:: images/opengeo_explorer.png
+
+   OpenGeo Explorer
+
 When the OpenGeo Explorer is activated, it displays a list of our current layers, groups and styles, and when we connect to GeoServer we additionally get to see all the data that is loaded there. The power of the OpenGeo Explorer is in sharing data between the two: either displaying GeoServer layers in QGIS or uploading QGIS layers and styles to GeoServer.
 
 .. note:: We assume you are using a local copy of OpenGeo Suite (http://localhost:8080/dashboard). If you are running OpenGeo Suite, then please substitute the appropriate URL.
