@@ -70,6 +70,13 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
 #. On a terminal, create a database named ``portland``:
 
+   .. note::
+   
+      On a standard OpenGeo Suite install for Windows, the ``createdb`` commands can be found at:
+   
+      * 32-bit Windows: :file:`C:\\Program Files\\Boundless\\OpenGeo\\pgsql\\bin`
+      * 64-bit Windows: :file:`C:\\Program Files (x86)\\Boundless\\OpenGeo\\pgsql\\bin`
+
    .. code-block:: console
 
       createdb -U postgres portland
@@ -80,7 +87,7 @@ We will use the command line applications ``createdb`` and ``psql`` to perform t
 
       .. code-block:: console
     
-         createdb -U pgowner -h example.com -p 54321 portland
+         createdb -U pgowner -h example.com -p 5432 portland
 
 #. Next, add the PostGIS extension to the database:
 

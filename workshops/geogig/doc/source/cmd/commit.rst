@@ -23,7 +23,7 @@ We much :term:`import` data into our repository for our first commit. This will 
 
       geogig pg import --database portland -t bikepdx
 
-   .. note:: Adjust the connection parameters as necessary.
+   .. note:: Adjust the connection parameters as necessary: ``geogig pg import --database portland --host localhost --port 5432 --user postgres -t bikepdx``.
 
    ::
 
