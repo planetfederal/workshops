@@ -14,7 +14,7 @@ Remotes
 
 In addition, to having three branches, each of our team members will need their own clones of the original repository, which we will put on one of the organisation's servers and we will treat as the canonical copy of the data.
 
-Whenever Alice or Bob want to share their changes with the data manager, they will **push** their changes out to the original repository, and the data manager will be able to **pull** down these changes from the server for review. Once the edits are merged into **maseter**, the data manager will **push** the changes out to the central repository.
+Whenever Alice or Bob want to share their changes with the data manager, they will **push** their changes out to the original repository, and the data manager will be able to **pull** down these changes from the server for review. Once the edits are merged into **master**, the data manager will **push** the changes out to the central repository.
 
 .. note:: In the real world, the four repositories (the server, Alice, Bob and the data manager) would all reside on different physical computers but for this exercise we will assume you are working on a single computer. However, you are free to use multiple computers to simulate the workflow, or even practise with colleagues playing the roles of Alice, Bob and the data manager!
 
