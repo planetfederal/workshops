@@ -212,7 +212,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
       
          Prior to GeoServer 2.5 a **toRadians** call was required as described in `GEOT-4641 <https://jira.codehaus.org/browse/GEOT-4641>`_.
       
-         .. code:: css
+         .. code-block:: css
 
             * {
                fill: symbol(square);
