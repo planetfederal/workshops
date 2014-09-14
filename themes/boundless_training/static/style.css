@@ -1,0 +1,426 @@
+/*
+Name: Boundless Training Docs Theme
+Description: Overrides opengeo.css v1.0
+Version: 1.0
+Author: Boundless Training Team
+Author URI: http://boundlessgeo.com/resources/trainings/
+Tags: custom nav menu, larger fonts for readability, two-column collapsible
+*/
+/*------------------------------------------------------------------*/
+
+html {
+  min-width: 0;
+}
+
+body {
+  font-family: "cantarell", "proxima-nova", helvetica, arial, sans-serif;
+  line-height: 1.8em;
+  font-size: 16px;
+}
+h1 {
+font-size: 32px;
+font-family: "proxima-nova", helvetica, arial, sans-serif;
+font-weight: bold;
+margin-bottom: 0.5em;
+}
+h2 {
+  border-bottom: #dadada solid 3px !important;
+  padding-bottom: 5px;
+  font-weight: 200;
+}
+ul, ol {
+  padding: 0 0 0.5em 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+ul, ul li, ol, ol li {
+  text-indent: 0;
+  margin-left: 1.5em;
+  padding: 0 0 0.4em 0;
+}
+.container {
+  width: auto;
+}
+table {
+  border: 0;
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 1em;
+  width: 100%;
+}
+th, td {
+  border: 0;
+}
+.section {
+  margin-top: 30px;
+}
+.section img {
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.section img.inline {
+  display: inline;
+  margin: 0;
+  vertical-align: baseline;
+}
+
+.navi {
+  border: 0;
+}
+#masthead {
+  padding: 20px 0 20px 35px
+}
+
+
+/* Nav Menu */
+/*------------------------------------------------------------------*/
+
+.secondarynav {
+  background: #00a78d;
+  height: 58px;
+  font-size: 16px;
+  width: 100%;
+}
+.secondarynav .breadcrumbs {
+  float: left;
+  padding: 18px 0 0 35px;
+  margin: 0;
+  color: #FFFFFF;
+  white-space: nowrap;
+}
+.secondarynav .breadcrumbs a {
+  color: #FFFFFF;
+  padding: 0 0.5%;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-toggle {
+  color: #FFFFFF;
+  padding-top: 18px;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu {
+  top: 57px;
+  padding-bottom: 15px;
+  padding-top: 0;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul {
+  padding: 0;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li {
+  min-width: 200px;
+  margin-left: 0.5em;
+  padding: 0;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li:hover {
+  background-color: #fff;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li a {
+  color: #000;
+  background-color: #fff;
+  height: 30px;
+  white-space: nowrap;
+  max-width: 225px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li a:hover {
+  color: #00a78d;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li a ul li {
+  margin-bottom: 2px;
+}
+.secondarynav ul.right-nav li.dropdown .dropdown-menu ul li ul {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.secondarynav ul.right-nav {
+  list-style: none;
+  display: inline;
+  float: right;
+  padding: 0 1% 0 0;
+  margin: 0;
+  width: 35%;
+}
+.secondarynav ul.right-nav li {
+  float: right;
+}
+.secondarynav ul.right-nav li.previous {
+  margin-right: 0.5%;
+}
+.secondarynav ul.right-nav li a {
+  color: #FFFFFF;
+}
+
+/* Collapsing of Prev-Next Nav Menu */
+/*------------------------------------------------------------------*/
+
+@media (min-width: 733px) and (max-width: 928px) { 
+  .secondarynav ul.right-nav li.previous, li.next {
+    display: inline-block; 
+    min-width: 16px;
+  }
+  .secondarynav ul.right-nav {
+    width: 25%;
+  }
+}
+@media (max-width: 732px) { 
+  .secondarynav ul.right-nav li.previous, li.next {
+    display: none; 
+  }
+}
+/* Make sure smaller widths go before larger widths! */
+
+@media (max-width: 928px) { 
+  .secondarynav ul.right-nav li.dropdown {
+    display: none; 
+  }
+}
+@media (min-width: 929px) { 
+  .secondarynav ul.right-nav li.dropdown {
+    display: inline-block;
+    float: right;
+    min-width: 154px;
+    margin-left: 0;
+  }
+  .secondarynav ul.right-nav {
+    width: 35%;
+  }
+}
+
+
+/* Sidebar */
+/*------------------------------------------------------------------*/
+
+
+@media (min-width: 992px) { 
+  #sidebar {
+    display: inline-block;
+    margin-top: 20px;
+  } 
+}
+@media (max-width: 991px) { 
+  #sidebar {
+    display: none;
+  } 
+}
+
+.sidebar_section {
+  margin-top: 30px;
+}
+.sidebar_header {
+  color: #00a78d;
+}
+.sidebar_section ul {
+  list-style: none;
+  margin-left: 0;
+}
+
+/* Content */
+/*------------------------------------------------------------------*/
+
+.content {
+  padding: 0 35px;
+}
+.headerlink {
+  display: none;
+}
+
+.selfclear {
+  clear: both;
+}
+.pagination-nav  {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
+.pagination-nav .left {
+  float: left;
+}
+.pagination-nav .right {
+  float: right;
+}
+
+code, pre {
+  font-family: 'Source Code Pro', Consolas, "Courier New", monospace;
+}
+
+.admonition {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border: 1px solid #ccc;
+  background-color: #eee;
+  padding-top: 1em;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 3px;
+}
+.admonition-title {
+  font-family: "proxima-nova", helvetica, arial;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #00a78d;
+  padding-left: 10px;
+}
+.admonition p, ol {
+  width: 90%;
+  padding-left: 15px;
+  padding-bottom: 5px;
+}
+
+.admonition ol.section ul.simple li {
+  width: 90%;
+}
+
+.warning {
+  background-color: #ffe0e0;
+}
+
+.warning .admonition-title {
+  color: #dd0000;
+}
+
+.caption {
+  text-align: center;
+  margin-top: 15px;
+  color: #777;
+  font-size: 0.9em;
+}
+.admonition p.caption {
+  width: 100%;
+  padding: 0;
+}
+blockquote {
+  padding: 0;
+}
+
+blockquote p, .admonition-instructor-notes {
+  font-style: normal;
+}
+
+.admonition-instructor-notes {
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+  border: 1px solid #7DD5B2;
+  background-color: rgb(125, 213, 178);
+  background-color: rgba(125, 213, 178, 0.2);
+  padding: 1em;
+  -webkit-box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+  -moz-box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+  box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+}
+.admonition-instructor-notes .admonition-title {
+  color: #000;
+  font-style: normal;
+  font-size: 1.5em;
+}
+.admonition-instructor-notes .first {
+  font-weight: bold;
+}
+.admonition-instructor-notes p {
+  font-size: 1em;
+  width: 100%;
+}
+
+.admonition-instructor-notes ul li {
+  padding: 0 0 0.7em 0;
+  list-style-type: circle;
+}
+
+.admonition-instructor-notes ol li {
+  padding: 0 0 0.7em 0;
+}
+
+
+.note {
+  background-color: #fcebc2;
+  -webkit-box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+  -moz-box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+  box-shadow: 5px 5px 3px 0px rgba(170,170,170,1);
+}
+
+.note .admonition-title {
+  color: #333;
+}
+
+.admonition > .note {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+.toplink {
+  margin: 30px auto;
+}
+
+.green-icon {
+  color: #00a78d;
+}
+
+.first {
+  margin-top: 10px;
+}
+
+.toctree-wrapper ul li ul {
+  margin-top: .75em;
+}
+
+.figure {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.figure img {
+  border: 1px solid #888;
+  -webkit-box-shadow: 0.33em 0.33em 0.17em #888, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  -o-box-shadow: 0.33em 0.33em 0.17em #888, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  -moz-box-shadow: 0.33em 0.33em 0.17em #888, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+  box-shadow: 0.33em 0.33em 0.17em #888, 0.33em 0.33em 1em rgba(0,0,0,0.3);
+}
+
+dl.docutils {
+  width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+dl.docutils dt {
+  margin-top: 1em;
+}
+
+.literal {
+  color: #226279;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+ul.simple li img {
+  display: inline-block;
+}
+
+.highlight:before, 
+.highlight:after {
+  display: none;
+}
+
+/* For Print */
+/*------------------------------------------------------------------*/
+
+
+@media print {
+
+  body {
+    font-size: 12px;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  #masthead {
+    padding: 0;
+  }
+
+  .toplink {
+    display: none;
+  }
+
+}

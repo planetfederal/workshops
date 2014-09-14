@@ -402,7 +402,7 @@ The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is
               })
             })
           ],
-          view: new ol.View2D({
+          view: new ol.View({
             /** Coordinates in lon/lat, easy to understand, transform to web mercator */
             center: ol.proj.transform([-123.36310, 48.42484], 'EPSG:4326', 'EPSG:3857'),
             zoom: 14

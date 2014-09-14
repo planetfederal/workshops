@@ -515,7 +515,7 @@ The base map for our application will be OpenStreetMap tiles, which OpenLayers 3
 .. code-block:: javascript
 
   // set the starting view 
-  var view = new ol.View2D({
+  var view = new ol.View({
     center: ol.proj.transform([-70.26, 43.67], 'EPSG:4326', 'EPSG:3857'),
     zoom: 12
   });

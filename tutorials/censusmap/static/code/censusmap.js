@@ -50,9 +50,10 @@ olMap.on('singleclick', function(evt) {
     pixel: evt.getPixel(),
     success: function (info) {
       popup.setPosition(evt.getCoordinate());
-      $('#popup')
-        .popover({content: info.join('')})
-        .popover('show');
+      $('#popup') 
+        .popover('destroy') 
+        .popover({content: info.join('')}) 
+        .popover('show'); 
       // Close popup when user clicks on the 'x'
       $('.popover-title').click(function() {
         $('#popup').popover('hide');

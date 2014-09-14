@@ -60,10 +60,13 @@ As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial databa
 Updated for 2013. Learn to load, style, and publish maps and data using GeoServer. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 
-`Introduction to OpenLayers <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
+`Introduction to OpenLayers 2 <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
+`Introduction to OpenLayers 3 <http://workshops.boundlessgeo.com/openlayers3/>`_ 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This workshop will show how to create a map, add layers, use controls, edit vectors, and style vectors using the modern OpenLayers 3 JavaScript map component.
 
 `Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

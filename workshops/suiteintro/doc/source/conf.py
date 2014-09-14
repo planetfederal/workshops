@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Introduction to OpenGeo Suite'
-copyright = u'Boundless'
+copyright = u'2014 Boundless, CC BY-SA 3.0'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -188,19 +188,19 @@ latex_use_parts = True
 
 # NOTE!
 #
-# This LaTeX preamble overrides some Sphinx/LaTeX defaults in order to make 
+# This LaTeX preamble overrides some Sphinx/LaTeX defaults in order to make
 # better output.  This comment will try to explain what's going on here.
 # These hacks were perpetrated by Mike and Jeff.
 #
 # 1. Resize images so that they are no wider than 4in.
-#      Accomplished by renewing the \includegraphics command, and creating an 
-#      if/then statement saying to resize to 4in if large than 4in, otherwise 
+#      Accomplished by renewing the \includegraphics command, and creating an
+#      if/then statement saying to resize to 4in if large than 4in, otherwise
 #      leave alone
 # 2. Add drop shadow to images
-#      Accomplished by wrapping the above imcludegraphics commands with a 
+#      Accomplished by wrapping the above imcludegraphics commands with a
 #      \shadowbox.  Default border and spacing are changed in the \setlength
 #      commands
-# 3. Force LaTeX to place the images inline  
+# 3. Force LaTeX to place the images inline
 #      For whatever reason, Sphinx automatically appends the \begin{figure}
 #      command with [htbp], which means "put the figure where ever you feel
 #      like it."  We replaced the command to be appended with [H], which

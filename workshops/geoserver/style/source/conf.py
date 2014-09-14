@@ -38,7 +38,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'GeoServer Cartography and Style'
+project = u'Cartography and Style'
 copyright = u'Boundless'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -97,7 +97,7 @@ extlinks = {
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'boundless_web'
+html_theme = 'boundless_training'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -109,7 +109,7 @@ html_theme_path = ['../../../../themes']
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-html_title = project
+html_title = 'CSS Workshop'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.

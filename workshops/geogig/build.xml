@@ -1,0 +1,64 @@
+<project name="geogigintro" default="build">
+
+  <property name="doc" value="${basedir}/doc"/>
+  <property name="data" value="${basedir}/data"/>
+  <property name="build" value="${basedir}/build"/>
+
+  <target name="build" depends="init, doc, data, software">
+    <echo>Generating archive: ${ant.project.name}.zip</echo>
+    <zip destfile="${ant.project.name}.zip">
+      <fileset dir="${basedir}/build"/>
+    </zip>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="doc">
+    <delete dir="${build}/doc"/> 
+    <mkdir dir="${build}/doc"/>
+    <echo>Building docs...</echo>
+    <exec executable="sphinx-build" failonerror="true">
+      <arg line="-b html"/>
+      <arg value="-d"/>
+      <arg path="${doc}/doctrees"/>
+      <arg path="${doc}/source"/>
+      <arg path="${build}/doc"/>
+    </exec>
+  </target>
+
+  <target name="slides">
+    <delete dir="${build}/slides"/> 
+    <mkdir dir="${build}/slides"/>
+    <echo>Building docs...</echo>
+    <exec executable="landslide" failonerror="true">
+      <arg line="-t slides/avalanche"/>
+      <arg line="-d ${build}/slides/geoserver_slides.html"/>
+      <arg value="-v"/>
+      <arg value="slides/slides.rst"/>
+    </exec>
+  </target>
+
+   <target name="data">
+    <copy todir="${build}/data">
+      <fileset dir="${data}"/>
+    </copy>
+  </target>
+
+  <target name="software">
+    <mkdir dir="${build}/software"/>
+    <echo>Downloading software...</echo>
+    <echo>Skipping this section. Please include software separately.</echo>
+    <!--<get src="LINK TO OPENGEO SUITE BINARY" dest="${build}/software/OpenGeoSuite.exe" skipexisting="true" />-->
+    <!--<get src="LINK TO OTHER THINGS" dest="${build}/software/OtherThings.exe" skipexisting="true" />-->
+  </target>
+
+  <target name="clean">
+    <echo>Cleaning up...</echo>
+    <delete dir="${build}"/>
+    <delete dir="${doc}/doctrees"/>
+    <delete file="${ant.project.name}.zip"/>
+  </target>
+
+</project>

@@ -5,6 +5,10 @@ Lines
 
 We will start our tour of CSS styling by looking at the representation of lines.
 
+.. figure:: img/LineSymbology.svg
+   
+   LineString Geometry
+
 Review of line symbology:
 
 * Lines are used to represent physical details that are too small to be represented at the current scale. Line work can also be used to model non-physical ideas such as network connectivity, or the boundary between land-use classifications. **The visual width of lines do not change depending on scale.**
@@ -17,17 +21,12 @@ Review of line symbology:
 
 For our exercises we are going to be using simple CSS documents, often consisting of a single rule, in order to focus on the properties used for line symbology.
 
-.. figure:: img/LineSymbology.svg
-   
-   LineString Geometry
-
 Each exercise makes use of the ``ne:roads`` layer.
-
 
 Reference:
 
 * :manual:`Line Symbology <extensions/css/properties.html#line-symbology>` (User Manual | CSS Property Listing)
-* :manual:`Lines <extensions/css/cookbook_line.html>` (User Manual | CSS Cookbook)
+* :manual:`Lines <extensions/css/cookbook/line.html>` (User Manual | CSS Cookbook)
 * :manual:`LineString <styling/sld-reference/linesymbolizer.html>` (User Manual | SLD Reference )
 
 Stroke
@@ -67,7 +66,9 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
          stroke: blue;
        }
 
-#. And use the :guilabel:`Map` tab to preview the result.
+#. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
+   
+   You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
 
    .. image:: img/line.png
 
@@ -104,7 +105,7 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
          stroke-width: 2px;
        }
 
-#. The **stroke-dasharray** is used to define breaks rendering the line as a dot dash pattern
+#. The **stroke-dasharray** is used to define breaks rendering the line as a dot dash pattern.
 
    .. code-block:: css
       :emphasize-lines: 7 
@@ -120,20 +121,22 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
 
 #. Check the :guilabel:`Map` tab to preview the result.
 
-  .. image:: img/line_stroke.png
+   .. image:: img/line_stroke.png
 
 .. note:: The GeoServer rendering engine is quite sophisticated and allows the use of units of measure (such as :kbd:`m` or :kbd:`ft`). While we are using pixels in this example, real world units will be converted using the current scale.
 
 Z-Index
 -------
 
-The next example shows how to work around a limitation when using multiple strokes to render a line.
+The next exercise shows how to work around a limitation when using multiple strokes to render a line.
 
 .. figure:: img/LineStringZOrder.svg
 
    Use of Z-Index
 
-#. Providing two strokes is often used to provide a contrasting edge (called casing) to thick line work. 
+#. Providing two strokes is often used to provide a contrasting edge (called casing) to thick line work.
+
+   Update ``line_example`` with the following:
 
    .. code-block:: css
 
@@ -167,21 +170,25 @@ The next example shows how to work around a limitation when using multiple strok
 Label
 -----
 
-Our next example is significant as it introduces the concept of a dynamic style (where the value of a property is defined by an attribute).
+Our next example is significant as it introduces the how text labels are generated.
 
 .. figure:: img/LineStringLabel.svg
    
    Use of Label Property
 
+This is also our first example making use of a dynamic style (where the value of a property is defined by an attribute from your data).
+
 #. To enable LineString labeling we will need to use the key properties for both **stroke** and **label**.
 
-.. code-block:: css
-   :emphasize-lines: 2,3
+   Update ``line_example`` with the following:
+   
+   .. code-block:: css
+      :emphasize-lines: 2,3
 
-   * {
-     stroke: blue;
-     label: [name];
-   }
+      * {
+        stroke: blue;
+        label: [name];
+      }
 
 #. The SLD standard documents the default label position for each kind of Geometry. For LineStrings the initial label is positioned on the midway point of the line.
 
@@ -200,7 +207,6 @@ Our next example is significant as it introduces the concept of a dynamic style 
 #. Additional properties can be supplied to fine-tune label presentation:
    
    .. code-block:: css
-      :emphasize-lines: 4,5
       
       * {
         stroke: blue;
@@ -244,15 +250,15 @@ Our next example is significant as it introduces the concept of a dynamic style 
 How Labeling Works
 ------------------
 
-The rendering engine collects all the generated labels during rendering, and then takes a second pass through all the labels to perform collision avoidance (to prevent labels overlapping). Even with collision avoidance you can still see areas where labels are so closely spaced that the result is illegible.
+The rendering engine collects all the generated labels during the rendering of each layer. Then, during labeling, the engine sorts through the labels performing collision avoidance (to prevent labels overlapping). Finally the rendering engine draws the labels on top of the map. Even with collision avoidance you can spot areas where labels are so closely spaced that the result is hard to read.
 
 The parameters provided by SLD are general purpose and should be compatible with any rendering engine.
 
-To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These settings are used specifically for the GeoServer rendering engine and will be ignored by other systems. The GeoServer rendering engine marks each vendor specific paraemeter with the prefix **-gt**.
+To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These hints are used specifically for the GeoServer rendering engine and will be ignored by other systems. The GeoServer rendering engine marks each vendor specific parameter with the prefix **-gt-**.
 
-#.  The ability to take control of the labeling process is exactly the kind of hint a vendor specific parameter is intended for.
+#. The ability to take control of the labeling process is exactly the kind of hint a vendor specific parameter is intended for.
     
-    Update `line_example` with the following:
+   Update ``line_example`` with the following:
 
    .. code-block:: css
 
@@ -277,101 +283,16 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
         -gt-label-padding: 10;
       }
 
-#. Each label is now separated from its neighbor improving legibility.
+#. Each label is now separated from its neighbor, improving legibility.
 
    .. image:: img/line_label_3.png
 
-Follow Line (Optional)
-^^^^^^^^^^^^^^^^^^^^^^
+Scale
+-----
 
-Vendor options can be used to enable some quite spectacular effects.
+This section explores the use of attribute selectors and the :kbd:`@scale` selector together to simplify the road dataset for display.
 
-#. Update `line_example` with the following:
-
-   .. code-block:: css
-
-      * {
-        stroke: ededff;
-        stroke-width: 10;
-        label: [level] " " [name];
-        font-fill: black;
-        -gt-label-follow-line: true;
-      }
-
-#. The property **stroke-width** has been used to make our line thicker in order (to provide a backdrop for our label). 
-
-   .. code-block:: css
-      :emphasize-lines: 3
-      
-      * {
-        stroke: ededff;
-        stroke-width: 10;
-        label: [level] " " [name];
-        font-fill: black;
-        -gt-label-follow-line: true;
-      }
-
-#. The **label** property combines combine several CQL expressions together for a longer label.
-
-   .. code-block:: css
-      :emphasize-lines: 4
-
-      * {
-        stroke: ededff;
-        stroke-width: 10;
-        label: [level] " " [name];
-        font-fill: black;
-        -gt-label-follow-line: true;
-      }
-
-   .. note::
-      
-      The combined **label** property::
-         
-         [level] " " [name]
-         
-      Is internally represented with the **Concatenate** function::
-
-         [Concatenate(level,' #', name)] 
-
-#. The property **-gt-label-follow-line** provides the ability of have a label exactly follow a LineString character by character.
-
-   .. code-block:: css
-      :emphasize-lines: 6
-      
-      * {
-        stroke: ededff;
-        stroke-width: 10;
-        label: [level] " " [name];
-        font-fill: black;
-        -gt-label-follow-line: true;
-      }
-
-#. The result is a new appearance for our roads.
-
-   .. image:: img/line_label_4.png
-
-Scale (Advanced)
-----------------
-
-This section explores using attribute selectors, using @scale selectors, and using selectors together.
-
-#. Navigate to the **CSS Styles** page.
-
-#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:roads` from the list.
-
-#. Click :guilabel:`Create a new style` and choose the following:
-
-   .. list-table:: 
-      :widths: 30 70
-      :stub-columns: 1
-
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
-        - :kbd:`line_example`
-   
-#. Replace the initial CSS definition with:
+#. Replace the `line_example` CSS definition with:
 
    .. code-block:: css
 
@@ -409,37 +330,36 @@ This section explores using attribute selectors, using @scale selectors, and usi
       [@scale < 9000000] [scalerank > 7] {
         stroke: #888888;
         stroke-width: 2;
-      }s
-
+      }
       [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
         stroke: #777777;
       }
-
       [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
         stroke: #444444;
       }
-
       [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
         stroke: #000055;
       }
-
       [@scale > 70000000] [scalerank < 4] {
         stroke: black;
       }
 
-   .. note:: As shown above selectors can be combined in the same rule:
+#. As shown above selectors can be combined in the same rule:
 
-      * Selectors separated by whitespace are combined CQL Filter AND
-      * Selectors separated by a comma are combined using CQL Filter OR
+   * Selectors separated by whitespace are combined CQL Filter AND
+   * Selectors separated by a comma are combined using CQL Filter OR
 
-#. Our first rule checks that the scale is less than 9M and scalerank is greater than 7.
+   Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
 
    .. image:: img/line_06_adjust.png
+   
 
 Bonus
 -----
 
-Finished early? Here are some extra challenges to explore.
+Finished early? Here are some opportunities to explore what we have learned, and extra challenges requiring creativity and research.
+
+In a classroom setting please divide the challenges between teams (this allows us to work through all the material in the time available).
 
 .. only:: instructor
   
@@ -449,36 +369,111 @@ Finished early? Here are some extra challenges to explore.
  
       The use of selectors using the roads **type** attribute provides this opportunity.
 
-#. Generate the SLD for the following CSS.
+.. admonition:: Explore Vendor Option Follow Line
 
-   .. code-block:: css
+   Vendor options can be used to enable some quite spectacular effects, while still providing a style that can be used by other applications.
 
-       * {
-         stroke: black;
-       }
+   #. Update `line_example` with the following:
 
-   What is unusual about the SLD code for this example? Can you explain why this SLD still works as expected?
+      .. code-block:: css
+
+         * {
+           stroke: ededff;
+           stroke-width: 10;
+           label: [level] " " [name];
+           font-fill: black;
+           -gt-label-follow-line: true;
+         }
+
+   #. The property **stroke-width** has been used to make our line thicker in order to provide a backdrop for our label. 
+
+      .. code-block:: css
+         :emphasize-lines: 3
+      
+         * {
+           stroke: ededff;
+           stroke-width: 10;
+           label: [level] " " [name];
+           font-fill: black;
+           -gt-label-follow-line: true;
+         }
+
+   #. The **label** property combines combine several CQL expressions together for a longer label.
+
+      .. code-block:: css
+         :emphasize-lines: 4
+
+         * {
+           stroke: ededff;
+           stroke-width: 10;
+           label: [level] " " [name];
+           font-fill: black;
+           -gt-label-follow-line: true;
+         }
+
+      The combined **label** property::
+         
+         [level] " " [name]
+         
+      Is internally represented with the **Concatenate** function::
+
+         [Concatenate(level,' #', name)] 
+
+   #. The property **-gt-label-follow-line** provides the ability of have a label exactly follow a LineString character by character.
+
+      .. code-block:: css
+         :emphasize-lines: 6
+      
+         * {
+           stroke: ededff;
+           stroke-width: 10;
+           label: [level] " " [name];
+           font-fill: black;
+           -gt-label-follow-line: true;
+         }
+
+   #. The result is a new appearance for our roads.
+
+      .. image:: img/line_label_4.png
    
+.. admonition:: Challenge SLD Generation
+
+   #. Generate the SLD for the following CSS.
+
+      .. code-block:: css
+
+          * {
+            stroke: black;
+          }
+
+      What is unusual about the SLD code for this example?
+   
+   #. **Challenge:** Can you explain why this SLD still works as expected?
+
    .. only:: instructor
-     
+  
       .. admonition:: Instructor Notes       
 
          The generated SLD does not contain any stroke properties, even though black was specified::
-     
+  
             <sld:LineSymbolizer>
               <sld:Stroke/>
             </sld:LineSymbolizer>
-     
+  
          SLD considers black the default stroke color for a LineSymbolizer, so no further detail was required.
 
-#. The roads **type** attribute provides classification information. Create a new style adjust road appearance based on **type**.
+.. admonition:: Challenge Classification
 
-   .. image:: img/line_type.png
-
-   Hint 1: You can **Layer Preview** to inspect features to determine available values for type.
+   #. The roads **type** attribute provides classification information.
    
-   Hint 2: The available values are 'Major Highway','Secondary Highway','Road' and 'Unknown'.
-  
+      You can **Layer Preview** to inspect features to determine available values for type.
+   
+   #. **Challenge:** Create a new style adjust road appearance based on **type**.
+
+      .. image:: img/line_type.png
+
+      Hint: The available values are 'Major Highway','Secondary Highway','Road' and 'Unknown'.
+
    .. only:: instructor
       
       .. admonition:: Instructor Notes          
@@ -509,34 +504,42 @@ Finished early? Here are some extra challenges to explore.
                  stroke-width: 10;
               }
 
-#. Review the SLD generated by the Z-Order example and explain how it works.
-   
-   .. code-block:: css
+.. admonition:: Challenge SLD Z-Index Generation
 
-      * {
-        stroke: black, #8080E6;
-        stroke-width: 5px, 3px;
-        z-index: 0, 1;
-      }
-      
+   #. Review the SLD generated by the **z-index** example.
+   
+      .. code-block:: css
+
+         * {
+           stroke: black, #8080E6;
+           stroke-width: 5px, 3px;
+           z-index: 0, 1;
+         }
+
+   #. *Challenge:* There is an interesting trick in the generated SLD, can you explain how it works?
+
    .. only:: instructor
      
       .. admonition:: Instructor Notes    
 
-         The Z-Order example produces multiple FeatureTypeSytle definitions, each acting like an "inner layer". This concept was covered in SU-01, using this exact same example.
+         The Z-Order example produces multiple FeatureTypeSytle definitions, each acting like an "inner layer".
   
          Each FeatureTypeStyle is rendered into its own raster, and the results merged in order. The legend shown in the map preview also provides a hint, as the rule from each FeatureType style is shown.
 
-#. The traditional presentation of roads in the US is the use of a shield symbol, with the road number marked on top. Have a look at the documentation and reproduce this technique.
+.. admonition:: Challenge Label Shields
 
-   .. image:: img/line_shield.png
+   #. The traditional presentation of roads in the US is the use of a shield symbol, with the road number marked on top.
+   
+      .. image:: img/line_shield.png
+   
+   #. *Challenge:* Have a look at the documentation and reproduce this technique.
 
    .. only:: instructor
    
       .. admonition:: Instructor Notes      
 
-         The use of a label shield is a vendor specific capability of the GeoServer rendering engine.
-    
+         The use of a label shield is a vendor specific capability of the GeoServer rendering engine. The tricky part of this exercise is finding the documentation online ( i.e. :manual:`Styled Marks in CSS <community/css/styled-marks.html>`).
+         
          .. code-block:: css
        
             * {
@@ -553,4 +556,3 @@ Finished early? Here are some extra challenges to explore.
                 stroke: black;
                 size: 18;
             }
-
