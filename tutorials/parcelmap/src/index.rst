@@ -226,7 +226,7 @@ Now we will hook up the GeoServer rendering engine to our database table.
 First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL database. 
 
 * `Log in to GeoServer <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page>`_
-* `Add a new workspace <>`_ specifying ``county`` as the workspace name and ``http:://county.us`` as the URI.
+* `Add a new workspace <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/data/workspaces.html#adding-a-workspace>`_ specifying ``county`` as the workspace name and ``http:://county.us`` as the URI.
 
   .. image:: ./img/geoserver1.png
 
@@ -249,13 +249,18 @@ First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL 
   
 * We now have a published layer! Go to the "Layer Preview" page and click "Go" after the "taxlots" entry. It may take some time to render (all 92,206 lots have to be drawn), but you will see a map of the tax lots.
 
+  .. image:: ./img/geoserver4.png
+
+
+
+Fast Address Searching
+----------------------
+
+
+
 
 XXXXXXXXXXXXXXXXX
 
-
-
-Putting the Map on the Web
---------------------------
 
  
  
