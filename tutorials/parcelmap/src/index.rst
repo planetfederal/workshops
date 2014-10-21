@@ -59,7 +59,7 @@ Loading the Data
   The next steps will involve some database work.
 
   * If you haven't already installed  OpenGeo Suite, follow the `Suite installation instructions`_.
-  * `Create a spatial database`_ named `county` to load data into.
+  * `Create a spatial database`_ named ``county`` to load data into.
 
 The ``Taxlots.shp`` and ``SiteAddresses.shp`` shape files are not in geographic coordinates, they are in a special projection that makes sense for Jackson County. Here's the projection file ``Taxlots.prj``::
 
@@ -84,12 +84,182 @@ So the projection is "NAD 1983, State Plane Oregon South". But to load the data 
 
 So, the number we want to use is **2270**.
 
-Now, loading the **Taxlots** and **SiteAddresses** is pretty easy, either using the command line or the shape loader GUI. Just remember that our target table name is `counties`. Here's the command-line::
+Now, loading the **Taxlots** and **SiteAddresses** is pretty easy, either using the command line or the shape loader GUI. Just remember that our target table names are ``taxlots`` and ``siteaddresses``. Here's the command-line::
 
    shp2pgsql -s 2270 -D -I Taxlots.shp taxlots | psql county
    shp2pgsql -s 2270 -D -I SiteAddresses.shp siteaddresses | psql county
 
-XXXXXXX
+Here's what the ``taxlots`` table looks like::
+
+     Column   |            Type             |   Modifiers                       
+  ------------+-----------------------------+--------------
+   gid        | integer                     | not null
+   mapnumber  | character varying(20)       | 
+   mapnum     | character varying(20)       | 
+   gis_area   | double precision            | 
+   maplot     | character varying(16)       | 
+   account    | numeric(10,0)               | 
+   lottype    | character varying(4)        | 
+   feeowner   | character varying(29)       | 
+   contract   | character varying(29)       | 
+   incareof   | character varying(29)       | 
+   address1   | character varying(29)       | 
+   address2   | character varying(29)       | 
+   city       | character varying(19)       | 
+   state      | character varying(4)        | 
+   zipcode    | numeric(10,0)               | 
+   commsqft   | integer                     | 
+   acreage    | double precision            | 
+   impvalue   | numeric(10,0)               | 
+   landvalue  | numeric(10,0)               | 
+   lotdepth   | integer                     | 
+   lotwidth   | integer                     | 
+   propclass  | integer                     | 
+   addressnum | character varying(8)        | 
+   streetname | character varying(22)       | 
+   buildcode  | integer                     | 
+   yearblt    | integer                     | 
+   taxcode    | integer                     | 
+   assessimp  | numeric(10,0)               | 
+   assessland | numeric(10,0)               | 
+   maintenanc | integer                     | 
+   tm_maplot  | character varying(18)       | 
+   scheduleco | integer                     | 
+   neighborho | integer                     | 
+   ownersort  | character varying(5)        | 
+   addsort    | character varying(5)        | 
+   trssort    | character varying(5)        | 
+   siteadd    | character varying(36)       | 
+   taxlot     | numeric(10,0)               | 
+   shape_star | numeric                     | 
+   shape_stle | numeric                     | 
+   geom       | geometry(MultiPolygon,2270) | 
+
+Here's what the ``siteaddresses`` table looks like::
+
+     Column   |         Type          |   Modifiers
+  ------------+-----------------------+---------------
+   gid        | integer               | not null 
+   siteaddres | character varying(70) | 
+   number_    | character varying(8)  | 
+   sub_number | character varying(3)  | 
+   prefix     | character varying(5)  | 
+   streetname | character varying(50) | 
+   type       | character varying(6)  | 
+   suffix     | character varying(5)  | 
+   space      | character varying(6)  | 
+   zipcode    | character varying(10) | 
+   mapnum     | character varying(12) | 
+   taxlot     | character varying(7)  | 
+   city       | character varying(20) | 
+   floor      | integer               | 
+   cad_city   | character varying(2)  | 
+   wcity      | character varying(75) | 
+   geom       | geometry(Point,2270)  | 
+
+
+Exploring the Data
+------------------
+
+Before building our web application, let's explore the structure of the data using `QGIS`_.
+
+* Start up QGIS and choose *Layer->Add PostGIS Layers*
+* Add a new connection
+
+  .. image:: ./img/qgis1.png
+     :class: inline
+  
+* Choose the ``siteaddresses`` and ``taxlots`` tables'
+
+  .. image:: ./img/qgis2.png
+     :class: inline
+
+* Click *Add*
+* Click *Close*
+* You may need to drag the ``siteaddresses`` layer to the top of the layer list to get the points to draw on top of the polygons
+
+If you zoom around and explore the data a little, you'll note that while taxlots frequently contain only one site address, they don't always do so. Some tax lots contain no addresses, others contain several.
+
+.. image:: ./img/qgis3.png
+
+* Click the "Open Attribute Table" button on the tool bar to explore the data in each layer
+
+  .. image:: ./img/qgis3.png
+
+* Look closely at the ``taxlots`` table, and note the ``address1`` and ``city`` fields. These are actually the addresses of the lot *owner*,  not the address of the lot. The lot address is in the ``siteadd`` field, and is a partial address (no city, often missing the street number)::
+
+              address1           |       city        
+    -----------------------------+-------------------
+     11318 SOUTHWIND LN          | SCOTTSDALE
+     2242 BRENTWOOD DR           | MEDFORD
+     PO BOX 359                  | PHOENIX
+     610 CEDAR WOOD DR           | EAGLE POINT
+     CITY HALL                   | MEDFORD
+     7252 DARK HOLLOW RD         | MEDFORD
+     573 LADO WAY                | SANTA BARBARA
+     2430 ROCKWOOD CT            | MEDFORD
+  
+  
+* In contrast, the data in the ``siteaddresses`` table are quite complete. The ``siteaddres``, ``city``, and ``zipcode`` columns give a complete physical address of the sort an end user might be expected to enter::
+
+                 siteaddres             |     city      | zipcode 
+    ------------------------------------+---------------+---------
+     1350 WILSON RD                     | Ashland       | 97520
+     11537 DEAD INDIAN MEMORIAL RD      | Ashland       | 97520
+     690 REITEN DR                      | Ashland       | 97520
+     705 BENJAMIN CT                    | Ashland       | 97520
+     210 SUNNYVIEW ST                   | Ashland       | 97520
+     5977 DARK HOLLOW RD                | Medford       | 97501
+     38 SUMMIT AVE                      | Medford       | 97501
+     5353 DARK HOLLOW RD                | Medford       | 97501
+     983 COVE RD                        | Ashland       | 97520
+     300 SKYCREST DR                    | Ashland       | 97520
+
+So, in order to provide a user-friendly parcel look-up service, we're going to have to use the actual address data in the ``siteaddresses`` table for the look-ups, and use the ``taxlots`` data initially as a backdrop layer to provide the visual context of the parcel boundary.  
+
+
+Putting the Tax Lots on the Map
+-------------------------------
+
+Now we will hook up the GeoServer rendering engine to our database table.
+
+First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL database. 
+
+* `Log in to GeoServer <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page>`_
+* `Add a new workspace <>`_ specifying ``county`` as the workspace name and ``http:://county.us`` as the URI.
+
+  .. image:: ./img/geoserver1.png
+
+* `Add a new PostGIS store <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/data/stores.html#adding-a-store>`_, named ``county_postgis`` specifying the ``county`` database as the database to connect to, and using the ``county`` workspace.
+ 
+  .. image:: ./img/geoserver2.png
+ 
+* Add a new style, named ``taxlots`` in the ``county`` workspace, and fill it in with the content from `taxlots.sld <_static/data/taxlots.sld>`_. This "styled layer descriptor" (SLD) file gives each tax lot a color based on the ``yearblt`` column, which will provide a pretty visual map of the building history of the area.
+
+  .. image:: ./img/geoserver3.png
+
+* Finally, add a new layer, named ``taxlots``, using the ``county`` workspace, the ``county_postgis`` store, and the ``taxlots`` style.
+
+  * Under *Layer* click "Add a new resource"
+  * Select the ``county:county_postgis`` store
+  * Click "Publish" for the ``taxlots`` table
+  * Under the "Data" tab in the "Bounding Boxes" section click "Complete from data" and then "Compute from native bounds"
+  * Under the "Publishing" tab, select "taxlots" as the default style
+  * Click the "Save" button at the bottom of the page
+  
+* We now have a published layer! Go to the "Layer Preview" page and click "Go" after the "taxlots" entry. It may take some time to render (all 92,206 lots have to be drawn), but you will see a map of the tax lots.
+
+
+XXXXXXXXXXXXXXXXX
+
+
+
+Putting the Map on the Web
+--------------------------
+
+ 
+ 
+
 
 
 
@@ -686,17 +856,12 @@ We've built an application for browsing 51 different census variables, using les
 
 
 
+.. _Suite installation instructions: http://suite.opengeo.org/opengeo-docs/installation/index.html
+.. _OpenLayers: http://ol3js.org
+.. _Bootstrap: http://getbootstrap.com
+.. _Create a spatial database: http://suite.opengeo.org/opengeo-docs/dataadmin/pgGettingStarted/createdb.html
+.. _QGIS: http://boundlessgeo.com/qgis
 .. _WMS Layer source: http://ol3js.org/en/master/apidoc/ol.source.ImageWMS.html
 .. _OpenLayers Map: http://ol3js.org/en/master/apidoc/ol.Map.html
 .. _OpenLayers Popup Example: http://ol3js.org/en/master/examples/popup.html
 .. _OpenStreetMap: http://openstreetmap.org
-.. _Suite installation instructions: http://suite.opengeo.org/opengeo-docs/installation/index.html
-.. _OpenLayers: http://ol3js.org
-.. _Bootstrap: http://getbootstrap.com
-.. _censusmap.js: _static/code/censusmap.js
-.. _censusmap.html: _static/code/censusmap.html
-.. _DataDict.txt: _static/data/DataDict.txt
-.. _DataSet.txt: _static/data/DataSet.txt
-.. _stddev.xml: _static/data/stddev.xml
-.. _Create a spatial database: http://suite.opengeo.org/opengeo-docs/dataadmin/pgGettingStarted/createdb.html
-
