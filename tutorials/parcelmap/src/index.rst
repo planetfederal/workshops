@@ -22,14 +22,17 @@ This tutorial will show how to build an autocomplete form field using OpenGeo Su
 .. image:: ./img/webfinal.png 
    :width: 95%
 
-The basic structure of the application will be
+While this example is about autocompleting addresses, the technique can be used for almost any domain to create single-entry search forms. Why have separate "record number", "keyword search", "author search" fields on a form, when you can have a single field that transparently and quickly provides relevant alternatives no matter what the user chooses to input? Full-text autocomplete forms are a form-based hammer suitable for almost any data entry nail.
+
+The basic structure of the application will be:
 
 * Spatial tables of addresses and taxlots in PostGIS, that will be accessed with
 * Full-text search capabilities from PostgreSQL, web service enabled with
 * A SQL view in GeoServer, tied to
 * An autocomplete form and map view in OpenLayers 3 and JQuery.
 
-This demonstration application exercises all the tiers of the OpenGeo Suite!
+This demonstration application exercises all the tiers of OpenGeo Suite!
+
 
 
 Getting the Data
@@ -44,7 +47,7 @@ The data are in two shape files:
 * **Taxlots**, which includes a polygon for every lot.
 * **SiteAddresses**, which includes a point for every physical address.
 
-Beacuse multiple physical structures can exist on the same lot, or multiple addresses in the same complex (strata developments, for example) there are more address points than there are parcel polygons.
+Because multiple physical structures can exist on the same lot, or multiple addresses in the same complex (strata developments, for example) there are more address points than there are parcel polygons.
 
 .. image:: ./img/parcel-address.png 
 
@@ -255,6 +258,279 @@ First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL 
 
 Fast Address Searching
 ----------------------
+
+We are going to  build an "`autocomplete <http://jqueryui.com/autocomplete/>`_" web component that takes in partial inputs and returns a list of candidate selections: that means we are going to be performing a lot of queries, and we have to **return results really fast** so that users get a good experience.
+
+* `Open the PgAdmin`_ application and connect to the ``county`` database. 
+* Check how many addresses we will be working with:
+
+  .. code-block:: sql
+  
+     SELECT Count(*) FROM siteaddresses;
+     
+So, over **100,000** address records to search, how can we quickly search them to find candidate addresses based on partial input from the user? By using `PostgreSQL's full-text search <http://www.postgresql.org/docs/current/static/textsearch.html>`_ features!
+
+PostgreSQL's full-text search includes a number of useful features:
+
+* **Matching partial words.** Since we'll be running the searches automatically as the user types, handling partial word matches is important.
+* **Ranking results based on match quality.** We'll only want to show the top N results in our autocomplete form.
+* **Synonym dictionaries.** Addresses include words and abbreviations that mean the same thing, handling them as synonyms could be useful.
+
+
+Adding a Text Search Column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since we'll be searching addresses strings, the first step is to combine the relevant columns into a single text-searchable column. If you were searching a classic document database, this column might combine the title, abstract and body columns into on searchable column. In our case we'll combine the ``siteaddres``, ``city`` and ``zipcode`` columns into a single column
+
+.. code-block:: sql
+
+   SELECT siteaddres || ' ' || city || ' ' || zipcode AS str
+     FROM siteaddresses 
+     LIMIT 100;
+
+The column type for a for a text searchable column is ``tsvector`` so first we add the searchable column, then fill it with relevant data.
+
+.. code-block:: sql
+
+   -- Add a column for the text search data
+   ALTER TABLE siteaddresses ADD COLUMN ts tsvector;
+   
+   -- Populate text search column by joining together relevant fields 
+   -- into a single string
+   UPDATE siteaddresses 
+     SET ts  = to_tsvector('simple', siteaddres || ' ' || city || ' ' || zipcode) 
+     WHERE siteaddres IS NOT NULL;
+
+Now that we have a column suitable for text searching, we can try out some queries and see how fast they go. 
+
+
+Querying a Text Search Column
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PostgreSQL allows text search queries to be logically structured so that they search out documents that include all words, any words, or a combination of those conditions using **and (&)** and **or (|)** clauses. We'll be searching exlusively for results that have *all* the query terms, so we'll be using **and** clauses exclusively.
+
+Let's find all the records with "120 CINDY CT" in them:
+
+.. code-block:: sql
+
+   SELECT siteaddres, city
+   FROM siteaddresses
+   WHERE ts @@ to_tsquery('simple','120 & CINDY & CT');
+
+Look at the timing to see how fast the record is found in the 100,000 record table (pretty fast).
+
+.. note::
+
+   **What is this 'simple' parameter?**
+   
+   In both the ``ts_tsvector()`` and the ``to_tsquery()`` functions we used to population and query the full-text column, we applied an extra argument "simple". The first argument tells the function what dictionary set to use in processing the text. There are default dictionaries for "english", "french", "german" and many other languages in PostgreSQL. Language-based dictionaries apply specific language dependent rules for thing like:
+   
+   * Omitting "stop words" ("the", "it", "an", "a") from queries and indexes because they don't help searching. 
+   * Applying apply "stemming" so that similar words ("oaks" and "oak", "swim" and "swimming") can be matched automatically.
+   * Using synonym dictionaries so that identical constructions ("1st" and "first") and similar words ("run" and "sprint") can be resolved by a single query.
+   
+   For street addresses, we don't want the "english" language dictionary set to be applied to our queries or terms. That would do things like remove single letters ("N" for north, "S" from south) from the index, alter street names through stemming, and so on. We want a more literal interpretation of our strings, so we go with the "simple" dictionary, which removes extraneous what space and punctuation, but otherwise leaves things alone.
+
+
+Partial Matching and Ranking
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For our autocomplete field, we will be taking in partially typed inputs and looking for the "best match" set of options. That means we need to do partial matches on words.
+
+For example, suppose instead of "120 CINDY CT", a user had only typed up to "120 CI". What options can we provide? If we just search fo "120 CIN", we get no results.
+
+.. code-block:: sql
+
+   SELECT siteaddres, city
+   FROM siteaddresses
+   WHERE ts @@ to_tsquery('simple','120 & CI');
+   
+However, we can specify that the word "CI" is actually only the first part of the word, by appending ":*" to id in the text search query string.
+
+.. code-block:: sql
+
+   SELECT siteaddres, city
+   FROM siteaddresses
+   WHERE ts @@ to_tsquery('simple','120 & CI:*');
+
+Now we're getting back 11 options, all of which include "120 Cin" in one way or another. It would be nice if we got them back in "best to worst order, so let's reorganize our query and include a rank ordering. We move the ``to_tsquery()`` function to a subquery so that the query evaluation only has to run once, and we can use it both in the index operation and the ranking calculation function, ``ts_rank_cd()``.
+
+.. code-block:: sql
+   :emphasize-lines: 4
+   
+   SELECT 
+     siteaddres, 
+     city, 
+     ts_rank_cd(ts, query) AS rank
+   FROM siteaddresses,
+        to_tsquery('simple','120 & CI:*') AS query
+   WHERE ts @@ query
+   ORDER BY rank DESC
+   LIMIT 10;
+
+
+Full-text Query Input and Output
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+The results of the full text query are going to be displayed to an end user, so we'd like them to look as nice as possible. Right now the results look like this::
+
+       siteaddres     |     city      | rank  
+  --------------------+---------------+-------
+   120 CINDY CT       | Shady Cove    |   0.1
+   120 FAITH CIR      | Talent        |  0.05
+   120 OFFORD CIR     | Jacksonville  |  0.05
+
+We can only display one field in the autocomplete output, so we need to bring the ``siteaddres`` and ``city`` together. It would also be nice if we the case were not mixed. We could uppercase both fields, but it would be nicer to use initial capitalization instead.
+
+.. code-block:: sql
+   :emphasize-lines: 2
+
+   SELECT 
+     initcap(siteaddres || ', ' || city) AS address, 
+     ts_rank_cd(ts, query) AS rank
+   FROM siteaddresses,
+        to_tsquery('simple','120 & CI:*') AS query
+   WHERE ts @@ query
+   ORDER BY rank DESC;
+
+That looks nicer::
+
+                address              | rank  
+  -----------------------------------+-------
+   120 Cindy Ct, Shady Cove          |   0.1
+   120 Faith Cir, Talent             |  0.05
+   120 Offord Cir, Jacksonville      |  0.05
+
+When we hook up the query to an autocomplete field, the string the field will send back to the database will not be formatted for use as a full-text search query. Somewhere in our software, we need to do that reformatting. Rather than doing it at the client tier in JavaScript, we'll do it at the database tier in SQL.
+
+For any input string, we're going to want to remove extraneous spaces, put an "&" character between every word, and put a ":*" string after the last word, to indicate a partial match. The ":*" partial match is important because the autocomplete will frequently be sending back a query string while the user is only partway through typing a word, and we want to find all the matches that make sense for that partially entered final word.
+
+.. code-block:: sql
+
+   CREATE OR REPLACE FUNCTION to_tsquery_partial(text)
+     RETURNS tsquery AS $$
+       SELECT to_tsquery('simple', 
+              array_to_string(
+              regexp_split_to_array(
+              trim($1),E'\\s+'),' & ') || ':*')
+     $$ LANGUAGE 'sql';
+
+   -- Input:  100 old high   
+   -- Output: 100 & old & high:*
+   SELECT to_tsquery_partial('100 old high');
+
+   
+Once we have a proper full-text search query string, we can plug it into a search query.
+
+.. code-block:: sql
+   :emphasize-lines: 6
+
+   SELECT 
+     initcap(a.siteaddres || ', ' || city) AS address, 
+     a.gid AS gid,
+     ts_rank_cd(a.ts, query) AS rank
+   FROM siteaddresses AS a,
+        to_tsquery_partial('100 old high') AS query
+   WHERE ts @@ query
+   ORDER BY rank DESC 
+   LIMIT 10;
+
+Our plain query string is turned into a full-text query, and run against the table for a very fast partial match return (check the query timing), exactly what we want!
+
+
+Configuring the Address Search Web Service
+------------------------------------------
+
+Now that we have a good database query, we need to expose it as a web service (a URL) that the autocomplete field can use pull candidate matches into the web browser.
+
+* `Log in to GeoServer <http://suite.opengeo.org/opengeo-docs/geoserver/webadmin/basics.html#welcome-page>`_
+
+* Add a new layer, named ``taxlots``, using the ``county`` workspace, and the ``county_postgis`` store.
+
+  * Under *Layer* click "Add a new resource"
+  * Select the ``county:county_postgis`` store
+  * Click the "Configure new SQL view..." link
+
+    .. image:: ./img/sqlview1.png 
+
+  * Set the name of the view to ``address_autocomplete``
+  
+    .. image:: ./img/sqlview2.png 
+  
+  * Set the SQL statement for the view to be
+  
+    .. code-block::sql
+    
+       SELECT 
+         initcap(a.siteaddres || ', ' || city) AS address, 
+         a.gid AS gid,
+         a.geom AS geom,
+         ts_rank_cd(a.ts, query) AS rank
+       FROM siteaddresses AS a,
+            to_tsquery_partial('100 old high') AS query
+       WHERE ts @@ query
+       ORDER BY rank DESC 
+       LIMIT 10;
+       
+  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep teh default regular expression filter.
+  
+    .. image:: ./img/sqlview3.png 
+  
+  * Click the "Guess geometry type and id" check box, and ensure the geometry type is "Point", the SRID is "2270" and that the "gid" column is selected as the unique identifier.
+
+    .. image:: ./img/sqlview4.png 
+  
+  * Click the "Save" button.
+  * In the "Data" tab, click the "Compute from data" and "Compute from native bounds" links to update the bounding box informatino.
+
+    .. image:: ./img/sqlview5.png 
+
+  * In the "Tile Caching" tab, un-check the "Create a cached layer for this layer" option.
+  * Click the "Save" button.
+
+That's it! Now we have an address search service, accessible over the web. 
+
+  * http://localhost:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=county:address_autocomplete&outputFormat=application/json&srsName=EPSG:3857&viewparams=query:100+old+high
+
+By using the WFS end point, we can query using a string and get back a GeoJSON feature collection of potentially matching records. Here's the output from the call above (pretty-printed for easier reading.
+
+.. code-block:: javascript 
+
+  {
+     "crs" : {
+        "type" : "EPSG",
+        "properties" : {
+           "code" : "3857"
+        }
+     },
+     "totalFeatures" : 1,
+     "features" : [
+        {
+           "geometry_name" : "geom",
+           "geometry" : {
+              "coordinates" : [
+                 -13671227.5903573,
+                 5258470.52569557
+              ],
+              "type" : "Point"
+           },
+           "id" : "address_autocomplete.31410",
+           "type" : "Feature",
+           "properties" : {
+              "address" : "100 Old Highway 62, Trail",
+              "rank" : 0.1
+           }
+        }
+     ],
+     "type" : "FeatureCollection"
+  }
+
+
+Building the Web Application
+----------------------------
+
+
+
 
 
 
@@ -870,3 +1146,4 @@ We've built an application for browsing 51 different census variables, using les
 .. _OpenLayers Map: http://ol3js.org/en/master/apidoc/ol.Map.html
 .. _OpenLayers Popup Example: http://ol3js.org/en/master/examples/popup.html
 .. _OpenStreetMap: http://openstreetmap.org
+.. _PgAdmin: http://suite.opengeo.org/4.1/dataadmin/pgGettingStarted/pgadmin.html
