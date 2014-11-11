@@ -123,7 +123,7 @@ To accommodate `pgr_createTopology`, we need to add `source` and `target` column
   ALTER TABLE edges ADD target INT4;
   SELECT pgr_createTopology('edges', 1);
 
-We can now check to see if the `source` and `target columns in our `edges` database have been filled in. There should also be a new `edges_vertices_pgr` table which enumerates all the vertices in the network that pgRouting has detected.
+We can now check to see if the `source` and `target` columns in our `edges` table have been filled in. There should also be a new `edges_vertices_pgr` table which enumerates all the vertices in the network that pgRouting has detected.
 
 We haven’t quite solved the network problem yet, however. `pgr_createTopology` does a good job of finding vertices when they are shared between two edges, but what about when a road terminates in the middle of another road?
 
