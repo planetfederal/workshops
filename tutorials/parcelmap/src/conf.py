@@ -35,7 +35,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Autocomplete Parcel Map with OpenGeo Suite'
+project = u'Autocomplete Parcel Lookup with OpenGeo Suite'
 copyright = u'2014, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
