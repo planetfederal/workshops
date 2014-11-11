@@ -81,7 +81,7 @@ We can use OGR, to load the data into the database accomplish all of the goals w
 * `-select 'name,highway,oneway,surface'`: take the desired attributes only
 * `-f PostgreSQL PG:"dbname=routing user=postgres"`: load the data into Postgres
 * `-lco GEOMETRY_NAME=the_geom:` store the geometry in an attribute named `the_geom`
-* `-lco FID=id`: store the geometry in an attribute named `id`
+* `-lco FID=id`: store the feature identifying numbers in an attribute named `id`
 * `-nln edges`: store the data in a table called `edges`
 * `-t_srs EPSG:3857`: convert the data to Google Mercator
 
