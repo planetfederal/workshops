@@ -1,7 +1,7 @@
 
 .. note:: 
 
-  Check out the `full demonstration application <http://apps.boundlessgeo.com/apps/parcelmap>`_ and play!
+  Check out the `online demonstration application <http://apps.boundlessgeo.com/apps/parcelmap>`_ and play!
 
 
 Introduction
@@ -19,10 +19,12 @@ Fortunately, this user interface problem has a well-known, battle-tested solutio
 
 This tutorial will show how to build an autocomplete form field using OpenGeo Suite, and tie the field to a dynamic map view of the selected address.
 
-.. image:: ./img/webfinal.png 
+.. image:: ./img/app3.png 
    :width: 95%
 
-While this example is about autocompleting addresses, the technique can be used for almost any domain to create single-entry search forms. Why have separate "record number", "keyword search", "author search" fields on a form, when you can have a single field that transparently and quickly provides relevant alternatives no matter what the user chooses to input? Full-text autocomplete forms are a form-based hammer suitable for almost any data entry nail.
+While this example is about autocompleting addresses, the technique can be used for almost any kind of data to create single-entry search forms. 
+
+Why have separate "record number", "keyword search", "author search" fields on a form, when you can have a single field that transparently and quickly provides relevant alternatives no matter what the user chooses to input? Full-text search autocomplete fields are a form-based hammer suitable for almost any data entry nail.
 
 The basic structure of the application will be:
 
@@ -51,7 +53,7 @@ Because multiple physical structures can exist on the same lot, or multiple addr
 
 .. image:: ./img/parcel-address.png 
 
-For our address auto-complete application we will want to use the address data from the **SiteAddresses** file, which has the physical structures that people associated with "an address". We can use the taxlot polygons for a backdrop layer.
+For our address auto-complete application we will want to use the address data from the **SiteAddresses** file, which has the physical structures that people associate with "an address". We can use the taxlot polygons for a backdrop layer.
 
 
 Loading the Data
@@ -187,7 +189,7 @@ If you zoom around and explore the data a little, you'll note that while taxlots
 
 * Click the "Open Attribute Table" button on the tool bar to explore the data in each layer
 
-  .. image:: ./img/qgis3.png
+  .. image:: ./img/qgis4.png
 
 * Look closely at the ``taxlots`` table, and note the ``address1`` and ``city`` fields. These are actually the addresses of the lot *owner*,  not the address of the lot. The lot address is in the ``siteadd`` field, and is a partial address (no city, often missing the street number)::
 
@@ -261,18 +263,18 @@ Fast Address Searching
 
 We are going to  build an "`autocomplete <http://jqueryui.com/autocomplete/>`_" web component that takes in partial inputs and returns a list of candidate selections: that means we are going to be performing a lot of queries, and we have to **return results really fast** so that users get a good experience.
 
-* `Open the PgAdmin`_ application and connect to the ``county`` database. 
+* Open the `PgAdmin`_ application and connect to the ``county`` database. 
 * Check how many addresses we will be working with:
 
   .. code-block:: sql
   
      SELECT Count(*) FROM siteaddresses;
      
-So, over **100,000** address records to search, how can we quickly search them to find candidate addresses based on partial input from the user? By using `PostgreSQL's full-text search <http://www.postgresql.org/docs/current/static/textsearch.html>`_ features!
+So, over **100,000** address records to search, how can we quickly search them to find candidate addresses based on partial input from the user? By using `PostgreSQL's full-text search <http://www.postgresql.org/docs/current/static/textsearch.html>`_ capabilities!
 
 PostgreSQL's full-text search includes a number of useful features:
 
-* **Matching partial words.** Since we'll be running the searches automatically as the user types, handling partial word matches is important.
+* **Matching partial words.** Since we'll be running the searches automatically when the user is in the middle of typing, handling partial word matches is important.
 * **Ranking results based on match quality.** We'll only want to show the top N results in our autocomplete form.
 * **Synonym dictionaries.** Addresses include words and abbreviations that mean the same thing, handling them as synonyms could be useful.
 
@@ -280,7 +282,7 @@ PostgreSQL's full-text search includes a number of useful features:
 Adding a Text Search Column
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since we'll be searching addresses strings, the first step is to combine the relevant columns into a single text-searchable column. If you were searching a classic document database, this column might combine the title, abstract and body columns into on searchable column. In our case we'll combine the ``siteaddres``, ``city`` and ``zipcode`` columns into a single column
+Since we'll be searching address strings, the first step is to combine the relevant columns into a single text-searchable column. If you were searching a classic document database, this column might combine the title, abstract and body columns into on searchable column. In our case we'll combine the ``siteaddres``, ``city`` and ``zipcode`` columns into a single column
 
 .. code-block:: sql
 
@@ -307,7 +309,7 @@ Now that we have a column suitable for text searching, we can try out some queri
 Querying a Text Search Column
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PostgreSQL allows text search queries to be logically structured so that they search out documents that include all words, any words, or a combination of those conditions using **and (&)** and **or (|)** clauses. We'll be searching exlusively for results that have *all* the query terms, so we'll be using **and** clauses exclusively.
+PostgreSQL allows `text search queries <http://www.postgresql.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES>`_ to be logically structured so that they search out documents that include all words, any words, or a combination of those conditions using **and (&)** and **or (|)** clauses. We'll be searching exlusively for results that have *all* the query terms, so we'll be using **and** clauses exclusively.
 
 Let's find all the records with "120 CINDY CT" in them:
 
@@ -323,29 +325,30 @@ Look at the timing to see how fast the record is found in the 100,000 record tab
 
    **What is this 'simple' parameter?**
    
-   In both the ``ts_tsvector()`` and the ``to_tsquery()`` functions we used to population and query the full-text column, we applied an extra argument "simple". The first argument tells the function what dictionary set to use in processing the text. There are default dictionaries for "english", "french", "german" and many other languages in PostgreSQL. Language-based dictionaries apply specific language dependent rules for thing like:
+   In both the ``ts_tsvector()`` and the ``to_tsquery()`` functions we used to populate and query the full-text column, we applied an extra argument "simple". This argument tells the system what dictionary to use when processing the text. There are default dictionaries for "english", "french", "german" and many other languages in PostgreSQL. Language-based dictionaries apply specific language dependent rules for things like:
    
    * Omitting "stop words" ("the", "it", "an", "a") from queries and indexes because they don't help searching. 
-   * Applying apply "stemming" so that similar words ("oaks" and "oak", "swim" and "swimming") can be matched automatically.
+   * Applying  "stemming" so that similar words ("oaks" and "oak", "swim" and "swimming") can be matched automatically.
    * Using synonym dictionaries so that identical constructions ("1st" and "first") and similar words ("run" and "sprint") can be resolved by a single query.
    
-   For street addresses, we don't want the "english" language dictionary set to be applied to our queries or terms. That would do things like remove single letters ("N" for north, "S" from south) from the index, alter street names through stemming, and so on. We want a more literal interpretation of our strings, so we go with the "simple" dictionary, which removes extraneous what space and punctuation, but otherwise leaves things alone.
+   For street addresses, we don't want the "english" language dictionary set to be applied to our queries or terms. That would do things like remove single letters ("N" for north, "S" from south) from the index, alter street names through stemming, and so on. We want a more literal interpretation of our strings, so we go with the "simple" dictionary, which removes extraneous white space and punctuation, but otherwise leaves things alone.
 
 
 Partial Matching and Ranking
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For our autocomplete field, we will be taking in partially typed inputs and looking for the "best match" set of options. That means we need to do partial matches on words.
+For our autocomplete field, we will be receiving partially typed inputs and looking for the "best match" set of options. That means we need to do partial matches on words.
 
-For example, suppose instead of "120 CINDY CT", a user had only typed up to "120 CI". What options can we provide? If we just search fo "120 CIN", we get no results.
+For example, suppose instead of "120 CINDY CT", a user had only typed up to "120 CI". What options can we provide? If we just search for "120 CI", we get no results.
 
 .. code-block:: sql
 
    SELECT siteaddres, city
    FROM siteaddresses
    WHERE ts @@ to_tsquery('simple','120 & CI');
-   
-However, we can specify that the word "CI" is actually only the first part of the word, by appending ":*" to id in the text search query string.
+
+
+However, we can specify that the word "CI" is actually only the first part of the word, by appending ":\*" to the text search query string to specify `prefix matching <http://www.postgresql.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES>`_ for that word.
 
 .. code-block:: sql
 
@@ -353,7 +356,7 @@ However, we can specify that the word "CI" is actually only the first part of th
    FROM siteaddresses
    WHERE ts @@ to_tsquery('simple','120 & CI:*');
 
-Now we're getting back 11 options, all of which include "120 Cin" in one way or another. It would be nice if we got them back in "best to worst order, so let's reorganize our query and include a rank ordering. We move the ``to_tsquery()`` function to a subquery so that the query evaluation only has to run once, and we can use it both in the index operation and the ranking calculation function, ``ts_rank_cd()``.
+Now we're getting back 11 options, all of which include "120 Ci" in one way or another. It would be nice if we got them back in "best to worst" order, so let's reorganize our query and include a `ranking function`_. We move the ``to_tsquery()`` function to a subquery so that the query evaluation only has to run once, and we can use it both in the index operation and in the `ranking function`_, ``ts_rank_cd()``.
 
 .. code-block:: sql
    :emphasize-lines: 4
@@ -372,6 +375,9 @@ Now we're getting back 11 options, all of which include "120 Cin" in one way or 
 Full-text Query Input and Output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
+Output
+^^^^^^ 
+
 The results of the full text query are going to be displayed to an end user, so we'd like them to look as nice as possible. Right now the results look like this::
 
        siteaddres     |     city      | rank  
@@ -380,7 +386,7 @@ The results of the full text query are going to be displayed to an end user, so 
    120 FAITH CIR      | Talent        |  0.05
    120 OFFORD CIR     | Jacksonville  |  0.05
 
-We can only display one field in the autocomplete output, so we need to bring the ``siteaddres`` and ``city`` together. It would also be nice if we the case were not mixed. We could uppercase both fields, but it would be nicer to use initial capitalization instead.
+We can only display one field in the autocomplete output, so we need to bring the ``siteaddres`` and ``city`` together. It would also be nice if the case were not mixed. We could uppercase both fields, but it would be even nicer to use initial capitalization instead.
 
 .. code-block:: sql
    :emphasize-lines: 2
@@ -401,25 +407,35 @@ That looks nicer::
    120 Faith Cir, Talent             |  0.05
    120 Offord Cir, Jacksonville      |  0.05
 
-When we hook up the query to an autocomplete field, the string the field will send back to the database will not be formatted for use as a full-text search query. Somewhere in our software, we need to do that reformatting. Rather than doing it at the client tier in JavaScript, we'll do it at the database tier in SQL.
 
-For any input string, we're going to want to remove extraneous spaces, put an "&" character between every word, and put a ":*" string after the last word, to indicate a partial match. The ":*" partial match is important because the autocomplete will frequently be sending back a query string while the user is only partway through typing a word, and we want to find all the matches that make sense for that partially entered final word.
+Input
+^^^^^ 
+
+When we hook up the query to an autocomplete field, the string the autocomplete sends back to the database will not be formatted for use as a full-text search query. Somewhere in our software, we need to do that reformatting. Rather than doing it at the client tier in JavaScript, we'll do it at the database tier in SQL.
+
+For any input string, we're going to want to remove extraneous spaces, put an "&" character between every word, and put a ":\*" string after the last word, to indicate a partial match. 
+
+The ":\*" partial match is important because the autocomplete will frequently be sending back a query string when the user is only partway through typing a word, and we want to find **all** the matches that make sense for that partially entered final word.
 
 .. code-block:: sql
 
+   -- An SQL function to wrap up the pre-processing step that takes
+   -- an unformated query string and converts it to a tsquery for
+   -- use in the full-text search
    CREATE OR REPLACE FUNCTION to_tsquery_partial(text)
      RETURNS tsquery AS $$
        SELECT to_tsquery('simple', 
               array_to_string(
               regexp_split_to_array(
-              trim($1),E'\\s+'),' & ') || ':*')
+              trim($1),E'\\s+'),' & ') || 
+              CASE WHEN $1 ~ ' $' THEN '' ELSE ':*' END)
      $$ LANGUAGE 'sql';
 
    -- Input:  100 old high   
    -- Output: 100 & old & high:*
    SELECT to_tsquery_partial('100 old high');
 
-   
+
 Once we have a proper full-text search query string, we can plug it into a search query.
 
 .. code-block:: sql
@@ -454,12 +470,10 @@ Now that we have a good database query, we need to expose it as a web service (a
     .. image:: ./img/sqlview1.png 
 
   * Set the name of the view to ``address_autocomplete``
-  
-    .. image:: ./img/sqlview2.png 
-  
+    
   * Set the SQL statement for the view to be
   
-    .. code-block::sql
+    .. code-block:: sql
     
        SELECT 
          initcap(a.siteaddres || ', ' || city) AS address, 
@@ -481,7 +495,7 @@ Now that we have a good database query, we need to expose it as a web service (a
     .. image:: ./img/sqlview4.png 
   
   * Click the "Save" button.
-  * In the "Data" tab, click the "Compute from data" and "Compute from native bounds" links to update the bounding box informatino.
+  * In the "Data" tab, click the "Compute from data" and "Compute from native bounds" links to update the bounding box information.
 
     .. image:: ./img/sqlview5.png 
 
@@ -490,7 +504,7 @@ Now that we have a good database query, we need to expose it as a web service (a
 
 That's it! Now we have an address search service, accessible over the web. 
 
-  * http://localhost:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=county:address_autocomplete&outputFormat=application/json&srsName=EPSG:3857&viewparams=query:100+old+high
+* http://localhost:8080/geoserver/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=county:address_autocomplete&outputFormat=application/json&srsName=EPSG:3857&viewparams=query:100+old+high
 
 By using the WFS end point, we can query using a string and get back a GeoJSON feature collection of potentially matching records. Here's the output from the call above (pretty-printed for easier reading.
 
@@ -529,609 +543,323 @@ By using the WFS end point, we can query using a string and get back a GeoJSON f
 Building the Web Application
 ----------------------------
 
+Now we have two parts of our address autocomplete application set up:
+
+* the database tier is loaded and indexed for full-text search; and
+* the web services tier is configured and exposes our full-text search as a web service.
+
+Now we need a web application to exercise those tiers.
+
+.. note:: 
+
+   If you want to skip the step-by-step process below and read along through a complete application, you can `download the finished application <_static/code/parcelmap.zip>`_ as a zip file.
 
 
+Basic SDK and Application Setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+We will be using the Suite SDK as the starting point to build our application.
 
+* `Install the Suite SDK <http://suite.opengeo.org/4.1/webapps/install.html>`_
+* Confirm that you can run the SDK utility::
 
-XXXXXXXXXXXXXXXXX
-
-
- 
- 
-
-
-
-
-And this is what the GUI looks like:
-
-.. image:: ./img/shploader.png
-
-Note that, like the `census` table, the `counties` table also contains a **fips** code, so we have a common key to join the attributes to the spatial shapes for mapping
-
-.. code-block:: text
-   :emphasize-lines: 9
-
-           Table "public.counties"
-      Column   |            Type             
-   ------------+-----------------------------
-    gid        | integer                     
-    name       | character varying(32)       
-    state_name | character varying(25)       
-    state_fips | character varying(2)        
-    cnty_fips  | character varying(3)        
-    fips       | character varying(5)        
-    geom       | geometry(MultiPolygon,4326) 
-   Indexes:
-     "counties_pkey" PRIMARY KEY, btree (gid)
-     "counties_geom_gist" gist (geom)
-
-
-Drawing the Map
----------------
-
-Our challenge now is to set up a rendering system that can easily render any of our 51 columns of census data as a map.
-
-We could define **51 layers in GeoServer**, and set up 51 separate styles to provide attractive renderings of each variable. But that would be a lot of work, and we're **much too lazy** to do that. What we want is a **single layer** that can be re-used to render any column of interest. 
-
-One Layer to Rule them All
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Using a `parametric SQL view <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ we can define a SQL-based layer definition that allows us to change the column of interest by substituting a variable when making a WMS map rendering call.
-
-For example, this SQL definition will allow us to substitute any column we want into the map rendering chain:
-
-.. code-block:: sql
-
-   SELECT 
-     census.fips, 
-     counties.geom,
-     %column% AS data
-   FROM census JOIN counties USING (fips)
-
-The query joins the `census` table data to the `counties` spatial table, and includes a `data` column, that is dynamically filled in by the `%column%` variable.
-
-One Style to Rule them All
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Viewing our data via a parametric SQL view doesn't quite get us over the goal line though, because we still need to create a thematic style for the data, and the data in our **51 columns** have vastly different ranges and distributions:
-
-* some are percentages
-* some are absolute population counts
-* some are medians or averages of absolutes
-
-We need to somehow get all this different data onto one scale, preferably one that provides for easy visual comparisons between variables.
-
-The answer is to **use the average and standard deviation of the data to normalize it** to a standard scale.
-
-.. image:: ./img/stddev.png
-
-For example:
-
-* For data set **D**, suppose the **avg(D)** is **10** and the **stddev(D)** is **5**.
-* What will the average and standard deviation of **(D - 10) / 5** be?
-* The average will be **0** and the standard deviation will be **1**.
-
-Let's try it on our own census data.
-
-.. code-block:: sql
-
-   SELECT Avg(pst045212), Stddev(pst045212) FROM census;
+    suite-sdk
    
-   --
-   --        avg        |     stddev      
-   -- ------------------+-----------------
-   --  99877.2001272669 | 319578.62862369
+  You should see a usage screen like this::
+  
+    Usage: suite-sdk <command> <args>
 
-   SELECT Avg((pst045212 - 99877.2001272669) / 319578.62862369),
-          Stddev((pst045212 - 99877.2001272669) / 319578.62862369) 
-   FROM census;
-   
-   --     avg    | stddev 
-   -- -----------+--------
-   --      0     |      1
+    List of commands:
+        create      Create a new application.
+        debug       Run an existing application in debug mode.
+        package     Create a WAR file.
+    
+    See 'suite-sdk <command> --help' for more detail on a specific command.
 
-So we can easily convert any of our data into a scale that centers on 0 and where one standard deviation equals one unit just by normalizing the data with the average and standard deviation!
+* Create a new SDK application named ``parcelmap`` using the following command::
 
-Our new parametric SQL view will look like this:
+    suite-sdk create parcelmap ol3view
 
-.. code-block:: sql
+  This creates a blank web application using an `Openlayers 3 viewer template <http://suite.opengeo.org/4.1/webapps/ol3/templates.html>`_ as the starting point.
+  
+  Inside the application template you'll find the following contents::
 
-   -- Precompute the Avg and StdDev,
-   -- then join the tables and normalize
-   WITH stats AS (
-     SELECT Avg(%column%) AS avg, 
-            Stddev(%column%) AS stddev 
-     FROM census
-   )
-   SELECT 
-     census.fips, 
-     counties.geom,
-     %column% as data
-     (%column% - avg)/stddev AS normalized_data
-   FROM stats, 
-     census JOIN counties USING (fips)
+    buildjs.cfg
+    index.html
+    src/app		
+    src/bootstrap	
+    src/font-awesome	
+    src/ol3
+    src/bootbox		
+    src/css		
+    src/jquery
 
-The query first calculates the overall statistics for the column, then applies those stats to the data in the join query, serving up a normalized view of the data.
+  The important parts for building our application are the ``index.html`` file, which is the default start page for the app, and the ``src/app`` directory, which contains the Javascript for our app. The other contents are useful support libraries, that are used by the template, and that we can use in our app as well.
 
-With our data normalized, we are ready to create one style to rule them all!
+  * `Bootstrap`_
+  * `Font Awesome`_
+  * `OpenLayers`_
+  * `Bootbox`_
+  * `JQuery`_
 
-* Our style will have two colors, one to indicate counties "above average" and the other for "below average"
-* Within those two colors it will have 3 shades, for a total of 6 bins in all
-* In order to divide up the population more or less evenly, the bins will be
+* Now fire up the SDK in debugging mode to view the template app::
 
-  * (#c51b7d) -1.0 and down (very below average) 
-  * (#e9a3c9) -1.0 to -0.5 (below average) 
-  * (#fde0ef) -0.5 to 0.0  (a little below average) 
-  * (#e6f5d0)  0.0 to 0.5  (a little above average) 
-  * (#a1d76a)  0.5 to 1.0  (above average) 
-  * (#4d9221)  1.0 and up  (very above average) 
+    suite-sdk debug parcelmap
 
-* The colors above weren't chosen randomly! I always use the `ColorBrewer <http://colorbrewer2.org/>`_ site when building themes, because ColorBrewer provides palettes that have been tested for maximum readability and to some extent aesthetic quality. Here's the palette I chose:
-
-  .. image:: ./img/colorbrewer.png
-     :width: 95%
-
-* Configure a new style in GeoServer by going to the *Styles* section, and selecting **Add a new style**.
-* Set the style name to *stddev*
-* Set the style workspace to *opengeo*
-* Paste in the style definition (below) for `stddev.xml`_ and hit the *Save* button at the bottom
-
-.. code-block:: xml
-
-   <?xml version="1.0" encoding="ISO-8859-1"?>
-   <StyledLayerDescriptor version="1.0.0"
-     xmlns="http://www.opengis.net/sld" 
-     xmlns:ogc="http://www.opengis.net/ogc"
-     xmlns:xlink="http://www.w3.org/1999/xlink" 
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xmlns:gml="http://www.opengis.net/gml"
-     xsi:schemaLocation="http://www.opengis.net/sld 
-     http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
+  The debug mode allows you to work against the code in your application as if it were already deployed to a application server, by providing a small proxy server that connects back to a remote GeoServer. 
+  
+  .. note:: 
      
-     <NamedLayer>
-       <Name>opengeo:stddev</Name>
-       <UserStyle>
-
-         <Name>Standard Deviation Ranges</Name>
-
-         <FeatureTypeStyle>
-
-           <Rule>
-             <Name>StdDev &lt; -1.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsLessThan>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:Literal>-1.0</ogc:Literal>
-               </ogc:PropertyIsLessThan>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-                <Fill>
-                   <!-- CssParameters allowed are fill and fill-opacity -->
-                   <CssParameter name="fill">#c51b7d</CssParameter>
-                </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>-1.0 &lt; StdDev &lt; -0.5</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>-1.0</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>-0.5</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#e9a3c9</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>-0.5 &lt; StdDev &lt; 0.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>-0.5</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>0.0</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#fde0ef</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>0.0 &lt; StdDev &lt; 0.5</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>0.0</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>0.5</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#e6f5d0</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>0.5 &lt; StdDev &lt; 1.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>0.5</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>1.0</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#a1d76a</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>1.0 &lt; StdDev</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsGreaterThan>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:Literal>1.0</ogc:Literal>
-               </ogc:PropertyIsGreaterThan>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-                <Fill>
-                   <!-- CssParameters allowed are fill and fill-opacity -->
-                   <CssParameter name="fill">#4d9221</CssParameter>
-                </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-        </FeatureTypeStyle>
-       </UserStyle>
-     </NamedLayer>
-   </StyledLayerDescriptor>
-
-Now we have a style, we just need to create a layer that uses it!
-
-Creating a SQL View
-~~~~~~~~~~~~~~~~~~~
-
-First, we need a PostGIS store that connects to our database
-
-* Go to the *Stores* section of GeoServer and *Add a new store*
-* Select a *PostGIS* store
-* Set the workspace to *opengeo*
-* Set the datasource name to *census*
-* Set the database to *census*
-* Set the user to *postgres*
-* Set the password to *postgres*
-* Save the store
-
-You'll be taken immediately to the *New Layer* panel (how handy) where you should:
-
-* Click on *Configure new SQL view...*
-* Set the view name to *normalized*
-* Set the SQL statement to 
-
-  .. code-block:: sql
-
-      WITH stats AS (
-        SELECT avg(%column%) AS avg, 
-               stddev(%column%) AS stddev 
-        FROM census
-      )
-      SELECT 
-        census.fips, 
-        counties.geom,
-        counties.name || ' County' AS name,
-        '%column%'::text AS variable,
-        %column%::real AS data,
-        (%column% - avg)/stddev AS normalized_data
-      FROM stats, 
-        census JOIN counties USING (fips)
-
-* Click the *Guess parameters from SQL* link in the "SQL view parameters" section
-* Set the default value of the "column" parameter to *pst045212*
-* Check the "Guess geometry type and srid" box
-* Click the *Refresh* link in the "Attributes" section
-* Select the *fips* column as the "Identifier"
-* Click *Save*
-
-You'll be taken immediately to the *Edit Layer* panel (how handy) where you should:
-
-* In the *Data* tab
-
-  * Under "Bounding Boxes" click *Compute from data*
-  * Under "Bounding Boxes" click *Compute from native bounds*
-
-* In the *Publishing* tab
-
-  * Set the *Default Style* to *stddev*
-
-* In the *Tile Caching* tab
-
-  * *Uncheck* the "Create a cached layer for this layer" entry
-  * Hit the *Save* button
- 
-That's it, the layer is ready!
-
-* Go to the *Layer Preview* section
-* For the "opengeo:normalized" layer, click *Go*
-
-.. image:: ./img/preview.png
-
-We can change the column we're viewing by altering the *column* view parameter in the WMS request URL.
-
-* Here is the default column: 
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
-* Here is the **edu685211** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
-* Here is the **rhi425212** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
-
-The column names that the census uses are **pretty opaque** aren't they? What we need is a web app that lets us see nice human readable column information, and also lets us change the column we're viewing on the fly.
-
-Building the App
-----------------
-
-Preparing the Metadata
-~~~~~~~~~~~~~~~~~~~~~~
-
-The first thing we need for our app is a data file that maps the short, meaningless column names in our *census* table to human readable information. Fortunately, the `DataDict.txt`_ file we downloaded earlier has all the information we need. Here's a couple example lines::
-
-   POP010210 Resident population (April 1 - complete count) 2010                                                      ABS    0      308745538          82   308745538  CENSUS
-   AGE135212 Resident population under 5 years, percent, 2012                                                         PCT    1            6.4         0.0        13.3  CENSUS
-
-Each line has the column name, a human readable description, and some other metadata about the column. Fortunately the information is all aligned in the text file, so the same field starts at the same text position in each line:
-
-+------------------+----------------+--------+
-| Column           | Start Position | Length |
-+==================+================+========+
-| Name             | 1              | 10     |
-+------------------+----------------+--------+
-| Description      | 11             | 105    |
-+------------------+----------------+--------+
-| Units            | 116            | 4      |
-+------------------+----------------+--------+
-| # Decimal Places | 120            | 7      |
-+------------------+----------------+--------+
-| Total            | 127            | 12     |
-+------------------+----------------+--------+
-| Min              | 139            | 12     |
-+------------------+----------------+--------+
-| Max              | 151            | 12     |
-+------------------+----------------+--------+
-| Source           | 163            | 8      |
-+------------------+----------------+--------+
-
-We're going to consume the first two columns of this information in a JavaScript web application. The text file can easily be read in and split into lines. So with start position and length of Name and Description it will be easy to extract these and to populate a topics dropdown.
-
-
-Framing the Map
-~~~~~~~~~~~~~~~
-
-We already saw our map visualized in a bare `OpenLayers`_ map frame in the *Layer Preview* section of GeoServer. 
-
-We want an application that provides a user interface component that manipulates the source WMS URL, altering the URL `viewparams <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ parameter.
-
-We'll build the app using `Bootstrap`_ for a straightforward layout with CSS, and `OpenLayers`_ as the map component.
-
-The base HTML page, `censusmap.html`_, contains script and stylesheet includes bringing in our various libraries. A custom stylesheet gives us a fullscreen map with a legend overlay. Bootstrap css classes are used to style the navigation bar. Containers for the map and a header navigation bar with the aforementioned topics dropdown are also included, and an image element with the legend image from a WMS *GetLegendGraphic* request is put inside the map container.
-
-.. code-block:: html
-
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Boundless Census Map</title>
-      <!-- Bootstrap -->
-      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css" type="text/css">
-      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap-theme.min.css" type="text/css">
-      <script src="resources/jquery-1.10.2.min.js"></script>
-      <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-      <!-- OpenLayers -->
-      <link rel="stylesheet" href="resources/ol3/ol.css">
-      <script src="resources/ol3/ol.js"></script>
-      <!-- Our Application -->
-      <style>
-        html, body, #map {
-          height: 100%;
-        }
-        #map {
-          padding-top: 50px;
-        }
-        .legend {
-          position: absolute;
-          z-index: 1;
-          left: 10px;
-          bottom: 10px;
-          opacity: 0.6;
-        }
-      </style>
-    </head>
-    <body>
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Boundless Census Map</a>
-        </div>
-        <form class="navbar-form navbar-right">
-          <div class="form-group">
-            <select id="topics" class="form-control"></select>
-          </div>
-        </form>
-      </nav>
-      <div id="map">
-        <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
-        <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
-      </div>
-      <script type="text/javascript" src="censusmap.js"></script>
-    </body>
-  </html>
-
-The real code is in the `censusmap.js`_ file. We start by creating an `OpenStreetMap`_ base layer, and adding our parameterized census layer on top as an image layer with a `WMS Layer source`_.
-
-.. code-block:: javascript
-
-  // Base map
-  var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
-
-  // Census map layer
-  var wmsLayer = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: 'http://apps.opengeo.org/geoserver/wms',
-      params: {'LAYERS': 'opengeo:normalized'}
-    }),
-    opacity: 0.6
-  });
-
-  // Map object
-  olMap = new ol.Map({
-    target: 'map',
-    renderer: ol.RendererHint.CANVAS,
-    layers: [osmLayer, wmsLayer],
-    view: new ol.View({
-      center: [-10764594.0, 4523072.0],
-      zoom: 5
-    })
-  });
-
-We configure an `OpenLayers Map`_, assign the layers, and give it a map view with a center and zoom level. Now the map will load.
-
-The *select* element with the id *topics* will be our drop-down list of available columns. We load the `DataDict.txt`_ file, and fill the *select* element with its contents. This is done by adding an *option* child for each line.
-
-.. code-block:: javascript
-
-  // Load variables into dropdown
-  $.get("../data/DataDict.txt", function(response) {
-    // We start at line 3 - line 1 is column names, line 2 is not a variable
-    $(response.split('\n').splice(2)).each(function(index, line) {
-      $('#topics').append($('<option>')
-        .val(line.substr(0, 10).trim())
-        .html(line.substr(10, 105).trim()));
-    });
-  });
-
-Finally, we add an *onchange* event handler for the dropdown, which updates the layer with WMS parameters for the selected variable when a new topic/layer is selected.
-
-.. code-block:: javascript
-
-  // Add behaviour to dropdown
-  $('#topics').change(function() {
-    wmsLayer.getSource().updateParams({
-      'viewparams': 'column:' + $('#topics>option:selected').val()
-    });
-  });
-
-Look at the the `censusmap.js`_ file to see the whole application in one page.
-
-When we open the `censusmap.html`_ file, we see the application in action.
-
-.. image:: ./img/census_hispanic.png 
-   :width: 95%
-
-
-Clickability
-~~~~~~~~~~~~
-
-With some additional markup and css plus a few more lines of JavaScript code, we can even handle map clicks: When clicking on the map, we send a WMS GetFeatureInfo request, and display the result in a popup.
-
-Most of the following markup, css and JavaScript code comes directly from the `OpenLayers Popup Example`_. The only difference is that we use ``ol.Map#getFeatureInfo()`` instead of just displaying the clicked coordinates.
-
-First we need some markup for the popup, which we add to our HTML page, inside the map div. With popup added, the map div looks like this:
-
-.. code-block:: html
-
-  <div id="map">
-    <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
-    <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
-    <div id="popup" data-html="true" data-placement="auto" data-title="&times;"></div>
-  </div>
-
-To style the popup, we need some additional css in the existing ``<style>`` block on our HTML page:
-
-.. code-block:: css
-
-  .popover {
-    max-width: 440px;
-  }
-  .popover-title {
-    float: right;
-    background: none;
-    border: 0;
-    cursor: pointer;
-  }
-  .popover-content iframe {
-    width: 400px;
-    height: 120px;
-    border: 0;
-  }
-
-Finally, we need some JavaScript to add behaviour to the popup's close button, to create an ``ol.Overlay`` so the popup is anchored to the map, and to trigger a GetFeatureInfo request when the map is clicked:
-
-.. code-block:: javascript
-
-  // Create an ol.Overlay with a popup anchored to the map
-  var popup = new ol.Overlay({
-    element: $('#popup')
-  });
-  olMap.addOverlay(popup);
-
-  // Handle map clicks to send a GetFeatureInfo request and open the popup
-  olMap.on('singleclick', function(evt) {
-    olMap.getFeatureInfo({
-      pixel: evt.getPixel(),
-      success: function (info) {
-        popup.setPosition(evt.getCoordinate());
-        $('#popup')
-          .popover({content: info.join('')})
-          .popover('show');
-        // Close popup when user clicks on the 'x'
-        $('.popover-title').click(function() {
-          $('#popup').popover('hide');
+     By default the SDK debug mode connects to your local GeoServer on port 8080, but it can be `configured <http://suite.opengeo.org/4.1/webapps/sdk.html#accessing-geoserver-while-testing>`_ (with the ``-g`` flag) to access other servers, which is useful if you're building an application against a remote production or staging server.
+
+  You can connect to the proxy server on port 9080 of your machine: 
+  
+  * http://localhost:9080
+  
+  .. image:: ./img/ol3view.png
+
+* Now we have the start of an application! The first thing we want to do is replace the states layer with our tax lots layer, and set the initial extent to the area of interest (Jackson County). Open the ``src/app/app.js`` file, and make changes to the configuration section as follows:
+
+  .. literalinclude:: ../static/code/parcelmap/src/app/app.js
+     :language: js
+     :start-after: TUTORIAL CHANGE #1
+     :end-before: !TUTORIAL CHANGE #1
+
+  This replaces the states layer with our taxlots layer and sets the initial zoom and center to be in Jackson County. After you make the changes, reload the app page.
+    
+  .. image:: ./img/app1.png
+  
+* Now we need to add the autocomplete form element to the application. We'll be using the `JQuery UI autocomplete`_ widget, so before we add the HTML form element, we need to get the `JQuery UI`_ code into our application.
+
+  #. Download the `JQuery UI library <_static/code/jquery-ui-1.11.2.zip>`_.
+  #. Unzip the archive into the ``src/jquery`` directory of the application. You should end up with a directory named ``src/jquery/jquery-ui-1.11.2``. 
+  #. Edit the ``index.html`` file in the ``parcelmap`` app and add/alter following lines to reference the JQuery UI library and to change the application title.
+  
+     .. code-block:: html
+        :emphasize-lines: 5-7
+     
+        <script src="src/jquery/jquery.js"></script>
+        <script src="src/bootstrap/js/bootstrap.js"></script>
+
+        <!-- TUTORIAL CHANGE #2 -->
+        <link rel="stylesheet" href="src/jquery/jquery-ui-1.11.2/jquery-ui.css">
+        <script src="src/jquery/jquery-ui-1.11.2/jquery-ui.js"></script>
+        <title>Address Autocomplete Tutorial</title>
+        <!-- !TUTORIAL CHANGE #2 -->
+
+* Change the visible title of the application by locating the current title.
+
+  .. code-block:: html
+  
+     <a class="navbar-brand" href="#">Application Template</a>
+  
+  Change it to our new title.
+  
+  .. code-block:: html
+  
+     <!-- TUTORIAL CHANGE #3 -->
+     <a class="navbar-brand" href="#">Address Finder</a>
+     <!-- TUTORIAL CHANGE #3 -->
+  
+* Now we're ready to add in the form element that will hold our autocomplete text. Edit the ``index.html`` file and add an input element after the "navigation" ``<div>`` and before the "map" ``<div>``.
+
+  .. code-block:: html
+     :emphasize-lines: 6
+  
+     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      ...
+     </div>
+
+     <!-- TUTORIAL CHANGE #4 -->
+     <div><input id="address" type="text" class="form-control" placeholder="Start typing an address" /></div>
+     <!-- !TUTORIAL CHANGE #4 -->
+
+     <div id="map">
+      ...
+     </div>
+
+  The application now *looks* just like we want, but it doesn't actually *do* anything with input, yet.
+  
+  .. image:: ./img/app2.png
+
+Adding Behaviour to the Input Form 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To add input behaviour to the application, go back to editing the ``src/app/app.js`` file. We are going to bind the HTML form element to the JQuery autocomplete widget, and then customize the autocomplete to call the GeoServer full-text search web service we set up in the earlier sections.
+
+* First, bind the form to the JQuery autocomplete. Add the following code at the very end of the ``src/app/app.js`` file.
+
+  .. code-block:: javascript
+  
+      // TUTORIAL CHANGE #5 
+      $( "#address" ).autocomplete({
+
+        // How many charaters before we fire the 'source' function?
+        minLength: 1, 
+
+        // Given a request string, do something to figure out what
+        // a good set of options would be, and call the reponse function
+        // with those options as an argument.
+        source: function( requestStr, responseFunc ) {},
+
+        // Given a selection event, do something with the 
+        // ui element that was clicked on.
+        select: function( event, ui ) {}
+
+      });
+      // !TUTORIAL CHANGE #5
+  
+  At this point the autocomplete code is hooked up, but doesn't *do* anything. The autocomplete works via the "source" call-back function. This function takes in a string (from the form) and calls a response function when it has data ready for the form to give to the user.
+  
+* First we'll add a utility function (to the bottom of ``src/app/apps.js``) for handling GeoServer view paramters. This function just takes an associative array and turns it into `a standard "viewparams" format <http://docs.geoserver.org/stable/en/user/data/database/sqlview.html#using-a-parametric-sql-view>`_ that GeoServer wants to receive for parameterized requests.
+
+  .. literalinclude:: ../static/code/parcelmap/src/app/app.js
+     :language: js
+     :start-after: TUTORIAL CHANGE #6
+     :end-before: !TUTORIAL CHANGE #6
+
+* Now we're ready to add the main function, the one that calls the web service. Add the following ``addressSource`` function to the bottom of ``src/app/apps.js``
+
+  .. literalinclude:: ../static/code/parcelmap/src/app/app.js
+     :language: js
+     :start-after: TUTORIAL CHANGE #7
+     :end-before: !TUTORIAL CHANGE #7
+
+  That's a lot of code, but what it is doing is pretty simple.
+  
+  * Some string clean-up on the input string from the user.
+  * Forming that string into a ``viewparams`` entry for GeoServer.
+  * Setting up the WFS parameters for the call to our address completing web service.
+  * Actually calling the web service.
+  * When a return value is received, converting GeoJSON return into an array for the autocomplete widget to consume.
+  
+  Once you have the function, you just have to hook it up to the autocomplete widget by using it in the ``source`` attribute. Change the value of ``source`` to ``addressSource``.
+  
+  .. code-block:: javascript
+     :emphasize-lines: 9
+  
+      $( "#address" ).autocomplete({
+
+        // How many charaters before we fire the 'source' function?
+        minLength: 1, 
+
+        // Given a request string, do something to figure out what
+        // a good set of options would be, and call the reponse function
+        // with those options as an argument.
+        source: addressSource,
+        
+        // Given a selection event, do something with the 
+        // ui element that was clicked on.
+        select: function( event, ui ) {}
+
+      });
+  
+  Now we can **see autocomplete in action**! Reload your page and start typing into the form!
+  
+  .. image:: ./img/app3.png
+  
+* Autocomplete is very cool, but to really make this demo look great we need an action on selection. The action which makes the most sense is a basic "zoom to the thing selected" action, which is what we'll add.
+
+  #. Copy the `flag.png <_static/code/parcelmap/flag.png>`_ file into the same directory as ``index.html``
+  #. We will re-use the existing ``highlight`` vector layer from the template as our highlight layer. Since we're styling points instead of polygons, we'll need to change the style of the layer to a point marker (using our flag image). Add the following at the end of ``src/app/app.js``.
+
+     .. literalinclude:: ../static/code/parcelmap/src/app/app.js
+        :language: js
+        :start-after: TUTORIAL CHANGE #8
+        :end-before: !TUTORIAL CHANGE #8
+     
+  #. Now add the following ``addressSelect`` function to the end of ``src/app/app.js``.
+  
+     .. literalinclude:: ../static/code/parcelmap/src/app/app.js
+        :language: js
+        :start-after: TUTORIAL CHANGE #9
+        :end-before: !TUTORIAL CHANGE #9
+
+  #. Finally, alter the autocomplete widget to call the ``addressSelect`` on a selection event.
+    
+     .. code-block:: javascript
+        :emphasize-lines: 13
+
+        $( "#address" ).autocomplete({
+
+          // How many charaters before we fire the 'source' function?
+          minLength: 1, 
+
+          // Given a request string, do something to figure out what
+          // a good set of options would be, and call the reponse function
+          // with those options as an argument.
+          source: addressSource,
+  
+          // Given a selection event, do something with the 
+          // ui element that was clicked on.
+          select: addressSelect
+
         });
-      }
-    });
-  });
+  
+* That's it! High performance autocomplete on a data set of 100,000 address points, with a web interface and user-friendly single-field form interface.
+
+  .. image:: ./img/app4.png
+
+Deploying the Application
+-------------------------
+
+So far, we have been building and testing our app locally, which is fine for the development phase. But now that we're done, how would we deploy it to a production server?
+
+First, we need to package the code up into a `J2EE war file <http://en.wikipedia.org/wiki/WAR_(file_format)>`_.
+Using the Suite SDK command, run the ``package`` command (this example works for OSX and Linux, use ``C:\\Temp`` as a target path in Windows)::
+
+  suite-sdk package parcelmap /tmp
+  
+The output looks like this::
+
+  Packaging application ...
+  Buildfile: /usr/local/opengeo/sdk/build.xml
+  ...
+  package:
+  Building war: /tmp/parcelmap.war
+
+  BUILD SUCCESSFUL
+  Total time: 2 seconds
+
+Now we have a J2EE war, and we just need to copy it up to the GeoServer application server.
+
+* For Linux installations of Suite, copy the war file to ``/usr/share/opengeo/apps``. The application should become available at http://servername/apps/parcelmap 
+* For generic J2EE installations, where Suite is running as a war file itself in a J2EE container, just drop the war file into the J2EE deployment directory, or use an admin tool to upload it.
+
+
+
+More Topics
+-----------
+
+Layer Opacity
+~~~~~~~~~~~~~
+
+The taxlots layer is added without any transparency applied to it, so it overwhelms the base map. We can fix that by tracking down the ``ol.layer.Tile`` layer that uses the ``wmsSource`` and changing the opacity of that tile layer:
+
+.. literalinclude:: ../static/code/parcelmap/src/app/app.js
+   :language: js
+   :start-after: TUTORIAL CHANGE #10
+   :end-before: !TUTORIAL CHANGE #10
+   :emphasize-lines: 4
+
+
+.. Search Quality
+   ~~~~~~~~~~~~~~
+   TODO: Add dictionary stuff here
+
+
 
 Conclusion
 ----------
 
-We've built an application for browsing 51 different census variables, using less than 51 lines of JavaScript application code, and demonstrating:
+We've built an application that does loose auto-magical completion using a corpus of physical street addresses, using only a handful of extra code on top of our template framework, and demonstrating many important capabilities of OpenGeo Suite.
 
-* SQL views provide a powerful means of manipulating data on the fly.
-* Standard deviations make for attractive visualization breaks.
-* Professionally generated color palettes are better than programmer generated ones.
-* Simple OpenLayers applications are easy to build.
-* Census data can be really, really interesting!
-* The application is easy to extend. With 20 more lines of code we can handle clicks and display feature information.
+* Full-text search provides a very powerful means of sorting through records without having to do field-by-field data entry forms.
+* SQL views allow arbitrary database processes to be exposed as web services. Using JSON as the output format type and JavaScript clients make this a lightweight and high-performance web services gateway.
+* JavaScript and JQuery provide easy infrastructure for rich interactions like autocomplete on the web.
+
+Check out the `online demonstration application <http://apps.boundlessgeo.com/apps/parcelmap>`_ and play!
 
 
 
@@ -1147,3 +875,9 @@ We've built an application for browsing 51 different census variables, using les
 .. _OpenLayers Popup Example: http://ol3js.org/en/master/examples/popup.html
 .. _OpenStreetMap: http://openstreetmap.org
 .. _PgAdmin: http://suite.opengeo.org/4.1/dataadmin/pgGettingStarted/pgadmin.html
+.. _ranking function: http://www.postgresql.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-RANKING
+.. _Font Awesome: http://fortawesome.github.io/Font-Awesome/
+.. _Bootbox: http://bootboxjs.com
+.. _JQuery: http://jquery.com
+.. _JQuery UI: http://jqueryui.com
+.. _JQuery UI autocomplete: http://jqueryui.com/autocomplete/

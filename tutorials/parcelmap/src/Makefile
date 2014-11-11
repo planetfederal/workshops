@@ -27,11 +27,15 @@ clean:
 	-rm -rf .build
 	-rm -rf ../doc
 
-html:
+zip:
+	cd ../static/code && /bin/rm -f parcelmap.zip && zip -r9 parcelmap.zip parcelmap
+	
+html: 
 	mkdir -p ../doc .build/doctrees
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) ../doc
 	@echo
 	@echo "Build finished. The HTML pages are in ../doc."
+	
 
 pickle:
 	mkdir -p .build/pickle .build/doctrees

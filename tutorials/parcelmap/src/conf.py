@@ -35,8 +35,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'Census Mapping with OpenGeo Suite'
-copyright = u'2013, Boundless'
+project = u'Autocomplete Parcel Map with OpenGeo Suite'
+copyright = u'2014, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
 # other places throughout the built documents.
@@ -147,7 +147,7 @@ html_copy_source = False
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'CensusMap'
+htmlhelp_basename = 'ParcelMap'
 
 
 # Options for LaTeX output
@@ -162,7 +162,7 @@ latex_font_size = '11pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'CensusMap.tex', u'Census Mapping with OpenGeo Suite',
+  ('index', 'ParcelMap.tex', u'Parcel Autocomplete with OpenGeo Suite',
    u'Boundless', 'howto'),
 ]
 
