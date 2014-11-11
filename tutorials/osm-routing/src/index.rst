@@ -106,8 +106,6 @@ We start by launching the PostgreSQL shell and then loading the pgRouting extens
   $ psql routing
   # CREATE EXTENSION pgrouting;
 
-One minor change we can make at this point is to rename our geometry and primary key columns from the default i
-
 The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared point).
 
 For example, if we imagine this very simple metro network, the function will identify the four stations marked in red.
