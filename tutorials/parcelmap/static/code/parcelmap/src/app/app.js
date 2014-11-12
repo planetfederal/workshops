@@ -277,12 +277,12 @@ function addressSource( requestString, responseFunc ) {
           label: feat.get("address"),
           value: feat.get("address"),
           feature: feat
-        });
+        });        
       })
 
       // Call-back to the autocomplete widget now that
       // we have data to display.
-      responseFunc( arr );
+      responseFunc(arr);
     }
 
   });
