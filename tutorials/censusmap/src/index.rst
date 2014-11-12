@@ -307,146 +307,10 @@ With our data normalized, we are ready to create one style to rule them all!
 * Set the style workspace to *opengeo*
 * Paste in the style definition (below) for `stddev.xml`_ and hit the *Save* button at the bottom
 
-.. code-block:: xml
+.. literalinclude:: ../static/code/stddev.xml
+   :language: xml
 
-   <?xml version="1.0" encoding="ISO-8859-1"?>
-   <StyledLayerDescriptor version="1.0.0"
-     xmlns="http://www.opengis.net/sld" 
-     xmlns:ogc="http://www.opengis.net/ogc"
-     xmlns:xlink="http://www.w3.org/1999/xlink" 
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xmlns:gml="http://www.opengis.net/gml"
-     xsi:schemaLocation="http://www.opengis.net/sld 
-     http://schemas.opengis.net/sld/1.0.0/StyledLayerDescriptor.xsd">
-     
-     <NamedLayer>
-       <Name>opengeo:stddev</Name>
-       <UserStyle>
 
-         <Name>Standard Deviation Ranges</Name>
-
-         <FeatureTypeStyle>
-
-           <Rule>
-             <Name>StdDev &lt; -1.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsLessThan>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:Literal>-1.0</ogc:Literal>
-               </ogc:PropertyIsLessThan>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-                <Fill>
-                   <!-- CssParameters allowed are fill and fill-opacity -->
-                   <CssParameter name="fill">#c51b7d</CssParameter>
-                </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>-1.0 &lt; StdDev &lt; -0.5</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>-1.0</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>-0.5</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#e9a3c9</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>-0.5 &lt; StdDev &lt; 0.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>-0.5</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>0.0</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#fde0ef</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>0.0 &lt; StdDev &lt; 0.5</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>0.0</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>0.5</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#e6f5d0</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>0.5 &lt; StdDev &lt; 1.0</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsBetween>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:LowerBoundary>
-                   <ogc:Literal>0.5</ogc:Literal>
-                 </ogc:LowerBoundary>
-                 <ogc:UpperBoundary>
-                   <ogc:Literal>1.0</ogc:Literal>
-                 </ogc:UpperBoundary>
-               </ogc:PropertyIsBetween>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-               <Fill>
-                 <!-- CssParameters allowed are fill and fill-opacity -->
-                 <CssParameter name="fill">#a1d76a</CssParameter>
-               </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-           <Rule>
-             <Name>1.0 &lt; StdDev</Name>
-             <ogc:Filter>
-               <ogc:PropertyIsGreaterThan>
-                 <ogc:PropertyName>normalized_data</ogc:PropertyName>
-                 <ogc:Literal>1.0</ogc:Literal>
-               </ogc:PropertyIsGreaterThan>
-             </ogc:Filter>
-             <PolygonSymbolizer>
-                <Fill>
-                   <!-- CssParameters allowed are fill and fill-opacity -->
-                   <CssParameter name="fill">#4d9221</CssParameter>
-                </Fill>
-             </PolygonSymbolizer>
-           </Rule>
-
-        </FeatureTypeStyle>
-       </UserStyle>
-     </NamedLayer>
-   </StyledLayerDescriptor>
 
 Now we have a style, we just need to create a layer that uses it!
 
@@ -520,11 +384,11 @@ That's it, the layer is ready!
 We can change the column we're viewing by altering the *column* view parameter in the WMS request URL.
 
 * Here is the default column: 
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
 * Here is the **edu685211** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
 * Here is the **rhi425212** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
 
 The column names that the census uses are **pretty opaque** aren't they? What we need is a web app that lets us see nice human readable column information, and also lets us change the column we're viewing on the fly.
 
@@ -573,115 +437,37 @@ We want an application that provides a user interface component that manipulates
 
 We'll build the app using `Bootstrap`_ for a straightforward layout with CSS, and `OpenLayers`_ as the map component.
 
-The base HTML page, `censusmap.html`_, contains script and stylesheet includes bringing in our various libraries. A custom stylesheet gives us a fullscreen map with a legend overlay. Bootstrap css classes are used to style the navigation bar. Containers for the map and a header navigation bar with the aforementioned topics dropdown are also included, and an image element with the legend image from a WMS *GetLegendGraphic* request is put inside the map container.
+The base HTML page, `censusmap_basic.html`_, contains script and stylesheet includes bringing in our various libraries. A custom stylesheet gives us a fullscreen map with a legend overlay. Bootstrap css classes are used to style the navigation bar. Containers for the map and a header navigation bar with the aforementioned topics dropdown are also included, and an image element with the legend image from a WMS *GetLegendGraphic* request is put inside the map container.
 
-.. code-block:: html
-
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Boundless Census Map</title>
-      <!-- Bootstrap -->
-      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css" type="text/css">
-      <link rel="stylesheet" href="resources/bootstrap/css/bootstrap-theme.min.css" type="text/css">
-      <script src="resources/jquery-1.10.2.min.js"></script>
-      <script src="resources/bootstrap/js/bootstrap.min.js"></script>
-      <!-- OpenLayers -->
-      <link rel="stylesheet" href="resources/ol3/ol.css">
-      <script src="resources/ol3/ol.js"></script>
-      <!-- Our Application -->
-      <style>
-        html, body, #map {
-          height: 100%;
-        }
-        #map {
-          padding-top: 50px;
-        }
-        .legend {
-          position: absolute;
-          z-index: 1;
-          left: 10px;
-          bottom: 10px;
-          opacity: 0.6;
-        }
-      </style>
-    </head>
-    <body>
-      <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Boundless Census Map</a>
-        </div>
-        <form class="navbar-form navbar-right">
-          <div class="form-group">
-            <select id="topics" class="form-control"></select>
-          </div>
-        </form>
-      </nav>
-      <div id="map">
-        <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
-        <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
-      </div>
-      <script type="text/javascript" src="censusmap.js"></script>
-    </body>
-  </html>
+.. literalinclude:: ../static/code/censusmap_basic.html
+   :language: html
 
 The real code is in the `censusmap.js`_ file. We start by creating an `OpenStreetMap`_ base layer, and adding our parameterized census layer on top as an image layer with a `WMS Layer source`_.
 
-.. code-block:: javascript
-
-  // Base map
-  var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
-
-  // Census map layer
-  var wmsLayer = new ol.layer.Image({
-    source: new ol.source.ImageWMS({
-      url: 'http://apps.opengeo.org/geoserver/wms',
-      params: {'LAYERS': 'opengeo:normalized'}
-    }),
-    opacity: 0.6
-  });
-
-  // Map object
-  olMap = new ol.Map({
-    target: 'map',
-    renderer: ol.RendererHint.CANVAS,
-    layers: [osmLayer, wmsLayer],
-    view: new ol.View({
-      center: [-10764594.0, 4523072.0],
-      zoom: 5
-    })
-  });
+.. literalinclude:: ../static/code/censusmap.js
+   :language: js
+   :start-after: TUTORIAL #1
+   :end-before: !TUTORIAL #1
 
 We configure an `OpenLayers Map`_, assign the layers, and give it a map view with a center and zoom level. Now the map will load.
 
 The *select* element with the id *topics* will be our drop-down list of available columns. We load the `DataDict.txt`_ file, and fill the *select* element with its contents. This is done by adding an *option* child for each line.
 
-.. code-block:: javascript
-
-  // Load variables into dropdown
-  $.get("../data/DataDict.txt", function(response) {
-    // We start at line 3 - line 1 is column names, line 2 is not a variable
-    $(response.split('\n').splice(2)).each(function(index, line) {
-      $('#topics').append($('<option>')
-        .val(line.substr(0, 10).trim())
-        .html(line.substr(10, 105).trim()));
-    });
-  });
+.. literalinclude:: ../static/code/censusmap.js
+   :language: js
+   :start-after: TUTORIAL #2
+   :end-before: !TUTORIAL #2
 
 Finally, we add an *onchange* event handler for the dropdown, which updates the layer with WMS parameters for the selected variable when a new topic/layer is selected.
 
-.. code-block:: javascript
-
-  // Add behaviour to dropdown
-  $('#topics').change(function() {
-    wmsLayer.getSource().updateParams({
-      'viewparams': 'column:' + $('#topics>option:selected').val()
-    });
-  });
+.. literalinclude:: ../static/code/censusmap.js
+   :language: js
+   :start-after: TUTORIAL #3
+   :end-before: !TUTORIAL #3
 
 Look at the the `censusmap.js`_ file to see the whole application in one page.
 
-When we open the `censusmap.html`_ file, we see the application in action.
+When we open the `censusmap_basic.html`_ file, we see the application in action.
 
 .. image:: ./img/census_hispanic.png 
    :width: 95%
@@ -696,59 +482,26 @@ Most of the following markup, css and JavaScript code comes directly from the `O
 
 First we need some markup for the popup, which we add to our HTML page, inside the map div. With popup added, the map div looks like this:
 
-.. code-block:: html
-
-  <div id="map">
-    <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
-    <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
-    <div id="popup" data-html="true" data-placement="auto" data-title="&times;"></div>
-  </div>
+.. literalinclude:: ../static/code/censusmap.html
+   :language: html
+   :start-after: TUTORIAL #4
+   :end-before: !TUTORIAL #4
 
 To style the popup, we need some additional css in the existing ``<style>`` block on our HTML page:
 
-.. code-block:: css
+.. literalinclude:: ../static/code/censusmap.html
+   :language: css
+   :start-after: TUTORIAL #5
+   :end-before: !TUTORIAL #5
 
-  .popover {
-    max-width: 440px;
-  }
-  .popover-title {
-    float: right;
-    background: none;
-    border: 0;
-    cursor: pointer;
-  }
-  .popover-content iframe {
-    width: 400px;
-    height: 120px;
-    border: 0;
-  }
 
 Finally, we need some JavaScript to add behaviour to the popup's close button, to create an ``ol.Overlay`` so the popup is anchored to the map, and to trigger a GetFeatureInfo request when the map is clicked:
 
-.. code-block:: javascript
+.. literalinclude:: ../static/code/censusmap.js
+   :language: js
+   :start-after: TUTORIAL #6
+   :end-before: !TUTORIAL #6
 
-  // Create an ol.Overlay with a popup anchored to the map
-  var popup = new ol.Overlay({
-    element: $('#popup')
-  });
-  olMap.addOverlay(popup);
-
-  // Handle map clicks to send a GetFeatureInfo request and open the popup
-  olMap.on('singleclick', function(evt) {
-    olMap.getFeatureInfo({
-      pixel: evt.getPixel(),
-      success: function (info) {
-        popup.setPosition(evt.getCoordinate());
-        $('#popup')
-          .popover({content: info.join('')})
-          .popover('show');
-        // Close popup when user clicks on the 'x'
-        $('.popover-title').click(function() {
-          $('#popup').popover('hide');
-        });
-      }
-    });
-  });
 
 Conclusion
 ----------
@@ -775,6 +528,7 @@ We've built an application for browsing 51 different census variables, using les
 .. _Bootstrap: http://getbootstrap.com
 .. _censusmap.js: _static/code/censusmap.js
 .. _censusmap.html: _static/code/censusmap.html
+.. _censusmap_basic.html: _static/code/censusmap_basic.html
 .. _DataDict.txt: _static/data/DataDict.txt
 .. _DataSet.txt: _static/data/DataSet.txt
 .. _stddev.xml: _static/data/stddev.xml

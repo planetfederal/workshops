@@ -69,7 +69,7 @@ The OSM city files include roads and land features, but not coastlines or ocean 
 
 You can download the `whole ocean file <http://openstreetmapdata.com/data/water-polygons>`_ from http://openstreetmapdata.com. However, it's really large, and takes some processing to use in a small project. You can download a clipped set of oceans for our test area from here:
 
-* http://files.opengeo.org/workshopmaterials/victoria.ocean.zip
+* http://files.boundlessgeo.com/workshopmaterials/osm-base-victoria-ocean.zip
 
 Once you have downloaded the ocean file, unzip it, then load it into the database::
 

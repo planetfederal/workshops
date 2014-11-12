@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="src/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="src/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="src/ol3/ol.css">
+    <link rel="stylesheet" href="src/css/Popup.css">
+    <link rel="stylesheet" href="src/css/LayersControl.css">
+    <style>
+      .layers-control {
+        position: fixed;
+        bottom: 10px;
+        top: auto;
+      }
+      html, body, #map {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      body {
+        padding-top: 50px;
+      }
+      .navbar .navbar-brand {
+        font-weight: bold;
+        font-size: 25px;
+        color: white;
+      }
+      #popup-content {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+    </style>
+    <script src="src/ol3/ol-debug.js"></script>
+    <script src="src/jquery/jquery.js"></script>
+    <script src="src/bootstrap/js/bootstrap.js"></script>
+
+    <!-- TUTORIAL CHANGE #2 -->
+    <link rel="stylesheet" href="src/jquery/jquery-ui-1.11.2/jquery-ui.css">
+    <script src="src/jquery/jquery-ui-1.11.2/jquery-ui.js"></script>
+    <title>Address Autocomplete Tutorial</title>
+    <!-- !TUTORIAL CHANGE #2 -->
+
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <!-- TUTORIAL CHANGE #3 -->
+        <a class="navbar-brand" href="#">Address Finder</a>
+        <!-- TUTORIAL CHANGE #3 -->
+
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-globe" style="color: white"></i>&nbsp;&nbsp;Tools <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" data-toggle="collapse" data-target=".navbar-collapse.in" onclick="map.getView().setCenter(center); map.getView().setZoom(zoom); return false;"><i class="fa fa-arrows-alt"></i>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+
+    </div>
+
+    <!-- TUTORIAL CHANGE #4 -->
+    <div><input id="address" type="text" class="form-control" placeholder="Start typing an address" /></div>
+    <!-- !TUTORIAL CHANGE #4 -->
+
+    <div id="map">
+      <div id="popup" class="ol-popup">
+      </div>
+    </div>
+    <script src="lib/app.js"></script>
+  </body>
+</html>

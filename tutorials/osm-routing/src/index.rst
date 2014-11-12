@@ -81,7 +81,7 @@ We can use OGR, to load the data into the database accomplish all of the goals w
 * `-select 'name,highway,oneway,surface'`: take the desired attributes only
 * `-f PostgreSQL PG:"dbname=routing user=postgres"`: load the data into Postgres
 * `-lco GEOMETRY_NAME=the_geom:` store the geometry in an attribute named `the_geom`
-* `-lco FID=id`: store the geometry in an attribute named `id`
+* `-lco FID=id`: store the feature identifying numbers in an attribute named `id`
 * `-nln edges`: store the data in a table called `edges`
 * `-t_srs EPSG:3857`: convert the data to Google Mercator
 
@@ -106,8 +106,6 @@ We start by launching the PostgreSQL shell and then loading the pgRouting extens
   $ psql routing
   # CREATE EXTENSION pgrouting;
 
-One minor change we can make at this point is to rename our geometry and primary key columns from the default i
-
 The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared point).
 
 For example, if we imagine this very simple metro network, the function will identify the four stations marked in red.
@@ -125,7 +123,7 @@ To accommodate `pgr_createTopology`, we need to add `source` and `target` column
   ALTER TABLE edges ADD target INT4;
   SELECT pgr_createTopology('edges', 1);
 
-We can now check to see if the `source` and `target columns in our `edges` database have been filled in. There should also be a new `edges_vertices_pgr` table which enumerates all the vertices in the network that pgRouting has detected.
+We can now check to see if the `source` and `target` columns in our `edges` table have been filled in. There should also be a new `edges_vertices_pgr` table which enumerates all the vertices in the network that pgRouting has detected.
 
 We haven’t quite solved the network problem yet, however. `pgr_createTopology` does a good job of finding vertices when they are shared between two edges, but what about when a road terminates in the middle of another road?
 
