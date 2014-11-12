@@ -8,37 +8,42 @@ Tutorials
 
 The tutorials below are **practical walk-throughs** of actual application development examples from start to finish, demonstrating different aspects of Suite functionality and the kinds of problems the Suite can solve.
 
+`Building an Autocomplete Parcel Lookup <http://workshops.boundlessgeo.com/tutorial-autocomplete/>`_ 
+  |autocomplete| 
+
+  This application provides a fast autocomplete form field, backed by a full-text search database engine. The example shows a simple address look-up example with parcel data..  `DEMO <http://apps.boundlessgeo.com/apps/parcelmap>`_
+
+  .. |autocomplete| image:: images/autocomp_demo.png
+                :class: inline-img
+
+
 `Building a GeoNames Heat Map <http://workshops.boundlessgeo.com/tutorial-wordmap/>`_ 
   |heatmap| 
-    |
-  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States.  `DEMO <http://workshops.boundlessgeo.com/tutorial-wordmap/_static/wordmap-full.html>`_
 
+  This application displays a web-based dynamic heat map, based on querying a database of two million geographic names points for the United States.  `DEMO <http://workshops.boundlessgeo.com/tutorial-wordmap/_static/wordmap-full.html>`_
 
   .. |heatmap| image:: images/heatmap_demo.png
                 :class: inline-img
 
-|
+
 `Building a Census Map <http://workshops.boundlessgeo.com/tutorial-censusmap/>`_ 
   |censusmap|
-    |
+
   This application lets you explore over 50 variables of census data, but only uses one style and a few lines of JavaScript code for the interface.  `DEMO <http://workshops.boundlessgeo.com/tutorial-censusmap/_static/code/censusmap.html>`_
 
   .. |censusmap| image:: images/censusmap_demo.png
                   :class: inline-img
 
-|
+
 `LIDAR Analysis and Visualization <http://workshops.boundlessgeo.com/tutorial-lidar/>`_ 
   |lidarmap|
-     |
+
   This tutorial walks through loading and analyzing LIDAR data, and visualizing it in 3D using KML and Google Earth.
 
   .. |lidarmap| image:: images/lidarmap_demo.png
                  :class: inline-img
 
 
-
-|
-|
 Workshops
 ---------
 
@@ -78,7 +83,6 @@ First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mappin
 How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
 
-|
 More Workshops
 --------------
 
@@ -92,13 +96,12 @@ The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Sui
 GeoGit is a Distributed Version Control System (DVCS) specially designed to handle geospatial data. It takes inspiration from the source code versioning system `Git <http://git-scm.com/>`_, but employs an approach best suited to the nature of the spatial data it manages. It is currently under active development.
 
 
-|
 About these materials
 ---------------------
 
 The materials in this site are built using the `Sphinx <http://sphinx-doc.org/>`_ documentation system, and the source for all the materials are available in a public `repository <http://github.com/boundlessgeo/workshops/>`_ and are available for `download <http://boundlessgeo.com/resources/workshops/>`_. If you find an error in the materials, or would like to add a translation, please let us know.
 
-|
+
 More Boundless Services
 -----------------------
 
