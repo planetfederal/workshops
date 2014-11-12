@@ -384,11 +384,11 @@ That's it, the layer is ready!
 We can change the column we're viewing by altering the *column* view parameter in the WMS request URL.
 
 * Here is the default column: 
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized
 * Here is the **edu685211** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:edu685211
 * Here is the **rhi425212** column:
-  http://apps.opengeo.org/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
+  http://apps.boundlessgeo.com/geoserver/opengeo/wms/reflect?layers=opengeo:normalized&viewparams=column:rhi425212
 
 The column names that the census uses are **pretty opaque** aren't they? What we need is a web app that lets us see nice human readable column information, and also lets us change the column we're viewing on the fly.
 
