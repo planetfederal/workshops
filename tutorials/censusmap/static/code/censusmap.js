@@ -1,10 +1,11 @@
+// TUTORIAL #1
 // Base map
 var osmLayer = new ol.layer.Tile({source: new ol.source.OSM()});
 
 // Census map layer
 var wmsLayer = new ol.layer.Image({
   source: new ol.source.ImageWMS({
-    url: 'http://apps.opengeo.org/geoserver/wms',
+    url: 'http://apps.boundlessgeo.com/geoserver/wms',
     params: {'LAYERS': 'opengeo:normalized'}
   }),
   opacity: 0.6
@@ -13,14 +14,16 @@ var wmsLayer = new ol.layer.Image({
 // Map object
 olMap = new ol.Map({
   target: 'map',
-  renderer: ol.RendererHint.CANVAS,
+  renderer: 'canvas',
   layers: [osmLayer, wmsLayer],
-  view: new ol.View2D({
+  view: new ol.View({
     center: [-10764594.0, 4523072.0],
     zoom: 5
   })
 });
+// !TUTORIAL #1
 
+// TUTORIAL #2
 // Load variables into dropdown
 $.get("../data/DataDict.txt", function(response) {
   // We start at line 3 - line 1 is column names, line 2 is not a variable
@@ -30,14 +33,18 @@ $.get("../data/DataDict.txt", function(response) {
       .html(line.substr(10, 105).trim()));
   });
 });
+// !TUTORIAL #2
 
+// TUTORIAL #3
 // Add behaviour to dropdown
 $('#topics').change(function() {
   wmsLayer.getSource().updateParams({
     'viewparams': 'column:' + $('#topics>option:selected').val()
   });
 });
+// !TUTORIAL #3
 
+// TUTORIAL #6
 // Create an ol.Overlay with a popup anchored to the map
 var popup = new ol.Overlay({
   element: $('#popup')
@@ -61,3 +68,4 @@ olMap.on('singleclick', function(evt) {
     }
   });
 });
+// !TUTORIAL #6
