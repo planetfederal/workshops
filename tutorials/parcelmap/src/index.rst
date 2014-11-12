@@ -172,12 +172,10 @@ Before building our web application, let's explore the structure of the data usi
 * Add a new connection
 
   .. image:: ./img/qgis1.png
-     :class: inline
   
 * Choose the ``siteaddresses`` and ``taxlots`` tables'
 
   .. image:: ./img/qgis2.png
-     :class: inline
 
 * Click *Add*
 * Click *Close*
@@ -255,6 +253,7 @@ First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL 
 * We now have a published layer! Go to the "Layer Preview" page and click "Go" after the "taxlots" entry. It may take some time to render (all 92,206 lots have to be drawn), but you will see a map of the tax lots.
 
   .. image:: ./img/geoserver4.png
+     :class: inline
 
 
 
