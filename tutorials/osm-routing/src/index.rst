@@ -108,12 +108,12 @@ We start by launching the PostgreSQL shell and then loading the pgRouting extens
 
 The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared point).
 
-For example, if we imagine this very simple metro network, the function will identify the four stations marked in red.
+For example, if we imagine this very simple metro network, the function will identify the four stations marked **A**, **B**, **C** and **D**.
 
 .. image:: ./img/topology1.png
    :width: 50%
 
-Finally, the function will add the source and target stations to each of the segments, such that A has a source of 1 and a target of 2, and so on for edges B and C.
+Finally, the function will add the source and target stations to each of the segments, such that **1** has a source of **A** and a target of **B**, and so on for edges **2** and **3**.
 
 To accommodate `pgr_createTopology`, we need to add `source` and `target` columns to our `edges` table and then execute the command. Note that we have to indicate the name of the table (`'edges'`) and the tolerance for considering two vertices the same in the network.
 
@@ -130,14 +130,14 @@ We haven’t quite solved the network problem yet, however. `pgr_createTopology`
 .. image:: ./img/topology2.png
    :width: 50%
 
-In the example above, we will again have four vertices, but there is no path between point 1 and point 4 since point 3 is not shared between the two line segments.
+In the example above, we will again have four vertices, but there is no path between point **A** and point **D** since point **C** is not shared between the two line segments.
 
-To handle these cases, pgRouting has an additional function, `pgr_nodeNetwork`, which will split segment B into two new edges C and D, so that point 3 can serve as a shared vertex.
+To handle these cases, pgRouting has an additional function, `pgr_nodeNetwork`, which will split segment **1** into two new edges **3** and **4**, so that point **C** can serve as a shared "transfer point".
 
 .. image:: ./img/topology3.png
    :width: 50%
 
-The new `edges_noded` table that is created by `pgr_nodeNetwork` contains an attribute named `old_id` to indicate which original edge each new edge derived from. From the example above, edges C and D would both have an `old_id` set to B. 
+The new `edges_noded` table that is created by `pgr_nodeNetwork` contains an attribute named `old_id` to indicate which original edge each new edge derived from. From the example above, edges **3** and **4** would both have an `old_id` set to **1**. 
 
 .. code-block:: sql
 
@@ -177,7 +177,7 @@ Then copy the data from the original table.
 Determining cost
 ----------------
 
-In addition to having a network that shows connections, pgRouting also needs to know the ‘cost’ of travelling over any of the edges. What cost means depends on the application: it could be an actual cost (such as your metro fare); the total distance travelled; time; or any other metric when move from point to point.
+In addition to having a network that shows connections, pgRouting also needs to know the ‘cost’ of travelling over any of the edges. What cost means depends on the application: it could be an actual cost (such as your metro fare); the total distance travelled; time; or any other metric when moving from point to point.
 
 In our application, we will support both a distance and a time cost. To improve performance, we will pre-calculate the time to travel by car on all of our entries in the `edges_noded` table. Time will be calculated based on the type of road (cars travel faster on primary roads than secondary for example); a query in our database shows us the different types of edges encoded in our database.
 
@@ -769,7 +769,7 @@ But it's not perfect.
 .. image:: ./img/route4.png
    :width: 95%
 
-Improper routes like these occur when the original OpenStreetMap data has two vertices which should have actually been a single point, such as in the example below where there is no path between 1 and 4 because vertex 2 and vertex 3 were incorrectly located at different positions.
+Improper routes like these occur when the original OpenStreetMap data has two vertices which should have actually been a single point, such as in the example below where there is no path between **A** and **D** because vertex **B** and vertex **C** were incorrectly recorded as two different positions rather than being a single point.
 
 .. image:: ./img/topology4.png
    :width: 50%
