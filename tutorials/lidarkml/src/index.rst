@@ -175,7 +175,7 @@ Here is our pipeline file. Note that we are using "EPSG:4326" for the spatial re
   <?xml version="1.0" encoding="utf-8"?>
   <Pipeline version="1.0">
     <Writer type="drivers.pgpointcloud.writer">
-      <Option name="connection">dbname='lidar' user='postgres'</Option>
+      <Option name="connection">dbname=lidar user=postgres</Option>
       <Option name="table">medford</Option>
       <Option name="srid">4326</Option>
       <Filter type="filters.chipper">
