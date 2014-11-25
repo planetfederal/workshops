@@ -99,7 +99,7 @@ Building Footprints
 
 In our analysis, we'll be using the LIDAR data to determine the height of the buildings within our LIDAR file. To do that, we need building outlines! Fortunately, Jackson County has an `open data program <http://gis.jacksoncounty.org/Portal/gis-data.aspx>`_.
 
-**Download** the shape file `BuildingFootprints.zip <http://gis.jacksoncounty.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=43>`_ now.
+**Download** the shape file `BuildingFootprints.zip <http://files.opengeo.org/workshopmaterials/lidarkml/BuildingFootprints.zip>`_ now.
 
 
 Loading LIDAR into the Database
@@ -462,6 +462,11 @@ Since our LIDAR data is all in geographic coordinates (EPSG:4326) and we're goin
   TYPE geometry(MultiPolygon,4326)
   USING ST_Transform(geom, 4326);
 
+  -- Rename to area column to area
+  ALTER TABLE buildings
+  RENAME COLUMN shape_st_1
+  TO shape_area;
+
   -- Index the table
   CREATE INDEX buildings_gix ON buildings USING GIST (geom);
   
@@ -516,11 +521,11 @@ Buildings & Pointclouds
 
 Let's zoom in and find a particular building to analyze (if you zoom in close enough to get vector KML, the buildings become clickable)
 
-.. image:: ./img/building_13103.jpg
+.. image:: ./img/building_81719.jpg
 
-We can see building #13103 (that's the primary key `gid` from the database) has a limited number of attributes, but including an elevation, 1446.43! Our LIDAR data ranged about 450 meters, so the elevation on the buildings is probably in feet.
+We can see building #81719 (that's the primary key `gid` from the database) has a limited number of attributes, but including an elevation, 1446.43! Our LIDAR data ranged about 450 meters, so the elevation on the buildings is probably in feet.
 
-What elevation can we calculate for building #13103 using the LIDAR table?
+What elevation can we calculate for building #81719 using the LIDAR table?
 
 Here's how the logic works visually.
 
@@ -552,7 +557,7 @@ Here's what it looks like in SQL.
   -- Get the one building we are interested in
   building AS (
     SELECT geom FROM buildings 
-    WHERE buildings.gid = 13103
+    WHERE buildings.gid = 81719
   ),
   -- All the patches that intersect that building
   patches AS (
@@ -655,7 +660,7 @@ We have a good source of elevation information over all whole study area, in the
 
 **Road center-lines** are almost guaranteed to be free of occluding structures (with the exception of the occasional overpass) and are almost always at the prevailing "ground level". If we calculate the elevation of road center-lines, we can determine building height by subtracting the elevation of the nearest road from the elevation of the building.
 
-* From the `Jackson County data portal <http://www.smartmap.org/Portal/gis-data.aspx>`_, we can download the `road center-lines (Streets.shp.zip) <http://www.smartmap.org/Portal/SharedFiles/Download.aspx?pageid=2&mid=2&fileid=68>`_ for the county.
+* From the `Jackson County data portal <http://gis.jacksoncounty.org/Portal/gis-data.aspx>`_, we can download the `road center-lines (Streets.zip) <http://files.opengeo.org/workshopmaterials/lidarkml/Streets.zip>`_ for the county.
 
 * Unzip the file and load the streets into PostGIS::
 
