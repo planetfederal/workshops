@@ -41,13 +41,7 @@ This tutorial requires the **WPS Extension** to generate heat-map overlays, so y
 
 * During Windows installation, make sure the WPS option under the GeoServer components is **checked**.
 * Under Linux, make sure you install the ``geoserver-wps`` package (same package name for both Red Hat and Ubuntu).
-* Under OSX, you have to add WPS manually after installation.
-
-  * Start GeoServer. 
-  * Under the GeoServer icon in the menu bar, select "Open Webapps Directory"
-  * From there, navigate down to ``geoserver/WEB-INF/lib``
-  * Download http://r2d2.opengeo.org/suite/release/4.0/opengeosuite-4.0-wps.zip and copy the contents into the ``geoserver/WEB-INF/lib`` directory
-  * Restart GeoServer (quit, and then start again)
+* Under OSX, you have to `copy the appropriate WPS files into the webapps directory <http://suite.opengeo.org/4.1/installation/mac/install.html#installation-mac-install-extensions>`_.
 
 
 Find the Data
