@@ -823,7 +823,7 @@ The output looks like this::
 
 Now we have a J2EE war, and we just need to copy it up to the GeoServer application server.
 
-* For Linux installations of Suite, copy the war file to ``/usr/share/opengeo/apps``. The application should become available at http://servername/apps/parcelmap 
+* For Linux installations of Suite, copy the war file to ``/var/lib/tomcat/webapps``. The application should become available at http://[servername]/parcelmap 
 * For generic J2EE installations, where Suite is running as a war file itself in a J2EE container, just drop the war file into the J2EE deployment directory, or use an admin tool to upload it.
 
 
