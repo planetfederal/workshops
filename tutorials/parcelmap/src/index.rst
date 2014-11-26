@@ -480,12 +480,12 @@ Now that we have a good database query, we need to expose it as a web service (a
          a.geom AS geom,
          ts_rank_cd(a.ts, query) AS rank
        FROM siteaddresses AS a,
-            to_tsquery_partial('100 old high') AS query
+            to_tsquery_partial('%query%') AS query
        WHERE ts @@ query
        ORDER BY rank DESC 
-       LIMIT 10;
+       LIMIT 10
        
-  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep teh default regular expression filter.
+  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep the default regular expression filter.
   
     .. image:: ./img/sqlview3.png 
   
