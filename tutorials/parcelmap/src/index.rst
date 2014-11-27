@@ -480,12 +480,12 @@ Now that we have a good database query, we need to expose it as a web service (a
          a.geom AS geom,
          ts_rank_cd(a.ts, query) AS rank
        FROM siteaddresses AS a,
-            to_tsquery_partial('100 old high') AS query
+            to_tsquery_partial('%query%') AS query
        WHERE ts @@ query
        ORDER BY rank DESC 
-       LIMIT 10;
+       LIMIT 10
        
-  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep teh default regular expression filter.
+  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep the default regular expression filter.
   
     .. image:: ./img/sqlview3.png 
   
@@ -823,7 +823,7 @@ The output looks like this::
 
 Now we have a J2EE war, and we just need to copy it up to the GeoServer application server.
 
-* For Linux installations of Suite, copy the war file to ``/usr/share/opengeo/apps``. The application should become available at http://servername/apps/parcelmap 
+* For Linux installations of Suite, copy the war file to ``/var/lib/tomcat/webapps``. The application should become available at http://[servername]/parcelmap 
 * For generic J2EE installations, where Suite is running as a war file itself in a J2EE container, just drop the war file into the J2EE deployment directory, or use an admin tool to upload it.
 
 
