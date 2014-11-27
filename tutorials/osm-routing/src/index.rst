@@ -25,23 +25,13 @@ We will need the following software during our tutorial:
 
 .. note::
 
-   There are many ways to install pgRouting, depending on your system's operating system and architecture. The following steps can be used to install pgRouting on 64-bit Ubuntu 12.04 alongside OpenGeo Suite 4.0.2:
+   There are many ways to install pgRouting, depending on your system's operating system and architecture. The following steps can be used to install pgRouting on 64-bit Ubuntu 14.04 alongside OpenGeo Suite 4.5:
 
    .. code-block:: bash
 
-       wget http://ftp.debian.org/debian/pool/main/p/pgrouting/postgresql-9.3-pgrouting_2.0.0-2_amd64.deb
-       wget http://ftp.debian.org/debian/pool/main/c/cgal/libcgal10_4.4-1+b1_amd64.deb
-       wget http://ftp.debian.org/debian/pool/main/b/boost1.54/libboost-thread1.54.0_1.54.0-5_amd64.deb
-       wget http://ftp.debian.org/debian/pool/main/b/boost1.54/libboost-system1.54.0_1.54.0-5_amd64.deb
-       wget http://ftp.debian.org/debian/pool/main/b/boost1.55/libboost-thread1.55.0_1.55.0+dfsg-1_amd64.deb
-       wget http://ftp.debian.org/debian/pool/main/b/boost1.55/libboost-system1.55.0_1.55.0+dfsg-1_amd64.deb
-
-       sudo dpkg -i libboost-system1.54.0_1.54.0-5_amd64.deb
-       sudo dpkg -i libboost-thread1.54.0_1.54.0-5_amd64.deb 
-       sudo dpkg -i libboost-system1.55.0_1.55.0+dfsg-1_amd64.deb 
-       sudo dpkg -i libboost-thread1.55.0_1.55.0+dfsg-1_amd64.deb 
-       sudo dpkg -i libcgal10_4.4-1+b1_amd64.deb
-       sudo dpkg -i postgresql-9.3-pgrouting_2.0.0-2_amd64.deb 
+      sudo add-apt-repository ppa:georepublic/pgrouting
+      sudo apt-get update
+      sudo apt-get install postgresql-9.3-pgrouting
 
 Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in `our documentation <http://suite.opengeo.org/docs/latest/installation/index.html>`_.
 
@@ -63,13 +53,13 @@ Our first stop will be to download the city-specific OpenStreetMap data for our 
 
 Download the `OSM2PGSQL SHP for Portland Me <http://wiki.openstreetmap.org/wiki/Osm2pgsql>`_ and extract the files::
 
-  $ wget https://s3.amazonaws.com/metro-extracts.mapzen.com/portland-me.osm2pgsql-shapefiles.zip
-  $ unzip portland-me.osm2pgsql-shapefiles.zip
+  wget https://s3.amazonaws.com/metro-extracts.mapzen.com/portland_maine.osm2pgsql-shapefiles.zip
+  unzip portland_maine.osm2pgsql-shapefiles.zip
 
 We next need to create a new `routing` database in PostgreSQL into which we will be importing our data. We also need to enable the spatial PostGIS functions::
 
-  $ createdb routing;
-  $ psql -c "CREATE EXTENSION postgis;" routing
+  createdb routing;
+  psql -c "CREATE EXTENSION postgis;" routing
 
 The OSM data we are using stores all features in three ShapeFiles, one each for points, lines and polygons. Road data is stored in the `portland-me.osm-line.shp` file, but it also contains other features that we are not interested in. If we look at the data, we’ll notice that roads and other ways always have a value for the attribute `highway` and non-road features have an empty value for this attribute. 
 
@@ -87,14 +77,14 @@ We can use OGR, to load the data into the database accomplish all of the goals w
 
 Putting these all together we get the following command::
 
-  $ ogr2ogr \ 
-      -where "highway <> ''" \
-      -select 'name,highway,oneway,surface' \
-      -lco GEOMETRY_NAME=the_geom \
-      -lco FID=id \
-      -t_srs EPSG:3857 \
-      -f PostgreSQL PG:"dbname=routing user=postgres" \
-      -nln edges portland-me.osm-line.shp \
+  ogr2ogr \ 
+    -where "highway <> ''" \
+    -select 'name,highway,oneway,surface' \
+    -lco GEOMETRY_NAME=the_geom \
+    -lco FID=id \
+    -t_srs EPSG:3857 \
+    -f PostgreSQL PG:"dbname=routing user=postgres" \
+    -nln edges portland_maine.osm-line.shp
 
 Building a network
 ------------------
@@ -103,8 +93,11 @@ As we discussed earlier, pgRouting needs a network of vertices (the stations in 
 
 We start by launching the PostgreSQL shell and then loading the pgRouting extension::
 
-  $ psql routing
-  # CREATE EXTENSION pgrouting;
+  psql -U postgres routing
+
+When the ``psql`` prompt appears, enter the following command::
+
+  CREATE EXTENSION pgrouting;
 
 The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared point).
 
@@ -249,7 +242,21 @@ Based on the distance, type and surface we can now estimate the amount of time n
       ELSE distance / 20
     END;
 
-Dividing the distance by our speed estimates for each road type gives us the number of hours required to travel along that segment.
+Dividing the distance by our speed estimates for each road type gives us the number of hours required to travel along that segment. Let's also set the distance to the special value of ``-1`` for the types of edges that we don't want vehicles to travel along.
+
+.. code-block:: sql
+
+  UPDATE edges_noded SET
+    distance = 
+    CASE type
+      WHEN 'steps' THEN -1
+      WHEN 'path' THEN -1
+      WHEN 'footway' THEN -1
+      WHEN 'cycleway' THEN -1
+      WHEN 'proposed' THEN -1
+      WHEN 'construction' THEN -1 
+      ELSE distance
+    END;
 
 There is one more data point we could have used to help fine tune how long it takes to travel along road segments.
 
@@ -266,7 +273,6 @@ There is one more data point we could have used to help fine tune how long it ta
    asphalt
    sand
 
-
 Testing
 -------
 
@@ -278,7 +284,7 @@ We can test that the routing works by using the `pgr_dijkstra` function (which i
     id1 AS vertex, 
     id2 AS edge, 
     cost 
-  FROM pgr_dijkstra('SELECT id, source::INT4, target::INT4, distance AS cost FROM edges_noded', 1000, 757, false, false) 
+  FROM pgr_dijkstra('SELECT id, source::INT4, target::INT4, time AS cost FROM edges_noded', 1000, 757, false, false) 
   ORDER BY seq;
 
    vertex | edge  |        cost         
@@ -295,7 +301,7 @@ We can test that the routing works by using the `pgr_dijkstra` function (which i
 
 Note how we pass a sub-query as an argument to `pgr_dijkstra`. This is us telling pgRouting what network to use when looking for the route, and because it is regular SQL we can fine tune what kind of route to look for. We could, for example, tell pgRouting to ignore all motorways when looking for a route by adding the following where clause: `WHERE type <> 'motorway'`. Best of all, this can be done dynamically, so we can change the routing parameters with every request.
 
-For our purposes, we should note that if we replace `distance` with `time` in the sub-query, this will tell pgRouting to find the fastest route between the two points rather than the shortest route (remember that we travel faster on certain types of roads).
+For our purposes, we should note that if we replace `time` with `distance` in the sub-query, this will tell pgRouting to find the shortest route between the two points rather than the fastest route (remember that we travel slower on certain types of roads).
 
 Thus far we haven’t taken one-way roads into account. The same `pgr_dijktra` algorithm can handle one-way roads if we add a `reverse_cost` column. As before, we need to set the cost to `-1` when we don't want to allow an edge to be used; therefore we will use `-1` as the `reverse_cost` when the `oneway` attribute is `yes`. If the road is not one-way, we use the same cost in the forward and reverse direction.
 
@@ -305,7 +311,7 @@ Thus far we haven’t taken one-way roads into account. The same `pgr_dijktra` a
     id1 AS vertex, 
     id2 AS edge, 
     cost 
-  FROM pgr_dijkstra('SELECT id, source::INT4, target::INT4, distance AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE distance END AS reverse_cost FROM edges_noded', 1000, 757, true, true) 
+  FROM pgr_dijkstra('SELECT id, source::INT4, target::INT4, time AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE time END AS reverse_cost FROM edges_noded', 1000, 757, true, true) 
   ORDER BY seq;
 
 By joining the results of the query with the `edges_noded` table, we can get the complete information about the route that will be taken rather than just the edge and vertex numbers.
@@ -320,7 +326,7 @@ By joining the results of the query with the `edges_noded` table, we can get the
     e.time AS time, 
     e.distance AS distance 
   FROM 
-    pgr_dijkstra('SELECT id, source::INT4, target::INT4, distance AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE distance END AS reverse_cost FROM edges_noded', 753, 756, true, true) AS r,
+    pgr_dijkstra('SELECT id, source::INT4, target::INT4, time AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE time END AS reverse_cost FROM edges_noded', 753, 756, true, true) AS r,
     edges_noded AS e 
   WHERE r.id2 = e.id;
 
@@ -353,7 +359,7 @@ Remember that we took the original lines from OpenStreetMap and split them into 
     sum(e.time) AS time, 
     sum(e.distance) AS distance 
   FROM 
-    pgr_dijkstra('SELECT id, source::INT4, target::INT4, distance AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE distance END AS reverse_cost FROM edges_noded', 753, 756, true, true) AS r,
+    pgr_dijkstra('SELECT id, source::INT4, target::INT4, time AS cost, CASE oneway WHEN ''yes'' THEN -1 ELSE time END AS reverse_cost FROM edges_noded', 753, 756, true, true) AS r,
     edges_noded AS e 
   WHERE r.id2 = e.id 
   GROUP BY e.old_id, e.name, e.type, e.oneway;
@@ -377,19 +383,19 @@ Our database work is now complete and we can publish an SQL View which will crea
 SQL View
 ^^^^^^^^
 
-Configure a new SQL View named shortest_path with the following SQL query:
+Configure a new SQL View named ``shortest_path`` with the following SQL query:
 
 .. code-block:: sql
 
   SELECT
-    min(r.seq),
+    min(r.seq) AS seq,
     e.old_id AS id, 
     e.name,
     e.type, 
     e.oneway, 
     sum(e.time) AS time, 
     sum(e.distance) AS distance,
-    ST_Union(e.the_geom)
+    ST_Collect(e.the_geom) AS geom
   FROM 
     pgr_dijkstra(
      'SELECT 
@@ -410,14 +416,14 @@ Configure a new SQL View named shortest_path with the following SQL query:
 
 The SQL View has three parameters: `source`, `target` and `cost`. The first two will be the vertex identification number and we will set `cost` to either `distance` or `time` depending on which metric we wish to use to calculate the route.
 
-Note also the `ST_Union` call will combine the individual `lineString` segments into a single `multiLineString` geometry in the same way that we use `sum` to calculate the total time and distance costs.
+Note also the `ST_Collect` call will combine the individual `lineString` segments into a single `multiLineString` geometry in the same way that we use `sum` to calculate the total time and distance costs.
 
-For security purposes, when we are creating the SQL View, we should change the regular expression validation for `source` and `target` so that only digits are allowed `(^[\d]+$)` and cost such that the words “cost” and “distance” are allowed `(^[\w]+$)`.
+For security purposes, when we are creating the SQL View, we should change the regular expression validation for `source` and `target` so that only digits are allowed `(^[\\d]+$)` and cost such that the words "time" and "distance" are allowed `(^[\\w]+$)`.
 
 .. image:: ./img/route_view_params.png
    :width: 95%
 
-Finally, ensure that we specify which attribute will uniquely identify each feature in the route (we will use seq since pgRouting gives each segment in the route a sequence number) and the geometry type and SRID.
+Finally, ensure that we specify which attribute will uniquely identify each feature in the route (we will use seq since pgRouting gives each segment in the route a sequence number) and the geometry type (**MultiLineString**) and SRID (**3857**).
 
 .. image:: ./img/route_view_attributes.png
    :width: 95%
@@ -443,7 +449,7 @@ Using the layer name `nearest_vertex`, publish the following SQL query:
     AND (e.source = v.id OR e.target = v.id) 
   GROUP BY v.id, v.the_geom
 
-Because coordinates may contain negative numbers or decimals, make sure to change the validation regular expressions to only include digits and both of the required symbols: `^[\d.-]+$`.
+Because coordinates may contain negative numbers or decimals, make sure to change the validation regular expressions to only include digits and both of the required symbols: `^[\\d.-]+$`.
 
 .. image:: ./img/vertex_view.png
    :width: 95%
@@ -710,15 +716,14 @@ The newly-retrieved route will be used to create a new layer to replace the prev
     routeSource = new ol.source.ServerVector({
       format: new ol.format.GeoJSON(),
       strategy: ol.loadingstrategy.all,
-      loader: function(extent, resolution, projection) {
+      loader: function(extent, resolution) {
         $.ajax({
           url: url,
           dataType: 'json',
           success: loadRoute,
           async: false
         });
-      },
-      projection: 'EPSG:3857'
+      }
     });
 
     // remove the previous layer and create a new one
