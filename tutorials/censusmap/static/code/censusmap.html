@@ -2,12 +2,12 @@
 <html>
   <head>
     <title>Boundless Census Map</title>
+    <!-- JQuery -->
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
     <!-- Bootstrap -->
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    <!-- JQuery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- OpenLayers -->
     <link rel="stylesheet" href="http://openlayers.org/en/v3.0.0/css/ol.css" type="text/css">
     <script src="http://openlayers.org/en/v3.0.0/build/ol.js" type="text/javascript"></script>
@@ -59,7 +59,11 @@
     <div id="map">
       <!-- GetLegendGraphic, customized with some LEGEND_OPTIONS -->
       <img class="legend img-rounded" src="http://apps.opengeo.org/geoserver/wms?REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&WIDTH=26&HEIGHT=18&STRICT=false&LAYER=normalized&LEGEND_OPTIONS=fontName:sans-serif;fontSize:11;fontAntiAliasing:true;fontStyle:bold;fontColor:0xFFFFFF;bgColor:0x000000">
-      <div id="popup" data-html="true" data-placement="auto" data-title="&times;"></div>
+      <div id="popup" data-html="true" data-placement="auto" data-title="&times;">
+        <div id="popup-content" style="display:none">
+          <iframe seamless></iframe>
+        </div>
+      </div>
     </div>
     <!-- !TUTORIAL #4 -->
     <script type="text/javascript" src="censusmap.js"></script>
