@@ -20,7 +20,11 @@ Requirements
 
 We will need the following software during our tutorial:
 
-* OpenGeo Suite 4
+* OpenGeo Suite 4.5
+  - GeoServer
+  - PostGIS
+  - GDAL/OGR
+  - Suite SDK
 * pgRouting 2
 
 .. note::
@@ -63,12 +67,12 @@ We next need to create a new `routing` database in PostgreSQL into which we will
 
 The OSM data we are using stores all features in three ShapeFiles, one each for points, lines and polygons. Road data is stored in the `portland-me.osm-line.shp` file, but it also contains other features that we are not interested in. If we look at the data, we’ll notice that roads and other ways always have a value for the attribute `highway` and non-road features have an empty value for this attribute. 
 
-Our first goals for importing will be to only take lines which are actually roads into our database. Our second goal will be to eliminate the unnecessary attributes that come with the OSM data. Of the 57 attributes in the original ShapeFile, only the following are of interest to us: `highway`; `name`, `oneway`; and `surface`. Finally, we’ll convert the data from EPSG:4326 to EPSG:3857, which is better suited for viewing city-level data.
+Our first goals for importing will be to only take lines which are actually roads into our database. Our second goal will be to eliminate the unnecessary attributes that come with the OSM data. Of the 57 attributes in the original ShapeFile, only the following are of interest to us: ``highway``, ``name``, ``oneway``, ``ref`` and ``surface``. Finally, we’ll convert the data from EPSG:4326 to EPSG:3857, which is better suited for viewing city-level data.
 
 We can use OGR, to load the data into the database accomplish all of the goals we set ourselves above:
 
 * `-where "highway <> ''"`: only take lines whose `highway` attribute is not empty
-* `-select 'name,highway,oneway,surface'`: take the desired attributes only
+* `-select 'name,highway,oneway,ref,surface'`: take the desired attributes only
 * `-f PostgreSQL PG:"dbname=routing user=postgres"`: load the data into Postgres
 * `-lco GEOMETRY_NAME=the_geom:` store the geometry in an attribute named `the_geom`
 * `-lco FID=id`: store the feature identifying numbers in an attribute named `id`
@@ -154,13 +158,13 @@ First add the new columns.
     ADD COLUMN oneway VARCHAR, 
     ADD COLUMN surface VARCHAR;
 
-Then copy the data from the original table.
+Then copy the data from the original table. When copying we'll use the Interstate names (from the column ``ref``) in the cases where the data set does not record a name.
 
 .. code-block:: sql
 
   UPDATE edges_noded AS new
   SET
-    name = old.name, 
+    name = CASE WHEN old.name IS NULL THEN old.ref ELSE old.name END,
     type = old.highway, 
     oneway = old.oneway, 
     surface = old.surface 
@@ -375,13 +379,15 @@ Remember that we took the original lines from OpenStreetMap and split them into 
 Publishing in GeoServer
 -----------------------
 
-Our database work is now complete and we can publish an SQL View which will create a route for a given source and target vertex.
+Our database work is now complete and we can publish our routing functionality as dynamic layers in GeoServer. First create a new workspace named ``tutorial`` and a new PostGIS store that connects to your database.
 
 .. image:: ./img/stores.png
    :width: 95%
 
 SQL View
 ^^^^^^^^
+
+We will be creating two layers in GeoServer: ``shortest_path``, which finds the route between two vertices in our routing network and returns a list of features representing that route; ``nearest_vertex``, which finds the nearest vertext to any point in our dataset. Our application will let the user select a point on the map and will translate it into a vertex which can be used as the source or target in our route generation layer.
 
 Configure a new SQL View named ``shortest_path`` with the following SQL query:
 
@@ -428,7 +434,7 @@ Finally, ensure that we specify which attribute will uniquely identify each feat
 .. image:: ./img/route_view_attributes.png
    :width: 95%
 
-This is all that we need to configure in GeoServer to provide routes between two vertices, but our client will still need to know the vertex identification numbers, so we will also publish the automatically-created `edges_noded_vertices_pgr` table. Instead of publishing the entire table, we will create an SQL View that will find the nearest vertex to a point on the map as a way of selecting the start and end of our route.
+This is all that we need to configure in GeoServer to provide routes between two vertices, but our client will still need to know the vertex identification numbers, so we will also publish the automatically-created `edges_noded_vertices_pgr` table. This brings us to our second SQL View, which will find the nearest vertex to a point on the map as a way of selecting the start or end of our route.
 
 Using the layer name `nearest_vertex`, publish the following SQL query:
 
@@ -474,176 +480,316 @@ To interact with our routing algorithm we will need a client which can make stan
 .. image:: ./img/route2.png
    :width: 95%
 
+OpenGeo Suite SDK
+^^^^^^^^^^^^^^^^^
+
+We will be using the `Suite SDK <http://suite.opengeo.org/opengeo-docs/webapps/index.html>`_ to create a template for building our application. On the command line run the following::
+
+.. code-block:: bash
+
+   suite-sdk create routing ol3view
+
+We will now have a ``routing`` directory with a basic application for viewing layers; there are several files in this new directory, but we will only confern ourselves with ``index.html`` and ``src/app/app.js``.
+
 HTML document
 ^^^^^^^^^^^^^
-We will first need a skeleton HTML file that will load the OpenLayers and JQuery libraries, set up the map position and then start our routing.js script.
+
+We will first need to edit the basic HTML file named ``index.html`` that loads the OpenLayers and JQuery libraries, to add an extra box where we can display information about the route. Find the line that has ``<div id="map">`` and add the following line *before* it: ``<div id="info"></div>``. This part of the file should now look like this:
 
 .. code-block:: html
 
-  <!doctype html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8">
-      <title>OpenGeo Suite Routing</title>
-      <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-      <script src="http://ol3js.org/en/master/build/ol.js" type="text/javascript"></script>
-      <style>
-        #map {
-          height: 780px;
-          width: 100%;
-        }
-      </style>
-    </head>
-    <body>
-      <div id="map" class="map"></div>
-      <script src="routing.js" type="text/javascript"></script>
-    </body>
-  </html>
+      </div><!--/.navbar-collapse -->
+    </div>
+    <div id="info"></div>
+    <div id="map">
+      <div id="popup" class="ol-popup">
+      </div>
+    </div>
 
 Script
 ^^^^^^
 
-We can now build our routing.js step-by-step, starting with some variable declarations:
+We can now build our JavaScript application step-by-step, but unlike ``index.html`` we will remove the existing ``app.js`` and write a new one from scratch. Make sure to place your new ``app.js`` in the ``src/app`` directory.
+
+.. note::
+
+  If you want to skip the instructions on building the application, simply `download the completed app.js <_static/code/app.js>`_. 
+
+We will start by declaring some variables, which will include the starting point and zoom level for our map.
 
 .. code-block:: javascript
 
-  var geoserverUrl = 'http://localhost:8080/geoserver';
-  var pointerDown = false;
-  var currentMarker = null;
-  var changed = false;
-  var routeLayer;
-  var routeSource;
+   var geoserverUrl = '/geoserver';
+   var center = ol.proj.transform([-70.26, 43.67], 'EPSG:4326', 'EPSG:3857');
+   var zoom = 12;
+   var pointerDown = false;
+   var currentMarker = null;
+   var changed = false;
+   var routeLayer;
+   var routeSource;
+   var travelTime;
+   var travelDist;
 
-The base map for our application will be OpenStreetMap tiles, which OpenLayers 3 supports as a layer type.
+We will need to update the text in two elements in the ``index.html`` document as our route changes.
 
 .. code-block:: javascript
 
-  // set the starting view 
-  var view = new ol.View({
-    center: ol.proj.transform([-70.26, 43.67], 'EPSG:4326', 'EPSG:3857'),
-    zoom: 12
-  });
-  
-  var viewProjection = (view.getProjection());
-  
-  // create the map with OSM data
-  var map = new ol.Map({
-    target: 'map',
-    layers: [
-      new ol.layer.Tile({
-        source: new ol.source.OSM()
-      })
-    ],
-    view: view
-  });
+   // elements in HTML document
+   var info = document.getElementById('info');
+   var popup = document.getElementById('popup');
 
-We will next create two features in central Portland which will represent the start point (green) and end point (red) of the route.
+When we print information about our route, we will need to format the data for display. For example, the time it takes to travel along a route is measured in hours, so we will take the number ``0.25`` and format it to display ``15 minutes``. We will do some formatting on distances, the names of roads and intersections.
+
+.. code-block:: javascript
+
+   // format a single place name
+   function formatPlace(name) {
+     if (name == null || name == '') {
+       return 'unnamed street';
+     } else {
+       return name;
+     }
+   }
+   
+   // format the list of place names, which may be single roads or intersections
+   function formatPlaces(list) {
+     var text;
+     if (!list) {
+       return formatPlace(null);
+     }
+     var names = list.split(',');
+     if (names.length == 0) {
+       return formatPlace(null);
+     } else if (names.length == 1) {
+       return formatPlace(names[0]);
+     } else if (names.length == 2) {
+       text = formatPlace(names[0]) + ' and ' + formatPlace(names[1]);
+     } else {
+       text = ' and ' + formatPlace(names.pop());
+       names.forEach(function(name) {
+         text = name + ', ' + text;
+       });
+     }
+   
+     return 'the intersection of ' + text;
+   }
+   
+   // format times for display
+   function formatTime(time) {
+     var mins = Math.round(time * 60);
+     if (mins == 0) {
+       return 'less than a minute';
+     } else if (mins < 1.5) {
+       return '1 minute';
+     } else {
+       return Math.round(mins) + ' minutes';
+     }
+   }
+   
+   // format distances for display
+   function formatDist(dist) {
+     var units;
+     dist = dist.toPrecision(2);
+     if (dist < 1) {
+       dist = dist * 1000;
+       units = 'm';
+     } else {
+       units = 'km';
+     }
+   
+     // make sure distances like 5.0 appear as just 5
+     dist = dist.toString().replace(/[.]0$/, '');
+     return dist + units;
+   }
+
+Our map will have two markers which user can drag into new positions to indicate the start and end of the route. 
 
 .. image:: ./img/markers.png
    :width: 95%
 
-Because the user can drag the markers into new positions, we will add a callback named `changeHandler` which will be triggered whenever a marker is moved.
+We will add these to an overlay and add a callback function named `changeHandler` which will be triggered whenever one of these markers is moved.     
 
 .. code-block:: javascript
 
-  // create source feature
-  var sourceMarker = new ol.Feature({
-    geometry: new ol.geom.Point(
-        ol.proj.transform([-70.26, 43.665], 'EPSG:4326', 'EPSG:3857'))
-  });
-
-  // create style (green point)
-  sourceMarker.setStyle(
+    // create source feature
+    var sourceMarker = new ol.Feature({
+      geometry: new ol.geom.Point(ol.proj.transform([-70.26013, 43.66515], 'EPSG:4326', 'EPSG:3857'))
+    });
+    
+    // create style (green point)
+    sourceMarker.setStyle(
       [new ol.style.Style({
         image: new ol.style.Circle({
           radius: 6,
           fill: new ol.style.Fill({
-            color: 'rgba(0, 255, 128, 1)'
+            color: 'rgba(0, 255, 0, 1)'
           })
         })
       })]
-  );
-  sourceMarker.on('change', changeHandler);
-
-  // create target feature
-  var targetMarker = new ol.Feature({
-    geometry: new ol.geom.Point(
-        ol.proj.transform([-70.255, 43.67], 'EPSG:4326', 'EPSG:3857'))
-  });
-
-  // create style (red point)
-  targetMarker.setStyle(
+    );
+    sourceMarker.on('change', changeHandler);
+    
+    // create target feature
+    var targetMarker = new ol.Feature({
+      geometry: new ol.geom.Point(
+          ol.proj.transform([-70.24667, 43.66996], 'EPSG:4326', 'EPSG:3857'))
+    });
+    
+    // create style (red point)
+    targetMarker.setStyle(
       [new ol.style.Style({
         image: new ol.style.Circle({
           radius: 6,
           fill: new ol.style.Fill({
-            color: 'rgba(255, 0, 128, 1)'
+            color: 'rgba(255, 0, 0, 1)'
           })
         })
       })]
-  );
-  targetMarker.on('change', changeHandler);
-  
+    );
+    targetMarker.on('change', changeHandler);
+    
+    // create overlay to display the markers
+    var markerOverlay = new ol.FeatureOverlay({
+      features: [sourceMarker, targetMarker],
+    });
+
 The change handler for a marker movement is very simple: we will keep a record of the marker that moved and indicate that our route has changed.
 
 .. code-block:: javascript
 
-  function changeHandler(e) {
-    if (pointerDown) {
-      changed = true;
-      currentMarker = e.target;
+    // record when we move one of the source/target markers on the map
+    function changeHandler(e) {
+      if (pointerDown) {
+        changed = true;
+        currentMarker = e.target;
+      }
     }
-  }
-
-Now that the markers have been created, we can add them to our map as an overlay and tell OpenLayers that they can be modified (that is to say, moved) by user interaction.
+   
+Now that the markers have been created, we can tell OpenLayers that they can be modified (that is to say, moved) by user interaction:
 
 .. code-block:: javascript
 
-  var markers = new ol.FeatureOverlay({
-    features: [sourceMarker, targetMarker],
-    map: map
-  });
-  
-  var modify = new ol.interaction.Modify({
-    features: markers.getFeatures(),
-    tolerance: 20
-  });
-  map.addInteraction(modify);
+    var moveMarker = new ol.interaction.Modify({
+      features: markerOverlay.getFeatures(),
+      tolerance: 20
+    });
+
+We will create a second overlay which will be used to display a popup box when the user clicks on route segments, and we will highlight these selected segments with a different style.
+
+.. code-block:: javascript
+
+   // create overlay to show the popup box
+   var popupOverlay = new ol.Overlay({
+     element: popup
+   });
+   
+   // style routes differently when clicked
+   var selectSegment = new ol.interaction.Select({
+     condition: ol.events.condition.click,
+     style: new ol.style.Style({
+         stroke: new ol.style.Stroke({
+           color: 'rgba(255, 0, 128, 1)',
+           width: 8
+       })
+     })
+   });
+
+The base map for our application will be OpenStreetMap tiles, which OpenLayers 3 supports as a layer type. The map will be created with support for the markers and different interactions we created above.
+
+.. code-block:: javascript
+
+   // set the starting view
+   var view = new ol.View({
+     center: center,
+     zoom: zoom
+   });
+   
+   // create the map with OSM data
+   var map = new ol.Map({
+     target: 'map',
+     layers: [
+       new ol.layer.Tile({
+         source: new ol.source.OSM()
+       })
+     ],
+     view: view,
+     overlays: [popupOverlay, markerOverlay]
+   });
+   map.addInteraction(moveMarker);
+   map.addInteraction(selectSegment);
+
+We will display the pop-up box whenever the user clicks on a route segment, showing the name of the road, the distance and the time to traverse it.
+
+.. code-block:: javascript
+
+   // show pop up box when clicking on part of route
+   var getFeatureInfo = function(coordinate) {
+     var pixel = map.getPixelFromCoordinate(coordinate);
+     var feature = map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+       if (layer == routeLayer) {
+         return feature;
+       }
+     });
+   
+     var text = null;
+     if (feature) { 
+       text = '<strong>' + formatPlace(feature.get('name')) + '</strong><br/>';
+       text += '<p>Distance: <code>' + formatDist(feature.get('distance')) + '</code></p>';
+       text += '<p>Estimated travel time: <code>' + formatTime(feature.get('time')) + '</code></p>';
+       text = text.replace(/ /g, '&nbsp;');
+     }
+     return text;
+   };
+   
+   // display the popup when user clicks on a route segment
+   map.on('click', function(evt) {
+     var coordinate = evt.coordinate;
+     var text = getFeatureInfo(coordinate);
+     if (text) {
+       popupOverlay.setPosition(coordinate);
+       popup.innerHTML = text;
+       popup.style.display = 'block';
+     }
+   });
 
 We need to register when the user has started or stopped dragging a marker so that we know when to recalculate our route. We do this by registering the mouse button down and mouse button up events.
 
 .. code-block:: javascript
 
-  map.on('pointerdown', function(evt) {
-    pointerDown = true;
-  });
-  
-  map.on('pointerup', function(evt) {
-    pointerDown = false;
-
-    // if we were dragging a marker, recalculate the route
-    if (currentMarker) {
-      getVertex(currentMarker);
-      getRoute();
-      currentMarker = null;
-   }
-  });
+   // record start of click
+   map.on('pointerdown', function(evt) {
+     pointerDown = true;
+     popup.style.display = 'none';
+   });
+   
+   // record end of click
+   map.on('pointerup', function(evt) {
+     pointerDown = false;
+   
+     // if we were dragging a marker, recalculate the route
+     if (currentMarker) {
+       getVertex(currentMarker);
+       getRoute();
+       currentMarker = null;
+    }
+   });
 
 The last step before working on the client's communications with GeoServer is to create a timer that will trigger every quarter of a second, which allows us to update the route periodically while moving a marker to a new location.
 
 .. note::
 
-  Depending on your server speed you may wish to increase or decrease the `250` milisecond refresh rate.
+  Depending on your server speed you may wish to increase or decrease the ``250`` milisecond refresh rate.
 
 .. code-block:: javascript 
 
-  window.setInterval(function(){
-    if (currentMarker && changed) {
-      getVertex(currentMarker);
-      getRoute();
-      changed = false;
-    }
-  }, 250);
+   // timer to update the route when dragging
+   window.setInterval(function(){
+     if (currentMarker && changed) {
+       getVertex(currentMarker);
+       getRoute();
+       changed = false;
+     }
+   }, 250);
 
 In the code above, we can see calls to two key functions: `getVertex` and `getRoute`. These both initiate WFS calls to GeoServer to get feature information. `getVertex` retrieves the closest vertex in the network to the current marker's position while `getRoute` calculates the shortest path between the two markers.
 
@@ -651,105 +797,132 @@ In the code above, we can see calls to two key functions: `getVertex` and `getRo
 
 .. code-block:: javascript 
 
-  function getVertex(marker) {
-    var coordinates = marker.getGeometry().getCoordinates();
-    var url = geoserverUrl + '/wfs?service=WFS&version=1.0.0&' +
-        'request=GetFeature&typeName=tutorial:nearest_vertex&' +
-        'outputformat=application/json&' +
-        'viewparams=x:' + coordinates[0] + ';y:' + coordinates[1];
-  
-    $.ajax({
-       url: url,
-       async: false,
-       dataType: 'json',
-       success: function(json) {
-         loadVertex(json, marker == sourceMarker);
-       }
-    });
-  }
+   // WFS to get the closest vertex to a point on the map
+   function getVertex(marker) {
+     var coordinates = marker.getGeometry().getCoordinates();
+     var url = geoserverUrl + '/wfs?service=WFS&version=1.0.0&' +
+         'request=GetFeature&typeName=tutorial:nearest_vertex&' +
+         'outputformat=application/json&' +
+         'viewparams=x:' + coordinates[0] + ';y:' + coordinates[1];
+   
+     $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(json) {
+          loadVertex(json, marker == sourceMarker);
+        }
+     });
+   }
 
 `loadVertex` parses GeoServer's response and stores the nearest vertex as the start or end point of our route. We'll need the vertex `id` later to request the route from pgRouting.
 
 .. code-block:: javascript 
   
-  function loadVertex(response, isSource) {
-    var geojson = new ol.format.GeoJSON();
-    var features = geojson.readFeatures(response);
-    if (isSource) {
-      if (features.length == 0) {
-        map.removeLayer(routeLayer);
-        source = null;
-        return;
-      }
-      source = features[0];
-    } else {
-      if (features.length == 0) {
-        map.removeLayer(routeLayer);
-        target = null;
-        return;
-      }
-      target = features[0];
-    }
-  }
+   // load the response to the nearest_vertex layer
+   function loadVertex(response, isSource) {
+     var geojson = new ol.format.GeoJSON();
+     var features = geojson.readFeatures(response);
+     if (isSource) {
+       if (features.length == 0) {
+         map.removeLayer(routeLayer);
+         source = null;
+         return;
+       }
+       source = features[0];
+     } else {
+       if (features.length == 0) {
+         map.removeLayer(routeLayer);
+         target = null;
+         return;
+       }
+       target = features[0];
+     }
+   }
 
 Everything we have done so far has been building up to the final WFS GetFeature call which will actually request and display the route. The `shortest_path` SQL View has three parameters, the `source` vertex, the `target` vertex and the `cost` (either distance or time).
 
-The newly-retrieved route will be used to create a new layer to replace the previous route.
-
 .. code-block:: javascript 
-  
-  function getRoute() {
 
-    // set up the source and target vertex numbers to pass as parameters
-    var viewParams = [
-      'source:' + source.getId().split('.')[1],
-      'target:' + target.getId().split('.')[1],
-      'cost:time'
-    ];
+   function getRoute() {
+     // set up the source and target vertex numbers to pass as parameters
+     var viewParams = [
+       'source:' + source.getId().split('.')[1],
+       'target:' + target.getId().split('.')[1],
+       'cost:time'
+     ];
+   
+     var url = geoserverUrl + '/wfs?service=WFS&version=1.0.0&' +
+         'request=GetFeature&typeName=tutorial:shortest_path&' +
+         'outputformat=application/json&' +
+         '&viewparams=' + viewParams.join(';');
+   
+     // create a new source for our layer
+     routeSource = new ol.source.ServerVector({
+       format: new ol.format.GeoJSON(),
+       strategy: ol.loadingstrategy.all,
+       loader: function(extent, resolution) {
+         $.ajax({
+           url: url,
+           dataType: 'json',
+           success: loadRoute,
+           async: false
+         });
+       },
+     });
   
-    var url = geoserverUrl + '/wfs?service=WFS&version=1.0.0&' +
-        'request=GetFeature&typeName=tutorial:shortest_path&' +
-        'outputformat=application/json&' +
-        '&viewparams=' + viewParams.join(';');
+     // remove the previous layer and create a new one
+     map.removeLayer(routeLayer);
+     routeLayer = new ol.layer.Vector({
+       source: routeSource,
+       style: new ol.style.Style({
+         stroke: new ol.style.Stroke({
+           color: 'rgba(0, 0, 255, 0.5)',
+           width: 8
+         })
+       })
+     });
+   
+     // add the new layer to the map
+     map.addLayer(routeLayer);
+   }
+   
+The newly-retrieved route will be used to create a new layer to replace the previous route and to update the info box with the details of the route, including the start and end locations, the distance and the time to travel.
 
-    // create a new source for our layer
-    routeSource = new ol.source.ServerVector({
-      format: new ol.format.GeoJSON(),
-      strategy: ol.loadingstrategy.all,
-      loader: function(extent, resolution) {
-        $.ajax({
-          url: url,
-          dataType: 'json',
-          success: loadRoute,
-          async: false
-        });
-      }
-    });
+.. code-block:: javascript
 
-    // remove the previous layer and create a new one
-    map.removeLayer(routeLayer);
-    routeLayer = new ol.layer.Vector({
-      source: routeSource,
-      style: new ol.style.Style({
-        stroke: new ol.style.Stroke({
-          color: 'rgba(0, 0, 255, 0.4)',
-          width: 8
-        })
-      })
-    });
-  
-    // add the new layer to the map
-    map.addLayer(routeLayer);
-  }
-  
-  var loadRoute = function(response) {
-    var currentFeatures = routeSource.getFeatures();
-    for (var i = currentFeatures.length - 1; i >= 0; --i) {
-      routeSource.removeFeature(currentFeatures[i]);
-    }
-    routeLayer.getSource().addFeatures(routeLayer.getSource()
-        .readFeatures(response));
-  };
+   // handle the response to shortest_path
+   var loadRoute = function(response) {
+     selectSegment.getFeatures().clear();
+     routeSource.clear();
+     var features = routeSource.readFeatures(response)
+     if (features.length == 0) {
+       info.innerHTML = '';
+       return;
+     }
+   
+     routeSource.addFeatures(features);
+     var time = 0;
+     var dist = 0;
+     features.forEach(function(feature) {
+       time += feature.get('time');
+       dist += feature.get('distance');
+     });
+     if (!pointerDown) {
+       // set the route text
+       var text = 'Travelling from <strong>' + formatPlaces(source.get('name')) + '</strong> to <strong>' + formatPlaces(target.get('name')) + '</strong>. ';
+       text += 'Total distance ' + formatDist(dist) + '. ';
+       text += 'Estimated travel time: ' + formatTime(time) + '.';
+       info.innerHTML = text;
+   
+       // snap the markers to the exact route source/target
+       markerOverlay.getFeatures().clear();
+       sourceMarker.setGeometry(source.getGeometry());
+       targetMarker.setGeometry(target.getGeometry());
+       markerOverlay.getFeatures().push(sourceMarker);
+       markerOverlay.getFeatures().push(targetMarker);
+     }
+   }
 
 We will finish off the script by forcing the application to calculate the first route between the two markers' initial positions.
 
@@ -759,7 +932,17 @@ We will finish off the script by forcing the application to calculate the first 
   getVertex(targetMarker);
   getRoute();
 
-If you install `map.html` and `routing.js` into your OpenGeo Suite's Tomcat or Jetty `root` directory, you should find your application running at http://localhost:8080/map.html.
+Our application is now complete! You can test it out by running the SDK in debugging mode:
+
+.. code-block:: bash
+
+   suite-sdk debug routing
+
+Now open http://localhost:9080 in your browser to try out your application.
+
+.. figure:: ./img/application.png
+
+   Finished routing application
   
 Ideas for improvement
 ---------------------
@@ -801,12 +984,7 @@ We could create a new SQL View which accepts all edge types, including steps, pa
 Directions
 ^^^^^^^^^^
 
-The GetFeature data that the client retrieves from GeoServer includes detailed information on the route, including street names, distance and the travel time. This should all be displayed to the user along with the visualised route.
-
-Marker names
-^^^^^^^^^^^^
-
-Our SQL vertex query returns a name attribute. We could use this to display a pop-up over the markers indicating the point we are navigating to or from.
+The GetFeature data that the client retrieves from GeoServer includes detailed information on the route, including street names, distance and the travel time. This entire list could all be displayed to the user along with the visualised route.
 
 Speed calculations
 ^^^^^^^^^^^^^^^^^^
