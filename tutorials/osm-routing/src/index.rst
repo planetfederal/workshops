@@ -20,11 +20,7 @@ Requirements
 
 We will need the following software during our tutorial:
 
-* OpenGeo Suite 4.5
-  - GeoServer
-  - PostGIS
-  - GDAL/OGR
-  - Suite SDK
+* OpenGeo Suite 4.5 (including GeoServer, PostGIS, GDAL/OGR and Suite SDK)
 * pgRouting 2
 
 .. note::
@@ -483,7 +479,7 @@ To interact with our routing algorithm we will need a client which can make stan
 OpenGeo Suite SDK
 ^^^^^^^^^^^^^^^^^
 
-We will be using the `Suite SDK <http://suite.opengeo.org/opengeo-docs/webapps/index.html>`_ to create a template for building our application. On the command line run the following::
+We will be using the `Suite SDK <http://suite.opengeo.org/opengeo-docs/webapps/index.html>`_ to create a template for building our application. On the command line run the following.
 
 .. code-block:: bash
 
@@ -1001,4 +997,5 @@ This tutorial has demonstrated how build a routing application using OpenGeo Sui
 * estimate the time needed to travel along roads in SQL
 * use `pgr_dijkstra` to do shortest-path queries
 * create SQL Views in GeoServer to publish a routing service
+* use the Boundless SDK to create an application
 * write a client that can make parameterised SQL queries
