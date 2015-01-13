@@ -172,12 +172,10 @@ Before building our web application, let's explore the structure of the data usi
 * Add a new connection
 
   .. image:: ./img/qgis1.png
-     :class: inline
   
 * Choose the ``siteaddresses`` and ``taxlots`` tables'
 
   .. image:: ./img/qgis2.png
-     :class: inline
 
 * Click *Add*
 * Click *Close*
@@ -255,6 +253,7 @@ First, we need a datastore that connects GeoServer to our ``county`` PostgreSQL 
 * We now have a published layer! Go to the "Layer Preview" page and click "Go" after the "taxlots" entry. It may take some time to render (all 92,206 lots have to be drawn), but you will see a map of the tax lots.
 
   .. image:: ./img/geoserver4.png
+     :class: inline
 
 
 
@@ -481,12 +480,12 @@ Now that we have a good database query, we need to expose it as a web service (a
          a.geom AS geom,
          ts_rank_cd(a.ts, query) AS rank
        FROM siteaddresses AS a,
-            to_tsquery_partial('100 old high') AS query
+            to_tsquery_partial('%query%') AS query
        WHERE ts @@ query
        ORDER BY rank DESC 
-       LIMIT 10;
+       LIMIT 10
        
-  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep teh default regular expression filter.
+  * Click the "Guess parameters from SQL..." link, and ensure the paramter is named "query", the default value is "1" and keep the default regular expression filter.
   
     .. image:: ./img/sqlview3.png 
   
@@ -824,13 +823,15 @@ The output looks like this::
 
 Now we have a J2EE war, and we just need to copy it up to the GeoServer application server.
 
-* For Linux installations of Suite, copy the war file to ``/usr/share/opengeo/apps``. The application should become available at http://servername/apps/parcelmap 
+* For Linux installations of Suite, copy the war file to ``/var/lib/tomcat/webapps``. The application should become available at http://[servername]/parcelmap 
 * For generic J2EE installations, where Suite is running as a war file itself in a J2EE container, just drop the war file into the J2EE deployment directory, or use an admin tool to upload it.
 
 
 
 More Topics
 -----------
+
+For more practice, try out these enhancements to the basic app!
 
 Layer Opacity
 ~~~~~~~~~~~~~
@@ -842,6 +843,32 @@ The taxlots layer is added without any transparency applied to it, so it overwhe
    :start-after: TUTORIAL CHANGE #10
    :end-before: !TUTORIAL CHANGE #10
    :emphasize-lines: 4
+
+Mapping the Suggestions
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Seeing the suggestions in a list is nice, but we have a map hanging around, why not show them on the map at the same time?
+
+* In the ``addressSource`` function, find the code that loops through the GeoJSON document returned from the WFS.
+* Before the loop, clear the contents of the ``highlight`` vector source.
+* Inside the loop, add each feature to the source.
+* After the loop, zoom the map to the extent of the source.
+
+Respecting Proximity
+~~~~~~~~~~~~~~~~~~~~
+
+Right now the search service returns the first 10 results in order of text search ranking quality. But we have a map, shouldn't we also bias towards matches that are near the center of the map view?
+
+* You will have to pass the current center of the map to the WFS view the ``viewparams``.
+* You will have to alter the SQL in the GeoServer SQL view layer to include a distance test.
+* Note that the text search ``ts_rank`` function returns values between 0 and 1. Depending on how you scale your "distance to center" metric you can make it more or less important relative to the text metric.
+
+De-emphasizing the Map
+~~~~~~~~~~~~~~~~~~~~~~
+
+Criticisms of "map my parcel" apps tend to (rightly) note that they are overly map-centric. People generally know *where* their parcels are, what they want to know is *other information* about their parcel. A page layout with a small inset map, but predominated by information like tax valuation, and so on, would be more useful. Learning more about the `Bootstrap`_ layout library will help with this.
+
+
 
 
 .. Search Quality

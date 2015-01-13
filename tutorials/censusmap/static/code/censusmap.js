@@ -53,19 +53,17 @@ olMap.addOverlay(popup);
 
 // Handle map clicks to send a GetFeatureInfo request and open the popup
 olMap.on('singleclick', function(evt) {
-  olMap.getFeatureInfo({
-    pixel: evt.getPixel(),
-    success: function (info) {
-      popup.setPosition(evt.getCoordinate());
-      $('#popup') 
-        .popover('destroy') 
-        .popover({content: info.join('')}) 
-        .popover('show'); 
-      // Close popup when user clicks on the 'x'
-      $('.popover-title').click(function() {
-        $('#popup').popover('hide');
-      });
-    }
+  var view = olMap.getView();
+  var url = wmsLayer.getSource().getGetFeatureInfoUrl(evt.coordinate,
+      view.getResolution(), view.getProjection(), {'INFO_FORMAT': 'text/html'});
+  popup.setPosition(evt.coordinate);
+  $('#popup-content iframe').attr('src', url);
+  $('#popup')
+    .popover({content: function() { return $('#popup-content').html(); }})
+    .popover('show');
+  // Close popup when user clicks on the 'x'
+  $('.popover-title').click(function() {
+    $('#popup').popover('hide');
   });
 });
 // !TUTORIAL #6
