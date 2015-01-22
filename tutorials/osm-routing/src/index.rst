@@ -575,10 +575,10 @@ When we print information about our route, we will need to format the data for d
      var mins = Math.round(time * 60);
      if (mins == 0) {
        return 'less than a minute';
-     } else if (mins < 1.5) {
+     } else if (mins == 1) {
        return '1 minute';
      } else {
-       return Math.round(mins) + ' minutes';
+       return mins + ' minutes';
      }
    }
    
