@@ -73,42 +73,28 @@ function formatDist(dist) {
   return dist + units;
 }
 
-// create source feature
-var sourceMarker = new ol.Feature({
-  geometry: new ol.geom.Point(ol.proj.transform([-70.26013, 43.66515], 'EPSG:4326', 'EPSG:3857'))
-});
+function createMarker(point, colour) {
+  var marker = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.transform(point, 'EPSG:4326', 'EPSG:3857'))
+  });
 
-// create style (green point)
-sourceMarker.setStyle(
-  [new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 6,
-      fill: new ol.style.Fill({
-        color: 'rgba(0, 255, 0, 1)'
+  marker.setStyle(
+    [new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 6,
+        fill: new ol.style.Fill({
+          color: 'rgba(' + colour.join(',') + ', 1)'
+        })
       })
-    })
-  })]
-);
-sourceMarker.on('change', changeHandler);
+    })]
+  );
+  marker.on('change', changeHandler);
 
-// create target feature
-var targetMarker = new ol.Feature({
-  geometry: new ol.geom.Point(
-      ol.proj.transform([-70.24667, 43.66996], 'EPSG:4326', 'EPSG:3857'))
-});
+  return marker;
+}
 
-// create style (red point)
-targetMarker.setStyle(
-  [new ol.style.Style({
-    image: new ol.style.Circle({
-      radius: 6,
-      fill: new ol.style.Fill({
-        color: 'rgba(255, 0, 0, 1)'
-      })
-    })
-  })]
-);
-targetMarker.on('change', changeHandler);
+var sourceMarker = createMarker([-70.26013, 43.66515], [0, 255, 0]);
+var targetMarker = createMarker([-70.24667, 43.66996], [255, 0, 0]);
 
 // create overlay to display the markers
 var markerOverlay = new ol.FeatureOverlay({

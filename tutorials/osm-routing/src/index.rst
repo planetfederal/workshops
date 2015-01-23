@@ -5,15 +5,28 @@ At Boundless we champion open standards as well as open source. The great thing 
 
 The tool in this case is `pgRouting <http://pgrouting.org/>`_, which is an extension to PostgreSQL and PostGIS that can generate such paths. With the right data set, this allows us to easily create a routing application with OpenGeo Suite to help our users find the optimal route based on their criteria.
 
-.. image:: ./img/route1.png
-   :width: 95%
-
 Understanding shortest-path routing
 -----------------------------------
 
 The first thing to understand about shortest-path routing is that there is nothing fundamentally spatial about it, but it does integrate very well with spatial applications. As an analogy, compare the early London Tube maps which `situate stations geographically <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1932>`_ with the familiar `schematic-style maps <http://homepage.ntlworld.com/clivebillson/tube/tube.html#1933>`_ that replaced them in the 1930s. 
 
 pgRouting needs a 'routing network' loaded into a PostgreSQL database that shows the relative position of other stations rather than their actual spatial positions. When the networks *do* contain spatial data, however, we can build accurate routing applications that show the shortest route through the network and what route it translates into spatially.
+
+What we are going to do
+-----------------------
+
+We will be building a routing application that shows users the shortest path between two points in a city.
+
+.. image:: ./img/route1.png
+   :width: 95%
+
+To do this, we will have to complete the following specific tasks:
+
+* enable pgRouting on our database
+* import OpenStreetMap data into PostGIS
+* prepare the data for use with routing software
+* publish the data in GeoServer
+* use the Boundless SDK to create a web application
 
 Requirements
 ------------
@@ -33,7 +46,7 @@ We will need the following software during our tutorial:
       sudo apt-get update
       sudo apt-get install postgresql-9.3-pgrouting
 
-Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in `our documentation <http://suite.opengeo.org/docs/latest/installation/index.html>`_.
+Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in `our documentation <http://suite.opengeo.org/opengeo-docs/intro/installation/index.html>`_.
 
 You should be familiar with the following topics before starting this tutorial:
 
@@ -47,7 +60,7 @@ Preparing data
 
 The `OpenStreetMap <http://openstreetmap.org>`_ project is the natural place to turn when looking for free, high-quality spatial data; we’ll make use of it to build a mapping application for the city of Portland, Maine (but any other location should work equally well). 
 
-There are some `programs <http://wiki.openstreetmap.org/wiki/Osm2pgsql>`_ that can be used to generate a routing network from OpenStreetMap data, but we’ll just stick to the tools that ship with OpenGeo Suite to do our data preparation.
+There are programs that can be used to generate a routing network from OpenStreetMap data, but we’ll just stick to the tools that ship with OpenGeo Suite to do our data preparation.
 
 Our first stop will be to download the city-specific OpenStreetMap data for our target location; MapZen provides `excerpts for many world cities <https://mapzen.com/metro-extracts/>`_ in ShapeFile format, but we could just have easily used `osm2pgsql <http://wiki.openstreetmap.org/wiki/Osm2pgsql>`_ to get data for anywhere else in the world. 
 
@@ -56,16 +69,16 @@ Download the `OSM2PGSQL SHP for Portland Me <http://wiki.openstreetmap.org/wiki/
   wget https://s3.amazonaws.com/metro-extracts.mapzen.com/portland_maine.osm2pgsql-shapefiles.zip
   unzip portland_maine.osm2pgsql-shapefiles.zip
 
-We next need to create a new `routing` database in PostgreSQL into which we will be importing our data. We also need to enable the spatial PostGIS functions::
+Next we need to create a new `routing` database in PostgreSQL into which we will be importing our data. We also need to enable the spatial PostGIS functions::
 
   createdb routing;
   psql -c "CREATE EXTENSION postgis;" routing
 
-The OSM data we are using stores all features in three ShapeFiles, one each for points, lines and polygons. Road data is stored in the `portland-me.osm-line.shp` file, but it also contains other features that we are not interested in. If we look at the data, we’ll notice that roads and other ways always have a value for the attribute `highway` and non-road features have an empty value for this attribute. 
+The OSM data we are using stores all features in three ShapeFiles, one each for points, lines and polygons. Road data is stored in the `portland-me.osm-line.shp` file, but it also contains other features that we are not interested in. If we look at the data, we’ll notice that roads always have a value for the attribute `highway` and non-road features have an empty value for this attribute. 
 
-Our first goals for importing will be to only take lines which are actually roads into our database. Our second goal will be to eliminate the unnecessary attributes that come with the OSM data. Of the 57 attributes in the original ShapeFile, only the following are of interest to us: ``highway``, ``name``, ``oneway``, ``ref`` and ``surface``. Finally, we’ll convert the data from EPSG:4326 to EPSG:3857, which is better suited for viewing city-level data.
+Our first goal for importing will be to only take lines which are actually roads into our database. Our second goal will be to eliminate the unnecessary attributes that come with the OSM data. Of the 57 attributes in the original ShapeFile, only the following are of interest to us: ``highway``, ``name``, ``oneway``, ``ref`` and ``surface``. Finally, we’ll convert the data from EPSG:4326 to EPSG:3857, which is better suited for viewing city-level data.
 
-We can use OGR, to load the data into the database accomplish all of the goals we set ourselves above:
+We can use OGR to load the data into the database and accomplish all of the goals above:
 
 * `-where "highway <> ''"`: only take lines whose `highway` attribute is not empty
 * `-select 'name,highway,oneway,ref,surface'`: take the desired attributes only
@@ -99,7 +112,7 @@ When the ``psql`` prompt appears, enter the following command::
 
   CREATE EXTENSION pgrouting;
 
-The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared point).
+The function that we will be using, `pgr_createTopology`, will create a new table which contains all the starting and ending points of all lines in the edges table (without duplicating shared points).
 
 For example, if we imagine this very simple metro network, the function will identify the four stations marked **A**, **B**, **C** and **D**.
 
@@ -130,7 +143,7 @@ To handle these cases, pgRouting has an additional function, `pgr_nodeNetwork`, 
 .. image:: ./img/topology3.png
    :width: 50%
 
-The new `edges_noded` table that is created by `pgr_nodeNetwork` contains an attribute named `old_id` to indicate which original edge each new edge derived from. From the example above, edges **3** and **4** would both have an `old_id` set to **1**. 
+The new `edges_noded` table that is created by `pgr_nodeNetwork` contains an attribute named `old_id` to indicate which original edge each new edge is derived from. From the example above, edges **3** and **4** would both have an `old_id` set to **1**. 
 
 .. code-block:: sql
 
@@ -142,7 +155,7 @@ Our new edges_noded table can now be used in a call to pgr_createTopology to add
 
   SELECT pgr_createTopology('edges_noded', 1);
 
-Because `pgr_nodeNetwork` does not copy all the attribute information from the original table to the new noded table, so we have to move the name, `highway` (which we will rename `type` to better reflect the meaning), `oneway` and `surface` columns over ourselves.
+Because `pgr_nodeNetwork` does not copy all the attribute information from the original table to the new noded table, we have to move the name, `highway` (which we will rename `type` to better reflect the meaning), `oneway` and `surface` columns over ourselves.
 
 First add the new columns.
 
@@ -202,7 +215,7 @@ In our application, we will support both a distance and a time cost. To improve 
    service
    footway
 
-A number of these (steps, path, footway, cycleway, proposed and construction) are clearly not suitable for vehicle so for these we will provide a cost of `-1` (pgRouting interprets negative numbers as impassable edges). For the remainder, we will need to assign an average speed and use this to populate a new `time` column in our table. We will additionally add a `distance` column to save on calculating the length of our edges on each request.
+A number of these (steps, path, footway, cycleway, proposed and construction) are clearly not suitable for vehicles so for these we will provide a cost of `-1` (pgRouting interprets negative numbers as impassable edges). For the remainder, we will need to assign an average speed and use this to populate a new `time` column in our table. We will additionally add a `distance` column to save on calculating the length of our edges on each request.
 
 .. code-block:: sql
 
@@ -383,7 +396,7 @@ Our database work is now complete and we can publish our routing functionality a
 SQL View
 ^^^^^^^^
 
-We will be creating two layers in GeoServer: ``shortest_path``, which finds the route between two vertices in our routing network and returns a list of features representing that route; ``nearest_vertex``, which finds the nearest vertext to any point in our dataset. Our application will let the user select a point on the map and will translate it into a vertex which can be used as the source or target in our route generation layer.
+We will be creating two layers in GeoServer: ``shortest_path``, which finds the route between two vertices in our routing network and returns a list of features representing that route; ``nearest_vertex``, which finds the nearest vertex to any point in our dataset. Our application will let the user select a point on the map and will translate it into a vertex which can be used as the source or target in our route generation layer.
 
 Configure a new SQL View named ``shortest_path`` with the following SQL query:
 
@@ -485,7 +498,7 @@ We will be using the `Suite SDK <http://suite.opengeo.org/opengeo-docs/webapps/i
 
    suite-sdk create routing ol3view
 
-We will now have a ``routing`` directory with a basic application for viewing layers; there are several files in this new directory, but we will only confern ourselves with ``index.html`` and ``src/app/app.js``.
+We will now have a ``routing`` directory with a basic application for viewing layers; there are several files in this new directory, but we will only concern ourselves with ``index.html`` and ``src/app/app.js``.
 
 HTML document
 ^^^^^^^^^^^^^
@@ -607,42 +620,29 @@ We will add these to an overlay and add a callback function named `changeHandler
 
 .. code-block:: javascript
 
-    // create source feature
-    var sourceMarker = new ol.Feature({
-      geometry: new ol.geom.Point(ol.proj.transform([-70.26013, 43.66515], 'EPSG:4326', 'EPSG:3857'))
-    });
-    
-    // create style (green point)
-    sourceMarker.setStyle(
-      [new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 6,
-          fill: new ol.style.Fill({
-            color: 'rgba(0, 255, 0, 1)'
+    // create a point with a colour and change handler
+    function createMarker(point, colour) {
+      var marker = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.transform(point, 'EPSG:4326', 'EPSG:3857'))
+      });
+
+      marker.setStyle(
+        [new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 6,
+            fill: new ol.style.Fill({
+              color: 'rgba(' + colour.join(',') + ', 1)'
+            })
           })
-        })
-      })]
-    );
-    sourceMarker.on('change', changeHandler);
-    
-    // create target feature
-    var targetMarker = new ol.Feature({
-      geometry: new ol.geom.Point(
-          ol.proj.transform([-70.24667, 43.66996], 'EPSG:4326', 'EPSG:3857'))
-    });
-    
-    // create style (red point)
-    targetMarker.setStyle(
-      [new ol.style.Style({
-        image: new ol.style.Circle({
-          radius: 6,
-          fill: new ol.style.Fill({
-            color: 'rgba(255, 0, 0, 1)'
-          })
-        })
-      })]
-    );
-    targetMarker.on('change', changeHandler);
+        })]
+      );
+      marker.on('change', changeHandler);
+
+      return marker;
+    }
+
+    var sourceMarker = createMarker([-70.26013, 43.66515], [0, 255, 0]);
+    var targetMarker = createMarker([-70.24667, 43.66996], [255, 0, 0]);
     
     // create overlay to display the markers
     var markerOverlay = new ol.FeatureOverlay({
@@ -690,7 +690,7 @@ We will create a second overlay which will be used to display a popup box when t
      })
    });
 
-The base map for our application will be OpenStreetMap tiles, which OpenLayers 3 supports as a layer type. The map will be created with support for the markers and different interactions we created above.
+The base map for our application will be OpenStreetMap tiles, which OpenLayers 3 supports as a layer type. The map will be created with support for the markers and the different interactions we created above.
 
 .. code-block:: javascript
 
