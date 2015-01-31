@@ -1,7 +1,7 @@
 .. _cmd.setup:
 
-Setting up a new project
-========================
+Setting up a QIGS project
+=========================
 
 In this workshop, we will be taking on the role of a city planner, tasked with updating the bike lane master plan of the city of Portland, Oregon.
 
@@ -16,7 +16,7 @@ The City of Portland `maintains a site where this information can be downloaded 
 
    These downloads are not necessary for completion of this workshop.
 
-We will store our data in PostGIS and work with the data in QGIS. And of course, we will make and store snapshots of our data using GeoGig.
+We will load our data from a Shapefile and work with the data in QGIS. And of course, we will make and store snapshots of our data using GeoGig.
 
 .. note::
 
@@ -38,100 +38,22 @@ The following is a description of the attributes contained in the data file:
      - Description
    * - ``id``
      - Integer
-     - Identifier (primary key)
+     - Identifier
    * - ``segmentname``
      - String
      - Name of the area where the feature exists (Example: ``SW MAIN ST``)
    * - ``status``
      - String
-     - Whether the bike lane exists or not. One of ``ACTIVE``, ``RECOMM``, or ``PLANNED``.
+     - Whether the bike lane exists or not. One of ``ACTIVE``, ``RECOMM`` or ``PLANNED``
    * - ``facility``
      - String
-     - Short code for the type of bike lane. One of ``MTRAIL``, ``BLVD``, ``LANE``, ``SCONN``.
-   * - ``facilityde``
-     - String
-     - Human readable equivalent of ``facility`` attribute. One of ``Multi-use Trail``, ``Bike Boulevard``, ``Bike Lane``, ``Signed Connection``.
+     - Short code for the type of bike lane. One of ``MTRAIL`` (multi-use trail), ``BLVD`` (bike boulevard), ``LANE`` (bike lane) or ``SCONN`` (signed connection)
    * - ``yearbuilt``
      - Integer
      - Year the bike lane was put into service
    * - ``comments``
      - String
      - Description of the feature, if any
-   * - ``shape_len``
-     - Float
-     - Length of the feature (in feet)
-
-Load data
----------
-
-Our data is stored as a SQL dump. This will need to be loaded into a PostGIS database.
-
-We will use the command line applications ``createdb`` and ``psql`` to perform this input.
-
-#. On a terminal, create a database named ``portland``:
-
-   .. note::
-   
-      On a standard OpenGeo Suite install for Windows, the ``createdb`` commands can be found at:
-   
-      * 32-bit Windows: :file:`C:\\Program Files\\Boundless\\OpenGeo\\pgsql\\bin`
-      * 64-bit Windows: :file:`C:\\Program Files (x86)\\Boundless\\OpenGeo\\pgsql\\bin`
-
-   .. code-block:: console
-
-      createdb -U postgres portland
-
-   .. note::
-
-      These commands assume that the user name is ``postgres`` and that the host and port are stored. If you encounter errors, you may need to modify the commands to include extra information. For example:
-
-      .. code-block:: console
-    
-         createdb -U pgowner -h example.com -p 5432 portland
-
-#. Next, add the PostGIS extension to the database:
-
-   .. code-block:: console
-
-      psql -U postgres -d portland -c "create extension postgis;"
-
-   ::
-
-      CREATE EXTENSION
-
-#. Now load the SQL dump file, ``bikepdx.sql``. This file is in the workshop ``data`` directory.
-
-   .. code-block:: console
-
-      psql -U postgres -d portland -f bikepdx.sql
-
-   ::
-
-      SET
-      SET
-      SET
-      SET
-      SET
-      SET
-      SET
-      SET
-      SET
-      CREATE TABLE
-      ALTER TABLE
-      ALTER TABLE
-
-#. Verify that the table has been created properly by counting the number of rows in the table:
-
-   .. code-block:: console
-
-      psql -U postgres -d portland -c "SELECT Count(*) FROM bikepdx"
-
-   ::
-
-       count
-      -------
-        6772
-      (1 row)
 
 View data
 ---------
@@ -144,62 +66,19 @@ We will be viewing the data using QGIS.
 
       QGIS
 
-#. Go to :menuselection:`Layer --> Add PostGIS layers`.
+#. Go to :menuselection:`Layer --> Add Layer --> Add Vector Layer...`.
 
-   .. figure:: img/setup_addpglink.png
+   .. figure:: img/setup_addveclink.png
 
-      Select this option to add a PostGIS layer to QGIS
+      Select this option to add a layer to QGIS
 
-#. This will bring up the :guilabel:`Add PostGIS Table(s)` menu.
+#. This will bring up the :guilabel:`Add vector layer` dialog.
 
-   .. figure:: img/setup_addpgmenu.png
+   .. figure:: img/setup_addvecmenu.png
 
-      Add PostGIS Table(s) menu
+      :guilabel:`Add vector layer` dialog
 
-#. Click :guilabel:`New` to create a new PostGIS connection.
-
-#. Enter the following information:
-
-   * :guilabel:`Name`: ``OpenGeo Suite``
-   * :guilabel:`Host`: ``localhost``
-   * :guilabel:`Port`: ``5432``
-   * :guilabel:`User name`: ``postgres``
-   * :guilabel:`Password`: ``[blank]``
-   * :guilabel:`Database`: ``portland``
-   * :guilabel:`Save User name`: [checked]
-   * :guilabel:`Save Password`: [checked]
-
-   .. note:: Modify connection parameters as necessary.
-
-   .. figure:: img/setup_newpgconnection.png
-
-      PostGIS connection parameters
-
-#. Click :guilabel:`Test connection` to ensure that the details were entered correctly. You should see the following dialog:
-
-   .. figure:: img/setup_connectionsuccess.png
-
-      A successful connection
-
-#. Click :guilabel:`OK`  twice to close both dialogs.
-
-#. You will get a warning about saving a password. While ordinarily you wouldn't want to do this, for the purpose of this workshop, this is okay.
-
-#. You will now see an entry in the list named :guilabel:`Connections` named :guilabel:`OpenGeo Suite`. 
-
-   .. figure:: img/setup_postgismenu.png
-
-      PostGIS menu with a connection
-
-#. Click :guilabel:`Connect`. This will populate the rest of the dialog.
-
-#. Click to expand the :guilabel:`Public` schema. You will see one entry for our ``bikepdx`` layer.
-
-   .. figure:: img/setup_postgismenuentry.png
-
-      PostGIS menu with table listing
-
-#. Click to select the entry named :guilabel:`bikepdx` and click :guilabel:`Add`.
+#. Click :guilabel:`Browse`, find :file:`bikepdx.shp` in the ``data`` directory and click :guilabel:`Open`.
 
 #. You will see the layer displayed in the main window of QGIS.
 
@@ -290,15 +169,9 @@ We can use the OpenLayers QGIS plugin to pull in any number of standard web map 
 
       OpenLayers plugin
 
-#. Click :guilabel:`Install plugin`. When finished you will see a confirmation dialog. 
-
-   .. figure:: img/setup_pluginsuccess.png
-
-      Plugin was successfully installed
-
 #. Click :guilabel:`Close` to close the Plugin Manager.
 
-#. Clicking the :guilabel:`Plugins` menu now shows a new entry: :guilabel:`OpenLayers Plugin`.
+#. Clicking the :guilabel:`Web` menu shows an entry: :guilabel:`OpenLayers Plugin`.
 
    .. figure:: img/setup_olmenu.png
 
@@ -311,93 +184,3 @@ We can use the OpenLayers QGIS plugin to pull in any number of standard web map 
    .. figure:: img/setup_basemap.png
 
       Basemap loaded
-
-GeoGig setup
-------------
-
-Before we can use GeoGig, we will need to configure the tool. Specifically we will want to enter information about the user that will be doing the commit. The information we enter here will be contained in all commits performed by this user, associating changes with its author.
-
-User information can be set globally, for all repositories managed by GeoGig, or on a per-repository basis. We will set this information globally.
-
-#. In a terminal, enter the following two commands, substituting your own information for what is in quotes:
-
-   .. code-block:: console
-
-      geogig config --global user.name "Author"
-
-   .. code-block:: console
-
-      geogig config --global user.email "author@example.com"
-
-.. note:: If you encounter any errors with the ``geogig`` command line interface, please see the :ref:`cmd.troubleshoot` section.
-
-Create a GeoGig repository
---------------------------
-
-#. Create a new directory and call it :file:`repo`. This directory will house the GeoGig repo.
-
-   .. code-block:: console
-
-      mkdir repo
-
-   .. note:: As mentioned before, no spatial data will be contained in this directory. In fact, no files at all will be contained in this directory, save for the :file:`.geogig` subdirectory which will contain technical details about the repository.
-
-#. Switch to this directory.
-
-   .. code-block:: console
-
-      cd repo
-
-#. Create a new GeoGig repository in this directory:
-
-   .. code-block:: console
-
-      geogig init
-
-#. View a directory listing that shows all files and verify that the :file:`.geogig` directory has been created.
-
-More about the ``geogig`` command
----------------------------------
-
-All working commands with GeoGig are in the following form:
-
-.. code-block:: console
-
-   geogig [command] [options]
-
-These commands must be run from in the directory where the repository was created.
-
-To see a full list of commands, type:
-
-.. code-block:: console
-
-   geogig --help
-
-To see a list of the parameters associated with a given command, type ``help`` followed by the command. For example, to see the parameters associated with the ``show`` command, type:
-
-.. code-block:: console
-
-   geogig help show
-
-::
-
-   Displays information about a commit, feature or feature type
-   Usage: show [options] <reference>
-     Options:
-           --raw
-          Produce machine-readable output
-          Default: false
-
-``geogig-console``
-------------------
-
-GeoGig also comes with a command ``geogig-console`` which opens a dedicated GeoGig shell, allowing you to run GeoGig commands without typing ``geogig`` first.
-
-.. code-block:: console
-
-   (geogig):/home/boundless/repo $ init
-   Initialized empty Geogig repository in /home/boundless/repo/.geogig
-   (geogig):/home/boundless/repo (master) $ log
-   No commits to show
-   
-.. note:: ``geogig-console`` is still in development and some terminals can produce artifacts on the line which make it difficult to use.

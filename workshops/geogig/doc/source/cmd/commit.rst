@@ -17,13 +17,15 @@ Importing data
 
 We much :term:`import` data into our repository for our first commit. This will be the baseline from which we will work.
 
-#. From the :file:`repo` directory created in the previous section, use the ``geogig pg import`` command to import the data from the database into the repository:
+#. From the :file:`repo` directory created in the previous section, use the ``geogig shp import`` command to import the data from the database into the repository:
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
 
-   .. note:: Adjust the connection parameters as necessary: ``geogig pg import --database portland --host localhost --port 5432 --user postgres -t bikepdx``.
+   .. note:: Adjust the file path as necessary: ``geogig shp import ..\data\bikepdx.shp`` would be used on Windows, for example.
+
+   .. important:: What is ``--fid-attrib``? GeoGig needs to know how to uniquely identify each feature in the data set. The ``bikepdx`` layer has an attribute named ``id`` that does exactly this, so we'll inform GeoGig of it during the import. Note that GeoGig can also work with other data providers, like PostGIS, and it can automatically detect the unique identifier (the primary key) if it exists.
 
    ::
 
@@ -35,7 +37,7 @@ We much :term:`import` data into our repository for our first commit. This will 
 
       Building final tree...
 
-      6772 features tree built in 1.206 s
+      6744 features tree built in 1.206 s
       100%
       Import successful.
 
@@ -58,7 +60,7 @@ We much :term:`import` data into our repository for our first commit. This will 
       #      added  bikepdx/6524
       #      added  bikepdx/6525
       ...
-      # 6773 total.
+      # 6744 total.
 
    On most terminals, the features that have been added are colored **red**.
 
@@ -77,10 +79,10 @@ Now that our repository is aware of our spatial data, we can add all the feature
 
    ::
 
-      Counting unstaged elements...6773
+      Counting unstaged elements...6744
       Staging changes...
       100%
-      6772 features and 1 trees staged for commit
+      6744 features and 1 trees staged for commit
       0 features and 0 trees not staged for commit
 
 #. Run ``geogig status`` to see how the output has changed
@@ -97,7 +99,7 @@ Now that our repository is aware of our spatial data, we can add all the feature
       #      added  bikepdx/6524
       #      added  bikepdx/6525
       ...
-      # 6773 total.
+      # 6744 total.
 
    On most terminals, the features that have been added are colored **green**.
 
@@ -112,7 +114,7 @@ For example, the following commit messages are good, as they are a clear indicat
 * "Removed Main St. feature"
 * "Renamed First Ave to First Avenue"
 
-On the other hand, the following commit messages are not so good:
+On the other hand, the following commit messages are not as good:
 
 * "Made changes"
 * "Added stuff"
@@ -128,7 +130,7 @@ On the other hand, the following commit messages are not so good:
 
       100%
       [cfdbd50c415a0d71b9a876eb51f90d5752e8f23b] Initial commit of complete data layer
-      Committed, counting objects...6772 features added, 0 changed, 0 deleted.
+      Committed, counting objects...6744 features added, 0 changed, 0 deleted.
 
 You have now made your first commit!
 
@@ -205,7 +207,7 @@ Now we will want to commit this change. While the change was made in the databas
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
 
    This is the same import command as above. It makes the GeoGig repository aware that content has changed.
 
@@ -219,7 +221,7 @@ Now we will want to commit this change. While the change was made in the databas
 
       Building final tree...
 
-      6772 features tree built in 709.9 ms
+      6744 features tree built in 709.9 ms
       100%
       Import successful.
 
@@ -439,7 +441,7 @@ With the new feature added, we can now add it to our repository via another comm
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
 
    As before, this import command lets the GeoGig repository be aware that content has changed.
 
@@ -561,7 +563,7 @@ This involves using the :term:`export` command. We will export the current state
 
    .. code-block:: console
 
-      geogig pg export -o --database portland bikepdx bikepdx
+      geogig shp export ../data/bikepdx.shp
 
    ::
 

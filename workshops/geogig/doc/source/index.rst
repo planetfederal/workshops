@@ -6,36 +6,17 @@ Welcome to the GeoGig workshop!
 Welcome!
 --------
 
-This workshop will introduce attendees to GeoGig, a distributed version control system for geospatial data. We will start with a discussion of distributed version control as applied to the specific case of geospatial data, followed by a hands-on session with the GeoGig command line interface, and finally the graphical GeoGig interface in QGIS. Attendees will learn how GeoGig can be a key tool in a workflow when managing geospatial data.
+This workshop will introduce attendees to GeoGig, a distributed version control system for geospatial data. We will start with a discussion of distributed version control as applied to the specific case of geospatial data, followed by a hands-on session with the GeoGig command-line interface, and finally the graphical GeoGig interface in QGIS. Attendees will learn how GeoGig can be a key tool in a workflow when managing geospatial data.
 
-The workshop is geared toward those with no prior GeoGig experience, but familiarity with basic GIS concepts is suggested. It will also be useful to have familiarity with the desktop GIS client QGIS, along with Git, the distributed version control system, but neither one of these are required.
+The workshop is geared toward those with no prior GeoGig experience, but familiarity with basic GIS concepts is suggested. It will also be useful to have familiarity with the desktop GIS client QGIS, along with Git, the distributed version control system, but neither of these are required.
 
 Prerequisites and software setup
 --------------------------------
 
 In order to perform this workshop, you will need the following software installed on your system:
 
-* PostgreSQL (plus command line tools)
-* PostGIS
-* QGIS
-* GeoGig
-
-PostgreSQL, PostGIS, and QGIS can be acquired as part of an `OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/>`_ installation. GeoGig can be obtained from the `GeoGig website <http://geogig.org>`_.
-
-.. todo:: Details on how to get the GeoGig plugin?
-
-We will assume that PostGIS is running at ``localhost`` on port ``5432``, and that both GeoGig and the PostgreSQL command-line tools are on the system ``PATH``.
-
-To verify the ``PATH`` settings, open a terminal and type these three commands:
-
-.. code-block:: console
-
-   psql --version
-   geogig --version
-
-If any of these commands yields an error, please check your ``PATH`` settings.
-
-.. todo:: Do we talk about the memory problems that result in "Error occurred during initialization of VM / Could not reserve enough space for object heap"? Need to reduce memory usage if so: -Xmx2G --> -Xmx1G
+* `QGIS <http://boundlessgeo.com/solutions/solutions-software/qgis/qgis-download/>`_
+* `GeoGig website <http://geogig.org>`_
 
 Topics covered
 --------------
@@ -64,9 +45,6 @@ The following directories will be found inside of the workshop bundle:
 
 :file:`data`
   Data and other project files to be used in the workshop.
-
-:file:`software`
-  The software to be installed prior to commencing the workshop.
 
 These directories should be placed on your desktop.
 
