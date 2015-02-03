@@ -16,7 +16,7 @@ The City of Portland `maintains a site where this information can be downloaded 
 
    These downloads are not necessary for completion of this workshop.
 
-We will load our data from a Shapefile and work with the data in QGIS. And of course, we will make and store snapshots of our data using GeoGig.
+We will load our data from a shapefile and work with the data in QGIS. And of course, we will make and store snapshots of our data using GeoGig.
 
 .. note::
 

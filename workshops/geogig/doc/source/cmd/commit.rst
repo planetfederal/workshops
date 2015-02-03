@@ -17,7 +17,7 @@ Importing data
 
 We much :term:`import` data into our repository for our first commit. This will be the baseline from which we will work.
 
-#. From the :file:`repo` directory created in the previous section, use the ``geogig shp import`` command to import the data from the database into the repository:
+#. From the :file:`repo` directory created in the previous section, use the ``geogig shp import`` command to import the data from the file into the repository:
 
    .. code-block:: console
 
@@ -29,17 +29,17 @@ We much :term:`import` data into our repository for our first commit. This will 
 
    ::
 
-      Importing from database geogig
+      Importing from shapefile ../data/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       93%
-      6760 distinct features inserted in 6.243 s
+      6744 distinct features inserted in 6.243 s
 
       Building final tree...
 
       6744 features tree built in 1.206 s
       100%
-      Import successful.
+      ../data/bikepdx.shp imported successfully.
 
 #. The data from the PostGIS table will be imported into GeoGig, ready for versioning. Verify this:
 
@@ -60,7 +60,7 @@ We much :term:`import` data into our repository for our first commit. This will 
       #      added  bikepdx/6524
       #      added  bikepdx/6525
       ...
-      # 6744 total.
+      # 6745 total.
 
    On most terminals, the features that have been added are colored **red**.
 
@@ -99,7 +99,7 @@ Now that our repository is aware of our spatial data, we can add all the feature
       #      added  bikepdx/6524
       #      added  bikepdx/6525
       ...
-      # 6744 total.
+      # 6745 total.
 
    On most terminals, the features that have been added are colored **green**.
 
@@ -201,7 +201,7 @@ Specifically, this would involve us making a single change: the attribute ``stat
 Committing the change
 ~~~~~~~~~~~~~~~~~~~~~
 
-Now we will want to commit this change. While the change was made in the database, **GeoGig is not yet aware of the change.** The process for making a change with GeoGig is: **Import, Add, Commit**. We will perform all of those steps now.
+Now we will want to commit this change. While the change was made in the file, **GeoGig is not yet aware of the change.** The process for making a change with GeoGig is: **Import, Add, Commit**. We will perform all of those steps now.
 
 #. On a terminal in the repository, type the following command:
 
@@ -213,17 +213,17 @@ Now we will want to commit this change. While the change was made in the databas
 
    ::
 
-      Importing from database geogig
+      Importing from shapefile ../data/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       87%
-      6760 distinct features inserted in 4.697 s
+      1 distinct features inserted in 4.697 s
 
       Building final tree...
 
       6744 features tree built in 709.9 ms
       100%
-      Import successful.
+      ../data/bikepdx.shp imported successfully.
 
 #. Now add the changes. If you want to add everything, type:
 
@@ -326,9 +326,9 @@ Commit IDs
 
 The first line of each commit is the **commit ID**. Commit IDs are long alphanumeric strings that uniquely determine the commit. When referencing a commit, you can use this string. Thankfully though, you don't need to reference the entire string; **you only need enough of the beginning of the string to uniquely identify the commit**. 
 
-In this case, since we only have three commits, we don't need much of the string to be unique. Usually 7 characters is sufficient to uniquely identify the commit.
+In this case, since we only have three commits, we don't need much of the string to be unique. Usually 7 characters is much more than you would ever need to uniquely identify the commit.
 
-.. note:: If you're interested: the chances of the first seven characters of two different commit IDs being identical is 1 in 36^7, about 78 billion!
+.. note:: If you're interested: the chances of the first seven characters of two different commit IDs being identical is 1 in 16^7, about 270 million! If you like living on the edge, you could use 5 characters (about 1 in 1 million), and GeoGig will always warn you if there's any ambiguity.
 
 So if we wanted details about a specific commit, we would use the :term:`show` command:
 
@@ -365,7 +365,7 @@ With this, we have enough information to be able to see the difference ("run a d
 
 Here we see that the specific feature (``bikepdx/6703``) is listed as having been modified (``M``), and with the precise change detailed: (that the ``status`` attribute has changed from ``RECOMM`` to ``ACTIVE``,
 
-.. warning:: The order of the commit IDs is significant, being of the form ``before after``. Reversing the order in this case would show that the attribute was changed in the opposite way, from ``ACTIVE`` to ``RECOMM``.
+.. note:: The order of the commit IDs is significant, being of the form ``before after``. Reversing the order in this case would show that the attribute was changed in the opposite way, from ``ACTIVE`` to ``RECOMM``.
 
 
 Making a geometry change
@@ -414,7 +414,6 @@ Draw a new feature
    * ``segmentnam``: [approximate street name, if known]
    * ``status``: ``RECOMM``
    * ``facility``: ``MTRAIL``
-   * ``facilityde``: ``Multi-Use Trail``
 
    .. figure:: img/commit_addattributes.png
 
@@ -447,7 +446,7 @@ With the new feature added, we can now add it to our repository via another comm
 
    ::
 
-      Importing from database geogig
+      Importing from shapefile ../data/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       0%
@@ -457,7 +456,7 @@ With the new feature added, we can now add it to our repository via another comm
 
       6773 features tree built in 285.1 ms
       100%
-      Import successful.
+      ../data/bikepdx.shp imported successfully.
 
 #. Now add the changes:
 
@@ -557,7 +556,7 @@ More importantly, we want to **view** the results of the rollback.
 
 Up to this point, we had been making changes in to the data via QGIS, and then storing those changes in GeoGig. But now, with our commits altered, we need to make our data (and thus QGIS) aware of the changes.
 
-This involves using the :term:`export` command. We will export the current state of the repository to our PostGIS database, and then update the view in QGIS.
+This involves using the :term:`export` command. We will export the current state of the repository to our shapefile, and then update the view in QGIS.
 
 #. Export the current state of the repository back to PostGIS:
 
@@ -571,20 +570,13 @@ This involves using the :term:`export` command. We will export the current state
       100%
       bikepdx exported successfully to bikepdx
 
-   In the above command, many of the options are similar to the ``pg import`` command (``--host``, ``--user``, ``--port``). The following are the differences:
-
-   * ``-o``: Overwrite the output table if it already exists
-   * ``--database``: The name of the PostGIS database
-   * ``bikepdx`` (first): Name of the tree in GeoGig
-   * ``bikepdx`` (second): Name of the table in PostGIS
-
-#. Refresh the view in QGIS. This can most easily be done by panning the map window a little bit.
-
-You will see that the feature that was drawn is now no longer there.
+#. Refresh the view in QGIS. This can most easily be done by panning the map window a little bit. You will see that the feature that was drawn is now no longer there.
 
 .. figure:: img/commit_featureremoved.png
 
    The feature has been removed by GeoGig
+
+.. warning:: We have just modified the shapefile while it was already open in QGIS for editing. When this occurs QGIS will prevent any future edits to prevent corruption. The easiest way to resume editing this layer in QGIS is to save the project and then reopen it again.
 
 (Optional) Exporting to alternate formats
 -----------------------------------------
@@ -595,7 +587,7 @@ But there are other reasons to export a GeoGig repository: to make a copy, to ma
 
 GeoGig can export to a number of different formats, including:
 
-* Shapefile
+* PostGIS
 * GeoJSON
 * SpatiaLite
 * Oracle Spatial
@@ -604,30 +596,18 @@ For a full list of options, please see the :ref:`GeoGig documentation <moreinfo.
 
 .. note:: The same data sources are available for import as well.
 
-The command to export is ``geogig <format> export <parameters>``. For shapefile, ``<format>`` is ``shp``.
-
-#. Export the current state of the repository to a shapefile:
-
-   .. code-block:: console
-
-      geogig shp export -o bikepdx bikepdx.shp
-
-   ::
-
-      Exporting bikepdx...
-      100%
-      bikepdx exported successfully to bikepdx.shp
-
-   The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepd.shp``) is the name of the output file. And as before, ``-o`` means to overwrite an existing file (if any).
+The command to export is ``geogig <format> export <parameters>``. For GeoJSON, ``<format>`` is ``geojson``.
 
 #. Export the current state of the repository to a GeoJSON file:
 
    .. code-block:: console
 
-      geogig geojson export -o bikepdx bikepdx.json
+      geogig geojson export bikepdx bikepdx.json
 
    ::
-
-      Exporting bikepdx...
+ 
+      Exporting from bikepdx to bikepdx... 
       100%
       bikepdx exported successfully to bikepdx.json
+
+   The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepd.json``) is the name of the output file. As before, you may use ``-o`` to overwrite an existing file if it exists.

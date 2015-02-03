@@ -1,4 +1,4 @@
-.. _cmd.branch:
+. ._cmd.branch:
 
 Working with branches
 =====================
@@ -90,27 +90,26 @@ Now that we are working on a new branch, there should be nothing different about
       * ``segmentnam``: ``DURHAM AVE``
       * ``status``: ``RECOMM``
       * ``facility``: ``MTRAIL``
-      * ``facilityde``: ``Multi-use Trail``
 
 #. Commit this new feature using the steps outlined in the previous section. Use the commit message "New [name] bike lane added", where [name] is the name of the lane as given in the attribute.
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
 
    ::
 
-      Importing from database geogig
+      Importing from shapefile ../data/bikepdx.shp
 
       Importing bikepdx          (1/1)...
-      0%
-      1 distinct features inserted in 2.502 s
+      87%
+      1 distinct features inserted in 4.697 s
 
       Building final tree...
 
-      6773 features tree built in 247.3 ms
+      6744 features tree built in 709.9 ms
       100%
-      Import successful.
+      ../data/bikepdx.shp imported successfully.
 
    .. code-block:: console
 
@@ -161,17 +160,7 @@ Now that we are working on a new branch, there should be nothing different about
 
    Notice how it is missing the most recent commit.
 
-So if we were to switch over to the master branch, the commit will "not have happened." That said, until we do an export of this current state back to PostGIS, our data will not "know" that we have switched branches. This is yet another difference between GeoGig and other distributed version control systems like Git.
-
-.. note::
-
-   If you're interested to see this, switch back to the master branch, then run an export. When you refresh the view in QGIS, you will see that the feature created on the ``sandbox`` branch is not shown.
-
-   .. code-block:: console
-
-      geogig checkout master
-      geogig pg export -o --database portland bikepdx bikepdx
-
+So if we were to switch over to the master branch, the commit will "not have happened." That said, until we do an export of this current state back to the shapefile, our data will not "know" that we have switched branches. This is yet another difference between GeoGig and other distributed version control systems like Git.
 
 Merging branches
 ----------------
@@ -231,16 +220,3 @@ We will now merge the ``sandbox`` branch onto the ``master`` branch.
    ::
 
       * master 2845a74 New Durham Ave bike lane added
-
-#. To make sure you are viewing the most current version of the respotiory, export the changes back to PostGIS so that we visualize them in QGIS.
-
-   .. code-block:: console
-
-      geogig pg export -o --database portland bikepdx bikepdx
-    
-   ::
-
-      Exporting bikepdx...
-      100%
-      bikepdx exported successfully to bikepdx
-
