@@ -37,7 +37,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
       Created branch refs/heads/updates
 
-   .. note:: Verify that the above command switched to the new branch by running ``geogit branch``
+   .. note:: Verify that the above command switched to the new branch by running ``geogig branch``
 
 #. Export the contents of our branch to a new shapefile:
 

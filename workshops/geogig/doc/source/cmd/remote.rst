@@ -101,7 +101,7 @@ This cloned repository is linked to the original by way of a :term:`remote`. A r
 
    .. code-block:: console
 
-      geogit remote list
+      geogig remote list
 
    ::
 
@@ -111,7 +111,7 @@ This cloned repository is linked to the original by way of a :term:`remote`. A r
 
    .. code-block:: console
 
-      geogit remote list -v
+      geogig remote list -v
 
    ::
 

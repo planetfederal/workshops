@@ -37,7 +37,7 @@ The following material will be covered in this workshop:
   Introducing a workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
 
 :ref:`moreinfo`
-  More information about GeoGit including links and a glossary of terms.
+  More information about GeoGig including links and a glossary of terms.
 
 Workshop Materials
 ------------------
