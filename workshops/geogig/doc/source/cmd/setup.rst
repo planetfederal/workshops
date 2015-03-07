@@ -142,7 +142,7 @@ With these criteria, we can generate six distinct rules for styling the differen
 
 With our layer styled, our data is now ready to be versioned. Feel free to explore the layer by zooming and panning around the map window.
 
-.. note:: Now is a good time to **save your project**. You should save your project periodically to prevent loss. A good name for the file would be :file:`geogig.qgs`.
+.. note:: Now is a good time to **save your project**. You should save your project periodically to prevent loss. A good name for the file would be :file:`bikepdx.qgs`.
 
 (Optional) Add a background layer
 ---------------------------------

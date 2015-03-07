@@ -15,8 +15,12 @@ Prerequisites and software setup
 
 In order to perform this workshop, you will need the following software installed on your system:
 
-* `QGIS <http://boundlessgeo.com/solutions/solutions-software/qgis/qgis-download/>`_
-* `GeoGig website <http://geogig.org>`_
+* `QGIS <http://qgis.org>`_
+* `Java 7 JRE <http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html>`_ (alternatively you may also use a Java 7 JDK)
+
+In addition, we will be using a plugin for QGIS that comes with a copy of GeoGig bundled inside. This download may be used on all operating systems:
+
+* `GeoGig Plugin <http://training-files.boundlessgeo.com/foss4g/geogig-plugin.zip>`_
 
 Topics covered
 --------------

@@ -16,19 +16,19 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    We should see that Alice is using the **alice** branch, which is at the same position as **master**.
 
-#. Export the **alice** branch over to PostGIS so we can edit the data in QGIS.
+#. Export the **alice** branch to a new shapefile so we can edit the data in QGIS.
 
    .. code-block:: console
 
-      geogig pg export -o --database portland bikepdx bikepdx
+      geogig shp export -o bikepdx bikepdx.shp
 
-#. Delete some of the recommended routes in QGIS.
+#. Open the new file and delete some of the recommended routes in QGIS.
 
 #. Import, add and commit the data to the repository.
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Rejected proposals."
 
@@ -38,7 +38,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Accepted proposals."
 
@@ -75,11 +75,11 @@ Bob has been tasked with updating the data set when bike route construction has 
       geogig checkout bob
       geogig branch -v
 
-#. Export the **bob** branch over to PostGIS so we can edit the data in QGIS.
+#. Export the **bob** branch so we can edit the data in QGIS.
 
    .. code-block:: console
 
-      geogig pg export -o --database portland bikepdx bikepdx
+      geogig shp export -o bikepdx bikepdx.shp
 
 #. Change some planned routes to active and set the current year for the **yearbuilt** attribute.
 
@@ -87,7 +87,7 @@ Bob has been tasked with updating the data set when bike route construction has 
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Update newly-activated paths"
 

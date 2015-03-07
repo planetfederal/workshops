@@ -1,4 +1,4 @@
-. ._cmd.branch:
+.. _cmd.branch:
 
 Working with branches
 =====================

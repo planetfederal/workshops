@@ -92,4 +92,4 @@ It is now your job to review and approve the work that has been done by the anal
 
    .. code-block:: console
 
-      geogig serve
+      geogig push

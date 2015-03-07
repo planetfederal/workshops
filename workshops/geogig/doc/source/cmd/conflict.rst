@@ -1,4 +1,4 @@
-. ._cmd.conflict:
+.. _cmd.conflict:
 
 Managing conflicts
 ==================
@@ -216,12 +216,12 @@ The merge cannot continue until the conflict is resolved.
 
    .. code-block:: console
 
-      geogig commit -m "Renamed Mt St Helens Ave to Volcano Road"
+      geogig commit -m "Set name of SW BOND AVE bike lane."
 
    ::
 
       100%
-      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Renamed Mt St Helens Ave to Volcano Road
+      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Set name of SW BOND AVE bike lane.
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
 #. The conflict has now been resolved. Delete the ``updates`` branch.

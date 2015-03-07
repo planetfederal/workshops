@@ -13,6 +13,7 @@ This section will describe how to use GeoGig on the command-line, including crea
    setup
    init
    commit
+   rollback
    branch
    conflict
    remote
