@@ -202,8 +202,8 @@ Now we can join the table of subway lines onto our original query.
 
     SELECT 
       lines.route,
-      100.0 * Sum(popn_white) / Sum(popn_total AS white_pct, 
-      100.0 * Sum(popn_black) / Sum(popn_total AS black_pct, 
+      100.0 * Sum(popn_white) / Sum(popn_total) AS white_pct, 
+      100.0 * Sum(popn_black) / Sum(popn_total) AS black_pct, 
       Sum(popn_total) AS popn_total
     FROM nyc_census_blocks AS census
     JOIN nyc_subway_stations AS subways

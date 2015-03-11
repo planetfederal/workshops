@@ -101,7 +101,7 @@ This cloned repository is linked to the original by way of a :term:`remote`. A r
 
    .. code-block:: console
 
-      geogit remote list
+      geogig remote list
 
    ::
 
@@ -111,7 +111,7 @@ This cloned repository is linked to the original by way of a :term:`remote`. A r
 
    .. code-block:: console
 
-      geogit remote list -v
+      geogig remote list -v
 
    ::
 
@@ -151,7 +151,7 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Added loop around Powell Butte"
 

@@ -181,7 +181,7 @@ html_show_sourcelink = False
 htmlhelp_basename = 'GeoGigWorkshopdoc'
 
 # Page subheading
-html_context = { 'subheading': 'Manage distributed versioning of geospatial data. <a href="http://geogit.org/">More info</a>' }
+html_context = { 'subheading': 'Manage distributed versioning of geospatial data. <a href="http://geogig.org/">More info</a>' }
 
 
 # -- Options for LaTeX output ---------------------------------------------

@@ -11,7 +11,9 @@ This section will describe how to use GeoGig on the command-line, including crea
    :maxdepth: 2
 
    setup
+   init
    commit
+   rollback
    branch
    conflict
    remote

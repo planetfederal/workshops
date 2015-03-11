@@ -16,18 +16,18 @@ For example, here is the log file output that shows when a connection parameter 
 
 ::
 
-    2014-08-01 11:38:50,557 ERROR [main] o.g.c.GeogitCLI [GeogitCLI.java:399] null
+    2014-08-01 11:38:50,557 ERROR [main] o.g.c.GeogigCLI [geogigCLI.java:399] null
     org.apache.commons.dbcp.SQLNestedException: Cannot create PoolableConnectionFactory (Protocol error.  Session setup failed.)
       at org.apache.commons.dbcp.BasicDataSource.createPoolableConnectionFactory(BasicDataSource.java:1549) ~[commons-dbcp-1.3.jar:1.3]
       at org.apache.commons.dbcp.BasicDataSource.createDataSource(BasicDataSource.java:1388) ~[commons-dbcp-1.3.jar:1.3]
       at org.apache.commons.dbcp.BasicDataSource.getConnection(BasicDataSource.java:1044) ~[commons-dbcp-1.3.jar:1.3]
       at org.geotools.data.jdbc.datasource.AbstractManageableDataSource.getConnection(AbstractManageableDataSource.java:48) ~[gt-jdbc-10.5.jar:na]
-      at org.geogit.geotools.cli.porcelain.AbstractPGCommand.getDataStore(AbstractPGCommand.java:78) ~[geogit-geotools-0.10.0.jar:0.10.0]
-      at org.geogit.geotools.cli.porcelain.PGImport.runInternal(PGImport.java:76) ~[geogit-geotools-0.10.0.jar:0.10.0]
-      at org.geogit.cli.AbstractCommand.run(AbstractCommand.java:60) ~[geogit-cli-0.10.0.jar:0.10.0]
-      at org.geogit.cli.GeogitCLI.executeInternal(GeogitCLI.java:521) [geogit-cli-0.10.0.jar:0.10.0]
-      at org.geogit.cli.GeogitCLI.execute(GeogitCLI.java:379) [geogit-cli-0.10.0.jar:0.10.0]
-      at org.geogit.cli.GeogitCLI.main(GeogitCLI.java:324) [geogit-cli-0.10.0.jar:0.10.0]
+      at org.geogig.geotools.cli.porcelain.AbstractPGCommand.getDataStore(AbstractPGCommand.java:78) ~[geogit-geotools-0.10.0.jar:0.10.0]
+      at org.geogig.geotools.cli.porcelain.PGImport.runInternal(PGImport.java:76) ~[geogit-geotools-0.10.0.jar:0.10.0]
+      at org.geogig.cli.AbstractCommand.run(AbstractCommand.java:60) ~[geogit-cli-0.10.0.jar:0.10.0]
+      at org.geogig.cli.GeogigCLI.executeInternal(GeogigCLI.java:521) [geogit-cli-0.10.0.jar:0.10.0]
+      at org.geogig.cli.GeogigCLI.execute(GeogigCLI.java:379) [geogit-cli-0.10.0.jar:0.10.0]
+      at org.geogig.cli.GeogigCLI.main(GeogigCLI.java:324) [geogit-cli-0.10.0.jar:0.10.0]
     Caused by: org.postgresql.util.PSQLException: Protocol error.  Session setup failed.
       at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:402) ~[postgresql-8.4-701.jdbc3.jar:na]
       at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:108) ~[postgresql-8.4-701.jdbc3.jar:na]

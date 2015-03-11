@@ -27,19 +27,29 @@ Creating a conflict
 
 Conflicts usually don't need to be created; they will happen naturally. Nonetheless, we will create a true conflict and resolve it manually.
 
-#. Create a new branch called ``conflicting`` and switch to it.
+#. Create a new branch called ``updates`` and switch to it.
 
    .. code-block:: console
 
-      geogig branch -c conflicting
+      geogig branch -c updates
 
    ::
 
-      Created branch refs/heads/conflicting
+      Created branch refs/heads/updates
 
-   .. note:: Verify that the above command switched to the new branch by running ``geogit branch``
+   .. note:: Verify that the above command switched to the new branch by running ``geogig branch``
 
-#. Back in QGIS, open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to a feature. Make a note of the feature ID so you can find it again later.
+#. Export the contents of our branch to a new shapefile:
+
+   .. code-block:: console
+
+      geogig shp export bikepdx bikepdx.shp
+
+   We will have a new shapefile directly in our ``repo`` directory.
+
+#. Start a new QGIS and load the ``bikepdx.shp``. We don't need to apply any styling.
+
+#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to the feature with the ID number ``6759``.
 
    .. figure:: img/conflict_tablebefore.png
 
@@ -51,7 +61,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
  
 #. Click the pencil on the top left of the dialog to :guilabel:`Toggle Editing`.
 
-#. Change the value of ``segmentnam`` for that feature in some way:
+#. Change the value of ``segmentnam`` for that feature to :kbd:`SW BOND AVE`.
 
    .. figure:: img/conflict_tablechange1.png
 
@@ -61,13 +71,13 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
 #. Close the attribute table dialog.
 
-#. Import, add, and commit this change. See the :ref:`cmd.commit` section for details on these commands:
+#. Import, add, and commit this change. See the :ref:`cmd.commit` section for details on these commands. However, remember that we will be importing the new ``bikepdx.shp``:
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id bikepdx.shp
       geogig add bikepdx
-      geogig commit -m "Renamed Mt St Helens Ave to Volcano Road"
+      geogig commit -m "Set name of SW BOND AVE bike lane."
 
 #. Now switch back to the ``master`` branch:
 
@@ -75,25 +85,13 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
       geogig checkout master
 
-#. Export the master branch back to PostGIS to keep the repository and QGIS in sync:
-
-   .. code-block:: console
-
-      geogig pg export -o --database portland bikepdx bikepdx
-
-   ::
-
-      Exporting bikepdx...
-      100%
-      bikepdx exported successfully to bikepdx
-
-#. Open the attribute table for the layer, and verify that the change you made has reverted.
+#. Back in our original QGIS (with the styling), open the attribute table for the layer, and verify that the change you made is not present.
 
    .. todo:: FYI, during testing, QGIS stopped refreshing properly, and I had to restart it.
 
 #. Click the pencil to :guilabel:`Toggle Editing` again.
 
-#. Find the feature that was edited above. Change the ``segmentnam`` value to **something different from what you changed it to above**.
+#. Find feature ``6759`` again and change the value of ``segmentnam`` for that feature to :kbd:`BOND AVE`.
 
    .. figure:: img/conflict_tablechange2.png
 
@@ -105,15 +103,15 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    .. code-block:: console
 
-      geogig pg import --database portland -t bikepdx
+      geogig shp import --fid-attrib id ../data/bikepdx.shp
       geogig add bikepdx
-      geogig commit -m "Renamed Mt St Helens Ave to 1980 Eruption Road"
+      geogig commit -m "Set name of BOND AVE bike lane."
 
-#. With the two changes made on the two different branches, we are now ready to see what happens when we attempt a merge. Merge the ``conflicting`` branch onto the ``master`` branch.
+#. With the two changes made on the two different branches, we are now ready to see what happens when we attempt a merge. Merge the ``updates`` branch onto the ``master`` branch.
 
    .. code-block:: console
 
-      geogig merge conflicting
+      geogig merge updates
 
 #. You will see the following error:
 
@@ -141,14 +139,15 @@ The merge cannot continue until the conflict is resolved.
 
    ::
 
-      ---bikepdx/6767---
+      ---bikepdx/6759---
       Ours
-      segmentnam: NE Mt. St. Helens Ave -> NE 1980 Eruption Road
+      segmentnam:  -> BOND AVE
 
       Theirs
-      segmentnam: NE Mt. St. Helens Ave -> NE Volcano Road
+      segmentnam:  -> SW BOND AVE
 
-   Here we see the problem: the attribute value is different for both "ours" (the ``master`` branch) and "theirs" (the ``conflicting`` branch.)
+
+   Here we see the problem: the attribute value is different for both "ours" (the ``master`` branch) and "theirs" (the ``updates`` branch.)
 
 #. A different way to view this is through the ``status`` command:
 
@@ -162,14 +161,14 @@ The merge cannot continue until the conflict is resolved.
       # Unmerged paths:
       #   (use "geogig add/rm <path/to/fid>..." as appropriate to mark resolution
       #
-      #      unmerged  bikepdx/6767
+      #      unmerged  bikepdx/6759
       # 1 total.
 
-#. Because this situation is a simple one, we can just choose which commit we wish to use via the ``checkout`` command. We have seen this command earlier from switching between branches, but it can also be used to switch attributes from different branches, via the ``-p <feature>`` option coupled with either ``--ours`` or ``--theirs``. Since we want to pull in the value from the ``conflicting`` branch, the command is as follows:
+#. Because this situation is a simple one, we can just choose which commit we wish to use via the ``checkout`` command. We have seen this command earlier from switching between branches, but it can also be used to switch attributes from different branches, via the ``-p <feature>`` option coupled with either ``--ours`` or ``--theirs``. Since we want to pull in the value from the ``updates`` branch, the command is as follows:
 
    .. code-block:: console
 
-      geogig checkout -p bikepdx/6767 --theirs
+      geogig checkout -p bikepdx/6759 --theirs
 
    ::
 
@@ -187,14 +186,14 @@ The merge cannot continue until the conflict is resolved.
       # Unmerged paths:
       #   (use "geogig add/rm <path/to/fid>..." as appropriate to mark resolution
       #
-      #      unmerged  bikepdx/6767
+      #      unmerged  bikepdx/6759
       # 1 total.
       # Changes not staged for commit:
       #   (use "geogig add <path/to/fid>..." to update what will be committed
       #   (use "geogig checkout -- <path/to/fid>..." to discard changes in working directory
       #
       #      modified  bikepdx
-      #      modified  bikepdx/6767
+      #      modified  bikepdx/6759
       # 2 total.
   
 #. We now need to add the feature as if it were a normal commit:
@@ -217,20 +216,22 @@ The merge cannot continue until the conflict is resolved.
 
    .. code-block:: console
 
-      geogig commit -m "Renamed Mt St Helens Ave to Volcano Road"
+      geogig commit -m "Set name of SW BOND AVE bike lane."
 
    ::
 
       100%
-      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Renamed Mt St Helens Ave to Volcano Road
+      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Set name of SW BOND AVE bike lane.
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
-#. The conflict has now been resolved. Delete the ``conflicting`` branch.
+#. The conflict has now been resolved. Delete the ``updates`` branch.
 
    .. code-block:: console
 
-      geogig branch -d conflicting
+      geogig branch -d updates
 
    ::
 
-      Deleted branch 'conflicting'.
+      Deleted branch 'updates'.
+
+#. You may delete the ``bikepdx`` files in the ``repo`` directory now.
