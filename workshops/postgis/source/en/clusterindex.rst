@@ -1,7 +1,7 @@
 .. _clusterindex:
 
-Section 24: Clustering on Indices
-=================================
+Clustering on Indices
+=====================
 
 Databases can only retrieve information as fast as they can get it off of disk. Small databases will float up entirely into RAM cache, and get away from physical disk limitations, but for large databases, access to the physical disk will be a limiting stop in disk access speed.
 

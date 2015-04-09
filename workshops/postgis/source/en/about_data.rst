@@ -1,7 +1,7 @@
 .. _about_data:
 
-Section 5: About our data
-=========================
+About our data
+==============
 
 The data for this workshop is four shapefiles for New York City, and one attribute table of sociodemographic variables.  We've loaded our shapefiles as PostGIS tables and will add sociodemographic data later in the workshop.
 

@@ -1,7 +1,7 @@
 .. _spatial_relationships_exercises:
 
-Section 11: Spatial Relationships Exercises
-===========================================
+Spatial Relationships Exercises
+===============================
 
 Here's a reminder of the functions we saw in the last section. They should be useful for the exercises!
 

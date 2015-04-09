@@ -1,7 +1,7 @@
 .. _projection_exercises:
 
-Section 16: Projection Exercises
-================================
+Projection Exercises
+====================
 
 Here's a reminder of some of the functions we have seen.  Hint: they should be useful for the exercises!
 

@@ -1,7 +1,7 @@
 .. _knn:
 
-Section 26: Nearest-Neighbour Searching
-=======================================
+Nearest-Neighbour Searching
+===========================
 
 .. note::
 

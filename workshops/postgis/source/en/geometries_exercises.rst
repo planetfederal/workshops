@@ -1,7 +1,7 @@
 .. _geometries_exercises:
 
-Section 9: Geometry Exercises
-=============================
+Geometry Exercises
+==================
 
 Here's a reminder of all the functions we have seen so far. They should be useful for the exercises!
 

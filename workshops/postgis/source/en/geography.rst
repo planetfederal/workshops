@@ -1,7 +1,7 @@
 .. _geography:
 
-Section 17: Geography
-=====================
+Geography
+=========
 
 It is very common to have data in which the coordinate are "geographics" or "latitude/longitude". 
 

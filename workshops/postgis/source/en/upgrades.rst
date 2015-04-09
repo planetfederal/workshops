@@ -1,7 +1,7 @@
 .. _upgrades:
 
-Section 33: Software Upgrades
-=============================
+Software Upgrades
+=================
 
 Because PostGIS resides within PostgreSQL every PostGIS installation actually consists of two versions of software: the PostgreSQL version and the PostGIS version.  The OpenGeo Suite only ships one combination at a time, so the number of potential combinations is reduced, but as a general principle, each version of PostGIS can be theoretically run within a number of versions of PostgreSQL, and vice versa.
 

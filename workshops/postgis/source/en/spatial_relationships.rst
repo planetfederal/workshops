@@ -1,7 +1,7 @@
 .. _spatial_relationships:
 
-Section 10: Spatial Relationships
-=================================
+Spatial Relationships
+=====================
 
 So far we have only used spatial functions that measure (:command:`ST_Area`, :command:`ST_Length`), serialize (:command:`ST_GeomFromText`) or deserialize (:command:`ST_AsGML`) geometries. What these functions have in common is that they only work on one geometry at a time.
 

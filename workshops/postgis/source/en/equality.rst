@@ -1,7 +1,7 @@
 .. _equality:
 
-Section 21: Equality
-====================
+Equality
+========
 
 Equality
 --------

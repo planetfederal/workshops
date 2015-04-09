@@ -1,7 +1,7 @@
 .. _simple_sql_exercises:
 
-Section 7: Simple SQL Exercises
-===============================
+Simple SQL Exercises
+====================
 
 Using the ``nyc_census_blocks`` table, answer the following questions (don't peak at the answers!). 
 

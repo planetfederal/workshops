@@ -1,7 +1,7 @@
 .. _geometry_returning:
 
-Section 18: Geometry Constructing Functions
-===========================================
+Geometry Constructing Functions
+===============================
 
 All the functions we have seen so far work with geometries "as they are" and returns
  

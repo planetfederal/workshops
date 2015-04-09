@@ -1,7 +1,7 @@
 .. _loading_data:
 
-Section 4: Loading spatial data
-===============================
+Loading spatial data
+====================
 
 Supported by a wide variety of libraries and applications, PostGIS provides many options for loading data.  This section will focus on the basics -- loading shapefiles using the PostGIS shapefile loading tool.  
 

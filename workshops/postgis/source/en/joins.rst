@@ -1,7 +1,7 @@
 .. _joins:
 
-Section 12: Spatial Joins
-=========================
+Spatial Joins
+=============
 
 Spatial joins are the bread-and-butter of spatial databases.  They allow you to combine information from different tables by using spatial relationships as the join key.  Much of what we think of as "standard GIS analysis" can be expressed as spatial joins.
 

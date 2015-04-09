@@ -1,7 +1,7 @@
 .. _de9im:
 
-Section 23: Dimensionally Extended 9-Intersection Model
-=======================================================
+Dimensionally Extended 9-Intersection Model
+===========================================
 
 The "`Dimensionally Extended 9-Intersection Model <http://en.wikipedia.org/wiki/DE-9IM>`_" (DE9IM) is a framework for modelling how two spatial objects interact.
 

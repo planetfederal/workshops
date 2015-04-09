@@ -1,7 +1,7 @@
 .. _introduction:
 
-Section 1: Introduction 
-***********************
+Introduction
+************
 
 What is a Spatial Database?
 ===========================

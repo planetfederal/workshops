@@ -1,7 +1,7 @@
 .. _geometries:
 
-Section 8: Geometries
-=====================
+Geometries
+==========
 
 Introduction
 ------------

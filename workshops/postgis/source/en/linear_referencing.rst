@@ -1,7 +1,7 @@
 .. _linear_referencing:
 
-Section 22: Linear Referencing
-==============================
+Linear Referencing
+==================
 
 Linear referencing is a means of representing features that are can be described by referencing a base set of linear features. Common examples of features that are modelled using linear referencing are:
 

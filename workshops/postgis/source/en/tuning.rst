@@ -1,7 +1,7 @@
 .. _tuning:
 
-Section 29: Tuning PostgreSQL for Spatial
-=========================================
+Tuning PostgreSQL for Spatial
+=============================
 
 PostgreSQL is a very versatile database system, capable of running efficiently in very low-resource environments and environments shared with a variety of other applications.  In order to ensure it will run properly for many different environments, the default configuration is very conservative and not terribly appropriate for a high-performance production database.  Add the fact that geospatial databases have different usage patterns, and the data tend to consist of fewer, much larger records than non-geospatial databases, and you can see that the default configuration will not be totally appropriate for our purposes.  
 

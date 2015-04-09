@@ -1,7 +1,7 @@
 .. _advanced_geometry_construction:
 
-Section 28: Advanced Geometry Constructions
-===========================================
+Advanced Geometry Constructions
+===============================
 
 The ``nyc_subway_stations`` layer has provided us with lots of interesting examples so far, but there is something striking about it:
 

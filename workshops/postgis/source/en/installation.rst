@@ -1,7 +1,7 @@
 .. _installation:
 
-Section 2: Installation
-=======================
+Installation
+============
 
 We will be using OpenGeo Suite as our software package, as it includes PostGIS/PostgreSQL in a single fast installation for Windows, Apple OS/X, and Linux. The Suite also includes GeoServer, OpenLayers, and a number of web visualization utilities.
 

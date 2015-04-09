@@ -1,7 +1,7 @@
 .. _joins_exercises:
 
-Section 13: Spatial Joins Exercises
-===================================
+Spatial Joins Exercises
+=======================
 
 Here's a reminder of some of the functions we have seen.  Hint: they should be useful for the exercises!
 

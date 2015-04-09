@@ -1,7 +1,7 @@
 .. _simple_sql:
 
-Section 6: Simple SQL
-=====================
+Simple SQL
+==========
 
 :term:`SQL`, or "Structured Query Language", is a means of asking questions of, and updating data in, relational databases. You have already seen SQL when we created our first database.  Recall:
 

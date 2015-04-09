@@ -1,7 +1,7 @@
 .. _creating_db:
 
-Section 3: Creating a Spatial Database
-======================================
+Creating a Spatial Database
+===========================
 
 PgAdmin
 -------

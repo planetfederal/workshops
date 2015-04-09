@@ -1,7 +1,7 @@
 .. _indexing:
 
-Section 14: Spatial Indexing
-============================
+Spatial Indexing
+================
 
 Recall that spatial index is one of the three key features of a spatial database. Indexes are what make using a spatial database for large data sets possible. Without indexing, any search for a feature would require a “sequential scan” of every record in the database. Indexing speeds up searching by organizing the data into a search tree which can be quickly traversed to find a particular record. 
 
