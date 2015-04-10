@@ -115,7 +115,7 @@ First, let's get the baseline racial make-up of the city.
    44.0039500762811 | 25.5465789002416 |    8175032
 
 
-So, of the 8M people in New York, about 44% are "white" and 26% are "black". 
+So, of the 8M people in New York, about 44% are recorded as "white" and 26% are recorded as "black". 
 
 Duke Ellington once sang that "You / must take the A-train / To / go to Sugar Hill way up in Harlem." As we saw earlier, Harlem has far and away the highest African-American population in Manhattan (80.5%). Is the same true of Duke's A-train?
 
@@ -139,7 +139,7 @@ First, note that the contents of the ``nyc_subway_stations`` table ``routes`` fi
 
    The ``DISTINCT`` keyword eliminates duplicate rows from the result.  Without the ``DISTINCT`` keyword, the query above identifies 491 results instead of 73.
    
-So to find the A-train, we will want any row in ``routes`` that has an 'A' in it. We can do this a number of ways, but today we will use the fact that :command:`strpos(routes,'A')` will return a non-zero number if 'A' is in the routes field.
+So to find the A-train, we will want any row in ``routes`` that has an 'A' in it. We can do this a number of ways, but today we will use the fact that :command:`strpos(routes,'A')` will return a non-zero number only if 'A' is in the ``routes`` field.
 
 .. code-block:: sql
 

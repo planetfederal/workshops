@@ -11,7 +11,7 @@ Here is some helpful information to get started.  Recall from the :ref:`About Ou
   :widths: 20 80
 
   * - **blkid**
-    - A 15-digit code that uniquely identifies every census **block**. Eg: 360050001009000
+    - A 15-digit code that uniquely identifies every census **block**. ("360050001009000")
   * - **popn_total**
     - Total number of people in the census block
   * - **popn_white**

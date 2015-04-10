@@ -10,14 +10,14 @@ About Boundless
 
 * We provide enterprises with supported, tested, and integrated open source solutions to help open government.
 * We support open source communities by employing key developers for PostGIS, GeoServer, GeoWebCache, GeoExt, and OpenLayers.
-* We have a ten-year history of providing successful consulting services and products to clients like MassGIS, Tri-Met, Landgate, Google, The Work Bank, and the Open Geospatial Consortium.
+* We have a ten-year history of providing successful consulting services and products to clients like MassGIS, TriMet, Landgate, Google, The Work Bank, and the Open Geospatial Consortium.
 * We believe open and accessible information empowers people to effect real change. Our goal is to make geospatial information more open: publicly available, accessible on compelling platforms that people want to use.
 * We strive to build software that meets and exceeds the desires of clients, because our market success proves the value of our work.
 
 Workshop Conventions
 ====================
 
-These sections conform to a number of conventions to make it easier to follow the conversation.  This section gives a brief overview of what to expect in the way of typographic conventions, as well as a short overview of the structure of each workbook.
+These sections conform to a number of conventions to make it easier to follow the conversation. This section gives a brief overview of what to expect in the way of typographic conventions, as well as a short overview of the structure of each workbook.
 
 Directions
 ----------
@@ -58,7 +58,7 @@ For example:
 Files, Tables and Column Names
 ------------------------------
 
-File names, paths, table names and column names will be shown in ``fixed-width`` font.  
+File names, paths, table names and column names will be shown in ``fixed-width`` font. 
 
 For example:
 
@@ -71,9 +71,9 @@ Menus/submenus and form elements such as fields or check boxes and other on-scre
 
 For example:
 
-  Click on the *File > New* menu.  Check the box that says *Confirm*.
+  Click on the *File > New* menu. Check the box that says *Confirm*.
 
 Workflow
 --------
 
-Sections are designed to be progressive.  Each section will start with the assumption that you have completed and understood the previous section in the series and will build on that knowledge.  A single section will progress through a handful of ideas and provide working examples wherever possible.  At the end of a section, where appropriate, we have included a handful of exercises to allow you to try out the ideas we've presented.  In some cases the section will include "Things To Try".  These tasks contain more complex problems than the exercises and is designed to challenge participants with advanced knowledge.
+Sections are designed to be progressive. Each section will start with the assumption that you have completed and understood the previous section in the series and will build on that knowledge. A single section will progress through a handful of ideas and provide working examples wherever possible. At the end of a section, where appropriate, we have included a handful of exercises to allow you to try out the ideas we've presented. In some cases the section will include "Things To Try". These tasks contain more complex problems than the exercises and is designed to challenge participants with advanced knowledge.

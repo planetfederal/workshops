@@ -102,7 +102,7 @@ Exercises
      
   .. note::
    
-    The difference between the UTM 18 and the Stateplane Long Island measurements is (10421993 - 10418904)/10418904, or 0.02%. Calculated on the spheroid using :ref:`geography` the total street length is 10421999, which is closer to the Stateplane value. This is not surprising, since the Stateplane Long Island projection is precisely calibrated for a very small area (New York City) while UTM 18 has to provide reasonable results for a large regional area.
+    The difference between the UTM 18 and the State Plane Long Island measurements is (10421993 - 10418904)/10418904, or 0.02%. Calculated on the spheroid using :ref:`geography` the total street length is 10421999, which is closer to the State Plane value. This is not surprising, since the State Plane Long Island projection is precisely calibrated for a very small area (New York City) while UTM 18 has to provide reasonable results for a large regional area.
      
 * **"What is the KML representation of the point at 'Broad St' subway station?"**
  

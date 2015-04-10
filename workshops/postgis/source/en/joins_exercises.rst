@@ -53,7 +53,7 @@ Exercises
   
       name    | routes 
    -----------+--------
-     Spring St | 6
+    Spring St | 6
    
 * **"What are all the neighborhoods served by the 6-train?"** (Hint: The ``routes`` column in the ``nyc_subway_stations`` table has values like 'B,D,6,V' and 'C,6')
  

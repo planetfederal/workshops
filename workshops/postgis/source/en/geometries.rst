@@ -21,7 +21,6 @@ In the previous :ref:`section <loading_data>`, we loaded a variety of data.  Bef
     
   SELECT name, ST_AsText(geom) FROM geometries;
 
-
 .. image:: ./geometries/start01.png
 
 The above example CREATEs a table (**geometries**) then INSERTs five geometries: a point, a line, a polygon, a polygon with a hole, and a collection. Finally, the inserted rows are SELECTed and displayed in the Output pane.
@@ -37,7 +36,7 @@ In conformance with the Simple Features for SQL (:term:`SFSQL`) specification, P
 .. image:: ./geometries/table01.png
   :class: inline
 
-Lets have a look at the ``geometry_columns`` table in our database.  Paste this command in the Query Tool as before:
+Let's have a look at the ``geometry_columns`` table in our database.  Paste this command in the Query Tool as before:
 
 .. code-block:: sql
 
@@ -51,6 +50,14 @@ Lets have a look at the ``geometry_columns`` table in our database.  Paste this 
 * The ``type`` column defines the type of geometry as described below; we've seen Point and Linestring types so far.  
 
 By querying this table, GIS clients and libraries can determine what to expect when retrieving data and can perform any necessary projection, processing or rendering without needing to inspect each geometry.
+
+.. note::
+
+   Do some or all of your ``nyc`` tables not have an ``srid`` of 26918? It's easy to fix by updating the table::
+
+   .. code-block:: sql
+  
+      SELECT UpdateGeometrySRID('nyc_neighborhoods','geom',26918);
 
 Representing Real World Objects
 -------------------------------
@@ -72,12 +79,11 @@ Our example table contains a mixture of different geometry types. We can collect
 
        name       |    st_geometrytype    | st_ndims | st_srid 
  -----------------+-----------------------+----------+---------
-  Point           | ST_Point              |        2 |      -1
-  Polygon         | ST_Polygon            |        2 |      -1
-  PolygonWithHole | ST_Polygon            |        2 |      -1
-  Collection      | ST_GeometryCollection |        2 |      -1
-  Linestring      | ST_LineString         |        2 |      -1
-
+  Point           | ST_Point              |        2 |       0
+  Polygon         | ST_Polygon            |        2 |       0
+  PolygonWithHole | ST_Polygon            |        2 |       0
+  Collection      | ST_GeometryCollection |        2 |       0
+  Linestring      | ST_LineString         |        2 |       0
 
 
 Points
@@ -185,7 +191,7 @@ The following SQL query will return the geometry associated with one linestring 
 
 .. note::
 
-  Rather than using an ``=`` sign in our ``WHERE`` clause, we are using the ``LIKE`` operator to carry out a string matching operation. You may be used to the ``*`` symbol as a "glob" for pattern matching, but in SQL the ``%`` symbol is used, along with the ``LIKE`` operator to tell the system to do globbing.
+   Rather than using an ``=`` sign in our ``WHERE`` clause, we are using the ``LIKE`` operator to carry out a string matching operation. **You may be used to the ``*`` symbol as a "glob" for pattern matching, but in SQL the ``%`` symbol is used**, along with the ``LIKE`` operator to tell the system to do globbing.
 
 ::
 

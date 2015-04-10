@@ -27,7 +27,7 @@ and click the **Execute Query** button (the green triangle).
   
 .. image:: ./screenshots/pgadmin_08.png  
 
-The query will run for a few (mili)seconds and return the 129 results.
+The query will run for a few (milli)seconds and return the 129 results.
 
 .. image:: ./screenshots/pgadmin_09.png  
 
@@ -63,7 +63,7 @@ We return to our ``nyc_neighborhoods`` table with a filter in hand.  The table c
     FROM nyc_neighborhoods 
     WHERE boroname = 'Brooklyn';
 
-The query will run for even fewer (mili)seconds and return the 23 results.
+The query will run for even fewer (milli)seconds and return the 23 results.
 
 Sometimes we will need to apply a function to the results of our query. For example,
 
