@@ -142,7 +142,7 @@ Now that we've created a workspace, let's add a store. This will be a connection
      <name>advanced</name>
      <connectionParameters>
        <host>localhost</host>
-       <port>54321</port>
+       <port>5432</port>
        <database>advanced</database>
        <user>postgres</user>
        <password>postgres</password>
