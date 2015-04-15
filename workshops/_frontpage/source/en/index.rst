@@ -44,6 +44,24 @@ The tutorials below are **practical walk-throughs** of actual application develo
                  :class: inline-img
 
 
+`Styling OpenStreetMap for Geoserver <http://workshops.boundlessgeo.com/tutorial-osm/>`_ 
+  |osm|
+
+  This tutorial shows you how to style OpenStreetMap data for use with OpenGeo Suite  `DEMO <http://workshops.boundlessgeo.com/tutorial-osm/_static/code/osm.html>`_
+
+  .. |osm| image:: images/osm_demo.png
+                  :class: inline-img
+
+
+`pgRouting and OpenGeo Suite <http://workshops.boundlessgeo.com/tutorial-routing/>`_ 
+  |routing|
+
+  This tutorial describes how to integrate OpenGeo Suite with pgRouting to create a routing application based on OpenStreetMap data.
+
+  .. |lidarmap| image:: images/routing_demo.png
+                 :class: inline-img
+
+
 Workshops
 ---------
 
