@@ -47,7 +47,7 @@ The tutorials below are **practical walk-throughs** of actual application develo
 `Styling OpenStreetMap for Geoserver <http://workshops.boundlessgeo.com/tutorial-osm/>`_ 
   |osm|
 
-  This tutorial shows you how to style OpenStreetMap data for use with OpenGeo Suite  `DEMO <http://workshops.boundlessgeo.com/tutorial-osm/_static/code/osm-full.html>`_
+  This tutorial shows you how to style OpenStreetMap data for use with OpenGeo Suite  `DEMO <http://workshops.boundlessgeo.com/tutorial-osm/_static/osm-full.html>`_
 
   .. |osm| image:: images/osm_demo.png
                   :class: inline-img
