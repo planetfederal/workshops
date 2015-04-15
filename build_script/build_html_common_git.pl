@@ -56,6 +56,16 @@ my $theme = "boundless_web";
      "git" => "tutorials/lidarkml/",
      "master_doc" => "index",
      "project" => "Analyzing and Visualizing LIDAR" },
+     
+  "tutorial-osm" => {
+     "git" => "tutorials/osm/",
+     "master_doc" => "index",
+     "project" => "Styling OpenStreetMap for OpenGeo Suite" },
+
+  "tutorial-routing" => {
+     "git" => "tutorials/routing/",
+     "master_doc" => "index",
+     "project" => "Integrating OpenGeo Suite and pgRouting" },
 
   "geoext" => {
      "git" => "workshops/geoext/",
