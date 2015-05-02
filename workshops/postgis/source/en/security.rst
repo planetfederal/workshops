@@ -1,7 +1,7 @@
 .. _security:
 
-Section 30: PostgreSQL Security
-===============================
+PostgreSQL Security
+===================
 
 PostgreSQL has a rich and flexible permissions system, with the ability to parcel out particular privileges to particular roles_, and provide users with the powers of one or more of those roles_.
 

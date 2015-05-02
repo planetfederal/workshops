@@ -1,7 +1,7 @@
 .. _geometry_returning:
 
-Section 18: Geometry Constructing Functions
-===========================================
+Geometry Constructing Functions
+===============================
 
 All the functions we have seen so far work with geometries "as they are" and returns
  
@@ -164,28 +164,30 @@ Then we calculate the area of each of our new county polygons from the county ta
 
 The same answer! We have successfully built an NYC county table from our census blocks data.
 
-Big Geometries and PgAdmin
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. This section doesn't appear to be relevant anymore
 
-Note that, if you run a query that returns the value of a large geometry, such as:
-
-.. code-block:: sql
-
-   SELECT countyid, ST_AsText(geom)
-   FROM nyc_census_counties;
-     
-You may appear to get no geometries back in your response:
-     
-:: 
-
-  countyid | st_astext
-     36005 |
-     36047 |
-     36061 |
-     36081 |
-     36085 |
-
-However, this is only because the boundaries of the census counties are so long and complex that none of them fit into the space provided by pgAdmin for results. They really are there! You can confirm it by returning the ST_Area() or ST_NPoints() or any other function that inspects the values of the geometry object.
+.. Big Geometries and PgAdmin
+.. ~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. 
+.. Note that, if you run a query that returns the value of a large geometry, such as:
+.. 
+.. .. code-block:: sql
+.. 
+..    SELECT countyid, ST_AsText(geom)
+..    FROM nyc_census_counties;
+..      
+.. You may appear to get no geometries back in your response:
+..      
+.. :: 
+.. 
+..   countyid | st_astext
+..      36005 |
+..      36047 |
+..      36061 |
+..      36081 |
+..      36085 |
+.. 
+.. However, this is only because the boundaries of the census counties are so long and complex that none of them fit into the space provided by pgAdmin for results. They really are there! You can confirm it by returning the ST_Area() or ST_NPoints() or any other function that inspects the values of the geometry object.
 
 
 Function List

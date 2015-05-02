@@ -1,13 +1,15 @@
 .. _about_data:
 
-Section 5: About our data
-=========================
+About our data
+==============
 
 The data for this workshop is four shapefiles for New York City, and one attribute table of sociodemographic variables.  We've loaded our shapefiles as PostGIS tables and will add sociodemographic data later in the workshop.
 
 The following describes the number of records and table attributes for each of our datasets.  These attribute values and relationships are fundamental to our future analysis. 
 
 To explore the nature of your tables in pgAdmin, right-click a highlighted table and select **Properties**.  You will find a summary of table properties, including a list of table attributes within the **Columns** tab.
+
+.. nyc_homicides.shp is part of the data bundle, but isn't referenced here. Add here or remove there?
 
 nyc_census_blocks
 -----------------
@@ -82,7 +84,7 @@ Number of records: 19091
    * - **oneway**
      - Is the street one-way? "yes" = yes, "" = no
    * - **type**
-     - Road type. Eg. primary, secondary, residential, motorway
+     - Road type (primary, secondary, residential, motorway)
    * - **geom**
      - Linear centerline of the street
    
@@ -131,7 +133,7 @@ There is a rich collection of social-economic data collected during the census p
    :widths: 20 80
 
    * - **tractid**
-     - An 11-digit code that uniquely identifies every census **tract**. Eg: 36005000100
+     - An 11-digit code that uniquely identifies every census **tract**. ("36005000100")
    * - **transit_total**
      - Number of workers in the tract
    * - **transit_private**
@@ -147,7 +149,7 @@ There is a rich collection of social-economic data collected during the census p
    * - **transit_time_mins**
      - Total number of minutes spent in transit by all workers in the tract (minutes)
    * - **family_count**
-     - Number of familes in the tract
+     - Number of families in the tract
    * - **family_income_median**
      - Median family income in the tract (dollars)
    * - **family_income_mean**
@@ -157,9 +159,9 @@ There is a rich collection of social-economic data collected during the census p
    * - **edu_total**
      - Number of people with educational history
    * - **edu_no_highschool_dipl**
-     - Number of people with no highschool diploma
+     - Number of people with no high school diploma
    * - **edu_highschool_dipl**
-     - Number of people with highschool diploma and no further education
+     - Number of people with high school diploma and no further education
    * - **edu_college_dipl**
      - Number of people with college diploma and no further education
    * - **edu_graduate_dipl**

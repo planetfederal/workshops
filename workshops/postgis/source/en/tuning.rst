@@ -1,15 +1,15 @@
 .. _tuning:
 
-Section 29: Tuning PostgreSQL for Spatial
-=========================================
+Tuning PostgreSQL for Spatial
+=============================
 
 PostgreSQL is a very versatile database system, capable of running efficiently in very low-resource environments and environments shared with a variety of other applications.  In order to ensure it will run properly for many different environments, the default configuration is very conservative and not terribly appropriate for a high-performance production database.  Add the fact that geospatial databases have different usage patterns, and the data tend to consist of fewer, much larger records than non-geospatial databases, and you can see that the default configuration will not be totally appropriate for our purposes.  
 
-All of these configuration parameters can edited in the database configuration file, :file:`C:\\Documents and Settings\\%USER\\.opengeo\\pgdata\\%USER`.  This is a regular text file and can be edited using Notepad or any other text editor.  The changes will not take effect until the server is restarted.
+All of these configuration parameters can edited in the database configuration file. On Windows, this is :file:`C:\\ProgramData\\Boundless\\OpenGeo\\pgsql\\9.3\\postgresql.conf`.  This is a regular text file and can be edited using Notepad or any other text editor.  The changes will not take effect until the server is restarted.
 
 .. image:: ./tuning/conf01.png
 
-An easier way of editing this configuration is by using the built-in "Backend Configuration Editor".  In pgAdmin, go to *File > Open postgresql.conf...*.  It will ask for the location of the file, and navigate to :file:`C:\\Documents and Settings\\%USER\\.opengeo\\pgdata\\%USER`.
+An easier way of editing this configuration is by using the built-in "Backend Configuration Editor".  In pgAdmin, go to *File > Open postgresql.conf...*.  It will ask for the location of the file, and navigate to :file:`C:\\ProgramData\\Boundless\\OpenGeo\\pgsql\\9.3\\` and then select :file:`postgresql.conf`.
 
 .. image:: ./tuning/conf02.png
 
@@ -89,7 +89,7 @@ Because the checkpoint process requires the flushing of all dirty data pages to 
 random_page_cost
 ----------------
 
-This is a unit-less value that represents the cost of a random page access from disk.  This value is relative to a number of other cost parameters including sequential page access, and cpu operation costs.  While there is no magic bullet for this value, the default is generally conservative.  This value can be set on a per-session basis using the ``SET random_page_cost TO 2.0`` command.
+This is a unit-less value that represents the cost of a random page access from disk.  This value is relative to a number of other cost parameters including sequential page access, and CPU operation costs.  While there is no magic bullet for this value, the default is generally conservative.  This value can be set on a per-session basis using the ``SET random_page_cost TO 2.0`` command.
 
   *Default value*: 4.0
 
@@ -111,11 +111,8 @@ This is the parameter that controls the cost of a sequential page access.  This 
 Reload configuration
 --------------------
 
-After these changes are made, save changes and reload the configuration.  
+After these changes are made, save changes and reload the configuration. The easiest way to do this is to restart the PostgreSQL service.
 
-* This is done by right-clicking on the Server PostGIS (localhost:54321) in pgAdmin, selecting to *Disconnect*
-* Clicking *Shutdown* in the OpenGeo Dashboard, then clicking *Start*. 
-* Finally reconnecting to the server in pgAdmin (right-click on the server and select *Connect*).
- 
- 
- 
+* In pgAdmin, right-click the server **PostGIS (localhost:5432)** and select *Disconnect*.
+* In Windows Services (``services.msc``) right-click **OpenGeo PostgreSQL** and select *Restart*.
+* Back in pgAdmin, click the server again select *Disconnect*.

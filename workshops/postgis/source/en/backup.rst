@@ -1,7 +1,7 @@
 .. _backup:
 
-Section 32: PostgreSQL Backup and Restore
-=========================================
+PostgreSQL Backup and Restore
+=============================
 
 There are lots of ways to backup a PostgreSQL database, and the one you choose will depend a great deal on how you are using the database.
 

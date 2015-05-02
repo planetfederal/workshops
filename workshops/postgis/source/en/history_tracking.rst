@@ -1,7 +1,7 @@
 .. _history_tracking:
 
-Section 27: Tracking Edit History using Triggers
-================================================
+Tracking Edit History using Triggers
+====================================
 
 A common requirement for production databases is the ability to track history: how has the data changed between two dates, who made the changes, and where did they occur? Some GIS systems track changes by including change management in the client interface, but that adds a lot of complexity to editing tools.
 

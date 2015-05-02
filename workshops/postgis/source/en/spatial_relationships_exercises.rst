@@ -1,7 +1,7 @@
 .. _spatial_relationships_exercises:
 
-Section 11: Spatial Relationships Exercises
-===========================================
+Spatial Relationships Exercises
+===============================
 
 Here's a reminder of the functions we saw in the last section. They should be useful for the exercises!
 
@@ -49,7 +49,7 @@ Exercises
 
   ::
    
-    MULTILINESTRING((586782 4504202,586864 4504216))
+    MULTILINESTRING((586781.701577724 4504202.15314339,586863.51964484 4504215.9881701))
      
 * **"What neighborhood and borough is Atlantic Commons in?"**
      
@@ -89,10 +89,10 @@ Exercises
     
   ::
   
-         name      
-    ---------------
-     S Oxford St
-     Cumberland St
+           name
+      ------------------
+       Cumberland St
+       Atlantic Commons
 
   .. image:: ./spatial_relationships/atlantic_commons.jpg
   

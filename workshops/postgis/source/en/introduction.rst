@@ -1,14 +1,14 @@
 .. _introduction:
 
-Section 1: Introduction 
-***********************
+Introduction
+************
 
 What is a Spatial Database?
 ===========================
 
-PostGIS is a spatial database. Oracle Spatial and SQL Server 2008 are also spatial databases. But what does that mean; what is it that makes an ordinary database a spatial database?
+PostGIS is a spatial database. Oracle Spatial and SQL Server (2008 and later) are also spatial databases. But what does that mean; what is it that makes an ordinary database a spatial database?
 
-The short answer, is. . .
+The short answer, is...
 
 **Spatial databases store and manipulate spatial objects like any other object in the database.**
 

@@ -1,14 +1,14 @@
 .. _creating_db:
 
-Section 3: Creating a Spatial Database
-======================================
+Creating a Spatial Database
+===========================
 
 PgAdmin
 -------
 
-PostgreSQL has a number of administrative front-ends.  The primary is `psql <http://www.postgresql.org/docs/current/static/app-psql.html>`_ a command-line tool for entering SQL queries.  Another popular PostgreSQL front-end is the free and open source graphical tool `pgAdmin <http://www.pgadmin.org/>`_. All queries done in pgAdmin can also be done on the command line with ``psql``. 
+PostgreSQL has a number of administrative front-ends.  The primary one is `psql <http://www.postgresql.org/docs/current/static/app-psql.html>`_ a command-line tool for entering SQL queries.  Another popular PostgreSQL front-end is the free and open source graphical tool `pgAdmin <http://www.pgadmin.org/>`_. All queries done in pgAdmin can also be done on the command line with ``psql``. 
 
-#. Find PgAdmin and start it up.
+#. Find pgAdmin and start it up.
 
    .. image:: ./screenshots/pgadmin_01.png
      :class: inline
@@ -69,4 +69,4 @@ You have successfully created a PostGIS spatial database!!
 Function List
 -------------
 
-`PostGIS_Full_Version <http://postgis.net/docs/manual-2.1/PostGIS_Full_Version.html>`_: Reports full postgis version and build configuration info.
+`PostGIS_Full_Version <http://postgis.net/docs/manual-2.1/PostGIS_Full_Version.html>`_: Reports full PostGIS version and build configuration info.

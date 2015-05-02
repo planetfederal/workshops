@@ -1,23 +1,23 @@
 .. _geography:
 
-Section 17: Geography
-=====================
+Geography
+=========
 
 It is very common to have data in which the coordinate are "geographics" or "latitude/longitude". 
 
-Unlike coordinates in Mercator, UTM, or Stateplane, geographic coordinates are **not cartesian coordinates**. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane.  Rather, these **spherical coordinates** describe angular coordinates on a globe. In spherical coordinates a point is specified by the angle of rotation from a reference meridian (longitude), and the angle from the equator (latitude).
+Unlike coordinates in Mercator, UTM, or Stateplane, geographic coordinates are **not Cartesian coordinates**. Geographic coordinates do not represent a linear distance from an origin as plotted on a plane.  Rather, these **spherical coordinates** describe angular coordinates on a globe. In spherical coordinates a point is specified by the angle of rotation from a reference meridian (longitude), and the angle from the equator (latitude).
 
 .. image:: ./geography/cartesian_spherical.jpg
   :class: inline
 
-You can treat geographic coordinates as approximate cartesian coordinates and continue to do spatial calculations. However, measurements of distance, length and area will be nonsensical. Since spherical coordinates measure **angular** distance, the units are in "degrees." Further, the approximate results from indexes and true/false tests like intersects and contains can become terribly wrong. The distance between points get larger as problem areas like the poles or the international dateline are approached.
+You can treat geographic coordinates as approximate Cartesian coordinates and continue to do spatial calculations. However, measurements of distance, length and area will be nonsensical. Since spherical coordinates measure **angular** distance, the units are in "degrees." Further, the approximate results from indexes and true/false tests like intersects and contains can become terribly wrong. The distance between points get larger as problem areas like the poles or the international dateline are approached.
 
 For example, here are the coordinates of Los Angeles and Paris.
 
 * Los Angeles: ``POINT(-118.4079 33.9434)``
 * Paris: ``POINT(2.3490 48.8533)``
  
-The following calculates the distance between Los Angeles and Paris using the standard PostGIS cartesian :command:`ST_Distance(geometry, geometry)`.  Note that the SRID of 4326 declares a geographic spatial reference system.
+The following calculates the distance between Los Angeles and Paris using the standard PostGIS Cartesian :command:`ST_Distance(geometry, geometry)`.  Note that the SRID of 4326 declares a geographic spatial reference system.
 
 .. code-block:: sql
 
@@ -36,7 +36,7 @@ The units for spatial reference 4326 are degrees. So our answer is 121 degrees. 
 
 On a sphere, the size of one "degree square" is quite variable, becoming smaller as you move away from the equator. Think of the meridians (vertical lines) on the globe getting closer to each other as you go towards the poles. So, a distance of 121 degrees doesn't *mean* anything. It is a nonsense number.
 
-In order to calculate a meaningful distance, we must treat geographic coordinates not as approximate cartesian coordinates but rather as true spherical coordinates.  We must measure the distances between points as true paths over a sphere -- a portion of a great circle. 
+In order to calculate a meaningful distance, we must treat geographic coordinates not as approximate Cartesian coordinates but rather as true spherical coordinates.  We must measure the distances between points as true paths over a sphere -- a portion of a great circle. 
 
 Starting with version 1.5, PostGIS provides this functionality through the ``geography`` type.
 
@@ -45,8 +45,8 @@ Starting with version 1.5, PostGIS provides this functionality through the ``geo
   Different spatial databases have different approaches for "handling geographics" 
   
   * Oracle attempts to paper over the differences by transparently doing geographic calculations when the SRID is geographic. 
-  * SQL Server uses two spatial types, "STGeometry" for cartesian data and "STGeography" for geographics. 
-  * Informix Spatial is a pure cartesian extension to Informix, while Informix Geodetic is a pure geographic extension. 
+  * SQL Server uses two spatial types, "STGeometry" for Cartesian data and "STGeography" for geographics. 
+  * Informix Spatial is a pure Cartesian extension to Informix, while Informix Geodetic is a pure geographic extension. 
   * Similar to SQL Server, PostGIS uses two types, "geometry" and "geography".
   
 Using the ``geography`` instead of ``geometry`` type, let's try again to measure the distance between Los Angeles and Paris. Instead of :command:`ST_GeometryFromText(text)`, we will use :command:`ST_GeographyFromText(text)`.
@@ -70,22 +70,22 @@ The need to support non-point geometries becomes very clear when posing a questi
 
 .. image:: ./geography/lax_cdg.jpg
 
-Working with geographic coordinates on a cartesian plane (the purple line) yields a *very* wrong answer indeed! Using great circle routes (the red lines) gives the right answer. If we convert our LAX-CDG flight into a line string and calculate the distance to a point in Iceland using ``geography`` we'll get the right answer (recall) in meters.
+Working with geographic coordinates on a Cartesian plane (the purple line) yields a *very* wrong answer indeed! Using great circle routes (the red lines) gives the right answer. If we convert our LAX-CDG flight into a line string and calculate the distance to a point in Iceland using ``geography`` we'll get the right answer (recall) in meters.
 
 .. code-block:: sql
 
   SELECT ST_Distance(
     ST_GeographyFromText('LINESTRING(-118.4079 33.9434, 2.5559 49.0083)'), -- LAX-CDG
-    ST_GeographyFromText('POINT(-21.8628 64.1286)')                        -- Iceland  
+    ST_GeographyFromText('POINT(-22.6056 63.9850)')                        -- Iceland (KEF)
   );
 
 ::
 
-  531773.757079116
+  502454.906643729
   
-So the closest approach to Iceland on the LAX-CDG route is a relatively small 532km.
+So the closest approach to Iceland (as measured from its international airport) on the LAX-CDG route is a relatively small 502km.
   
-The cartesian approach to handling geographic coordinates breaks down entirely for features that cross the international dateline. The shortest great-circle route from Los Angeles to Tokyo crosses the Pacific Ocean. The shortest cartesian route crosses the Atlantic and Indian Oceans.
+The Cartesian approach to handling geographic coordinates breaks down entirely for features that cross the international dateline. The shortest great-circle route from Los Angeles to Tokyo crosses the Pacific Ocean. The shortest Cartesian route crosses the Atlantic and Indian Oceans.
 
 .. image:: ./geography/lax_nrt.png
 
@@ -164,7 +164,7 @@ The SQL for creating a new table with a geography column is much like that for c
   
   INSERT INTO airports VALUES ('LAX', 'POINT(-118.4079 33.9434)');
   INSERT INTO airports VALUES ('CDG', 'POINT(2.5559 49.0083)');
-  INSERT INTO airports VALUES ('REK', 'POINT(-21.8628 64.1286)');
+  INSERT INTO airports VALUES ('KEF', 'POINT(-22.6056 63.9850)');
   
 In the table definition, the ``GEOGRAPHY(Point)`` specifies our airport data type as points. The new geography fields don't get registered in the ``geometry_columns`` view. Instead, they are registered in a view called ``geography_columns``.
 
@@ -174,11 +174,12 @@ In the table definition, the ``GEOGRAPHY(Point)`` specifies our airport data typ
   
 ::
 
-           f_table_name         | f_geography_column | srid |   type   
- -------------------------------+--------------------+------+----------
-  nyc_subway_stations_geography | geog               |    0 | Geometry
-  airports                      | geog               | 4326 | Point
-  
+           f_table_name    | f_geography_column | srid |   type   
+ --------------------------+--------------------+------+----------
+  nyc_subway_stations_geog | geog               |    0 | Geometry
+  airports                 | geog               | 4326 | Point
+
+.. note:: Some columns were omitted from the above output.
 
 Casting to Geometry
 -------------------
@@ -199,9 +200,9 @@ The :command:`ST_X(point)` function only supports the geometry type. How can we 
  ------+-----------
   LAX  | -118.4079 
   CDG  |    2.5559
-  REK  |  -21.8628
+  KEF  |  -21.8628
 
-By appending ``::geometry`` to our geography value, we convert the object to a geometry with an SRID of 4326. From there we can use as many geometry functions as strike our fancy. But, remember -- now that our object is a geometry, the coordinates will be interpretted as cartesian coordinates, not spherical ones.
+By appending ``::geometry`` to our geography value, we convert the object to a geometry with an SRID of 4326. From there we can use as many geometry functions as strike our fancy. But, remember -- now that our object is a geometry, the coordinates will be interpretted as Cartesian coordinates, not spherical ones.
  
  
 Why (Not) Use Geography
@@ -210,18 +211,18 @@ Why (Not) Use Geography
 Geographics are universally accepted coordinates -- everyone understands what latitude/longitude mean, but very few people understand what UTM coordinates mean. Why not use geography all the time?
 
 * First, as noted earlier, there are far fewer functions available (right now) that directly support the geography type. You may spend a lot of time working around geography type limitations.
-* Second, the calculations on a sphere are computationally far more expensive than cartesian calculations. For example, the cartesian formula for distance (Pythagoras) involves one call to sqrt(). The spherical formula for distance (Haversine) involves two sqrt() calls, an arctan() call, four sin() calls and two cos() calls. Trigonometric functions are very costly, and spherical calculations involve a lot of them.
+* Second, the calculations on a sphere are computationally far more expensive than Cartesian calculations. For example, the Cartesian formula for distance (Pythagoras) involves one call to sqrt(). The spherical formula for distance (Haversine) involves two sqrt() calls, an arctan() call, four sin() calls and two cos() calls. Trigonometric functions are very costly, and spherical calculations involve a lot of them.
 
 The conclusion? 
 
-If your data is geographically compact (contained within a state, county or city), use the ``geometry`` type with a cartesian projection that makes sense with your data. See the http://spatialreference.org site and type in the name of your region for a selection of possible reference systems.
+**If your data is geographically compact** (contained within a state, county or city), **use the geometry type with a Cartesian projection** that makes sense with your data. See the http://spatialreference.org site and type in the name of your region for a selection of possible reference systems.
 
-If, on the other hand, you need to measure distance with a dataset that is geographically dispersed (covering much of the world), use the ``geography`` type. The application complexity you save by working in ``geography`` will offset any performance issues. And, casting to ``geometry`` can offset most functionality limitations.
+**If you need to measure distance with a dataset that is geographically dispersed** (covering much of the world), **use the geography type.** The application complexity you save by working in ``geography`` will offset any performance issues. And casting to ``geometry`` can offset most functionality limitations.
 
 Function List
 -------------
 
-`ST_Distance(geometry, geometry) <http://postgis.net/docs/manual-2.1/ST_Distance.html>`_: For geometry type Returns the 2-dimensional cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography type defaults to return spheroidal minimum distance between two geographies in meters.
+`ST_Distance(geometry, geometry) <http://postgis.net/docs/manual-2.1/ST_Distance.html>`_: For geometry type Returns the 2-dimensional Cartesian minimum distance (based on spatial ref) between two geometries in projected units. For geography type defaults to return spheroidal minimum distance between two geographies in meters.
 
 `ST_GeographyFromText(text) <http://postgis.net/docs/manual-2.1/ST_GeographyFromText.html>`_: Returns a specified geography value from Well-Known Text representation or extended (WKT).
 

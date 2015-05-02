@@ -1,7 +1,7 @@
 .. _validity:
 
-Section 20: Validity
-====================
+Validity
+========
 
 In 90% of the cases the answer to the question, "why is my query giving me a 'TopologyException' error" is "one or more of the inputs are invalid".  Which begs the question: what does it mean to be invalid, and why should we care?
 

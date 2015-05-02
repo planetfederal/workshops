@@ -1,13 +1,13 @@
 .. _indexing:
 
-Section 14: Spatial Indexing
-============================
+Spatial Indexing
+================
 
-Recall that spatial index is one of the three key features of a spatial database. Indexes are what make using a spatial database for large data sets possible. Without indexing, any search for a feature would require a “sequential scan” of every record in the database. Indexing speeds up searching by organizing the data into a search tree which can be quickly traversed to find a particular record. 
+Recall that spatial index is one of the three key features of a spatial database. Indexes are what make using a spatial database for large data sets possible. Without indexing, any search for a feature would require a "sequential scan" of every record in the database. Indexing speeds up searching by organizing the data into a search tree which can be quickly traversed to find a particular record. 
 
 Spatial indices are one of the greatest assets of PostGIS.  In the previous example building spatial joins requires comparing whole tables with each other. This can get very costly: joining two tables of 10,000 records each without indexes would require 100,000,000 comparisons; with indexes the cost could be as low as 20,000 comparisons.
 
-When we loaded the ``nyc_census_blocks`` table, the pgShapeLoader automatically created a spatial index called ``nyc_census_blocks_geom_gist``
+When we loaded the ``nyc_census_blocks`` table, the pgShapeLoader automatically created a spatial index called ``nyc_census_blocks_geom_idx``
 
 To demonstrate how important indexes are for performance, let's search ``nyc_census_blocks`` **without** our spatial index. 
 
@@ -15,7 +15,7 @@ Our first step is to remove the index.
 
 .. code-block:: sql
 
-  DROP INDEX nyc_census_blocks_geom_gist;
+  DROP INDEX nyc_census_blocks_geom_idx;
   
 .. note::
 
@@ -43,7 +43,7 @@ Now add the spatial index back in and run the query again.
 
 .. code-block:: sql
 
-  CREATE INDEX nyc_census_blocks_geom_gist 
+  CREATE INDEX nyc_census_blocks_geom_idx 
     ON nyc_census_blocks 
     USING GIST (geom);
 

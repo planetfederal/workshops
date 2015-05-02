@@ -1,7 +1,7 @@
 .. _schemas:
 
-Section 31: PostgreSQL Schemas
-==============================
+PostgreSQL Schemas
+==================
 
 Production databases inevitably have a large number of tables and views, and managing them all in one schema can become unwieldy quickly. Fortunately, PostgreSQL_ includes the concept of a "_Schema".
 

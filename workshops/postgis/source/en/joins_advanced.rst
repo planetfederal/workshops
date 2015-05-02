@@ -1,7 +1,7 @@
 .. _joins_advanced:
 
-Section 19: More Spatial Joins
-==============================
+More Spatial Joins
+==================
 
 In the last section we saw the :command:`ST_Centroid(geometry)` and :command:`ST_Union([geometry])` functions, and some simple examples. In this section we will do some more elaborate things with them.
 

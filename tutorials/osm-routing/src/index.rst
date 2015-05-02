@@ -45,6 +45,7 @@ We will need the following software during our tutorial:
       sudo add-apt-repository ppa:georepublic/pgrouting
       sudo apt-get update
       sudo apt-get install postgresql-9.3-pgrouting
+      sudo apt-get install opengeo-tomcat7 geoserver
 
 Follow Boundless’s documentation on installing OpenGeo Suite and make sure that PostgreSQL is configured for use with GeoServer as described in `our documentation <http://suite.opengeo.org/opengeo-docs/intro/installation/index.html>`_.
 

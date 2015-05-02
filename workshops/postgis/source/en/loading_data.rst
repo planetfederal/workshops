@@ -1,7 +1,7 @@
 .. _loading_data:
 
-Section 4: Loading spatial data
-===============================
+Loading spatial data
+====================
 
 Supported by a wide variety of libraries and applications, PostGIS provides many options for loading data.  This section will focus on the basics -- loading shapefiles using the PostGIS shapefile loading tool.  
 
@@ -29,7 +29,7 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
 
 #. Next, open the *Add File* browser and navigate to the data directory, file:`\\postgis-workshop\\data`. Select the :file:`nyc_census_blocks.shp` file. 
 
-#. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shape file, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.)
+#. Change the SRID value for the file to **26918**. Note that the schema, table and column name are already filled in using the shapefile, but you can optionally change them (**Don't!** There are steps later in the workshop that expect the default names.) Click out of the fields after you are done editing, to ensure that the changes were entered.
 
    .. image:: ./screenshots/pgshapeloader_01a.png
      :class: inline
@@ -59,6 +59,7 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
    * ``nyc_streets.shp``
    * ``nyc_neighborhoods.shp``
    * ``nyc_subway_stations.shp``
+   * ``nyc_homicides.shp``
  
 #. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Databases > nyc > Schemas > public > Tables** section of the tree.
 
@@ -72,13 +73,13 @@ You may be asking yourself -- "What's this shapefile thing?"  A "shapefile" comm
 
 Mandatory files:
 
-* ``.shp`` — shape format; the feature geometry itself
-* ``.shx`` — shape index format; a positional index of the feature geometry 
-* ``.dbf`` — attribute format; columnar attributes for each shape, in dBase III
+* ``.shp``—shape format; the feature geometry itself
+* ``.shx``—shape index format; a positional index of the feature geometry 
+* ``.dbf``—attribute format; columnar attributes for each shape, in dBase III
     
 Optional files include:
 
-* ``.prj`` — projection format; the coordinate system and projection information, a plain text file describing the projection using well-known text format
+* ``.prj``—projection format; the coordinate system and projection information, a plain text file describing the projection using well-known text format
 
 The pgShapeLoader makes shape data usable in PostGIS by converting it from binary data into a series of SQL commands that are then run in the database to load the data. 
 
@@ -135,7 +136,7 @@ The easy answer is to use a computer.  Plug the contents of the ``.prj`` file in
 
 .. image:: ./screenshots/prj2epsg_01.png
 
-Data you receive from local agencies -- such as New York City -- will usually be in a local projection noted by "state plane" or "UTM".  Our projection is "Universal Transverse Mercator (UTM) Zone 18 North" or EPSG:26918.  
+Data you receive from local agencies—such as New York City—will usually be in a local projection noted by "state plane" or "UTM".  Our projection is "Universal Transverse Mercator (UTM) Zone 18 North" or EPSG:26918.  
 
 
 Things to Try: View data using QGIS
@@ -147,5 +148,5 @@ Try using this software to connect your PostGIS database.  The application can b
 
 .. rubric:: Footnotes
 
-.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation. May 2010 <http://postgis.net/docs/manual-2.1/postgis_installation.html#PGInstall>
+.. [#PostGIS_Install] "Chapter 2.5. Installation" PostGIS Documentation <http://postgis.net/docs/manual-2.1/postgis_installation.html#PGInstall>
 
