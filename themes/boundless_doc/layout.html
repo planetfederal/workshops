@@ -78,7 +78,7 @@
 
     <h4>License</h4>
     <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Non Commercial-Commons Attribution-Share Alike 3.0 United States License</a>.  Feel free to use this material, but we ask that you please retain the Boundless branding, logos and style.</p>
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a></p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="{{ pathto('_static/cc.png', 1) }}" /></a></p>
 
 
 {%- endmacro -%}
@@ -154,39 +154,39 @@
 <body class="page">
   {%- block header %}
 
-	<div id="wrapper">
-				<header id="masthead" class="site-header" role="banner">
-			<div class="container">
-				<a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="{{ pathto('_static/logo.png', 1) }}"></a>
-				<div class="pull-right">
-				    <!--
-					<div class="pull-left">
-						<div class="menu-main-container">
-							<ul id="menu-main" class="menu">
-								<li><a href="http://boundlessgeo.com/solutions/">Solutions</a></li>
-								<li><a href="http://boundlessgeo.com/resources/">Resources</a></li>
-								<li><a href="http://boundlessgeo.com/about/">About</a></li>
-								<li><a href="http://boundlessgeo.com/support/">Support</a></li>
-							</ul>
-						</div>
-					</div>-->
-					<!--
-					<div class="search dropdown">
-					  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="search-icon"></i></a>
-						  <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						        <form class="search" action="{{ pathto('search') }}" method="get">
-						          <label for="q" class="screen-reader-text">Search</label>
-						          <input type="text" class="field" name="q" placeholder="Search …" />
-						          <input type="submit" class="submit" value="{{ _('Go') }}" />
-						          <input type="hidden" name="check_keywords" value="yes" />
-						          <input type="hidden" name="area" value="default" />
-						        </form>
-						  </div>
-					</div>-->
-				</div>
-			</div><!--closes container-->
+  <div id="wrapper">
+        <header id="masthead" class="site-header" role="banner">
+      <div class="container">
+        <a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="{{ pathto('_static/logo.png', 1) }}"></a>
+        <div class="pull-right">
+            <!--
+          <div class="pull-left">
+            <div class="menu-main-container">
+              <ul id="menu-main" class="menu">
+                <li><a href="http://boundlessgeo.com/solutions/">Solutions</a></li>
+                <li><a href="http://boundlessgeo.com/resources/">Resources</a></li>
+                <li><a href="http://boundlessgeo.com/about/">About</a></li>
+                <li><a href="http://boundlessgeo.com/support/">Support</a></li>
+              </ul>
+            </div>
+          </div>-->
+          <!--
+          <div class="search dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="search-icon"></i></a>
+              <div class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                    <form class="search" action="{{ pathto('search') }}" method="get">
+                      <label for="q" class="screen-reader-text">Search</label>
+                      <input type="text" class="field" name="q" placeholder="Search …" />
+                      <input type="submit" class="submit" value="{{ _('Go') }}" />
+                      <input type="hidden" name="check_keywords" value="yes" />
+                      <input type="hidden" name="area" value="default" />
+                    </form>
+              </div>
+          </div>-->
+        </div>
+      </div><!--closes container-->
 
-		</header>
+    </header>
   {%- endblock %}
   {%- block pageheading %}<div id="pageheading"><div class="contents"><h1>{{ project }}</h1></div></div>{% endblock %}
 
@@ -230,90 +230,90 @@
 {%- block footer %}
   <div id="footer">
     <footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="container">
-		<!--
-			<div class="row">
-				<div class="span2">
-					<h5>Solutions</h5>
-					<div class="footer-solutions-menu">
-						<ul id="menu-solutions" class="menu">
-							<li><a href="http://boundlessgeo.com/solutions/">Overview</a></li>
-							<li><a href="http://boundlessgeo.com/opengeo-suite/">OpenGeo Suite</a></li>
-							<li><a href="http://boundlessgeo.com/mapmeter/">MapMeter</a></li>
-							<li><a href="http://boundlessgeo.com/solutions/solutions-software/">By Software</a></li>
-							<li><a href="http://boundlessgeo.com/solutions/solutions-industry/">By Industry</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="span2">
-					<h5>Resources</h5>
-					<div class="footer-resources-menu">
-						<ul id="menu-resources" class="menu">
-							<li><a href="http://boundlessgeo.com/resources/">Overview</a></li>
-							<li><a href="http://boundlessgeo.com/resources/trainings/">Trainings</a></li>
-							<li><a href="http://boundlessgeo.com/resources/workshops/">Workshops</a></li>
-							<li><a href="http://boundlessgeo.com/documentation/">Documentation</a></li>
-							<li><a href="http://boundlessgeo.com/case-studies/">Case Studies</a></li>
-							<li><a href="http://boundlessgeo.com/resources/white-papers/">White Papers</a></li>
-							<li><a href="http://boundlessgeo.com/resources/tours/">Tours</a></li>
-						</ul>
-					</div>
-				</div>
-				<div class="span2">
-					<h5>About Us</h5>
-					<div class="footer-about-menu">
-						<ul id="menu-about-menu" class="menu">
-							<li><a href="http://boundlessgeo.com/about/">Overview</a></li>
-							<li><a href="http://boundlessgeo.com/resources/contact/">Contact</a></li>
-							<li><a href="http://boundlessgeo.com/about/team/">Team</a></li>
-							<li><a href="http://boundlessgeo.com/resources/careers/">Careers</a></li>
-							<li><a href="http://boundlessgeo.com/resources/partners/">Partners</a></li>
-							<li><a href="http://boundlessgeo.com/blog/">Blog</a></li>
-							<li><a href="http://boundlessgeo.com/resources/news/">News &amp; Media</a></li>
-</ul></div>				</div>
+    <div class="container">
+    <!--
+      <div class="row">
+        <div class="span2">
+          <h5>Solutions</h5>
+          <div class="footer-solutions-menu">
+            <ul id="menu-solutions" class="menu">
+              <li><a href="http://boundlessgeo.com/solutions/">Overview</a></li>
+              <li><a href="http://boundlessgeo.com/opengeo-suite/">OpenGeo Suite</a></li>
+              <li><a href="http://boundlessgeo.com/mapmeter/">MapMeter</a></li>
+              <li><a href="http://boundlessgeo.com/solutions/solutions-software/">By Software</a></li>
+              <li><a href="http://boundlessgeo.com/solutions/solutions-industry/">By Industry</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="span2">
+          <h5>Resources</h5>
+          <div class="footer-resources-menu">
+            <ul id="menu-resources" class="menu">
+              <li><a href="http://boundlessgeo.com/resources/">Overview</a></li>
+              <li><a href="http://boundlessgeo.com/resources/trainings/">Trainings</a></li>
+              <li><a href="http://boundlessgeo.com/resources/workshops/">Workshops</a></li>
+              <li><a href="http://boundlessgeo.com/documentation/">Documentation</a></li>
+              <li><a href="http://boundlessgeo.com/case-studies/">Case Studies</a></li>
+              <li><a href="http://boundlessgeo.com/resources/white-papers/">White Papers</a></li>
+              <li><a href="http://boundlessgeo.com/resources/tours/">Tours</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="span2">
+          <h5>About Us</h5>
+          <div class="footer-about-menu">
+            <ul id="menu-about-menu" class="menu">
+              <li><a href="http://boundlessgeo.com/about/">Overview</a></li>
+              <li><a href="http://boundlessgeo.com/resources/contact/">Contact</a></li>
+              <li><a href="http://boundlessgeo.com/about/team/">Team</a></li>
+              <li><a href="http://boundlessgeo.com/resources/careers/">Careers</a></li>
+              <li><a href="http://boundlessgeo.com/resources/partners/">Partners</a></li>
+              <li><a href="http://boundlessgeo.com/blog/">Blog</a></li>
+              <li><a href="http://boundlessgeo.com/resources/news/">News &amp; Media</a></li>
+</ul></div>        </div>
 
-				<div class="span6 site-info">
+        <div class="span6 site-info">
 
-					<div class="row-fluid">
-						<div class="span6">
-							<h5>Contact</h5>
-							<p class="address">
-								<span>155 Water Street, Suite 4-10</span>
-								<span>Brooklyn, NY 11201</span>
-								<span>1-877-OPENGEO</span>
-								<span>ddubovsky@opengeo.org</span>
-							</p>
-						</div>
-						<div class="span6">
-							<span class="social"><i class="twitter"></i><a href="https://twitter.com/opengeo" target="_blank">Follow us on Twitter</a></span>
-							<span class="social"><i class="linkedIn"></i><a href="http://www.linkedin.com/company/opengeo" target="_blank">Follow us on Linkedin</a></span>
-							<span class="social"><i class="email"></i>Subscribe to our Newsletter</span>
-							<div>
-								<iframe seamless src="http://info.opengeo.org/email.html" sandbox="allow-forms" scrolling="no"></iframe>
-   							</div>
-						</div>
-					</div>
+          <div class="row-fluid">
+            <div class="span6">
+              <h5>Contact</h5>
+              <p class="address">
+                <span>155 Water Street, Suite 4-10</span>
+                <span>Brooklyn, NY 11201</span>
+                <span>1-877-OPENGEO</span>
+                <span>ddubovsky@opengeo.org</span>
+              </p>
+            </div>
+            <div class="span6">
+              <span class="social"><i class="twitter"></i><a href="https://twitter.com/opengeo" target="_blank">Follow us on Twitter</a></span>
+              <span class="social"><i class="linkedIn"></i><a href="http://www.linkedin.com/company/opengeo" target="_blank">Follow us on Linkedin</a></span>
+              <span class="social"><i class="email"></i>Subscribe to our Newsletter</span>
+              <div>
+                <iframe seamless src="http://info.opengeo.org/email.html" sandbox="allow-forms" scrolling="no"></iframe>
+                 </div>
+            </div>
+          </div>
 
-				</div>
-			</div>-->
-			<div class="row">
-				<div class="span12 footer-sub-menu">
-					<div class="menu-footer-menu-container">
-						<ul id="menu-footer-menu" class="menu">
-							<li>
+        </div>
+      </div>-->
+      <div class="row">
+        <div class="span12 footer-sub-menu">
+          <div class="menu-footer-menu-container">
+            <ul id="menu-footer-menu" class="menu">
+              <li>
   {%- if hasdoc('copyright') %}
     <a href="{{ pathto('copyright') }}">&copy; Copyright {{ copyright }}</a>
   {%- else %}
     <a href="http://boundlessgeo.com/">&copy; Copyright {{ copyright }}</a>
   {%- endif %}
-							</li>
-							<li><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons Attribution-Share Alike 3.0 United States License</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</footer>
+              </li>
+              <li><a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons Attribution-Share Alike 3.0 United States License</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
   </div><!-- footer -->
 {%- endblock %}
 
