@@ -75,25 +75,16 @@ This course will introduce attendees to the `OpenGeo Suite <http://boundlessgeo.
 
 `Introduction to PostGIS <http://workshops.boundlessgeo.com/postgis-intro/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-As presented at FOSS4G 2011, this workshop introduces the PostGIS spatial database. Installation, loading data, configuration, spatial SQL queries, indexing, tuning and viewing are among the topics touched on in this overview workshop. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+As presented at FOSS4G 2014, this workshop introduces the PostGIS spatial database. Installation, loading data, configuration, spatial SQL queries, indexing, tuning and viewing are among the topics touched on in this overview workshop. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
 
 `Introduction to GeoServer <http://workshops.boundlessgeo.com/geoserver-intro/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Updated for 2013. Learn to load, style, and publish maps and data using GeoServer. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
 
-
-`Introduction to OpenLayers 2 <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
-
 `Introduction to OpenLayers 3 <http://workshops.boundlessgeo.com/openlayers3/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 This workshop will show how to create a map, add layers, use controls, edit vectors, and style vectors using the modern OpenLayers 3 JavaScript map component.
-
-`Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ 
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_. `README <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_ on how to get started.
 
 
 `Spatial Database Tips and Tricks <http://workshops.boundlessgeo.com/postgis-spatialdbtips/>`_
@@ -101,18 +92,27 @@ First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mappin
 How to use the power of spatial databases to make your web mapping applications more powerful. Spatial SQL queries, binding the web to the database, and web architectures.
 
 
-More Workshops
---------------
-
 `Introduction to OpenGeo Suite QGIS plugin <http://qgis.boundlessgeo.com/static/docs/index.html>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Suite through `QGIS <http://qgis.org>`_, a free, open source desktop GIS client. If you prefer using a GUI (graphic user interface) to work with geospatial data try out QGIS and our Suite-QGIS plugin!
 
 
-`Introduction to GeoGit <http://geogit.org/workshop/>`_
+`Introduction to GeoGig <http://geogig.org/workshop/>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-GeoGit is a Distributed Version Control System (DVCS) specially designed to handle geospatial data. It takes inspiration from the source code versioning system `Git <http://git-scm.com/>`_, but employs an approach best suited to the nature of the spatial data it manages. It is currently under active development.
+GeoGig is a Distributed Version Control System (DVCS) specially designed to handle geospatial data. It takes inspiration from the source code versioning system `Git <http://git-scm.com/>`_, but employs an approach best suited to the nature of the spatial data it manages. The `GeoGig <http://geogig.org/>`__ project is feature complete and will be released as a `LocationTech <http://locationtech.org/projects/technology.geogig>`__ project.
 
+
+More Workshops
+--------------
+
+`Introduction to OpenLayers 2 <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This workshop will show how to create an embedded map, add layers, use controls, add markers and other useful topics for getting started with the OpenLayers JavaScript map component. Updated for OpenLayers 2.13. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_.
+
+
+`Developing OGC Compliant Web Applications with GeoExt <http://workshops.boundlessgeo.com/geoext/>`_ 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+First presented at FOSSGIS 2011, this workshop introduces GeoExt as a web mapping frontend to OGC Web Services (OWS). Create a map application with a WMS browser, a WFS-T editor, and more. Also available as a `Download <http://boundlessgeo.com/resources/workshops/>`_. `README <http://svn.opengeo.org/workshops/projects/geoext/generic_1.1/readme.txt>`_ on how to get started.
 
 About these materials
 ---------------------
