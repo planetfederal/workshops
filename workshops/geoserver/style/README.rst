@@ -1,5 +1,6 @@
-h1. GeoServer Style Workshop
+GeoServer Style Workshop
+========================
 
-This workshop has been moved to [GeoServer Users Manual|https://github.com/geoserver/geoserver/tree/master/doc/en/user/source/extensions/css/workshop].
+This workshop has been moved to <https://github.com/geoserver/geoserver/tree/master/doc/en/user/source/extensions/css/workshop>.
 
-These examples should be updated to YSLD and recast as a YSLD workshop.
+Please do not delete this workshop, as the examples can be updated to YSLD for a more extensive YSLD workshop.
