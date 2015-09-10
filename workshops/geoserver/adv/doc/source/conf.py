@@ -47,7 +47,7 @@ copyright = u'2015 Boundless'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-# The short X.Y version.
+# The short X.Y version (going to use Suite version tested against)
 version = '4.7'
 # The full version, including alpha/beta/rc tags.
 release = '4.7'
