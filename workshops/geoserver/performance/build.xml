@@ -1,0 +1,55 @@
+<project name="geoserverintro" default="build">
+
+  <property name="slides" location="slides"/>
+  <property name="data" value="${basedir}/data"/>
+  
+  <property name="slides" location="slides"/>
+  <property name="build" value="${basedir}/build"/>
+
+  <target name="build" depends="init, doc, slides">
+    <echo>Generating archive: ${ant.project.name}.zip</echo>
+    <zip destfile="${ant.project.name}.zip">
+      <fileset dir="${basedir}/build"/>
+    </zip>
+  </target>
+
+  <target name="init">
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="doc">
+    <delete dir="${build}/doc"/> 
+    <mkdir dir="${build}/doc"/>
+    <echo>Building docs...</echo>
+    <exec executable="sphinx-build" failonerror="true">
+      <arg line="-b html"/>
+      <arg path="source"/>
+      <arg path="${build}/doc"/>
+    </exec>
+  </target>
+
+  <target name="slides">
+    <delete dir="${build}/slides"/> 
+    <mkdir dir="${build}/slides"/>
+    <echo>Building docs...</echo>
+    <exec executable="landslide" failonerror="true">
+      <arg line="-t slides/avalanche"/>
+      <arg line="-d ${build}/slides/slides.html"/>
+      <arg value="-v"/>
+      <arg value="slides/slides.rst"/>
+    </exec>
+  </target>
+
+   <target name="data">
+    <copy todir="${build}/data">
+      <fileset dir="${data}/ne_datapack"/>
+    </copy>
+  </target>
+
+  <target name="clean">
+    <echo>Cleaning up...</echo>
+    <delete dir="${build}"/>
+    <delete file="${ant.project.name}.zip"/>
+  </target>
+
+</project>
