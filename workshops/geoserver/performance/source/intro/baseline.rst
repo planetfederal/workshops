@@ -75,6 +75,7 @@ Vector Data
       .. figure:: img/import-roads_na.png
          
          Rename to ``hyp``
+
 Raster Data
 -----------
 
@@ -122,7 +123,7 @@ Raster Data
       * Name: ``hyp``
       * Title: ``Hypsometric``
       
-      .. figure:: img/import-rename.png
+      .. figure:: img/import-hyp.png
          
          Rename to ``hyp``
       
@@ -194,18 +195,108 @@ JMeter
          
          Take this opportunity to :guilabel:`Save`, and remember to save as you go.
          
-   #. Next :menuselection:`Add --> Logic Controller --> Loop Controller`, and fill in the following:
+   #. Right click :guilabel:`Vector Test` and select :menuselection:`Add --> Logic Controller --> Loop Controller`, and fill in the following:
       
       * Name: Loop Controller
       * Loop Count: 5
       
-      This is set to run 20 threads against this test once (the ``Thread Group``), each thread will loop 5 times (the ``Loop Controller) totally 100 requests for the test plan.
+      This is set to run 20 threads against this test once (the ``Thread Group``), each thread will loop 5 times (the ``Loop Controller``) totally 100 requests for the test plan.
       
       .. note:: 
          
          As an alternative we could of set the :guilabel:`Loop Coun` in the ``Thread Controller`` - this just gave us a chance to introduce how a logic controller can be used when setting up a test plan.
     
-   #. Next :menuselection:`Add --> Config Element -->User Defined Variables`, and fill in:
+   #. Right click :guilabel:`Loop Controller` and select :menuselection:`Add --> Config Element -->User Defined Variables`, and fill in the following:
       
-      * 
+      * Name: Vector Parameters
+      
+      And use :guilabel:`Add` to fill in three parameters:
+      
+      * vformat: ``image/png``
+      * vstyles: 
+      * vlayers: ``ne:roads_na``
+      
+      .. figure:: img/jm-vector-params.png
+         
+         User Defined Variables vformat, vstyles, vlayers
+    
+    #. Next :menuselection:`Add --> Sampler --> HTTP Request`, fill in:
+       
+       * Name: Vector Requests
+       * Server Name: localhost
+       * Port Number: 8080
+       
+       .. figure:: img/jm-vector-requests1.png
+          
+          HTTP Request Web Server
+       
+       .. note:: This *Sampler* forms the heart of our test plan, issuing requests to the server.
+    
+    #. Fill in :guilabel:`HTTP Request`` details.
+       
+       * Implementation: Java
+       * Method: GET
+       * Path: ``geoserver/wms``
+       * Redirect automatically: checked
+       * Use KeepAlive: checked
+       
+       And set up the request parameters required for WMS GetMap:
+       
+       * service: ``WMS``
+       * version: ``1.1.0``
+       * request: ``GetMap``
+       * layers: ``${vlayers}``
+       * styles: ``${vstyles}``
+       * format: ``${vformat}``
+       * bbox: ``${vleft},${vbottom},${vright},{$vtop}``
+       * srs: ``${srs}``
+       * width: ``${width}``
+       * height: ``${height}``
+       * ``${extraParams}}``
+       
+       .. note:: the values for the parameters bbox, styles and so on in the HTTP request above are set ``${vleft}`` and so on. These are *test properties* set from other portions of the JMeter test plan. These come from *Default HTTP Parameters*, *Vector Parameters*, *Raster Parameters* and the *CSV Data Set Config* parameters. The first three set fixed parameters that are referenced in the tests.
+      
+       .. figure:: img/jm-vector-requests2.png   
+          
+          HTTP Request Query
    
+   #. Next :menuselection:`Add --> Config Element --> CSV Data Set Config`` to refer to the `roads-bbox.csv``.
+      
+      * Name: ``CSV Roads BBox``
+      * Filename: (fill in the path to :file:`roads-bbox.csv`)
+      * Variable Names: width,height,vleft,vbottom,vright,vtop
+      * Delimiter: ``,``
+      
+      .. figure:: img/jm-roads-csv.png
+         
+         CSV Data Set Config roads-bbox.csv
+      
+      .. note:: The CSV Data Set Config items load parameters from a CSV file. In this case the raster and vector tests load bounding box parameters from a list to ensure that re-running the tests will request the same set of random bounding boxes. 
+   
+   #. We have not quite defined all our *test properties* yet, many ``GetMap`` parameters will be common to both our raster and our vector tests.
+   
+      Right click on :guilabel:`Test Plan` and select :menuselection:`Add --> Config Element --> HTTP Request Defaults``, filling in:
+      
+      * width: ``400``
+      * height: ``400``
+      * srs: ``EPSG:4326``
+      * extraParameters:
+      
+      .. figure:: img/jm-request-defaults.png
+         
+         Request Defaults
+      
+   
+   #. Our test plan is now defined - but we have neglected to record any information during the test. Components that collect information on the tests as they execute are called listeners.
+   
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> View Results Tree``.
+      
+        This listener gives us easy access to every query made. We can look at the request and response. This listener is useful to check that the tests are working correctly (rather than all quickly returning service exceptions).
+      
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Generate Summary Results``.
+   
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Summary Report``.
+      
+      .. figure:: img/jm-listeners.png
+         
+         Listeners
