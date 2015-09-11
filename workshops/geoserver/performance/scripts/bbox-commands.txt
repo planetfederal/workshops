@@ -1,0 +1,5 @@
+wms_request.py -count 100 -region -176.76 14.5907 -52.6472 70.2966 -minsize 400 300 -maxsize 400 300 -minres 0.00137329 -maxres 0.009 > roads-bbox.csv
+
+wms_request.py -count 100 -region -166.5324 -55.1121 178.4190 71.1776 -minsize 400 300 -maxsize 400 300 -minres 0.00000364418 -maxres 0.00001716613 > vector-bbox.csv
+
+wms_request.py -count 100 -region -180.0 -80 180.0 80 -minsize 400 300 -maxsize 400 300 -minres 0.000171661376953125 -maxres 0.005493164 > raster-bbox.csv
