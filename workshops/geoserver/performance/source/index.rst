@@ -13,29 +13,6 @@ With that in mind any performance optimisation should start by establishing a ba
 
 Above all "keep your head up" and your goal in mind. Even though performance optimisation is lots of fun - we want to be sure to know when to stop!
 
-.. note::
-   
-   We will be using a range of open source technologies for this workshop, all of which are available for download.
-   
-   Key technologies used are:
-   
-   
-   This workshop assumes the installation of `OpenGeoSuite <>`__ containing the following:
-
-   * `OpenLayers <http://openlayers.org>`__ - javascript client
-   * `GeoServer <http://geoserver.org>`__ - middleware application used to publish geospatial data
-   * `PostgreSQL <http://www.postgresql.org>`__ / `PostGIS <http://postgis.net>`__ - used to host our vector data, and perform data simplifications
-   * `PgAdmin <http://www.pgadmin.org>`__ - desktop application for interacting with PostgreSQL
-   
-   OpenGeo Suite offers a pre-tested software stack, and a handy installer making this workshop easier to run. If you already have these tools installed, or would like to work with the community downloads it should not effect your progress.
-   
-   We will also be working with:
-   
-   * `JMetre <http://jmeter.apache.org>`__ - used to measure performance
-   * `GDAL <http://www.gdal.org>`__ - command line tools used for data preparation
-   
-   Step by step instructions will be provided, so you do not need to be familiar with all the tools mentioned above. We will be showcasing general stratagies here and you are welcome to use the software you are comfortable with to get the job done.
-
 Topics covered
 --------------
 
