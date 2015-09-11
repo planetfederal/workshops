@@ -180,7 +180,7 @@ JMeter
    
       Check :guilabel:Run Thread Groups consecutively
    
-   #. Right click on :guilabel:`Test Plan` and select :menuselection:`Add --> Threads (Users) --> Thread Group``, and then fill in the following details.
+   #. Right click on :guilabel:`Test Plan` and select :menuselection:`Add --> Threads (Users) --> Thread Group` , and then fill in the following details.
       
       * Name: Vector Test
       * Number of Threads: 20
@@ -220,62 +220,66 @@ JMeter
          
          User Defined Variables vformat, vstyles, vlayers
     
-    #. Next :menuselection:`Add --> Sampler --> HTTP Request`, fill in:
-       
-       * Name: Vector Requests
-       * Server Name: localhost
-       * Port Number: 8080
-       
-       .. figure:: img/jm-vector-requests1.png
-          
-          HTTP Request Web Server
-       
-       .. note:: This *Sampler* forms the heart of our test plan, issuing requests to the server.
-    
-    #. Fill in :guilabel:`HTTP Request`` details.
-       
-       * Implementation: Java
-       * Method: GET
-       * Path: ``geoserver/wms``
-       * Redirect automatically: checked
-       * Use KeepAlive: checked
-       
-       And set up the request parameters required for WMS GetMap:
-       
-       * service: ``WMS``
-       * version: ``1.1.0``
-       * request: ``GetMap``
-       * layers: ``${vlayers}``
-       * styles: ``${vstyles}``
-       * format: ``${vformat}``
-       * bbox: ``${vleft},${vbottom},${vright},{$vtop}``
-       * srs: ``${srs}``
-       * width: ``${width}``
-       * height: ``${height}``
-       * ``${extraParams}}``
-       
-       .. note:: the values for the parameters bbox, styles and so on in the HTTP request above are set ``${vleft}`` and so on. These are *test properties* set from other portions of the JMeter test plan. These come from *Default HTTP Parameters*, *Vector Parameters*, *Raster Parameters* and the *CSV Data Set Config* parameters. The first three set fixed parameters that are referenced in the tests.
+   #. Next :menuselection:`Add --> Sampler --> HTTP Request`, fill in:
       
-       .. figure:: img/jm-vector-requests2.png   
-          
-          HTTP Request Query
+      * Name: Vector Requests
+      * Server Name: localhost
+      * Port Number: 8080
+      
+      .. figure:: img/jm-vector-requests1.png
+         
+         HTTP Request Web Server
+      
+      .. note:: This *Sampler* forms the heart of our test plan, issuing requests to the server.
    
-   #. Next :menuselection:`Add --> Config Element --> CSV Data Set Config`` to refer to the `roads-bbox.csv``.
+   #. Fill in :guilabel:`HTTP Request` details.
+      
+      * Implementation: Java
+      * Method: GET
+      * Path: ``geoserver/wms``
+      * Redirect automatically: checked
+      * Use KeepAlive: checked
+      
+      And set up the request parameters required for WMS GetMap:
+      
+      * service: ``WMS``
+      * version: ``1.1.0``
+      * request: ``GetMap``
+      * layers: ``${vlayers}``
+      * styles: ``${vstyles}``
+      * format: ``${vformat}``
+      * bbox: ``${vleft},${vbottom},${vright},{$vtop}``
+      * srs: ``${srs}``
+      * width: ``${width}``
+      * height: ``${height}``
+      * ``${extraParams}}``
+      
+      .. note:: the values for the parameters bbox, styles and so on in the HTTP request above are set ``${vleft}`` and so on. These are *test properties* set from other portions of the JMeter test plan. These come from fixed sources (*User Defined Variables*) and dynamic sources (*CSV Data Set Config*).
+     
+      .. figure:: img/jm-vector-requests2.png   
+         
+         HTTP Request Query
+  
+   #. Next :menuselection:`Add --> Config Element --> CSV Data Set Config` to refer to the `roads-bbox.csv`.
       
       * Name: ``CSV Roads BBox``
       * Filename: (fill in the path to :file:`roads-bbox.csv`)
       * Variable Names: width,height,vleft,vbottom,vright,vtop
       * Delimiter: ``,``
-      
+     
       .. figure:: img/jm-roads-csv.png
-         
+        
          CSV Data Set Config roads-bbox.csv
-      
+     
       .. note:: The CSV Data Set Config items load parameters from a CSV file. In this case the raster and vector tests load bounding box parameters from a list to ensure that re-running the tests will request the same set of random bounding boxes. 
    
    #. We have not quite defined all our *test properties* yet, many ``GetMap`` parameters will be common to both our raster and our vector tests.
    
-      Right click on :guilabel:`Test Plan` and select :menuselection:`Add --> Config Element --> HTTP Request Defaults``, filling in:
+      Right click on :guilabel:`Test Plan` and select :menuselection:`Add --> Config Element --> User Defined Variables`, filling in:
+      
+      * Name: ``Default HTTP Params``
+      
+      And adding user defined variables for:
       
       * width: ``400``
       * height: ``400``
@@ -289,14 +293,69 @@ JMeter
    
    #. Our test plan is now defined - but we have neglected to record any information during the test. Components that collect information on the tests as they execute are called listeners.
    
-      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> View Results Tree``.
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> View Results Tree`.
       
         This listener gives us easy access to every query made. We can look at the request and response. This listener is useful to check that the tests are working correctly (rather than all quickly returning service exceptions).
       
-      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Generate Summary Results``.
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Generate Summary Results`.
    
-      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Summary Report``.
+      * Right click :guilabel:`Test Plan` and select :menuselection:`Add --> Listener --> Summary Report`.
       
       .. figure:: img/jm-listeners.png
          
          Listeners
+   
+   #. Now it is time to run our Test Plan and review the result.
+      
+      Press :guilabel:`Run` (or :kbd:`Control-R`) and review the results.
+      
+      Make sure you are on the ``View Results Tree`` listener. You should see the requests appear as they occur. Have a look at some of these results, looking at the Request and Response data tabs to ensure that the tests worked correctly. Notice that the requests are for a variety of bounding boxes.
+      
+      .. figure:: img/jm-results.png
+         
+         View Results Tree
+         
+      .. note:: If the results come back as ``service exceptions`` carefully review your configuration and correct before proceeding further.
+   
+   #. Now it's time to do an actual test. For this we will disable the ``View Results Tree`` as collecting that information affects our tests.
+      
+      Right click on :guilabel:`View Results Tree` and choose :menuselection:`Disable`.
+      
+   #. Change to the :guilabel:`Summary Report` to watch the tests execute.
+      
+      Press :guilabel:`Clear All` and then :guilabel:`Run` to record your first baseline.
+      
+      .. figure:: img/jm-report.png
+         
+         Summary Report
+         
+      Be sure to note down the throughput for vector data, we will be working on improving this number!
+
+
+.. admonition:: Exercise
+   
+   #. To quickly setup `Raster Test` right-click on :guilabel:`Vector Test` and select :menuselection:`Duplicate`.
+   
+   #. Rename to `Raster Test`.
+   
+   #. Rename Raster Parameters and configure layers to `ne:hyp`.
+   
+   #. Rename to `CSV Raster BBox` and use the :file:`raster-bbox.csv` file.
+   
+   #. Rename to `Raster Requests`
+   
+   #. Run your `Summary Report` against, and compare the difference between raster and vector data.
+      
+      .. figure:: img/jm-report-raster.png
+         
+         Summary Report with Vector and Raster
+
+.. admonition:: Explore
+
+   The JMeter tests configured for this workbook are designed to track the achievement of a specific goal. This goal is to quantify the performance benefits of the various tuning and fixes presented in this document and how this improves the capacity of the tuned service to handle requests.
+   
+   Consider alternate scenarios or your own organizations needs:
+   
+   * What would the performance goals be for your organization?
+   * What settings in the above test plan are you likely to adjust and why?
+   * Are the example tests appropriate to your organization? What other tests would you consider?
