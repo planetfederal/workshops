@@ -1,5 +1,18 @@
-wms_request.py -count 100 -region -176.76 14.5907 -52.6472 70.2966 -minsize 400 300 -maxsize 400 300 -minres 0.00137329 -maxres 0.009 > roads-bbox.csv
 
-wms_request.py -count 100 -region -166.5324 -55.1121 178.4190 71.1776 -minsize 400 300 -maxsize 400 300 -minres 0.00000364418 -maxres 0.00001716613 > vector-bbox.csv
+The wms_request.py script produces output of the form:
 
-wms_request.py -count 100 -region -180.0 -80 180.0 80 -minsize 400 300 -maxsize 400 300 -minres 0.000171661376953125 -maxres 0.005493164 > raster-bbox.csv
+width;height;left,bottom,right,top
+660;724;-51.265633,-35.595146,-45.849472,-29.653782
+
+To extract a straight CSV file for use in JMeter can use "cut -d\; -f3" (to split into three and return just the bbox column).
+
+With this in mind the following commands are used to produce the sample request for the workshop:
+
+
+wms_request.py -count 100 -region -176.76 14.5907 -52.6472 70.2966 -minsize 400 300 -maxsize 400 300 -minres 0.00137329 -maxres 0.009 | cut -d\; -f3 > roads-bbox.csv
+
+wms_request.py -count 100 -region -166.5324 -55.1121 178.4190 71.1776 -minsize 400 300 -maxsize 400 300 -minres 0.00000364418 -maxres 0.00001716613 | cut -d\; -f3 > vector-bbox.csv
+
+wms_request.py -count 100 -region -180.0 -80 180.0 80 -minsize 400 300 -maxsize 400 300 -minres 0.000171661376953125 -maxres 0.005493164 | cut -d\; -f3 > raster-bbox.csv
+
+
