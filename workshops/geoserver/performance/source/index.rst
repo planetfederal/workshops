@@ -7,11 +7,16 @@ Welcome
 
 .. image:: img/geoserver.png
 
-This workshop is focused on performance. There are a number reasons why speed is desirable (getting the most value out of your infrastructure investment for one) but the primary motivation is simple - a better user experience.
+This workbook recommends several methods to improve performance of  map rendering, focusing on GeoServer Web Map Server.
 
-With that in mind any performance optimisation should start by establishing a baseline, and working towards a goal. This workshop will cover a number of approaches to improving GeoServer performance, some of which are a lot more expensive in time and/or money than others. It is important to try each option with your your data to get a feel for how much improvement can be gained before proceeding. There is no sense spending more money on additional hardware if some simple tweaks to styling can meet your goals. By the same token there is no point to endless optimizing styles when your machine is memory or disk bound. 
+* Benchmarking: 
+* Configuration and Setup: Out of the box GeoServer is setup for demonstration purposes – these settings are not optimal for performance!
+* Style Optimizations: The rending process is controlled using Style Layer Descriptor documents; different rendering options have different costs – knowing what techniques to use will really help.
+* Data Preparation: Optimizing your data for display is a great technique. Identify work that occurs every time an image is produced; and prepare your data upfront to reduce this expense
 
-Above all "keep your head up" and your goal in mind. Even though performance optimisation is lots of fun - we want to be sure to know when to stop!
+You may also wish to check on a couple of on line resources for additional background on the recommendations made here. The GeoServer documentation is updated over time; check for specific recommendations for the version you have deployed.
+
+
 
 Topics covered
 --------------
