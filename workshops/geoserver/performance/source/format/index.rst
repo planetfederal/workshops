@@ -128,4 +128,13 @@ Reference:
          PNG8 Custom
    
    Use a predefined palette to avoid:
-   
+
+JPEG
+----
+
+The **libjpeg-turbo** community module is highly recommended.
+
+References:
+
+* http://sourceforge.net/projects/libjpeg-turbo/files/
+* :manual:`libjpeg-turbo Map Encoder Extension <extensions/libjpeg-turbo/index.html>`
