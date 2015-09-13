@@ -331,7 +331,7 @@ We do not recommend using a serial garbage collector, although if you are on a s
 
 .. admonition:: Exercise
 
-   Lets adjust the amount of memory made available to GeoServer:
+   Try GeoServer with more memory and the memory management options as outlined above:
    
    #. Locate you jvm options for your application server.
    
@@ -342,6 +342,11 @@ We do not recommend using a serial garbage collector, although if you are on a s
          -Xms256m
          -Xmx1280m
          -XX:MaxPermSize=256m
+         -XX:+UseConcMarkSweepGC
+         -XX:PerfDataSamplingInterval=500
+         -XX:SoftRefLRUPolicyMSPerMB=36000
+      
+      The windows service uses operating system interrupts to control jetty (so we cannot use the ``-Xrs`` option).
 
    #. Fill in the following settings::
    
