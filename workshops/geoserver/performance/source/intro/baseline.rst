@@ -338,11 +338,23 @@ JMeter
    
    #. Rename to `Raster Test`.
    
-   #. Rename Raster Parameters and configure layers to `ne:hyp`.
+   #. Rename Raster Parameters and configure:
+      
+      * rformat: `image/png`
+      * rstyles:
+      * rlayers: `ne:hyp`.
    
-   #. Rename to `CSV Raster BBox` and use the :file:`raster-bbox.csv` file.
+   #. Rename to `CSV Raster BBox` and use:
+      
+      * Filename: (the path to :file:`raster-bbox.csv`)
+      * Variable Names: rleft,rbottom,rright,rtop
    
-   #. Rename to `Raster Requests`
+   #. Rename to `Raster Requests` and adjust:
+   
+      * layers: ``${rlayers}``
+      * styles: ``${rstyles}``
+      * format: ``${rformat}``
+      * bbox: ``${rleft},${rbottom},${rright},{$rtop}``
    
    #. Run your `Summary Report` against, and compare the difference between raster and vector data.
       

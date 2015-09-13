@@ -331,7 +331,7 @@ We do not recommend using a serial garbage collector, although if you are on a s
 
 .. admonition:: Exercise
 
-   Lets adjust the amount of memory made available to GeoServer, and configure the JVM with the settings discussed above:
+   Lets adjust the amount of memory made available to GeoServer:
    
    #. Locate you jvm options for your application server.
    
@@ -340,12 +340,8 @@ We do not recommend using a serial garbage collector, although if you are on a s
          # jvm options
          --exec 
          -Xms256m
-         -Xmx2048m
+         -Xmx1280m
          -XX:MaxPermSize=256m
-         -XX:+UseConcMarkSweepGC
-         -XX:PerfDataSamplingInterval=500
-         -XX:SoftRefLRUPolicyMSPerMB=36000
-         -Xrs
 
    #. Fill in the following settings::
    
@@ -356,7 +352,7 @@ We do not recommend using a serial garbage collector, although if you are on a s
          # If you wish to further customize your tomcat environment,
          # put your own definitions here
          # (i.e. LD_LIBRARY_PATH for some jdbc drivers)
-         OPENGEO_OPTS="-Djava.awt.headless=true -Xms256m -Xmx2048m -Xrs -XX:PerfDataSamplingInterval=500 -XX:MaxPermSize=256m -Dorg.geotools.referencing.forceXY=true -DGEOEXPLORER_DATA=/var/lib/opengeo/geoexplorer"
+         OPENGEO_OPTS="-Djava.awt.headless=true -Xms256m -Xmx1280m -Xrs -XX:PerfDataSamplingInterval=500 -XX:MaxPermSize=256m -Dorg.geotools.referencing.forceXY=true -DGEOEXPLORER_DATA=/var/lib/opengeo/geoexplorer"
          JAVA_OPTS="$JAVA_OPTS $OPENGEO_OPTS"
          
    #. Restart your application server.
@@ -391,16 +387,36 @@ We do not recommend using a serial garbage collector, although if you are on a s
           JVM Benchmark
 
 .. admonition:: Explore
-    
-   *  Try out the difference between ``UseConcMarkSweepGC`` and ``UseParallelGC``. Can you see a difference in performance?
-      
-      Tip: Remember to restart your application server when changing JVM options!
-      
-      Hint: You may need to increase the number of requests in your test plan.
    
-   * How does GeoServer fail when out of memory? 
+   How big can you increase the heap before performance degrades, or java fails to start?::
+   
+      -Xmx2048m
+   
+   Can you explain why performance would degrade if heap is set too large?
+   
+   .. only:: instructor
+      
+      When heap is larger than physical memory the operating system memory management unit is constantly stressed swapping memory out to disk. This becomes even slower as the Java garbage collector is constantly visiting memory locations to check if they can be cleaned up!
+
+.. admonition:: Explore
+    
+   Try out the difference between ``UseConcMarkSweepGC`` and ``UseParallelGC``. Can you see a difference in performance?
+      
+   Tip: Remember to restart your application server when changing JVM options!
+      
+   Hint: You may need to increase the number of requests in your test plan.
+
+.. admonition:: Explore
+
+   How does GeoServer behave when working with low memory?
+      
+   Try reducing the amount of heap::
+        
+     -Xmx192m
      
-     You will need to lower heap memory and restart your server to try this out.
+   You will need to lower heap memory and restart your server to try this out.
+     
+   Can you reduce the amount of memory until GeoServer fails?  
 
 .. admonition:: Explore
    
@@ -409,8 +425,6 @@ We do not recommend using a serial garbage collector, although if you are on a s
    Use your system memory monitor (:command:`top` on linux, ``Task Manager`` on windows) to watch how java behaves under load.
    
    From the operating system perspective you will see Java gradually increase is memory use, and then stay there.
-   
-   Hint: From the GeoServer :guilabel:`Server Status` page you can see the amount of memory used, and click garbage collection.
    
    Tip: if your servers primary responsibility is running GeoServer be sure to configure heap size to take full advantage of the available memory!
 
