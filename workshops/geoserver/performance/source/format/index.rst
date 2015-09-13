@@ -14,8 +14,69 @@ Unsurprisingly this can be a lot of work:
 
 Although we are going to focus on performance, keep in mind the balance between how expensive it is to encode a file (more CPU time can produce a small file) and how expensive it is to transmit and store a file (in networks cost).
 
-Java Advanced Imaging
+
+Choosing Output Format
+======================
+
+The selection of an output format results in a number of trade offs. The formats available produce images of different quality, of different size, and take different amounts of processing time to “encode” the image.
+
+* image/jpeg results in images with encoding artifacts and is not suitable for line work. The fact that transparency is not supported means this is only really suitable for basemap data.
+
+  JPEG images take a long time to encode; however the resulting images are very small and take less time to transmit.
+
+* image/png8 (ie 256 color) results in nice small images; but it can be very expensive to figure out a good palette. PNG transparency can be a problem in Internet Explorer.
+
+  This format is highly recommended especially if you can provide a prepared palette.
+
+* PNG is faster than PNG8 to render without a fixed palette for PNG8. With a fixed palette for PNG8, rendering is faster than PNG and results in smaller images.
+
+  While GIF transparency is supported all modern browsers, PNG transparency can be a problem in older versions Internet Explorer (IE6 only). Transparency support in PNG is more extensive than in GIF, as it can support partial transparency or translucency. This is the ability to blend the background behind an image with the image to generate partial transparency. This is also known as alpha compositing or alpha channel.
+
+* image/gif: supports transparency; and is limited to a fixed palette. Generating a good palette is relatively expensive.
+
+Choosing the correct output format is going to be a matter of thinking about your users and network deployment; it may be worth while to take a hit on rendering performance if you can save on total bandwidth?
+
+The output format requested is in the hands of the client code making the request; though you can change the option GeoWebCache uses (which will help).
+
+.. admonition:: Exercise
+   
+   #. Adjust your TestPlan to return `image/jpeg` and compare the resulting performance.
+      
+      .. figure:: img/image-jpeg.png
+          
+         image/jpeg performance
+   
+   #. Compare carefully with `image/png` performance and size.
+      
+      .. figure:: img/image-png.png
+         
+         image/png performance 
+         
+      Although `image/jpeg` is significantly slower, the resulting file size (shown in `Avg. Bytes`) is smaller.
+      
+      You can use this to your advantage, trading off server CPU cycles for reduced network load (and reduced tile cache storage needed).
+
+Turn off Antialiasing
 ---------------------
+
+Antialising produces very pretty output; but this comes at a cost. Output Size is 4-6 times greater – simply because more color graduations will be produced to “blur” lines into looking smoother. All this extra detail has a cost.
+
+Despite the performance gains available here many deployments to not opt for this option; just based on the appearance of the final product.
+
+To disable antialiasing you can add a “format option” to your GetMap request (``format_options=antialias:none``). If you are configuring GeoWebCache you would want to include this format option there.
+
+.. admonition:: Exercise
+   
+   #. Adjust your TestPlan to return with an additional `format_options` parameter::
+
+      * format_options: ``antialias:none``
+
+   #. Measure the result.
+   
+      ... tip:: GeoServer has the ability to go through the style definition and generate a good palette quickly when antialias is set to none and `image/png8` or `image/gif` is used.
+
+Java Advanced Imaging
+=====================
 
 GeoServer makes use of two Java Extensions for working with imagery:
 
@@ -36,7 +97,7 @@ There are two very important GeoServer configuration options that control how mu
 Keep in mind this is only a cache, and the memory can be quickly reclaimed if it is needed for other use.
 
 Native JAI and ImageIO
-''''''''''''''''''''''
+----------------------
 
 Java extensions are available as "pure java" class files (like a normal application) and also as optional native (compiled C++ code) bundles for installation into your Java Virtual Machine :file:`ext` folder.
 
@@ -87,7 +148,7 @@ Keep in mind:
       The PNGJ based encoder out performs both the default Java implementation, and the ImageIO native implementation.
 
 PNG8
-----
+====
 
 PNG8 is a great format for low bandwidth use (as the files are quite small when generated). Unfortunately it can be very expensive to review all the pixels in an image and determine the "best-fit" palette of 256 colors.
 
