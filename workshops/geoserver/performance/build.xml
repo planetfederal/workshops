@@ -1,4 +1,4 @@
-<project name="geoserverintro" default="build">
+<project name="geoserverpreformance" default="build">
 
   <property name="slides" location="slides"/>
   <property name="data" value="${basedir}/data"/>
@@ -6,7 +6,7 @@
   <property name="slides" location="slides"/>
   <property name="build" value="${basedir}/build"/>
 
-  <target name="build" depends="init, doc, slides">
+  <target name="build" depends="init, doc">
     <echo>Generating archive: ${ant.project.name}.zip</echo>
     <zip destfile="${ant.project.name}.zip">
       <fileset dir="${basedir}/build"/>
