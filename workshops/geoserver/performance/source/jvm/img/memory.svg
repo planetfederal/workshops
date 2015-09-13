@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="400px" height="200px" viewBox="0 0 400 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.3.3 (12072) - http://www.bohemiancoding.com/sketch -->
+    <title>memory</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="memory" sketch:type="MSArtboardGroup">
+            <rect id="Rectangle-1-Copy-12" fill="#9B9B9B" sketch:type="MSShapeGroup" x="175" y="160" width="80" height="15"></rect>
+            <rect id="Rectangle-1-Copy-13" fill="#C8C8C8" sketch:type="MSShapeGroup" x="175" y="145" width="80" height="15"></rect>
+            <rect id="Rectangle-1-Copy-14" fill="#DCDCDC" sketch:type="MSShapeGroup" x="175" y="115" width="80" height="30"></rect>
+            <rect id="Rectangle-1-Copy-11" fill="#9B9B9B" sketch:type="MSShapeGroup" x="175" y="188" width="80" height="10"></rect>
+            <rect id="Rectangle-1-Copy-8" stroke="#000000" sketch:type="MSShapeGroup" x="175" y="15" width="80" height="160"></rect>
+            <rect id="Rectangle-1-Copy-9" stroke="#000000" fill="#9B9B9B" sketch:type="MSShapeGroup" x="62" y="100" width="40" height="98"></rect>
+            <rect id="Rectangle-1-Copy-10" stroke="#000000" sketch:type="MSShapeGroup" x="175" y="178" width="80" height="20"></rect>
+            <text id="PermGen" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="12" font-weight="526" fill="#000000">
+                <tspan x="119" y="191">PermGen</tspan>
+            </text>
+            <text id="Heap" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="12" font-weight="526" fill="#000000">
+                <tspan x="141" y="26">Heap</tspan>
+            </text>
+            <text id="Memory" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="12" font-weight="526" fill="#000000">
+                <tspan x="8" y="111">Memory</tspan>
+                <tspan x="8" y="126">Used</tspan>
+            </text>
+            <text id="-Xmx2048m" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="12" font-weight="526" fill="#000000">
+                <tspan x="261" y="26">-Xmx2048m</tspan>
+            </text>
+            <text id="-XX:MaxPermSize=256m" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="12" font-weight="526" fill="#000000">
+                <tspan x="260" y="191">-XX:MaxPermSize=256m</tspan>
+            </text>
+            <path d="M175,101 L254,101" id="Line" stroke="#979797" stroke-width="2" stroke-linecap="square" stroke-dasharray="3,4" sketch:type="MSShapeGroup"></path>
+            <text id="Eden" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="10" font-weight="526" fill="#000000">
+                <tspan x="204" y="139">Eden</tspan>
+            </text>
+            <text id="Survivor" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="10" font-weight="526" fill="#000000">
+                <tspan x="197" y="155">Survivor</tspan>
+            </text>
+            <text id="Tenured" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="10" font-weight="526" fill="#000000">
+                <tspan x="197" y="171">Tenured</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
