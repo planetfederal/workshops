@@ -44,7 +44,7 @@ The following material will be covered in this workshop:
 :doc:`raster/index`
    Raster performance considerations and GeoTIFF optmization.
 
-:doc:`encode/index`
+:doc:`format/index`
    Image format implementations and encoding optimizations.
 
 :doc:`gwc/index`
@@ -62,5 +62,5 @@ The following material will be covered in this workshop:
    style/index
    vector/index
    raster/index
-   encode/index
+   format/index
    gwc/index
