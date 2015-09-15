@@ -82,7 +82,7 @@ In extreme cases you may wish to duplicate your table several times for commonly
        .. figure:: img/transform-texas.png
           
           Texas Roads
-     
+   
 5.2 Draw Less using Style Filter
 
 Geometry Simplification
@@ -94,6 +94,16 @@ There are two ways to approach this problem:
 
 * draw less stuff - as we did using styles, rules can be used to cut down on the total number of features rendered.
 * draw less stuff - simplify each geometry (so each line has less points). While the total number of features will stay the same, each individual geometry will be easier to transfer between PostGIS and GeoServer (and transformations will be applied to less points).
+
+.. admonition:: Explore
+
+   #. Return to your PostGIS Store definition and check ``Support on the fly geometry simplification``.
+      
+      This setting wraps each call to the database with an ST_SimplifyPreserveTopology cutting down on the about of information that is sent to GeoSever.
+   
+   #. Can you notice any visual difference with this setting? Is there a performance difference.
+   
+   #. Turn the setting off before proceeding to the next section.
 
 .. admonition:: Exercise
    
@@ -139,3 +149,25 @@ There are two ways to approach this problem:
    #. Create a LayerGroup containing roads at two different zoom-levels. Each layer is backed by a different table.
    
    #. Then use styling to turn the appropriate layer on or off depending on scale.
+
+.. admonition:: Explore
+   
+   Maintaining the same style information, repeated at different zoom levels quickly starts to feel like work.
+   
+   There is an alternative, a *Pregeneralized* data store is available as a community module. 
+   
+   Since we have already prepared generalized data already; we can configure this datastore to automatically swap between different columns (or different tables) as appropriate for the current zoom level::
+   
+      <?xml version="1.0" encoding="UTF-8"?>
+      <GeneralizationInfos version="1.0">
+        <GeneralizationInfo dataSourceName="traning" featureName="roads_dynamic" baseFeatureName="roads" geomPropertyName="geom">
+          <Generalization dataSourceName="roads"
+              distance="5"
+              featureName="roads" geomPropertyName="simple"/>
+        </GeneralizationInfo>
+      </GeneralizationInfos>
+   
+   Reference:
+   
+   * `Pregeneralized DataStore <http://docs.geotools.org/latest/userguide/library/data/pregeneralized.html>`__
+   
