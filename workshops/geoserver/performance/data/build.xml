@@ -1,0 +1,174 @@
+<project name="geoserver data" default="download">
+  <!-- (c) 2014 Boundless -->
+  
+  <!-- directory -->
+  <property name="download" location="download"/>
+  <property name="bundle" location="ne_datapack"/>
+  
+  <!--                                                                 -->
+  <!-- DOWNLOAD DATA                                                   -->
+  <!--                                                                 -->  
+  <!-- download data (check if required first)                         --> 
+  <!--                                                                 -->
+  <!-- USA States -->
+  <!-- Natrual Earth WGS84 -->
+  <target name="check-wgs">
+    <available file="${download}/ne_10m_wgs84_bounding_box.zip" property="wgs.present"/>
+  </target>
+  <target name="download-wgs" depends="check-wgs,init" unless="wgs.present">
+    <echo>Downloading ne_10m_wgs84_bounding_box.zip</echo>
+    <get src="http://www.nacis.org/naturalearth/10m/physical/ne_10m_wgs84_bounding_box.zip"
+         dest="${download}${file.separator}ne_10m_wgs84_bounding_box.zip"/>
+  </target>
+  
+  <!-- Natural Earth NE1 -->
+  <target name="check-ne1">
+    <available file="${download}/NE1_HR_LC_SR.zip" property="ne1.present"/>
+  </target>
+  <target name="download-ne1" depends="check-ne1,init" unless="ne1.present">
+    <echo>Downloading NE1_HR_LC_SR.zip (191 MB)</echo>
+    <get src="http://www.nacis.org/naturalearth/10m/raster/NE1_HR_LC_SR.zip"
+         dest="${download}${file.separator}NE1_HR_LC_SR.zip"/>
+  </target>
+  <!-- NE Quickstart -->
+  <target name="check-ne_quick">
+    <available file="${download}/Natural_Earth_quick_start.zip" property="ne_quick.present"/>
+  </target>
+  <target name="download-ne-quick" depends="check-ne_quick,init" unless="ne_quick.present">
+    <echo>Downloading Natural_Earth_quick_start.zip (165 MB)</echo>
+    <get src="http://www.nacis.org/naturalearth/packages/Natural_Earth_quick_start.zip"
+         dest="${download}${file.separator}Natural_Earth_quick_start.zip"/>
+  </target>
+
+  <!-- ROADS -->
+  <target name="check-ne_roads">
+    <available file="${download}/ne_10m_roads.zip" property="ne_roads.present"/>
+  </target>
+  <target name="download-ne-roads" depends="check-ne_roads,init" unless="ne_roads.present">
+    <echo>Downloading ne_10m_roads.zip (165 MB)</echo>
+    <get src="http://www.nacis.org/naturalearth/10m/cultural/ne_10m_roads.zip"
+         dest="${download}${file.separator}ne_10m_roads.zip"/>
+  </target>
+  
+  <!-- DEM USGS -->
+  <target name="check-usgs">
+    <available file="${download}/w100n40.zip" property="usgs.present"/>
+  </target>
+  <target name="download-usgs" depends="check-usgs,init" unless="usgs.present">
+    <echo>Downloading w100n40.zip (11 MB)</echo>
+    <get src="http://data.opengeo.org/srtm/w100n40.zip"
+         dest="${download}${file.separator}w100n40.zip"/>
+  </target>
+
+  <!--                                                                 -->
+  <!-- BUILD TARGETS                                                   -->
+  <!--                                                                 -->
+  <target name="init">
+    <mkdir dir="${download}"/>
+    <mkdir dir="${bundle}"/>
+  </target>
+  
+  <target name="download" description="download data if needed"     depends="download-ne-quick,download-ne-roads,download-usgs,download-ne1">
+     <echo>Data downloads available in ${download}</echo>
+  </target>
+  
+  <target name="clean" description="clean build artifacts">
+    <echo>Cleaning up ${bundle}...</echo>
+    <delete dir="${bundle}"/>
+    <delete>
+       <fileset dir="." includes="*.zip"/>
+    </delete>
+  </target>
+
+  <target name="clean_downloads" description="force data to be redownloaded">
+    <echo>Cleaning up ${download}...</echo>
+    <delete dir="${download}"/>
+  </target>
+
+  <target name="zip" depends="raster,vector"
+          description="Package up data as ne_datapack.zip">
+      <!-- download instructions -->
+      <copy file="README.txt" tofile="${bundle}/README.txt"/>
+      <zip destfile="ne_datapack.zip"
+           basedir="${bundle}"
+           update="true"/>
+  </target>
+
+  <target name="check-raster">
+    <available file="${bundle}/ne/ne1/NE1_HR_LC_SR_W_DR.prj" property="raster.present"/>
+  </target>
+  <target name="raster"
+          depends="init,check-raster,download-ne1,download-usgs"
+          unless="raster.present">
+      <mkdir dir="${bundle}/dem"/>
+      <unzip src="${download}/w100n40.zip"
+             dest="${bundle}/dem">
+        <mapper type="flatten"/>
+      </unzip>
+      <mkdir dir="${bundle}/ne/ne1"/>
+      <unzip src="${download}/NE1_HR_LC_SR.zip"
+             dest="${bundle}/ne/ne1">
+        <mapper type="flatten"/>
+      </unzip>
+      <copy file="style/wgs84.prj" tofile="${bundle}/ne/ne1/NE1_HR_LC_SR_W_DR.prj"/>
+  </target>
+  
+  <target name="check-vector">
+    <available file="${bundle}/download.txt" property="vector.present"/>
+  </target>
+  <target name="vector"
+          depends="init,check-vector,download-ne-quick,download-ne-roads,download-wgs"
+        unless="vector.present">
+      <mkdir dir="${bundle}/ne"/>
+      <unzip src="${download}/Natural_Earth_quick_start.zip"
+             dest="${bundle}/ne">
+        <patternset>
+           <include name="packages/Natural_Earth_quick_start/VERSION"/>
+           <include name="packages/Natural_Earth_quick_start/README.rnd"/>
+           <include name="packages/Natural_Earth_quick_start/CHANGELOG"/>
+        </patternset>
+        <mapper type="flatten"/>        
+      </unzip>
+      <mkdir dir="${bundle}/ne/physical"/>
+      <unzip src="${download}/Natural_Earth_quick_start.zip"
+             dest="${bundle}/ne/physical">
+        <patternset>
+           <include name="packages/Natural_Earth_quick_start/10m_physical/*"/>
+        </patternset>
+        <mapper type="flatten"/>
+      </unzip>
+      <copy toDir="${bundle}/ne/physical">
+         <fileset dir="style/physical"/>
+      </copy>
+      
+      <mkdir dir="${bundle}/ne/cultural"/>
+      <unzip src="${download}/Natural_Earth_quick_start.zip"
+             dest="${bundle}/ne/cultural">
+        <patternset>
+           <include name="packages/Natural_Earth_quick_start/10m_cultural/*"/>
+        </patternset>
+        <mapper type="flatten"/>
+      </unzip>
+      <copy toDir="${bundle}/ne/cultural">
+         <fileset dir="style/cultural"/>
+      </copy>
+      
+      <unzip src="${download}/ne_10m_wgs84_bounding_box.zip"
+             dest="${bundle}/ne/physical">
+        <mapper type="flatten"/>
+      </unzip>
+      <unzip src="${download}/ne_10m_roads.zip"
+             dest="${bundle}/ne/cultural">
+        <mapper type="flatten"/>
+      </unzip>
+      <!-- fix prj file contents for GeoServer -->
+      <loadfile property="wgs84" srcfile="style/wgs84.prj" />
+      <replaceregexp flags="s">
+        <regexp pattern="^(.*?)$"/>
+        <substitution expression="${wgs84}"/>
+        <fileset dir="${bundle}">
+          <include name="**/*.prj"/>
+        </fileset>
+      </replaceregexp>
+  </target>
+</project>

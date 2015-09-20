@@ -6,7 +6,7 @@
   <property name="slides" value="${basedir}/slides"/>
   <property name="build" value="${basedir}/build"/>
 
-  <target name="build" depends="init, doc, slides, data, styles, software">
+  <target name="build" depends="init, doc, slides, data, styles">
     <echo>Generating archive: ${ant.project.name}.zip</echo>
     <zip destfile="${ant.project.name}.zip">
       <fileset dir="${basedir}/build"/>

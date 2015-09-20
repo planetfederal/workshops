@@ -5,7 +5,7 @@ Loading spatial data
 
 Supported by a wide variety of libraries and applications, PostGIS provides many options for loading data.  This section will focus on the basics -- loading shapefiles using the PostGIS shapefile loading tool.  
 
-#. First, return to the Dashboard, and click on the **Import shapefiles** link in the PostGIS section. The GUI shapefile importer pgShapeLoader will launch.
+#. First, return to the Start menu, and click on the **pgShapeLoader** application. The GUI shapefile importer will launch.
 
    .. image:: ./screenshots/pgshapeloader_01.png
      :class: inline
@@ -60,6 +60,8 @@ Supported by a wide variety of libraries and applications, PostGIS provides many
    * ``nyc_neighborhoods.shp``
    * ``nyc_subway_stations.shp``
    * ``nyc_homicides.shp``
+   
+   .. tip:: Use the :guilabel:`Rm` checkbox to remove ``nyc_census_blocks`` since it has already been imported.
  
 #. When all the files are loaded, click the "Refresh" button in pgAdmin to update the tree view. You should see your four tables show up in the **Databases > nyc > Schemas > public > Tables** section of the tree.
 

@@ -53,6 +53,11 @@
   <div class="about sidebar_section">
     <h4 class="sidebar_header">About Boundless</h4>
     <p>Boundless provides <a href="http://boundlessgeo.com/solutions/">commercial open source software</a> for internet mapping and geospatial application development. We are dedicated to the growth and support of open source software.</p>
+    
+    <h4>License</h4>
+    <p>This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Non Commercial-Commons Attribution-Share Alike 3.0 United States License</a>.  Feel free to use this material, but we ask that you please retain the Boundless branding, logos and style.</p>
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="{{ pathto('_static/cc.png', 1) }}" /></a></p>
+
   </div>
 
 {%- endmacro -%}
@@ -191,9 +196,9 @@
   <a name="top"></a>
   {%- block header %}
 
-		<header id="masthead" class="site-header" role="banner">
-			<a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="{{ pathto('_static/logo.png', 1) }}"></a>
-		</header>
+    <header id="masthead" class="site-header" role="banner">
+      <a href="http://boundlessgeo.com/" rel="home" id="logo"><img src="{{ pathto('_static/logo.png', 1) }}"></a>
+    </header>
   {%- endblock %}
 
   {%- block secondary_nav %}
@@ -273,17 +278,19 @@
 
 {%- block footer %}
   <footer class="site-footer">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 col-sm-12 text-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 text-center">
           {%- if hasdoc('copyright') %}
             <a href="{{ pathto('copyright') }}">&copy; Copyright {{ copyright }}</a>
           {%- else %}
             <a href="http://boundlessgeo.com/">&copy; Copyright {{ copyright }}</a>
           {%- endif %}
-	      </div>
-			</div>
-		</div>
+          |
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Non Commercial-Commons Attribution-Share Alike 3.0 United States License</a>
+        </div>
+      </div>
+    </div>
   </footer>
 {%- endblock %}
 
