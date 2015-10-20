@@ -49,6 +49,8 @@ Exercises
     ON ST_Contains(n.geom, s.geom)  
     WHERE n.name = 'Little Italy';
 
+  .. note:: Recall: the function ``AS`` is used to give a table another name by using an alias, which can make queries easier to read and write. In this case, ``s`` is an alias for ``nyc_subway_stations``, ``n`` is an alias for ``nyc_neighborhoods``, ``s.name`` refers to the name column in the ``nyc_subway_stations`` table, etc. 
+
   :: 
   
       name    | routes 
