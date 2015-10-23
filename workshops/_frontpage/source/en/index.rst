@@ -96,7 +96,6 @@ How to use the power of spatial databases to make your web mapping applications 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 The OpenGeo Suite QGIS plugin is used to configure the components of OpenGeo Suite through `QGIS <http://qgis.org>`_, a free, open source desktop GIS client. If you prefer using a GUI (graphic user interface) to work with geospatial data try out QGIS and our Suite-QGIS plugin!
 
-
 `Introduction to GeoGig <http://geogig.org/workshop/>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 GeoGig is a Distributed Version Control System (DVCS) specially designed to handle geospatial data. It takes inspiration from the source code versioning system `Git <http://git-scm.com/>`_, but employs an approach best suited to the nature of the spatial data it manages. The `GeoGig <http://geogig.org/>`__ project is feature complete and will be released as a `LocationTech <http://locationtech.org/projects/technology.geogig>`__ project.
@@ -104,6 +103,10 @@ GeoGig is a Distributed Version Control System (DVCS) specially designed to hand
 
 More Workshops
 --------------
+
+`GeoGig Workshop <http://workshops.boundlessgeo.com/geogig/>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+GeoGig is a Distributed Version Control System (DVCS) for geospatial data. This workshop is from the LocationTech Tour 2015.
 
 `Introduction to OpenLayers 2 <http://workshops.boundlessgeo.com/openlayers-intro/>`_ 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
