@@ -37,14 +37,12 @@ Editing a feature
       Editing the feature attribute
 
 #. Click the pencil icon again to save changes.
+   
+   .. figure:: img/commit_save1.png
+      
+      Save dialog for bikepdx
 
-#. You will see a new and different dialog, alerting you that GeoGig is aware that the layer just changed, and asking if you want to update the repository with thse changes. Click :guilabel:`OK`.
-
-   .. figure:: img/commit_update.png
-
-      Dialog to update the repository
-
-#. Then a dialog will display asking for a commit message. Enter :kbd:`The Sellwood Gap has now been fixed` and click :guilabel:`OK`.
+#. Since this layer is associated with GeoGig a dialog will display asking for a commit message. Enter :kbd:`The Sellwood Gap has now been fixed` and click :guilabel:`OK`.
 
    .. figure:: img/commit_sellwoodmessage.png
 
@@ -63,21 +61,27 @@ Viewing the commit details
 
 Much like the ``diff`` command mentioned before, you can see details about any commit.
 
-#. Double-click the most recent (top) commit message in the Repository explorer. This will bring up the :guilabel:`Comparison view`.
+#. Return to the GeoGig Navigator and select the most recent (top) commit message in the repository history. Right click :menuslection:`Show detailed description of this version`.
+
+   .. figure:: img/commit_detail.png
+
+      Request detailed description of commit
+
+#. This will bring up a :guilabel:`Version description`.
+   
+   .. figure:: img/commit_version_description.png
+      
+      Description of selected commit
+
+#. Right click :menuselection:`Show changes introduced by this version`. This will bring up a the :guilabel:`Comparison view` to compare the two versions.
 
    .. figure:: img/commit_comparison.png
 
       Comparison view
 
-#. Expand the tree on the left side named ``bikepdx``. It will show a single feature number, id = ``6703``. This is the ID of the feature that was edited. Click on this entry.
+#. Layer is selected as ``bikepdx``. It will show a single feature number, id = ``6703``. This is the ID of the feature that was edited. Click on this entry.
 
-#. You will see a description of what was changed, in this case the attribute value. Also shown is a rendering of the feature in question, with before and after panels.
-
-   .. figure:: img/commit_compareattribute.png
-
-      Attribute comparison
-
-   .. note:: If you would like some context to the feature, click on :guilabel:`Show background layer` on either of the two map panels. (This is much more useful when the geometry itself has changed.)
+#. You will see a description of what was changed, in this case the attribute value. Also shown is a rendering of the feature in question.
 
 #. Close the :guilabel:`Comparison view` window.
 
@@ -133,7 +137,7 @@ Editing a feature
 
 #. Select :menuselection:`Layer --> Toggle Editing` to complete the editing process. Click :guilabel:`Save` when prompted.
 
-#. At this point, the plugin will go to work, recognizing a change to the layer, and prompting an update of the repository. Click :guilabel:`OK` to have the plugin update the repository, then when asked enter a commit message and then click :guilabel:`OK`.
+#. At this point, the plugin will go to work, recognizing a change to the layer. When asked enter a commit message and then click :guilabel:`OK`.
 
    .. figure:: img/commit_newlanemessage.png
 
@@ -148,11 +152,11 @@ Editing a feature
 Viewing the commit details
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. To view details about the commit, double click on the commit message in the Repository explorer. This will bring up the :guilabel:`Comparison view` again.
+#. To view details about the commit, select the commit message in the GeoGig Navigator and right-click :menuselection:`Show changes introduced by this version`. This will bring up the :guilabel:`Comparison view` again.
 
 #. Expand the ``bikepdx`` tree and click the ``6773`` entry.
 
-#. The window will display the attributes before the change (in this case, blank) and after the change. These are shown in the :guilabel:`Base` column and :guilabel:`Compare` column, respectively.
+#. The window will display the attributes before the change (in this case, blank) and after the change. 
 
    .. figure:: img/commit_comparefeature.png
 
@@ -165,16 +169,16 @@ Rolling back a change
  
 Now let's roll back that last change.
 
-#. In the Repository explorer, right-click on the second commit (the one about the Sellwood Gap), and select :guilabel:`Reset current branch to this version`.
+#. In the Repository explorer, right-click on the second commit (the one about the Sellwood Gap), and select :guilabel:`Revert current branch to this version`.
 
-   .. figure:: img/commit_reset.png
+   .. figure:: img/commit_revert.png
 
-      Resetting the repository
+      Reverting the repository
 
-#. All commits after the selected one will be removed from the history. The plugin will notice that the repository has changed, and will ask if you wish to update your layers. Click :guilabel:`Select all` and then click :guilabel:`OK`.
+#. This will add a new commit that reverse all the changes required to restore your repository to the requested contents.
+  
+   .. figure:: img/commit_revert2.png
 
-   .. figure:: img/commit_updatelayers.png
-
-      Update layers dialog
-
-The map window will update, and the feature added in the previous section will be removed.
+      History after revert
+   
+   The map window will update, and the feature added in the previous section will be removed.
