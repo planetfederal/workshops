@@ -77,6 +77,11 @@ my $theme = "boundless_web";
 #     "master_doc" => "index",
 #     "project" => "Introduction to GXP" },
 
+  "geogig" => {
+      "git" => "workshops/geogig/",
+      "master_doc" => "index",
+      "project" => "GeoGig Workshop" }
+
   "frontpage" => {
       "git" => "workshops/_frontpage/",
       "project" => "Workshops" }
