@@ -21,7 +21,7 @@ We much :term:`import` data into our repository for our first commit. This will 
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ../data/bikepdx.shp
 
    ::
 
@@ -60,7 +60,7 @@ We much :term:`import` data into our repository for our first commit. This will 
       #      added  bikepdx/6524
       #      added  bikepdx/6525
       ...
-      # 6745 total.
+      # 6748 total.
 
    On most terminals, the features that have been added are colored **red**.
 
@@ -79,10 +79,10 @@ Now that our repository is aware of our spatial data, we can add all the feature
 
    ::
 
-      Counting unstaged elements...6744
+      Counting unstaged elements...6748
       Staging changes...
       100%
-      6744 features and 1 trees staged for commit
+      6747 features and 1 trees staged for commit
       0 features and 0 trees not staged for commit
 
 #. Run ``geogig status`` to see how the output has changed
@@ -207,29 +207,28 @@ Now we will want to commit this change. While the change was made in the file, *
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ../data/bikepdx.shp
 
    This is the same import command as above. It makes the GeoGig repository aware that content has changed.
 
    ::
 
-      Importing from shapefile ../data/bikepdx.shp
+      Importing from shapefile bikepdx.shp
 
-      Importing bikepdx          (1/1)...
-      87%
-      1 distinct features inserted in 4.697 s
+      Importing bikepdx          (1/1)... 
+      0%
+      2 distinct features inserted in 485.2 ms
 
       Building final tree...
 
-      6744 features tree built in 709.9 ms
+      6747 features tree built in 65.96 ms
       100%
-      ../data/bikepdx.shp imported successfully.
 
 #. Now add the changes. If you want to add everything, type:
 
    .. code-block:: console
 
-      geogig add bikepdx
+      ge
 
    .. note:: Any unchanged features will be ignored.
 
@@ -316,8 +315,8 @@ The commit :term:`log` is a list of commits that are entered into the repository
 
    ::
 
-      603d4bf0069203a42ac513f635f49f725c2a4f2a The Sellwood Gap has now been fixed
-      cfdbd50c415a0d71b9a876eb51f90d5752e8f23b Initial commit of complete bikepdx layer
+      b862ee8ced960965f7f17033a6e68f604e62fae6 The Sellwood Gap has now been fixed
+      2b7629e284cbd5ed8cec023ab00763ebd700143f Initial commit of complete bikepdx layer
 
    .. note:: There are lots of ways to filter this commit list, including by date and by author. Type ``geogig help log`` for a full list of options.
 
@@ -336,16 +335,16 @@ So if we wanted details about a specific commit, we would use the :term:`show` c
 
    .. code-block:: console
 
-      geogig show 603d4bf
+      geogig show b862ee8c
 
    ::
 
-      Commit:        603d4bf0069203a42ac513f635f49f725c2a4f2a
+      Commit:        b862ee8ced960965f7f17033a6e68f604e62fae6
       Author:        Author <author@example.com>
       Committer:     Author <author@example.com>
-      Author date:   (11 minutes ago) Fri Aug 1 17:39:15 PDT 2014
-      Committer date:(11 minutes ago) Fri Aug 1 17:39:15 PDT 2014
-      Subject:       The Sellwood Gap is now been fixed
+      Author date:   (2 minutes ago) Fri Oct 23 00:48:26 PDT 2015
+      Committer date:(2 minutes ago) Fri Oct 23 00:48:26 PDT 2015
+      Subject:       The Sellwood Gap has now been fixed
 
 Running a diff
 ~~~~~~~~~~~~~~
@@ -356,12 +355,16 @@ With this, we have enough information to be able to see the difference ("run a d
 
    .. code-block:: console
 
-      geogig diff cfdbd50 603d4bf
+      geogig diff 2b7629e28 b862ee8ced9
 
    ::
 
-      3f6b2c... 3f6b2c... ee3419... cc3c61...   M  bikepdx/6703
-      status: ACTIVE -> RECOMM
+      f15dd3... f15dd3... 9bf8e5... b06301...   M  bikepdx/1
+      SHAPE_LEN: 871.638132806348 -> 871.6381328063
+
+      f15dd3... f15dd3... 7c943c... e153fa...   M  bikepdx/6703
+      STATUS: RECOMM -> ACTIVE
+      SHAPE_LEN: 4862.01831066843 -> 4862.0183106684
 
 Here we see that the specific feature (``bikepdx/6703``) is listed as having been modified (``M``), and with the precise change detailed: (that the ``status`` attribute has changed from ``RECOMM`` to ``ACTIVE``,
 
@@ -440,7 +443,7 @@ With the new feature added, we can now add it to our repository via another comm
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ../data/bikepdx.shp
 
    As before, this import command lets the GeoGig repository be aware that content has changed.
 

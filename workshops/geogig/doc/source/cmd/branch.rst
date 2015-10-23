@@ -95,7 +95,7 @@ Now that we are working on a new branch, there should be nothing different about
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ../data/bikepdx.shp
 
    ::
 

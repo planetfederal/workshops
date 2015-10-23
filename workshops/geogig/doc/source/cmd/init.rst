@@ -78,16 +78,15 @@ To see a list of the parameters associated with a given command, type ``help`` f
           Produce machine-readable output
           Default: false
 
-``geogig-console``
-------------------
+.. note:: 
 
-GeoGig also comes with a command ``geogig-console`` which opens a dedicated GeoGig shell, allowing you to run GeoGig commands without typing ``geogig`` first.
+   Your copy of GeoGig may include a command ``geogig-console`` which opens a dedicated GeoGig shell, allowing you to run GeoGig commands without typing ``geogig`` first.
 
-.. code-block:: console
+   .. code-block:: console
 
-   (geogig):/home/boundless/repo $ init
-   Initialized empty Geogig repository in /home/boundless/repo/.geogig
-   (geogig):/home/boundless/repo (master) $ log
-   No commits to show
+      (geogig):/home/boundless/repo $ init
+      Initialized empty Geogig repository in /home/boundless/repo/.geogig
+      (geogig):/home/boundless/repo (master) $ log
+      No commits to show
    
-.. note:: ``geogig-console`` is still in development and some terminals can produce artifacts on the line which make it difficult to use.
+   ``geogig-console`` is still in development and some terminals can produce artifacts on the line which make it difficult to use.
