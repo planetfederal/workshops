@@ -22,6 +22,10 @@ In addition, we will be using a plugin for QGIS that comes with a copy of GeoGig
 
 * `GeoGig Plugin <http://training-files.boundlessgeo.com/foss4g/geogig-plugin.zip>`_
 
+This workshop uses the following bikes dataset:
+
+* :download:`bikepdx.zip <../../data/bikepdx.zip>`
+
 Topics covered
 --------------
 
