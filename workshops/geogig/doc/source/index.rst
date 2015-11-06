@@ -22,6 +22,10 @@ In addition, we will be using a plugin for QGIS that comes with a copy of GeoGig
 
 * `GeoGig Plugin <http://training-files.boundlessgeo.com/foss4g/geogig-plugin.zip>`_
 
+This workshop uses the following bikes dataset:
+
+* :download:`bikepdx.zip <../../data/bikepdx.zip>`
+
 Topics covered
 --------------
 
@@ -32,6 +36,10 @@ The following material will be covered in this workshop:
 
 :ref:`cmd`
   A tour of the GeoGig command line interface, including creating and managing commits and branches, as well as merging from different repositories.
+
+:ref:`gui`
+  A tour of the QGIS GeoGig plugin integrating change commits when saving a layer
+
 
 :ref:`workflow`
   Introducing a workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
@@ -64,5 +72,6 @@ Great! Head to the first section, :ref:`theory`.
 
    theory/index
    cmd/index
+   gui/index
    workflow/index
    moreinfo/index
