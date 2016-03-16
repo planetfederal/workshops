@@ -248,7 +248,7 @@ JMeter
       * layers: ``${vlayers}``
       * styles: ``${vstyles}``
       * format: ``${vformat}``
-      * bbox: ``${vleft},${vbottom},${vright},{$vtop}``
+      * bbox: ``${vleft},${vbottom},{$vright},{$vtop}``
       * srs: ``${srs}``
       * width: ``${width}``
       * height: ``${height}``
