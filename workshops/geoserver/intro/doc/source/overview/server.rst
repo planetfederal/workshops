@@ -19,7 +19,9 @@ The web server looks to its file system, and if that request points to a valid f
 If is possible to request many different kind of files through HTTP, not just HTML pages::
 
    http://example.com/some/path/image.jpg
+
    http://example.com/some/path/archive.zip
+
    http://example.com/some/path/data.xml
 
 If your browser is configured to display the type of file, it will be displayed, otherwise you will usually be asked to download the file to your host system.
@@ -39,10 +41,10 @@ A web mapping server may use HTTP, but employ specialized protocols, such as **W
 
 Some popular web mapping servers:
 
-  * `GeoServer <http://geoserver.org>`_
-  * `MapServer <http://mapserver.org>`_
-  * `Mapnik <http://mapnik.org>`_
-  * `ArcGIS Server <http://www.esri.com/software/arcgis/arcgisserver/index.html>`_
+* `GeoServer <http://geoserver.org>`_
+* `MapServer <http://mapserver.org>`_
+* `Mapnik <http://mapnik.org>`_
+* `ArcGIS Server <http://www.esri.com/software/arcgis/arcgisserver/>`_
 
 Other web-based map services such as Google Maps have their own server technology and specialized protocols as well. 
 
@@ -55,26 +57,32 @@ GeoServer can read from many different data sources, from files on the local dis
 
 The following is a list of the most common data formats supported by GeoServer. This list is by no means exhaustive.
 
-* Files
+**Files**:
 
-  * Shapefile
-  * GeoTIFF
-  * ArcGrid
-  * JPEG2000
-  * GDAL formats
-  * MrSID
+* Shapefile
+* GeoTIFF
+* ArcGrid
+* JPEG2000
+* GDAL formats
+* MrSID
 
-* Databases
+**Databases**:
 
-  * PostGIS
-  * ArcSDE
-  * Oracle Spatial
-  * DB2
-  * SQL Server
+* PostGIS
+* ArcSDE
+* Oracle Spatial
+* DB2
+* SQL Server
 
 OGC protocols
 -------------
 
-GeoServer implements standard open web protocols established by the `Open Geospatial Consortium (OGC) <http://www.opengeospatial.org/>`_, a standards organization. GeoServer is the reference implementation of the OGC Web Feature Service (WFS) and Web Coverage Service (WCS) standards, and contains as well a high performance certified compliant Web Map Service (WMS). It is through these protocols that GeoServer can serve data and maps in an efficient and powerful way.
+GeoServer implements standard open web protocols established by the `Open Geospatial Consortium (OGC) <http://www.opengeospatial.org/>`_, a standards organization. It is through these protocols that GeoServer can serve data and maps in an efficient and powerful way. GeoServer implements the most common of the OGC protocols:
+
+* Web Feature Service (WFS)
+* Web Coverage Service (WCS)
+* Web Map Service (WMS)
+* Web Processing Service (WPS)
+* ...and more
 
 The next sections will give an overview of the two protocols most commonly used by GeoServer.

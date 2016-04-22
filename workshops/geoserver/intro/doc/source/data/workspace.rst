@@ -5,15 +5,15 @@ Adding a workspace
 
 The first step in data loading is usually to create a :term:`workspace`. This creates a virtual container for your project. Multiple layers from multiple sources can all be contained inside a workspace, with the primary constraint being that each layer name be unique.
 
-#. Navigate to the main :ref:`geoserver.webadmin` page.
+#. Navigate to the GeoServer Welcome page.
 
-#. Click on the :guilabel:`Workspaces` link on the left column, under :guilabel:`Data`.
+#. Click the :guilabel:`Workspaces` link on the left column, under :guilabel:`Data`.
 
    .. figure:: img/workspace_link.png
 
       Click to go to the Workspaces page
 
-#. Click on the "Add new workspace" link at the top center of the page.
+#. Click the :guilabel:`Add new workspace` link at the top center of the page.
 
    .. figure:: img/workspace_page.png
 
@@ -22,8 +22,10 @@ The first step in data loading is usually to create a :term:`workspace`. This cr
 #. A workspace is comprised of a **Name** (also sometimes known as a "namespace prefix"), represented by a few characters, and a **Namespace URI**. These two fields must uniquely identify the workspace. Fill in the following information:
 
    .. list-table::
-      :widths: 30 70
+      :header-rows: 1
 
+      * - Option
+        - Description
       * - :guilabel:`Name`
         - ``earth`` 
       * - :guilabel:`Namespace URI`

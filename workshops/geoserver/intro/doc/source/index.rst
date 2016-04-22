@@ -2,12 +2,12 @@
 Introduction to GeoServer
 =========================
 
-.. figure:: geoserver.png
+.. image:: geoserver.png
 
 Welcome!
 --------
 
-In this workshop, attendees will learn how to load, publish, style, and share geospatial data with GeoServer.  Discussion will include navigating the GeoServer user interface, loading and publishing data, OGC web services, styling data with SLD, and publishing to Google Earth.  Also showcased will be GeoExplorer, a browser-based graphical style editor.
+In this workshop, attendees will learn how to load, publish, style, and share geospatial data with GeoServer.  Discussion will include navigating the GeoServer user interface, loading and publishing data, OGC web services, and styling data.
 
 The workshop is geared toward those with no prior GeoServer experience, but familiarity with basic GIS concepts is suggested.
 
@@ -29,10 +29,7 @@ The following material will be covered in this workshop:
   Load and manage data in GeoServer
 
 :ref:`geoserver.styling`
-  Introduction to Styled Layer Descriptor (SLD) and a tour of GeoExplorer, a map browser with graphical style editing capabilities
-
-:ref:`geoserver.googleearth`
-  Integrating GeoServer with Google Earth using the GeoServer built-in KML output
+  Style layers using Styled Layer Descriptor (SLD), YSLD, and with a graphical layer-styling application.
 
 :ref:`geoserver.moreinfo`
   More information about GeoServer including links and a glossary of terms
@@ -46,7 +43,7 @@ The following directories will be found inside of the workshop bundle:
   The workshop documentation in HTML format.
 
 :file:`software`
-  The software to be installed during the workshop.
+  The software and applications to be installed during the workshop.
 
 :file:`data`
   Geospatial data to be used throughout the workshop.
@@ -72,5 +69,4 @@ Great!  Head to the first section, :ref:`geoserver.install`.
    overview/index
    data/index
    styling/index
-   googleearth/index
    moreinfo/index

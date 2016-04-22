@@ -3,11 +3,11 @@
 GeoExplorer
 ===========
 
-.. note:: GeoExplorer is currently available as part of the OpenGeo Suite.
+.. note:: GeoExplorer is currently available as part of OpenGeo Suite. This workshop uses a newer version of GeoExplorer that hasn't been released yet.
 
-Creating SLD files by hand can be a difficult and time-consuming process. Fortunately, there is a tool called :guilabel:`GeoExplorer` which is a graphical style editor. With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
+Creating style files by hand, regardless of the type of markup you use, can be a difficult and time-consuming process. Fortunately, there are some graphical tools that exist to help make the generating of styles in GeoServer easier.
 
-.. note:: GeoExplorer currently implements most but not all of the features of the SLD specification.
+One tool is called :guilabel:`GeoExplorer`. With GeoExplorer, you can create rules and symbolizers without ever needing to view any style code.
 
 Using GeoExplorer
 -----------------
@@ -18,19 +18,23 @@ Using GeoExplorer
 
       GeoExplorer
 
-#. By default, the only layers that display is a MapQuest OpenStreetMap layer. Click the :guilabel:`Add layers` button (the green circle with the white plus) at the top left of the screen and then select :guilabel:`Add layers`.
+   By default, the display shows a "Streets" base map layer, which is from MapQuest/OpenStreetMap. There is a select box that can cycle between that, "Aerial", and none, for no base map.
 
-   .. figure:: img/gx_addlayersbutton.png
+   .. figure:: img/gx_aerial.png
 
-      Add layers button
+      GeoExplorer with Aerial base map
+
+#. Click the :guilabel:`Add layer` button. You will be asked to select the GeoServer endpoint to connect to. Leave the default as :guilabel:`/geoserver/wms/` and click :guilabel:`Connect`.
+
+   .. figure:: img/gx_wmsendpoint.png
+
+      Connecting to the local GeoServer WMS
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 #. In the resulting :guilabel:`Available Layers` dialog, select the four layers used in this workshop (not the ``earthmap`` layer group) and click :guilabel:`Add layers`. To select multiple layers, hold the Ctrl/Cmd key while clicking on the layer.
 
    .. note:: It may be easier to find the layers by clicking the :guilabel:`id` column to sort by workspace.
-
-   .. figure:: img/gx_addlayersdialog.png
-
-      Selecting layers to add to GeoExplorer
 
 #. Click :guilabel:`Done` to return to the main map. The check boxes determine which layers are being viewed, with the order of the layers determining the rendering order. The layer list also contains an in-line legend for each layer, which is a compilation of all the Rules in the styles of the visible layer. Finally, the bulk of the window is taken up by the map itself.
 
@@ -61,7 +65,7 @@ Using GeoExplorer
 Editing an existing style
 -------------------------
 
-.. warning:: GeoExplorer makes changes directly to an SLD. An SLD file may look very different after being edited by GeoExplorer. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
+.. warning:: GeoExplorer makes changes directly to a style file. It is always a good idea to make a backup copy of your SLDs before using GeoExplorer.
 
 #. Before we can make any changes to styles, we have to log in to GeoExplorer. Click the login button at the very top right of the window and enter your GeoServer admin credentials:  ``admin`` / ``geoserver`` .
 

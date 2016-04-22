@@ -1,16 +1,14 @@
 .. _geoserver.install.installing:
 
-
-
-Installing OpenGeo Suite
-========================
+Installation
+============
 
 In this section we will install OpenGeo Suite on your workshop machine.
 
-GeoServer, being a Java servlet, typically requires a Java Runtime Environment (JRE) as well as a servlet container in order to function. Both a JRE and a servlet container are included with the OpenGeo Suite, so separate installation is not needed here.
+GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function. Both of these are included with OpenGeo Suite, so separate installation is not needed here.
 
-Installation
-------------
+Installing OpenGeo Suite
+------------------------
 
 The OpenGeo Suite executable file is located in the workshop package in the :file:`software` folder.
 
@@ -18,9 +16,9 @@ The OpenGeo Suite executable file is located in the workshop package in the :fil
 
 #. **Double-click** the file :file:`OpenGeoSuite-<version>.exe` to begin the installation.
 
-   .. note:: On some systems, you might see a Windows Security warning. We promise the software is safe, so click :guilabel:`Run` to launch the installer.
+   .. note:: On some systems, you might see a Windows Security warning. We promise the software is safe, so can safely click through this warning.
 
-#. At the ``Welcome`` screen, click :guilabel:`Next`.
+#. At the *Welcome* screen, click :guilabel:`Next`.
 
    .. figure:: img/installation_welcome.png
 
@@ -71,16 +69,43 @@ The OpenGeo Suite executable file is located in the workshop package in the :fil
 Starting and stopping services
 ------------------------------
 
-OpenGeo Suite has been installed and is now running by default. There are two system services related to OpenGeo Suite:
-
-* **OpenGeo Jetty** - Controls GeoServer and other web applications
-* **OpenGeo Postgres** - Controls PostgreSQL/PostGIS database
-
-You can start and stop these services from the Start Menu by going to :menuselection:`OpenGeo Suite --> GeoServer/PostGIS --> Start/Stop`
+OpenGeo Suite has been installed and is now running by default. There are two system services related to OpenGeo Suite: GeoServer (Jetty) and PostGIS (PostgreSQL). You can start and stop these services through the Start Menu.
 
 .. figure:: img/installation_startstop.png
 
    Start Menu entries for starting and stopping OpenGeo Suite services
 
-You can also start and stop these services through the standard Windows Services dialog.
+You can also stop and start these services from the standard Windows Services dialog. There they are known as **OpenGeo Jetty** and **OpenGeo PostgreSQL**.
 
+Installing GeoExplorer
+----------------------
+
+This workshop uses a newer version of GeoExplorer than is contained in this installer. We will replace the existing application with the newer one.
+
+#. Stop GeoServer as indicated above.
+
+#. Navigate to the :file:`webapps` directory of your OpenGeo Suite installation. The full path is usually something like this:
+
+   C:\Program Files (x86)\Boundless\OpenGeo\jetty\webapps\
+
+   .. figure:: img/installation_geoexplorerpath.png
+
+      Path to the GeoExplorer application
+
+#. Delete the folder named :file:`geoexplorer`.
+
+#. In your workshop :file:`software` folder, extract :file:`geoexplorer.zip` to a folder called :file:`geoexplorer`
+
+#. Copy this new :file:`geoexplorer` folder to the :file:`webapps` directory.
+
+#. Restart GeoServer as indicated above.
+
+#. To verify that the installation was successful, navigate to::
+
+     http://localhost:8080/geoexplorer
+
+   .. figure:: img/installation_geoexplorer.png
+
+      GeoExplorer
+
+Now that we have all the software in place, let's take a quick look at how to get around OpenGeo Suite.

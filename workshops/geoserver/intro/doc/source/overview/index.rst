@@ -10,7 +10,7 @@ GeoServer is an open source software server written in Java that allows users to
 This section will discuss the basic concepts related to GeoServer and web mapping, including OGC protocols and useful terminology.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
     
    server
    wms
