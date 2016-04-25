@@ -24,27 +24,33 @@ Create a GeoGig repository
 
 #. On the command line, navigate to the :file:`geogig` directory.
 
-#. Create a new directory and call it :file:`repo`. This directory will house the GeoGig repo.
+#. Create a new directory and call it :file:`repos`, if it doesn't exist.  This directory will house the GeoGig repos. 
 
    .. code-block:: console
 
-      mkdir repo
+      mkdir repos
 
    .. note:: As mentioned before, no spatial data needs to be contained in this directory. In fact, no files at all need to be in this directory, except for the :file:`.geogig` subdirectory.
 
-#. Switch to this directory.
+#. Switch to this directory and create a new directory called `city_data`.
 
    .. code-block:: console
 
-      cd repo
+      cd repos
+      mkdir city_data
 
-#. Create a new GeoGig repository in this directory:
+#. Switch to the `city_data` directory and create a new GeoGig repository in this directory:
 
    .. code-block:: console
 
+      cd city_data
       geogig init
 
 #. View a directory listing that shows all files and verify that the :file:`.geogig` directory has been created.
+
+   .. code-block:: console
+
+      ls -al
 
 More about the ``geogig`` command
 ---------------------------------

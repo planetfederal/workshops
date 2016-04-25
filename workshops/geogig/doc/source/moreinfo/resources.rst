@@ -15,12 +15,12 @@ Visit the GeoGig homepage at http://geogig.org.
 Documentation
 -------------
 
-.. todo:: Full documentation for GeoGig is available at SOMEWHERE.
+Full documentation for GeoGig is available at http://geogig.org/docs/index.html
 
 Mailing list
 ------------
 
-.. todo:: GeoGig has an active mailing list, which you can subscribe to at SOMEWHERE. 
+GeoGig has an active mailing list, which you can subscribe to at geogig-dev@locationtech.org
 
 Bug tracking
 ------------

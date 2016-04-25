@@ -9,8 +9,8 @@ To set up this example, we will start with our familiar Portland bike lanes repo
 
    .. code-block:: console
 
-      geogig branch alice
-      geogig branch bob
+      geogig branch review
+      geogig branch updates
 
 #. Start the GeoGig server:
 
@@ -28,9 +28,9 @@ To set up this example, we will start with our familiar Portland bike lanes repo
 
    .. code-block:: console
 
-      geogig clone http://localhost:8182 alice
-      geogig clone http://localhost:8182 bob
-      geogig clone http://localhost:8182 qa
+      geogig clone http://localhost:8182/repos/city_data alice
+      geogig clone http://localhost:8182/repos/city_data bob
+      geogig clone http://localhost:8182/repos/city_data qa
 
    .. note:: We have named the repositories with the same names as our three users so we can tell them apart, but this is not a requirement! In fact, Alice and Bob would probably use a descriptive name like **bikepdx** so they know what the directory is for.
 

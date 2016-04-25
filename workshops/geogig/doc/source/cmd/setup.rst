@@ -1,6 +1,6 @@
 .. _cmd.setup:
 
-Setting up a QIGS project
+Setting up a QGIS project
 =========================
 
 In this workshop, we will be taking on the role of a city planner, tasked with updating the bike lane master plan of the city of Portland, Oregon.
@@ -11,8 +11,8 @@ The City of Portland `maintains a site where this information can be downloaded 
 
    If you're interested, here are links to the original, direct downloads:
 
-   * `Bicycle network SHP <ftp://ftp02.portlandoregon.gov/CivicApps/Bicycle_Network_pdx.zip>`_
-   * `SHP metadata <https://www.portlandonline.com/cgis/metadata/viewer/display_rl.cfm?Meta_layer_id=53123&Db_type=sde>`_  
+   * `Bicycle network SHP <http://www.civicapps.org/datasets/bicycle-network>`_
+   * `SHP metadata <https://www.portlandmaps.com/metadata/index.cfm?&action=DisplayLayer&LayerID=53123>`_  
 
    These downloads are not necessary for completion of this workshop.
 
@@ -177,7 +177,7 @@ We can use the OpenLayers QGIS plugin to pull in any number of standard web map 
 
       OpenLayers Plugin menu
 
-#. Select a suitable basemap. For example, the :guilabel:`Google Physical` map provides a nice contrast.
+#. Select a suitable basemap. For example, the :guilabel:`Stamen Terrain` map provides a nice contrast.
 
 #. The layer will be loaded. In the :guilabel:`Layers` panel on the left, drag the entry for :guilabel:`bikepdx` so that it is on top of the background layer and is not obscured.
 

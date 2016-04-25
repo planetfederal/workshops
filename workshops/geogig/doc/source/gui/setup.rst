@@ -24,14 +24,19 @@ Our goal now is show the exact same workflows we saw in the :ref:`cmd` section, 
 
 Now we are ready to explore the plugin.
 
+Installing the plugin 
+---------------------
+
+You made need to add the GeoGig plugin to QGIS, this is done through the QGIS Plugin Manager. To install the plugin go to :menuselection:`Plugins -> Manage and Install Plugins`, then search for GeoGig plugin and select it, click :menuslection:`Install plugin`. The plugin is now installed and should open the Navigator window.
+
 Exploring the plugin
 --------------------
 
 The plugin is first accessed through the ``GeoGig`` menu, which contains three options:
 
-* :guilabel:`GeoGig client`: Repository manager
-* :guilabel:`GeoGig client settings`: Configures GeoGig
-* :guilabel:`GeoGig feature info tool`: Feature info tool specific to GeoGig.
+* :guilabel:`GeoGig Navigator`: Repository manager
+* :guilabel:`GeoGig Client Settings`: Configures GeoGig
+* :guilabel:`GeoGig Feature Info Tool`: Feature info tool specific to GeoGig.
 
 .. todo:: More about the featureinfo tool?
 
@@ -72,7 +77,7 @@ In order to show the full lifecycle of working with repos with the plugin, we wi
 
       First commit in the repository
 
-   .. note:: When adding a new shapefile to geogig fir the first time you will be given a warning about a missing ``geogigid`` field. This field is used by the plugin in order to better track changes. Click :guilabel:`Yes` to create this column in the database table.
+   .. note:: When adding a new shapefile to geogig fir the first time you may be given a warning about a missing ``geogigid`` field. This field is used by the plugin in order to better track changes. Click :guilabel:`Yes` to create this column in the database table.
 
    .. figure:: img/setup_idwarning.png
 
