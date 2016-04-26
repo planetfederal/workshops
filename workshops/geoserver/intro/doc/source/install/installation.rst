@@ -76,36 +76,3 @@ OpenGeo Suite has been installed and is now running by default. There are two sy
    Start Menu entries for starting and stopping OpenGeo Suite services
 
 You can also stop and start these services from the standard Windows Services dialog. There they are known as **OpenGeo Jetty** and **OpenGeo PostgreSQL**.
-
-Installing GeoExplorer
-----------------------
-
-This workshop uses a newer version of GeoExplorer than is contained in this installer. We will replace the existing application with the newer one.
-
-#. Stop GeoServer as indicated above.
-
-#. Navigate to the :file:`webapps` directory of your OpenGeo Suite installation. The full path is usually something like this:
-
-   C:\Program Files (x86)\Boundless\OpenGeo\jetty\webapps\
-
-   .. figure:: img/installation_geoexplorerpath.png
-
-      Path to the GeoExplorer application
-
-#. Delete the folder named :file:`geoexplorer`.
-
-#. In your workshop :file:`software` folder, extract :file:`geoexplorer.zip` to a folder called :file:`geoexplorer`
-
-#. Copy this new :file:`geoexplorer` folder to the :file:`webapps` directory.
-
-#. Restart GeoServer as indicated above.
-
-#. To verify that the installation was successful, navigate to::
-
-     http://localhost:8080/geoexplorer
-
-   .. figure:: img/installation_geoexplorer.png
-
-      GeoExplorer
-
-Now that we have all the software in place, let's take a quick look at how to get around OpenGeo Suite.
