@@ -67,7 +67,7 @@ Vagrant.configure(2) do |config|
     sudo paver install
 
     # Add GeoGig to the path for all users
-    echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/qgis-geogig-plugin/bin/geogig/bin" | sudo tee /etc/environment
+    echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/qgis-geogig-plugin/geogig/bin/geogig/bin" | sudo tee /etc/environment
 
     # Add boundless user
     sudo useradd --create-home --shell /bin/bash boundless
