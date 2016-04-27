@@ -15,3 +15,4 @@ GeoServer uses the Styled Layer Descriptor (:term:`SLD`) markup language to desc
    sld
    ysld
    styles
+   gui
