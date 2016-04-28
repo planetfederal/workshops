@@ -37,3 +37,5 @@ Boundless
 ---------
 
 Boundless helps to develop GeoServer and funds development through its OpenGeo Suite. Learn more at `<http://boundlessgeo.com>`_.
+
+.. figure:: img/boundless.png

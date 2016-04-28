@@ -1,7 +1,7 @@
 .. _geoserver.overview.other:
 
-Other protocols
-===============
+Other OGC protocols
+===================
 
 While beyond the scope of this workshop, it is worth noting that GeoServer offers support for other protocols in addition to :ref:`geoserver.overview.wms` and :ref:`geoserver.overview.wfs`.
 

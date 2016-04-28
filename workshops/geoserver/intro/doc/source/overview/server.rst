@@ -16,7 +16,7 @@ For example, when you request a web page, your request takes the form of a URL::
 
 The web server looks to its file system, and if that request points to a valid file (if :file:`page.html` exists in :file:`some/path`), the contents of that file will be returned via HTTP. Usually these calls come from a browser, in which case the result is rendered in the browser.
 
-If is possible to request many different kind of files through HTTP, not just HTML pages::
+It is possible to request many different kind of files through HTTP, not just HTML pages::
 
    http://example.com/some/path/image.jpg
 
@@ -37,7 +37,7 @@ Web mapping servers
 
 A web mapping server is a specialized subset of web server. Like a web server, requests are sent to the server which are interpreted and responded. But the requests and responses are designed specifically toward the transfer of geographic information. 
 
-A web mapping server may use HTTP, but employ specialized protocols, such as **Web Map Service (WMS)**, **Web Feature Service (WFS)**. These protocols are designed for the transferring geographic information to and from the server, whether it be raw feature data, geographic attributes, or map images.
+A web mapping server may use HTTP, but employ specialized protocols, such as **Web Map Service (WMS)** and **Web Feature Service (WFS)**. These protocols are designed for the transferring geographic information to and from the server, whether it be raw feature data, geographic attributes, or map images.
 
 Some popular web mapping servers:
 

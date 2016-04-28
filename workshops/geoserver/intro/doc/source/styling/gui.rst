@@ -16,7 +16,7 @@ QGIS has robust and varied styling options. While SLD isn't used natively  (and 
 
 .. figure:: img/gui_qgis.png
 
-   QGIS, showing style editor
+   QGIS style editor
 
 uDig
 ----
@@ -25,4 +25,4 @@ uDig
 
 .. figure:: img/gui_udig.png
 
-   uDig, showing style editor
+   uDig style editor

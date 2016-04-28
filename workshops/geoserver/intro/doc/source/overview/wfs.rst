@@ -53,9 +53,9 @@ A WFS request can ask for much more than just feature data. An example of anothe
 
 .. note:: A WFS capabilities document is not the same as a WMS capabilities document. One displays information about image formats; the other about feature data.
 
-The following is a sample WFS GetCapabilities request:
+The following is a sample WFS GetCapabilities request::
 
-http://demo.boundlessgeo.com/geoserver/wfs?service=WFS&version=2.0.0&request=GetCapabilities
+  http://demo.boundlessgeo.com/geoserver/wfs?service=WFS&version=2.0.0&request=GetCapabilities
 
 And the same request, with line breaks added for clarity::
 
