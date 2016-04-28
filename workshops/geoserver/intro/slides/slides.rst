@@ -24,17 +24,19 @@ Outline
 #. Overview
 #. Working with data
 #. Styling
-#. Google Earth
+#. Web map output
 
 Presenter notes
 ---------------
 
-* Installing GeoServer—Installation of GeoServer and all other related software.
-* GeoServer web interface—A tour of the GeoServer Web Administration Interface.
-* Overview—Basic overview of what GeoServer is, including a brief discussion of OGC services.
-* Working with data—Load and manage data in GeoServer.
-* Styling—Introduction to Styled Layer Descriptor (SLD) and a tour of GeoExplorer, a map browser with graphical style editing capabilities.
-* Google Earth—Integrating GeoServer with Google Earth using the GeoServer built-in KML output.
+* Installing GeoServer—Installation of GeoServer and all other related software
+* GeoServer web interface—A tour of the GeoServer Web Administration Interface and how to publish data
+* Overview—Overview of what GeoServer is, including a brief discussion of OGC services
+* Working with data—Load and manage data in GeoServer
+* Styling—Style layers using Styled Layer Descriptor (SLD) and YSLD, and learn the GeoServer stlye editing workflow.
+* Web map output—See how to embed a GeoServer web map in a web page.
+
+
 
 --------------------------------------------------
 
@@ -53,46 +55,29 @@ GeoServer is an open source software server written in Java that allows users to
 
 Being a community-driven project, GeoServer is developed, tested, and supported by a diverse group of individuals and organizations from around the world.
 
-GeoServer is the reference implementation of the Open Geospatial Consortium (OGC) Web Feature Service (WFS) and Web Coverage Service (WCS) standards, as well as a high performance certified compliant Web Map Service (WMS). GeoServer forms a core component of the Geospatial Web.
-
 --------------------------------------------------
 
 Section 1: Installing
 =====================
 
-.. image:: ../doc/source/geoserver.png
+GeoServer is a core component of **OpenGeo Suite**.
+
+.. image:: ../doc/source/install/img/ecosystem.png
    :width: 50%
-
-...is a core component of **OpenGeo Suite**.
-
-.. todo:: ../doc/source/install/img/suitelogo.png
-
 
 Presenter notes
 ---------------
 
 In this section, we will install GeoServer. For the purposes of this workshop, we will be using the OpenGeo Suite—of which GeoServer is a primary component—in order to facilitate setup and configuration.
 
-The OpenGeo Suite is free and open source, and is available for download from OpenGeo.
+The OpenGeo Suite is free and open source, and is available for download from Boundless.
 
---------------------------------------------------
+OpenGeo Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
 
-OpenGeo Suite?
-==============
-
-.. image:: ../doc/source/install/img/stack_all.png
-
-Presenter notes
----------------
-
-The OpenGeo Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
-
-* PostGIS - A spatially enabled object-relational database.
-* GeoServer - A software server for loading and sharing geospatial data.
-* GeoWebCache - A tile cache server that accelerates the serving of maps (built into GeoServer).
-* GeoExplorer - A web application for composing, styling, and publishing maps.
-
-GeoExplorer is based on the GeoExt framework and contains code from OpenLayers.
+PostGIS - A spatially enabled object-relational database.
+GeoServer - A software server for loading and sharing geospatial data.
+GeoWebCache - A tile cache server that accelerates the serving of maps (built into GeoServer).
+OpenLayers - A browser-based mapping framework
 
 --------------------------------------------------
 
@@ -106,9 +91,7 @@ Presenter notes
 
 In this section you will install the OpenGeo Suite on your system. This will provide everything necessary to get started with GeoServer (and more!).
 
-GeoServer, being a Java servlet, typically requires a Java Runtime Environment (JRE) as well as a servlet container in order to function. Both a JRE and a servlet container are included with the OpenGeo Suite installation packages, so separate installations of these components are not needed here.
-
-There are many cases where you might want to install the components separately; we'll discuss those a little later on.
+GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function. Both of these are included with OpenGeo Suite, so separate installation is not needed here.
 
 --------------------------------------------------
 
@@ -120,14 +103,14 @@ Installation
 Presenter notes
 ---------------
 
-The OpenGeo Suite installation packages are available for Windows, OS X, various distributions of Linux, and Solaris UNIX. We're using the Windows installers here, but the premise acros the board is pretty much the same, and pretty simple: Run the installer, follow the bouncing ball, choose options, ~done.
+The OpenGeo Suite installation packages are available for Windows, OS X, Ubuntu, CentOS, and Red Hat. We're using the Windows installers here, but the premise across the board is pretty much the same, and pretty simple: Run the installer, choose options, done.
 
 --------------------------------------------------
 
 Dashboard
 =========
 
-Desktop/web app for managing applications.
+Central location for launching applications and resources.
 
 .. image:: ../doc/source/install/img/dashboard.png
    :width: 75%
@@ -135,11 +118,16 @@ Desktop/web app for managing applications.
 Presenter notes
 ---------------
 
-The OpenGeo Suite comes with a Dashboard. The Dashboard is launched (semi-)automatically when installation is complete, and otherwise from your Windows, Start menu, (or Spotlight etc. on OS X), (or Task Launcher etc. on Ubuntu).
+OpenGeo Suite comes with a Dashboard application that provides links to the most common applications and documentation.
 
-The Dashboard provides a single interface that allows you to access all components of the OpenGeo Suite, including: links to common tasks, configuration, management, and application logs. The dashboard also provides links to a library of documentation - user guides/manuals from each of the  contributing projects, as well as some OpenGeo-Specific templates, recipies and suggestions for Getting-Started.
+The Dashboard can be opened from the Start menu at OpenGeo Suite ‣ Dashboard. The Dashboard is also available in the browser by navigating to http://localhost:8080/.
 
-The Dashboard runs on the host machine as both a standalone application and in a browser. While both incarnations boast the same set of features, the desktop version might feel a bit more capable, since it can launch external system processes (Start/Shutdown) and applications (PGADMIN). [Note greyed out options].
+The main Dashboard page show links to configuration pages and documentation.
+
+The top toolbar contains links to two other pages:
+
+* The Getting Started page includes a sample workflow to use for publishing data and maps using OpenGeo Suite. A similar workflow will be followed as part of this workshop.
+* The Documentation page links to the OpenGeo Suite User Manual, which contains the full user manual for GeoServer.
 
 --------------------------------------------------
 
@@ -153,7 +141,9 @@ Presenter notes
 
 GeoServer includes a web-based administration interface. Most GeoServer configuration can be done through this interface, without the need to edit configuration files by hand or use an API.
 
-This section will give a brief overview to the web interface. Subsequent sections will use the web interface in greater detail.
+This section will give a brief overview to the web interface, including loading data to be published. Subsequent sections will use the web interface in greater detail.
+
+Note: Interested and/or experienced users who wish to learn about the REST API can read about it in the GeoServer documentation. This workshop will only discuss the web interface.
 
 --------------------------------------------------
 
@@ -186,11 +176,9 @@ Default credentials: ``admin`` / ``geoserver``
 Presenter notes
 ---------------
 
-While the unauthenticated/anonymous Welcome page is not void of features, it really just lets you see things (configured on geoserver) but not touch them (and make configuration changes).
+For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are ``admin`` and ``geoserver``, although this can (and should) be changed.
 
-For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are admin and geoserver, although this can and should be changed.
-
-Note: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account.
+Note: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account. Interested users can read about security in the GeoServer documentation.
 
 --------------------------------------------------
 
@@ -204,7 +192,9 @@ Presenter notes
 
 After logging in, many more options will be displayed.
 
-Use the links on the left side column to manage GeoServer, its services, data, security settings, and more. Also on the main page are direct links to the capabilities documents for each service (WFS, WMS, WCS). We will be using the links on the left under Data—among them Layer Preview, Workspaces, Stores, Layers, Layer Groups, and Styles—very often in this workshop, so it is good to familiarize yourself with their location.
+Use the links on the left side column to manage the GeoServer application, its services, data, security settings, and more. Also on the main page are direct links to the capabilities documents for each service, such as the Web Map Service (WMS) and Web Feature Service (WFS).
+
+We will be using the links on the left under Data—among them Layer Preview, Workspaces, Stores, Layers, Layer Groups, and Styles—very often in this workshop, so it is good to familiarize yourself with their location.
 
 --------------------------------------------------
 
@@ -218,7 +208,7 @@ View published layers with minimal clicks
 Presenter notes
 ---------------
 
-You can use the Layer Preview link to easily view layers currently being served by GeoServer. The Layer Preview pages includes quick links to viewing layers via OpenLayers along with other services.
+You can use the Layer Preview link to easily view layers currently being published by GeoServer. The Layer Preview pages includes quick links to viewing layers via OpenLayers along with other services.
 
     Click the Layer Preview link, located on the left side under Data.
 
@@ -250,7 +240,7 @@ View application logs inside the application itself
 Presenter notes
 ---------------
 
-GeoServer displays the contents of the application logs directly through the web interface. Reading the logs can be very helpful when troubleshooting. To view the logs, click on GeoServer Logs on the left under About & Status.
+GeoServer displays the contents of the application logs directly through the web interface. Reading the logs can be very helpful when troubleshooting. To view the logs, click GeoServer Logs under About & Status.
 
 --------------------------------------------------
 
@@ -275,11 +265,9 @@ Loading your first data set
 Presenter notes
 ---------------
 
-There are many ways to load data into GeoServer, and even more configuration options applicable to these data once they are loaded. Oftentimes, all that you want to do is to load a simple shapefile and display it - Quickly~ish. In this section we will go from data to map in the fewest possible steps.
+There are many ways to load data, and even more configuration options once this data is loaded. Often, though, all that you want to do is to load a simple shapefile and display it. In this section we will go from data to map in the fewest possible steps.
 
-GeoServer with the Layer Importer extension (enabled/installed?) allows user to upload ZIP files that contain geospatial information. The extension will perform all the necessary configurations for publishing the data, including generating a unique style (template) for the layer.
-
-The Layer Importer is currently only available as part of the OpenGeo Suite.
+GeoServer with the Layer Importer extension allows for uploading of ZIP files that contain geospatial information. The extension will perform all the necessary configuration for publishing the data, including generating a unique style for the layer.
 
 --------------------------------------------------
 
@@ -291,13 +279,15 @@ Loading your first data set
 Presenter notes
 ---------------
 
-In the data/ directory (that ships with this workshop), you will see a file called meteors.zip. It is a shapefile contained inside an archive (ZIP file). If you double click on the archive, you’ll see that it contains the following suite of files: meteors.shp, meteors.shx, meteors.dbf, meteors.prj
+In the data directory of the workshop bundle, you will see a file called meteors.zip. It is a shapefile contained inside an archive (ZIP file). If you open the archive, you'll see that it contains the following files: meteors.shp, meteors.shx, meteors.dbf, meteors.prj.
 
-Go back to GeoServer, and navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
+Navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
 
-In the box titled Configure the data source, click Browse ..., and navigate to the location of the archive. Click on the file to select it.
+In the box titled Configure the data source, click Browse... and navigate to the location of the archive.
 
-Click Next. Leave all other fields as they are for now.
+Click the meteors.zip file to select it.
+
+Leave all other fields as they are for now and click Next.
 
 --------------------------------------------------
 
@@ -309,7 +299,7 @@ Loading your first data set
 Presenter notes
 ---------------
 
-On the next page, click Import.
+On the next page, click the checkbox next the meteors layer and then click Import.
 
 --------------------------------------------------
 
@@ -321,7 +311,7 @@ Loading your first data set
 Presenter notes
 ---------------
 
-After some processing, you should see a note that says Import completed successfully. Click Go, next to the box that says Layer Preview.
+The import process will proceed. After some processing, you should see a note that says Import successful. Click Go, next to the box that says Layer Preview.
 
 --------------------------------------------------
 
@@ -333,18 +323,12 @@ Loading your first data set
 Presenter notes
 ---------------
 
-View the resulting map ...
-
-Use the pan and zoom tools to study the map further. Click on map features to get attribute information.
-
-[[[]]] (Talk about the interface a bit)
-
-[[[]]] (Could we also do this in GeoExplorer a bit more sexily)?
+View the resulting layer. Use the pan and zoom tools to study the layer further. Click map features to get attribute information.
 
 --------------------------------------------------
 
 Loading your first data set
-========================
+===========================
 
 .. image:: ../doc/source/webadmin/img/quickload_layerpreviewdetail.png
 
@@ -355,14 +339,7 @@ Presenter notes
 
 [Talk about what you've done in terms of making your data available to web clients]
 
-[ Look at preview URL / Drop into Layers Listing (?) / Drop into Capabilities Doc (?) ]
-
-[[[]]] - Above might be a bit premature 
-
-[[[]]] - I think it's important that we try to get people jazzed about our easy-publishing story. Even if it's note really that easy, or powerful.
-
 --------------------------------------------------
-
 
 Section 3: Overview
 ===================
@@ -372,6 +349,7 @@ Basic concepts related to GeoServer and web mapping, including OGC protocols and
 Presenter notes
 ---------------
 
+Now that we've briefly experimented with GeoServer, let's take a step back to learn more about how it works.
 
 --------------------------------------------------
 
@@ -394,7 +372,7 @@ http://example.com/some/path/page.html
 
 The web server looks to its file system, and if that request points to a valid file (if page.html exists in some/path), the contents of that file will be returned via HTTP. Usually these calls come from a browser, in which case the result is rendered in the browser.
 
-If is possible to request many different kind of files through HTTP, not just HTML pages:
+It is possible to request many different kind of files through HTTP, not just HTML pages:
 
 http://example.com/some/path/image.jpg
 http://example.com/some/path/archive.zip
@@ -418,7 +396,7 @@ Presenter notes
 
 A web mapping server is a specialized subset of web server. Like a web server, requests are sent to the server which are interpreted and responded. But the requests and responses are designed specifically toward the transfer of geographic information.
 
-A web mapping server may use HTTP, but employ specialized protocols, such as Web Map Service (WMS), Web Feature Service (WFS). These protocols are designed for the transferring geographic information to and from the server, whether it be raw feature data, geographic attributes, or map images.
+A web mapping server may use HTTP, but employ specialized protocols, such as Web Map Service (WMS) and Web Feature Service (WFS). These protocols are designed for the transferring geographic information to and from the server, whether it be raw feature data, geographic attributes, or map images.
 
 Some popular web mapping servers: GeoServer, MapServer, Mapnik, ArcGIS Server
 
@@ -447,18 +425,17 @@ OGC protocols
 =============
 
 .. image:: ../doc/source/overview/img/ogclogo.png
-   :width: 33%
 
-* Web Feature Service (WFS)
 * Web Map Service (WMS)
+* Web Feature Service (WFS)
 * Web Coverage Service (WCS)
 * Web Processing Service (WPS)
-* ...and much more
+* ...and more
 
 Presenter notes
 ---------------
 
-GeoServer implements standard open web protocols established by the Open Geospatial Consortium (OGC), a standards organization. GeoServer is the reference implementation of the OGC Web Feature Service (WFS) and Web Coverage Service (WCS) standards, and contains as well a high performance certified compliant Web Map Service (WMS). It is through these protocols that GeoServer can serve data and maps in an efficient and powerful way.
+GeoServer implements standard open web protocols established by the Open Geospatial Consortium (OGC), a standards organization. It is through these protocols that GeoServer can serve data and maps in an efficient and powerful way. GeoServer implements the most common of the OGC protocols.
 
 --------------------------------------------------
 
@@ -483,16 +460,17 @@ Web Map Service
 
 Example GetMap request::
 
-  http://suite.opengeo.org/geoserver/wms?
-    service=WMS&
+  http://demo.boundlessgeo.com/geoserver/wms?
+    service=wms&
     version=1.3.0&
     request=GetMap&
-    layers=usa:states&
-    srs=EPSG:4326&
-    bbox=24.956,-124.731,49.372,-66.97&
+    layers=osm:osm&
+    styles=&
+    srs=EPSG:900913&
+    bbox=-13744070,6170985,-13720028,6191021&
     format=image/png&
-    width=780&
-    height=330
+    width=600&
+    height=500
 
 Presenter notes
 ---------------
@@ -501,12 +479,12 @@ The following is a sample WMS request to a hosted GeoServer instance:
 
 While the full details of the WMS protocol are beyond the scope of this course, a quick scan of this request shows that the following information is being requested:
 
-    Server details (a WMS 1.3.0 request)
-    Request type (a WMS GetMap request)
-    Layer name (usa:states)
-    Projection (EPSG:4326)
-    Bounding box (in this case, latitude/longitude coordinates)
-    Image properties (600x255 PNG)
+* Server details (a WMS 1.3.0 request)
+* Request type (WMS GetMap)
+* Layer name (osm:osm)
+* Projection (EPSG:900913)
+* Bounding box (coordinates)
+* Image properties (600x500 PNG)
 
 --------------------------------------------------
 
@@ -527,7 +505,7 @@ Web Map Service
 
 Example GetCapabilities request::
 
-  http://suite.opengeo.org/geoserver/wms?
+  http://demo.boundlessgeo.com/geoserver/wms?
     service=WMS&
     version=1.3.0&
     request=GetCapabilities
@@ -560,12 +538,12 @@ Web Feature Service
 
 Example GetFeature request::
 
-  http://suite.opengeo.org/geoserver/wfs?
-    SERVICE=wfs&
-    VERSION=1.1.0&
-    REQUEST=GetFeature&
-    TYPENAME=usa:states&
-    FEATUREID=states.39
+  http://demo.boundlessgeo.com/geoserver/wfs?
+    service=wfs&
+    version=1.1.0&
+    request=GetFeature&
+    typename=topp:states&
+    featureid=states.39
 
 Presenter notes
 ---------------
@@ -574,10 +552,10 @@ The following is a sample WFS request, rendered as a HTTP GET request to a hoste
 
 While the details of the WFS protocol are beyond the scope of this course, a quick scan of this request shows that the following information is being requested:
 
-    Server details (WFS 1.1.0 request)
-    Request type (GetFeature)
-    Layer name (usa:states)
-    Feature ID (states.39)
+* Server details (WFS 1.1.0 request)
+* Request type (GetFeature)
+* Layer name (topp:states)
+* Feature ID (states.39)
 
 This particular request polls the WFS for a single feature in a layer.
 
@@ -602,10 +580,10 @@ Web Feature Service
 
 Example GetCapabilities request::
 
-  http://suite.opengeo.org/geoserver/wfs?
-    SERVICE=WFS&
-    VERSION=1.1.0&
-    REQUEST=GetCapabilities
+  http://demo.boundlessgeo.com/geoserver/wfs?
+    service=WFS&
+    version=2.0.0&
+    request=GetCapabilities
 
 Presenter notes
 ---------------
@@ -621,8 +599,7 @@ Other OGC protocols
 
 * Web Coverage Service
 
-  * Like Web Feature Service but for rasters
-
+  * Like Web Feature Service (WFS)
 * Web Processing Service
 
   * Analysis!
@@ -632,9 +609,7 @@ Presenter notes
 
 While beyond the scope of this workshop, it is worth noting that GeoServer offers support for other protocols in addition to Web Map Service (WMS) and Web Feature Service (WFS).
 
-The Web Coverage Service is a service that enables access to the underlying raster (or "coverage") data. In a sense, WCS is the raster analog to WFS, where you can access the actual raster data stored on a server.
-
-GeoServer contains full support for WCS versions up to 1.1.1.
+The Web Coverage Service is a service that enables access to the underlying raster (or "coverage") data. In a sense, WCS is the raster analog to WFS, where you can access the actual raster data stored on a server, such as band information and values.
 
 The Web Processing Service (WPS) is a service for the publishing of geospatial processes, algorithms, and calculations. WPS extends the web mapping server to provide geospatial analysis. WPS in GeoServer allows for direct integration with other GeoServer services and the data catalog. This means that it is possible to create processes based on data served in GeoServer, including the results of a process to be stored as a new layer. In this way, WPS acts as a full browser-based geospatial analysis tool, capable of reading and writing data from and to GeoServer.
 
@@ -642,8 +617,8 @@ WPS is currently available as an extension only in GeoServer, but is a core comp
 
 --------------------------------------------------
 
-GeoServer concept: Workspace
-============================
+GeoServer concepts: Workspace
+=============================
 
 Notional container for grouping similar data together
 
@@ -659,12 +634,12 @@ Workspaces are usually denoted by a prefix to a layer name or store name. For ex
 
 Stores and layers must all have an associated workspace. Styles may optionally be associated with a workspace, but can also be global.
 
-Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been http://nyc in which case the full layer name would be http://nyc:streets. GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference
+Technically, the name of a workspace is a URI, not the short prefix. A URI is a Uniform Resource Identifier, which is similar to a URL, but does not need to resolve to a web site. In the above example, the full workspace could have been http://nyc in which case the full layer name would be http://nyc:streets. GeoServer intelligently replaces the workspace prefix with the full workspace URI, but it can be useful to know the difference.
 
 --------------------------------------------------
 
-GeoServer concept: Store
-========================
+GeoServer concepts: Store
+=========================
 
 A container of geographic data (a file/database)
 
@@ -685,8 +660,8 @@ A store is sometimes referred to as a "datastore" in the context of vector data,
 
 --------------------------------------------------
 
-GeoServer concept: Layer
-========================
+GeoServer concepts: Layer
+=========================
 
 A collection of geospatial features or a coverage
 
@@ -702,10 +677,10 @@ GeoServer stores information associated with a layer, such as projection informa
 
 --------------------------------------------------
 
-GeoServer concept: Layer group
-==============================
+GeoServer concepts: Layer group
+===============================
 
-A collection of layers (WMS only).
+A collection of layers (WMS only)
 
 .. image:: ../doc/source/overview/img/concepts_layergroup.png
    :width: 50%
@@ -731,10 +706,10 @@ The following graphic shows the various relationships between workspaces, stores
 
 --------------------------------------------------
 
-GeoServer concept: Style
-========================
+GeoServer concepts: Style
+=========================
 
-Visualization directive for rendering geographic data.
+Visualization directive for rendering geographic data
 
 .. image:: ../doc/source/overview/img/wms-response.png
 
@@ -743,7 +718,7 @@ Presenter notes
 
 A style is a visualization directive for rendering geographic data. A style can contain rules for color, shape, and size, along with logic for styling certain features or points in certain ways based on attributes or scale level.
 
-Every layer must be associated with at least one style. GeoServer recognizes styles in Styled Layer Descriptor (SLD) format. The Styling section will go into this topic in greater detail.
+Every layer must be associated with at least one style. GeoServer natively recognizes styles in Styled Layer Descriptor (SLD) format, but can also be extended to read styles in other formats as well. The Styling section will go into this topic in greater detail.
 
 --------------------------------------------------
 
@@ -755,7 +730,7 @@ Load and manage data in GeoServer
 Presenter notes
 ---------------
 
-Loading and publishing data is the core of GeoServer. This section will detail how to set up a new project in GeoServer, as well as load data from multiple sources in different ways. After the data is loaded, a layer group will be created.
+Loading and publishing data is at the core of GeoServer. This section will detail how to set up a new project in GeoServer, as well as load data from multiple sources in different ways. After the data is loaded, a layer group will be created. All data will be published.
 
 --------------------------------------------------
 
@@ -769,10 +744,9 @@ Presenter notes
 
 The first step in data loading is usually to create a workspace. This creates a virtual container for your project. Multiple layers from multiple sources can all be contained inside a workspace, with the primary constraint being that each layer name be unique.
 
-    Navigate to the main GeoServer web interface page.
-    Click on the Workspaces link on the left column, under Data.
-    Click to go to the Workspaces page
-    Click on the "Add new workspace" link at the top center of the page.
+    Navigate to the GeoServer Welcome page.
+    Click the Workspaces link on the left column, under Data.
+    Click the Add new workspace link at the top center of the page.
 
 --------------------------------------------------
 
@@ -814,14 +788,13 @@ Publishing a shapefile
 Presenter notes
 ---------------
 
-Adding a single shapefile to GeoServer is one of the simplest data loading tasks. We encountered this task in the Load your first data set section, but here we will slow down and work through the process manually. To start our discussion of data loading, we will load a shapefile showing the locations and borders of all the world's countries.
+Adding a single shapefile to GeoServer is one of the simplest data loading tasks. We encountered this task in the Loading your first data set section, but here we will slow down and work through the process manually. To start our discussion of data loading, we will load a shapefile showing the locations and borders of all the world's countries.
 
 All data for this workshop was provided by http://naturalearthdata.com. See the readme file in the data directory of the workshop bundle for details.
 
-First, we need to load a shapefile store. In GeoServer terminology, a shapefile is a store that contains a single layer. (Refer to the GeoServer concepts section if necessary.) We must add the store to GeoServer first before we can publish the layer that the store contains.
+First, we need to load a shapefile store. In GeoServer terminology, a shapefile is a store that contains a single layer. (Refer to the GeoServer concepts section if necessary.) We must first add the store to GeoServer before we can publish the layer that the store contains.
 
-    From the GeoServer web interface page, click the Stores link on the left side, under Data.
-    Click this link to go to the Stores page
+    Click the Stores link on the left side, under Data.
     Click Add new store.
 
 --------------------------------------------------
@@ -858,6 +831,8 @@ Be sure to replace <username> with your current user name.
 
 Leave all other fields as their default values.
 
+When finished, click Save.
+
 --------------------------------------------------
 
 Publishing a shapefile
@@ -872,7 +847,7 @@ We have loaded the shapefile store, but our layer has yet to be published. We'll
 
     On the next screen, a list of layers in the store is displayed. Since we are working with a shapefile, there is only a single layer. Click the Publish link to configure the layer.
 
-    This is the layer configuration page. There are many settings on this page, most of which we don't need to work with now. We will return to some of these settings later.
+    This is the layer configuration page. There are many settings on this page, most of which we don't need to work with now. We will return to some of these settings later. 
 
 --------------------------------------------------
 
@@ -900,11 +875,11 @@ Publishing a shapefile
 Presenter notes
 ---------------
 
-Your shapefile is now published with GeoServer. You can now view the layer using the Layer Preview. Click the Layer Preview link.
+Your shapefile is now published. You can now view the layer using the Layer Preview. Click the Layer Preview link.
 
-A list of published layers is displayed. Find the layer in the list, and select OpenLayers in the select box if it isn't already selected. Click the Go link next to the select box.
+A list of published layers is displayed. Find the layer in the list, and click the OpenLayers libk next to the layer.
 
-Note: Lists in GeoServer are paged at 25 items at a time. If you can't find the layer, you may need to click the [2] or [>] buttons. Alternately, type "earth" in the search box at the top to narrow the list.
+While not specifically relevant here, lists in GeoServer are paged at 25 items at a time. If you ever can't find the layer, you can either page the list, or use the search box to narrow down the results.
 
 A new tab in your browser will open up, showing your layer inside an OpenLayers application. You can use your mouse to zoom and pan, and can also click the features in the window to display attribute information.
 
@@ -920,12 +895,12 @@ Publishing a GeoTIFF
 Presenter notes
 ---------------
 
-GeoServer can also publish raster imagery. This could be simple georeferenced images (such as Blue Marble imagery), multi-band DEM (digital elevation model) data, or many other options. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains standard tri-band RGB values (0-255).
+GeoServer can also publish raster imagery. This could include georeferenced images (such as Blue Marble imagery), single or multi-band DEM (digital elevation model) data, or many other options. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains three bands of data corresponding to red, green, and blue.
 
 The procedure for adding a store for a GeoTIFF is very similar to that of a shapefile. A GeoTIFF, like a shapefile, is a store that contains a single layer.
 
-    From the GeoServer web interface page, click on the Stores link on the left side, under Data.
-    Click on Add new store.
+    From the GeoServer web interface page, click the Stores link on the left side, under Data.
+    Click Add new store.
     Select GeoTIFF under Raster Data Sources.
 
 --------------------------------------------------
@@ -955,6 +930,8 @@ C:\Users\<username>\Desktop\geoserver_workshop\data\shadedrelief.tif
 
 Be sure to replace <username> with your user name.
 
+When finished, click Save.
+
 --------------------------------------------------
 
 Publishing a GeoTIFF
@@ -982,6 +959,7 @@ Presenter notes
 ---------------
 
 Fill out the form with the following info:
+
     In the Coordinate Reference System section, set the Declared SRS to EPSG:4326 and set the SRS handling to Force declared. This will ensure that the layer is known to be in latitude/longitude coordinates.
     In the Bounding Boxes section, click the Compute from data and Compute from native bounds links to set the bounding box of the layer.
     When finished, click Save.
@@ -996,7 +974,7 @@ Publishing a GeoTIFF
 Presenter notes
 ---------------
 
-Your GeoTIFF is now published in GeoServer. You can now view the layer using the Layer Preview as in previous sections. Clicking on the map will display the RGB values for that particular point.
+Your GeoTIFF is now published in GeoServer. You can now view the layer using the Layer Preview as in previous sections. Clicking the map will display the RGB values for that particular point.
 
 --------------------------------------------------
 
@@ -1010,23 +988,23 @@ Using the Layer Importer
 Presenter notes
 ---------------
 
-So far we have seen a few different ways to load data into GeoServer. In the Load your first data set section, we used the Layer Importer to load an archive of a shapefile. The Layer Importer can also be used to load multiple layers as well, saving time and configuration.
+So far we have seen a few different ways to load data into GeoServer. In the Loading your first data set section, we used the Layer Importer to load an archive of a shapefile. The Layer Importer can also be used to load multiple layers as well, saving time and configuration.
 
 In this section, we will load the rest of our workshop data by using the Layer Importer to load and configure all shapefiles in our workshop data directory.
 
-Navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
+  Navigate to the Layer Importer. This is accessible in the GeoServer web interface by clicking on the Import Data link on the left side of the page.
 
-On the next page, in the section titled Choose a data source to import from, select Shapefiles if it isn't already selected.
+  On the next page, in the section titled Choose a data source to import from, select Shapefiles if it isn't already selected.
 
-In the section titled Configure the data source, type in the full path to the data, or click the Browse... button to navigate to the directory. The path may look something like:
+  In the section titled Configure the data source, type in the full path to the data, or click the Browse... button to navigate to the directory. The path may look something like:
 
-C:\Users\<username>\Desktop\geoserver_workshop\data\
+    C:\Users\<username>\Desktop\geoserver_workshop\data\
 
-Be sure to replace <username> with your user name.
+  Be sure to replace <username> with your user name.
 
-In the section titled Specify the target for the import, select earth for the Workspace (if it isn't already selected), and select Create new for the Store.
+  In the section titled Specify the target for the import, select earth for the Workspace (if it isn't already selected), and select Create new for the Store.
 
-Click Next to continue.
+  Click Next to continue.
 
 --------------------------------------------------
 
@@ -1038,12 +1016,15 @@ Loading multiple layers
 Presenter notes
 ---------------
 
-You will see a list of shapefiles contained in that directory. Make sure to uncheck the ``countries`` and ``shadedrelief`` layers! Failure to do this will cause GeoServer to try to load a layer with the same name as one already loaded ("earth:countries" and earth:shadedrelief). While this won't cause an error, it may cause confusion later on in the workshop.
+You will see a list of shapefiles contained in that directory. Check only the cities and ocean layers.
+
+Warning: Checking all of the layers will cause some of them to be loaded twice. While this won't cause an error, it may cause confusion later on in the workshop.
 
 All layers should say Ready for import. Click Import Data to create/configure a store with each of these shapefiles as layers.
 
 Note: If there are any issues with the shapefiles such as a lack of projection information, they will be displayed here.
 
+The importer will load and publish each table as a layer. All layers should say Import successful.
 
 --------------------------------------------------
 
@@ -1055,26 +1036,40 @@ Loading multiple layers
 Presenter notes
 ---------------
 
-    To preview these layers, select OpenLayers in the select box next to a layer and click Go. Alternately, you can use the standard Layer Preview. As you view the layers, you'll see that the Layer Importer has generated unique styles for each layer, instead of reusing default GeoServer styles.
+To preview these layers, select OpenLayers in the select box next to a layer and click Go. Alternately, you can use the standard Layer Preview. As you view the layers, you'll see that the Layer Importer has generated unique styles for each layer, instead of reusing default GeoServer styles.
 
 All of our layers are now loaded into GeoServer.
 
 --------------------------------------------------
 
-Bonus: REST
-===========
+Bonus: PostGIS and Layer Importer
+=================================
 
-* GeoServer catalog operations are scriptable
-* Use bash, PHP, etc.
-* Load, configure, delete resources
-* See http://docs.geoserver.org/stable/en/user/rest/
+Load in PostGIS and then publish in GeoServer, all in one step!
 
 Presenter notes
 ---------------
 
-GeoServer also has a full RESTful API for loading and configuring GeoServer. With this interface, one can create scripts (via bash, PHP, etc) to batch load and configure any number of files.
+The Layer Importer also has the ability to take source data, import it into a PostGIS database, and then publish the layers that way, as opposed to publishing the data directly from its source files.
 
-The REST interface is beyond the scope of an introductory workshop, but those interested can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/rest/.
+To see this in action. Create a new PostGIS database, add it as a store in GeoServer, and then use the Layer Importer, selecting that store as the target.
+
+--------------------------------------------------
+
+Other ways of loading data
+==========================
+
+* Directory of shapefiles
+* REST API 
+
+Presenter notes
+---------------
+
+There are other ways to load data into GeoServer.
+
+Directory of shapefiles - In the list of possible data sources (the Add new store page), there is an option for Directory of spatial files (shapefiles). This allows you to load a directory of shapefiles as a single store, with each individual file inside the directory being a publishable layer. Using a single store has its advantages, but each layer still needs to be configured manually, so it can still be inefficient for many layers.
+
+REST API - GeoServer also has a full REST API for loading and configuring GeoServer. With this interface, one can create scripts (via bash, PHP, etc) to batch load and configure any number of files, or just manually load content. The REST interface is beyond the scope of an introductory workshop, but those interested can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/rest/.
 
 --------------------------------------------------
 
@@ -1097,37 +1092,51 @@ In the previous sections, we loaded and published a few layers. Now we'll use a 
 Creating a layer group
 ======================
 
-.. image:: ../doc/source/data/img/layergroup_new.png
+.. image:: ../doc/source/data/img/layergroup_new2.png
 
 Presenter notes
 ---------------
 
-Fill out the following form:
+Click the Layer Groups link, under Data on the left side of the page.
 
-    In the Name field, enter earthmap.
+Click Add new layer group at the top of the page.
 
-    In the Workspace field, enter earth.
+We will fill out the following form. In the Name field, enter earthmap.
 
-    Skip the Bounds section for now.
+In the Workspace field, enter earth.
 
-    Now we will add layers to our layer group. Click the Add Layer... link.
+Skip the Bounds and Coordinate Reference System sections for now.
 
-    Select each of the following layers so that they appear in this order:
-        earth:shadedrelief
-        earth:ocean
-        earth:countries
-        earth:cities
+Now we will add layers to our layer group. Click the Add Layer... link.
 
-Layer order is important. The top layer in the list will be drawn first, the bottom last. Make sure to match the order of the above list. Reorder the layers if necessary by clicking on the Position arrows for each layer.
+Select each of the following layers so that they appear in this order:
 
-Note: It will be much easier to use the search box to narrow down the list.
+  earth:shadedrelief
+  earth:ocean
+  earth:countries
+  earth:cities
+
+Warning: There are two layers named countries, but only one is in the earth workspace. Make sure you pick the correct one!
+
+Layer order is important. The top layer in the list will be drawn first. Make sure to match the order of the above list. Reorder the layers if necessary by clicking the Position arrows for each layer. Use the search box to narrow down the list if necessary.
+
+This order is the opposite of the way that mapping applications respect drawing order. In most mapping applications, the top layer is drawn last so that it is "on top".
 
 Check the Default style box for every layer.
+
+--------------------------------------------------
+
+Creating a layer group
+======================
+
+.. image:: ../doc/source/data/img/layergroup_new1.png
+
+Presenter notes
+---------------
 
 Now go back to the Bounds section and click the Generate Bounds button. This will determine the bounding box for the entire layer group. This is why we waited to do this until all layers were added to the layer group.
 
 Leave all other areas as their defaults for now. The form should look like this:
-
 
 --------------------------------------------------
 
@@ -1150,14 +1159,16 @@ Even though the Layer Importer generated unique styles for each layer, this laye
 Section 5: Styling
 ==================
 
-GeoServer can render geospatial data as images and return them for viewing in a browser. This is the heart of WMS. However, geospatial data has no inherent visualization. Therefore additional information, in the form of a style, needs to be applied to data in order to visualize it.
+GeoServer can render geospatial data as images and return them for viewing in a browser. However, additional information, in the form of a style, needs to be applied to data in order to visualize it.
 
 Presenter notes
 ---------------
 
+GeoServer can render geospatial data as images and return them for viewing in a browser. This is the heart of WMS. However, geospatial data has no inherent visualization. Therefore additional information, in the form of a style, needs to be applied to data in order to visualize it.
+
 We have already seen automatic/generic styles in action with the layers loaded in previous sections. In this section we will discuss how those styles are generated.
 
-GeoServer uses the Styled Layer Descriptor (SLD) markup language to apply cartographic effects to geospatial data. We will first explain basic SLD syntax and then show how to create and edit styles manually in GeoServer. Finally, we will introduce GeoExplorer, a browser-based apllication that contains a graphical style editor.
+GeoServer uses the Styled Layer Descriptor (SLD) markup language to describe geospatial data. We will first explain basic SLD syntax. Next we will show a new alternate markup language called YSLD, and its improvements over SLD. Finally, we will show how to create and edit styles manually in GeoServer.
 
 --------------------------------------------------
 
@@ -1195,21 +1206,13 @@ Presenter notes
 
 The header of the SLD contains metadata about XML namespaces, and is usually identical among different SLDs. The details of the header are beyond the scope of this workshop.
 
-Notice the <FeatureTypeStyle> block towards the top of the document ...
+A FeatureTypeStyle is a group of styling rules. (Recall that a featuretype is another word for a layer.) Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc, allowing for precise control of drawing order.
 
-A FeatureTypeStyle is a group of styling rules. (Recall that a featuretype is another word for a layer.) Grouping by FeatureTypeStyle affects rendering order; the first FeatureTypeStyle will be rendered first, followed by the second, etc, allowing for precise control over the order in which our styling effects are applied.
-
-Within a <FeatureTypeStyle>, notice the <Rule> tag ...
-
-A Rule is a single styling directive. It can apply globally to a layer, or it can have logic associated with it so that the rule is conditionally applied. These conditions can be based on the properties of the data or based on the scale (~zoom-level) of the map being rendered.
-
-Within a <Rule>, you'll find one or more <~Symbolizer> tags ...
+A Rule is a single styling directive. It can apply globally to a layer, or it can have logic associated with it so that the rule is conditionally applied. These conditions can be based on the attributes of the data or based on the scale (zoom) level of the data being rendered.
 
 A Symbolizer is the actual style instruction. There are five types of symbolizers: PointSymbolizer, LineSymbolizer, PolygonSymbolizer, RasterSymbolizer, TextSymbolizer
 
 There can be one or more FeatureTypeStyles per SLD, one or more Rules per FeatureTypeStyles, and one or more Symbolizers per Rule.
-
-[ Note nesting / tag balance/syntax ]
 
 --------------------------------------------------
 
@@ -1239,7 +1242,17 @@ Simple SLD
 Presenter notes
 ---------------
 
-The first lines are the header, which contain XML namespace information, as well as the Name and Title of the SLD. The actual styling happens inside the <FeatureTypeStyle> tag , of which there is only one in this example. The tag contains one <Rule> and the rule contains one symbolizer, a <PointSymbolizer>. The symbolizer directive creates a graphic mark of a "well known name", in this case a circle. This shape has a <Fill> parameter of #FF0000, which is an RGB color code for 100% red. The shape also has a <Size> of 6, which is the diameter of the circle in pixels.
+The first lines are the header, which contain XML namespace information, as well as the Name and Title of the SLD. 
+
+The actual styling happens inside the <FeatureTypeStyle> tag , of which there is only one in this example.
+
+The tag contains one <Rule> and the rule contains one symbolizer, a <PointSymbolizer>.
+
+The symbolizer directive creates a graphic mark of a "well known name", in this case a circle.
+
+This shape has a <Fill> parameter of #FF0000, which is an RGB color code for 100% red.
+
+The shape also has a <Size> of 6, which is the diameter of the circle in pixels.
 
 --------------------------------------------------
 
@@ -1287,20 +1300,16 @@ Another SLD example
 Presenter notes
 ---------------
 
-Here is an example of an SLD that includes attribute-based styling. The SLD also contains three rules. Each rule has an attribute-based condition.
-
-For each featur in the layer, agreement with one of these conditions determines the size of the shape being rendered.
-
-The attribute in question is called "pop", and the three rules are "less than 50000", "50000 to 100000", and "greater than 100000". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
+Here is an example of an SLD style that includes attribute-based styling. The SLD contains three rules. Each rule has an attribute-based condition, with the outcome determining the size of the shape being rendered. The attribute in question is called "pop", and the three rules are "**less than 50000**", "**50000 to 100000**", and "**greater than 100000**". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
 
 [First rule only showed]
 
-Looking at the first rule (lines 13-33), there is a filter tag (<ogc:Filter>). This filter specifies that if the attribute value of pop for a given feature is less than 50000, then the condition is true and the feature is displayed.
+Looking at the first rule, there is a filter tag (<ogc:Filter>). This filter specifies that if the attribute value of pop for a given feature is less than 50000, then the condition is true and the feature is displayed.
 
 --------------------------------------------------
 
-Another SLD example
-===================
+Another SLD
+===========
 
 .. image:: ../doc/source/styling/img/sld_intermediatestyle.png
    :width: 150%
@@ -1310,7 +1319,375 @@ Presenter notes
 
 When applied to a hypothetical layer, the result would look like this:
 
-The GeoServer documentation (available at http://docs.geoserver.org) contains a collection of styles called the SLD Cookbook, designed for those wishing to learn SLD, or those who want a quick reference. The SLD Cookbook is available at http://docs.geoserver.org/stable/en/user/styling/sld-cookbook/. The above SLD examples were taken from the SLD Cookbook.
+
+--------------------------------------------------
+
+Functions in SLD
+================
+
+Use functions to simplify output.
+
+::
+
+              <Size>
+                <ogc:Function name="Categorize">
+                  <ogc:PropertyName>pop</ogc:PropertyName>
+                  <ogc:Literal>8</ogc:Literal>
+                  <ogc:Literal>50000</ogc:Literal>
+                  <ogc:Literal>16</ogc:Literal>
+                  <ogc:Literal>100000</ogc:Literal>
+                  <ogc:Literal>20</ogc:Literal>
+                </ogc:Function>
+              </Size>
+
+Presenter notes
+---------------
+
+That was a lot of code for not a lot of styling directive. And indeed, there are functions available in SLD that allow you to simplify code in areas where there is repetition. In the previous example, the only things that change from rule to rule are the name, property, and the size of the resulting point. This can therefore be reduced to the following.
+
+This example uses the "Categorize" function, which transforms a continuous-valued attribute into a set of discrete values. Specifically, we want to transform the population value (which can vary) to a set of possible size values for the point.
+
+There is a single rule that encompasses all the directives of the three rules in the previous example.
+The interesting part of this style is contained in the Size tag. Instead of a constant value, there is a Categorize function which dynamically selects a value based on criteria.
+The first value in the Categorize function determines what attribute to test. In this case, it is the pop attribute.
+The next values are connected in "size" / "attribute value" pairs. As in: the size will be set to 8 when the pop attribute is less than 50,000, and the size will be set to 16 when the pop attribute is between 50,000 and 100,000.
+The final value in the Categorize function is the size when the pop attribute is greater than all the others, so greater than 100,000.
+
+--------------------------------------------------
+
+Functions in SLD
+================
+
+.. image:: ../doc/source/styling/img/sld_intermediatestyle.png
+   :width: 150%
+
+Presenter notes
+---------------
+
+The result of this SLD yields the exact same output as above, but with less than half the number of lines.
+
+--------------------------------------------------
+
+YSLD
+====
+
+* Improving on SLD
+* Based on YAML syntax
+* Native rendering
+
+Presenter notes
+---------------
+
+SLD has been the standard method of styling in GeoServer since its inception. However, it is not difficult to see that there are some disadvantages to SLD that can make it a challenging development environment.
+
+There have been a few advances designed to mitigate these challenges. One of these is the development of YSLD, a re-imagining of the SLD syntax with YAML syntax.
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**Easier to read**
+
+SLD::
+
+  <CssParameter name="fill">#FF0000</CssParameter>
+
+YSLD::
+
+  fill-color: '#FF0000'
+
+Presenter notes
+---------------
+
+Compare the following style directives, both of which specify the fill color of a feature to be red.
+
+In SLD, the XML-based nature of the content obscures the important aspects of the directive in the middle of the line. With YSLD, the attribute and the value are clearly marked and associated with no extraneous information, making comprehension easier.
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**More compact**
+
+::
+
+  <Rule>
+    <PointSymbolizer>
+      <Graphic>
+        <Mark>
+          <WellKnownName>circle</WellKnownName>
+          <Fill>
+            <CssParameter name="fill">#FF0000</CssParameter>
+          </Fill>
+          <Stroke>
+            <CssParameter name="stroke">#000000</CssParameter>
+            <CssParameter name="stroke-width">2</CssParameter>
+          </Stroke>
+        </Mark>
+        <Size>8</Size>
+      </Graphic>
+    </PointSymbolizer>
+  </Rule>
+
+
+Presenter notes
+---------------
+
+Individual style files of a sufficient complexity can easily grow to dozens of rules. Therefore the length of each individual rule can drastically affect the length of the entire style.
+
+Compare the following style rules, which both specify the a point layer to be styled as a red circle with 8-pixel diameter and a 2-pixel black stroke:
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**More compact**
+
+  rules:
+  - symbolizers:
+    - point:
+        size: 8
+        symbols:
+        - mark:
+            shape: circle
+            fill-color: '#FF0000'
+            stroke-color: '#000000'
+            stroke-width: 2
+
+Presenter notes
+---------------
+
+While the SLD comes in at 300 characters, the YSLD equivalent comes in at about half that. Also, by not using an XML-based markup language, the removal of open and close tags make the document look much simpler and be much more compact.            
+
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**More flexible syntax**
+
+Valid::
+
+  <Fill>...</Fill>
+  <Stroke>...</Stroke>
+
+Invalid::
+
+  <Stroke>...</Stroke>
+  <Fill>...</Fill>
+
+Presenter notes
+---------------
+
+SLD, being an XML-based markup language, has a schema to which any style file needs to adhere. This means that not only are certain tags required, but the order of those tags are significant. This can cause confusion when the correct directives happen to be in the wrong order.
+
+For example, take the following fill and stroke directives for a symbolizer. In SLD, the top is valid, while the bottom is invalid.
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**More flexible syntax**
+
+Both valid::
+
+  fill-color: '#FF0000'
+  stroke-color: '#000000'
+
+::
+
+  stroke-color: '#000000'
+  fill-color: '#FF0000'
+
+
+Presenter notes
+---------------
+
+YSLD, by contrast, does not require any of the directives to be ordered, so long as they are contained in the proper block.
+
+For example, the following are both equally valid.
+
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**Contains variables for reusable code**
+
+::
+
+  define: &variable
+    shape: circle
+    fill-color: '#FF0000'
+    stroke-color: '#000000'
+  rules:
+  - name: rule1
+    scale: [35000,max]
+    symbolizers:
+    - point:
+        size: 6
+        symbols:
+        - mark:
+            <<: *variable
+            stroke-width: 2
+
+Presenter notes
+---------------
+
+In SLD, if you have content that needs to be reused from rule to rule, you must manually generate the directives for each rule over and over. YSLD eliminates the need for redundant directives by introducing the ability to create variables that can take the place of the same content.
+
+For example, all the directives that occur multiple times can be replaced with a variable.
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**Direct match with SLD**
+
+SLD ↔ YSLD ↔ SLD
+
+Presenter notes
+---------------
+
+In addition to all of these advantages, YSLD directly aligns with SLD concepts. This allows existing SLD files to be converted into YSLD representation and back again.
+
+Note: While YSLD and SLD share the core concepts, several YSLD features are modified during use.
+
+  Comments are removed
+  Zoom parameters are converted to scale parameters
+  Variables are evaluated
+
+Some may be familiar with a CSS extension for GeoServer, which attempts to mimic CSS-style syntax.
+
+While CSS syntax is familiar to many, there are some disadvantages when used with GeoServer. The CSS code needs to be converted to SLD internally, and the painter's model for CSS differs significantly from SLD, making it challenging to mimic the desired effects exactly. Also, CSS styles can be converted to SLD, but the reverse is not true, due to inherent differences in the way the styles are drawn.
+
+YSLD does not suffer from any of these limitations.
+
+--------------------------------------------------
+
+Simple YSLD
+===========
+
+::
+
+  title: Simple Point
+  feature-styles:
+  - rules:
+    - scale: [min, max]
+      symbolizers:
+      - point:
+          size: 6
+          symbols:
+          - mark:
+              shape: circle
+              fill-color: '#FF0000'
+
+Presenter notes
+---------------
+
+The following are the equivalent styles from the previous section on Styled Layer Descriptor, but converted to YSLD. Please refer back to that section for comparisons if necessary.
+
+The following example draws a simple 6-pixel red circle for each feature in a given layer.
+
+  There is one feature-style (akin to <FeatureTypeStyle>) which starts on line 2.
+  There is one rule which starts on line 3.
+  The symbolizer section (line 5) contains a single point symbolizer, starting at line 6.
+  The size of the point is given on line 7.
+  The symbol (mark) is set to be a red circle on lines 8-11.
+
+--------------------------------------------------
+
+Simple YSLD
+===========
+
+.. image:: ../doc/source/styling/img/sld_simplestyle.png
+   :width: 150%
+
+Presenter notes
+---------------
+
+When applied to a hypothetical layer, the result would look like this:
+
+--------------------------------------------------
+
+Another YSLD
+============
+
+::
+
+  title: Attribute-based point
+  feature-styles:
+  - rules:
+    - name: SmallPop
+      title: 1 to 50000
+      filter: ${pop < '50000'}
+      scale: [min, max]
+      symbolizers:
+      - point:
+          size: 8
+          symbols:
+          - mark:
+              shape: circle
+              fill-color: '#0033CC' 
+
+Presenter notes
+---------------
+
+Here is an example of a YSLD file that includes attribute-based styling. This is identical to the SLD example.
+
+  The first rule is contained on lines 4-14.
+  The first rule contains a filter for the pop attribute on line 6.
+  The point symbolizer for the first rule is on line 9-14, containing the point size, shape, and color information.
+
+--------------------------------------------------
+
+Another YSLD
+============
+
+.. image:: ../doc/source/styling/img/sld_intermediatestyle.png
+   :width: 150%
+
+Presenter notes
+---------------
+
+When applied to a hypothetical layer, the result would look like this:
+
+--------------------------------------------------
+
+Functions in YSLD
+=================
+
+::
+
+  title: Attribute-based point
+  feature-styles:
+  - name: name
+    rules:
+    - name: Population
+      title: Population with three categories
+      scale: [min, max]
+      symbolizers:
+      - point:
+          size: ${Categorize(pop,'8','50000','16','100000','20')}
+          symbols:
+          - mark:
+              shape: circle
+              fill-color: '#0033CC'
+
+Presenter notes
+---------------
+
+And just like SLD has the ability to simplify based on functions, so does YSLD, making the resulting style even more compact.
+
+ There is a single rule on lines 5-14.
+ The Categorize function is contained on line 10.
 
 --------------------------------------------------
 
@@ -1322,13 +1699,11 @@ Viewing an existing style
 Presenter notes
 ---------------
 
-Every layer published in GeoServer must have a style associated with it. When manually loading layers as done in the Publishing a shapefile and Publishing a GeoTIFF sections, GeoServer will look at the geometry of the data and assign a generic style based on that data type. When using the Layer Importer, a unique style will be generated for each layer. We will now look at how GeoServer handles styles.
+Every layer published in GeoServer must have at least one style associated with it. When manually loading layers as done in the Publishing a shapefile and Publishing a GeoTIFF sections, GeoServer looks at the geometry of the data and assign a generic existing style based on that data type. When using the Layer Importer, GeoServer will generate a unique style for each layer, but still based on the geometry. We will now look at how GeoServer handles styles.
 
-    [[[]]] WARNING - Window Juggling ahead, we could streamline these instructions
+  Navigate to the Layers list. Select the earth:countries layer from the list of published layers.
 
-    Navigate to the Layer list. Select a layer from the list of published layers. (This example will use earth:countries, but any layer will do.)
-
-    Preview the layer to see its visualization by navigating to the Layer Preview, then clicking on the OpenLayers link next to that layer.
+  Preview the layer to see its visualization by navigating to the Layer Preview, then clicking the OpenLayers link next to that layer.
 
 --------------------------------------------------
 
@@ -1342,9 +1717,13 @@ Presenter notes
 
 Leave this preview window open and open up a new browser tab. In the new tab, navigate back to the main GeoServer web interface page.
 
-In order to view the SLD for this layer, we need to find out which style is associated with this layer. To do this, click on Layers under Data on the left side of the page, then click on the Layer Name link of countries.
+In order to view the style for this layer, we need to find out which style is associated with this layer. To do this, click Layers under Data on the left side of the page.
 
-You are now back at the layer configuration page. Notice there are four tabs on this page, Data (the default), Publishing, Dimensions, and Tile Caching. Click on the Publishing tab, then scroll down to the entry that says Default Styles. Make a note of the name of the style. (In the case of earth:countries the name of the style is called polygon.)
+Click the Layer Name link of countries.
+
+You are now back at the layer configuration page. Notice there are four tabs on this page: Data (default), Publishing, Dimensions, Tile Caching.
+
+Click the Publishing tab, then scroll down to the entry that says Default Styles. Make a note of the name of the style. (In the case of earth:countries, the name of the style is called polygon.)
 
 --------------------------------------------------
 
@@ -1356,32 +1735,29 @@ Viewing an existing style
 Presenter notes
 ---------------
 
-Now that we know the name of the style, we can view the style's code. Click on the Styles link, under Data on the left side of the page.
+Now that we know the name of the style, we can view the style's code. Click the Styles link, under Data on the left side of the page.
 
-Click on the style name determined in the previous step.
+Click the style name determined in the previous step.
 
-A text-like editor will open up, displaying the SLD code for this style.
+A text editor will open up, displaying the code for this style.
 
 --------------------------------------------------
 
 Editing an existing style
 =========================
 
-.. image:: ../doc/source/styling/img/styles_view.png
-
 .. image:: ../doc/source/styling/img/styles_validated.png
 
 Presenter notes
 ---------------
 
-It is helpful when learning about SLD to edit existing styles (or copies of existing styles!) rather than creating new ones from scratch. We will now do this with the style that was just opened.
+It is helpful when learning about styles to edit existing ones rather than creating new ones. We will now do this with the style that was just opened.
 
-    Make a change to an RGB color value in a <CssParameter> value. For example, find the line that starts with <CssParameter name="fill"> and change the HEX colour code to #0000ff (blue).
+  Make a change to an RGB color value in a <CssParameter> value. For example, find the line that starts with <CssParameter name="fill"> and change the RGB code to #0000FF (blue).
 
-    When done, click Validate to make sure that the changes you have made are valid. If you receive an error, go back and check your work.
+  When done, click Validate to make sure that the changes you have made are valid. If you receive an error, go back and check your work.
 
-	Click Submit to commit the style change.
-
+  Click Submit to commit the style change.
 
 --------------------------------------------------
 
@@ -1393,7 +1769,9 @@ Editing an existing style
 Presenter notes
 ---------------
 
-Now, go back to the browser tab that contains the OpenLayers preview map. Refresh the page (Ctrl-R / F5 / etc), and you should see the color change to blue (or your own new HEX colour).
+Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page, and you should see the color change to blue.
+
+Note: GeoServer and your browser can both cache images. If you don't see a change immediately, zoom or pan the map to display a new area.
 
 --------------------------------------------------
 
@@ -1405,13 +1783,13 @@ Loading new styles
 Presenter notes
 ---------------
 
-Often, you might have an SLD saved as a text file (downloaded, in-house, external application, etc.)
+If you have a style file saved as a text file, it is easy to load it into GeoServer. We will now load the YSLD styles saved in the workshop styles folder.
 
-If this si the case, it is easy to load it into GeoServer. We will now load the saved styles provided in the workshop styles folder.
+Note: The procedure for loading SLD files is exactly the same.
 
-    Navigate back to the Styles page by clicking on Styles under Data on the left side of the page.
+Navigate back to the Styles page by clicking Styles under Data on the left side of the page.
 
-    Click on Add a new style.
+Click Add a new style.
 
 --------------------------------------------------
 
@@ -1425,34 +1803,38 @@ Presenter notes
 
 A blank text editor will open.
 
-At the very bottom of the page, below the text editor, there is a box titled SLD file. Click Browse ... to navigate to, and select your SLD file.
+At the very bottom of the page, below the text editor, there is an area where you can populate a style based on an existing text file. click Choose File... to navigate to and select a style file.
 
-Select cities.sld
+Select the cities.ysld file. Recall that the style files are in the styles directory of your workshop bundle.
 
-Note: If you're having trouble finding it, recall that the SLD files are in the styles sub-directory of the workshop.
-
-Click the Upload ... link to load this SLD into GeoServer. The SLD will display in the text editor, and the name of the style will be automatically populated (from the contents of the SLD file).
+Back in GeoServer, click the Upload... link to load this style file into GeoServer.
 
 --------------------------------------------------
 
 Loading new styles
 ==================
 
-.. image:: ../doc/source/styling/img/styles_displaysld.png
+.. image:: ../doc/source/styling/img/styles_displaystyle.png
 
 Presenter notes
 ---------------
 
-Click Validate to confirm that the SLD is valid. (As-is, it really should be!)
+The code will display in the text editor. The name of the style will be automatically generated.
+
+Click Validate to ensure that the style is valid.
+
+Change the title to Cities. The capital letter will help distinguish the uploaded styles from other similar-looking style names. The specific name isn't important though.
+
+Make sure the Format is set to YSLD.
 
 Click Submit to save the new style.
 
-Repeat steps 2-8 above with the two other SLD files in the the styles directory:
+Repeat the above steps with the two other YSLD files in the the styles directory:
 
-    countries.sld
-    ocean.sld
+  countries.ysld
+  ocean.ysld
 
-We will leave the shadedrelief layer with the default style.
+We will not upload a new style for the shadedrelief layer.
 
 --------------------------------------------------
 
@@ -1464,19 +1846,15 @@ Associating styles with layers
 Presenter notes
 ---------------
 
-Once the styles are loaded, they are merely stored in GeoServer - They are available, but not associated with any layers. (Don't let their namesakes fool you).
+Once the styles are loaded, they are merely stored in GeoServer, but not associated with any layers. The next step is to link the styles with their appropriate layer.
 
-Our next step is to link the styles with corresponding layers.
+  Navigate to the Layers page.
 
-Warning: If an SLD has references that are specific to a certain layer (for example, attribute names or geometries), associating that style with another layer may cause unexpected behavior or errors.
+  Click the earth:cities layer to edit its configuration.
 
-    Navigate to the Layers page by clicking on Layers under Data on the left side of the page.
+  Click the Publishing tab.
 
-    Click on the earth:cities layer to edit its configuration.
-
-    Click on the Publishing tab.
-
-    Scroll down to the Default style drop down list. Select the option to display the cities style. you should see that the legend changes.
+  Scroll down to the Default style drop down list. Change the entry to display the Cities style. You will see that the legend changes.
 
 --------------------------------------------------
 
@@ -1493,7 +1871,7 @@ Click Save to commit the change.
 
 Verify the change by going to the layer's Layer Preview page. Zoom in the see the behavior change based on zoom level.
 
-Repeat steps 2-6 for the earth:countries and earth:ocean layers, associating each with the appropriate uploaded style (countries and ocean respectively). View each result in the Layer Preview.
+Repeat the above steps for the earth:countries and earth:ocean layers, associating each with the appropriate uploaded style (Countries and Ocean respectively). View each result in the Layer Preview.
 
 --------------------------------------------------
 
@@ -1507,45 +1885,59 @@ Why doesn't the ocean layer display?
 Presenter notes
 ---------------
 
-BOOM! 
-
-At this point, the earth:ocean layer won't display properly. Let's look at the SLD and see if we can figure out why not? The next section will explain.
+At this point, the earth:ocean layer won't display properly. Look at the style file; can you figure out why not? The next section will explain.
 
 --------------------------------------------------
 
-External graphics...
-====================
+External graphics
+=================
 
-.. image:: ../doc/source/styling/img/styles_externalgraphic.png
+Note the graphic in the style:
+
+::
+
+   name: 'Ocean'
+   title: 'Ocean: Graphic fill'
+   feature-styles:
+   - rules:
+     - scale: [min, max]
+       symbolizers:
+       - polygon:
+           fill-graphic:
+             size: 16
+             symbols:
+             - external:
+                 url: oceantile.png
+                 format: image/png
 
 Presenter notes
 ---------------
 
-In addition to drawing circles, squares, and other standard shapes, SLD files have the ability to link to (external) graphics.
+Style files have the ability, in addition to drawing circles, squares, and other standard shapes, to link to graphics files. The earth:ocean style utilizes an ocean-themed graphic that will be tiled throughout the layer. While it is possible to link to a full URL that references an online resource, in practice that is less efficient than storing the file locally and linking to it there.
 
-The earth:ocean style uses an ocean-themed graphic that is directed to be tiled throughout the layer.
-
-It is possible for the SLD to use a full URL that references an online resource. However, in practice that can become a bandwidth-intensive task for a server. In most cases, it makes sense to store the asset file referenced in the SLD locally.
-
-If you look at the ocean.sld file, you will see that an image is referenced, but that that reference contains no path information. This means that GeoServer will expect the graphic to be in the same directory as the SLD itself. In order for the layer to display properly, we will need to copy that file manually into the right location (adjacent to the SLD).
+This means that GeoServer will expect the graphic to be in the same directory as the file itself. So in order for the layer to display properly, we will need to copy that file manually.
 
 --------------------------------------------------
 
-...and the data directory
-=========================
+External graphics
+=================
 
-.. image:: ../doc/source/styling/img/styles_datadirectory.png
+Images can be placed in the data directory
+
+.. image:: ../doc/source/styling/img/styles_datadirstartmenu.png
 
 Presenter notes
 ---------------
 
-The styles directory of the workshop materials contains a file, oceantile.png. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory. In the OpenGeo Suite, the easiest way to get to the GeoServer Data Directory is go to the Start Menu and navigate to Start ‣ Programs ‣ OpenGeo Suite ‣ GeoServer Data Directory.
+The styles directory of the workshop materials contains a file, oceantile.png. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory. In OpenGeo Suite for Windows, the easiest way to get to the GeoServer data directory is go to the Start Menu and navigate to OpenGeo Suite ‣ Data Directory.
 
-Note: You can find the full path to the data directory by clicking Server Status on the left side of any GeoServer page.
+You can also find the full path to the data directory by clicking Server Status on the left side of any GeoServer page.
 
-In that directory, navigate into the styles folder. You should see the ocean.sld and all of the other SLD files created.
+Once located, navigate to the GeoServer Data directory.
 
-Copy the file oceantile.png into the styles directory.
+Navigate into the styles folder.
+
+Copy the oceantile.png file from the workshop materials into the styles directory.
 
 --------------------------------------------------
 
@@ -1557,9 +1949,7 @@ External graphics
 Presenter notes
 ---------------
 
-Now back in the browser, navigate to the Layer Preview for the earth:ocean layer. If you copied the file correctly, you should see a ocean-like graphic tiled in the appropriate places now.
-
-[[[]]] Note advanced uses of external graphics ... Can be applied to points / lines/poly Beyond this workshop,
+Now back in GeoServer, navigate to the Layer Preview for the earth:ocean layer. If you copied the file correctly, you should see a ocean-like graphic tiled in the appropriate places now.
 
 --------------------------------------------------
 
@@ -1577,495 +1967,81 @@ If for some reason, the layer group fails to update with the new styles, go back
 
 --------------------------------------------------
 
-GeoExplorer
-===========
-
-Don't create those SLDs by hand!
-
-GeoExplorer includes a graphical styling editor.
-
-Presenter notes
----------------
-
-Creating SLD files by hand can be a difficult and time-consuming process. 
-
-The SLDs we looked at previously were quite simple, but complexity (and length)can increase quite quickly when we start working with complex rules and/or compound symbolizers.
-
-Fortunately, there is a tool called GeoExplorer which offers a graphical style editor. With GeoExplorer, you can create rules and symbolizers without ever needing to view SLD code.
-
-Note: GeoExplorer currently implements most but not all of the features of the SLD specification.
-
---------------------------------------------------
-
-GeoExplorer
-===========
-
-.. image:: ../doc/source/styling/img/geoexplorer.png
-
-Presenter notes
----------------
-
-Launch GeoExplorer. By default, GeoExplorer is located at http://localhost:8080/geoexplorer.
-
-By default, the only layer that displays is a MapQuest OpenStreetMap layer. 
-
-Click the Add layers button (the green circle with the white plus) towards the top left of the screen and then select Add layers.
-
---------------------------------------------------
-
-GeoExplorer
-===========
-
-.. image:: ../doc/source/styling/img/gx_addlayersdialog.png
-
-Presenter notes
----------------
-
-In the resulting Available Layers dialog, select the four layers used in this workshop (not the earthmap layer group) and click Add layers. To select multiple layers at once, hold the CTRL (or CMD) key while clicking on the layer.
-
-Note: Among large lists of layers, it may be easier to find the layers of interest by clicking the ID column header to sort by workspace.
-
---------------------------------------------------
-
-GeoExplorer
-===========
-
-.. image:: ../doc/source/styling/img/gx_layersadded.png
-
-Presenter notes
----------------
-
-When you have added all of your layers, click Done to return to the main map. 
-
-The check-boxes control, or toggle, which layers are visible (not unlike other applications, checked = visible / unchecked = not displayed)
-
-The order of the layers determines the rendering order
-
-The layer list also contains an in-line legend for each layer, which is a compilation of all the rules in the styles of the visible layer.
-
-Finally, notably, the bulk of the window is taken up by the map itself.
-
-Note: Layer groups, being a compilation of layers (each with their own style)  cannot be styled with GeoExplorer. You need to access and edit the style on each member layer of the group. When you edit (and SAVE) the style of a layer that is contained in a layer group, the layer group will reflect the change.
-
---------------------------------------------------
-
-GeoExplorer
-===========
-
-.. image:: ../doc/source/styling/img/gx_layersreordered.png
-
-Presenter notes
----------------
-
-When they're added to the map, our earth layers may not be in the correct order. To reorder layers in GeoExplorer, click to select a layer and drag it into its new postition in "the stack". A suitable order for our layers (from top to bottom) would be:
-
-    cities, countries, ocean, shadedrelief
-
-Finally, select None under the Base Maps list. The map should now look identical to the layer group.
-
---------------------------------------------------
-
-Editing an existing style
-=========================
-
-Click to log in, and then enter credentials:
-
-.. image:: ../doc/source/styling/img/gx_loginbutton.png
-   :width: 40%
-
-.. todo:: ../doc/source/styling/img/gx_logindialog.png
-
-Presenter notes
----------------
-
-If you edit styles in GeoExplorer, it makes changes directly to the underlying SLD in GeoServer. An SLD file may look very different after being edited by GeoExplorer, so it is always a good idea to make a back-up copy of your SLDs before using GeoExplorer to edit them.
-
- Before we can make any changes to styles, we have to log in to GeoExplorer. (They should currently be disabled ...). Click the login button at the very top right of the window and enter your GeoServer admin credentials: admin / geoserver .
-
---------------------------------------------------
-
-Editing an existing style
-=========================
-
-.. image:: ../doc/source/styling/img/gx_listofrules.png
-
-Presenter notes
----------------
-
-Once you're logged in, the style editor, among other tools, will be enabled. 
-
-Select the countries layer by single clicking on it in the layer list. Then 
-click on the Change Styles (palette) icon right above the layer list to Edit Styles.
-
-Note: If the icon is disabled, make sure that you have logged in successfully and that you have selected the correct layer.
-
-Click on the first rule and then click Edit.
-
-Note: You can also invoke the Style Editor on a given layer throught the right-click (context) menu.
-
---------------------------------------------------
-
-Editing an existing style
-=========================
-
-.. image:: ../doc/source/styling/img/gx_editrulebefore.png
-
-Presenter notes
----------------
-
-The style rule editor will display.
-
-Make some changes to the rule and see how it updates in real-time. As a suggestion, change the Fill Color by clicking on the color box and selecting a new color.
-
---------------------------------------------------
-
-Editing an existing style
-=========================
-
-.. image:: ../doc/source/styling/img/gx_editruleafter.png
-
-Presenter notes
----------------
-
-Finally, click Save to persist your changes.
-
---------------------------------------------------
-
-Editing an existing style
-=========================
-
-Now take a look at the SLD code that GeoExplorer has created. Navigate back to GeoServer, to the Styles menu, and then to the countries style to view it.
-
-Presenter notes
----------------
-
-.. image:: ../doc/source/styling/img/gx_verify.png
-
---------------------------------------------------
-
-Bonus exercises
-===============
-
-* Add a new rule that displays the label of the country. Don't worry about label placement.
-* Hint: The attribute to display is called NAME. But if you didn't know this, how would you find it out?
-
-* How might we go about creating an attribute-based classification to draw features within a layer differently based on those features' properties?
-* Hint: Check out the Advanced tab. What else do we see in there?
-
-Presenter notes
----------------
-
-Answer1: GetFeatureInfo
-Answer2:
-- Limit by Condition (and a suitable set of operators and comparators)
-- Limit by Scale ... 
-
---------------------------------------------------
-
-Section 6: Google Earth
+Graphical styling: QGIS
 =======================
 
-Google Earth is a powerful 3D map viewer. GeoServer integrates with Google Earth by providing native KML output, allowing any layer served by GeoServer to be loaded into Google Earth.
+.. image:: ../doc/source/styling/img/gui_qgis.png
 
 Presenter notes
 ---------------
 
-Google Earth is a powerful 3D map viewer. GeoServer integrates with Google Earth by providing native KML output, allowing any layer served by GeoServer to be loaded into Google Earth. In addition, there are additional visualization features that are made possible through Google Earth, such as legends, filters, and extrudes.
+Creating style files by hand, regardless of the type of markup you use, can be a difficult and time-consuming process. Fortunately, there are some graphical tools that exist to help make the generating of styles in GeoServer easier.
 
-In this section, you will see how Google Earth can be used as a client for viewing and interacting with GeoServer.
+While beyond the scope of this workshop, attendees are encouraged to download these programs and try them out
+
+QGIS is a free and open source GIS. It is typically used on the desktop, but is available in server / browser form as well.
+
+QGIS has robust and varied styling options. While SLD isn't used natively (and therefore some styling options can be used that don't fit the standard), all styles can be exported to SLD.
 
 --------------------------------------------------
 
-Viewing layers
+Graphical styling: uDig
+=======================
+
+.. image:: ../doc/source/styling/img/gui_udig.png
+
+Presenter notes
+---------------
+
+uDig is another desktop GIS application. It is built from some of the exact same tools as GeoServer and so shares the same rendering engine. It can style directly from the SLD standard, so no conversion is necessary.
+
+--------------------------------------------------
+
+Section 6: Web map
+==================
+
+Open ``html/map.html`` in a browser
+
+.. image:: ../doc/source/webmap/img/map.png
+
+Presenter notes
+---------------
+
+Publishing data and maps in GeoServer is just one part of the finished product. You may also want to create a web map application, one that consumes that content and possibly allows for interactivity.
+
+For our final exercise, we will show embedding web maps in a web page.
+
+In the workshop html directory, open map.html in a browser.
+
+There isn't much interactivity possible here, but this HTML page is standalone, meaning that all it requires is that it be placed on a web server, with an open connection to the GeoServer WMS.
+
+--------------------------------------------------
+
+Web map output
 ==============
 
-.. image:: ../doc/source/googleearth/img/view_preview.png
+.. image:: ../doc/source/webmap/img/devtools.png
 
 Presenter notes
 ---------------
 
-GeoServer natively outputs data in KML format. This is the markup language that is used by Google Maps and Google Earth. In this way, it is easy to convert shapefiles or any geospatial data to a format that Google services understand.
+Open the developer tools of your browser (often accessed by pressing F12) and click the Network tab. Reload the page and note how the network requests are all WMS requests to GeoServer.
 
-There are two ways to view data in Google Earth. The first is by statically loading a KML file. The second is by using a Network Link and connecting to a KML stream. We will show both.
-
-    Navigate to the Layer Preview .
-
-    Find the earth:countries layer and select Google Earth in its View menu. Click Go.
+Note: The ows endpoint is a generic name for all the OGC web services. It stands for "Open Web Service".
 
 --------------------------------------------------
 
-Viewing layers
+Web map output
 ==============
 
-.. image:: ../doc/source/googleearth/img/view_layer.png
+Embed a map in web page
+
+.. image:: ../doc/source/webmap/img/app.png
 
 Presenter notes
 ---------------
 
-You will be asked to download a file. Select Open with Google Earth and click OK.
-
-Note: A KMZ file is a KML file compressed into an archive.
-
-The layer will open in Google Earth.
-
---------------------------------------------------
-
-Viewing layers
-==============
-
-.. image:: ../doc/source/googleearth/img/view_placemark.png
-
-Presenter notes
----------------
-
-Click on one of the layer's points to view its placemark description.
-
-It is possible to customize this placemark description through GeoServer, including adding custom HTML.
-
---------------------------------------------------
-
-Network Link
-============
-
-.. image:: ../doc/source/googleearth/img/view_addnetworklink.png
-
-Presenter notes
----------------
-
-Now we will connect Google Earth to a GeoServer KML stream via a Network Link. This allows for the view in Google Earth to be dynamically updated.
-
-Remove the entry called countries.kmz in the Places list by right-clicking and selecting Delete.
-
-Add a new Network Link by navigating to the Add menu and selecting Network Link.
-
-In the dialog that appears, enter "Countries" in the Name field.
-
-In the Link field, enter the following URL:
-
-http://localhost:8080/geoserver/wms/kml?layers=earth:countries
-
-Note: This is the same target for the Layer Preview Go URL above.
-
-Click OK when done.
-
-The output should be the same as before. The difference is that a Network Link is dynamic, which means that we can alter the stream and refresh the view without having to export a new KML file. We'll put this to use in the next section.
-
---------------------------------------------------
-
-Displaying a legend
-===================
-
-.. image:: ../doc/source/googleearth/img/legend_link.png
-
-Presenter notes
----------------
-
-When viewing data with a thematic style a legend is very helpful. We'll now add a legend to our map of cities.
-
-    Edit the existing Network Link for the Countries by right-clicking on the entry in the Places list and selecting Properties. This will return you to the original dialog where the Network Link was created.
-
-    Append the parameter &legend=true to the end of the Network Link URL.
-
-Click OK when done.
-
---------------------------------------------------
-
-Displaying a legend
-===================
-
-.. image:: ../doc/source/googleearth/img/legend_view.png
-
-.. image:: ../doc/source/googleearth/img/legend_sldtitle.png
-
-Presenter notes
----------------
-
-The legend is generated from the <Title> tags inside the SLD that the layer is using. You can verify this by opening up the cities.sld in a text editor, or from within GeoServer. In this case, the rules in the SLD are based on colors used to better distinguish countries on the map.
-
---------------------------------------------------
-
-Displaying a legend
-===================
-
-.. image:: ../doc/source/googleearth/img/legend_sldtitle.png
-
-Presenter notes
----------------
-
---------------------------------------------------
-
-Filtering layers
-================
-
-``&cql_filter=POP_EST > '100000000'``
-
-.. image:: ../doc/source/googleearth/img/filter_pop.png
-
-Presenter notes
----------------
-
-Often a layer contains too much information and it is desirable to filter what is displayed. In this section we will filter a KML stream coming from GeoServer using CQL.
-
-The cql_filter parameter is a way to specify a predicate based on attribute values or spatial orientation. Let's single out only countries that have populations of one hundred million or more.
-
-    Edit the Network Link as in the previous section. Append the following parameter to the end of the Network Link:
-
-    &cql_filter=POP_EST > '100000000'
-
-    Click OK when done.
-
-You will see that only the countries that have populations greater than one hundred million are displayed. In the case of South America, only Brazil's feature is shown. All other country features are not shown as part of the layer.
-
-
-
---------------------------------------------------
-
-Bonus: Filtering
-================
-
-* Create a filter that displays only your favorite country. (Hint: Use the ``Name`` attribute)
-* Use a CQL filter to display all of the countries that start with an "S". (Hint: ``%`` is a wildcard)
-
-Presenter notes
----------------
-
-In CQL you can also match strings using the "LIKE" operator. Create a filter that displays only your favorite country. (Hint: Use the "NAME" attribute.)
-When using LIKE in CQL, you have ability to add the "%" as a wildcard to the request. Use a CQL filter to display all of the countries that start with an "S".
-
---------------------------------------------------
-
-Raster and vector display
-=========================
-
-* Also known as "scoring" or "kmscore"
-* Raster or vector determined by how much data is displayed
-
-Presenter notes
----------------
-
-Google Earth's rendering of GeoServer features can take one of two forms: raster or vector output.
-
-Raster output is like a WMS response wrapped over top of the globe. It requires much less throughput to generate the display, but provide much less interactivity. On the other hand, vector output is like a WFS response rendered over the globe. You get the entire feature's geometry, which requires much more bandwidth, but allows for more interactivity.
-
-The determination to display raster or vector data is made by Google Earth depending on the number of features displayed on screen at any given time. You can see this by zooming out very far, waiting a few seconds for the display to update, and then zooming in very close. You will notice subtle differences in the way that the features are rendered.
-
---------------------------------------------------
-
-Raster and vector display
-=========================
-
-Too many features = raster display
-
-.. image:: ../doc/source/googleearth/img/score_zoomoutraster.png
-
-Presenter notes
----------------
-
-The raster-versus-vector determination is called scoring. The score itself is known as the kmscore. The kmscore is a value between 0 and 100, where 0 means "force raster" and 100 means "force vector". The values in between use a abstruse formula, and in general it is perhaps best to try out a few values to see how performant your display is. The default is 50.
-
-Since we have a small number of features here, we want to force vector display. To do this, we are going to set a kmscore of 100.
-
-    Edit the Network Link as in the previous sections.
-
-    Remove the cql_filter parameter and append &kmscore=100 to the end of the request. Click OK when done.
-
---------------------------------------------------
-
-Raster and vector display
-=========================
-
-Forced vector display
-
-.. image:: ../doc/source/googleearth/img/score_zoomoutvector.png
-
-Presenter notes
----------------
-
-Now zoom out very far. Notice that the features remain in vector form. The way to test this is to click on a feature. If the placemark displays, then the feature was drawn as a vector.
-
---------------------------------------------------
-
-Extrudes
-========
-
-* 2.5D display (features with height)
-* Formula for determining height of features saved in data directory
-
-Presenter notes
----------------
-
-Google Earth has the ability to draw extruded features. This is a technical way of saying that it can draw features with "height" such that they appear floating in the air above the globe as opposed to "clamped" to it.
-
-GeoServer can send information to Google Earth on how to draw extrudes based on a template saved in the GeoServer data directory.
-
-Recall from the section on External graphics and the data directory that the GeoServer data directory is where the catalog and settings of GeoServer are stored. We will create a height template and save it in the data directory
-
-Note: These templates are known as Freemark templates, named after the template engine used. See the Freemarker homepage for more information.
-
-
---------------------------------------------------
-
-Extrudes
-========
-
-``${POP_EST.value}``
-
-Save as ``<data_dir>\workspaces\earth\countries\countries\height.ftl``
-
-Presenter notes
----------------
-
-Open up a text editor and type in the following text:
-
-${POP_EST.value}
-
-This will set the height of a feature to be equal to the value of the POP_EST attribute, which is the population of the country.
-
-Save this file as height.ftl and save it in the GeoServer Data Directory at:
-
-<data_dir>\workspaces\earth\countries\countries\height.ftl
-
-This location will associate this template with this particular layer only.
-
-
---------------------------------------------------
-
-Extrudes
-========
-
-``${POP_EST.value}``
-
-.. image:: ../doc/source/googleearth/img/extrude_huge.png
-
-Presenter notes
----------------
-
-Now go back to Google Earth and move the globe around enough so that the view will refresh.
-
-You will see the polygons extruded based on the value of the attribute, so that the countries with larger populations are taller. However, with such extreme values, the globe is a bit hard to interpret. It would be better to scale the polygons down.
-
---------------------------------------------------
-
-Extrudes
-========
-
-``${POP_EST.value?number / 1000}``
-
-.. image:: ../doc/source/googleearth/img/extrude_small.png
-
-Presenter notes
----------------
-
-Open the same text file again. Replace the text with the following:
-
-${POP_EST.value?number / 1000}
-
-This will divide the attribute value by 1,000. The ?number is to force the attribute to be seen as a numerical value.
-
-Now go back to Google Earth again and refresh the view.
-
-The height is much more easy to interact with now.
-
+This map can be embedded in any web page. To see an overly simple example, In the workshop html directory, open app.html in a browser.
 
 --------------------------------------------------
 
@@ -2080,12 +2056,11 @@ Docs
 
 Mailing lists
   https://lists.sourceforge.net/lists/listinfo/geoserver-users
+  https://lists.sourceforge.net/lists/listinfo/geoserver-devel
 
 Bug tracker
-  http://jira.codehaus.org/browse/GEOS
+  https://osgeo-org.atlassian.net/projects/GEOS/
 
-IRC
-  #geoserver on Freenode
 
 Presenter notes
 ---------------
@@ -2094,12 +2069,11 @@ The following is a list of external sites related to GeoServer.
 
 Visit the GeoServer home page at http://geoserver.org.
 
+Full documentation for GeoServer is available at http://docs.geoserver.org.
 
-GeoServer has an active users mailing list, which you can subscribe to at https://lists.sourceforge.net/lists/listinfo/geoserver-users. If you're a developer, you can subscribe to the developer list at https://lists.sourceforge.net/lists/listinfo/geoserver-users.
+GeoServer has an active users mailing list, which you can subscribe to at https://lists.sourceforge.net/lists/listinfo/geoserver-users. If you're a developer, you can subscribe to the developer list at https://lists.sourceforge.net/lists/listinfo/geoserver-devel.
 
-JIRA, the GeoServer bug tracker, is hosted on http://codehaus.org at http://jira.codehaus.org/browse/GEOS.
-
-Join a live discussion at #geoserver, on irc.freenode.net.
+JIRA, the GeoServer bug tracker, is hosted on http://atlassian.net at https://osgeo-org.atlassian.net/projects/GEOS/.
 
 --------------------------------------------------
 
@@ -2119,14 +2093,14 @@ Boundless helps to develop GeoServer and funds development through its OpenGeo S
 
 --------------------------------------------------
 
-Any questions?
-==============
+Questions? / Thanks!
+====================
 
-Thanks!
--------
+.fx: titleslide
+
+.. image:: ../doc/source/geoserver.png
 
 Presenter notes
 ---------------
 
 --------------------------------------------------
-
