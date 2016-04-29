@@ -4,25 +4,7 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "box-cutter/ubuntu1404-desktop"
 
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "../data", "/vagrant_data"
 
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
@@ -37,34 +19,37 @@ Vagrant.configure(2) do |config|
     sudo cp /vagrant/*.list /etc/apt/sources.list.d/
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 089EBE08314DF160
-    sudo apt-get update
-    sudo apt-get install -y qgis python-qgis qgis-plugin-grass
+    sudo apt-get update -qq
+    sudo apt-get install -qqy qgis python-qgis qgis-plugin-grass
 
     # Install Java
     echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
     sudo add-apt-repository -y ppa:webupd8team/java
-    sudo apt-get update
-    sudo apt-get install -y oracle-java8-installer
+    sudo apt-get update -qq
+    sudo apt-get install -qqy oracle-java8-installer 2> /dev/null
 
     # Install qgis-geogig-plugin and GeoGig
-    sudo apt-get install -y python-pip
-    sudo apt-get install -y python-paver
-    sudo apt-get install -y git
+    sudo apt-get install -qy python-pip python-paver git
     cd /tmp
-    git clone https://github.com/boundlessgeo/qgis-geogig-plugin.git
+    git clone -q https://github.com/boundlessgeo/qgis-geogig-plugin.git
     cd qgis-geogig-plugin
     git apply /vagrant/qgis-geogig-plugin.patch
     mkdir geogig/bin
     cd geogig/bin
-    wget http://downloads.sourceforge.net/project/geogig/geogig-1.0-RC2/geogig-1.0-RC2.zip
-    unzip geogig-1.0-RC2.zip
+    wget -q http://downloads.sourceforge.net/project/geogig/geogig-1.0-RC2/geogig-1.0-RC2.zip
+    unzip -q geogig-1.0-RC2.zip
     rm -f geogig-1.0-RC2.zip
     cd ../..
     paver setup
     sudo chmod -R a+rwx /tmp/qgis-geogig-plugin
     sudo mv /tmp/qgis-geogig-plugin /opt/qgis-geogig-plugin
     cd /opt/qgis-geogig-plugin
+    sudo mkdir -p /usr/share/qgis/python/plugins
     sudo paver install
+
+    # Add JAI to prevent error messages
+    cd /opt/qgis-geogig-plugin/geogig/bin/geogig/lib/
+    wget -q http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/jai_core-1.1.3.jar
 
     # Add GeoGig to the path for all users
     echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/qgis-geogig-plugin/geogig/bin/geogig/bin" | sudo tee /etc/environment
@@ -72,5 +57,19 @@ Vagrant.configure(2) do |config|
     # Add boundless user
     sudo useradd --create-home --shell /bin/bash boundless
     echo boundless:boundless | sudo chpasswd
+
+    # Add workshop data
+    sudo su boundless
+    mkdir /home/boundless/data
+    cp /vagrant_data/bikepdx.zip /home/boundless/data/
+    cd /home/boundless/data
+    unzip -q bikepdx.zip
+    mkdir cmd
+    mkdir gui
+    cp bikepdx.* cmd/
+    mv bikepdx.* gui/
+    exit
+    sudo chown -R boundless:boundless /home/boundless
+
   SHELL
 end
