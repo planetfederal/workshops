@@ -31,7 +31,7 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qqy oracle-java8-installer 2> /dev/null
 
     # Install qgis-geogig-plugin and GeoGig
-    sudo apt-get install -qy python-pip python-paver git
+    sudo apt-get install -qqy python-pip python-paver git
     cd /tmp
     git clone -q https://github.com/boundlessgeo/qgis-geogig-plugin.git
     cd qgis-geogig-plugin
@@ -61,16 +61,14 @@ Vagrant.configure(2) do |config|
     echo boundless:boundless | sudo chpasswd
 
     # Add workshop data
-    sudo su boundless
-    mkdir /home/boundless/data
-    cp /vagrant_data/bikepdx.zip /home/boundless/data/
+    sudo mkdir /home/boundless/data
+    sudo cp /vagrant_data/bikepdx.zip /home/boundless/data/
     cd /home/boundless/data
-    unzip -q bikepdx.zip
-    mkdir cmd
-    mkdir gui
-    cp bikepdx.* cmd/
-    mv bikepdx.* gui/
-    exit
+    sudo unzip -q bikepdx.zip
+    sudo mkdir cmd
+    sudo mkdir gui
+    sudo cp bikepdx.* cmd/
+    sudo mv bikepdx.* gui/
     sudo chown -R boundless:boundless /home/boundless
 
   SHELL
