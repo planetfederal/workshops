@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="./src/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="./src/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="./src/ol3/ol.css">
+    <link rel="stylesheet" href="./src/css/Popup.css">
+    <link rel="stylesheet" href="./src/css/Style.css">
+    <style>
+      html, body, #map {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      #map {
+        position: relative;
+      }
+      .navbar {
+        background-color: #00A78D;
+      }
+      a#toolsDrop {
+        background-color: #00A78D;
+      }
+      .navbar .navbar-brand {
+        font-weight: bold;
+        font-size: 25px;
+        color: white;
+      }
+      .navbar .navbar-brand img {
+        margin-right: 10px;
+        margin-top: -5px;
+
+      }
+      .navbar .navbar-nav {
+        float: right;
+      }
+
+      .navbar .dropdown-menu {
+        left: auto;
+        right: 0px;
+      }
+      #popup-content {
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      
+    </style>
+    <script src="./src/ol3/ol-debug.js"></script>
+    <script src="./src/jquery/jquery.js"></script>
+    <script src="./src/bootstrap/js/bootstrap.js"></script>
+    <script src="./src/bootbox/bootbox.js"></script>
+    <title>OL3 Viewer</title>
+  </head>
+  <body>
+<!--
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <span class="navbar-brand"><img src="src/css/img/logo.svg" width="30" height="30"/><span class="app-title">Boundless OL3 Viewer</span></span>
+      </div>
+    </div>
+-->    
+    <div id="map">
+      <div id="popup" class="ol-popup"></div>
+    </div>
+    <script src="./src/app/app.js"></script>
+  </body>
+</html>

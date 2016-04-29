@@ -148,7 +148,7 @@ and:
 Contains variables for reusable code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In SLD, if you have content that needs to be reused from rule to rule, you must manually generate the directives for each rule over and over. YSLD eliminates the need for redundant directives by introducing the ability to create variables  that can take the place of the same content.
+In SLD, if you have content that needs to be reused from rule to rule, you must manually generate the directives for each rule over and over. YSLD eliminates the need for redundant directives by introducing the ability to create variables that can take the place of the same content.
 
 For example, all the directives that occur multiple times can be replaced with a variable:
 
@@ -184,7 +184,7 @@ Note the definition of ``variable`` at the top, and the variable substitution in
 Direct match with SLD
 ~~~~~~~~~~~~~~~~~~~~~
 
-In addition to all of these advantages, YSLD directly aligns with SLD concepts. This allows existing SLD files to be converted into YSLD representation.
+In addition to all of these advantages, YSLD directly aligns with SLD concepts. This allows existing SLD files to be converted into YSLD representation and back again.
 
 .. note::
 
@@ -300,7 +300,7 @@ Here is an example of a YSLD file that includes attribute-based styling. As befo
 
 * The first rule is contained on **lines 4-14**.
 * The first rule contains a filter for the ``pop`` attribute on **line 6**.
-* The point symbolizer for the first rule is on **line 9-14**, containing the point size, shape, and color information.
+* The point symbolizer for the first rule is on **lines 9-14**, containing the point size, shape, and color information.
 * The second rule is on **lines 15-25** and the third rule is on **lines 26-36**. The only differences between them are the filter and the point size.
 
 .. figure:: img/sld_intermediatestyle.png

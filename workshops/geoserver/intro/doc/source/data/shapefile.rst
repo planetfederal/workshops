@@ -102,7 +102,7 @@ We have loaded the shapefile store, but our layer has yet to be published. We'll
 
       Click to go to the Layer Preview page
 
-#. A list of published layers is displayed. Find the layer in the list, and click the :guilabel:`OpenLayers` libk next to the layer.
+#. A list of published layers is displayed. Find the layer in the list, and click the :guilabel:`OpenLayers` link next to the layer.
 
    .. figure:: img/shp_layerpreviewpage.png
 

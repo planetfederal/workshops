@@ -1,0 +1,83 @@
+.style-control {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  height: 60%;
+
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: white;
+}
+.style-control .style-header {
+  padding: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  position: absolute;
+  top: -30px;
+  left: 0px;
+  right: 0px;
+
+  color: #ffffff;
+  font-weight: bold;
+  background-color: #00A78D;
+}
+.style-control .style-scroll {
+  height: 100%;
+  overflow-y: scroll;
+}
+.style-control .style-body {
+  padding: 5px;
+  font-size: 12px;
+}
+.style-control .style-rule .rule-header-label {
+  position: relative;
+  bottom: 3px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.style-control .style-rule .rule-header a {
+  position: relative;
+  bottom: 2px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+.style-control .style-rule .rule-row-label {
+  display: inline-block;
+  width: 80px;
+  height: 25px;
+}
+.style-control .style-rule input[type="text"] {
+  height: 20px;
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.style-control .style-rule input.input-hex {
+  width: 60px;
+  margin-left: 0px;
+}
+.style-control .style-rule input.input-a {
+  width: 30px;
+}
+
+.style-control div.style-header {
+
+}
+
+.style-control div.style-body {
+  
+}
+
+.style-control div.style-body .rule-header {
+  
+}
+
+.style-control div.style-body div.rule-body {
+  margin-left: 20px;
+}
+
+.style-control .hide {
+  display: none;
+}

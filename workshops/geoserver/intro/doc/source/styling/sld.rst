@@ -114,7 +114,7 @@ When applied to a hypothetical layer, the result would look like this:
 Another SLD example
 -------------------
 
-Here is an example of an SLD style that includes attribute-based styling. The SLD also contains three rules. Each rule has an attribute-based condition, with the outcome determining the size of the shape being rendered. The attribute in question is called "pop", and the three rules are "**less than 50000**", "**50000 to 100000**", and "**greater than 100000**". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
+Here is an example of an SLD style that includes attribute-based styling. The SLD contains three rules. Each rule has an attribute-based condition, with the outcome determining the size of the shape being rendered. The attribute in question is called "pop", and the three rules are "**less than 50000**", "**50000 to 100000**", and "**greater than 100000**". The result is a blue circle with a size of 8, 12, of 16 pixels, depending on the rule.
 
 .. list-table::
    :header-rows: 1
@@ -284,7 +284,7 @@ This example uses the "Categorize" function, which transforms a continuous-value
 
 * There is a single rule (**lines 13-36**) that encompasses all the directives of the three rules in the previous example.
 * The Mark (both shape and color) are set on **lines 18-23**.
-* The interesting part of this style is contained in the Size tag (**lines 24-33**). Instead of a constant value, there is a Categorize function which dyamically selects a value based on criteria.
+* The interesting part of this style is contained in the Size tag (**lines 24-33**). Instead of a constant value, there is a Categorize function which dynamically selects a value based on criteria.
 * The first value in the Categorize function (**line 26**) determines what attribute to test. In this case, it is the ``pop`` attribute.
 * The next values are connected in "size" / "attribute value" pairs. As in: **lines 27-28** state that the size will be set to 8 when the ``pop`` attribute is less than 50,000, and the size will be set to 16 when the ``pop`` attribute is between 50,000 and 100,000.
 * The final value in the Categorize function (**line 31**) is the size when the ``pop`` attribute is greater than all the others, so greater than 100,000.  

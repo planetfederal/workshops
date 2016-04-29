@@ -114,7 +114,7 @@ If you have a style file saved as a text file, it is easy to load it into GeoSer
 
       Click to upload the style file
 
-#. Select the :file:`cities.ysld` file. Recall that the style files are in the :file:`styles` directory.
+#. Select the :file:`cities.ysld` file. Recall that the style files are in the :file:`styles` directory of your workshop bundle.
 
 #. Back in GeoServer, click the :guilabel:`Upload...` link to load this style file into GeoServer.
 

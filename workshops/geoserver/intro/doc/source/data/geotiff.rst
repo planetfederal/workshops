@@ -10,13 +10,13 @@ Adding a store
 
 The procedure for adding a store for a GeoTIFF is very similar to that of a shapefile. A GeoTIFF, like a shapefile, is a store that contains a single layer.
 
-#. From the :ref:`geoserver.webadmin` page, click on the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
+#. From the :ref:`geoserver.webadmin` page, click the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
 
    .. figure:: img/shp_storeslink.png
 
       Click this link to go to the Stores page
 
-#. Click on :guilabel:`Add new store`. 
+#. Click :guilabel:`Add new store`. 
 
    .. figure:: img/shp_storespage.png
 

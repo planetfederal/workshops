@@ -7,14 +7,16 @@ There are many ways to load data, and even more configuration options once this 
 
 GeoServer with the Layer Importer extension allows for uploading of ZIP files that contain geospatial information. The extension will perform all the necessary configuration for publishing the data, including generating a unique style for the layer.
 
-#. In the :file:`data` directory, you will see a file called :file:`meteors.zip`. It is a shapefile contained inside an archive (ZIP file). If you open the archive, you'll see that it contains the following files:
+.. note:: The Layer Importer is available as an extension in GeoServer, but is included by default in OpenGeo Suite.
+
+#. In the :file:`data` directory of the workshop bundle, you will see a file called :file:`meteors.zip`. It is a shapefile contained inside an archive (ZIP file). If you open the archive, you'll see that it contains the following files:
 
    * :file:`meteors.shp`
    * :file:`meteors.shx`
    * :file:`meteors.dbf`
    * :file:`meteors.prj`
 
-#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking on the :guilabel:`Import Data` link on the left side of the page.
+#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking the :guilabel:`Import Data` link on the left side of the page.
 
    .. figure:: img/quickload_importerlink.png
 
@@ -52,7 +54,7 @@ GeoServer with the Layer Importer extension allows for uploading of ZIP files th
 
       Import successful
 
-#. View the resulting layer. Use the pan and zoom tools to study the layer further. Click on map features to get attribute information.
+#. View the resulting layer. Use the pan and zoom tools to study the layer further. Click map features to get attribute information.
 
    .. figure:: img/quickload_layerpreview.png
 

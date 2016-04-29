@@ -29,7 +29,10 @@ The following material will be covered in this workshop:
   Load and manage data in GeoServer
 
 :ref:`geoserver.styling`
-  Style layers using Styled Layer Descriptor (SLD), YSLD, and with a graphical layer-styling application.
+  Style layers using Styled Layer Descriptor (SLD) and YSLD, and learn the GeoServer style editing workflow
+
+:ref:`geoserver.webmap`
+  See GeoServer output embedded in a web page
 
 :ref:`geoserver.moreinfo`
   More information about GeoServer including links and a glossary of terms
@@ -51,6 +54,9 @@ The following directories will be found inside of the workshop bundle:
 :file:`styles`
   Style files to be used throughout the workshop, including associated graphics.
 
+:file:`html`
+  HTML files used to embed a web map.
+
 These directories should be placed on your desktop.
 
 
@@ -69,4 +75,5 @@ Great!  Head to the first section, :ref:`geoserver.install`.
    overview/index
    data/index
    styling/index
+   webmap/index
    moreinfo/index

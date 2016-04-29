@@ -10,7 +10,7 @@ In this section, we will load the rest of our workshop data by using the Layer I
 Layer Importer
 --------------
 
-#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking on the :guilabel:`Import Data` link on the left side of the page.
+#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking the :guilabel:`Import Data` link on the left side of the page.
 
    .. figure:: ../webadmin/img/quickload_importerlink.png
 
