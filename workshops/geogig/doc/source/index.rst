@@ -76,4 +76,6 @@ Great! Head to the first section, :ref:`theory`.
    cmd/index
    gui/index
    cmd_workflow/index
+   gui_workflow/index
    moreinfo/index
+
