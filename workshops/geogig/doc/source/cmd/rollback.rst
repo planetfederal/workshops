@@ -136,4 +136,4 @@ The command to export is ``geogig <format> export <parameters>``. For GeoJSON, `
       100%
       bikepdx exported successfully to bikepdx.json
 
-   The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepd.json``) is the name of the output file. As before, you may use ``-o`` to overwrite an existing file if it exists.
+   The first ``bikepdx`` refers to the layer inside the repository. What follows (``bikepdx.json``) is the name of the output file. As before, you may use ``-o`` to overwrite an existing file if it exists. This file will be exported to your repo directory unless another path is specified.

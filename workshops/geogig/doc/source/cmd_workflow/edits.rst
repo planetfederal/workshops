@@ -6,17 +6,17 @@ Alice
 
 Let's first assume the persona of Alice, our first GIS analyst. Let's say that Alice has been tasked with reviewing recommended bike paths and determining whether they should be built or not. For routes that are to be built, she will change the ``RECOMM`` to ``PLANNED`` and for routes which she decides are not to be built, she will delete the features from the map.
 
-#. First we will move to Alice's repository and make sure she is on her personal branch.
+#. First we will move to Alice's repository and make sure she is on her personal "review" branch.
 
    .. code-block:: console
 
       cd alice
-      geogig checkout alice
+      geogig checkout review
       geogig branch -v
 
-   We should see that Alice is using the **alice** branch, which is at the same position as **master**.
+   We should see that Alice is using the **review** branch, which is at the same position as **master**.
 
-#. Export the **alice** branch to a new shapefile so we can edit the data in QGIS.
+#. Export the **review** branch to a new shapefile so we can edit the data in QGIS.
 
    .. code-block:: console
 
@@ -28,7 +28,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id bikepdx.shp
+      geogig shp import --fid-attrib ID bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Rejected proposals."
 
@@ -49,10 +49,10 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
       geogig branch -v
 
    ::
-   
-      * alice  ba63233 Accepted proposals.
-        bob    cf894ee Added loop around Powell Butte
-        master cf894ee Added loop around Powell Butte
+
+        master  cf894ee Added loop around Powell Butte
+      * review  ba63233 Accepted proposals.
+        updates cf894ee Added loop around Powell Butte
 
 #. At this point, Alice has decided that she wants to make her changes available to the data manager responsible the quality assurance.
 
@@ -67,12 +67,12 @@ Bob
 
 Bob has been tasked with updating the data set when bike route construction has been completed, changing the ``PLANNED`` status to ``ACTIVE``. He also is in charge of updating other, such as setting the **yearbuilt** attribute or any others that change over time (including the geometry).
 
-#. As with Alice, we will move to Bob's repository and make sure he is on his personal branch.
+#. As with Alice, we will move to Bob's repository and make sure he is on his personal "updates" branch.
 
    .. code-block:: console
 
       cd bob
-      geogig checkout bob
+      geogig checkout updates
       geogig branch -v
 
 #. Export the **bob** branch so we can edit the data in QGIS.
@@ -87,7 +87,7 @@ Bob has been tasked with updating the data set when bike route construction has 
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id bikepdx.shp
+      geogig shp import --fid-attrib ID bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Update newly-activated paths"
 
@@ -103,9 +103,9 @@ Bob has been tasked with updating the data set when bike route construction has 
 
    ::
    
-        alice  cf894ee Added loop around Powell Butte
-      * bob    1a3b19a Fix path names.
-        master cf894ee Added loop around Powell Butte
+        master  cf894ee Added loop around Powell Butte
+        review  cf894ee Added loop around Powell Butte
+      * updates 1a3b19a Fix path names.
 
    .. note:: Alice's branch is still the same as **master** even though we know she has made some changes! This is because Bob hasn't checked the server to see if there are any new updates.
 
