@@ -1,7 +1,7 @@
 .. _cmd_workflow:
 
-Sample workflow
-===============
+Command Line Sample workflow
+============================
 
 This section introduces a command line workflow that would be suitable for a small GIS department with a GIS analysts who need to work on the data simultaneously and a single data manager who serves as the 'gatekeeper' by reviewing all changes before they enter the product.
 

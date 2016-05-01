@@ -23,7 +23,7 @@ As in the previous workflow, both Alice and Bob's edits have been accepted after
 
 #. Bob, in his repo, will do the same thing.
 
-    .. figure:: img/bu_updatesmerge.png
+   .. figure:: img/bu_updatesmerge.png
 
         Bob's updated **updates** branch
  
