@@ -4,7 +4,7 @@
 Vagrant.configure(2) do |config|
   config.vm.box = "box-cutter/ubuntu1404-desktop"
 
-  config.vm.synced_folder "../data", "/vagrant_data"
+  config.vm.synced_folder "../../..", "/vagrant_repo"
 
   config.vm.provider "virtualbox" do |vb|
     # Display the VirtualBox GUI when booting the machine
@@ -16,6 +16,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     set -ex
+
+    DOCS=/vagrant_repo/workshops/geogig/doc
+    DATA=/vagrant_repo/workshops/geogig/data
 
     # Install QGIS
     sudo cp /vagrant/*.list /etc/apt/sources.list.d/
@@ -62,14 +65,22 @@ Vagrant.configure(2) do |config|
 
     # Add workshop data
     sudo mkdir /home/boundless/data
-    sudo cp /vagrant_data/bikepdx.zip /home/boundless/data/
+    sudo cp $DATA/bikepdx.zip /home/boundless/data/
     cd /home/boundless/data
     sudo unzip -q bikepdx.zip
     sudo mkdir cmd
     sudo mkdir gui
     sudo cp bikepdx.* cmd/
     sudo mv bikepdx.* gui/
-    sudo chown -R boundless:boundless /home/boundless
 
+    # Build and add workshop docs
+    sudo apt-get install -qqy python-dev python-pip
+    sudo pip install -U Sphinx
+    cd $DOCS
+    make html
+    sudo cp -R $DOCS/build/html /home/boundless/workshop
+
+    # Repair boundless user's home directory
+    sudo chown -R boundless:boundless /home/boundless
   SHELL
 end
