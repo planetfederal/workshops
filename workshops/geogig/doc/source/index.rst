@@ -13,10 +13,12 @@ The workshop is geared toward those with no prior GeoGig experience, but familia
 Prerequisites and software setup
 --------------------------------
 
-In order to perform this workshop, you will need the following software installed on your system:
+The software for this workshop will be provided pre-installed on an Ubuntu Virtual Box image. Import this image into a recent version of `Virtual Box <https://www.virtualbox.org/>`_
+
+If you later wish to perform this workshop on your own machine, you will need the following software installed on your system:
 
 * `QGIS <http://qgis.org>`_
-* `Java 7 JRE <http://www.oracle.com/technetwork/java/javase/downloads/jre7-downloads-1880261.html>`_ (alternatively you may also use a Java 7 JDK)
+* `Java 8 JRE <http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html>`_ (alternatively you may also use a Java 8 JDK)
 
 In addition, we will be using a plugin for QGIS that comes with a copy of GeoGig bundled inside. This download may be used on all operating systems:
 
@@ -41,8 +43,14 @@ The following material will be covered in this workshop:
   A tour of the QGIS GeoGig plugin integrating change commits when saving a layer
 
 
-:ref:`workflow`
-  Introducing a workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
+:ref:`cmd_workflow`
+  Introducing a command line workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
+
+:ref:`gui_workflow`
+  A QGIS GeoGig plugin workflow for the same team of GIS analysts and data manager as shown in the command line workflow.
+
+:ref:`gui_feature`
+  Another QGIS GeoGig plugin workflow for a single GIS analyst, suitable for fieldwork data collection or a digitization workflow.
 
 :ref:`moreinfo`
   More information about GeoGig including links and a glossary of terms.
@@ -73,5 +81,8 @@ Great! Head to the first section, :ref:`theory`.
    theory/index
    cmd/index
    gui/index
-   workflow/index
+   cmd_workflow/index
+   gui_workflow/index
+   gui_feature/index
    moreinfo/index
+

@@ -42,7 +42,13 @@ Editing a feature
       
       Save dialog for bikepdx
 
-#. Since this layer is associated with GeoGig a dialog will display asking for a commit message. Enter :kbd:`The Sellwood Gap has now been fixed` and click :guilabel:`OK`.
+#. Now to add the changes to our repository. Right click the layer and go to :menuselection:`GeoGig` and select :menuselection:`Update repository with this version`
+
+   .. figure:: img/commit_updaterepo.png
+
+      Updating the repository with layer changes
+
+#. Updating the repository will display a dialog asking for a commit message. Enter :kbd:`The Sellwood Gap has now been fixed` and click :guilabel:`OK`.
 
    .. figure:: img/commit_sellwoodmessage.png
 
@@ -61,7 +67,7 @@ Viewing the commit details
 
 Much like the ``diff`` command mentioned before, you can see details about any commit.
 
-#. Return to the GeoGig Navigator and select the most recent (top) commit message in the repository history. Right click :menuslection:`Show detailed description of this version`.
+#. Return to the GeoGig Navigator and select the most recent (top) commit message in the repository history. Right click :menuselection:`Show detailed description of this version`.
 
    .. figure:: img/commit_detail.png
 
@@ -83,7 +89,7 @@ Much like the ``diff`` command mentioned before, you can see details about any c
 
 #. You will see a description of what was changed, in this case the attribute value. Also shown is a rendering of the feature in question.
 
-#. Close the :guilabel:`Comparison view` window.
+#. Press the ESC key to close the :guilabel:`Comparison view` window.
 
 Making a geometry change
 ------------------------
@@ -137,7 +143,7 @@ Editing a feature
 
 #. Select :menuselection:`Layer --> Toggle Editing` to complete the editing process. Click :guilabel:`Save` when prompted.
 
-#. At this point, the plugin will go to work, recognizing a change to the layer. When asked enter a commit message and then click :guilabel:`OK`.
+#. At this point we still need to add our changes to the repo. Right click the layer again and select :menuselection:`Geogig --> Update repository with this version`. When asked enter a commit message and then click :guilabel:`OK`.
 
    .. figure:: img/commit_newlanemessage.png
 
@@ -156,7 +162,7 @@ Viewing the commit details
 
 #. Expand the ``bikepdx`` tree and click the ``6773`` entry.
 
-#. The window will display the attributes before the change (in this case, blank) and after the change. 
+#. The window will display the attributes before the change (in this case, blank) and after the change. You may need to right click the layer and select :menuselection:`Zoom to this feature`
 
    .. figure:: img/commit_comparefeature.png
 

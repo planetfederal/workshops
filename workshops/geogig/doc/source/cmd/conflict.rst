@@ -49,7 +49,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
 #. Start a new QGIS and load the ``bikepdx.shp``. We don't need to apply any styling.
 
-#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to the feature with the ID number ``6759``.
+#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to the feature with the ID number ``6750``.
 
    .. figure:: img/conflict_tablebefore.png
 
@@ -75,7 +75,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id bikepdx.shp
+      geogig shp import --fid-attrib ID bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Set name of SW BOND AVE bike lane."
 
@@ -117,7 +117,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    ::
 
-      An unhandled error occurred: CONFLICT: Merge conflict in bikepdx/6767
+      An unhandled error occurred: CONFLICT: Merge conflict in bikepdx/6750
       Automatic merge failed. Fix conflicts and then commit the result.
 
 Resolving the conflict

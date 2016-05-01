@@ -12,6 +12,8 @@ The data manager has three approaches:
 Fix it yourself
 ---------------
 
+.. todo:: should we have the users make the changes and then resolve them? good way to "test/review" what they've learned and eat up some time
+
 This is most likely to be the fastest option for simple mistakes. Say Alice accidentally changed the **status** from recommended to active instead of planned. During QA, the data manager notices the problem::
 
   a45f1c... a45f1c... 8ed023... 5b32c6...   M  bikepdx/188

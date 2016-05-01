@@ -1,7 +1,7 @@
 The team
 ========
 
-In this example, we will assume that the GIS deparment has a number of analysts who are tasked with updating the data product independently of their colleagues. While there is no limit to the number of analysts that *could* be part of this workflow, we'll assume that we have `Alice and Bob <http://en.wikipedia.org/wiki/Alice_and_Bob>`_ who will be working simultaneously, but at their own pace. There will also be a faceless data manager (you!) who will review Alice and Bob's work and be responsible for merging all their edits into the "master" copy of the product. Because Alice and Bob will be working independently, they will do their edits on separate branches in the repository (we'll name the branches **alice** and **bob**) and all the approved edits will be retained in the **master** branch.
+In this example, we will assume that the GIS deparment has a number of analysts who are tasked with updating the data product independently of their colleagues. While there is no limit to the number of analysts that *could* be part of this workflow, we'll assume that we have `Alice and Bob <http://en.wikipedia.org/wiki/Alice_and_Bob>`_ who will be working simultaneously, but at their own pace. There will also be a faceless data manager (you!) who will review Alice and Bob's work and be responsible for merging all their edits into the "master" copy of the product. Because Alice and Bob will be working independently, they will do their edits on separate branches in the repository (we'll name the branches **review** and **updates**) and all the approved edits will be retained in the **master** branch.
 
 .. figure:: images/flow.png
 
