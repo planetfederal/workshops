@@ -46,6 +46,12 @@ The following material will be covered in this workshop:
 :ref:`cmd_workflow`
   Introducing a command line workflow for a distributed team of GIS analysts and a data manager responsible for approving changes to the product.
 
+:ref:`gui_workflow`
+  A QGIS GeoGig plugin workflow for the same team of GIS analysts and data manager as shown in the command line workflow.
+
+:ref:`gui_feature`
+  Another QGIS GeoGig plugin workflow for a single GIS analyst, suitable for fieldwork data collection or a digitization workflow.
+
 :ref:`moreinfo`
   More information about GeoGig including links and a glossary of terms.
 
@@ -77,5 +83,6 @@ Great! Head to the first section, :ref:`theory`.
    gui/index
    cmd_workflow/index
    gui_workflow/index
+   gui_feature/index
    moreinfo/index
 

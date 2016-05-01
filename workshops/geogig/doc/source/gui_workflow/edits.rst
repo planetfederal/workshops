@@ -15,7 +15,7 @@ Alice
 
    We should see that Alice is using the **review** branch, which is at the same position as **master**.
 
-#. Our current branch should now be the **review** branch. This time instead of exporting the shapefile from the command line, all we have to do is click :guilabel:`Open repository in QGIS`. The plugin will export the file our repo's directory, and add the layer to our project.
+#. Our current branch should now be the **review** branch. This time instead of exporting the shapefile from the command line, all we have to do is click :guilabel:`Open repository in QGIS`. The plugin will export the file to our repository directory, and add the layer to our project.
 
    .. figure:: img/gui_openrepo.png
 
@@ -43,6 +43,8 @@ Alice
 #. Check the branches to see what the current state of each is. Our *review* branch should have our last two commits listed.
 
    .. figure:: img/gui_branchstatus.png
+      :figwidth: 50 %
+      :align: center
 
       Latest commits in Review branch
 
@@ -67,7 +69,7 @@ Bob has been tasked with updating the data set when bike route construction has 
 
 #. Open the **updates** repository in QGIS, notice that another *bikepdx* layer has been added to our project. If you hover over the layer you can see that the plugin has exported a new bikepdx.shp into Bob's repo directory. Add the style to this layer if you'd like.
 
-#. Remove or uncheck Alice's *bikepdx* layer to ensure we are working on Bob's layer. Change some planned routes to active and set the current year for the **yearbuilt** attribute.
+#. Remove or uncheck Alice's *bikepdx* layer to ensure we are working on Bob's layer (you can hover over the layer to see it's source location). Change some planned routes to active and set the current year for the **yearbuilt** attribute.
 
 #. Update the repository with your changes.
 
@@ -87,4 +89,4 @@ Bob has been tasked with updating the data set when bike route construction has 
 
       Sync button
 
-   Sync pushed our changes and pulled in any changes from our remote. Bob's **master** branch is unchanged since QA has not yet merged Bob and Alice's changes.
+   Sync pushed our changes and pulled in any changes, for this branch, from our remote. Bob's **master** branch is unchanged since QA has not yet merged Bob and Alice's changes.

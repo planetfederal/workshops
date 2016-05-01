@@ -14,23 +14,23 @@ Fix it yourself
 
 .. todo:: should we have the users make the changes and then resolve them? good way to "test/review" what they've learned and eat up some time
 
-This is most likely to be the fastest option for simple mistakes. Say Alice accidentally changed the **status** from recommended to active instead of planned. During QA, the data manager notices the problem::
+This is most likely to be the fastest option for simple mistakes. Say Alice accidentally changed the **status** from recommended to active instead of planned. During QA, the data manager notices the problem:
 
-  .. figure:: img/badcommit.png
+   .. figure:: img/badcommit.png
 
-      QA see's status has been set incorrectly
+        QA see's status has been set incorrectly
 
-The easiest solution is to edit the data and add a new commit that changes ``ACTIVE`` to ``PLANNED`` as it should have been. The GeoGig log file will look something like this::
+The easiest solution is to edit the data and add a new commit that changes ``ACTIVE`` to ``PLANNED`` as it should have been. The GeoGig log file will look something like this:
 
-  .. figure:: img/commitfix.png
+   .. figure:: img/commitfix.png
 
-      The commmit fixing Alice's bad commit.
+        The commmit fixing Alice's bad commit.
 
 Now that the data manager is happy that the commits are correct, he can merge the changes into **master**. However, there is one further thing that must be done: we must notify the server that we have changed Alice's branch by synchronizing.
 
-  .. figure:: img/synced_fix.png
+   .. figure:: img/synced_fix.png
 
-      The fix pushed to the remote repository.
+        The fix pushed to the remote repository.
 
 The next time Alice checks the server for updates, she'll get the data manager's changes in her local repository.
 
