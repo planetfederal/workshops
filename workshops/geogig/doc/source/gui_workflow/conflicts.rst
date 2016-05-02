@@ -5,7 +5,7 @@ So far we've avoided conflicting versions between Alice's **review** branch and 
 
 We're going to demonstrate what happens when two branchs attempt to change the same geometry or attribute of a feature. We'll intentionally create an attribute conflict between our **review** and **updates** branches.  We will not cover the resolution of geometry conflicts as it is not well supported by the plugin yet. But the resolution process is similar in either case.
 
-.. note:: Conflict resolution with the GeoGig Plugin is still under develop
+.. note:: Conflict resolution with the GeoGig Plugin is still under development
 
 Ours or theirs
 --------------
