@@ -1,7 +1,7 @@
 OpenGeo Workshops Repository
 ============================
 
-This repository is for all workshop materials created and/or hosted by OpenGeo.
+This repository is for all workshop materials created and/or hosted by OpenGeo
 
 Directory structure
 -------------------
