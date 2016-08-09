@@ -5,7 +5,7 @@ Polygons
 
 Next we look at how CSS styling can be used to represent polygons.
 
-.. figure:: img/PolygonSymbology.svg
+.. figure:: /style/img/PolygonSymbology.svg
    
    Polygon Geometry
 
@@ -37,7 +37,7 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
 #. Set ``ne:states_provinces_shp`` as the preview layer.
 
-   .. image:: img/polygon_01_preview.png
+   .. image:: /style/img/polygon_01_preview.png
 
 #. Create a new CSS style :kbd:`polygon_example`.
 
@@ -50,7 +50,7 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
       * - New style name:
         - :kbd:`polygon_example`
      
-   .. image:: img/polygon_02_create.png
+   .. image:: /style/img/polygon_02_create.png
 
 #. An initial style is provided:
 
@@ -60,14 +60,14 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
 #. Click on the tab :guilabel`Map` to preview.
 
-   .. image:: img/polygon_04_preview.png
+   .. image:: /style/img/polygon_04_preview.png
 
 Stroke and Fill
 ---------------
 
 The **key property** for polygon data is **fill**.
 
-.. image:: img/PolygonFill.svg
+.. image:: /style/img/PolygonFill.svg
 
 The **fill** property is used to provide the color, or pattern, used to draw the interior of a polygon.
 
@@ -82,7 +82,7 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
 #. The :guilabel:`Map` tab can be used preview the change:
 
-   .. image:: img/polygon_fill_1.png
+   .. image:: /style/img/polygon_fill_1.png
 
 #. To draw the boundary of the polygon the **stroke** property is used:
 
@@ -101,7 +101,7 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
 #. The effect of adding **stroke** is shown in the map preview:
    
-   .. image:: img/polygon_fill_2.png
+   .. image:: /style/img/polygon_fill_2.png
 
 #. An interesting technique when styling polygons in conjunction with background information is to control the fill opacity.
 
@@ -122,15 +122,15 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
 #. As shown in the map preview:
 
-   .. image:: img/polygon_fill_3.png
+   .. image:: /style/img/polygon_fill_3.png
    
 #. This effect can be better appreciated using a layer group.
    
-   .. image:: img/polygon_fill_4.png
+   .. image:: /style/img/polygon_fill_4.png
    
    Where the transparent polygons is used lighten the landscape provided by the base map.
 
-   .. image:: img/polygon_fill_5.png
+   .. image:: /style/img/polygon_fill_5.png
    
 .. only:: instructor
      
@@ -145,7 +145,7 @@ Pattern
 
 In addition to color, the **fill** property can also be used to provide a pattern. 
 
-.. image:: img/PolygonPattern.svg
+.. image:: /style/img/PolygonPattern.svg
 
 The fill pattern is defined by repeating one of the built-in symbols, or making use of an external image.
 
@@ -166,7 +166,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. The map preview (and legend) will show the result:
    
-   .. image:: img/polygon_pattern_0.png
+   .. image:: /style/img/polygon_pattern_0.png
    
 #. Add a black stroke:
 
@@ -180,7 +180,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. To outline the individual shapes:
 
-   .. image:: img/polygon_pattern_1.png
+   .. image:: /style/img/polygon_pattern_1.png
 
 #. Additional fill properties allow control over the orientation and size of the symbol.
 
@@ -202,7 +202,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
       
 #. The size of each symbol is increased, and each symbol rotated by 45 degrees.
 
-   .. image:: img/polygon_pattern_2.png
+   .. image:: /style/img/polygon_pattern_2.png
    
    .. note:: Does the above look correct? There is an open request :geot:`4642` to rotate the entire pattern, rather than each individual symbol.
    
@@ -240,7 +240,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. This change adjusts the appearance of our grid of squares.
    
-   .. image:: img/polygon_pattern_3.png
+   .. image:: /style/img/polygon_pattern_3.png
 
 #. If you have more than one symbol:
    
@@ -262,7 +262,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. Since we only have one fill in our CSS document the map preview looks identical.
 
-   .. image:: img/polygon_pattern_3.png
+   .. image:: /style/img/polygon_pattern_3.png
 
 #. The well-known symbols are more suited for marking individual points. Now that we understand how a pattern can be controlled it is time to look at the patterns GeoServer provides.
   
@@ -289,7 +289,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. This approach is well suited to printed output or low color devices.
    
-   .. image:: img/polygon_pattern_4.png
+   .. image:: /style/img/polygon_pattern_4.png
 
 #. To control the size of the symbol produced use the **fill-size** property.
   
@@ -306,7 +306,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. This results in a tighter pattern shown:
 
-   .. image:: img/polygon_pattern_5.png
+   .. image:: /style/img/polygon_pattern_5.png
    
 #. Another approach (producing the same result is to use the **size** property on the appropriate pseudo-selector.
 
@@ -323,7 +323,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. This produces the same visual result:
 
-    .. image:: img/polygon_pattern_5.png
+    .. image:: /style/img/polygon_pattern_5.png
 
 #. Multiple fills can be combined by supplying more than one fill as part of the same rule.
    
@@ -343,20 +343,20 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. The resulting image has a solid fill, with a pattern drawn overtop.
 
-   .. image:: img/polygon_pattern_6.png
+   .. image:: /style/img/polygon_pattern_6.png
 
 Label
 -----
 
 Labeling polygons follows the same approach used for LineStrings. 
 
-.. image:: img/PolygonLabel.svg
+.. image:: /style/img/PolygonLabel.svg
    
 The key properties **fill** and **label** are used to enable Polygon label generation.
 
 #. By default labels are drawn starting at the centroid of each polygon.
    
-   .. image:: img/LabelSymbology.svg
+   .. image:: /style/img/LabelSymbology.svg
 
 #. Try out **label** and **fill** together by replacing our ``polygon_example`` with the following:
 
@@ -371,11 +371,11 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. Each label is drawn from the lower-left corner as shown in the ``Map`` preview.
    
-   .. image:: img/polygon_label_0.png
+   .. image:: /style/img/polygon_label_0.png
 
 #. We can adjust how the label is drawn at the polygon centroid.
 
-   .. image:: img/LabelAnchorPoint.svg
+   .. image:: /style/img/LabelAnchorPoint.svg
 
    The property **label-anchor** provides two numbers expressing how a label is aligned with respect to the centroid. The first value controls the horizontal alignment, while the second value controls the vertical alignment. Alignment is expressed between 0.0 and 1.0 as shown in the following table.
 
@@ -407,11 +407,11 @@ The key properties **fill** and **label** are used to enable Polygon label gener
          
 #. The labeling position remains at the polygon centroid. We adjust alignment by controlling which part of the label we are "snapping" into position.
 
-   .. image:: img/polygon_label_1.png
+   .. image:: /style/img/polygon_label_1.png
    
 #. The property **label-offset** can be used to provide an initial displacement using and x and y offset.
 
-   .. image:: img/LabelDisplacement.svg
+   .. image:: /style/img/LabelDisplacement.svg
    
 #. This offset is used to adjust the label position relative to the geometry centroid resulting in the starting label position.
    
@@ -427,11 +427,11 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. Confirm this result in the map preview.
    
-   .. image:: img/polygon_label_2.png
+   .. image:: /style/img/polygon_label_2.png
 
 #. These two settings can be used together.
 
-   .. image:: img/LabelBoth.svg
+   .. image:: /style/img/LabelBoth.svg
     
    The rendering engine starts by determining the label position generated from the geometry centroid and the **label-offset** displacement. The bounding box of the label is used with the **label-anchor** setting align the label to this location.
 
@@ -454,7 +454,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. As shown in the map preview.
    
-   .. image:: img/polygon_label_3.png
+   .. image:: /style/img/polygon_label_3.png
    
 Legibility
 ----------
@@ -488,7 +488,7 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. As shown in the following preview.
    
-   .. image:: img/polygon_label_4.png
+   .. image:: /style/img/polygon_label_4.png
 
 #. Even with this improved spacing between labels, it is difficult to read the result against the complicated line work.
    
@@ -514,7 +514,7 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. By making use of **halo-opacity** we we still allow stroke information to show through, but prevent the stroke information from making the text hard to read.
 
-   .. image:: img/polygon_label_5.png
+   .. image:: /style/img/polygon_label_5.png
 
 #. And advanced technique for manually taking control of conflict resolution is the use of the  **-gt-label-priority**.
 
@@ -545,7 +545,7 @@ When working with labels a map can become busy very quickly, and difficult to re
    
 #. In the following map ``East Flanders`` will take priority over ``Zeeland`` when the two labels overlap.
 
-   .. image:: img/polygon_label_6.png
+   .. image:: /style/img/polygon_label_6.png
 
 Theme
 -----
@@ -571,7 +571,7 @@ A thematic map (rather than focusing on representing the shape of the world) use
 
 #. We can use a site like `ColorBrewer <http://www.colorbrewer2.com>`_ to explore the use of color theming for polygon symbology. In this approach the the fill color of the polygon is determined by the value of the attribute under study.
 
-   .. image:: img/polygon_06_brewer.png
+   .. image:: /style/img/polygon_06_brewer.png
 
    This presentation of a dataset is known as "theming" by an attribute.
 
@@ -627,7 +627,7 @@ A thematic map (rather than focusing on representing the shape of the world) use
 
 #. The :guilabel:`Map` tab can be used to preview this result.
 
-   .. image:: img/polygon_09_selector_theme.png
+   .. image:: /style/img/polygon_09_selector_theme.png
 
 #. This CSS makes use of cascading to avoid repeating the **stroke** and **stroke-width** information multiple times.
 
@@ -692,7 +692,7 @@ A thematic map (rather than focusing on representing the shape of the world) use
 
 #. The :guilabel:`Map` tab provides the same preview.
 
-   .. image:: img/polygon_10_recode_theme.png
+   .. image:: /style/img/polygon_10_recode_theme.png
 
 #. The :guilabel:`Generated SLD` tab shows where things get interesting. Our generated style now consists of a single **Rule**:
 
@@ -745,7 +745,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
    #. When we rendered our initial preview, without a stroke, thin white gaps (or slivers) are visible between our polygons.
 
-      .. image:: img/polygon_04_preview.png
+      .. image:: /style/img/polygon_04_preview.png
 
       This effect is made more pronounced by the rendering engine making use of the Java 2D sub-pixel accuracy. This technique is primarily used to prevent an aliased (stair-stepped) appearance on diagonal lines.
 
@@ -755,7 +755,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
    
       The **LayerPreview** provides access to this setting from the Open Layers **Options Toolbar**:
 
-      .. image:: img/polygon_antialias.png
+      .. image:: /style/img/polygon_antialias.png
 
    #. **Explore:** Experiment with **fill** and **stroke** settings to eliminate slivers between polygons.
 
@@ -802,13 +802,13 @@ In a classroom setting you are encouraged to team up into groups, with each grou
             ];
          }
       
-      .. image:: img/polygon_area.png
+      .. image:: /style/img/polygon_area.png
 
    #. An exciting use of the GeoServer **shape** symbols is the theming by changing the **fill-size** used for pattern density.
 
    #. **Explore:** Use the **Categorize** function to theme by **datarank**.
 
-      .. image:: img/polygon_categorize.png
+      .. image:: /style/img/polygon_categorize.png
 
    .. only:: instructor
 
@@ -881,7 +881,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
    #. **Challenge:** Combine the **mapcolor9** and **datarank** examples to reproduce the following map.
 
-      .. image:: img/polygon_multitheme.png
+      .. image:: /style/img/polygon_multitheme.png
 
    .. only:: instructor
 
@@ -918,7 +918,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
       
    #. **Challenge:** Use what you know of LineString **z-index** to reproduce the following map:
    
-      .. image:: img/polygon_zorder.png
+      .. image:: /style/img/polygon_zorder.png
          
 .. only:: instructor
 

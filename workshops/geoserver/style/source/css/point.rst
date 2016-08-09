@@ -5,7 +5,7 @@ Points
 
 The next stop of the CSS styling tour is the representation of points. 
 
-.. image:: img/PointSymbology.svg
+.. image:: /style/img/PointSymbology.svg
 
 Review of point symbology:
 
@@ -30,7 +30,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
 
 #. Click :guilabel:`Choose a different layer` and select :kbd:`ne:populated_places` from the list.
 
-   .. image:: img/point_01_preview.png
+   .. image:: /style/img/point_01_preview.png
 
 #. Click :guilabel:`Create a new style` and choose the following:
 
@@ -43,7 +43,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
       * - New style name:
         - :kbd:`point_example`
 
-   .. image:: img/point_02_create.png
+   .. image:: /style/img/point_02_create.png
 
 #. Replace the initial CSS definition with:
 
@@ -55,14 +55,14 @@ This exercise makes use of the ``ne:populated_places`` layer.
 
 #. And use the :guilabel:`Map` tab to preview the result.
 
-   .. image:: img/point_03_map.png
+   .. image:: /style/img/point_03_map.png
 
 Mark
 ----
 
 Points are represented with the mandatory property **mark**.
 
-.. image:: img/PointSymbology.svg
+.. image:: /style/img/PointSymbology.svg
 
 The SLD standard provides "well-known" symbols for use with point symbology: ``circle``, ``square``, ``triangle``, ``arrow``, ``cross``, ``star``, and ``x``.
 
@@ -76,7 +76,7 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Map Preview:
 
-   .. image:: img/point_mark_1.png
+   .. image:: /style/img/point_mark_1.png
 
 #. Before we continue we will use a selector to cut down the amount of data shown to a reasonable level.
 
@@ -88,7 +88,7 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Resulting in a considerably cleaner image:
    
-   .. image:: img/point_mark_2.png
+   .. image:: /style/img/point_mark_2.png
 
 #. Additional properties are available to control a mark's presentation:
 
@@ -108,7 +108,7 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Results in each location being marked with a diamond:
    
-   .. image:: img/point_mark_3.png
+   .. image:: /style/img/point_mark_3.png
 
 #. Now that we have assigned our point location a symbol we can make use of a **pseudo-selector** to style the resulting shape.
 
@@ -132,7 +132,7 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Updating the mark to a white square with a black outline.
 
-   .. image:: img/point_mark_4.png
+   .. image:: /style/img/point_mark_4.png
 
 #. The second approach is used to individual configure symbols in the same document.
 
@@ -160,14 +160,14 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Producing an interesting compound symbol effect:
 
-   .. image:: img/point_mark_5.png
+   .. image:: /style/img/point_mark_5.png
 
 Graphic
 -------
 
 Symbols can also be supplied by an external graphic,
 
-.. image:: img/Point_Graphic.svg
+.. image:: /style/img/Point_Graphic.svg
 
 This technique was shown with the initial file:`airport.svg` CSS example.
 
@@ -188,7 +188,7 @@ This technique was shown with the initial file:`airport.svg` CSS example.
 
 #. Drawing the provided shape in each location:
 
-   .. image:: img/point_graphic_1.png
+   .. image:: /style/img/point_graphic_1.png
 
 #. The **mark** property **url** reference can also be used to reference external images. We can make use of the GeoServer logo.
 
@@ -202,14 +202,14 @@ This technique was shown with the initial file:`airport.svg` CSS example.
 
 #. As shown in the map preview.
 
-   .. image:: img/point_graphic_2.png
+   .. image:: /style/img/point_graphic_2.png
 
 Label
 -----
 
 Labeling is now familiar from our experience with LineString and Polygons.
 
-.. image:: img/Point_Label.svg
+.. image:: /style/img/Point_Label.svg
 
 The key properties **mark** and **label** are required to label Point locations.
 
@@ -224,7 +224,7 @@ The key properties **mark** and **label** are required to label Point locations.
 
 #. Confirm the result in ``Map`` preview.
 
-   .. image:: img/point_label_1.png
+   .. image:: /style/img/point_label_1.png
 
 #. Each label is drawn starting from the provided point - which is unfortunate as it assures each label will overlap with the symbol used. To fix this limitation we will make use of the SLD controls for label placement:
 
@@ -253,7 +253,7 @@ The key properties **mark** and **label** are required to label Point locations.
 
 #. Each label is now placed under the mark.
    
-   .. image:: img/point_label_2.png
+   .. image:: /style/img/point_label_2.png
 
 #. One remaining issue is the overlap between labels and symbols.
    
@@ -284,7 +284,7 @@ The key properties **mark** and **label** are required to label Point locations.
 
 #. Resulting in a considerably cleaner image:
 
-   .. image:: img/point_label_3.png
+   .. image:: /style/img/point_label_3.png
 
 Dynamic Styling
 ---------------
@@ -326,7 +326,7 @@ Dynamic Styling
 
 #. Click :guilabel:`Submit` to update the :guilabel:`Map` after each step.
 
-   .. image:: img/point_04_scale.png
+   .. image:: /style/img/point_04_scale.png
 
 #. To add labeling we must use both the **key properties** mark and label in each scale selector, using rule cascading to define the mark-size and font information once.
 
@@ -374,7 +374,7 @@ Dynamic Styling
         font-size: 10;
       }
    
-   .. image:: img/point_05_label.png
+   .. image:: /style/img/point_05_label.png
 
 #. We will use **label-offset** and **label-anchor** to position the label above each symbol.
 
@@ -394,7 +394,7 @@ Dynamic Styling
         label-offset: 0 6;
       }
 
-   .. image:: img/point_05_align.png
+   .. image:: /style/img/point_05_align.png
 
 #. A little bit of work with vendor specific parameters will prevent our labels from colliding with each symbol, while giving the rendering engine some flexibility in how far it is allowed to relocate a label.
 
@@ -418,7 +418,7 @@ Dynamic Styling
         -gt-label-padding: 2;
       }
 
-   .. image:: img/point_06_relocate.png
+   .. image:: /style/img/point_06_relocate.png
 
 #. Now that we have clearly labeled our cities, zoom into an area you are familiar with and we can look at changing symbology on a case-by-case basis.
 
@@ -465,7 +465,7 @@ Dynamic Styling
         -gt-label-priority: [10 - LABELRANK];
       }
    
-   .. image:: img/point_07_expression.png
+   .. image:: /style/img/point_07_expression.png
 
 #. Next we can use ``FEATURECLA`` to check for capital cities.
 
@@ -531,7 +531,7 @@ Dynamic Styling
          label: [NAME];
       }
 
-   .. image:: img/point_08_symbol.png
+   .. image:: /style/img/point_08_symbol.png
 
 #. Finally we can fill in the capital city symbols using a combination of a selector to detect capital cities, and pseudo selector to provide mark styling.
 
@@ -546,7 +546,7 @@ Dynamic Styling
         stroke: black;
       }
 
-   .. image:: img/point_09_fill.png
+   .. image:: /style/img/point_09_fill.png
 
 #. If you would like to check your work the final file is here: :download:`point_example.css </files/point_example.css>`
 
@@ -687,7 +687,7 @@ Bonus
        
       Here is an example with labels for inspiration:
    
-      .. image:: img/point_challenge_1.png
+      .. image:: /style/img/point_challenge_1.png
    
       .. only:: instructor
        

@@ -20,8 +20,11 @@ The following material will be covered in this workshop:
 :doc:`design/index`
    Overview of map design (i.e. cartography) considerations. Select color palette with colorbrewer.
 
-:doc:`style/index`
+:doc:`css/index`
    Introduction to GeoServer styling followed by easy styling with the CSS module.
+
+:doc:`ysld/index`
+   Introduction to GeoServer styling followed by easy styling with the YSLD module.
    
 .. toctree::
    :maxdepth: 2
@@ -30,5 +33,6 @@ The following material will be covered in this workshop:
    
    setup/index
    design/index
-   style/index
+   css/index
+   ysld/index
 
