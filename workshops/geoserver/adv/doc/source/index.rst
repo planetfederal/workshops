@@ -1,6 +1,6 @@
-================================
-Advanced GeoServer Configuration
-================================
+=======================
+Beyond GeoServer Basics
+=======================
 
 Welcome!
 --------
@@ -52,7 +52,7 @@ These directories should be placed on your desktop.
 Ready to Begin?
 ---------------
 
-Great!  Head to the first section, :ref:`gsadv.background`.
+Great! Head to the first section, :ref:`gsadv.background`.
 
 .. toctree::
    :maxdepth: 2
