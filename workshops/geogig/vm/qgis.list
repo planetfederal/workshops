@@ -1,2 +1,3 @@
-deb     http://qgis.org/debian-ltr trusty main
-deb-src http://qgis.org/debian-ltr trusty main
+deb     http://qgis.org/ubuntugis trusty main
+deb-src http://qgis.org/ubuntugis trusty main
+deb 	http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main

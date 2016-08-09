@@ -33,31 +33,32 @@ Vagrant.configure(2) do |config|
     sudo apt-get update -qq
     sudo apt-get install -qqy oracle-java8-installer 2> /dev/null
 
-    # Install qgis-geogig-plugin and GeoGig
+    # Install qgis-geogiglight-plugin and GeoGig
     sudo apt-get install -qqy python-pip python-paver git
     cd /tmp
-    git clone -q https://github.com/boundlessgeo/qgis-geogig-plugin.git
-    cd qgis-geogig-plugin
+    git clone -q https://github.com/boundlessgeo/qgis-geogiglight-plugin.git
+    cd qgis-geogiglight-plugin
     git apply /vagrant/qgis-geogig-plugin.patch
-    mkdir geogig/bin
-    cd geogig/bin
-    wget -q http://downloads.sourceforge.net/project/geogig/geogig-1.0-RC2/geogig-1.0-RC2.zip
-    unzip -q geogig-1.0-RC2.zip
-    rm -f geogig-1.0-RC2.zip
-    cd ../..
     paver setup
-    sudo chmod -R a+rwx /tmp/qgis-geogig-plugin
-    sudo mv /tmp/qgis-geogig-plugin /opt/qgis-geogig-plugin
-    cd /opt/qgis-geogig-plugin
-    sudo mkdir -p /usr/share/qgis/python/plugins
+    sudo chmod -R a+rwx /tmp/qgis-geogiglight-plugin
+    sudo mv /tmp/qgis-geogiglight-plugin /opt/qgis-geogiglight-plugin
+    cd /opt/qgis-geogiglight-plugin
+    sudo mkdir -p /usr/share/qgis/python/plugins/
     sudo paver install
+  #  sudo cp /tmp/qgis-geogiglight-plugin/geogig/ /usr/share/qgis/python/plugins/geogig/
+
+    cd /opt
+    #wget -q http://ares.boundlessgeo.com/geogig/dev/geogig-dev-latest.zip
+    wget -q https://github.com/locationtech/geogig/releases/download/1.0-RC3/geogig-1.0-RC3.zip
+    unzip -q geogig-1.0-RC3.zip
+    rm -f geogig-1.0-RC3.zip
 
     # Add JAI to prevent error messages
-    cd /opt/qgis-geogig-plugin/geogig/bin/geogig/lib/
-    wget -q http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/jai_core-1.1.3.jar
+   # cd /opt/qgis-geogig-plugin/geogig/bin/geogig/lib/
+    #wget -q http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/jai_core-1.1.3.jar
 
     # Add GeoGig to the path for all users
-    echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/qgis-geogig-plugin/geogig/bin/geogig/bin" | sudo tee /etc/environment
+    echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/geogig/bin" | sudo tee /etc/environment
 
     # Add boundless user
     sudo useradd --create-home --shell /bin/bash boundless
