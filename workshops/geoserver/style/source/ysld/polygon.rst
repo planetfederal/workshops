@@ -1,4 +1,4 @@
-.. _style.polygon:
+.. _ysld.polygon:
 
 Polygons
 ========

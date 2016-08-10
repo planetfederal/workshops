@@ -1,4 +1,4 @@
-.. _style.polygon:
+.. _css.polygon:
 
 Polygons
 ========
@@ -67,7 +67,7 @@ Stroke and Fill
 
 The **key property** for polygon data is **fill**.
 
-.. image:: /style/img/PolygonFill.svg
+.. image:: /style/img/PolygonFill_CSS.svg
 
 The **fill** property is used to provide the color, or pattern, used to draw the interior of a polygon.
 
@@ -145,7 +145,7 @@ Pattern
 
 In addition to color, the **fill** property can also be used to provide a pattern. 
 
-.. image:: /style/img/PolygonPattern.svg
+.. image:: /style/img/PolygonPattern_CSS.svg
 
 The fill pattern is defined by repeating one of the built-in symbols, or making use of an external image.
 
@@ -350,7 +350,7 @@ Label
 
 Labeling polygons follows the same approach used for LineStrings. 
 
-.. image:: /style/img/PolygonLabel.svg
+.. image:: /style/img/PolygonLabel_CSS.svg
    
 The key properties **fill** and **label** are used to enable Polygon label generation.
 
@@ -375,7 +375,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. We can adjust how the label is drawn at the polygon centroid.
 
-   .. image:: /style/img/LabelAnchorPoint.svg
+   .. image:: /style/img/LabelAnchorPoint_CSS.svg
 
    The property **label-anchor** provides two numbers expressing how a label is aligned with respect to the centroid. The first value controls the horizontal alignment, while the second value controls the vertical alignment. Alignment is expressed between 0.0 and 1.0 as shown in the following table.
 
@@ -411,7 +411,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
    
 #. The property **label-offset** can be used to provide an initial displacement using and x and y offset.
 
-   .. image:: /style/img/LabelDisplacement.svg
+   .. image:: /style/img/LabelDisplacement_CSS.svg
    
 #. This offset is used to adjust the label position relative to the geometry centroid resulting in the starting label position.
    
@@ -431,7 +431,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. These two settings can be used together.
 
-   .. image:: /style/img/LabelBoth.svg
+   .. image:: /style/img/LabelBoth_CSS.svg
     
    The rendering engine starts by determining the label position generated from the geometry centroid and the **label-offset** displacement. The bounding box of the label is used with the **label-anchor** setting align the label to this location.
 

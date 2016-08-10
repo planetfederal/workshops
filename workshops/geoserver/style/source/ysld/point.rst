@@ -1,4 +1,4 @@
-.. _style.point:
+.. _ysld.point:
 
 Points
 ======

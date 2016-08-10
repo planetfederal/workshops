@@ -1,4 +1,4 @@
-.. _style.line:
+.. _ysld.line:
 
 Lines
 =====
