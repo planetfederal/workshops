@@ -1,4 +1,4 @@
-.. _style.line:
+.. _css.line:
 
 Lines
 =====
@@ -34,7 +34,7 @@ Stroke
 
 The only mandatory property for representation of linework is **stroke**. This is a **key property**; its presence triggers the generation of an appropriate LineSymbolizer.
 
-.. figure:: /style/img/LineStringStroke.svg
+.. figure:: /style/img/LineStringStroke_CSS.svg
    
    Basic Stroke Properties
 
@@ -130,7 +130,7 @@ Z-Index
 
 The next exercise shows how to work around a limitation when using multiple strokes to render a line.
 
-.. figure:: /style/img/LineStringZOrder.svg
+.. figure:: /style/img/LineStringZOrder_CSS.svg
 
    Use of Z-Index
 
@@ -172,7 +172,7 @@ Label
 
 Our next example is significant as it introduces the how text labels are generated.
 
-.. figure:: /style/img/LineStringLabel.svg
+.. figure:: /style/img/LineStringLabel_CSS.svg
    
    Use of Label Property
 

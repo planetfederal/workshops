@@ -1,4 +1,4 @@
-.. _style.point:
+.. _css.point:
 
 Points
 ======
@@ -167,7 +167,7 @@ Graphic
 
 Symbols can also be supplied by an external graphic,
 
-.. image:: /style/img/Point_Graphic.svg
+.. image:: /style/img/Point_Graphic_CSS.svg
 
 This technique was shown with the initial file:`airport.svg` CSS example.
 
@@ -209,7 +209,7 @@ Label
 
 Labeling is now familiar from our experience with LineString and Polygons.
 
-.. image:: /style/img/Point_Label.svg
+.. image:: /style/img/Point_Label_CSS.svg
 
 The key properties **mark** and **label** are required to label Point locations.
 

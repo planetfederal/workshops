@@ -1,4 +1,4 @@
-.. _style.raster:
+.. _css.raster:
 
 Rasters
 =======

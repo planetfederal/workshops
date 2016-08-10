@@ -1,4 +1,4 @@
-.. _style.css:
+.. _css:
 
 CSS
 ===
@@ -258,7 +258,7 @@ To confirm everything works, let's reproduce the airports style above.
    
 #. We missed adding the airport layer to the FOSS4G vm, so let's do so now.
 
-   Navigate to :menuselect:`Data --> Layers` to open the :guilabel:`Layers` page.
+   Navigate to :menuselection:`Data --> Layers` to open the :guilabel:`Layers` page.
    
    .. image:: /style/img/layer_02_menu.png
 
