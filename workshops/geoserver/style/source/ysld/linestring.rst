@@ -3,7 +3,7 @@
 Lines
 =====
 
-We will start our tour of CSS styling by looking at the representation of lines.
+We will start our tour of YSLD styling by looking at the representation of lines.
 
 .. figure:: /style/img/LineSymbology.svg
    
@@ -11,15 +11,15 @@ We will start our tour of CSS styling by looking at the representation of lines.
 
 Review of line symbology:
 
-* Lines are used to represent physical details that are too small to be represented at the current scale. Line work can also be used to model non-physical ideas such as network connectivity, or the boundary between land-use classifications. **The visual width of lines do not change depending on scale.**
+* Lines can be used to represent either abstract concepts with length but not width such as networks and boundaries, or long thin features with a didth that is too smallt o represent on the map. This means that **the visual width of line symbols do not normally change depending on scale.**
 
-* Lines are recording as LineStrings or Curves depending on the geometry model used.
+* Lines are recorded as LineStrings or Curves depending on the geometry model used.
 
-* SLD uses a **LineSymbolizer** record how the shape of a line is drawn. The primary characteristic documented is the **Stroke** used to draw each segment between vertices.
+* SLD uses a **LineSymbolizer** to record how the shape of a line is drawn. The primary characteristic documented is the **Stroke** used to draw each segment between vertices.
 
 * Labeling of line work is anchored to the mid-point of the line. GeoServer provides a vendor option to allow label rotation aligned with line segments.
 
-For our exercises we are going to be using simple CSS documents, often consisting of a single rule, in order to focus on the properties used for line symbology.
+For our exercises we are going to be using simple YSLD documents, often consisting of a single rule, in order to focus on the properties used for line symbology.
 
 Each exercise makes use of the ``ne:roads`` layer.
 
@@ -29,141 +29,174 @@ Reference:
 * :manual:`Lines <extensions/css/cookbook/line.html>` (User Manual | CSS Cookbook)
 * :manual:`LineString <styling/sld-reference/linesymbolizer.html>` (User Manual | SLD Reference )
 
-Stroke
-------
+Line
+----
 
-The only mandatory property for representation of linework is **stroke**. This is a **key property**; its presence triggers the generation of an appropriate LineSymbolizer.
+A line symbolizer is represented by a :kbd:`line` key.  You can make a completely default symbolizer by giving it an empty map
+
+.. code-block:: yaml
+   
+        line: {}
 
 .. figure:: /style/img/LineStringStroke.svg
    
    Basic Stroke Properties
 
-The use of **stroke** as a key property prevents CSS from having the idea of a default line color (as the **stroke** information must be supplied each time).
 
-#. Navigate to the **CSS Styles** page.
 
-#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:roads` from the list.
+#. Navigate to the **Styles** page.
 
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
       :stub-columns: 1
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
       * - New style name:
         - :kbd:`line_example`
+      * - Workspace for new layer:
+        - Leave blank
+      * - Format:
+        - :kbd:`YSLD`
 
-#. Replace the generated CSS definition with the following **stroke** example:
+#. Fill in the style editor 
 
-   .. code-block:: css
+   .. code-block:: yaml
    
-      /* @title Line
-       * @abstract Example line symbolization
-       */
-       * {
-         stroke: blue;
-       }
+        line: {}
 
-#. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
+#. Click :guilabel:`Submit` 
+
+#. Click return to the **Styles** page and click :guilabel:`line_example` 
+
+#. Click :guilabel:`Layer Preview` to see your new style applied to a layer.
    
    You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
 
    .. image:: /style/img/line.png
 
-#. You can look at the :guilabel:`SLD` tab at any time to see the generated SLD. Currently it is showing a straight forward LineSymbolizer generated from the CSS **stroke** property:
+#. You can see the equivalent SLD by requesting :kbd:`http://localhost:8080/geoserver/rest/styles/line_example.sld?pretty=true` which will currently show the default line symbolizer we created.
 
    .. code-block:: xml
 
-      <sld:UserStyle>
-         <sld:Name>Default Styler</sld:Name>
-         <sld:FeatureTypeStyle>
-            <sld:Name>name</sld:Name>
-            <sld:Rule>
-               <sld:Title>Line</sld:Title>
-               <sld:Abstract>Example line symboloization</sld:Abstract>
-               <sld:LineSymbolizer>
-                  <sld:Stroke>
-                     <sld:CssParameter name="stroke">#0000ff</sld:CssParameter>
-                  </sld:Stroke> 
-               </sld:LineSymbolizer>
-            </sld:Rule>
-         </sld:FeatureTypeStyle>
-      </sld:UserStyle>
+      <?xml version="1.0" encoding="UTF-8"?><sld:StyledLayerDescriptor xmlns="http://www.opengis.net/sld" xmlns:sld="http://www.opengis.net/sld" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" version="1.0.0">
+        <sld:NamedLayer>
+          <sld:Name>line_example</sld:Name>
+          <sld:UserStyle>
+            <sld:Name>line_example</sld:Name>
+            <sld:FeatureTypeStyle>
+              <sld:Name>name</sld:Name>
+              <sld:Rule>
+                <sld:LineSymbolizer/>
+              </sld:Rule>
+            </sld:FeatureTypeStyle>
+          </sld:UserStyle>
+        </sld:NamedLayer>
+      </sld:StyledLayerDescriptor>
 
-#. Additional properties cane be used fine-tune appearance. Use **stroke-width** to specify the width of the line.
+We only specified the line symbolizer, so all of the boilerplate arround was generated for us.
 
-   .. code-block:: css
-      :emphasize-lines: 6
+#. Additional properties cane be used fine-tune appearance. Use **stroke-color** to specify the colour andwidth of the line.
+
+   .. code-block:: yaml
+      :emphasize-lines: 2
    
-      /* @title Line
-       * @abstract Example line symbolization
-       */
-       * {
-         stroke: blue;
-         stroke-width: 2px;
-       }
+      line:
+        stroke-color: blue
 
-#. The **stroke-dasharray** is used to define breaks rendering the line as a dot dash pattern.
+#. **stroke-width** lets us make the line wider
 
-   .. code-block:: css
-      :emphasize-lines: 7 
+   .. code-block:: yaml
+      :emphasize-lines: 3
+   
+      line:
+        stroke-color: blue
+	stroke-width: 2px
+
+#. **stroke-dasharray** applies a dot dash pattern.
+
+   .. code-block:: yaml
+      :emphasize-lines: 4
       
-      /* @title Line
-       * @abstract Example line symbolization
-       */
-       * {
-         stroke: blue;
-         stroke-width: 2px;
-         stroke-dasharray: 5 2;
-       }
+      line:
+        stroke-color: blue
+	stroke-width: 2px
+        stroke-dasharray: 5 2
 
 #. Check the :guilabel:`Map` tab to preview the result.
 
    .. image:: /style/img/line_stroke.png
 
-.. note:: The GeoServer rendering engine is quite sophisticated and allows the use of units of measure (such as :kbd:`m` or :kbd:`ft`). While we are using pixels in this example, real world units will be converted using the current scale.
+.. note:: The GeoServer rendering engine is quite sophisticated and allows the use of units of measure (such as :kbd:`m` or :kbd:`ft`). While we are using pixels in this example, real world units will be converted using the current scale, allowing for lines that change width with the scale.
 
-Z-Index
--------
+Multiple Symbolizers
+--------------------
 
-The next exercise shows how to work around a limitation when using multiple strokes to render a line.
+Providing two strokes is often used to provide a contrasting edge (called casing) to thick lines.  This can be created using two symbolizers.
 
 .. figure:: /style/img/LineStringZOrder.svg
 
-   Use of Z-Index
 
-#. Providing two strokes is often used to provide a contrasting edge (called casing) to thick line work.
+#. Start by filling in a bit of boilerplate that we'll be using
 
-   Update ``line_example`` with the following:
+   .. code-block:: yaml
 
-   .. code-block:: css
+      feature-styles:
+      - rules:
+        - symbolizers:
+          - line:
+              stroke-color: '#8080E6'
+              stroke-width: 3px
 
-      * {
-        stroke: black, #8080E6;
-        stroke-width: 5px, 3px;
-      }
+   The line symbolizer is inside a rule, which is inzide a feature style.
+
+#. Add a second symbolizer to the rule
+
+   .. code-block:: yaml
+      :emphasize-lines: 4,5,6
+
+      feature-styles:
+      - rules:
+        - symbolizers:
+          - line:
+              stroke-color: black
+              stroke-width: 5px
+          - line:
+              stroke-color: '#8080E6'
+              stroke-width: 3px
+
+   The wider black line is first so it is drawn first, then the thinner blue line drawn second and so over top of the black line.  This is called the painter's algorithm.
 
 #. If you look carefully you can see a problem with our initial attempt. The junctions of each line show that the casing outlines each line individually, making the lines appear randomly overlapped. Ideally we would like to control this process, only making use of this effect for overpasses.
 
    .. image:: /style/img/line_zorder_1.png
 
-#. The **z-index** parameter allows a draw order to be supplied. This time all the thick black lines are dawn first (at z-index 0) followed by the thinner blue lines (at z-index 1).
+   This is becaue the black and blue symbolizers are being drawn on a feature by feature basis.  For nice line casing, we want all of the black symbols, and then all of the blue symbols.
 
-   .. code-block:: css
+#. Create a new feature style and move the second symbolizer there.
 
-      * {
-        stroke: black, #8080E6;
-        stroke-width: 5px, 3px;
-        z-index: 0, 1;
-      }
+   .. code-block:: yaml
+      :emphasize-lines: 2,3,4,5,6
+
+      feature-styles:
+      - rules:
+        - symbolizers:
+          - line:
+              stroke-color: black
+              stroke-width: 5px
+      - rules:
+        - symbolizers:
+          - line:
+              stroke-color: '#8080E6'
+              stroke-width: 3px
+
+   Again we are using painter's algorithm order: the first feature style is drawn first then the second so the the second is drawn on top of the first.  The difference is that for each feature style, all of the features are drawn before the next feature style is drawn.
 
 #. If you look carefully you can see the difference. 
 
    .. image:: /style/img/line_zorder_2.png
 
-#. By using **z-index** we have been able to simulate line casing. 
+#. By using **feature styles** we have been able to simulate line casing. 
 
    .. image:: /style/img/line_zorder_3.png
 
