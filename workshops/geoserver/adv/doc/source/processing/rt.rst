@@ -3,9 +3,9 @@
 Rendering transformations
 =========================
 
-A rendering transformation allows processing to be carried out on data within the GeoServer rendering pipeline. This means that *the process gets applied dynamically*, between when it is accessed by GeoServer and it gets rendered as an image and shipped to your browser.
+A rendering transformation allows processing to be carried out on data within the GeoServer rendering pipeline. This means that the process gets applied *dynamically*, between when it is accessed by GeoServer and it gets rendered as an image and shipped to your browser.
 
-A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in the process of rendering a WMS image. 
+A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in during rendering a WMS image. 
 
 Theoretically, any WPS process can be executed as a rendering transformation.
 
@@ -22,9 +22,9 @@ The types of rendering transforms available in GeoServer include:
 
 Examples:
 
-* Contour returns contour vectors from a DEM raster
-* Heatmap computes a raster from weighted data points.
-* PointStacker aggregates dense point data into point clusters.
+* Contour returning contour vectors from a DEM raster
+* Heatmap computing a raster from weighted data points
+* PointStacker aggregating dense point data into point clusters
 
 Invoking rendering transformations
 ----------------------------------
@@ -36,16 +36,14 @@ This is similar to the use of filters in SLD, except that the filter is a stored
 Rendering transformations without WPS
 -------------------------------------
 
-Because Rendering transformations are invoked as WPS processes, you will need to have the WPS extension installed to run them.
+Because rendering transformations are invoked as WPS processes, you will need to have the WPS extension installed to run them.
 
-While the WPS service needs to be installed to use rendering transformations, it does not need to be *enabled*. To avoid unwanted consumption of server resources, it may even be desirable to disable the WPS service if it is not being used directly. To disable WPS, navigate to the WPS configuration (:guilabel:`WPS` under :guilabel:`Services`) and deselect :guilabel:`Enable WPS`.
+.. note:: While the WPS service needs to be installed to use rendering transformations, it does not need to be *enabled*. To avoid unwanted consumption of server resources, it may even be desirable to disable the WPS service if it is not being used directly. To disable WPS, navigate to the WPS configuration (:guilabel:`WPS` under :guilabel:`Services`) and deselect :guilabel:`Enable WPS`.
 
 Usage
 -----
 
-The following is a snippet of SLD that contains the fictitious process called "gs:ProcessName".
-
-.. code-block:: xml
+The following is a snippet of SLD that contains the fictitious process called "gs:ProcessName"::
 
    <StyledLayerDescriptor ...>
      ...    
