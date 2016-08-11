@@ -46,11 +46,11 @@ Let's start out with a CQL example. We'll use the ``usa:states`` layer and perfo
 
 #. First, launch the Layer Preview for this layer.
 
-#. Click on any one of the states to see the attribute information (done through a GetFeatureInfo query). Note that the attribute for the name of the state is called ``STATE_NAME``.
+#. Click any one of the states to see the attribute information (done through a GetFeatureInfo query). Note that the attribute for the name of the state is called ``STATE_NAME``.
 
    .. figure:: img/cqlogc_preview.png
 
-      Layer preview with feature info
+      Feature info
 
 #. Now add the following parameter to the end of the URL::
 
@@ -85,12 +85,24 @@ And combinations of the above using ``AND``, ``OR``, and ``NOT``.
 Try some of these examples. Any of these will work with the ``usa:states`` layer::
 
   PERSONS > 15000000
+
+::
+
   PERSONS BETWEEN 1000000 AND 3000000
+
+::
+
   STATE_NAME LIKE '%C%'
+
+::
+
   STATE_NAME IN ('New York', 'California', 'Montana', 'Texas')
+
+::
+
   STATE_NAME LIKE 'C%' AND PERSONS > 15000000
 
-.. note:: If manually editing the ``cql_filter=`` parameter, all strings must be URL encoded, so that the parameter ``STATE_NAME LIKE 'C%' AND PERSONS > 15000000`` should be typed as ``&cql_filter=STATE_NAME+LIKE+'C%25'+AND+PERSONS+>+15000000``.
+.. note:: While browsers can be very forgiving, some characters must be `URL encoded <http://www.w3schools.com/tags/ref_urlencode.asp>`_. For example, the ``%`` must be typed as ``%25``.
 
 Also available are expressions with multiple attributes (``male > female``) and simple math operations (``male / female < 1``)
 
@@ -111,25 +123,29 @@ CQL also provides a set of geometric filter capabilities. The available operator
 * Overlaps
 * BBOX
 
-For example, to display only the states that intersect a given area (a bounding box), the following expression is valid::
+#. To display only the states that intersect a given area (a bounding box), the following expression is valid::
 
-  BBOX(the_geom, -90, 40, -60, 45)
+     BBOX(the_geom, -90, 40, -60, 45)
 
-  &cql_filter=BBOX(the_geom,-90,40,-60,45)
+   Remove the previous filter and add the following to the end of the URL::
 
-.. figure:: img/cqlogc_bboxfilter.png
+     &cql_filter=BBOX(the_geom,-90,40,-60,45)
 
-   Bounding box filter
+   .. figure:: img/cqlogc_bboxfilter.png
 
-The reverse is also valid, filtering the states that do not intersect with a given area (this time using a polygon instead of a bounding box)::
+      Bounding box filter
 
-  DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))
+#. The reverse is also valid, filtering the states that do not intersect with a given area (this time using a polygon instead of a bounding box)::
 
-  &cql_filter=DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))
+     DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))
 
-.. figure:: img/cqlogc_disjointfilter.png
+   Remove the previous filter and add the following to the end of the URL::
 
-   Disjoint polygon filter
+     &cql_filter=DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))
+
+   .. figure:: img/cqlogc_disjointfilter.png
+
+      Disjoint polygon filter
 
 Using OGC filter functions in CQL filters
 -----------------------------------------
@@ -150,7 +166,7 @@ Or we could use the ``strToLowerCase()`` filter function to convert all values t
 
 Both expressions generate the exact same output.
 
-GeoServer provides many different kinds of filter functions covering a wide range of usage including mathematics, string formatting, and geometric operations. A complete list is provided in the `Filter Function Reference <http://docs.geoserver.org/stable/en/user/filter/function_reference.html>`_
+GeoServer provides many different kinds of filter functions covering a wide range of usage including mathematics, string formatting, and geometric operations. A complete list is provided in the `Filter Function Reference <http://docs.geoserver.org/stable/en/user/filter/function_reference.html>`_.
 
 OGC filter examples
 -------------------
@@ -205,7 +221,7 @@ There are also the full complement of geometric filters with OGC encoding::
     </Literal>
   </Intersects>
 
-.. todo:: These two examples don't work.
+.. todo:: Check these examples.
 
 WFS filtering using OGC
 -----------------------
@@ -214,104 +230,119 @@ The previous examples have been WMS GetMap requests, but recall that we can appl
 
 Once again, for simplicity we'll use the Demo Request Builder for this. There are demo requests that contain OGC filters, which we can examine and run.
 
-Load the Demo Request Builder. In the :guilabel:`Request` box, select :guilabel:`WFS_getFeatureIntersects.url`. This is a GET request, so the filter will be URL-encoded::
+#. Load the Demo Request Builder.
 
-  http://localhost:8080/geoserver/wfs?request=GetFeature&
-    version=1.0.0&typeName=advanced:states&outputFormat=GML2&
-    FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Egeom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
+#. In the :guilabel:`Request` box, select :guilabel:`WFS_getFeatureIntersects.url`. This is a GET request, so the filter will be URL-encoded::
 
-While this is hard to read, it is an OGC Intersects filter on the states layer on a given point (-74.817265,40.5296504)
+      http://localhost:8080/geoserver/wfs?request=GetFeature&
+        version=1.0.0&typeName=advanced:states&outputFormat=GML2&
+        FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Egeom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
 
-.. figure:: img/cqlogc_wfsfilter.png
+   While this is hard to read, it is an OGC Intersects filter on the states layer on a given point (-74.817265,40.5296504):
 
-   WFS filter results
+   .. code-block:: xml
 
-That would be New Jersey.
+      <Filter xmlns="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml">
+        <Intersects>
+          <PropertyName>geom</PropertyName>
+          <gml:Point srsName="EPSG:4326">
+            <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
+          </gml:Point>
+        </Intersects>
+      </Filter>
 
-The exact same filter can be employed using a POST request.
+   .. figure:: img/cqlogc_wfsfilter.png
 
-In the box named :guilabel:`Request`, select :guilabel:`WFS_getFeatureIntersects-1.1.xml`:
+      WFS filter results
 
-.. code-block:: xml
+   That would be New Jersey.
 
-   <wfs:GetFeature service="WFS" version="1.1.0"
-     xmlns:usa="http://usa.opengeo.org"
-     xmlns:wfs="http://www.opengis.net/wfs"
-     xmlns="http://www.opengis.net/ogc"
-     xmlns:gml="http://www.opengis.net/gml"
-     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:schemaLocation="http://www.opengis.net/wfs
-                         http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
-      <wfs:Query typeName="usa:states">
-        <Filter>
-          <Intersects>
-            <PropertyName>the_geom</PropertyName>
-            <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-              <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
-            </gml:Point>
-          </Intersects>
-        </Filter>
-      </wfs:Query>
-   </wfs:GetFeature>
+#. The exact same filter can be employed using a POST request. In the box named :guilabel:`Request`, select :guilabel:`WFS_getFeatureIntersects-1.1.xml`:
+
+   .. code-block:: xml
+
+       <wfs:GetFeature service="WFS" version="1.1.0"
+         xmlns:usa="http://census.gov"
+         xmlns:wfs="http://www.opengis.net/wfs"
+         xmlns="http://www.opengis.net/ogc"
+         xmlns:gml="http://www.opengis.net/gml"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.opengis.net/wfs
+                             http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+          <wfs:Query typeName="usa:states">
+            <Filter>
+              <Intersects>
+                <PropertyName>the_geom</PropertyName>
+                <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+                  <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
+                </gml:Point>
+              </Intersects>
+            </Filter>
+          </wfs:Query>
+       </wfs:GetFeature>
  
-This version is much easier to read, though the output is exactly the same as above.
+   This version is much easier to read, though the output is exactly the same as above.
 
-The same set of comparators are available in WFS queries. For example, to filter for values between a certain range, see the ``WFS_getFeatureBetween-1.1.xml`` template:
+#. The same set of comparators are available in WFS queries. For example, to filter for values between a certain range, execute the ``WFS_getFeatureBetween-1.1.xml`` template:
 
-.. code-block:: xml
+   .. code-block:: xml
 
-   <wfs:GetFeature service="WFS" version="1.1.0"
-    xmlns:usa="http://usa.opengeo.org"
-    xmlns:wfs="http://www.opengis.net/wfs"
-    xmlns:ogc="http://www.opengis.net/ogc"
-    xmlns:gml="http://www.opengis.net/gml"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.opengis.net/wfs
-                        http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
-     <wfs:Query typeName="usa:states">
-       <wfs:PropertyName>usa:STATE_NAME</wfs:PropertyName>
-       <wfs:PropertyName>usa:LAND_KM</wfs:PropertyName>
-       <wfs:PropertyName>usa:the_geom</wfs:PropertyName>
-       <ogc:Filter>
-         <ogc:PropertyIsBetween>
-           <ogc:PropertyName>usa:LAND_KM</ogc:PropertyName>
-           <ogc:LowerBoundary><ogc:Literal>100000</ogc:Literal></ogc:LowerBoundary>
-           <ogc:UpperBoundary><ogc:Literal>150000</ogc:Literal></ogc:UpperBoundary>
-         </ogc:PropertyIsBetween>
-       </ogc:Filter>
-     </wfs:Query>
-   </wfs:GetFeature> 
+       <wfs:GetFeature service="WFS" version="1.1.0"
+        xmlns:usa="http://census.gov"
+        xmlns:wfs="http://www.opengis.net/wfs"
+        xmlns:ogc="http://www.opengis.net/ogc"
+        xmlns:gml="http://www.opengis.net/gml"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.opengis.net/wfs
+                            http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+         <wfs:Query typeName="usa:states">
+           <wfs:PropertyName>usa:STATE_NAME</wfs:PropertyName>
+           <wfs:PropertyName>usa:AREA_LAND</wfs:PropertyName>
+           <wfs:PropertyName>usa:the_geom</wfs:PropertyName>
+           <ogc:Filter>
+             <ogc:PropertyIsBetween>
+               <ogc:PropertyName>usa:AREA_LAND</ogc:PropertyName>
+               <ogc:LowerBoundary><ogc:Literal>1E11</ogc:Literal></ogc:LowerBoundary>
+               <ogc:UpperBoundary><ogc:Literal>1.2E11</ogc:Literal></ogc:UpperBoundary>
+             </ogc:PropertyIsBetween>
+           </ogc:Filter>
+         </wfs:Query>
+       </wfs:GetFeature> 
 
-This returns a number of medium-sized states, among them: Illinois, Kentucky, and Virginia.
+   .. todo:: Saved request is wrong.
 
-There are also operators and functions, for example in the ``WFS_mathGetFeature.xml`` request:
+   This returns a number of medium-sized states, among them: Pennsylvania, Kentucky, and Virginia.
 
-.. code-block:: xml
+#. There are also operators and functions, for example in the ``WFS_mathGetFeature.xml`` request:
 
-   <wfs:GetFeature service="WFS" version="1.0.0"
-    outputFormat="GML2"
-    xmlns:usa="http://usa.opengeo.org"
-    xmlns:wfs="http://www.opengis.net/wfs"
-    xmlns:ogc="http://www.opengis.net/ogc"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.opengis.net/wfs
-                        http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
-     <wfs:Query typeName="usa:states">
-       <ogc:Filter>
-         <ogc:PropertyIsGreaterThan>
-           <ogc:Div>
-             <ogc:PropertyName>MANUAL</ogc:PropertyName>
-             <ogc:PropertyName>WORKERS</ogc:PropertyName>
-           </ogc:Div>
-         <ogc:Literal>0.25</ogc:Literal>
-         </ogc:PropertyIsGreaterThan>
-       </ogc:Filter>
-     </wfs:Query>
-   </wfs:GetFeature>
+   .. code-block:: xml
 
-This returns all features that satisfy this criteria::
+        <wfs:GetFeature service="WFS" version="1.0.0"
+          outputFormat="GML2"
+          xmlns:usa="http://census.gov"
+          xmlns:wfs="http://www.opengis.net/wfs"
+          xmlns:ogc="http://www.opengis.net/ogc"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.opengis.net/wfs
+                              http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
+          <wfs:Query typeName="usa:states">
+            <ogc:Filter>
+              <ogc:PropertyIsGreaterThan>
+                <ogc:Div>
+                    <ogc:PropertyName>MALE</ogc:PropertyName>
+                    <ogc:PropertyName>PERSONS</ogc:PropertyName>
+                </ogc:Div>
+                 <ogc:Literal>0.5</ogc:Literal>
+            </ogc:PropertyIsGreaterThan>
+            </ogc:Filter>
+            </wfs:Query>
+        </wfs:GetFeature>
+ 
+   .. todo:: Saved request is wrong.
 
-  MANUAL / WORKERS > 0.25
+   This returns all features that satisfy this criteria::
+
+      MALE / PERSONS > 0.5
 
 The full set of filtering capabilities is actually part of the WFS spec. This is shown in the WFS capabilities document in the tag named ``<ogc:Filter_Capabilities>``. WMS borrows these capabilities, implementing them as vendor parameters.
 
@@ -324,7 +355,7 @@ Given the following familiar image:
 
 .. figure:: ../crs/img/usastates_4326.png
 
-   usa:states forever
+   usa:states
 
 Here is its SLD, or rather, one rule excerpted for brevity.
 
@@ -351,6 +382,8 @@ This rule, and the others like it, has a filter (to drive the classification) an
 
 CQL in SLD dynamic symbolizers
 ------------------------------
+
+.. todo:: This example doesn't work anymore
 
 CQL filters coupled with OGC filter functions also have a place in SLD, but not (strangely) for filtering. They can be evaluated as an expression in-line in order to *return values*.
 
