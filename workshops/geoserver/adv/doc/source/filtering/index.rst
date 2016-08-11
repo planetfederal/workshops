@@ -24,11 +24,12 @@ While not specifically filters, there are other ways to separate data from sourc
 * SQL Views
 * Time/Elevation dimensions on WMS requests
 
-All of these will be discussed in upcoming sections.
+Many of these will be discussed in upcoming sections.
 
 .. toctree::
    :maxdepth: 2
 
    cqlogc
    sqlviews
-   wmsdims
+
+.. wmsdims
