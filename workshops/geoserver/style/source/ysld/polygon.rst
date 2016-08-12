@@ -33,34 +33,39 @@ Reference:
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
-#. Navigate to :menuselection:`CSS Styles`.
+#. Navigate to :menuselection:`Styles`.
 
-#. Set ``ne:states_provinces_shp`` as the preview layer.
-
-   .. image:: /style/img/polygon_01_preview.png
-
-#. Create a new CSS style :kbd:`polygon_example`.
+#. Create a new style :kbd:`polygon_example`.
 
    .. list-table:: 
       :widths: 30 70
       :stub-columns: 1
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`polygon_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`YSLD`
      
    .. image:: /style/img/polygon_02_create.png
 
-#. An initial style is provided:
+#. Enter the following style and click :menuselection:``Apply`` to save:
 
-   .. code-block:: css
+   .. code-block:: yaml
    
-      * { fill: lightgrey; }
+      symbolizers:
+      - polygon:
+          fill-color: 'lightgrey'
 
-#. Click on the tab :guilabel`Map` to preview.
+#. Click on the tab :guilabel`Layer Preview` to preview.
 
    .. image:: /style/img/polygon_04_preview.png
+
+#. Set ``ne:states_provinces_shp`` as the preview layer.
+
+   .. image:: /style/img/polygon_01_preview.png
+
 
 Stroke and Fill
 ---------------
@@ -74,11 +79,11 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
 #. Replace the contents of ``polygon_example`` with the following **fill** example:
 
-   .. code-block:: css
+   .. code-block:: yaml
    
-      * {
-         fill: gray;
-      }
+      symbolizers:
+      - polygon:
+          fill-color: 'gray'
 
 #. The :guilabel:`Map` tab can be used preview the change:
 
@@ -88,14 +93,14 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
    The **stroke** property is used to provide the color, or pattern, for the polygon boundary. It is effected by the same parameters (and vendor specific parameters) as used for LineStrings. 
    
-   .. code-block:: css
-      :emphasize-lines: 3,4
+   .. code-block:: yaml
+      :emphasize-lines: 4,5
       
-      * {
-         fill: gray;
-         stroke: black;
-         stroke-width: 2;
-      }
+      symbolizers:
+      - polygon:
+          fill-color: 'gray'
+          stroke-color: 'black'
+          stroke-width: 2
    
    .. note:: Technically the boundary of a polygon is a specific case of a LineString where the first and last vertex are the same, forming a closed LinearRing.
 
@@ -109,16 +114,16 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
    The **stroke-opacity** property is used in a similar fashion, as a range from 0.0 to 1.0.
 
-   .. code-block:: css
-      :emphasize-lines: 3,6
+   .. code-block:: yaml
+      :emphasize-lines: 4,7
       
-      * {
-         fill: white;
-         fill-opacity: 50%;
-         stroke: light-gray;
-         stroke-width: 0.25;
-         stroke-opacity: 50%;
-      }
+      symbolizers:
+      - polygon:
+          fill-color: 'white'
+          fill-opacity: 0.5
+          stroke-color: 'lightgrey'
+          stroke-width: 0.25
+          stroke-opacity: 0.5
 
 #. As shown in the map preview:
 
@@ -157,12 +162,16 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
    Update `polygon_example` with the following built-in symbol as a repeating fill pattern:
 
-   .. code-block:: css
-      :emphasize-lines: 2
+   .. code-block:: yaml
+      :emphasize-lines: 3-7
       
-      * {
-         fill: symbol(square);
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            symbols:
+            - mark:
+                shape: square
+                fill-color: 'gray'
 
 #. The map preview (and legend) will show the result:
    
@@ -170,13 +179,18 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
    
 #. Add a black stroke:
 
-   .. code-block:: css
-      :emphasize-lines: 3
+   .. code-block:: yaml
+      :emphasize-lines: 8,9
 
-      * {
-         fill: symbol(square);
-         stroke: black;
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            symbols:
+            - mark:
+                shape: square
+                fill-color: 'gray'
+                stroke-color: 'black'
+                stroke-width: 1
 
 #. To outline the individual shapes:
 
@@ -190,15 +204,20 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
    
    Adjust the size and rotation as shown:
 
-   .. code-block:: css
-      :emphasize-lines: 3,4
+   .. code-block:: yaml
+      :emphasize-lines: 4,5
 
-      * {
-         fill: symbol(square);
-         fill-size: 22px;
-         fill-rotation: 45;
-         stroke: black;
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            size: 22
+            rotation: 45.0
+            symbols:
+            - mark:
+                shape: square
+                fill-color: 'gray'
+                stroke-color: 'black'
+                stroke-width: 1
       
 #. The size of each symbol is increased, and each symbol rotated by 45 degrees.
 
@@ -212,56 +231,38 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
       
          Prior to GeoServer 2.5 a **toRadians** call was required as described in `GEOT-4641 <https://jira.codehaus.org/browse/GEOT-4641>`_.
       
-         .. code-block:: css
+         .. code-block:: yaml
 
-            * {
-               fill: symbol(square);
-               fill-size: 22px;
-               fill-rotation: [toRadians(45)];
-            }
+            symbolizers:
+            - polygon:
+                fill-graphic:
+                  size: 22
+                  rotation: ${toRadians(45.0)}
+                  symbols:
+                  - mark:
+                      shape: square
+                      fill-color: 'gray'
+                      stroke-color: 'black'
+                      stroke-width: 1
 
-#. The size and rotation properties just affect the size and placement of the symbol, but do not alter the symbol's design. In order to control the color we need to make use of a **pseudo-selector**. We have two options for referencing to our symbol above:
-
-   **:symbol** provides styling for all the symbols in the CSS document. 
-   
-   **:fill** provides styling for all the fill symbols in the CSS document.
+#. The size and rotation properties just affect the size and placement of the symbol, but do not alter the symbol's design. In order to control the color we set the **fill-color** and **stroke-color** properties of the **mark**.
    
 #. Replace the contents of ``polygon_example`` with the following:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-         fill: symbol(square);
-      }
-      :fill {
-         fill: green;
-         stroke: darkgreen;
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            symbols:
+            - mark:
+                shape: square
+                fill-color: '#008000'
+                stroke-color: '#006400'
+                stroke-width: 1
 
 #. This change adjusts the appearance of our grid of squares.
    
-   .. image:: /style/img/polygon_pattern_3.png
-
-#. If you have more than one symbol:
-   
-   **:nth-symbol(1)** is used to specify which symbol in the document we wish to modify.
-     
-   **:nth-fill(1)** provides styling for the indicated fill symbol
-
-   To rewrite our example to use this approach:
-
-   .. code-block:: css
-
-      * {
-         fill: symbol(square);
-      }
-      :nth-fill(1) {
-         fill: green;
-         stroke: darkgreen;
-      }
-
-#. Since we only have one fill in our CSS document the map preview looks identical.
-
    .. image:: /style/img/polygon_pattern_3.png
 
 #. The well-known symbols are more suited for marking individual points. Now that we understand how a pattern can be controlled it is time to look at the patterns GeoServer provides.
@@ -277,69 +278,55 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
    Update the example to use **shape://slash** for a pattern of left hatching. 
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-         fill: symbol('shape://slash');
-         stroke: black;
-      }
-      :fill {
-        stroke: gray;
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            symbols:
+            - mark:
+                shape: 'shape://slash'
+                stroke-color: 'gray'
 
 #. This approach is well suited to printed output or low color devices.
    
    .. image:: /style/img/polygon_pattern_4.png
 
-#. To control the size of the symbol produced use the **fill-size** property.
+#. To control the size of the symbol produced use the **size** property of the **fill-graphic**.
   
-   .. code-block:: css
+   .. code-block:: yaml
+      :emphasize-lines: 4
 
-      * {
-         fill: symbol('shape://slash');
-         fill-size: 8;
-         stroke: black;
-      }
-      :fill {
-         stroke: green;
-      }
+      symbolizers:
+      - polygon:
+          fill-graphic:
+            size: 8
+            symbols:
+            - mark:
+                shape: 'shape://slash'
+                stroke-color: 'gray'
 
 #. This results in a tighter pattern shown:
 
    .. image:: /style/img/polygon_pattern_5.png
+
+#. Multiple fills can be applied by using a seperate symbolizer for each fill as part of the same rule.
    
-#. Another approach (producing the same result is to use the **size** property on the appropriate pseudo-selector.
+   .. code-block:: yaml
 
-   .. code-block:: css
-
-      * {
-         fill: symbol('shape://slash');
-         stroke: black;
-      }
-      :fill {
-         stroke: green;
-         size: 8;
-      }
-
-#. This produces the same visual result:
-
-    .. image:: /style/img/polygon_pattern_5.png
-
-#. Multiple fills can be combined by supplying more than one fill as part of the same rule.
-   
-   Note the use of a comma to separate fill-size values (including the first fill-size value which is empty). This was the same approach used when combining strokes.
-   
-   .. code-block:: css
-
-      * {
-         fill: #DDDDFF, symbol('shape://slash');
-         fill-size: ,8;
-         stroke: black;
-      }
-      :fill {
-         stroke: black;
-         stroke-width: 0.5;
-      }
+      symbolizers:
+      - polygon:
+          stroke-color: 'black
+          stroke-width: 1
+          fill-color: '#DDDDFF'
+      - polygon:
+          fill-graphic:
+            size: 8
+            symbols:
+            - mark:
+                shape: shape://slash
+                stroke-color: 'black'
+                stroke-width: 0.5
 
 #. The resulting image has a solid fill, with a pattern drawn overtop.
 
@@ -360,14 +347,16 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. Try out **label** and **fill** together by replacing our ``polygon_example`` with the following:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        stroke: blue;
-        fill: #7EB5D3;
-        label: [name];
-        font-fill: black;
-      }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
 
 #. Each label is drawn from the lower-left corner as shown in the ``Map`` preview.
    
@@ -395,15 +384,19 @@ The key properties **fill** and **label** are used to enable Polygon label gener
    
    To align the center of our label we select 50% horizontally and 50% vertically, by filling in  0.5 and 0.5 below:
    
-   .. code-block:: css
-      :emphasize-lines: 5
+   .. code-block:: yaml
+      :emphasize-lines: 9
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           font-fill: black;
-           label-anchor: 0.5 0.5;
-      }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          anchor: [0.5, 0.5]
+
          
 #. The labeling position remains at the polygon centroid. We adjust alignment by controlling which part of the label we are "snapping" into position.
 
@@ -415,15 +408,18 @@ The key properties **fill** and **label** are used to enable Polygon label gener
    
 #. This offset is used to adjust the label position relative to the geometry centroid resulting in the starting label position.
    
-   .. code-block:: css
-      :emphasize-lines: 5
+   .. code-block:: yaml
+      :emphasize-lines: 9
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           font-fill: black;
-           label-offset: 0 7;
-      }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          displacement: [0, 7]
 
 #. Confirm this result in the map preview.
    
@@ -441,16 +437,19 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
 #. To move our labels down (allowing readers to focus on each shape) we can use displacement combined with followed by horizontal alignment.
    
-   .. code-block:: css
-      :emphasize-lines: 5,6
+   .. code-block:: yaml
+      :emphasize-lines: 9,10
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           font-fill: black;
-           label-anchor: 0.5 1;
-           label-offset: 0 -7;
-       }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          anchor: [0.5, 1]
+          displacement: [0, -7]
 
 #. As shown in the map preview.
    
@@ -473,18 +472,20 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. Using these together we can make a small improvement in our example:
 
-   .. code-block:: css
+   .. code-block:: yaml
       :emphasize-lines: 7,8
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           font-fill: black;
-           label-anchor: 0.5 0.5;
-        
-           -gt-label-max-displacement: 40;
-           -gt-label-auto-wrap: 70;
-         }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          anchor: [0.5, 0.5]
+          x-maxDisplacement: 40
+          x-autoWrap: 70
 
 #. As shown in the following preview.
    
@@ -492,25 +493,30 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. Even with this improved spacing between labels, it is difficult to read the result against the complicated line work.
    
-   Use of a halo to outline labels allows the text to stand out from an otherwise busy background. In this case we will make use of the fill color, to provide some space around our labels. 
+   Use of a halo to outline labels allows the text to stand out from an otherwise busy background. In this case we will make use of the fill color, to provide some space around our labels. We will also change the font to Arial.
 
-   .. code-block:: css
-      :emphasize-lines: 8-10
+   .. code-block:: yaml
+      :emphasize-lines: 14-17
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           label-anchor: 0.5 0.5;
-           font-fill: black;
-           font-family: "Arial";
-           font-size: 14;
-           halo-radius: 2;
-           halo-color: #7EB5D3;
-           halo-opacity:0.8;
-        
-           -gt-label-max-displacement: 40;
-           -gt-label-auto-wrap: 70;
-         }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          anchor: [0.5, 0.5]
+          font-family: Arial
+          font-size: 14
+          font-style: normal
+          font-weight: normal
+          halo:
+            fill-color: '#7EB5D3'
+            fill-opacity: 0.8
+            radius: 2
+          x-maxDisplacement: 40
+          x-autoWrap: 70
 
 #. By making use of **halo-opacity** we we still allow stroke information to show through, but prevent the stroke information from making the text hard to read.
 
@@ -524,24 +530,29 @@ When working with labels a map can become busy very quickly, and difficult to re
    
    The values for **labelrank** go from 0 (for zoomed out) to 20 (for zoomed in). To use this value for **-gt-label-priority** we need to swap the values around so a **scalerank** of 1 is given the highest priority.
    
-   .. code-block:: css
-      :emphasize-lines: 14
+   .. code-block:: yaml
+      :emphasize-lines: 20
       
-      * {  stroke: blue;
-           fill: #7EB5D3;
-           label: [name];
-           label-anchor: 0.5 0.5;
-           font-fill: black;
-           font-family: "Arial";
-           font-size: 14;
-           halo-radius: 2;
-           halo-color: #7EB5D3;
-           halo-opacity:0.8;
-        
-           -gt-label-max-displacement: 40;
-           -gt-label-auto-wrap: 70;
-           -gt-label-priority: [20-labelrank];
-         }
+      symbolizers:
+      - polygon:
+          stroke-color: 'blue'
+          stroke-width: 1
+          fill-color: '#7EB5D3'
+      - text:
+          label: ${name}
+          fill-color: 'black'
+          anchor: [0.5, 0.5]
+          font-family: Arial
+          font-size: 14
+          font-style: normal
+          font-weight: normal
+          halo:
+            fill-color: '#7EB5D3'
+            fill-opacity: 0.8
+            radius: 2
+          x-maxDisplacement: 40
+          x-autoWrap: 70
+          priority: ${'20' - labelrank}
    
 #. In the following map ``East Flanders`` will take priority over ``Zeeland`` when the two labels overlap.
 
@@ -591,55 +602,89 @@ A thematic map (rather than focusing on representing the shape of the world) use
   
 #. The first approach we will take is to directly select content based on **colormap**, providing a color based on the **9-class Set3** palette above:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      [mapcolor9=1] {
-         fill: #8dd3c7;
-      }
-      [mapcolor9=2] {
-         fill: #ffffb3;
-      }
-      [mapcolor9=3] {
-         fill: #bebada;
-      }
-      [mapcolor9=4] {
-         fill: #fb8072;
-      }
-      [mapcolor9=5] {
-         fill: #80b1d3;
-      }
-      [mapcolor9=6] {
-         fill: #fdb462;
-      }
-      [mapcolor9=7] {
-         fill: #b3de69;
-      }
-      [mapcolor9=8] {
-         fill: #fccde5;
-      }
-      [mapcolor9=9] {
-         fill: #d9d9d9;
-      }
-      * {
-        stroke: gray;
-        stroke-width: 0.5;
-      }
+      define: &stroke
+        stroke-color: 'gray'
+        stroke-width: 0.5
+      rules:
+        - filter: ${mapcolor9 = '1'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#8DD3C7'
+        - filter: ${mapcolor9 = '2'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#FFFFB3'
+        - filter: ${mapcolor9 = '3'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#BEBADA'
+        - filter: ${mapcolor9 = '4'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#FB8072'
+        - filter: ${mapcolor9 = '5'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#80B1D3'
+        - filter: ${mapcolor9 = '6'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#FDB462'
+        - filter: ${mapcolor9 = '7'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#B3DE69'
+        - filter: ${mapcolor9 = '8'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#FCCDE5'
+        - filter: ${mapcolor9 = '9'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              <<: *stroke
+              fill-color: '#D9D9D9'
+        - filter: ${mapcolor9 <> '1' AND mapcolor9 <> '2' AND mapcolor9 <> '3' AND mapcolor9 <> '4' AND mapcolor9 <> '5' AND mapcolor9 <> '6' AND mapcolor9 <> '7' AND mapcolor9 <> '8' AND mapcolor9 <> '9'}
+          scale: [min, max]
+          symbolizers:
+          - line:
+              <<: *stroke
 
 #. The :guilabel:`Map` tab can be used to preview this result.
 
    .. image:: /style/img/polygon_09_selector_theme.png
 
-#. This CSS makes use of cascading to avoid repeating the **stroke** and **stroke-width** information multiple times.
+#. This YSLD makes use of a **define** to avoid repeating the **stroke-color** and **stroke-width** information multiple times.
 
-   As an example the :kbd:`mapcolor9=2` rule, combined with the :kbd:`*` rule results in the following collection of properties:
+   As an example the :kbd:`${mapcolor9 = '2'}` rule, combined with the :kbd:`define:` results in the following collection of properties:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      [mapcolor9=2] {
-        fill: #ffffb3;
-        stroke: gray;
-        stroke-width: 0.5;
-      }
+      - filter: ${mapcolor9 = '2'}
+          scale: [min, max]
+          symbolizers:
+          - polygon:
+              stroke-color: 'gray'
+              stroke-width: 0.5
+              fill-color: '#FFFFB3'
 
 #. Reviewing the generated SLD shows us this representation:
 
@@ -677,18 +722,22 @@ A thematic map (rather than focusing on representing the shape of the world) use
 
 #. Swap out **mapcolor9** theme to use the **Recode** function:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        fill:[
-          recode(mapcolor9,
-            1,'#8dd3c7', 2,'#ffffb3', 3,'#bebada',
-            4,'#fb8072', 5,'#80b1d3', 6,'#fdb462',
-            7,'#b3de69', 8,'#fccde5', 9,'#d9d9d9')
-        ]; 
-        stroke: gray;
-        stroke-width: 0.5;
-      }
+      symbolizers:
+      - polygon:
+          stroke-color: 'gray'
+          stroke-width: 0.5
+          fill-color: ${Recode(mapcolor9,
+            '1','#8dd3c7',
+            '2','#ffffb3',
+            '3','#bebada',
+            '4','#fb8072',
+            '5','#80b1d3',
+            '6','#fdb462',
+            '7','#b3de69',
+            '8','#fccde5',
+            '9','#d9d9d9')}
 
 #. The :guilabel:`Map` tab provides the same preview.
 
@@ -765,12 +814,13 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
          The obvious thing works, setting both values to the same color:
 
-         .. code-block:: css
+         .. code-block:: yaml
  
-            * {
-              fill: lightgrey;
-              stroke: lightgrey;
-            }
+            symbolizers:
+            - polygon:
+                stroke-color: 'lightgrey'
+                stroke-width: 1
+                fill-color: 'lightgrey'
 
          Yes, the intro "without a stroke" was a clue.
 
@@ -788,19 +838,17 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
    #. The **Categorize** function can be used to generate property values based on quantitative information. Here is an example using Categorize to color states according to size.
 
-      .. code-block:: css
+       .. code-block:: yaml
 
-         * {
-            fill: [
-               Categorize(Shape_Area,
-                  '#08519c', 0.5,
-                  '#3182bd', 1,
-                  '#6baed6', 5,
-                  '#9ecae1', 60,
-                  '#c6dbef', 80,
-                  '#eff3ff')
-            ];
-         }
+          symbolizers:
+          - polygon:
+              fill-color: ${Categorize(Shape_Area,
+                '#08519c','0.5',
+                '#3182bd','1',
+                '#6baed6','5',
+                '#9ecae1','60',
+                '#c6dbef','80',
+                '#eff3ff')}
       
       .. image:: /style/img/polygon_area.png
 
@@ -816,22 +864,20 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
          Example:
 
-         .. code-block:: css
+         .. code-block:: yaml
 
-            * {
-              fill: symbol('shape://slash');
-              fill-size: [
-                 Categorize(datarank,
-                  4, 4,
-                  5, 6,
-                  8, 10,
-                 10)
-              ];
-              stroke: black;
-            }
-            :fill {
-              stroke: darkgray;
-            }
+            symbolizers:
+            - polygon:
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+                fill-graphic:
+                  size: ${Categorize(datarank,'4','4','5','6','8','10','10')}
+                  symbols:
+                  - mark:
+                      shape: shape://slash
+                      stroke-color: 'darkgray'
+                      stroke-width: 1
 
 .. admonition:: Challenge Goodness of Fit
 
@@ -839,12 +885,12 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
    #. In addition to the vendor parameter for max displacement you can experiment with different values for "goodness of fit". These settings control how far GeoServer is willing to move a label to avoid conflict, and under what terms it simply gives up::
    
-         -gt-label-fit-goodness: 0.3;
-         -gt-label-max-displacement: 130;
+         x-goodnessOfFit: 0.3
+         x-maxDisplacement: 130
 
    #. You can also experiment with turning off this facility completely::
    
-         -gt-label-conflict-resolution: false;
+         x-conflictResolution: false
       
    #. **Challenge:** Construct your own example using max displacement and fit-goodness.
 
@@ -862,18 +908,25 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
          Here is an example:
  
-         .. code-block:: css
+         .. code-block:: yaml
 
-            * {  stroke: gray;
-                 fill: #7EB5D3;
-                 label: [name];
-                 label-anchor: 0.5 0.5;
-                 font-fill: black;
-                 font-family: "Arial";
-                 font-size: 14;
-                 halo-radius: 1;
-                 halo-color: white;
-               }
+            symbolizers:
+            - polygon:
+                stroke-color: 'gray'
+                stroke-width: 1
+                fill-color: '#7EB5D3'
+            - text:
+                label: ${name}
+                fill-color: 'black'
+                halo:
+                  fill-color: 'white'
+                  radius: 1
+                font-family: Arial
+                font-size: 14
+                font-style: normal
+                font-weight: normal
+                anchor: [0.5, 0.5]
+
 
 .. admonition:: Challenge Theming using Multiple Attributes
 
@@ -889,28 +942,35 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
          This should be a cut and paste using the information already provided.
  
-         .. code-block:: css
+         .. code-block:: yaml
 
-             * {
-                fill: [
-                 recode(mapcolor9,
-                   1,'#8dd3c7', 2,'#ffffb3', 3,'#bebada',
-                   4,'#fb8072', 5,'#80b1d3', 6,'#fdb462',
-                   7,'#b3de69', 8,'#fccde5', 9,'#d9d9d9')
-                ], symbol('shape://slash');
-     
-                fill-size: ,[
-                   Categorize(datarank,
-                    6, 4,
-                    8, 6,
-                   10, 10,
-                   12)
-                ];
-                stroke: black;
-             }
-             :fill {
-                stroke: black;
-             }
+            symbolizers:
+            - polygon:
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: ${Recode(mapcolor9,
+                  '1','#8dd3c7',
+                  '2','#ffffb3',
+                  '3','#bebada',
+                  '4','#fb8072',
+                  '5','#80b1d3',
+                  '6','#fdb462',
+                  '7','#b3de69',
+                  '8','#fccde5',
+                  '9','#d9d9d9')}
+            - polygon:
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+                fill-graphic:
+                  size: ${Categorize(datarank,'6','4','8','6','10','10','12')}
+                  symbols:
+                  - mark:
+                      shape: shape://slash
+                      stroke-color: 'black'
+                      stroke-width: 1
+                      fill-color: 'gray'
+
 
 .. admonition:: Challenge Use of Z-Index
 
@@ -924,20 +984,41 @@ In a classroom setting you are encouraged to team up into groups, with each grou
 
    .. admonition:: Instructor Notes     
 
-      This is a tricky challenge. While it is easy enough to introduce z-index to control stroke what is not immediately obvious is that z-order also controls fill order. Most students will introduce stroke correctly by cutting and pasting, in order to untangle fill and stroke z-order dummy stroke definitions need to be introduced using empty commas.
+      This is much easier when using YSLD, where z-order is controlled by feature-style order. In this instance, multiple symbolizers within a feature-style will not work, as the order within a feature-style is only consistent per-feature (not per-layer).
 
-      .. code-block:: css
+      .. code-block:: yaml
 
-        * {
-          fill: lightgray, symbol('shape://slash');
-          fill-size: 8px;
-          stroke: ,,lightgray, black;
-          stroke-width: ,,6,1.5;
-          z-index: 1,2,3,4;
-        }
-        :fill {
-          stroke: black;
-          stroke-width: 0.75;
-        }
+        feature-styles:
+        - rules:
+          - scale: [min, max]
+            symbolizers:
+            - polygon:
+                stroke-width: 1.0
+                fill-color: 'lightgrey'
+        - rules:
+          - scale: [min, max]
+            symbolizers:
+            - polygon:
+                stroke-width: 1.0
+                fill-color: 'gray'
+                fill-graphic:
+                  size: 8
+                  symbols:
+                  - mark:
+                      shape: shape://slash
+                      stroke-color: 'black'
+                      stroke-width: 0.75
+        - rules:
+          - scale: [min, max]
+            symbolizers:
+            - line:
+                stroke-color: 'lightgrey'
+                stroke-width: 6
+        - rules:
+          - scale: [min, max]
+            symbolizers:
+            - line:
+                stroke-color: 'black'
+                stroke-width: 1.5
 
       The included legend should be a large clue about what is going on.
