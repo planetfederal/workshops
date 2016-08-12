@@ -1,0 +1,535 @@
+Beyond GeoServer Basics - Cheat sheet
+=====================================
+Boundless
+http://boundlessgeo.com
+
+
+Section 2.1: REST
+-----------------
+
+2.1.3.1: Create a new workspace
+-------------------------------
+
+curl -u admin:geoserver -v -X POST -H "Content-Type:text/xml" -d "<workspace><name>advanced</name></workspace>" http://localhost:8080/geoserver/rest/workspaces
+
+
+2.1.3.2: Add a new store
+------------------------
+
+<dataStore>
+  <name>advanced</name>
+  <connectionParameters>
+    <host>localhost</host>
+    <port>5432</port>
+    <database>advanced</database>
+    <user>postgres</user>
+    <password>postgres</password>
+    <dbtype>postgis</dbtype>
+  </connectionParameters>
+</dataStore>
+
+curl -v -u admin:geoserver -X POST -H "content-type:text/xml" -T datastore.advanced.xml http://localhost:8080/geoserver/rest/workspaces/advanced/datastores
+
+
+2.1.3.3: Add layers
+-------------------
+
+psql -Upostgres --tuples-only -c "select f_table_name from geometry_columns" advanced
+
+curl -v -u admin:geoserver -X POST -H "Content-type: text/xml" -d "<featureType><name>roads</name></featureType>" http://localhost:8080/geoserver/rest/workspaces/advanced/datastores/advanced/featuretypes
+
+http://localhost:8080/geoserver/wms/reflect?layers=advanced:roads
+
+
+2.1.3.4: Upload styles
+----------------------
+
+for f in *sld; do
+curl -v -u admin:geoserver -X POST -H "Content-Type:application/vnd.ogc.sld+xml"
+  -d @$f
+  http://localhost:8080/geoserver/rest/styles;
+echo "OK?"; read;
+done
+
+curl -v -u admin:geoserver -X POST -H "Content-type: application/vnd.ogc.sld+xml"-d @parks.sld http://localhost:8080/geoserver/rest/styles
+curl -v -u admin:geoserver -X POST -H "Content-type: application/vnd.ogc.sld+xml"-d @rails.sld http://localhost:8080/geoserver/rest/styles
+curl -v -u admin:geoserver -X POST -H "Content-type: application/vnd.ogc.sld+xml"-d @roads.sld http://localhost:8080/geoserver/rest/styles
+curl -v -u admin:geoserver -X POST -H "Content-type: application/vnd.ogc.sld+xml"-d @urban.sld http://localhost:8080/geoserver/rest/styles
+
+
+2.1.3.5: Add layers to a layer group
+------------------------------------
+
+<layerGroup>
+  <name>earthmap</name>
+  <layers>
+    <!-- existing -->
+    <layer>shadedrelief</layer>
+    <layer>ocean</layer>
+    <layer>countries</layer>
+    <layer>coastline</layer>
+    <layer>rivers</layer>
+    <layer>cities</layer>
+    <!-- new -->
+    <layer>urban</layer>
+    <layer>parks</layer>
+    <layer>rails</layer>
+    <layer>roads</layer>
+  </layers>
+  <styles>
+    <!-- existing -->
+    <style>Raster</style>
+    <style>Ocean</style>
+    <style>Countries</style>
+    <style>Coastline</style>
+    <style>Rivers</style>
+    <style>Cities</style>
+    <!-- new -->
+    <style>Urban</style>
+    <style>Parks</style>
+    <style>Rails</style>
+    <style>Roads</style>
+  </styles>
+</layerGroup>
+
+curl -v -u admin:geoserver -X PUT -H "Content-type: text/xml" -d @layergroup.earth.xml http://localhost:8080/geoserver/rest/layergroups/earth
+
+
+2.1.3.6: Deleting a resource
+----------------------------
+
+curl -v -u admin:geoserver -X POST -H "content-type:text/xml" -d "<workspace><name>whoop</name></workspace>" http://localhost:8080/geoserver/rest/workspaces
+
+curl -v -u admin:geoserver -X DELETE http://localhost:8080/geoserver/rest/workspaces/whoop.xml
+
+
+Section 2.2: Transactional WFS
+------------------------------
+
+2.2.2.1: Simple query
+---------------------
+
+<wfs:GetFeature service="WFS" version="1.1.0"
+ xmlns:earth="http://earth"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+  <wfs:Query typeName="earth:cities">
+    <ogc:Filter>
+      <ogc:FeatureId fid="cities.3"/>
+    </ogc:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+
+2.2.2.2: Bounding box query
+---------------------------
+
+<wfs:GetFeature service="WFS" version="1.1.0"
+ xmlns:earth="http://earth"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:gml="http://www.opengis.net/gml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+  <wfs:Query typeName="earth:cities">
+    <wfs:PropertyName>earth:name</wfs:PropertyName>
+    <wfs:PropertyName>earth:pop_max</wfs:PropertyName>
+    <ogc:Filter>
+      <ogc:BBOX>
+        <ogc:PropertyName>geom</ogc:PropertyName>
+        <gml:Envelope srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lowerCorner>-45 -45</gml:lowerCorner>
+          <gml:upperCorner>45 45</gml:upperCorner>
+        </gml:Envelope>
+      </ogc:BBOX>
+    </ogc:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+
+2.2.2.3: Attribute filter query
+-------------------------------
+
+<wfs:GetFeature service="WFS" version="1.0.0"
+ xmlns:earth="http://earth"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
+  <wfs:Query typeName="earth:cities">
+    <ogc:Filter>
+      <ogc:PropertyIsEqualTo>
+        <ogc:PropertyName>name</ogc:PropertyName>
+        <ogc:Literal>Toronto</ogc:Literal>
+      </ogc:PropertyIsEqualTo>
+    </ogc:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+
+2.2.3.1: Delete
+-------
+
+<wfs:Transaction service="WFS" version="1.0.0"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:earth="http://earth">
+  <wfs:Delete typeName="earth:cities">
+    <ogc:Filter>
+      <ogc:PropertyIsEqualTo>
+        <ogc:PropertyName>earth:name</ogc:PropertyName>
+        <ogc:Literal>Toronto</ogc:Literal>
+      </ogc:PropertyIsEqualTo>
+    </ogc:Filter>
+  </wfs:Delete>
+</wfs:Transaction>
+
+http://localhost:8080/geoserver/wms/reflect?layers=earth:shadedrelief,earth:countries,earth:cities&format=application/openlayers
+
+
+2.2.3.2: Update
+---------------
+
+<wfs:Transaction service="WFS" version="1.0.0"
+ xmlns:earth="http://earth"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:wfs="http://www.opengis.net/wfs">
+  <wfs:Update typeName="earth:cities">
+    <wfs:Property>
+      <wfs:Name>name</wfs:Name>
+      <wfs:Value>Deluxembourg</wfs:Value>
+    </wfs:Property>
+    <ogc:Filter>
+      <ogc:FeatureId fid="cities.3"/>
+    </ogc:Filter>
+  </wfs:Update>
+</wfs:Transaction>
+
+http://localhost:8080/geoserver/wms/reflect?layers=earth:shadedrelief,earth:countries,earth:cities&format=application/openlayers
+
+
+2.2.3.3: Insert
+---------------
+
+<wfs:Transaction service="WFS" version="1.0.0"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:earth="http://earth"
+ xmlns:gml="http://www.opengis.net/gml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd
+                     http://earth
+                     http://localhost:8080/geoserver/wfs/DescribeFeatureType?typename=earth:cities">
+  <wfs:Insert>
+    <earth:cities>
+      <earth:geom>
+        <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:coordinates decimal="." cs="," ts=" ">0,0</gml:coordinates>
+        </gml:Point>
+      </earth:geom>
+      <earth:name>Null</earth:name>
+      <earth:pop_min>10000000</earth:pop_min>
+    </earth:cities>
+  </wfs:Insert>
+</wfs:Transaction>
+
+http://localhost:8080/geoserver/wms/reflect?layers=earth:shadedrelief,earth:countries,earth:cities&format=application/openlayers
+
+
+2.2.3.4: Multiple transactions
+------------------------------
+
+<wfs:Transaction service="WFS" version="1.0.0"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:earth="http://earth"
+ xmlns:advanced="http://advanced"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:gml="http://www.opengis.net/gml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd">
+  <!-- BRING TORONTO BACK -->
+  <wfs:Insert>
+    <earth:cities>
+    <earth:geom>
+      <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+        <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">
+          -79.496,43.676
+        </gml:coordinates>
+      </gml:Point>
+    </earth:geom>
+    <earth:name>Toronto</earth:name>
+    </earth:cities>
+  </wfs:Insert>
+  <!-- LUXEMBOURG IS NO LONGER DELUXE -->
+  <wfs:Update typeName="earth:cities">
+    <wfs:Property>
+      <wfs:Name>name</wfs:Name>
+      <wfs:Value>Luxembourg</wfs:Value>
+    </wfs:Property>
+    <ogc:Filter>
+      <ogc:FeatureId fid="cities.3"/>
+    </ogc:Filter>
+  </wfs:Update>
+  <!-- BEGONE NULL ISLAND  -->
+  <wfs:Delete typeName="earth:cities">
+    <ogc:Filter>
+      <ogc:PropertyIsEqualTo>
+        <ogc:PropertyName>earth:name</ogc:PropertyName>
+        <ogc:Literal>Null</ogc:Literal>
+      </ogc:PropertyIsEqualTo>
+    </ogc:Filter>
+  </wfs:Delete>
+</wfs:Transaction>
+
+http://localhost:8080/geoserver/wms/reflect?layers=earth:shadedrelief,earth:countries,earth:cities&format=application/openlayers
+
+
+Section 3: Coordinate reference system management
+-------------------------------------------------
+
+3.1.4: GeoServer and reprojection
+---------------------------------
+
+http://localhost:8080/geoserver/wms/reflect?layers=usa:states
+
+http://localhost:8080/geoserver/wms/reflect?layers=usa:states&srs=EPSG:3700
+
+
+3.2: Adding a custom projection
+-------------------------------
+
+34003=PROJCS["Danish System 34 Jylland-Fyn",GEOGCS["ED50",DATUM["European_Datum_1950",SPHEROID["International - 1924",6378388,297.0000000000601,AUTHORITY["EPSG","7022"]],AUTHORITY["EPSG","6230"]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433],AUTHORITY["EPSG","4230"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",9],PARAMETER["scale_factor",0.9996],PARAMETER["false_easting",500000],PARAMETER["false_northing",9.999999999999999e-099],UNIT["METER",1]]
+
+
+Section 4.1: CQL and OGC filtering
+----------------------------------
+
+4.1.4: CQL filter example
+-------------------------
+
+&cql_filter=STATE_NAME='California'
+
+
+4.1.5: CQL filter options
+-------------------------
+
+PERSONS > 15000000
+PERSONS BETWEEN 1000000 AND 3000000
+STATE_NAME LIKE '%C%'
+STATE_NAME IN ('New York', 'California', 'Montana', 'Texas')
+STATE_NAME LIKE 'C%' AND PERSONS > 15000000
+
+
+4.1.6: Geometric filters in CQL
+-------------------------------
+
+&cql_filter=BBOX(the_geom,-90,40,-60,45)
+
+&cql_filter=DISJOINT(the_geom, POLYGON((-90 40, -90 45, -60 45, -60 40, -90 40)))
+
+
+4.1.7: Using OGC filter functions in CQL filters
+------------------------------------------------
+
+STATE_NAME LIKE '%k%' OR STATE_NAME LIKE '%K%'
+
+strToLowerCase(STATE_NAME) like '%k%'
+
+
+4.1.9: WFS filtering using OGC
+------------------------------
+
+http://localhost:8080/geoserver/wfs?request=GetFeature&version=1.0.0&typeName=advanced:states&outputFormat=GML2&FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Egeom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
+
+
+<wfs:GetFeature service="WFS" version="1.1.0"
+  xmlns:usa="http://census.gov"
+  xmlns:wfs="http://www.opengis.net/wfs"
+  xmlns="http://www.opengis.net/ogc"
+  xmlns:gml="http://www.opengis.net/gml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs
+                      http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+   <wfs:Query typeName="usa:states">
+     <Filter>
+       <Intersects>
+         <PropertyName>the_geom</PropertyName>
+         <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+           <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
+         </gml:Point>
+       </Intersects>
+     </Filter>
+   </wfs:Query>
+</wfs:GetFeature>
+
+
+<wfs:GetFeature service="WFS" version="1.1.0"
+ xmlns:usa="http://census.gov"
+ xmlns:wfs="http://www.opengis.net/wfs"
+ xmlns:ogc="http://www.opengis.net/ogc"
+ xmlns:gml="http://www.opengis.net/gml"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/wfs
+                     http://schemas.opengis.net/wfs/1.1.0/wfs.xsd">
+  <wfs:Query typeName="usa:states">
+    <wfs:PropertyName>usa:STATE_NAME</wfs:PropertyName>
+    <wfs:PropertyName>usa:AREA_LAND</wfs:PropertyName>
+    <wfs:PropertyName>usa:the_geom</wfs:PropertyName>
+    <ogc:Filter>
+      <ogc:PropertyIsBetween>
+        <ogc:PropertyName>usa:AREA_LAND</ogc:PropertyName>
+        <ogc:LowerBoundary><ogc:Literal>1E11</ogc:Literal></ogc:LowerBoundary>
+        <ogc:UpperBoundary><ogc:Literal>1.2E11</ogc:Literal></ogc:UpperBoundary>
+      </ogc:PropertyIsBetween>
+    </ogc:Filter>
+  </wfs:Query>
+</wfs:GetFeature>
+
+
+<wfs:GetFeature service="WFS" version="1.0.0"
+  outputFormat="GML2"
+  xmlns:usa="http://census.gov"
+  xmlns:wfs="http://www.opengis.net/wfs"
+  xmlns:ogc="http://www.opengis.net/ogc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.opengis.net/wfs
+                      http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
+  <wfs:Query typeName="usa:states">
+    <ogc:Filter>
+      <ogc:PropertyIsGreaterThan>
+        <ogc:Div>
+            <ogc:PropertyName>MALE</ogc:PropertyName>
+            <ogc:PropertyName>PERSONS</ogc:PropertyName>
+        </ogc:Div>
+         <ogc:Literal>0.5</ogc:Literal>
+    </ogc:PropertyIsGreaterThan>
+    </ogc:Filter>
+    </wfs:Query>
+</wfs:GetFeature>
+
+
+Section 4.2: SQL views
+----------------------
+
+4.2.3: Creating a SQL view as a new layer
+-----------------------------------------
+
+cities_thin
+SELECT name, pop_min, geom FROM cities
+
+
+4.2.4: Parameterized SQL view
+-----------------------------
+
+cities_like
+SELECT name, pop_min, geom FROM cities WHERE name ILIKE '%param1%%'
+
+http://localhost:8080/geoserver/wms/reflect?layers=earth:cities_like&format=application/openlayers
+http://localhost:8080/geoserver/wms/reflect?layers=earth:cities_like&format=application/openlayers&viewparams=param1:s
+http://localhost:8080/geoserver/wms/reflect?layers=earth:cities_like&format=application/openlayers&viewparams=param1:san
+
+
+4.2.5: Spatial function SQL view
+--------------------------------
+
+cities_buffer
+SELECT name, pop_min, ST_Buffer(geom, %param2%) FROM cities WHERE name ILIKE '%param1%%'
+
+http://localhost:8080/geoserver/wms/reflect?layers=cities_buffer&format=application/openlayers
+http://localhost:8080/geoserver/wms/reflect?layers=cities_buffer&format=application/openlayers&viewparams=param1:s
+http://localhost:8080/geoserver/wms/reflect?layers=cities_buffer&format=application/openlayers&viewparams=param1:s;param2:4
+http://localhost:8080/geoserver/wms/reflect?layers=cities_buffer&format=application/openlayers&viewparams=param1:s;param2:8
+
+
+4.2.6: Cross layer SQL view
+---------------------------
+
+cities_within
+SELECT c.name, c.pop_min, c.geom FROM cities AS c INNER JOIN (SELECT geom FROM countries WHERE name = '%param1%') AS r ON st_dwithin(c.geom, r.geom, %param2%)
+
+http://localhost:8080/geoserver/wms/reflect?format=application/openlayers&layers=earth:shadedrelief,earth:countries,earth:cities_within
+http://localhost:8080/geoserver/wms/reflect?&format=application/openlayers&layers=earth:shadedrelief,earth:countries,earth:cities_within&viewparams=param1:France
+http://localhost:8080/geoserver/wms/reflect?&format=application/openlayers&layers=earth:shadedrelief,earth:countries,earth:cities_within&viewparams=param1:Belgium
+http://localhost:8080/geoserver/wms/reflect?&format=application/openlayers&layers=earth:shadedrelief,earth:countries,earth:cities_within&viewparams=param1:Belgium;param2:2
+
+
+Section 5: Data processing and analysis
+---------------------------------------
+
+5.1.4: WPS example
+------------------
+
+JTS:buffer
+
+Input geometry: TEXT application/wkt POINT(0 0)
+distance: 2
+quadrantSegments: 10
+capStyle: Round
+result: application/wkt
+
+
+5.2.5.1: Static WPS example
+---------------------------
+
+vec:Heatmap
+
+data: VECTOR_LAYER earth:cities
+radiusPixels: 25
+weightAttr: pop_min
+pixelsPerCell: 5
+outputBBOX: -180 -90 180 90
+Coordinate Reference System: EPSG:4326
+outputWidth: 800
+outputHeight:  400
+result: Generate image/tiff
+
+
+5.2.5.2: Rendering transformation example
+-----------------------------------------
+
+title: Heatmap
+feature-styles:
+- transform:
+    name: vec:Heatmap
+    params:
+      weightAttr: pop_min
+      radiusPixels: 25
+      pixelsPerCell: 5
+  rules:
+  - symbolizers:
+    - raster:
+        opacity: 1
+        color-map:
+          type: ramp
+          entries:
+          - ['#000000',1,0,black]
+          - ['#FFFFFF',1,1,white]
+
+
+title: Heatmap
+feature-styles:
+- transform:
+    name: vec:Heatmap
+    params:
+      weightAttr: pop_min
+      radiusPixels: 25
+      pixelsPerCell: 5
+  rules:
+  - symbolizers:
+    - raster:
+        opacity: 1
+        color-map:
+          type: ramp
+          entries:
+          - ['#FFFFFF',1,0,white]
+          - ['#0000FF',1,0.33,blue]
+          - ['#FFCC00',1,0.66,yellow]
+          - ['#FF0000',1,1.0,red]
+
+

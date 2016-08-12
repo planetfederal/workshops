@@ -9,6 +9,7 @@
 
   <target name="build" depends="init, doc, slides, data, styles, software">
     <copy file="readme.txt" todir="${build}"/>
+    <copy file="cheatsheet.txt" todir="${build}"/>
     <echo>Generating archive: ${ant.project.name}.zip</echo>
     <zip destfile="${ant.project.name}.zip">
       <fileset dir="${basedir}/build"/>
