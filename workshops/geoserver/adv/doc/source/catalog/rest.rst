@@ -25,7 +25,7 @@ So, for each of the resources in GeoServer (workspaces, stores, layers, styles, 
 
    Diagram of the RESTful interface
 
-.. note:: The full capacity of GeoServer's REST capabilities are described at http://docs.geoserver.org/stable/en/user/rest/api/
+.. note:: The full capacity of GeoServer's REST capabilities are described at http://docs.geoserver.org/stable/en/user/rest/api/.
 
 
 REST endpoints
@@ -45,10 +45,10 @@ The top of the REST hierarchy starts here::
 
 #. When viewing this endpoint through your browser, you will see a number of links that match GeoServer's resource hierarchy. Click the following links to traverse the hierarchy:
 
-   #. :guilabel:`workspaces` (leads to ``/rest/workspaces``)
-   #. :guilabel:`earth` (leads to ``/rest/workspaces/earth.html``)
-   #. :guilabel:`earth` (leads to ``/rest/workspaces/earth/datastores/earth.html``)
-   #. :guilabel:`cities` (leads to ``/rest/workspaces/earth/datastores/earth/featuretypes/cities.html``)
+   #. Click :guilabel:`workspaces`. This leads to ``/rest/workspaces``
+   #. Click :guilabel:`earth`. This leads to ``/rest/workspaces/earth.html``
+   #. Click :guilabel:`earth`. This leads to ``/rest/workspaces/earth/datastores/earth.html``
+   #. Click :guilabel:`cities`. This leads to ``/rest/workspaces/earth/datastores/earth/featuretypes/cities.html``
 
    .. figure:: img/rest_ftypehtml.png
 

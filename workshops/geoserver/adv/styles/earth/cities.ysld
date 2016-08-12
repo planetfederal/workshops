@@ -1,0 +1,95 @@
+name: Cities
+title: Cities
+feature-styles:
+- name: name
+  rules:
+  - title: Small pop
+    filter: ${pop_min < '3000000'}
+    scale: [min, '2.0E7']
+    symbolizers:
+    - point:
+        size: 10
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: '#000000'
+            stroke-width: 0.5
+            stroke-opacity: 0.8
+            fill-color: '#711D1B'
+    - text:
+        label: ${name}
+        fill-color: '#000000'
+        halo:
+          fill-color: '#FFFFFF'
+          fill-opacity: 0.5
+          radius: 2
+        font-family: SansSerif
+        font-size: 12
+        font-style: normal
+        font-weight: bold
+        placement: point
+        anchor: [0.5, 0.0]
+        displacement: [0, 5]
+  - title: Medium pop
+    filter: ${pop_min >= '3000000' AND pop_min < '8000000'}
+    scale: [min, '4.0E7']
+    symbolizers:
+    - point:
+        size: 12
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: '#000000'
+            stroke-width: 0.5
+            stroke-opacity: 0.8
+            fill-color: '#711D1B'
+    - text:
+        label: ${name}
+        fill-color: '#000000'
+        halo:
+          fill-color: '#FFFFFF'
+          fill-opacity: 0.5
+          radius: 2
+        font-family: SansSerif
+        font-size: 14
+        font-style: normal
+        font-weight: bold
+        placement: point
+        anchor: [0.5, 0.0]
+        displacement: [0, 7]
+  - title: High pop
+    filter: ${pop_min > '8000000'}
+    scale: [min, '1.0E8']
+    symbolizers:
+    - point:
+        size: 14
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: '#000000'
+            stroke-width: 0.5
+            stroke-opacity: 0.8
+            fill-color: '#711D1B'
+    - text:
+        label: ${name}
+        fill-color: '#000000'
+        halo:
+          fill-color: '#FFFFFF'
+          fill-opacity: 0.5
+          radius: 2
+        font-family: SansSerif
+        font-size: 16
+        font-style: normal
+        font-weight: bold
+        placement: point
+        anchor: [0.5, 0.0]
+        displacement: [0, 7]
+  - title: All
+    scale: [min, max]
+    symbolizers:
+    - point:
+        size: 3
+        symbols:
+        - mark:
+            shape: circle
+            fill-color: '#711D1B'

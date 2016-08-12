@@ -4,10 +4,10 @@
   <property name="styles" value="${basedir}/styles"/>
   <property name="data" value="${basedir}/data"/>
   <property name="slides" value="${basedir}/slides"/>
-  <property name="worksheet" value="${basedir}/worksheet"/>
+
   <property name="build" value="${basedir}/build"/>
 
-  <target name="build" depends="init, doc, slides, data, styles, worksheet, software">
+  <target name="build" depends="init, doc, slides, data, styles, software">
     <copy file="readme.txt" todir="${build}"/>
     <echo>Generating archive: ${ant.project.name}.zip</echo>
     <zip destfile="${ant.project.name}.zip">
@@ -58,17 +58,10 @@
     </copy>
   </target>
 
-  <target name="worksheet">
-    <echo>Pulling in attendee worksheet...</echo> 
-    <copy todir="${build}/worksheet">
-      <fileset dir="${worksheet}"/>
-    </copy>
-  </target>
-
   <target name="software">
     <!--<mkdir dir="${build}/software"/>-->
     <!--<echo>Downloading software...</echo>-->
-    <!--<get src="LINK TO OPENGEO SUITE BINARY" dest="${build}/software/OpenGeoSuite.exe" skipexisting="true" />-->
+    <!--<get src="LINK TO SOFTWARE" dest="${build}/software/BoundlessSuite.exe" skipexisting="true" />-->
   </target>
 
   <target name="clean">

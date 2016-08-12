@@ -1,0 +1,15 @@
+name: 'Ocean'
+title: 'Ocean: Graphic fill'
+feature-styles:
+- name: name
+  rules:
+  - scale: [min, max]
+    symbolizers:
+    - polygon:
+        fill-color: '#808080'
+        fill-graphic:
+          size: 16
+          symbols:
+          - external:
+              url: oceantile.png
+              format: image/png
