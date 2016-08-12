@@ -209,76 +209,103 @@ Our next example is significant as it introduces the how text labels are generat
    
    Use of Label Property
 
-This is also our first example making use of a dynamic style (where the value of a property is defined by an attribute from your data).
+This is also our first example making use of a dynamic style (where a value comes from an attribute from your data).
 
-#. To enable LineString labeling we will need to use the key properties for both **stroke** and **label**.
+#. To enable LineString labeling we add a :kbd:`text` symbolizer witrh a :kbd:`label`.
 
    Update ``line_example`` with the following:
    
-   .. code-block:: css
-      :emphasize-lines: 2,3
+   .. code-block:: yaml
+      :emphasize-lines: 5,6
 
-      * {
-        stroke: blue;
-        label: [name];
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+
 
 #. The SLD standard documents the default label position for each kind of Geometry. For LineStrings the initial label is positioned on the midway point of the line.
 
    .. image:: /style/img/line_label_1.png
 
-#. We have used an expression to calculate a property value for label. The **label** property is generated dynamically from the :kbd:`name` attribute. Expressions are supplied within square brackets, making use of Constraint Query Language (CQL) syntax. 
+#. We have used an expression to calculate a property value for label. The **label** is generated dynamically from the :kbd:`name` attribute. Expressions are supplied within curly braces preceded with a dollar sign, and use Extended Constraint Query Language (ECQL) syntax.
 
-   .. code-block:: css
-      :emphasize-lines: 3
+   .. code-block:: yaml
+      :emphasize-lines: 6
 
-      * {
-        stroke: blue;
-        label: [name];
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
 
-#. Additional properties can be supplied to fine-tune label presentation:
+
+#. Additional keys can be supplied to fine-tune label presentation:
    
-   .. code-block:: css
+   .. code-block:: yaml
+      :emphasize-lines: 7,8,9
       
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+	   placement: line
+           offset: 7px
 
-#. The **font-fill** property is set to :kbd:`black` provides the label color.
+#. The **fill-color** property is set to :kbd:`black` to provide the colour of the text.
 
-   .. code-block:: css
-      :emphasize-lines: 4
+   .. code-block:: yaml
+      :emphasize-lines: 7
       
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-      }
-      
-#. The **label-offset** property is used to adjust the starting position used for labeling.
-   
-   Normally the displacement offset is supplied using two numbers (allowing an x and y offset from the the midway point used for LineString labeling).
-
-   When labeling a LineString there is a special twist: by specifying a single number for **label-offset** we can ask the rendering engine to position our label a set distance away from the LineString. 
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+           placement: line 
+           offset: 7px
+     
+#. The **placement** property is used to set how the label is placed with respect to the line.  By default it is :kbd:`point` which casues the label to be placed next to the midpoint as it would be for a point feature.  When set to :kbd:`line` it is placed along the line instead.  **offset** specifies how far from the line the label should be placed.
   
-   .. code-block:: css
-      :emphasize-lines: 5
+   .. code-block:: yaml
+      :emphasize-lines: 8,9
       
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+           placement: line 
+           offset: 7px
 
-#. When used in this manner the rotation of the label will be adjusted automatically to match the LineString.
 
    .. image:: /style/img/line_label_2.png
+
+
+#. When using point placement, you can shift the position of the label ising **displacement** instead of **offset**.  This takes an x value and a y value.
+
+   .. code-block:: yaml
+      :emphasize-lines: 8
+      
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+           displacement: [5px, -10px]
+
 
 How Labeling Works
 ------------------
@@ -287,7 +314,7 @@ The rendering engine collects all the generated labels during the rendering of e
 
 The parameters provided by SLD are general purpose and should be compatible with any rendering engine.
 
-To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These hints are used specifically for the GeoServer rendering engine and will be ignored by other systems. The GeoServer rendering engine marks each vendor specific parameter with the prefix **-gt-**.
+To take greater control over the GeoServer rendering engine we can use "vendor specific" parameters. These hints are used specifically for the GeoServer rendering engine and will be ignored by other systems. In YSLD vendor specific parameters start with the prefix **x-**.
 
 #. The ability to take control of the labeling process is exactly the kind of hint a vendor specific parameter is intended for.
     
@@ -295,26 +322,34 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
 
    .. code-block:: css
 
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-        -gt-label-padding: 10;
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+           placement: line 
+           offset: 7px
+	   x-label-padding: 10
 
-#. The parameter **-gt-label-padding** provides additional space around our label for use in collision avoidance.
+
+
+#. The parameter **x-label-padding** provides additional space around our label for use in collision avoidance.
 
    .. code-block:: css
-      :emphasize-lines: 6
+      :emphasize-lines: 10
    
-      * {
-        stroke: blue;
-        label: [name];
-        font-fill: black;
-        label-offset: 7px;
-        -gt-label-padding: 10;
-      }
+       symbolizers:
+       - line:
+           stroke-color: blue
+           stroke-width: 1px
+       - text:
+           label: ${name}
+           fill-color: black
+           placement: line 
+           offset: 7px
+	   x-label-padding: 10
 
 #. Each label is now separated from its neighbor, improving legibility.
 
