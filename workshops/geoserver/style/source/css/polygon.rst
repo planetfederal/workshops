@@ -33,34 +33,36 @@ Reference:
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
-#. Navigate to :menuselection:`CSS Styles`.
+#. Navigate to :menuselection:`Styles`.
 
-#. Set ``ne:states_provinces_shp`` as the preview layer.
-
-   .. image:: /style/img/polygon_01_preview.png
-
-#. Create a new CSS style :kbd:`polygon_example`.
+#. Create a new style :kbd:`polygon_example`.
 
    .. list-table:: 
       :widths: 30 70
       :stub-columns: 1
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`polygon_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`YSLD`
      
    .. image:: /style/img/polygon_02_create.png
 
-#. An initial style is provided:
+#. Enter the following style and click :menuselection:``Apply`` to save:
 
    .. code-block:: css
    
       * { fill: lightgrey; }
 
-#. Click on the tab :guilabel`Map` to preview.
+#. Click on the tab :guilabel`Layer Preview` to preview.
 
    .. image:: /style/img/polygon_04_preview.png
+
+#. Set ``ne:states_provinces_shp`` as the preview layer.
+
+   .. image:: /style/img/polygon_01_preview.png
 
 Stroke and Fill
 ---------------
@@ -115,7 +117,7 @@ The **fill** property is used to provide the color, or pattern, used to draw the
       * {
          fill: white;
          fill-opacity: 50%;
-         stroke: light-gray;
+         stroke: lightgrey;
          stroke-width: 0.25;
          stroke-opacity: 50%;
       }
@@ -333,7 +335,7 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
       * {
          fill: #DDDDFF, symbol('shape://slash');
-         fill-size: ,8;
+         fill-size: '','8';
          stroke: black;
       }
       :fill {
@@ -492,7 +494,7 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. Even with this improved spacing between labels, it is difficult to read the result against the complicated line work.
    
-   Use of a halo to outline labels allows the text to stand out from an otherwise busy background. In this case we will make use of the fill color, to provide some space around our labels. 
+   Use of a halo to outline labels allows the text to stand out from an otherwise busy background. In this case we will make use of the fill color, to provide some space around our labels. We will also change the font to Arial.
 
    .. code-block:: css
       :emphasize-lines: 8-10
@@ -899,7 +901,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
                    7,'#b3de69', 8,'#fccde5', 9,'#d9d9d9')
                 ], symbol('shape://slash');
      
-                fill-size: ,[
+                fill-size: '',[
                    Categorize(datarank,
                     6, 4,
                     8, 6,
@@ -931,8 +933,8 @@ In a classroom setting you are encouraged to team up into groups, with each grou
         * {
           fill: lightgray, symbol('shape://slash');
           fill-size: 8px;
-          stroke: ,,lightgray, black;
-          stroke-width: ,,6,1.5;
+          stroke: '','',lightgray, black;
+          stroke-width: '','',6,1.5;
           z-index: 1,2,3,4;
         }
         :fill {
