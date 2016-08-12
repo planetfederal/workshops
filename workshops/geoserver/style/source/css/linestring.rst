@@ -1,11 +1,11 @@
-.. _style.line:
+.. _css.line:
 
 Lines
 =====
 
 We will start our tour of CSS styling by looking at the representation of lines.
 
-.. figure:: img/LineSymbology.svg
+.. figure:: /style/img/LineSymbology.svg
    
    LineString Geometry
 
@@ -34,7 +34,7 @@ Stroke
 
 The only mandatory property for representation of linework is **stroke**. This is a **key property**; its presence triggers the generation of an appropriate LineSymbolizer.
 
-.. figure:: img/LineStringStroke.svg
+.. figure:: /style/img/LineStringStroke_CSS.svg
    
    Basic Stroke Properties
 
@@ -70,7 +70,7 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
    
    You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
 
-   .. image:: img/line.png
+   .. image:: /style/img/line.png
 
 #. You can look at the :guilabel:`SLD` tab at any time to see the generated SLD. Currently it is showing a straight forward LineSymbolizer generated from the CSS **stroke** property:
 
@@ -121,7 +121,7 @@ The use of **stroke** as a key property prevents CSS from having the idea of a d
 
 #. Check the :guilabel:`Map` tab to preview the result.
 
-   .. image:: img/line_stroke.png
+   .. image:: /style/img/line_stroke.png
 
 .. note:: The GeoServer rendering engine is quite sophisticated and allows the use of units of measure (such as :kbd:`m` or :kbd:`ft`). While we are using pixels in this example, real world units will be converted using the current scale.
 
@@ -130,7 +130,7 @@ Z-Index
 
 The next exercise shows how to work around a limitation when using multiple strokes to render a line.
 
-.. figure:: img/LineStringZOrder.svg
+.. figure:: /style/img/LineStringZOrder_CSS.svg
 
    Use of Z-Index
 
@@ -147,7 +147,7 @@ The next exercise shows how to work around a limitation when using multiple stro
 
 #. If you look carefully you can see a problem with our initial attempt. The junctions of each line show that the casing outlines each line individually, making the lines appear randomly overlapped. Ideally we would like to control this process, only making use of this effect for overpasses.
 
-   .. image:: img/line_zorder_1.png
+   .. image:: /style/img/line_zorder_1.png
 
 #. The **z-index** parameter allows a draw order to be supplied. This time all the thick black lines are dawn first (at z-index 0) followed by the thinner blue lines (at z-index 1).
 
@@ -161,18 +161,18 @@ The next exercise shows how to work around a limitation when using multiple stro
 
 #. If you look carefully you can see the difference. 
 
-   .. image:: img/line_zorder_2.png
+   .. image:: /style/img/line_zorder_2.png
 
 #. By using **z-index** we have been able to simulate line casing. 
 
-   .. image:: img/line_zorder_3.png
+   .. image:: /style/img/line_zorder_3.png
 
 Label
 -----
 
 Our next example is significant as it introduces the how text labels are generated.
 
-.. figure:: img/LineStringLabel.svg
+.. figure:: /style/img/LineStringLabel_CSS.svg
    
    Use of Label Property
 
@@ -192,7 +192,7 @@ This is also our first example making use of a dynamic style (where the value of
 
 #. The SLD standard documents the default label position for each kind of Geometry. For LineStrings the initial label is positioned on the midway point of the line.
 
-   .. image:: img/line_label_1.png
+   .. image:: /style/img/line_label_1.png
 
 #. We have used an expression to calculate a property value for label. The **label** property is generated dynamically from the :kbd:`name` attribute. Expressions are supplied within square brackets, making use of Constraint Query Language (CQL) syntax. 
 
@@ -245,7 +245,7 @@ This is also our first example making use of a dynamic style (where the value of
 
 #. When used in this manner the rotation of the label will be adjusted automatically to match the LineString.
 
-   .. image:: img/line_label_2.png
+   .. image:: /style/img/line_label_2.png
 
 How Labeling Works
 ------------------
@@ -285,7 +285,7 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
 
 #. Each label is now separated from its neighbor, improving legibility.
 
-   .. image:: img/line_label_3.png
+   .. image:: /style/img/line_label_3.png
 
 Scale
 -----
@@ -302,7 +302,7 @@ This section explores the use of attribute selectors and the :kbd:`@scale` selec
 
 #. And use the :guilabel:`Map` tab to preview the result.
 
-   .. image:: img/line_04_scalerank.png
+   .. image:: /style/img/line_04_scalerank.png
 
 #. The **scalerank** attribute is provided by the Natural Earth dataset to allow control of the level of detail based on scale. Our selector short-listed all content with scalerank 4 or lower, providing a nice quick preview when we are zoomed out.
 
@@ -321,7 +321,7 @@ This section explores the use of attribute selectors and the :kbd:`@scale` selec
 
 #. As you adjust the scale in the :guilabel:`Map` preview (using the mouse scroll wheel) the color will change between black and blue. You can read the current scale in the bottom right corner, and the legend will change to reflect the current style.
 
-   .. image:: img/line_05_scale.png
+   .. image:: /style/img/line_05_scale.png
 
 #. Putting these two ideas together allows control of level detail based on scale:
 
@@ -351,7 +351,7 @@ This section explores the use of attribute selectors and the :kbd:`@scale` selec
 
    Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
 
-   .. image:: img/line_06_adjust.png
+   .. image:: /style/img/line_06_adjust.png
    
 
 Bonus
@@ -434,7 +434,7 @@ In a classroom setting please divide the challenges between teams (this allows u
 
    #. The result is a new appearance for our roads.
 
-      .. image:: img/line_label_4.png
+      .. image:: /style/img/line_label_4.png
    
 .. admonition:: Challenge SLD Generation
 
@@ -470,7 +470,7 @@ In a classroom setting please divide the challenges between teams (this allows u
    
    #. **Challenge:** Create a new style adjust road appearance based on **type**.
 
-      .. image:: img/line_type.png
+      .. image:: /style/img/line_type.png
 
       Hint: The available values are 'Major Highway','Secondary Highway','Road' and 'Unknown'.
 
@@ -530,7 +530,7 @@ In a classroom setting please divide the challenges between teams (this allows u
 
    #. The traditional presentation of roads in the US is the use of a shield symbol, with the road number marked on top.
    
-      .. image:: img/line_shield.png
+      .. image:: /style/img/line_shield.png
    
    #. *Challenge:* Have a look at the documentation and reproduce this technique.
 

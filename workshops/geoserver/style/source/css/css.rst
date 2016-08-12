@@ -1,4 +1,4 @@
-.. _style.css:
+.. _css:
 
 CSS
 ===
@@ -254,17 +254,17 @@ To confirm everything works, let's reproduce the airports style above.
       * - Password:
         - :kbd:`geoserver`
 
-   .. image:: img/layer_01_login.png
+   .. image:: /style/img/layer_01_login.png
    
 #. We missed adding the airport layer to the FOSS4G vm, so let's do so now.
 
-   Navigate to :menuselect:`Data --> Layers` to open the :guilabel:`Layers` page.
+   Navigate to :menuselection:`Data --> Layers` to open the :guilabel:`Layers` page.
    
-   .. image:: img/layer_02_menu.png
+   .. image:: /style/img/layer_02_menu.png
 
 #. From the :guilabel:`Layers` page click :guilabel:`Add a new resource`
 
-   .. image:: img/layer_03_add.png
+   .. image:: /style/img/layer_03_add.png
 
 #. From the :guilabel:`New Layer` screen select:
 
@@ -279,7 +279,7 @@ To confirm everything works, let's reproduce the airports style above.
 
 #. From the list of available layers locate ``ne_10m_airports`` and click :guilabel:`Publish`
 
-   .. image:: img/layer_05_publish.png
+   .. image:: /style/img/layer_05_publish.png
    
 #. From the ``Edit Layer`` page find the section for ``Basic Resource Info`` and fill in following.
 
@@ -292,7 +292,7 @@ To confirm everything works, let's reproduce the airports style above.
       * - Title:
         - :kbd:`Airports`
 
-   .. image:: img/layer_06_basic.png
+   .. image:: /style/img/layer_06_basic.png
 
 #. Find the ``Coordinate Reference System`` and confirm the following details.
    
@@ -305,7 +305,7 @@ To confirm everything works, let's reproduce the airports style above.
       * - Declared SRS:
         - :kbd:`EPSG:4326`
 
-   .. image:: img/layer_07_crs.png
+   .. image:: /style/img/layer_07_crs.png
    
    This information is determined using the :file:`prj` file (and requires the file contain an **authority** element).
    
@@ -313,15 +313,15 @@ To confirm everything works, let's reproduce the airports style above.
    
    This step is required for publication (calculating the bounds from the shape file header).
 
-   .. image:: img/layer_08_bbox.png
+   .. image:: /style/img/layer_08_bbox.png
 
 #. Scroll down and click :guilabel:`Save` to publish the `ne:airports` layer.
 
-   .. image:: img/layer_09_save.png
+   .. image:: /style/img/layer_09_save.png
    
 #. Navigate to the **CSS Styles** page. This page works with two selections (style being edited and data used for preview) and provides a number of actions for style management.
    
-   .. figure:: img/css_01_actions.png
+   .. figure:: /style/img/css_01_actions.png
 
       CSS Styles page
 
@@ -329,7 +329,7 @@ To confirm everything works, let's reproduce the airports style above.
 
    Click :guilabel:`Choose a different layer` and select :kbd:`training:airports` from the list.
 
-   .. figure:: img/css_02_choose_data.png
+   .. figure:: /style/img/css_02_choose_data.png
 
       Choosing the airports layer
 
@@ -346,7 +346,7 @@ To confirm everything works, let's reproduce the airports style above.
       * - New style name:
         - :kbd:`airport2`
      
-   .. figure:: img/css_03_new_style.png
+   .. figure:: /style/img/css_03_new_style.png
 
       New style
    
@@ -369,25 +369,25 @@ To confirm everything works, let's reproduce the airports style above.
    
    You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
 
-   .. figure:: img/css_04_edit.png
+   .. figure:: /style/img/css_04_edit.png
 
       Editing the CSS example
 
 #. The :guilabel:`Generated SLD` shows the SLD file produced.
 
-   .. figure:: img/css_05_generated.png
+   .. figure:: /style/img/css_05_generated.png
 
       Generated SLD
 
 #. Click :guilabel:`Map` to preview using the selected data. You can use the mouse buttons to pan and scroll wheel to change scale.
 
-   .. figure:: img/css_06_preview.png
+   .. figure:: /style/img/css_06_preview.png
 
       Layer preview
 
 #. Click :guilabel:`Data` for a summary of the selected data.
 
-   .. figure:: img/css_07_data.png
+   .. figure:: /style/img/css_07_data.png
 
       Layer attributes
 

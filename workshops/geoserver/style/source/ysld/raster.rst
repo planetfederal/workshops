@@ -1,11 +1,11 @@
-.. _style.raster:
+.. _ysld.raster:
 
 Rasters
 =======
 
 Finally we will look at using CSS styling for the portrayal of raster data.
 
-.. figure:: img/RasterSymbology.svg
+.. figure:: /style/img/RasterSymbology.svg
 
    Raster Symbology
     
@@ -67,7 +67,7 @@ The **raster-channels** is the **key property** for display of images and raster
 
 #. Displaying the unprocessed image:
 
-   .. image:: img/raster_image_1.png
+   .. image:: /style/img/raster_image_1.png
 
 #. If required a list three band numbers can be supplied (for images recording in several wave lengths) or a single band number can be used to view a grayscale image.
 
@@ -79,7 +79,7 @@ The **raster-channels** is the **key property** for display of images and raster
 
 #. Isolating just the green band (it wil be drawn as a grayscale image):
 
-   .. image:: img/raster_image_2.png
+   .. image:: /style/img/raster_image_2.png
 
 DEM
 ^^^
@@ -113,7 +113,7 @@ The ``usgs:dem`` layer used used for this exercise:
 
 #. The range produced in this case from the highest and lowest values.
 
-   .. image:: img/raster_dem_1.png
+   .. image:: /style/img/raster_dem_1.png
 
 #. We can use a bit of image processing to emphasis the generated color mapping by making use **raster-contrast-enhancement**.
 
@@ -125,7 +125,7 @@ The ``usgs:dem`` layer used used for this exercise:
       }
 #. Image processing of this sort should be used with caution as it does distort the presentation (in this case making the landscape look more varied then it is in reality.
 
-   .. image:: img/raster_dem_2.png
+   .. image:: /style/img/raster_dem_2.png
 
 Color Map
 ---------
@@ -148,7 +148,7 @@ For qualitative data (such as land use) or simply to use color, we need a differ
 
 #. Resulting in this artificial color image:
    
-   .. image:: img/raster_dem_3.png
+   .. image:: /style/img/raster_dem_3.png
 
 #. An opacity value can also be used with **color-map-entry**.
 
@@ -164,7 +164,7 @@ For qualitative data (such as land use) or simply to use color, we need a differ
 
 #. Allowing the areas of zero height to be transparent:
    
-   .. image:: img/raster_dem_4.png
+   .. image:: /style/img/raster_dem_4.png
 
 #. Raster format for GIS work often supply a "no data" value, or contain a mask, limiting the dataset to only the locations with valid information.
 
@@ -185,7 +185,7 @@ This exploration focuses on accurately communicating differences in value, rathe
 
 #. Producing the following map preview.
 
-   .. image:: img/raster_01_auto.png
+   .. image:: /style/img/raster_01_auto.png
 
 #. To start with we can provide our own grayscale using two color map entries.
 
@@ -201,13 +201,13 @@ This exploration focuses on accurately communicating differences in value, rathe
    
    This is much more direct representation of the source data. We have used our knowledge of elevations to construct a more accurate style.
 
-   .. image:: img/raster_02_straight.png
+   .. image:: /style/img/raster_02_straight.png
 
 #. While our straightforward style is easy to understand, it does leave a bit to be desired with respect to clarity.
    
    The eye has a hard time telling apart dark shades of black (or bright shades of white) and will struggle to make sense of this image. To address this limitation we are going to switch to the ColorBrewer **9-class PuBuGn** palette. This is a sequential palette that has been hand tuned to communicate a steady change of values. 
  
-   .. image:: img/raster_03_elevation.png
+   .. image:: /style/img/raster_03_elevation.png
 
 #. Update your style with the following:
 
@@ -227,7 +227,7 @@ This exploration focuses on accurately communicating differences in value, rathe
            color-map-entry(#fff7fb,4000);
       }
 
-   .. image:: img/raster_04_PuBuGn.png
+   .. image:: /style/img/raster_04_PuBuGn.png
 
 #. A little bit of work with alpha (to mark the ocean as a no-data section):
 
@@ -250,7 +250,7 @@ This exploration focuses on accurately communicating differences in value, rathe
       
 #. And we are done:
 
-   .. image:: img/raster_05_alpha.png
+   .. image:: /style/img/raster_05_alpha.png
    
 Bonus
 -----
@@ -271,7 +271,7 @@ Bonus
    
    #. Can you explain what happens when zoom in to only show a land area (as indicated with the bounding box below)?
 
-   .. image:: img/raster_contrast_1.png
+   .. image:: /style/img/raster_contrast_1.png
    
       
    .. only:: instructor
@@ -280,7 +280,7 @@ Bonus
 
          What happens is insanity, normalize stretches the palette of the output image to use the full dynamic range. As long as we have ocean on the screen (with value 0) the land area was shown with roughly the same presentation.
     
-         .. image:: img/raster_contrast_2.png
+         .. image:: /style/img/raster_contrast_2.png
     
          Once we zoom in to show only a land area, the lowest point on the screen (say 100) becomes the new black, radically altering what is displayed on the screen.
 
@@ -320,7 +320,7 @@ Bonus
                  raster-color-map-type: intervals;
                }
       
-            .. image:: img/raster_interval.png
+            .. image:: /style/img/raster_interval.png
 
 .. admonition:: Explore Image Processing
 
@@ -341,7 +341,7 @@ Bonus
    
    #. Producing the following image:
    
-      .. image:: img/raster_image_3.png
+      .. image:: /style/img/raster_image_3.png
 
    #. The **raster-gamma** property is used adjust the brightness of **raster-contrast-enhancement** output. Values less than 1 are used to brighten the image while values greater than 1 darken the image.
 
@@ -355,7 +355,7 @@ Bonus
 
    #. Providing the following effect:
    
-      .. image:: img/raster_image_4.png
+      .. image:: /style/img/raster_image_4.png
 
 .. admonition:: Challenge Clear Digital Elevation Model Presentation
 
@@ -378,7 +378,7 @@ Bonus
                                   color-map-entry(#FFFFFF, 3000);
               }
        
-           .. image:: img/raster_grayscale.png
+           .. image:: /style/img/raster_grayscale.png
 
 .. admonition:: Challenge Raster Opacity
 
