@@ -26,24 +26,20 @@ Reference:
 
 This exercise makes use of the ``ne:populated_places`` layer.
 
-#. Navigate to the **CSS Styles** page.
+#. Navigate to the **Styles** page.
 
-#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:populated_places` from the list.
-
-   .. image:: /style/img/point_01_preview.png
-
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
       :header-rows: 0
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`point_example`
-
-   .. image:: /style/img/point_02_create.png
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`CSS`
 
 #. Replace the initial CSS definition with:
 
@@ -195,7 +191,7 @@ This technique was shown with the initial file:`airport.svg` CSS example.
    .. code-block:: css
 
       [ SCALERANK < 1 ] {
-           mark: url("http://localhost:8080/img/geoserver_suite_32.png");
+           mark: url("http://localhost:8080/geoserver/web/wicket/resource/org.geoserver.web.GeoServerBasePage/img/logo.png");
            mark-mime: "image/png";
            mark-size: 16;
       }
@@ -262,8 +258,10 @@ The key properties **mark** and **label** are required to label Point locations.
    **-gt-mark-label-obstacle** vendor parameter asks the rendering engine to avoid drawing labels over top of the indicated symbol.
    
    **-gt-label-max-displacement** vendor parameter provides the rendering engine a maximum distance it is allowed to move labels during conflict resolution.
+
+   **-gt-label-padding** vendor parameter tells the rendering engine to provide a minimum distance between the labels on the map, ensuring they do not overlap.
    
-   Update our example to use these two settings:
+   Update our example to use these settings:
 
    .. code-block:: css
 
