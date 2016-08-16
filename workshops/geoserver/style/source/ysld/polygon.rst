@@ -3,7 +3,7 @@
 Polygons
 ========
 
-Next we look at how CSS styling can be used to represent polygons.
+Next we look at how YSLD styling can be used to represent polygons.
 
 .. figure:: /style/img/PolygonSymbology.svg
    
@@ -23,12 +23,12 @@ Review of polygon symbology:
 
 * Labeling of a polygon is anchored to the centroid of the polygon. GeoServer provides a vendor-option to allow labels to line wrap to remain within the polygon boundaries.
 
-For our Polygon exercises we will try and limit our CSS documents to a single rule, in order to showcase the properties used for rendering.
+For our Polygon exercises we will try and limit our YSLD documents to a single rule, in order to showcase the properties used for rendering.
 
 Reference:
 
-* :manual:`Polygon Symbology <extensions/css/properties.html#polygon-symbology>` (User Manual | CSS Property Listing)
-* :manual:`Polygons <extensions/css/cookbook/polygon.html>` (User Manual | CSS Cookbook)
+* :manual:`YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>` (YSLD Reference)
+* :manual:`Polygons <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/polygon.html>` (YSLD Reference | Polygon symbolizer)
 * :manual:`Polygons <extensions/css/cookbook_polygon.html>` (User Manual | SLD Reference )
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
@@ -74,7 +74,7 @@ The **key property** for polygon data is **fill**.
 
 .. image:: /style/img/PolygonFill.svg
 
-The **fill** property is used to provide the color, or pattern, used to draw the interior of a polygon.
+The **fill-color** property is used to provide the color used to draw the interior of a polygon.
 
 
 #. Replace the contents of ``polygon_example`` with the following **fill** example:
@@ -91,7 +91,7 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 
 #. To draw the boundary of the polygon the **stroke** property is used:
 
-   The **stroke** property is used to provide the color, or pattern, for the polygon boundary. It is effected by the same parameters (and vendor specific parameters) as used for LineStrings. 
+   The **stroke** property is used to provide the color and size of the polygon boundary. It is effected by the same parameters (and vendor specific parameters) as used for LineStrings. 
    
    .. code-block:: yaml
       :emphasize-lines: 4,5
@@ -148,17 +148,17 @@ The **fill** property is used to provide the color, or pattern, used to draw the
 Pattern
 -------
 
-In addition to color, the **fill** property can also be used to provide a pattern. 
+The **fill-graphic** property can be used to provide a pattern. 
 
 .. image:: /style/img/PolygonPattern.svg
 
 The fill pattern is defined by repeating one of the built-in symbols, or making use of an external image.
 
-#. We have two options for configuring a **fill** with a repeating graphic:
+#. We have two options for configuring a **fill-graphic** with a repeating graphic:
    
-   Using **url** to reference to an external graphic. Used in conjunction with **fill-mime** property.
+   Using **external** to reference to an external graphic.
 
-   Use of **symbol** to access a predefined shape. SLD provides several well-known shapes (circle, square, triangle, arrow, cross, star, and x). GeoServer provides additional shapes specifically for use as fill patterns.
+   Use of **mark** to access a predefined shape. SLD provides several well-known shapes (circle, square, triangle, arrow, cross, star, and x). GeoServer provides additional shapes specifically for use as fill patterns.
 
    Update `polygon_example` with the following built-in symbol as a repeating fill pattern:
 
@@ -198,9 +198,9 @@ The fill pattern is defined by repeating one of the built-in symbols, or making 
 
 #. Additional fill properties allow control over the orientation and size of the symbol.
 
-   The **fill-size** property is used to adjust the size of the symbol prior to use.
+   The **size** property is used to adjust the size of the symbol prior to use.
    
-   The **fill-rotation** property is used to adjust the orientation of the symbol.
+   The **rotation** property is used to adjust the orientation of the symbol.
    
    Adjust the size and rotation as shown:
 
@@ -366,7 +366,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
    .. image:: /style/img/LabelAnchorPoint.svg
 
-   The property **label-anchor** provides two numbers expressing how a label is aligned with respect to the centroid. The first value controls the horizontal alignment, while the second value controls the vertical alignment. Alignment is expressed between 0.0 and 1.0 as shown in the following table.
+   The property **anchor** provides two numbers expressing how a label is aligned with respect to the centroid. The first value controls the horizontal alignment, while the second value controls the vertical alignment. Alignment is expressed between 0.0 and 1.0 as shown in the following table.
 
    +----------+---------+---------+---------+
    |          | Left    | Center  | Right   |
@@ -378,9 +378,9 @@ The key properties **fill** and **label** are used to enable Polygon label gener
    | Bottom   | 0.0 0.0 | 0.5 0.0 | 1.0 0.0 |
    +----------+---------+---------+---------+ 
    
-   Adjusting the **label-anchor** is the recommended approach to positioning your labels.
+   Adjusting the **anchor** is the recommended approach to positioning your labels.
 
-#. Using the **label-anchor** property we can center our labels with respect to geometry centroid.
+#. Using the **anchor** property we can center our labels with respect to geometry centroid.
    
    To align the center of our label we select 50% horizontally and 50% vertically, by filling in  0.5 and 0.5 below:
    
@@ -402,7 +402,7 @@ The key properties **fill** and **label** are used to enable Polygon label gener
 
    .. image:: /style/img/polygon_label_1.png
    
-#. The property **label-offset** can be used to provide an initial displacement using and x and y offset.
+#. The property **displacement** can be used to provide an initial displacement using and x and y offset.
 
    .. image:: /style/img/LabelDisplacement.svg
    
@@ -466,9 +466,9 @@ When working with labels a map can become busy very quickly, and difficult to re
 
 #. Two common properties for controlling labeling are:
    
-   **-gt-label-max-displacement** indicates the maximum distance GeoServer should displace a label during conflict resolution.
+   **x-maxDisplacement** indicates the maximum distance GeoServer should displace a label during conflict resolution.
    
-   **-gt-label-auto-wrap** allows any labels extending past the provided width will be wrapped into multiple lines.
+   **x-autoWrap** allows any labels extending past the provided width will be wrapped into multiple lines.
 
 #. Using these together we can make a small improvement in our example:
 
@@ -518,17 +518,17 @@ When working with labels a map can become busy very quickly, and difficult to re
           x-maxDisplacement: 40
           x-autoWrap: 70
 
-#. By making use of **halo-opacity** we we still allow stroke information to show through, but prevent the stroke information from making the text hard to read.
+#. By making use of **fill-opacity** on the **halo** we we still allow stroke information to show through, but prevent the stroke information from making the text hard to read.
 
    .. image:: /style/img/polygon_label_5.png
 
-#. And advanced technique for manually taking control of conflict resolution is the use of the  **-gt-label-priority**.
+#. And advanced technique for manually taking control of conflict resolution is the use of the  **x-labelPriority**.
 
    This property takes an expression which is used in the event of a conflict. The label with the highest priority "wins."
    
 #. The Natural Earth dataset we are using includes a **labelrank** intended to control what labels are displayed based on zoom level.
    
-   The values for **labelrank** go from 0 (for zoomed out) to 20 (for zoomed in). To use this value for **-gt-label-priority** we need to swap the values around so a **scalerank** of 1 is given the highest priority.
+   The values for **labelrank** go from 0 (for zoomed out) to 20 (for zoomed in). To use this value for **x-labelPriority** we need to swap the values around so a **scalerank** of 1 is given the highest priority.
    
    .. code-block:: yaml
       :emphasize-lines: 20
@@ -852,7 +852,7 @@ In a classroom setting you are encouraged to team up into groups, with each grou
       
       .. image:: /style/img/polygon_area.png
 
-   #. An exciting use of the GeoServer **shape** symbols is the theming by changing the **fill-size** used for pattern density.
+   #. An exciting use of the GeoServer **shape** symbols is the theming by changing the **size** used for pattern density.
 
    #. **Explore:** Use the **Categorize** function to theme by **datarank**.
 
@@ -972,11 +972,11 @@ In a classroom setting you are encouraged to team up into groups, with each grou
                       fill-color: 'gray'
 
 
-.. admonition:: Challenge Use of Z-Index
+.. admonition:: Challenge Use of Feature styles
 
-   #. Earlier we looked at using **z-index** to simulate line string casing. The line work was drawn twice, once with thick line, and then a second time with a thinner line. The resulting effect is similar to text halos - providing breathing space around complex line work allowing it to stand out.
+   #. Earlier we looked at using multiple **feature-styles** to simulate line string casing. The line work was drawn twice, once with thick line, and then a second time with a thinner line. The resulting effect is similar to text halos - providing breathing space around complex line work allowing it to stand out.
       
-   #. **Challenge:** Use what you know of LineString **z-index** to reproduce the following map:
+   #. **Challenge:** Use what you know of LineString **feature-styles** to reproduce the following map:
    
       .. image:: /style/img/polygon_zorder.png
          
