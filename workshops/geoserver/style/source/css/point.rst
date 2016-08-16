@@ -5,7 +5,7 @@ Points
 
 The next stop of the CSS styling tour is the representation of points. 
 
-.. image:: /style/img/PointSymbology.svg
+.. figure:: /style/img/PointSymbology.svg
 
 Review of point symbology:
 

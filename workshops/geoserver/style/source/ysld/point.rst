@@ -5,7 +5,7 @@ Points
 
 The next stop of the ysld styling tour is the representation of points. 
 
-.. image:: img/PointSymbology.svg
+.. figure:: /style/img/PointSymbology.svg
 
 Review of point symbology:
 
@@ -19,9 +19,8 @@ As points have no inherent shape of of their own, emphasis is placed on marking 
 
 Reference:
 
-* :manual:`Point Symbology <extensions/css/properties.html#point-symbology>` (User Manual | CSS Property Listing)
-* :manual:`Points <extensions/css/cookbook_point.html>` (User Manual | CSS Cookbook)
-* :manual:`Styled Marks <user/extensions/css/styled-marks.html>` (User Manual | CSS Styling )
+* `YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>`__ (YSLD Reference)
+* `Point <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/point.html>`__ (YSLD Reference | Point symbolizer)
 * :manual:`Point <styling/sld-reference/pointsymbolizer.html>` (User Manual | SLD Reference )
 
 This exercise makes use of the ``ne:populated_places`` layer.
@@ -55,14 +54,14 @@ This exercise makes use of the ``ne:populated_places`` layer.
 
 #. And use the :guilabel:`Map` tab to preview the result.
 
-   .. image:: img/point_03_map.png
+   .. image:: /style/img/point_03_map.png
 
 Mark
 ----
 
 Points are represented with the mandatory property **mark**.
 
-.. image:: img/PointSymbology.svg
+.. figure:: /style/img/PointSymbology.svg
 
 The SLD standard provides "well-known" symbols for use with point symbology: ``circle``, ``square``, ``triangle``, ``arrow``, ``cross``, ``star``, and ``x``.
 
@@ -80,28 +79,26 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
 #. Map Preview:
 
-   .. image:: img/point_mark_1.png
+   .. image:: /style/img/point_mark_1.png
 
 #. Before we continue we will use a selector to cut down the amount of data shown to a reasonable level.
 
    .. code-block:: yaml
    
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              symbols:
-              - mark:
-                  shape: square
-                  stroke-width: 1
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            symbols:
+            - mark:
+                shape: square
+                stroke-width: 1
 
 
 #. Resulting in a considerably cleaner image:
    
-   .. image:: img/point_mark_2.png
+   .. image:: /style/img/point_mark_2.png
 
 #. Additional properties are available to control a mark's presentation:
 
@@ -113,49 +110,45 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 8
-              rotation: 45.0
-              symbols:
-              - mark:
-                  shape: square
-                  stroke-width: 1
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 8
+            rotation: 45.0
+            symbols:
+            - mark:
+                shape: square
+                stroke-width: 1
 
 
 #. Results in each location being marked with a diamond:
    
-   .. image:: img/point_mark_3.png
+   .. image:: /style/img/point_mark_3.png
 
-#. The **-mark** property provides parameters to style the point symbol. Let's change the **fill-color** to gray.
+#. The **mark** property provides parameters to style the point symbol. Let's change the **fill-color** to gray.
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 8
-              rotation: 45.0
-              symbols:
-              - mark:
-                  shape: square
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 8
+            rotation: 45.0
+            symbols:
+            - mark:
+                shape: square
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
 
 
 #. Updating the mark to a gray square with a black outline.
 
-   .. image:: img/point_mark_4.png
+   .. image:: /style/img/point_mark_4.png
 
 #. You can add more symbolizers to apply additional point styles.
    
@@ -163,41 +156,39 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 16
-              symbols:
-              - mark:
-                  shape: square
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'red'
-          - point:
-              size: 14
-              rotation: 45.0
-              symbols:
-              - mark:
-                  shape: cross
-                  stroke-color: 'white'
-                  stroke-width: 1
-                  fill-color: 'black'
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 16
+            symbols:
+            - mark:
+                shape: square
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'red'
+        - point:
+            size: 14
+            rotation: 45.0
+            symbols:
+            - mark:
+                shape: cross
+                stroke-color: 'white'
+                stroke-width: 1
+                fill-color: 'black'
 
 
 #. Producing an interesting compound symbol effect:
 
-   .. image:: img/point_mark_5.png
+   .. image:: /style/img/point_mark_5.png
 
 Graphic
 -------
 
 Symbols can also be supplied by an external graphic,
 
-.. image:: img/Point_Graphic.svg
+.. image:: /style/img/Point_Graphic.svg
 
 This technique was shown with the initial file:`airport.svg` YSLD example.
 
@@ -211,51 +202,47 @@ This technique was shown with the initial file:`airport.svg` YSLD example.
     
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              symbols:
-              - external:
-                  url: file:/path/to/geoserver/data_dir/styles/port.svg
-                  format: image/svg
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            symbols:
+            - external:
+                url: file:/path/to/geoserver/data_dir/styles/port.svg
+                format: image/svg
 
 
 #. Drawing the provided shape in each location:
 
-   .. image:: img/point_graphic_1.png
+   .. image:: /style/img/point_graphic_1.png
 
 #. The property **url** reference can also be used to reference external images. We can make use of the GeoServer logo.
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 16
-              symbols:
-              - external:
-                  url: http://localhost:8080/geoserver/web/wicket/resource/org.geoserver.web.GeoServerBasePage/img/logo.png
-                  format: image/png
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 16
+            symbols:
+            - external:
+                url: http://localhost:8080/geoserver/web/wicket/resource/org.geoserver.web.GeoServerBasePage/img/logo.png
+                format: image/png
 
 
 #. As shown in the map preview.
 
-   .. image:: img/point_graphic_2.png
+   .. image:: /style/img/point_graphic_2.png
 
 Label
 -----
 
 Labeling is now familiar from our experience with LineString and Polygons.
 
-.. image:: img/Point_Label.svg
+.. image:: /style/img/Point_Label.svg
 
 The **text** symbolizer with the **label** property are required to label Point Locations.
 
@@ -263,28 +250,26 @@ The **text** symbolizer with the **label** property are required to label Point 
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'gray'
-              placement: point
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            symbols:
+            - mark:
+                shape: circle
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+        - text:
+            label: ${NAME}
+            fill-color: 'gray'
+            placement: point
 
 
 #. Confirm the result in ``Map`` preview.
 
-   .. image:: img/point_label_1.png
+   .. image:: /style/img/point_label_1.png
 
 #. Each label is drawn starting from the provided point - which is unfortunate as it assures each label will overlap with the symbol used. To fix this limitation we will make use of the YSLD controls for label placement:
 
@@ -300,31 +285,29 @@ The **text** symbolizer with the **label** property are required to label Point 
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 10
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              placement: point
-              anchor: [0.5, 1.0]
-              displacement: [0, -12]
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 10
+            symbols:
+            - mark:
+                shape: circle
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+        - text:
+            label: ${NAME}
+            fill-color: 'black'
+            placement: point
+            anchor: [0.5, 1.0]
+            displacement: [0, -12]
 
 
 #. Each label is now placed under the mark.
    
-   .. image:: img/point_label_2.png
+   .. image:: /style/img/point_label_2.png
 
 #. One remaining issue is the overlap between labels and symbols.
    
@@ -340,34 +323,32 @@ The **text** symbolizer with the **label** property are required to label Point 
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '1'}
-          scale: [min, max]
-          symbolizers:
-          - point:
-              size: 10
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-              x-labelObstacle: true
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              placement: point
-              anchor: [0.5, 1.0]
-              displacement: [0, -12]
-              x-maxDisplacement: 100
-              x-spaceAround: 2
+      rules:
+      - filter: ${SCALERANK < '1'}
+        scale: [min, max]
+        symbolizers:
+        - point:
+            size: 10
+            symbols:
+            - mark:
+                shape: circle
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+            x-labelObstacle: true
+        - text:
+            label: ${NAME}
+            fill-color: 'black'
+            placement: point
+            anchor: [0.5, 1.0]
+            displacement: [0, -12]
+            x-maxDisplacement: 100
+            x-spaceAround: 2
 
 
 #. Resulting in a considerably cleaner image:
 
-   .. image:: img/point_label_3.png
+   .. image:: /style/img/point_label_3.png
 
 Dynamic Styling
 ---------------
@@ -376,290 +357,201 @@ Dynamic Styling
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '7'}
-          scale: ['4000000.0', '8000000.0']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - filter: ${SCALERANK < '5'}
-          scale: ['8000000.0', '1.7E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - filter: ${SCALERANK < '4'}
-          scale: ['1.7E7', '3.5E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - filter: ${SCALERANK < '3'}
-          scale: ['3.5E7', '7.0E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - filter: ${SCALERANK < '2'}
-          scale: ['7.0E7', '1.4E8']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - filter: ${SCALERANK < '1'}
-          scale: ['1.4E8', max]
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-        - scale: [min, '4000000.0']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
+      define: &point
+        size: 6
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: 'black'
+            stroke-width: 1
+            fill-color: 'gray'
+      rules:
+      - filter: ${SCALERANK < '7'}
+        scale: ['4000000.0', '8000000.0']
+        symbolizers:
+        - point:
+            <<: *point
+      - filter: ${SCALERANK < '5'}
+        scale: ['8000000.0', '1.7E7']
+        symbolizers:
+        - point:
+            <<: *point
+      - filter: ${SCALERANK < '4'}
+        scale: ['1.7E7', '3.5E7']
+        symbolizers:
+        - point:
+            <<: *point
+      - filter: ${SCALERANK < '3'}
+        scale: ['3.5E7', '7.0E7']
+        symbolizers:
+        - point:
+            <<: *point
+      - filter: ${SCALERANK < '2'}
+        scale: ['7.0E7', '1.4E8']
+        symbolizers:
+        - point:
+            <<: *point
+      - filter: ${SCALERANK < '1'}
+        scale: ['1.4E8', max]
+        symbolizers:
+        - point:
+            <<: *point
+      - scale: [min, '4000000.0']
+        symbolizers:
+        - point:
+            <<: *point
 
 
 #. Click :guilabel:`Submit` to update the :guilabel:`Map` after each step.
 
-   .. image:: img/point_04_scale.png
+   .. image:: /style/img/point_04_scale.png
+
+#. This YSLD makes use of a **define** to avoid repeating the point symbolizer content multiple times.
+
+   As an example the :kbd:`scale: [min, '4000000.0']` rule, combined with the :kbd:`define:` results in the following collection of properties:
+
+   .. code-block:: yaml
+
+      - scale: [min, '4000000.0']
+        symbolizers:
+        - point:
+            size: 6
+            symbols:
+            - mark:
+                shape: circle
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
 
 #. To add labeling we must use both a point and text symbolizer in each scale selector.
 
    .. code-block:: yaml
 
-      feature-styles:
-      - name: name
-        rules:
-        - filter: ${SCALERANK < '7'}
-          scale: ['4000000.0', '8000000.0']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - filter: ${SCALERANK < '5'}
-          scale: ['8000000.0', '1.7E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - filter: ${SCALERANK < '4'}
-          scale: ['1.7E7', '3.5E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - filter: ${SCALERANK < '3'}
-          scale: ['3.5E7', '7.0E7']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - filter: ${SCALERANK < '2'}
-          scale: ['7.0E7', '1.4E8']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - filter: ${SCALERANK < '1'}
-          scale: ['1.4E8', max]
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
-        - scale: [min, '4000000.0']
-          symbolizers:
-          - point:
-              size: 6
-              symbols:
-              - mark:
-                  shape: circle
-                  stroke-color: 'black'
-                  stroke-width: 1
-                  fill-color: 'gray'
-          - text:
-              label: ${NAME}
-              fill-color: 'black'
-              font-family: Arial
-              font-size: 10
-              font-style: normal
-              font-weight: normal
-              placement: point
+      define: &point
+        size: 6
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: 'black'
+            stroke-width: 1
+            fill-color: 'gray'
+      define: &label
+        label: ${NAME}
+        fill-color: 'black'
+        font-family: Arial
+        font-size: 10
+        font-style: normal
+        font-weight: normal
+        placement: point
+      rules:
+      - filter: ${SCALERANK < '7'}
+        scale: ['4000000.0', '8000000.0']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '5'}
+        scale: ['8000000.0', '1.7E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '4'}
+        scale: ['1.7E7', '3.5E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '3'}
+        scale: ['3.5E7', '7.0E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '2'}
+        scale: ['7.0E7', '1.4E8']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '1'}
+        scale: ['1.4E8', max]
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - scale: [min, '4000000.0']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
 
    
-   .. image:: img/point_05_label.png
+   .. image:: /style/img/point_05_label.png
 
 #. We will use **displacement** and **anchor** to position the label above each symbol.
 
-   Add the following two lines to each :kbd:`text` symbolizers:
+   Add the following two lines to the :kbd:`label` define:
 
    .. code-block:: yaml
       :emphasize-lines: 9,10
       
-      - text:
-          label: ${NAME}
-          fill-color: 'black'
-          font-family: Arial
-          font-size: 10
-          font-style: normal
-          font-weight: normal
-          placement: point
-          anchor: [0.5, 0]
-          displacement: [0, 6]
+      define: &label
+        label: ${NAME}
+        fill-color: 'black'
+        font-family: Arial
+        font-size: 10
+        font-style: normal
+        font-weight: normal
+        placement: point
+        anchor: [0.5, 0]
+        displacement: [0, 6]
 
-   .. image:: img/point_05_align.png
+   .. image:: /style/img/point_05_align.png
 
 #. A little bit of work with vendor specific parameters will prevent our labels from colliding with each symbol, while giving the rendering engine some flexibility in how far it is allowed to relocate a label.
 
-   Add the following vendor options to the :kbd:`text` symbolizers:
+   Add the following vendor options to the :kbd:`label` define:
 
    .. code-block:: yaml
       :emphasize-lines: 11,12
       
-      - text:
-          label: ${NAME}
-          fill-color: 'black'
-          font-family: Arial
-          font-size: 10
-          font-style: normal
-          font-weight: normal
-          placement: point
-          anchor: [0.5, 0]
-          displacement: [0, 6]
-          x-maxDisplacement: 90
-          x-spaceAround: 2
+      define: &label
+        label: ${NAME}
+        fill-color: 'black'
+        font-family: Arial
+        font-size: 10
+        font-style: normal
+        font-weight: normal
+        placement: point
+        anchor: [0.5, 0]
+        displacement: [0, 6]
+        x-maxDisplacement: 90
+        x-spaceAround: 2
 
-   Add the following vendor option to the :kbd:`point` symbolizers:
+   Add the following vendor option to the :kbd:`point` define:
 
    .. code-block:: yaml
       :emphasize-lines: 9
 
-      - point:
-          size: 6
-          symbols:
-          - mark:
-              shape: circle
-              stroke-color: 'black'
-              stroke-width: 1
-              fill-color: 'gray'
-          x-labelObstacle: true
+      define: &point
+        size: 6
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: 'black'
+            stroke-width: 1
+            fill-color: 'gray'
+        x-labelObstacle: true
 
-   .. image:: img/point_06_relocate.png
+   .. image:: /style/img/point_06_relocate.png
 
 #. Now that we have clearly labeled our cities, zoom into an area you are familiar with and we can look at changing symbology on a case-by-case basis.
 
@@ -673,263 +565,142 @@ Dynamic Styling
 
    * **FEATURECLA**: used to indicate different types of cities. We will check for :kbd:`Admin-0 capital` cities.
 
-   The first thing we will do is calculate the **mark-size** using a quick expression::
+   The first thing we will do is calculate the point **size** using a quick expression::
    
-      [10-(SCALERANK/2)]
+      ${10-(SCALERANK/2)}
 
-   This expression should result in sizes between 5 and 9 and will need to be applied to both **mark-size** and **label-offset**.
+   This expression should result in sizes between 5 and 9 and will need to be applied to both point **size** and label **displacement**.
 
    Rather than the "first come first served" default to resolve labeling conflicts we can manually provide GeoServer with a label priority. The expression provided is calculated for each label, in the event of a conflict the label with the highest priority takes precedence.
 
    The LABELRANK attribute goes from 1 through 10 and needs to be flipped around before use as a GeoServer label priority::
    
-      [10 - LABELRANK]
+      ${10 - LABELRANK}
    
-   This expression will result in values between 0 and 10 and will be used for the **-gt-label-priority**.
+   This expression will result in values between 0 and 10 and will be used for the **x-labelPriority**.
 
-   .. code-block:: css
-      :emphasize-lines: 2,9
+   .. code-block:: yaml
+      :emphasize-lines: 2,19,20
 
-      * {
-        mark-size: [10-(SCALERANK/2)];
-
-        font-fill: black;
-        font-family: "Arial";
-        font-size: 10;
-
-        label-anchor: 0.5 0;
-        label-offset: 0 [10-(SCALERANK/2)];
-
-        -gt-mark-label-obstacle: true;
-        -gt-label-max-displacement: 90;
-        -gt-label-padding: 2;
-        -gt-label-priority: [10 - LABELRANK];
-      }
-      NEED TO DO THIS ONE
+      define: &point
+        size: ${10-(SCALERANK/2)}
+        symbols:
+        - mark:
+            shape: circle
+            stroke-color: 'black'
+            stroke-width: 1
+            fill-color: 'gray'
+        x-labelObstacle: true
+      define: &label
+        label: ${NAME}
+        fill-color: 'black'
+        font-family: Arial
+        font-size: 10
+        font-style: normal
+        font-weight: normal
+        placement: point
+        anchor: [0.5, 0]
+        displacement: [0, '${''10'' - SCALERANK / ''2''}']
+        priority: ${'10' - LABELRANK}
+        x-maxDisplacement: 90
+        x-spaceAround: 2
    
-   .. image:: img/point_07_expression.png
+   .. image:: /style/img/point_07_expression.png
 
 #. Next we can use ``FEATURECLA`` to check for capital cities.
 
-   Adding a selector for capital cities at the top of the file:
+   Adding a selector for capital cities at the top of the **rules** list:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      /* capitals */
-      [@scale < 70000000]
-      [FEATURECLA = 'Admin-0 capital']  {
-         mark: symbol(star);
-         label: [NAME];
-      }
-      [@scale > 70000000] [SCALERANK < 2]
-      [FEATURECLA = 'Admin-0 capital']  {
-         mark: symbol(star);
-         label: [NAME];
-      }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - filter: ${SCALERANK < '2' AND FEATURECLA = 'Admin-0 capital'}
-    scale: ['7.0E7', max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: star
-            stroke-color: 'black'
-            stroke-width: 1
+      - filter: ${SCALERANK < '2' AND FEATURECLA = 'Admin-0 capital'}
+        scale: ['7.0E7', max]
+        name: capitals
+        symbolizers:
+        - point:
+            symbols:
+            - mark:
+                shape: star
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+        - text:
+            label: ${NAME}
             fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${FEATURECLA = 'Admin-0 capital'}
-    scale: [min, '7.0E7']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: star
-            stroke-color: 'black'
-            stroke-width: 1
+            placement: point
+      - filter: ${FEATURECLA = 'Admin-0 capital'}
+        scale: [min, '7.0E7']
+        name: capitals
+        symbolizers:
+        - point:
+            symbols:
+            - mark:
+                shape: star
+                stroke-color: 'black'
+                stroke-width: 1
+                fill-color: 'gray'
+        - text:
+            label: ${NAME}
             fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  x-ruleEvaluation: first
+            placement: point
 
    
    And updating the populated places selectors to ignore capital cities:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      /* populated places */
-      [@scale < 4000000]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
-      [@scale > 4000000] [@scale < 8000000] [SCALERANK < 7]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
+      - filter: ${SCALERANK < '7' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['4000000.0', '8000000.0']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '5' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['8000000.0', '1.7E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '4' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['1.7E7', '3.5E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '3' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['3.5E7', '7.0E7']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '2' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['7.0E7', '1.4E8']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - filter: ${SCALERANK < '1' AND FEATURECLA <> 'Admin-0 capital'}
+        scale: ['1.4E8', max]
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
+      - scale: [min, '4000000.0']
+        symbolizers:
+        - point:
+            <<: *point
+        - text:
+            <<: *label
 
-      [@scale > 8000000] [@scale < 17000000] [SCALERANK < 5]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
+   .. image:: /style/img/point_09_fill.png
 
-      [@scale > 17000000] [@scale < 35000000] [SCALERANK < 4]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
-
-      [@scale > 35000000] [@scale < 70000000][SCALERANK < 3]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
-
-      [@scale > 70000000] [@scale < 140000000][SCALERANK < 2]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
-
-      [@scale > 140000000] [SCALERANK < 1]
-      [FEATURECLA <> 'Admin-0 capital'] {
-         mark: symbol(circle);
-         label: [NAME];
-      }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - filter: ${SCALERANK < '7' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['4000000.0', '8000000.0']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${SCALERANK < '5' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['8000000.0', '1.7E7']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${SCALERANK < '4' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['1.7E7', '3.5E7']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${SCALERANK < '3' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['3.5E7', '7.0E7']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${SCALERANK < '2' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['7.0E7', '1.4E8']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${SCALERANK < '1' AND FEATURECLA <> 'Admin-0 capital'}
-    scale: ['1.4E8', max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  - filter: ${FEATURECLA <> 'Admin-0 capital'}
-    scale: [min, '4000000.0']
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-    - text:
-        label: ${NAME}
-        fill-color: 'gray'
-        placement: point
-  x-ruleEvaluation: first
-
-
-   .. image:: img/point_08_symbol.png
-
-#. Finally we can fill in the capital city symbols using a combination of a selector to detect capital cities, and pseudo selector to provide mark styling.
-
-   .. code-block:: css
-   
-      [FEATURECLA = 'Admin-0 capital'] :mark {
-        fill: black;
-      }
-
-      :symbol {
-        fill: gray;
-        stroke: black;
-      }
-      NEED TO DO THIS ONE
-
-   .. image:: img/point_09_fill.png
-
-#. If you would like to check your work the final file is here: :download:`point_example.css </files/point_example.css>`
+#. If you would like to check your work the final file is here: :download:`point_example.ysld </files/point_example.ysld>`
 
 Bonus
 -----
@@ -960,69 +731,51 @@ Bonus
 
 .. admonition:: Explore Dynamic Symbolization
 
-   #. We went to a lot of work to set up selectors to choose between symbol(star) and symbol(circle) for capital cities.
+   #. We went to a lot of work to set up selectors to choose between star and circle for capital cities.
    
       This approach is straightforward when applied in isolation:
 
-      .. code-block:: css
+       .. code-block:: yaml
 
-         [FEATURECLA = 'Admin-0 capital'] {
-            mark: symbol(star);
-         }
-         [FEATURECLA <> 'Admin-0 capital'] {
-            mark: symbol(circle);
-         }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - filter: ${FEATURECLA = 'Admin-0 capital'}
-    scale: [min, max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: star
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-  - filter: ${FEATURECLA <> 'Admin-0 capital'}
-    scale: [min, max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: circle
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-  x-ruleEvaluation: first
+          rules:
+          - filter: ${FEATURECLA = 'Admin-0 capital'}
+            scale: [min, max]
+            symbolizers:
+            - point:
+                symbols:
+                - mark:
+                    shape: star
+                    stroke-color: 'black'
+                    stroke-width: 1
+                    fill-color: 'gray'
+          - filter: ${FEATURECLA <> 'Admin-0 capital'}
+            scale: [min, max]
+            symbolizers:
+            - point:
+                symbols:
+                - mark:
+                    shape: circle
+                    stroke-color: 'black'
+                    stroke-width: 1
+                    fill-color: 'gray'
 
-   
       When combined with checking another attribute, or checking @scale as in our example, this approach can quickly lead to many rules which can be difficult to keep straight.
    
-   #. Taking a closer look both ``symbol()`` and ``url()`` can actually be expressed using a string:
+   #. Taking a closer look, ``shape`` can actually be expressed using a string:
 
-      .. code-block:: css
+       .. code-block:: yaml
 
-         [FEATURECLA = 'Admin-0 capital'] {
-            mark: symbol("star");
-         }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - filter: ${FEATURECLA = 'Admin-0 capital'}
-    scale: [min, max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: star
-            stroke-color: 'black'
-            stroke-width: 1
-            fill-color: 'gray'
-  x-ruleEvaluation: first
+          rules:
+          - filter: ${FEATURECLA = 'Admin-0 capital'}
+            scale: [min, max]
+            symbolizers:
+            - point:
+                symbols:
+                - mark:
+                    shape: 'star'
+                    stroke-color: 'black'
+                    stroke-width: 1
+                    fill-color: 'gray'
 
       
       Which is represented in SLD as:
@@ -1043,14 +796,12 @@ feature-styles:
    
       This is accomplished by embedding a small CQL expression in the string passed to symbol or url. This sub-expression is isolated with :kbd:`${ }` as shown:
    
-      .. code-block:: css
-         
-         * {
-            mark: symbol(
-              "${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}"
-            );
-         }
-         NEED TO DO THIS ONE
+       .. code-block:: yaml
+
+          - point:
+              symbols:
+              - mark:
+                  shape: ${if_then_else(equalTo(FEATURECLA,'Admin-0 capital'),'star','circle')}
          
       Which is represented in SLD as:
       
@@ -1072,12 +823,12 @@ feature-styles:
       
          .. admonition:: Instructor Notes 
        
-            Example available here :download:`point_example.css </files/point_example2.css>`
+            Example available here :download:`point_example.css </files/point_example2.ysld>`
 
 
 .. hide:
 
-   #. Challenge: Use the **Interpolate** function to smoothly change **mark-size** based on city population.
+   #. Challenge: Use the **Interpolate** function to smoothly change the mark **size** based on city population.
 
 .. admonition:: Challenge Layer Group
 
@@ -1085,44 +836,25 @@ feature-styles:
       
       * ne:NE1
       * ne:states_provincces_shp
-      * ne: populated_places
+      * ne:populated_places
    
    #. To help start things out here is a style for ``ne:states_provinces_shp``:
    
-      .. code-block:: css
-   
-         * {     
-            fill: white,[
-             recode(mapcolor9,
-               1,'#8dd3c7', 2,'#ffffb3', 3,'#bebada',
-               4,'#fb8072', 5,'#80b1d3', 6,'#fdb462',
-               7,'#b3de69', 8,'#fccde5', 9,'#d9d9d9')
-            ];
-            fill-opacity: 05%,50%;
-         
-            stroke: black;
-            stroke-width: 0.25;
-            stroke-opacity: 50%;
-         }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - scale: [min, max]
-    symbolizers:
-    - polygon:
-        stroke-color: 'black'
-        stroke-width: 0.25
-        stroke-opacity: 0.5
-        fill-color: 'white'
-        fill-opacity: 0.05
-    - polygon:
-        stroke-color: 'black'
-        stroke-width: 0.25
-        stroke-opacity: 0.5
-        fill-color: ${Recode(mapcolor9,'1','#8dd3c7','2','#ffffb3','3','#bebada','4','#fb8072','5','#80b1d3','6','#fdb462','7','#b3de69','8','#fccde5','9','#d9d9d9')}
-        fill-opacity: 0.5
-  x-ruleEvaluation: first
+       .. code-block:: ysld
+
+          symbolizers:
+          - polygon:
+              stroke-color: 'black'
+              stroke-width: 0.25
+              stroke-opacity: 0.5
+              fill-color: 'white'
+              fill-opacity: 0.05
+          - polygon:
+              stroke-color: 'black'
+              stroke-width: 0.25
+              stroke-opacity: 0.5
+              fill-color: ${Recode(mapcolor9,'1','#8dd3c7','2','#ffffb3','3','#bebada','4','#fb8072','5','#80b1d3','6','#fdb462','7','#b3de69','8','#fccde5','9','#d9d9d9')}
+              fill-opacity: 0.5
 
    
    #. This background is relatively busy and care must be taken to ensure both symbols and labels are clearly visible.
@@ -1131,7 +863,7 @@ feature-styles:
        
       Here is an example with labels for inspiration:
    
-      .. image:: img/point_challenge_1.png
+      .. image:: /style/img/point_challenge_1.png
    
       .. only:: instructor
        
@@ -1139,59 +871,33 @@ feature-styles:
        
             This should be an opportunity to revisit label halo settings from :doc:`polygon`. 
        
-            .. code-block:: css
-       
-               * {
-                  mark-size: [5+((10-SCALERANK)/3)];
+             .. code-block:: css
 
-                  font-fill: black;
-                  font-family: "Arial";
-                  font-size: 10;
-
-                  label-anchor: 0.5 1;
-                  label-offset: 0 [-12+SCALERANK];
-
-                  halo-radius: 2;
-                  halo-color: lightgray;
-                  halo-opacity:0.7;
-
-                  -gt-mark-label-obstacle: true;
-                  -gt-label-max-displacement: 90;
-                  -gt-label-priority: [0 - LABELRANK];
-               }
-               :symbol {
-                 fill: black;
-                 stroke: white;
-                 stroke-opacity:0.75;
-               }
-               NEED TO DO THIS ONE
+                symbolizers:
+                - point:
+                    size: ${'5' + '10' - SCALERANK / '3'}
+                    symbols:
+                    - mark:
+                        shape: circle
+                        stroke-color: 'white'
+                        stroke-width: 1
+                        stroke-opacity: 0.75
+                        fill-color: 'black'
+                    x-labelObstacle: true
 
 .. admonition:: Explore True Type Fonts
 
    #. In addition to image formats GeoServer can make use other kinds of graphics, such as True Type fonts:
    
       .. code-block:: css
-   
-         * {
-            mark: symbol("ttf://Webdings#0x0064");
-         }
-         :mark {
-            stroke: blue;
-         }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - scale: [min, max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: ttf://Webdings#0x0064
-            stroke-color: '#0000FF'
-            stroke-width: 1
-  x-ruleEvaluation: first
 
+          symbolizers:
+          - point:
+              symbols:
+              - mark:
+                  shape: ttf://Webdings#0x0064
+                  stroke-color: 'blue'
+                  stroke-width: 1
          
    #. Additional fonts dropped in the :file:`styles` directory are available for use.
    
@@ -1203,25 +909,13 @@ feature-styles:
    
    #. In GeoServer 2.6 support has been added for custom grpahics using the WKT Geometry representation. If you would like to try this functionality in earlier versions of GeoServer look up for the GeoTools WKT plugin.
    
-      .. code-block:: css
-   
-         * {
-            mark: symbol("wkt://MULTILINESTRING((-0.25 -0.25, -0.125 -0.25), (0.125 -0.25, 0.25 -0.25), (-0.25 0.25, -0.125 0.25), (0.125 0.25, 0.25 0.25))");
-         }
-         :mark {
-            stroke: blue;
-         }
-name: cssstyle
-feature-styles:
-- name: name
-  rules:
-  - scale: [min, max]
-    symbolizers:
-    - point:
-        symbols:
-        - mark:
-            shape: wkt://MULTILINESTRING((-0.25 -0.25, -0.125 -0.25), (0.125 -0.25, 0.25 -0.25), (-0.25 0.25, -0.125 0.25), (0.125 0.25, 0.25 0.25))
-            stroke-color: '#0000FF'
-            stroke-width: 1
-  x-ruleEvaluation: first
+       .. code-block:: css
+
+          symbolizers:
+          - point:
+              symbols:
+              - mark:
+                  shape: wkt://MULTILINESTRING((-0.25 -0.25, -0.125 -0.25), (0.125 -0.25, 0.25 -0.25), (-0.25 0.25, -0.125 0.25), (0.125 0.25, 0.25 0.25))
+                  stroke-color: 'blue'
+                  stroke-width: 1
 

@@ -27,8 +27,8 @@ For our Polygon exercises we will try and limit our YSLD documents to a single r
 
 Reference:
 
-* :manual:`YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>` (YSLD Reference)
-* :manual:`Polygons <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/polygon.html>` (YSLD Reference | Polygon symbolizer)
+* `YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>`__ (YSLD Reference)
+* `Polygons <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/polygon.html>`__ (YSLD Reference | Polygon symbolizer)
 * :manual:`Polygons <extensions/css/cookbook_polygon.html>` (User Manual | SLD Reference )
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
