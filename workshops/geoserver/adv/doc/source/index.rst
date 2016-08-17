@@ -26,7 +26,7 @@ The following material will be covered in this workshop:
   Learn how to manage coordinate reference systems (projections).
 
 :ref:`gsadv.filtering`
-  Create useful subsets of data using CQL/OGC filters, SQL views, and WMS dimensions.
+  Create useful subsets of data using CQL/OGC filters and SQL views.
 
 :ref:`gsadv.processing`
   Perform spatial analysis with GeoServer using Web Processing Service (WPS) and rendering transformations.

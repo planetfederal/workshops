@@ -325,7 +325,7 @@ Now let's put our layers together in a layer group. More accurately, we want to 
 
      curl -v -u admin:geoserver -X PUT -H "Content-type: text/xml"
        -d @layergroup.earth.xml
-       http://localhost:8080/geoserver/rest/layergroups/earth
+       http://localhost:8080/geoserver/rest/layergroups/earthmap
 
 .. todo:: Is this supposed to be a layer group with 11 layers, or is this supposed to be replacing one set of layers for another? There are issues with this as it is written right now.
 

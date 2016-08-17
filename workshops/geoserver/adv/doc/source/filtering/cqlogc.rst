@@ -37,12 +37,12 @@ As will be shown in this section, both OGC filters and CQL filters do much of th
 * **CQL is simpler.** The CQL filters do not require any complex formatting and are much more succinct than OGC filters.
 * **OGC is a standard.** The OGC filters conform to the OGC Filter specification. CQL does not correspond to any spec.
 
-.. note:: Both ``filter=`` and ``cql_filter`` are *vendor parameters*. This means that they are implementations specific to GeoServer, and are not part of any specification.
+.. note:: Both ``filter`` and ``cql_filter`` are *vendor parameters*. This means that they are implementations specific to GeoServer, and are not part of any specification.
 
 CQL filter example
 ------------------
 
-Let's start out with a CQL example. We'll use the ``usa:states`` layer and perform an information query on it, singling out California.
+Let's start out with a CQL example. We'll use the ``usa:states`` layer and perform an information query on it, singling out a state.
 
 #. First, launch the Layer Preview for this layer.
 
@@ -235,8 +235,13 @@ Once again, for simplicity we'll use the Demo Request Builder for this. There ar
 #. In the :guilabel:`Request` box, select :guilabel:`WFS_getFeatureIntersects.url`. This is a GET request, so the filter will be URL-encoded::
 
       http://localhost:8080/geoserver/wfs?request=GetFeature&
-        version=1.0.0&typeName=advanced:states&outputFormat=GML2&
-        FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E%3CPropertyName%3Egeom%3C/PropertyName%3E%3Cgml:Point%20srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E%3C/Filter%3E
+        version=1.0.0&typeName=usa:states&outputFormat=GML2&
+        FILTER=%3CFilter%20xmlns=%22http://www.opengis.net/ogc%22%20
+        xmlns:gml=%22http://www.opengis.net/gml%22%3E%3CIntersects%3E
+        %3CPropertyName%3Ethe_geom%3C/PropertyName%3E%3Cgml:Point%20
+        srsName=%22EPSG:4326%22%3E%3Cgml:coordinates%3E-74.817265,
+        40.5296504%3C/gml:coordinates%3E%3C/gml:Point%3E%3C/Intersects%3E
+        %3C/Filter%3E
 
    While this is hard to read, it is an OGC Intersects filter on the states layer on a given point (-74.817265,40.5296504):
 

@@ -37,7 +37,8 @@
     <delete dir="${build}/slides"/> 
     <mkdir dir="${build}/slides"/>
     <echo>Building slides with Landslide...</echo>
-    <exec executable="landslide" failonerror="true">
+    <exec executable="python" failonerror="true">
+      <arg line="-m landslide"/>
       <arg line="-t slides/avalanche"/>
       <arg line="-d ${build}/slides/geoserveradvanced_slides.html"/>
       <arg value="-v"/>

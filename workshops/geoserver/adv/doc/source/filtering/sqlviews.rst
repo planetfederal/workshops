@@ -20,7 +20,7 @@ Perhaps most usefully, as well as being arbitrary SQL executed in the database u
 
 In short, SQL views have tremendous power and flexibility. They are executed in the database so performance is optimized. You also have access to all database functions, stored procedures, and even joins across tables.
 
-.. note:: In the past, SQL views were only allowed against databases. Recently, this functionality has been extended to include any data sources.
+.. note:: SQL views are only allowed against databases. However, a recent development is the ability to create layers from CQL filters.
 
 Examples
 --------
