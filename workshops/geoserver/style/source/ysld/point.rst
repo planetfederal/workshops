@@ -59,13 +59,13 @@ This exercise makes use of the ``ne:populated_places`` layer.
 Mark
 ----
 
-Points are represented with the mandatory property **mark**.
+The **point** symbolizer controls the display of point data. Points are represented with the mandatory property **mark**.
 
 .. figure:: /style/img/PointSymbology.svg
 
 The SLD standard provides "well-known" symbols for use with point symbology: ``circle``, ``square``, ``triangle``, ``arrow``, ``cross``, ``star``, and ``x``.
 
-#. As a **key property** the symbolizer **point** triggers the generation of an appropriate PointSymbolizer.
+#. Change the symbol used by the style to a square:
 
    .. code-block:: yaml
    

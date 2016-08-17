@@ -70,7 +70,7 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
 Stroke and Fill
 ---------------
 
-The **key property** for polygon data is **fill**.
+The **polygon** symbolizer controls the display of polygon data.
 
 .. image:: /style/img/PolygonFill.svg
 

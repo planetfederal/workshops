@@ -41,6 +41,8 @@ The exercise makes use of the ``usgs:dem`` and ``ne:ne1`` layers.
 Image
 ^^^^^
 
+The **raster** symbolizer controls the display of raster data. By default, the raster symbolizer automatically selects the appropriate red, green and blue channels for display.
+
 #. Navigate to the **Styles** page.
 
 #. Click :guilabel:`Add a new style` and choose the following:
@@ -68,7 +70,7 @@ Image
 
    .. image:: /style/img/raster_image_1.png
 
-#. By default, the raster symbolizer automatically selects the appropriate red, green and blue channels for display. . The **channels** property can be used to provide a list three band numbers (for images recording in several wave lengths) or a single band number can be used to view a grayscale image.
+#. The **channels** property can be used to provide a list three band numbers (for images recording in several wave lengths) or a single band number can be used to view a grayscale image.
 
    .. code-block:: css
 
