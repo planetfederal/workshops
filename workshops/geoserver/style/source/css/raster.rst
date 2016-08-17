@@ -34,6 +34,7 @@ Reference:
 
 * :manual:`Raster Symbology <extensions/css/properties.html#raster-symbology>` (User Manual | CSS Property Listing )
 * :manual:`Rasters <extensions/css/cookbook_raster.html>` (User Manual | CSS Cookbook );
+* :manual:`Point <styling/sld-reference/rastersymbolizer.html>` (User Manual | SLD Reference )
 
 The exercise makes use of the ``usgs:dem`` and ``ne:ne1`` layers.
 
@@ -42,22 +43,22 @@ Image
 
 The **raster-channels** is the **key property** for display of images and raster data. The value :kbd:`auto` is recommended, allowing the image format to select the appropriate red, green and blue channels for display. 
 
-#. Navigate to the **CSS Styles** page.
+#. Navigate to the **Styles** page.
 
-#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:ne1` from the list.
-
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
-      :stub-columns: 1
+      :header-rows: 0
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`image_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`CSS`
 
-#. Fill in the following css:
+#. Replace the initial CSS definition with:
 
    .. code-block:: css
 
@@ -65,7 +66,8 @@ The **raster-channels** is the **key property** for display of images and raster
         raster-channels: auto;
       }
 
-#. Displaying the unprocessed image:
+
+#. And use the :guilabel:`Layer Preview` tab to preview the result.
 
    .. image:: /style/img/raster_image_1.png
 
@@ -88,22 +90,22 @@ A digital elevation model is an example of raster data made up of measurements, 
 
 The ``usgs:dem`` layer used used for this exercise:
 
-#. From the the **CSS Styles** page.
+#. Return to the the **Styles** page.
 
-#. Click :guilabel:`Choose a different layer` and select :kbd:`usgs:dem` from the list.
-
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
-      :stub-columns: 1
+      :header-rows: 0
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`raster_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`CSS`
 
-#. When we use the **raster-channels** property set to :kbd:`auto` the rendering engine will select our single band of raster content, and do its best to map these values into a grayscale image.
+#. When we use the **raster-channels** property set to :kbd:`auto` the rendering engine will select our single band of raster content, and do its best to map these values into a grayscale image. Replace the content of the style with:
 
    .. code-block:: css
 
@@ -111,9 +113,10 @@ The ``usgs:dem`` layer used used for this exercise:
         raster-channels: auto;
       }
 
-#. The range produced in this case from the highest and lowest values.
+#. Use the :guilabel:`Layer Preview` tab to preview the result. The range produced in this case from the highest and lowest values.
 
    .. image:: /style/img/raster_dem_1.png
+
 
 #. We can use a bit of image processing to emphasis the generated color mapping by making use **raster-contrast-enhancement**.
 
@@ -123,6 +126,7 @@ The ``usgs:dem`` layer used used for this exercise:
         raster-channels: 1;
         raster-contrast-enhancement: histogram;
       }
+
 #. Image processing of this sort should be used with caution as it does distort the presentation (in this case making the landscape look more varied then it is in reality.
 
    .. image:: /style/img/raster_dem_2.png

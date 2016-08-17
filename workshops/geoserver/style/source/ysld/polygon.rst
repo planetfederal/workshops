@@ -29,7 +29,7 @@ Reference:
 
 * `YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>`__ (YSLD Reference)
 * `Polygons <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/polygon.html>`__ (YSLD Reference | Polygon symbolizer)
-* :manual:`Polygons <extensions/css/cookbook_polygon.html>` (User Manual | SLD Reference )
+* :manual:`Polygons <styling/sld-reference/polygonsymbolizer.html>` (User Manual | SLD Reference )
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
@@ -58,7 +58,7 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
       - polygon:
           fill-color: 'lightgrey'
 
-#. Click on the tab :guilabel`Layer Preview` to preview.
+#. Click on the tab :guilabel:`Layer Preview` to preview.
 
    .. image:: /style/img/polygon_04_preview.png
 

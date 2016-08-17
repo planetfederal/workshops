@@ -3,7 +3,7 @@
 Rasters
 =======
 
-Finally we will look at using CSS styling for the portrayal of raster data.
+Finally we will look at using YSLD styling for the portrayal of raster data.
 
 .. figure:: /style/img/RasterSymbology.svg
 
@@ -32,50 +32,52 @@ These raster examples use a digital elevation model consisting of a single band 
 
 Reference:
 
-* :manual:`Raster Symbology <extensions/css/properties.html#raster-symbology>` (User Manual | CSS Property Listing )
-* :manual:`Rasters <extensions/css/cookbook_raster.html>` (User Manual | CSS Cookbook );
+* `YSLD Reference <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/index.html>`__ (YSLD Reference)
+* `Point <http://suite.opengeo.org/docs/latest/cartography/ysld/reference/symbolizers/raster.html>`__ (YSLD Reference | Raster symbolizer)
+* :manual:`Point <styling/sld-reference/rastersymbolizer.html>` (User Manual | SLD Reference )
 
 The exercise makes use of the ``usgs:dem`` and ``ne:ne1`` layers.
 
 Image
 ^^^^^
 
-The **raster-channels** is the **key property** for display of images and raster data. The value :kbd:`auto` is recommended, allowing the image format to select the appropriate red, green and blue channels for display. 
+#. Navigate to the **Styles** page.
 
-#. Navigate to the **CSS Styles** page.
-
-#. Click :guilabel:`Choose a different layer` and select :kbd:`ne:ne1` from the list.
-
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
-      :stub-columns: 1
+      :header-rows: 0
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`image_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`YSLD`
 
-#. Fill in the following css:
+#. Replace the initial YSLD definition with:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
 
-#. Displaying the unprocessed image:
+#. And use the :guilabel:`Layer Preview` tab to preview the result.
 
    .. image:: /style/img/raster_image_1.png
 
-#. If required a list three band numbers can be supplied (for images recording in several wave lengths) or a single band number can be used to view a grayscale image.
+#. By default, the raster symbolizer automatically selects the appropriate red, green and blue channels for display. . The **channels** property can be used to provide a list three band numbers (for images recording in several wave lengths) or a single band number can be used to view a grayscale image.
 
    .. code-block:: css
 
-      * {
-        raster-channels: 2;
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          channels:
+            gray:
+              name: '2'
 
 #. Isolating just the green band (it wil be drawn as a grayscale image):
 
@@ -84,45 +86,50 @@ The **raster-channels** is the **key property** for display of images and raster
 DEM
 ^^^
 
-A digital elevation model is an example of raster data made up of measurements, rather than colors information.
+A digital elevation model is an example of raster data made up of measurements, rather than color information.
 
 The ``usgs:dem`` layer used used for this exercise:
 
-#. From the the **CSS Styles** page.
+#. Return to the the **Styles** page.
 
-#. Click :guilabel:`Choose a different layer` and select :kbd:`usgs:dem` from the list.
-
-#. Click :guilabel:`Create a new style` and choose the following:
+#. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
-      :stub-columns: 1
+      :header-rows: 0
 
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+      * - Name:
         - :kbd:`raster_example`
+      * - Workspace:
+        - :kbd:`No workspace`
+      * - Format:
+        - :kbd:`YSLD`
 
-#. When we use the **raster-channels** property set to :kbd:`auto` the rendering engine will select our single band of raster content, and do its best to map these values into a grayscale image.
+#. The rendering engine will select our single band of raster content, and do its best to map these values into a grayscale image. Replace the content of the style with:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
 
-#. The range produced in this case from the highest and lowest values.
+#. Use the :guilabel:`Layer Preview` tab to preview the result. The range produced in this case from the highest and lowest values.
 
    .. image:: /style/img/raster_dem_1.png
 
-#. We can use a bit of image processing to emphasis the generated color mapping by making use **raster-contrast-enhancement**.
+#. We can use a bit of image processing to emphasis the generated color mapping by making use of **contrast-enhancement**.
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: 1;
-        raster-contrast-enhancement: histogram;
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          channels:
+            gray:
+              name: '1'
+              contrast-enhancement:
+                mode: histogram
+
 #. Image processing of this sort should be used with caution as it does distort the presentation (in this case making the landscape look more varied then it is in reality.
 
    .. image:: /style/img/raster_dem_2.png
@@ -136,31 +143,37 @@ For qualitative data (such as land use) or simply to use color, we need a differ
 
 #. Apply the following CSS to our `usgs:DEM` layer:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-       * {
-         raster-channels: auto;
-         raster-color-map: color-map-entry(#9080DB, 0)
-                           color-map-entry(#008000, 1)
-                           color-map-entry(#105020, 255)
-                           color-map-entry(#FFFFFF, 4000);
-       }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          color-map:
+            type: ramp
+            entries:
+            - ['#9080DB', 1.0, 0, null]
+            - ['#008000', 1.0, 1, null]
+            - ['#105020', 1.0, 255, null]
+            - ['#FFFFFF', 1.0, 4000, null]
 
 #. Resulting in this artificial color image:
    
    .. image:: /style/img/raster_dem_3.png
 
-#. An opacity value can also be used with **color-map-entry**.
+#. An opacity value can also be used with each **color-map** entry.
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-        raster-color-map: color-map-entry(#9080DB, 0, 0.0)
-                          color-map-entry(#008000, 1, 1.0)
-                          color-map-entry(#105020, 200, 1.0)
-                          color-map-entry(#FFFFFF, 4000, 1.0);
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          color-map:
+            type: ramp
+            entries:
+            - ['#9080DB', 0.0, 0, null]
+            - ['#008000', 1.0, 1, null]
+            - ['#105020', 1.0, 255, null]
+            - ['#FFFFFF', 1.0, 4000, null]
 
 #. Allowing the areas of zero height to be transparent:
    
@@ -175,13 +188,13 @@ We can use what we have learned about color maps to apply a color brewer palette
 
 This exploration focuses on accurately communicating differences in value, rather than strictly making a pretty picture. Care should be taken to consider the target audience and medium used during palette selection.
 
-#. Restore the ``raster_example`` CSS style to the following:
+#. Restore the ``raster_example`` YSLD style to the following:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
 
 #. Producing the following map preview.
 
@@ -189,13 +202,16 @@ This exploration focuses on accurately communicating differences in value, rathe
 
 #. To start with we can provide our own grayscale using two color map entries.
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-        raster-color-map: color-map-entry(#000000, 0)
-                          color-map-entry(#FFFFFF, 4000);
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          color-map:
+            type: ramp
+            entries:
+            - ['#000000', 1.0, 0, null]
+            - ['#FFFFFF', 1.0, 4000, null]
 
 #. Use the :guilabel:`Map` tab to zoom in and take a look.
    
@@ -211,42 +227,46 @@ This exploration focuses on accurately communicating differences in value, rathe
 
 #. Update your style with the following:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-        raster-color-map:
-           color-map-entry(#014636,   0)
-           color-map-entry(#016c59, 500)
-           color-map-entry(#02818a,1000)
-           color-map-entry(#3690c0,1500)
-           color-map-entry(#67a9cf,2000)
-           color-map-entry(#a6bddb,2500)
-           color-map-entry(#d0d1e6,3000)
-           color-map-entry(#ece2f0,3500)
-           color-map-entry(#fff7fb,4000);
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          color-map:
+            type: ramp
+            entries:
+            - ['#014636', 1.0, 0, null]
+            - ['#016C59', 1.0, 500, null]
+            - ['#02818A', 1.0, 1000, null]
+            - ['#3690C0', 1.0, 1500, null]
+            - ['#67A9CF', 1.0, 2000, null]
+            - ['#A6BDDB', 1.0, 2500, null]
+            - ['#D0D1E6', 1.0, 3000, null]
+            - ['#ECE2F0', 1.0, 3500, null]
+            - ['#FFF7FB', 1.0, 4000, null]
 
    .. image:: /style/img/raster_04_PuBuGn.png
 
 #. A little bit of work with alpha (to mark the ocean as a no-data section):
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      * {
-        raster-channels: auto;
-        raster-color-map:
-           color-map-entry(#014636,   0,0)
-           color-map-entry(#014636,   1)
-           color-map-entry(#016c59, 500)
-           color-map-entry(#02818a,1000)
-           color-map-entry(#3690c0,1500)
-           color-map-entry(#67a9cf,2000)
-           color-map-entry(#a6bddb,2500)
-           color-map-entry(#d0d1e6,3000)
-           color-map-entry(#ece2f0,3500)
-           color-map-entry(#fff7fb,4000);
-      }
+      symbolizers:
+      - raster:
+          opacity: 1.0
+          color-map:
+            type: ramp
+            entries:
+            - ['#014636', 0, 0, null]
+            - ['#014636', 1.0, 1, null]
+            - ['#016C59', 1.0, 500, null]
+            - ['#02818A', 1.0, 1000, null]
+            - ['#3690C0', 1.0, 1500, null]
+            - ['#67A9CF', 1.0, 2000, null]
+            - ['#A6BDDB', 1.0, 2500, null]
+            - ['#D0D1E6', 1.0, 3000, null]
+            - ['#ECE2F0', 1.0, 3500, null]
+            - ['#FFF7FB', 1.0, 4000, null]
       
 #. And we are done:
 
@@ -262,12 +282,13 @@ Bonus
    
    #. Make use of a simple contrast enhancement with ``usgs:dem``:
    
-      .. code-block:: css
+     .. code-block:: yaml
    
-         * {
-             raster-channels: auto;
-             raster-contrast-enhancement: normalize;
-         }
+        symbolizers:
+        - raster:
+            opacity: 1.0
+            contrast-enhancement:
+              mode: normalize
    
    #. Can you explain what happens when zoom in to only show a land area (as indicated with the bounding box below)?
 
@@ -286,11 +307,11 @@ Bonus
 
 .. admonition:: Challenge Intervals
 
-   #.  The **raster-color-map-type** property dictates how the values are used to generate a resulting color.
+   #.  The color-map **type** property dictates how the values are used to generate a resulting color.
 
        * :kbd:`ramp` is used for quantitative data, providing a smooth interpolation between the provided color values.
        * :kbd:`intervals` provides categorization for quantitative data, assigning each range of values a solid color.
-       * :kbd:`values` is used for qualitative data, each value is required to have a **color-map-entry** or it will not be displayed.
+       * :kbd:`values` is used for qualitative data, each value is required to have a **color-map** entry or it will not be displayed.
 
    #. **Chalenge:** Update your DEM example to use **intervals** for presentation. What are the advantages of using this approach for elevation data?
       
@@ -302,23 +323,24 @@ Bonus
        
             Here is style for you to cut and paste:
       
-            .. code-block:: css
+             .. code-block:: yaml
        
-               * {
-                 raster-channels: auto;
-                 raster-color-map:
-                    color-map-entry(#014636,   0,0)
-                    color-map-entry(#014636,   1)
-                    color-map-entry(#016c59, 500)
-                    color-map-entry(#02818a,1000)
-                    color-map-entry(#3690c0,1500)
-                    color-map-entry(#67a9cf,2000)
-                    color-map-entry(#a6bddb,2500)
-                    color-map-entry(#d0d1e6,3000)
-                    color-map-entry(#ece2f0,3500)
-                    color-map-entry(#fff7fb,4000);
-                 raster-color-map-type: intervals;
-               }
+                symbolizers:
+                - raster:
+                    opacity: 1.0
+                    color-map:
+                      type: intervals
+                      entries:
+                      - ['#014636', 0, 0, null]
+                      - ['#014636', 1.0, 1, null]
+                      - ['#016C59', 1.0, 500, null]
+                      - ['#02818A', 1.0, 1000, null]
+                      - ['#3690C0', 1.0, 1500, null]
+                      - ['#67A9CF', 1.0, 2000, null]
+                      - ['#A6BDDB', 1.0, 2500, null]
+                      - ['#D0D1E6', 1.0, 3000, null]
+                      - ['#ECE2F0', 1.0, 3500, null]
+                      - ['#FFF7FB', 1.0, 4000, null]
       
             .. image:: /style/img/raster_interval.png
 
@@ -330,28 +352,29 @@ Bonus
    
    Image processing can be used to enhance the output to highlight small details or to balance images from different sensors allowing them to be compared.
 
-   #. The **raster-contrast-enhancement** property is used to turn on a range of post processing effects. Settings are provided for :kbd:`normalize` or :kbd:`histogram` or :kbd:`none`;
+   #. The **contrast-enhancement** property is used to turn on a range of post processing effects. Settings are provided for :kbd:`normalize` or :kbd:`histogram` or :kbd:`none`;
 
-      .. code-block:: css
+     .. code-block:: yaml
 
-         * {
-             raster-channels: auto;
-             raster-contrast-enhancement: normalize;
-         }
+        symbolizers:
+        - raster:
+            opacity: 1.0
+            contrast-enhancement:
+              mode: normalize
    
    #. Producing the following image:
    
       .. image:: /style/img/raster_image_3.png
 
-   #. The **raster-gamma** property is used adjust the brightness of **raster-contrast-enhancement** output. Values less than 1 are used to brighten the image while values greater than 1 darken the image.
+   #. The **raster-gamma** property is used adjust the brightness of **contrast-enhancement** output. Values less than 1 are used to brighten the image while values greater than 1 darken the image.
 
-      .. code-block:: css
+     .. code-block:: yaml
 
-         * {
-            raster-channels: auto;
-            raster-contrast-enhancement: none;
-            raster-gamma: 1.5;
-         }
+        symbolizers:
+        - raster:
+            opacity: 1.0
+            contrast-enhancement:
+              gamma: 1.5
 
    #. Providing the following effect:
    
@@ -369,20 +392,23 @@ Bonus
  
            The original was a dark mess, students will hopefully make use of the mid-tones (or even check color brewer) in order to fix this. I have left the ocean dark so the mountains can stand out more.
        
-           .. code-block:: css
+           .. code-block:: yaml
 
-              * {
-                raster-channels: auto;
-                raster-color-map: color-map-entry(#000000, 0)
-                                  color-map-entry(#444444, 1)
-                                  color-map-entry(#FFFFFF, 3000);
-              }
+              symbolizers:
+              - raster:
+                  opacity: 1.0
+                  color-map:
+                    type: ramp
+                    entries:
+                    - ['#000000', 1.0, 0, null]
+                    - ['#444444', 1.0, 1, null]
+                    - ['#FFFFFF', 1.0, 3000, null]
        
            .. image:: /style/img/raster_grayscale.png
 
 .. admonition:: Challenge Raster Opacity
 
-   #. There is a quick way to make raster data transparent, **raster-opacity** property works in the same fashion as with vector data. The raster as a whole will be drawn partially transparent allow content from other layers to provide context.
+   #. There is a quick way to make raster data transparent, raster **opacity** property works in the same fashion as with vector data. The raster as a whole will be drawn partially transparent allow content from other layers to provide context.
   
    #. **Challenge:** Can you think of an example where this would be useful?
   

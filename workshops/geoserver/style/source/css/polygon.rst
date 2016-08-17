@@ -29,7 +29,7 @@ Reference:
 
 * :manual:`Polygon Symbology <extensions/css/properties.html#polygon-symbology>` (User Manual | CSS Property Listing)
 * :manual:`Polygons <extensions/css/cookbook/polygon.html>` (User Manual | CSS Cookbook)
-* :manual:`Polygons <extensions/css/cookbook_polygon.html>` (User Manual | SLD Reference )
+* :manual:`Polygons <styling/sld-reference/polygonsymbolizer.html>` (User Manual | SLD Reference )
 
 This exercise makes use of the ``ne:states_provinces_shp`` layer.
 
@@ -56,7 +56,7 @@ This exercise makes use of the ``ne:states_provinces_shp`` layer.
    
       * { fill: lightgrey; }
 
-#. Click on the tab :guilabel`Layer Preview` to preview.
+#. Click on the tab :guilabel:`Layer Preview` to preview.
 
    .. image:: /style/img/polygon_04_preview.png
 

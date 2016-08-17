@@ -49,7 +49,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
         mark: symbol(circle);
       }
 
-#. And use the :guilabel:`Map` tab to preview the result.
+#. And use the :guilabel:`Layer Preview` tab to preview the result.
 
    .. image:: /style/img/point_03_map.png
 

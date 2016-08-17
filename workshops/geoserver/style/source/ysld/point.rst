@@ -52,7 +52,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
               stroke-width: 1
 
 
-#. And use the :guilabel:`Map` tab to preview the result.
+#. And use the :guilabel:`Layer Preview` tab to preview the result.
 
    .. image:: /style/img/point_03_map.png
 
@@ -75,7 +75,6 @@ The SLD standard provides "well-known" symbols for use with point symbology: ``c
           - mark:
               shape: square
               stroke-width: 1
-
 
 #. Map Preview:
 
