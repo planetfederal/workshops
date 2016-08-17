@@ -40,7 +40,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
       * - Format:
         - :kbd:`YSLD`
 
-#. Replace the initial YSLD definition with:
+#. Replace the initial YSLD definition with the following and click :guilabel:`apply`:
 
    .. code-block:: yaml
 

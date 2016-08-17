@@ -239,124 +239,22 @@ Tour
 
 To confirm everything works, let's reproduce the airports style above.
 
-.. note:: In preparing for FOSS4G we missed adding the airports layer. Please excuse the following review of GeoServer publication.
+#. Navigate to the **Styles** page.
 
-#. Start up GeoServer and open http://localhost:8080/geoserver in your Browser.
-
-#. Login to web administration using:
+#. Each time we edit a style, the contents of the associated SLD file are replaced. Rather then disrupt any of our existing styles we will create a new style. Click :guilabel:`Add a new style` and choose the following:
 
    .. list-table:: 
       :widths: 30 70
-      :stub-columns: 1
-
-      * - User:
-        - :kbd:`admin`
-      * - Password:
-        - :kbd:`geoserver`
-
-   .. image:: /style/img/layer_01_login.png
-   
-#. We missed adding the airport layer to the FOSS4G vm, so let's do so now.
-
-   Navigate to :menuselection:`Data --> Layers` to open the :guilabel:`Layers` page.
-   
-   .. image:: /style/img/layer_02_menu.png
-
-#. From the :guilabel:`Layers` page click :guilabel:`Add a new resource`
-
-   .. image:: /style/img/layer_03_add.png
-
-#. From the :guilabel:`New Layer` screen select:
-
-   .. list-table:: 
-      :widths: 30 70
-      :stub-columns: 1
-
-      * - Add layer from:
-        - :kbd:`ne:cultural`
-   
-   ..image:: img/layer_04_new.png
-
-#. From the list of available layers locate ``ne_10m_airports`` and click :guilabel:`Publish`
-
-   .. image:: /style/img/layer_05_publish.png
-   
-#. From the ``Edit Layer`` page find the section for ``Basic Resource Info`` and fill in following.
-
-   .. list-table:: 
-      :widths: 30 70
-      :stub-columns: 1
+      :header-rows: 0
 
       * - Name:
-        - :kbd:`airports`
-      * - Title:
-        - :kbd:`Airports`
-
-   .. image:: /style/img/layer_06_basic.png
-
-#. Find the ``Coordinate Reference System`` and confirm the following details.
-   
-   .. list-table:: 
-      :widths: 30 70
-      :stub-columns: 1
-
-      * - Native SRS:
-        - :kbd:`EPSG:4326`
-      * - Declared SRS:
-        - :kbd:`EPSG:4326`
-
-   .. image:: /style/img/layer_07_crs.png
-   
-   This information is determined using the :file:`prj` file (and requires the file contain an **authority** element).
-   
-#. Find the ``Bounding Boxes`` section click :guilabel:`Compute from data` followed by :guilabel:`Compute from native bounds`.
-   
-   This step is required for publication (calculating the bounds from the shape file header).
-
-   .. image:: /style/img/layer_08_bbox.png
-
-#. Scroll down and click :guilabel:`Save` to publish the `ne:airports` layer.
-
-   .. image:: /style/img/layer_09_save.png
-   
-#. Navigate to the **CSS Styles** page. This page works with two selections (style being edited and data used for preview) and provides a number of actions for style management.
-   
-   .. figure:: /style/img/css_01_actions.png
-
-      CSS Styles page
-
-#. Change our preview data to `training:airports`. This dataset will be used as a reference as we define our style.
-
-   Click :guilabel:`Choose a different layer` and select :kbd:`training:airports` from the list.
-
-   .. figure:: /style/img/css_02_choose_data.png
-
-      Choosing the airports layer
-
-#. Each time we edit a CSS style, the contents of the associated SLD file are replaced. Rather then disrupt any of our existing styles we will create a new style.
-
-   Click :guilabel:`Create a new style` and choose the following:
-
-   .. list-table:: 
-      :widths: 30 70
-      :stub-columns: 1
-
-      * - Workspace for new layer:
-        - :kbd:`No workspace`
-      * - New style name:
+        - :kbd:`point_example`
+      * - Workspace:
         - :kbd:`airport2`
-     
-   .. figure:: /style/img/css_03_new_style.png
-
-      New style
+      * - Format:
+        - :kbd:`CSS`
    
-#. The initial style sheet is:
-
-   .. code-block:: css
-   
-      * { fill: lightgrey; }
-   
-   Replace this definition with our airport CSS example:
+#. Replace the initial YSLD definition with with our airport CSS example and click :guilabel:`Apply`:
 
    .. code-block:: css
 
@@ -365,33 +263,21 @@ To confirm everything works, let's reproduce the airports style above.
         mark-mime: "image/svg";
       }
 
-#. Click :guilabel:`Submit` and then the :guilabel:`Map` tab for an initial preview.
-   
-   You can use this tab to follow along as the style is edited, it will refresh each time :guilabel:`Submit` is pressed.
+#. Click the :guilabel:`Layer Preview` tab to preview the style. We want to preview on the aiports layer, so click the name of the current layer and select :kbd:`ne:airports` from the list that appears. You can use the mouse buttons to pan and scroll wheel to change scale.
 
-   .. figure:: /style/img/css_04_edit.png
+   .. figure:: /style/img/css_02_choose_data.png
 
-      Editing the CSS example
-
-#. The :guilabel:`Generated SLD` shows the SLD file produced.
-
-   .. figure:: /style/img/css_05_generated.png
-
-      Generated SLD
-
-#. Click :guilabel:`Map` to preview using the selected data. You can use the mouse buttons to pan and scroll wheel to change scale.
+      Choosing the airports layer
 
    .. figure:: /style/img/css_06_preview.png
 
       Layer preview
 
-#. Click :guilabel:`Data` for a summary of the selected data.
+#. Click :guilabel:`Layer Data` for a summary of the selected data.
 
    .. figure:: /style/img/css_07_data.png
 
       Layer attributes
-
-#. Finally the :guilabel:`CSS Reference` tab embeds the :manual:`CSS Styling <extensions/css/index.html>` section of the user manual.
 
 Bonus
 -----

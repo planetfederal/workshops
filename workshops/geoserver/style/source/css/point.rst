@@ -41,7 +41,7 @@ This exercise makes use of the ``ne:populated_places`` layer.
       * - Format:
         - :kbd:`CSS`
 
-#. Replace the initial CSS definition with:
+#. Replace the initial CSS definition with the following and click :guilabel:`apply`:
 
    .. code-block:: css
 
