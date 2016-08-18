@@ -329,19 +329,34 @@ This section explores the use of attribute selectors and the :kbd:`@scale` selec
 
       [@scale < 9000000] [scalerank > 7] {
         stroke: #888888;
-        stroke-width: 2;
       }
-      [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
+
+      [@scale < 17000000] [scalerank = 7] {
         stroke: #777777;
       }
-      [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
+
+      [@scale < 35000000] [scalerank = 6] {
         stroke: #444444;
       }
-      [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
+
+      [@scale > 9000000] [@scale < 70000000] [scalerank = 5] {
         stroke: #000055;
       }
-      [@scale > 70000000] [scalerank < 4] {
+      [@scale < 9000000] [scalerank = 5] {
+        stroke: #000055;
+        stroke-width: 2
+      }
+
+      [@scale > 35000000] [scalerank < 4] {
         stroke: black;
+      }
+      [@scale > 9000000] [@scale <= 35000000] [scalerank < 4] {
+        stroke: black;
+        stroke-width: 2
+      }
+      [@scale <= 9000000] [scalerank < 4] {
+        stroke: black;
+        stroke-width: 4
       }
 
 #. As shown above selectors can be combined in the same rule:

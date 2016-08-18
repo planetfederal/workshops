@@ -358,34 +358,43 @@ To take greater control over the GeoServer rendering engine we can use "vendor s
 Scale
 -----
 
-This section explores the use of attribute selectors and the :kbd:`@scale` selector together to simplify the road dataset for display.
+This section explores the use of rules with filters and scale restrictions.
 
-#. Replace the `line_example` CSS definition with:
+#. Replace the `line_example` YSLD definition with:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      [scalerank < 4] {
-        stroke: black;
-      }
+      rules:
+      - filter: ${scalerank < 4}
+        symbolizers:
+        - line:
+            stroke-color: black
+            stroke-width: 1
+      
 
 #. And use the :guilabel:`Map` tab to preview the result.
 
    .. image:: /style/img/line_04_scalerank.png
 
-#. The **scalerank** attribute is provided by the Natural Earth dataset to allow control of the level of detail based on scale. Our selector short-listed all content with scalerank 4 or lower, providing a nice quick preview when we are zoomed out.
+#. The **scalerank** attribute is provided by the Natural Earth dataset to allow control of the level of detail based on scale. Our filter short-listed all content with scalerank 4 or lower, providing a nice quick preview when we are zoomed out.
 
 #. In addition to testing feature attributes, selectors can also be used to check the state of the rendering engine.
 
-   Replace your CSS with the following:
+   Replace your YSLD with the following:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
-      [@scale > 35000000] {
-         stroke: black;
-      }
-      [@scale < 35000000] {
-         stroke: blue;
-      }
+      rules:
+      - scale: [35000000, max]
+        symbolizers:
+        - line:
+            stroke-color: black
+            stroke-width: 1
+      - scale: [min, 35000000]
+        symbolizers:
+        - line:
+            stroke-color: blue
+            stroke-width: 1
 
 #. As you adjust the scale in the :guilabel:`Map` preview (using the mouse scroll wheel) the color will change between black and blue. You can read the current scale in the bottom right corner, and the legend will change to reflect the current style.
 
@@ -395,27 +404,75 @@ This section explores the use of attribute selectors and the :kbd:`@scale` selec
 
    .. code-block:: css
 
-      [@scale < 9000000] [scalerank > 7] {
-        stroke: #888888;
-        stroke-width: 2;
-      }
-      [@scale > 9000000] [@scale < 17000000] [scalerank < 7] {
-        stroke: #777777;
-      }
-      [@scale > 1700000] [@scale < 35000000] [scalerank < 6] {
-        stroke: #444444;
-      }
-      [@scale > 3500000] [@scale < 70000000] [scalerank < 5] {
-        stroke: #000055;
-      }
-      [@scale > 70000000] [scalerank < 4] {
-        stroke: black;
-      }
+      define: &primaryStyle
+        stroke-color: black
+      define: &primaryFilter ${scalerank <= 4}
+      
+      define: &secondaryStyle
+        stroke-color: '#000055'
+      define: &secondaryFilter ${scalerank = 5}
+      
+      rules:
+      
+        - else: true
+          scale: [min, 9000000]
+          symbolizers:
+          - line:
+              stroke-color: '#888888'
+              stroke-width: 1
+      
+        - filter: ${scalerank = 7}
+          scale: [min, 17000000]
+          symbolizers:
+          - line:
+              stroke-color: '#777777'
+              stroke-width: 1
+      
+        - filter: ${scalerank = 6}
+          scale: [min, 35000000]
+          symbolizers:
+          - line:
+              stroke-color: '#444444'
+              stroke-width: 1
+      
+        - filter: *secondaryFilter
+          scale: [9000000, 70000000]
+          symbolizers:
+          - line:
+              <<: *secondaryStyle
+              stroke-width: 1
+        - filter: *secondaryFilter
+          scale: [min, 9000000]
+          symbolizers:
+          - line:
+              <<: *secondaryStyle
+              stroke-width: 2
+      
+        - filter: *primaryFilter
+          scale: [35000000, max]
+          symbolizers:
+          - line:
+              <<: *primaryStyle
+              stroke-width: 1
+        - filter: *primaryFilter
+          scale: [9000000, 35000000]
+          symbolizers:
+          - line:
+              <<: *primaryStyle
+              stroke-width: 2
+        - filter: *primaryFilter
+          scale: [min, 9000000]
+          symbolizers:
+          - line:
+              <<: *primaryStyle
+              stroke-width: 4
 
-#. As shown above selectors can be combined in the same rule:
 
-   * Selectors separated by whitespace are combined CQL Filter AND
-   * Selectors separated by a comma are combined using CQL Filter OR
+#. When a rule has both a filter and a scale, it will trigger when both are true.
+
+   The first rule has `else: true` instead of a filter.  This causes it to be applied after all other rules have been checked if none of them worked.
+
+   Since there are some things we need to specify more than once like the colour and filter for primary and secondary roads, even as they change size at different scales, we `define` them as named chunks of YAML so they can be reused.
 
    Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
 
