@@ -8,12 +8,6 @@ GeoServer Cartography and Style
 Boundless
 ---------
 
-Presenter notes
----------------
-
-This is where you can write notes to yourself and only you will be able to see them.
-
-
 --------------------------------------------------
 
 Outline
@@ -21,11 +15,7 @@ Outline
 
 #. VirtualBox and VM setup
 #. Mapping
-#. CSS and YSLD
-#. Line
-#. Polygon
-#. Point
-#. Raster
+#. Styling
 
 Presenter notes
 ---------------
@@ -59,27 +49,82 @@ GeoServer is the reference implementation of the Open Geospatial Consortium (OGC
 Section 1: Installing
 =====================
 
-* Virtual Box Installation
-* Description of Data Directory
+* Virtual Box
+* Workshop Data
+
+--------------------------------------------------
+
+Virtual Box - Install
+=====================
+
+https://www.virtualbox.org/
+
 
 Presenter notes
 ---------------
+Download and install Virtual Box from the link.
 
-TBD
-
---------------------------------------------------
-
-Section 5: Mapping
-==================
-
-This section introduces mapping as a tool for visual communication.
+Virtual box allows you to run virtual machines on your system, simulating a native install of an OS on a physical computer.
+For this workshop, we are using Virtual box to provide a pre-configured VM with GeoServer set up to include all the necessary data and extensions.
 
 --------------------------------------------------
 
-Communication
+Virtual Box - VM Import
+=======================
+
+File > Import Appliance
+
+.. image:: img/vm_import.png
+
+Presenter Notes
+---------------
+
+Once you have installed virtualbox, import the FOSS4G_Bonn_GeoServer_64.ova.
+
+From the menu, select File > Import Appliance. Click the folder icon and locate the .ova file on your computer.
+Click "Continue", then click "Import".
+
+The FOSS4G_Bonn_GeoServer_64 should now show up in your list of VMs. Select it, and click "Start"
+
+--------------------------------------------------
+
+Virtual Box - VM Details
+========================
+
+* OS: Ubuntu 14.04 (minimal)
+* Username: foss4g
+
+Presenter Notes
+---------------
+The VM is running a minimal Ubuntu headless install, with GeoServer 2.10-M0 running in Tomcat 8.
+The Tomcat 8 service is configured to start up when the VM starts.
+
+Ports 22, 8080, and 8433 have been forwarded to localhost on your native OS. Among other things this means that you will be able to access GeoServer in your host browser without having to log into the VM.
+
+--------------------------------------------------
+
+Workshop Data
 =============
 
-What story are you trying to tell? Who are you telling the story to? And what decision are you encouraging them to make?
+* Natural Earth
+* USGS GTOPO30 DEM
+
+Presenter Notes
+---------------
+This workshop uses a subset of the Natural Earth dataset published by the North American Cartographic Information Society.
+We also use a Digital ELevation Model (DEM) from the United States Geological Survey (USGS) Global 30 Arc-Second Elevation (GTOPO30) dataset.
+This data is included with the VM, and has been preconfigured in GeoServer.
+
+Open up geoserver and select the Layer preview. Natural earth data is in the "ne" workspace. DEM is in the "usgs" workspace.
+
+Now that we have our environment set up, we will give a breif overview of mapping concepts, and then move on to CSS and YSLD styling.
+
+--------------------------------------------------
+
+Section 2: Mapping
+==================
+
+Maps are a tool for visual communication.
 
 .. image:: img/design.png
 
@@ -96,166 +141,36 @@ The practice (art and science) of using a map to communicate information. Key co
 
 --------------------------------------------------
 
-Choropleth
-==========
-
-A thematic map where areas are colored (or themed) in order to communicate differences in magnitude of a measurement.
-
-.. image:: img/map_choropleth.png
-
---------------------------------------------------
-
-Heat map
-========
-
-A visualization of point data that produces a continuous gradient and changes color intensity to show the density of recorded observations.
-
-.. image:: img/map_heatmap.png
-
---------------------------------------------------
-
-Barnes surface
-==============
-
-A continuous color gradient from a collection of quantitative point measurements.
-
-.. image:: img/map_barnes.png
-
---------------------------------------------------
-
-Cartogram
-=========
-
-Adjusts the size of each shape to illustrate a quantity, while preserving topology.
-
---------------------------------------------------
-
-Cartogram
-=========
-
-.. image:: img/map_cartogram.png
-
---------------------------------------------------
-
-
-Elevation map
+Thematic Maps
 =============
 
-Provides a direct representation of elevation, either using gray scale or by assigning an appropriate color gradient.
-
-.. image:: img/map_elevation.png
-
---------------------------------------------------
-
-Shaded relief
-=============
-
-Uses the slope and orientation of the land to approximate shadows falling over the landscape in order to reveal its form.
-
-.. image:: img/map_shaded_relief.png
+* Symbology changes on a feature-by-feature basis to illustrate attribute values
+* Multiple themes can be used to show correlations between attributes
 
 --------------------------------------------------
 
-Contour map
-===========
+Map Icons
+=========
 
-Communicates the shape of the landscape through the use of a consistent contour interval between lines.
-
-.. image:: img/map_contour.png
-
---------------------------------------------------
-
-General purpose map
-===================
-
-.. image:: img/general.png
+* In Cartography, each icon type is is its own distinct data set
+* In GIS, points of interest are often managed in a single layer, with icon choice determined by attributes of the layer
 
 --------------------------------------------------
 
-Layer
-=====
-
-A section of geographic content used to compose a map. 
-
-.. image:: img/layer.png
-
---------------------------------------------------
-
-Layer
-=====
-
-Layers are arranged into a drawing order, each drawn in turn as they are merged into the final map.
-
-.. image:: img/layer_composition.png
-
---------------------------------------------------
-
-Layer
-=====
-
-A map legend provides readers with a key to understanding what each layer represents.
-
-.. image:: img/layer_legend.png
-
---------------------------------------------------
-
-Overlay
-=======
-
-Used to add additional details to a map and highlight existing details of the map.
-
-.. image:: img/layer_overlay.png
-
---------------------------------------------------
-
-Basemap
-=======
-
-Used as a background for the comparison and display of data.
-
-.. image:: img/basemap_ne_blend.png
-
---------------------------------------------------
-
-Tile set
-========
-
-Tile sets are often used to publish a basemap, providing a context for the overlay shown on top.
-
-.. image:: img/tileset.png
-
---------------------------------------------------
-
-Zoom level
+Map Design
 ==========
 
-Increasing detail of features:
-
-* Level 0: 1:500M (Whole world)
-* Level 1: 1:250M
-* Level 2: 1:150M
-* Level 3: 1:70M
-* Level 4: 1:35M
-* Level 5: 1:15M
-* Level 6: 1:10M (State scale)
+* Cartography, like any venue for design, is a human endeavour between art and science
+* Selection of an appropriate colour palette is difficult, with a tension between what looks good and what can be understood
 
 --------------------------------------------------
 
-Feature
-=======
+Color Brewer
+============
 
-An individual geometry, with attributes.
+http://colorbrewer2.org/
 
-.. image:: img/feature.png
-
---------------------------------------------------
-
-Coverage
-========
-
-A coverage is used to record an attribute whose value changes across an area.
-
-.. image:: img/coverage_sample.png
+.. image:: ../source/design/img/color_01_brewer.png
 
 --------------------------------------------------
 
@@ -268,102 +183,62 @@ The practice of representing information using shapes, colors, and symbols on a 
 
 --------------------------------------------------
 
-Style
-=====
+Section 3: Styling
+==================
 
-* The style used when rendering data into a visualization is the result of cartographic decisions.
-* GeoServer uses **Styled Layer Descriptor (SLD)** for visualization.
+* GeoServer Styling is based on the OGC SLD Standard
+* The Symbology Encoding standard provides the terms we will be using to describe style:
+  * Stroke: borders and outlines of shapes
+  * Fill: interior of shapes
 
 --------------------------------------------------
 
-Style
-=====
-
-Line symbolizer:
+Line symbolizer
+===============
 
 .. image:: img/LineSymbolizer.png
 
 --------------------------------------------------
 
-Style
-=====
-
-Polygon symbolizer:
+Polygon symbolizer
+==================
 
 .. image:: img/PolygonSymbolizer.png
 
 --------------------------------------------------
 
-Style
-=====
-
-Point symbolizer:
+Point symbolizer
+================
 
 .. image:: img/PointSymbolizer.png
 
 --------------------------------------------------
 
-Style
-=====
-
-Text symbolizer:
+Text symbolizer
+===============
 
 .. image:: img/TextSymbolizer.png
 
 --------------------------------------------------
 
-Style
-=====
-
-Raster symbolizer:
+Raster symbolizer
+=================
 
 .. image:: img/map_contour.png
 
 --------------------------------------------------
 
-Composition
-===========
+CSS and YSLD
+============
 
-The final composition of a map is based on how the map is intended to be used.
-
-Determinations:
-
-* Projection (all have tradeoffs)
-* Scale (ratio of distance on a map to distance on the ground)
+* The CSS and YSLD extensions for GeoServer can be used to quickly generate SLD styles
+* The CSS styling language uses a CSS-like syntax
+* The YSLD Styling language uses a YAML syntax with a 1:1 correspondence with SLD
 
 --------------------------------------------------
 
-Mapping Review
-==============
-
-* A cartographer must consider the idea to communicate, the target audience, and the context in which the map is used.
-* A choropleth map is a thematic map where areas are colored to communicate differences in a measurement.
-* A heat map is a visualization of point data that produces a continuous gradient and changes color intensity to show the density of observations.
-
---------------------------------------------------
-
-Concepts Review
-=======================
-
-* A Barnes surface interpolation map constructs a continuous color gradient from a collection of quantitative point measurements.
-* An elevation map provides a direct representation of elevation.
-* A layer are sections of geographic content used to compose a map.
-* A basemap is used as a background for the comparison of data.
-
---------------------------------------------------
-
-Concepts Review
-===============
-
-* Symbology is the practice of representing information using shapes, colors and symbols on a map.
-* A style is a formal definition of how to apply symbology to features.
-* The OGC standard for styling spatial data is called Styled Layer Descriptor (SLD).
-* Scale is a ratio of distance on a map to distance on the ground.
-
---------------------------------------------------
-
-Any questions?
-==============
+Questions?
+==========
 
 --------------------------------------------------
 
