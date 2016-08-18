@@ -567,32 +567,6 @@ In a classroom setting please divide the challenges between teams (this allows u
 
       .. image:: /style/img/line_label_4.png
    
-.. admonition:: Challenge SLD Generation
-
-   #. Generate the SLD for the following CSS.
-
-      .. code-block:: css
-
-          * {
-            stroke: black;
-          }
-
-      What is unusual about the SLD code for this example?
-   
-   #. **Challenge:** Can you explain why this SLD still works as expected?
-
-   .. only:: instructor
-  
-      .. admonition:: Instructor Notes       
-
-         The generated SLD does not contain any stroke properties, even though black was specified::
-  
-            <sld:LineSymbolizer>
-              <sld:Stroke/>
-            </sld:LineSymbolizer>
-  
-         SLD considers black the default stroke color for a LineSymbolizer, so no further detail was required.
-
 .. admonition:: Challenge Classification
 
    #. The roads **type** attribute provides classification information.
@@ -647,6 +621,13 @@ In a classroom setting please divide the challenges between teams (this allows u
                    stroke-color: '#AAAAAA'
                    stroke-width: 0.5
                    <<: *common
+
+.. admonition:: Challenge One Rule Classification
+
+   #. You can save a lot of typing by doing your classification in an expression using arithmetic or the :kbd:`Recode` function
+   
+   #. **Challenge:** Create a new style and classify the roads based on their scale rank using expressions in a single rule instead of multiple rules with filters.
+
 
 .. admonition:: Challenge Label Shields
 
