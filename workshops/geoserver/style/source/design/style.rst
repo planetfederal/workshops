@@ -28,9 +28,9 @@ The SLD specification provides a default **stroke** used when drawing line strin
      <Stroke/>
    </LineSymbolizer>
 
-GeoServer includes a :file:`default_line.sld` file providing a blue stroke. This file is used when you initially set up a linestring layer.
+GeoServer includes a default :file:`line.sld` file providing a blue stroke. This file is used when you initially set up a linestring layer.
 
-From GeoServer's **default_line.sld** style:
+From GeoServer's **line.sld** style:
 
 .. code-block:: xml
 
@@ -49,9 +49,9 @@ The SLD specification provides a default gray fill, but does not supply a stroke
   
 .. image:: img/PolygonSymbolizer.svg
 
-GeoServer includes a :file:`default_polygon.sld` file providing a gray fill and a black outline. This file will be used when you initially create a polygon layer.
+GeoServer includes a default :file:`polygon.sld` file providing a gray fill and a black outline. This file will be used when you initially create a polygon layer.
 
-From GeoServer's **default_polygon.sld** style:
+From GeoServer's **polygon.sld** style:
 
 .. code-block:: xml
 
@@ -72,7 +72,7 @@ A point symbolizer documents the "mark" used to represent a point. A mark may be
   
 .. image:: img/PointSymbolizer.svg
  
-From GeoServer's default **default_point.sld** style:
+From GeoServer's default **point.sld** style:
 
 .. code-block:: xml
 

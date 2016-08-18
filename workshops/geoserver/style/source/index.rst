@@ -7,7 +7,7 @@ Welcome
 
 .. image:: img/geoserver.png
 
-This section will explore how GeoServer styling can be used for a range of creative effects. This section also introduces the CSS extension which can be used to quickly generate SLD files.
+This section will explore how GeoServer styling can be used for a range of creative effects. This section also introduces both the CSS and YSLD extensions, which provide alternate styling languages to SLD.
 
 Topics covered
 --------------
