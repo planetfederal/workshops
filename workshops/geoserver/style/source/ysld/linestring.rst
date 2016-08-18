@@ -402,7 +402,7 @@ This section explores the use of rules with filters and scale restrictions.
 
 #. Putting these two ideas together allows control of level detail based on scale:
 
-   .. code-block:: css
+   .. code-block:: yaml
 
       define: &primaryStyle
         stroke-color: black
@@ -472,9 +472,7 @@ This section explores the use of rules with filters and scale restrictions.
 
    The first rule has `else: true` instead of a filter.  This causes it to be applied after all other rules have been checked if none of them worked.
 
-   Since there are some things we need to specify more than once like the colour and filter for primary and secondary roads, even as they change size at different scales, we `define` them as named chunks of YAML so they can be reused.
-
-   Our first rule `[@scale < 9000000] [scalerank > 7]` checks that the scale is less than 9M AND scalerank is greater than 7.
+   Since there are some things we need to specify more than once like the colour and filter for primary and secondary roads, even as they change size at different scales, they are given names with `define`  so they can be reused.  The filters are inserted inline using `*name` while the style is inserted as a block with `<<: *name`
 
    .. image:: /style/img/line_06_adjust.png
    
@@ -500,62 +498,70 @@ In a classroom setting please divide the challenges between teams (this allows u
 
    #. Update `line_example` with the following:
 
-      .. code-block:: css
+      .. code-block:: yaml
 
-         * {
-           stroke: ededff;
-           stroke-width: 10;
-           label: [level] " " [name];
-           font-fill: black;
-           -gt-label-follow-line: true;
-         }
+         symbolizers:
+         - line:
+             stroke-color: '#EDEDFF'
+             stroke-width: 10
+         - text:
+             label: ${level}  ${name}
+             fill-color: '#000000'
+             x-followLine: true
+
 
    #. The property **stroke-width** has been used to make our line thicker in order to provide a backdrop for our label. 
 
-      .. code-block:: css
-         :emphasize-lines: 3
+      .. code-block:: yaml
+         :emphasize-lines: 4
       
-         * {
-           stroke: ededff;
-           stroke-width: 10;
-           label: [level] " " [name];
-           font-fill: black;
-           -gt-label-follow-line: true;
-         }
+         symbolizers:
+         - line:
+             stroke-color: '#EDEDFF'
+             stroke-width: 10
+         - text:
+             label: ${level}  ${name}
+             fill-color: '#000000'
+             placement: point
+             x-followLine: true
 
-   #. The **label** property combines combine several CQL expressions together for a longer label.
+   #. The **label** property combine several CQL expressions together for a longer label.
 
       .. code-block:: css
          :emphasize-lines: 4
 
-         * {
-           stroke: ededff;
-           stroke-width: 10;
-           label: [level] " " [name];
-           font-fill: black;
-           -gt-label-follow-line: true;
-         }
+         symbolizers:
+         - line:
+             stroke-color: '#EDEDFF'
+             stroke-width: 10
+         - text:
+             label: ${level}  ${name}
+             fill-color: '#000000'
+             x-followLine: true
 
-      The combined **label** property::
+      The expressions in the **label** property::
          
-         [level] " " [name]
+         ${level}  ${name}
          
-      Is internally represented with the **Concatenate** function::
+      are inserted into the text by combining them with the text between them using **Concatenate** function::
 
-         [Concatenate(level,' #', name)] 
+         [Concatenate(level,' ', name)] 
 
-   #. The property **-gt-label-follow-line** provides the ability of have a label exactly follow a LineString character by character.
+      This happens silently in the background.
+
+   #. The property **x-followLine** provides the ability of have a label exactly follow a LineString character by character.
 
       .. code-block:: css
-         :emphasize-lines: 6
+         :emphasize-lines: 8
       
-         * {
-           stroke: ededff;
-           stroke-width: 10;
-           label: [level] " " [name];
-           font-fill: black;
-           -gt-label-follow-line: true;
-         }
+         symbolizers:
+         - line:
+             stroke-color: '#EDEDFF'
+             stroke-width: 10
+         - text:
+             label: ${level}  ${name}
+             fill-color: '#000000'
+             x-followLine: true
 
    #. The result is a new appearance for our roads.
 
@@ -605,51 +611,42 @@ In a classroom setting please divide the challenges between teams (this allows u
 
          Here is an example:
      
-         .. code-block:: css
+         .. code-block:: yaml
      
-              [type = 'Major Highway' ] {
-                  stroke: #000088;
-                  stroke-width: 1.25;
-              }
-              [type = 'Secondary Highway' ]{
-                  stroke: #8888AA;
-                  stroke-width: 0.75;
-              }
-              [type = 'Road']{
-                  stroke: #888888;
-                  stroke-width: .75;
-              }
-              [type = 'Unknown' ]{
-                  stroke: #888888;
-                  stroke-width: 0.5;
-              }
-              * {
-                 stroke: #AAAAAA;
-                 stroke-opacity: 0.25;
-                 stroke-width: 10;
-              }
-
-.. admonition:: Challenge SLD Z-Index Generation
-
-   #. Review the SLD generated by the **z-index** example.
-   
-      .. code-block:: css
-
-         * {
-           stroke: black, #8080E6;
-           stroke-width: 5px, 3px;
-           z-index: 0, 1;
-         }
-
-   #. *Challenge:* There is an interesting trick in the generated SLD, can you explain how it works?
-
-   .. only:: instructor
-     
-      .. admonition:: Instructor Notes    
-
-         The Z-Order example produces multiple FeatureTypeSytle definitions, each acting like an "inner layer".
-  
-         Each FeatureTypeStyle is rendered into its own raster, and the results merged in order. The legend shown in the map preview also provides a hint, as the rule from each FeatureType style is shown.
+             define: &common
+               stroke-opacity: 0.25
+         
+             rules:
+             - filter: ${type = 'Major Highway'}
+               symbolizers:
+               - line:
+                   stroke-color: '#000088'
+                   stroke-width: 1.25
+                   <<: *common
+             - filter: ${type = 'Secondary Highway'}
+               symbolizers:
+               - line:
+                   stroke-color: '#8888AA'
+                   stroke-width: 0.75
+                   <<: *common
+             - filter: ${type = 'Road'}
+               symbolizers:
+               - line:
+                   stroke-color: '#888888'
+                   stroke-width: 0.75
+                   <<: *common
+             - filter: ${type = 'Unknown'}
+               symbolizers:
+               - line:
+                   stroke-color: '#888888'
+                   stroke-width: 0.5
+                   <<: *common
+             - else: true
+               symbolizers:
+               - line:
+                   stroke-color: '#AAAAAA'
+                   stroke-width: 0.5
+                   <<: *common
 
 .. admonition:: Challenge Label Shields
 
@@ -657,27 +654,36 @@ In a classroom setting please divide the challenges between teams (this allows u
    
       .. image:: /style/img/line_shield.png
    
-   #. *Challenge:* Have a look at the documentation and reproduce this technique.
+   #. *Challenge:* Have a look at the documentation for putting a graphic on a text symbolizer in SLD and reproduce this technique in YSLD.
 
    .. only:: instructor
    
       .. admonition:: Instructor Notes      
 
-         The use of a label shield is a vendor specific capability of the GeoServer rendering engine. The tricky part of this exercise is finding the documentation online ( i.e. :manual:`Styled Marks in CSS <community/css/styled-marks.html>`).
+         The use of a label shield is a vendor specific capability of the GeoServer rendering engine. The tricky part of this exercise is finding the documentation online ( i.e. :manual:`TextSymbolizer - Graphic <http://docs.geoserver.org/stable/en/user/styling/sld-reference/textsymbolizer.html#graphic>`).
          
-         .. code-block:: css
+         .. code-block:: yaml
        
-            * {
-                stroke: black,lightgray;
-                stroke-width: 3,2;
-                label: [name];
-                font-family: 'Ariel';
-                font-size: 10;
-                font-fill: black;
-                shield: symbol(square);
-            }
-            :shield {
-                fill: white;
-                stroke: black;
-                size: 18;
-            }
+             symbolizers:
+             - line:
+                 stroke-color: '#000000'
+                 stroke-width: 3
+             - line:
+                 stroke-color: '#D3D3D3'
+                 stroke-width: 2
+             - text:
+                 label: ${name}
+                 fill-color: '#000000'
+                 font-family: Ariel
+                 font-size: 10
+                 font-style: normal
+                 font-weight: normal
+                 placement: point
+                 graphic:
+                   size: 18
+                   symbols:
+                   - mark:
+                       shape: square
+                       stroke-color: '#000000'
+                       stroke-width: 1
+                       fill-color: '#FFFFFF'
