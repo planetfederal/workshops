@@ -8,9 +8,9 @@ We will now replay the same work as done in the :ref:`cmd` section, starting wit
 Workflow changes
 ----------------
 
-With the GeoGig command line interface, the workflow was Import, Add, Commit. With the plugin, all these steps are compacted into a single automatic process.
+With the GeoGig command line interface, the workflow was Import, Add, Commit. With the plugin, all these steps are compacted into a single process.
 
-When a change is made, the repository is updated, and you are prompted for a commit message, which is then added to the commit. This is a big advantage of using the plugin over the command line interface, as it leads to fewer steps (and thus less room for error). Most importantly, there will never be a situation where there is a difference between what is displayed in QGIS and the current state of the repository. It is all handled for us.
+When a change is made and ready to commit you can synchronize it with a repository. You will be prompted for a commit message, and a target repository to update. This is a big advantage of using the plugin over the command line interface, as it leads to fewer steps (and thus less room for error). Most importantly, there will never be a situation where there is a difference between what is displayed in QGIS and the current state of the repository. It is all handled for us.
 
 Making an attribute change
 --------------------------
@@ -42,9 +42,9 @@ Editing a feature
       
       Save dialog for bikepdx
 
-#. Now to add the changes to our repository. Right click the layer and go to :menuselection:`GeoGig` and select :menuselection:`Update repository with this version`
+#. Now to add the changes to our repository. Right click the layer and go to :menuselection:`GeoGig` and select :menuselection:`Sync layer with repository branch...`
 
-   .. figure:: img/commit_updaterepo.png
+   .. figure:: img/commit_geogigmenu.png
 
       Updating the repository with layer changes
 
@@ -54,7 +54,7 @@ Editing a feature
 
       Entering the commit message
 
-#. The commit will be added to the repository and you will see it in the list of commits.
+#. The commit will be added to the repository and you will see it in the list of commits in the :guilabel:`repository history`.
 
    .. figure:: img/commit_explorer.png
 
@@ -85,11 +85,15 @@ Much like the ``diff`` command mentioned before, you can see details about any c
 
       Comparison view
 
-#. Layer is selected as ``bikepdx``. It will show a single feature number, id = ``6703``. This is the ID of the feature that was edited. Click on this entry.
+#. The only layer in our repository is shown, the ``bikepdx`` layer. Click the layer to expand to show the changes. Click the ``Modified`` features to display the feature we modified, select a feature to see the changes between versions in table format.
 
-#. You will see a description of what was changed, in this case the attribute value. Also shown is a rendering of the feature in question.
+#. If the geometry has change there will be a :guilabel:`Vew Detail` button in the :guilabel:`Change type` column. Clicking this will bring up a new dialog box showing a visual of the geometry change.
 
-#. Press the ESC key to close the :guilabel:`Comparison view` window.
+   .. figure:: img/commit_geom.png
+
+      Geometry comparison view
+
+#. Close the :guilabel:`Geometry comparison` and :guilabel:`Comparison view`. The ESC key can also close the :guilabel:`Comparison view` window.
 
 Making a geometry change
 ------------------------
@@ -143,7 +147,7 @@ Editing a feature
 
 #. Select :menuselection:`Layer --> Toggle Editing` to complete the editing process. Click :guilabel:`Save` when prompted.
 
-#. At this point we still need to add our changes to the repo. Right click the layer again and select :menuselection:`Geogig --> Update repository with this version`. When asked enter a commit message and then click :guilabel:`OK`.
+#. At this point we still need to add our changes to the repo. Right click the layer again and select :menuselection:`Sync layer with repository branch...`. When asked enter a commit message and then click :guilabel:`OK`.
 
    .. figure:: img/commit_newlanemessage.png
 
@@ -160,9 +164,9 @@ Viewing the commit details
 
 #. To view details about the commit, select the commit message in the GeoGig Navigator and right-click :menuselection:`Show changes introduced by this version`. This will bring up the :guilabel:`Comparison view` again.
 
-#. Expand the ``bikepdx`` tree and click the ``6773`` entry.
+#. Expand the ``bikepdx`` tree, and click the ``Added`` entry to see the new feature.
 
-#. The window will display the attributes before the change (in this case, blank) and after the change. You may need to right click the layer and select :menuselection:`Zoom to this feature`
+#. The window will display the attributes before the change (in this case, blank) and after the change.
 
    .. figure:: img/commit_comparefeature.png
 
@@ -175,16 +179,28 @@ Rolling back a change
  
 Now let's roll back that last change.
 
-#. In the Repository explorer, right-click on the second commit (the one about the Sellwood Gap), and select :guilabel:`Revert current branch to this version`.
+#. In the :guilabel:`Layers Panel` right-click on the ``bikepdx`` layer and select :guilabel:`Revert changes introduced by a version...`. 
 
    .. figure:: img/commit_revert.png
 
-      Reverting the repository
+      Geogig menu with Revert changes option
 
-#. This will add a new commit that reverse all the changes required to restore your repository to the requested contents.
+#. Select the top commit (the feature we just added), and click :guilabel:`Ok`. 
+
+   .. figure:: img/commit_revertlast.png
+
+      Reverting the repository to before adding the new feature.
+
+#. This will update the ``bikepdx`` layer to the state it was in before the selected commit (no new feature). The map window will update, and the feature added in the previous section will be removed. But we still need to commit this change to the repository. Right click the ``bikepdx`` layer and select :menuselection:`Sync layer with repository branch...`, notice that a commit message has already been added for us. Click :guilabel:`Ok` to accept the commit.
+
+   ..figure:: img/commit_revertmsg.png
+
+      Default revert commit message
+
+#. The :guilabel:`Repository History` now shows our commit reverting the new feautre.
   
    .. figure:: img/commit_revert2.png
 
       History after revert
    
-   The map window will update, and the feature added in the previous section will be removed.
+   

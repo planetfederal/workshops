@@ -5,6 +5,14 @@ Exporting data
 
 In the command-line version of GeoGig, we needed to export the current state of the repository to the data source (overwriting what was there) every time we wanted update our view. 
 
-In QGIS, this step is accomplished by selecting a repository branch and clicking the button `Open repository in QGIS`. This will export a shapefile to the source directory, such as ``/home/boundless/data/gui/bikepdx.shp``, and overwrite the existing file.
+In QGIS we can export our layer to a number of formats supported by QGIS.
 
-.. todo:: check if/when it exports to the repo directory
+#. We can choose any version of the ``bikepdx`` layer from our available branches. Right click any commit from one of our branches in the :guilabel:`Repository History`, and select :menuselection:`Change 'bikepdx' layer to this version`.
+
+  .. figure:: img/export_layer.png
+
+     Changing the active layer to this version
+
+#. Now in the :guilabel:`Layers Panel` right click the ``bikepdx`` layer and select :menuselection:`Save As..`.
+
+#. Select the desired output format in the dialog box and click :menuselection:`Ok`.

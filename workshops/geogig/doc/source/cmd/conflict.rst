@@ -49,19 +49,16 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
 #. Start a new QGIS and load the ``bikepdx.shp``. We don't need to apply any styling.
 
-#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to the feature with the ID number ``6750``.
+#. Open the attribute table for the layer (:menuselection:`Layer --> Open Attribute Table`) and find a row that corresponds to the feature with the ID number ``1``.
 
    .. figure:: img/conflict_tablebefore.png
 
       Attribute table with highlighted feature to be modifed
 
-   .. figure:: img/conflict_feature.png
-
-      Feature to be modified
  
 #. Click the pencil on the top left of the dialog to :guilabel:`Toggle Editing`.
 
-#. Change the value of ``segmentnam`` for that feature to :kbd:`SW BOND AVE`.
+#. Change the value of ``Status`` for that feature to :kbd:`ACTIVE`.
 
    .. figure:: img/conflict_tablechange1.png
 
@@ -77,7 +74,7 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
       geogig shp import --fid-attrib ID bikepdx.shp
       geogig add bikepdx
-      geogig commit -m "Set name of SW BOND AVE bike lane."
+      geogig commit -m "Set status of BR steel bike lane to RECOMM."
 
 #. Now switch back to the ``master`` branch:
 
@@ -87,11 +84,9 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
 #. Back in our original QGIS (with the styling), open the attribute table for the layer, and verify that the change you made is not present.
 
-   .. todo:: FYI, during testing, QGIS stopped refreshing properly, and I had to restart it.
-
 #. Click the pencil to :guilabel:`Toggle Editing` again.
 
-#. Find feature ``6759`` again and change the value of ``segmentnam`` for that feature to :kbd:`BOND AVE`.
+#. Find feature ``1`` again and change the value of ``STATUS`` for that feature to :kbd:`PLANNED`.
 
    .. figure:: img/conflict_tablechange2.png
 
@@ -117,8 +112,14 @@ Conflicts usually don't need to be created; they will happen naturally. Nonethel
 
    ::
 
-      An unhandled error occurred: CONFLICT: Merge conflict in bikepdx/6750
-      Automatic merge failed. Fix conflicts and then commit the result.
+      Checking for possible conflicts...
+
+      Possible conflicts. Creating intermediate merge status...
+      1%
+
+      Saving 1 conflicts
+      CONFLICT: Merge conflict in bikepdx/1
+      Automatic merge failed. Fix conflicts and then commit result.
 
 Resolving the conflict
 ----------------------
@@ -139,12 +140,12 @@ The merge cannot continue until the conflict is resolved.
 
    ::
 
-      ---bikepdx/6759---
+      ---bikepdx/1---
       Ours
-      segmentnam:  -> BOND AVE
+      STATUS:  Recommended -> PLANNED
 
       Theirs
-      segmentnam:  -> SW BOND AVE
+      STATUS:  Recommended -> ACTIVE
 
 
    Here we see the problem: the attribute value is different for both "ours" (the ``master`` branch) and "theirs" (the ``updates`` branch.)
@@ -161,14 +162,14 @@ The merge cannot continue until the conflict is resolved.
       # Unmerged paths:
       #   (use "geogig add/rm <path/to/fid>..." as appropriate to mark resolution
       #
-      #      unmerged  bikepdx/6759
+      #      unmerged  bikepdx/1
       # 1 total.
 
 #. Because this situation is a simple one, we can just choose which commit we wish to use via the ``checkout`` command. We have seen this command earlier from switching between branches, but it can also be used to switch attributes from different branches, via the ``-p <feature>`` option coupled with either ``--ours`` or ``--theirs``. Since we want to pull in the value from the ``updates`` branch, the command is as follows:
 
    .. code-block:: console
 
-      geogig checkout -p bikepdx/6759 --theirs
+      geogig checkout -p bikepdx/1 --ours
 
    ::
 
@@ -186,15 +187,8 @@ The merge cannot continue until the conflict is resolved.
       # Unmerged paths:
       #   (use "geogig add/rm <path/to/fid>..." as appropriate to mark resolution
       #
-      #      unmerged  bikepdx/6759
+      #      unmerged  bikepdx/1
       # 1 total.
-      # Changes not staged for commit:
-      #   (use "geogig add <path/to/fid>..." to update what will be committed
-      #   (use "geogig checkout -- <path/to/fid>..." to discard changes in working directory
-      #
-      #      modified  bikepdx
-      #      modified  bikepdx/6759
-      # 2 total.
   
 #. We now need to add the feature as if it were a normal commit:
 
@@ -216,12 +210,12 @@ The merge cannot continue until the conflict is resolved.
 
    .. code-block:: console
 
-      geogig commit -m "Set name of SW BOND AVE bike lane."
+      geogig commit -m "Set status of BR Steel to be PLANNED."
 
    ::
 
       100%
-      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Set name of SW BOND AVE bike lane.
+      [4b6771d45949ce83530e0ff035c2f4713a8da6e3] Set status of BR Steel to be PLANNEDls.
       Committed, counting objects...0 features added, 1 changed, 0 deleted.
 
 #. The conflict has now been resolved. Delete the ``updates`` branch.

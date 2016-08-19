@@ -22,12 +22,56 @@ Our goal now is show the exact same workflows we saw in the :ref:`cmd` section, 
    
    The qgis-geogig-plugin will take care of running ``geogig-gateway`` as required to communicate with your repository.
 
-Now we are ready to explore the plugin.
+Starting the GeoGig server
+--------------------------
+
+The GeoGig QGIS plugin requires a running GeoGig server to connect to. For this workshop we will serve local repositories from within our VM. 
+
+#. Open a new terminal and navigate to the :file:`geogig/repos` directory, creating the :file:`repos` directory if it doesn't exist. This directory will house all the repositories for this workshop. 
+
+   .. code-block:: console
+
+      cd geogig/repos
+
+#. From within the :file:`repos` directory start the GeoGig server. Once the server is running we can connect to it from QGIS.
+
+   .. code-block:: console
+
+      cd ..
+      geogig serve -m 
+
+#. Our data manager will need a separate repository directory from the GIS analysts. We'll create this directory now and come back to it later. Open second terminal if you don't have one already and type:
+
+   .. code-block:: console
+
+      cd ~/geogig
+      mkdir qa_repos
+
+Preparing Data
+--------------
+
+Currently the GeoGig plugin requires that all data must be in ``geopackage`` format. Before continuing we will convert the :file:`bikepdx.shp` into a ``geopackage``.
+
+#. We'll use a fresh copy our shapefile, located at ``~/data/gui/`` for this section. Add the :file:`bikepdx.shp` as a :guilabel:`New Vector Layer` if it's not already in the layers panel.
+
+#. Right click the ``bikepdx`` layer and select :menuselection:`Save As`. This will open a new dialog box  with a variety of save options. We are only concerned with the :guilabel:`Format`. Select ``GeoPackage`` from the list of formats.
+
+   .. figure:: img/gui_saveas.png
+
+      Saving a shapefile as a GeoPackage
+
+#. Use the :guilabel:`Browse` button and save this in a convenient location. Such as the ``~data/gui`` folder. 
+
+#. Click :guilabel:`Ok`, the new file will be added as to the :guilabel:`Layers Panel`. We no longer need the shapefile layer and can remove it from the panel.
+
+.. note:: You can hover over each layer to identify the source of the layer.
+
+#. Now we can apply the style to the layer and add the ``OpenLayers`` plugin as we did before. 
 
 Installing the plugin 
 ---------------------
 
-You made need to add the GeoGig plugin to QGIS, this is done through the QGIS Plugin Manager. To install the plugin go to :menuselection:`Plugins -> Manage and Install Plugins`, then search for GeoGig plugin and select it, click :menuselection:`Install plugin`. The plugin is now installed and should open the Navigator window.
+You may need to add the GeoGig plugin to QGIS, this is done through the QGIS Plugin Manager. To install the plugin go to :menuselection:`Plugins -> Manage and Install Plugins`, then search for GeoGig plugin and select it, click :menuselection:`Install plugin`. The plugin is now installed and should open the Navigator window.
 
 Exploring the plugin
 --------------------
@@ -47,7 +91,7 @@ The plugin is first accessed through the ``GeoGig`` menu, which contains three o
 Setting the repo directory
 --------------------------
 
-The :guilabel:`GeoGig Settings` allows us to change some general settings for working in QGIS. The only setting we need to concern ourselves with is the :menuselection:`Base folder for repositories`. Click the browse button and select the */home/boundless/geogig/gui/repos* folder and click :guilabel:`Open`. Since we're replaying the work we did in the command line example, keeping our repos in separate directories with make our QGIS project cleaner.
+The :guilabel:`GeoGig Settings` allows us to change some general settings for working in QGIS. The only setting we need to concern ourselves with is the :menuselection:`Base folder for repositories`. Click the browse button and select the */home/boundless/geogig/repos* folder and click :guilabel:`Open`. 
 
 .. figure:: img/gui_settings.png
 
@@ -55,14 +99,27 @@ The :guilabel:`GeoGig Settings` allows us to change some general settings for wo
 
 .. note:: If we haven't set our global user name and email yet, or need to change them, we can do so here. 
 
+Connecting to a GeoGig server
+-----------------------------
+
+Before we can work with GeoGig in QGIS we must connect to a GeoGig server. We'll connect the the local server we just started.
+
+#. Click the :guilabel:`Add GeoGig Server` button.
+
+#. A new dialog box will open. Enter ``local`` as the :guilabel:`Title` and ``http://localhost:8182`` as the :guilabel:`URL`. 
+
+.. figure:: img/gui_addrepo.png
+
+   Add a new GeoGig server connection
+
 Creating a new repo
 -------------------
 
-In order to show the full lifecycle of working with repos with the plugin, we will not be using the repository stored in the ``repo`` directory, but will instead create a new one.
+In order to show the full lifecycle of working with repos with the plugin, we will not be using the repository stored in the ``repos`` directory, but will instead create a new one.
 
-#. Navigate to :menuselection:`GeoGig --> GeoGig client`.
+#. Open the :guilabel:`GeoGig Navigator`, if it is not already.
 
-#. Click :guilabel:`New Repository`.
+#. Click :guilabel:`Create new repository` button
 
    .. figure:: img/setup_repolistblank.png
 
@@ -78,23 +135,15 @@ In order to show the full lifecycle of working with repos with the plugin, we wi
 
 #. Select the ``bikepdx`` layer and :menuselection:`GeoGig --> Add layer to Repository`.
 
-#. You will then be asked which repository and for an initial commit message. 
-   
    .. figure:: img/setup_add_to_repo.png
       
       Add bikepdx to repository
+
+#. You will then be asked which repository and for an initial commit message. Only click the :guilabel:`Add layer`` button once, it takes a couple seconds to process the import.
       
    .. figure:: img/setup_firstcommit.png
 
       First commit in the repository
-
-   .. note:: When adding a new shapefile to geogig fir the first time you may be given a warning about a missing ``geogigid`` field. This field is used by the plugin in order to better track changes. Click :guilabel:`Yes` to create this column in the database table.
-
-   .. figure:: img/setup_idwarning.png
-
-      Warning about adding a geogigid field
-
-   .. todo:: Say more about the reasons to create this field.
 
 #. The repo will be created, and the data imported.
 
@@ -102,17 +151,11 @@ In order to show the full lifecycle of working with repos with the plugin, we wi
 
       Importing
 
-#. The repo will then be listed in the ``GeoGig Navigator``.
+#. The repo will then be listed in the ``GeoGig Navigator``. Notice that the GeoGig Navigator provides both a repository summary and history in the bottom half of the panel.
 
    .. figure:: img/setup_repolist.png
 
-      Repository list showing new repository
-
-#. The GeoGig Navigator provides both a repository summary and history on the right hand side.
-
-   .. figure:: img/setup_explorer.png
-
-      Selected repository showing history
+      Repository list showing new repository and commit in history
 
    It is in this dialog that we will be performing many of the operations on the GeoGig repository, taking the place of the command line tool.
 

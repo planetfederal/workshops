@@ -95,11 +95,11 @@ Now that we are working on a new branch, there should be nothing different about
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib ID ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ../data/cmd/bikepdx.shp
 
    ::
 
-      Importing from shapefile ../data/bikepdx.shp
+      Importing from shapefile ../data/cmd/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       87%
@@ -109,7 +109,7 @@ Now that we are working on a new branch, there should be nothing different about
 
       6744 features tree built in 709.9 ms
       100%
-      ../data/bikepdx.shp imported successfully.
+      ../data/cmd/bikepdx.shp imported successfully.
 
    .. code-block:: console
 

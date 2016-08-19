@@ -21,11 +21,11 @@ We must :term:`import` data into our repository for our first commit. This will 
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib ID ~/data/bikepdx.shp
+      geogig shp import --fid-attrib ID ~/data/cmd/bikepdx.shp
 
    ::
 
-      Importing from shapefile /home/qgis-user/data/bikepdx.shp
+      Importing from shapefile /home/qgis-user/data/cmd/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       93%
@@ -35,7 +35,7 @@ We must :term:`import` data into our repository for our first commit. This will 
 
       6744 features tree built in 1.206 s
       100%
-      /home/qgis-user/data/bikepdx.shp imported successfully.
+      /home/qgis-user/data/cmd/bikepdx.shp imported successfully.
 
    .. note:: Adjust the file path as necessary: ``geogig shp import ..\data\bikepdx.shp`` would be used on Windows, for example.
 

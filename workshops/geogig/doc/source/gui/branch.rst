@@ -8,13 +8,13 @@ Mirroring our work on the :ref:`command line <cmd.branch>`, we will now extend o
 Create a new branch
 -------------------
 
-By default, all work happens on the ``master`` branch. We can see that the current branch is ``master`` in the Repository Explorer, on the left side (or top, if docked).
+By default, all work happens on the ``master`` branch. We can see that the current branch is ``master`` in the Repository Explorer on the top, and the Repository History on the bottom.
 
 .. figure:: img/branch_explorer.png
 
    Repository Explorer showing master branch
 
-#. Select the latest commit and :menuselection:`Create new branch at this version`.
+#. In the :guilabel:`Repository History` select the latest commit and select :menuselection:`Create new branch at this version`.
 
    .. figure:: img/branch_create.png
 
@@ -22,36 +22,34 @@ By default, all work happens on the ``master`` branch. We can see that the curre
 
    .. note:: While we haven't talked about "tags" here, you can think of them as a special type of snapshot. A tag can be created from any branch, but one does not "work on" the tag; it remains fixed. Tags are most often used to manage data product releases, where an exact snapshot needs to be referred to in a human-readable way.
 
-#. There is also an option in this dialog to create a new branch. Click :guilabel:`Create branch`, and in the box below, enter ``sandbox``.
+#.  In the dialog box that pops up, enter ``sandbox`` as the name for the new branch.
 
    .. figure:: img/branch_createnewbranch.png
 
       Creating a new branch called sandbox
 
-#. Click :guilabel:`OK` to create the new branch. The new branch is gray (and available as a backup) while we continue to work on master. 
+#. Click :guilabel:`OK` to create the new branch. The new branch will appear in the :guilabel:`Repository Navigator`.
 
    .. figure:: img/branch_history.png
 
       Branch history
 
-#. Select the sandbox branch and :menuselection:`Make this branch the current branch`.
+#. Now when we commit changes we can select which branch to apply our changes to in the :guilabel:`Commit Dialog`.
 
-   .. figure:: img/branch_change.png
+   .. figure:: img/branch_selection.png
 
-      Branch change
-  
-#. You will see in the GeoGig Navigator that the new branch is being used.
-
-   .. figure:: img/branch_explorersandbox.png
-
-      New sandbox branch
-
-#. All commits created now will be placed on the ``sandbox`` branch, until or unless we switch to another branch.
+      Commit dialog with multiple branches
 
 Making a commit on a branch
 ---------------------------
 
-Let's add a new feature and then make a commit on this new branch.
+Let's add a new feature and then make a commit on the new branch.
+
+#. Make sure we're using the correct ``bikepdx`` version. Expand the ``sandbox`` branch in the :guilabel:`Repository Explorer` and click ``Add to QGIS``. This will refresh the map and active layer with the ``sandbox`` version.
+
+   .. figure:: img/branch_activebranch.png
+
+      Adding a version from the sandbox branch
 
 #. Add a new feature in QGIS. Refer to previous sections if necessary:
 
@@ -69,7 +67,7 @@ Let's add a new feature and then make a commit on this new branch.
       * ``facility``: ``MTRAIL``
       * ``facilityde``: ``Multi-use Trail``
 
-#. After you are happy with your changes click :guilabel:`Toggle Editing` to save your changes. Now commit them to the repository by right clicking the layer and select :menuselection:`Geogig --> Update repository with this version`. In the commit dialgo enter the following message: "New [name] bike lane added", where [name] is the name of the lane as given in the attribute.
+#. After you are happy with your changes click :guilabel:`Toggle Editing` to save your changes. Now commit them to the repository by right clicking the layer and select :menuselection:`Geogig --> Sync layer with repository branch...`. In the commit dialog, select the ``sandbox`` branch and enter the following message: "New [name] bike lane added", where [name] is the name of the feature as given in the attribute.
 
    .. figure:: img/branch_newlanemessage.png
 
@@ -79,33 +77,31 @@ Let's add a new feature and then make a commit on this new branch.
 
    .. figure:: img/branch_sandboxcommits.png
 
-      Three total commits on the sandbox branch
+      Five total commits on the sandbox branch
 
-#. The commit is only on the ``sandbox`` branch, though. 
+#. The commit is only on the ``sandbox`` branch, though.
 
-#. Select the ``master`` branch, right click it, and click :guilabel:`Make this branch the current branch`.
+#. We could use :guilabel:`Add to QGIS` to load the **master** branch layer into QGIS, as we did for the **sandbox** branch, but we'll try out another method to update the layer. Select the ``master`` branch, right click the most recent commit, and click :guilabel:`Change 'bikepdx' layer to this version`.
 
    .. figure:: img/branch_switchtomaster.png
 
       Switching to the master branch
 
-#. Notice that the most recent commit is not there.
+#. Notice that the feature we created and committed is not there.
 
 Merging branches
 ----------------
 
-If we merge the ``sandbox`` branch with the ``master`` branch, that one commit that we made will become part of the ``master`` branch. Let's do that.
+If we merge the ``sandbox`` branch with the ``master`` branch, that one commit that we made will become part of the ``master`` branch. The ``merge`` function is currently under development, we will try it out here to demonstrate it. However, we can always use the command line to merge our branches, as shown in the previous section.
 
-#. At the very top of the Repository history, you will see the sandbox branch. Right click and :menuselection:`Merge this branch into the current one`.
+#. Right-click the ``sandbox`` branch, select :guilabel:`Merge this branch into` and choose the ``master`` branch.
 
-   .. figure:: img/branch_repobuttons.png
+   .. figure:: img/branch_merge.png
+   
+    Merging the ``sandbox`` branch into ``master``
 
-      Merge sandbox into master branch
+#. We've now successfully merged our changes into the ``master`` branch. You can check the history of the ``master`` branch to see the merged commit.
 
-#. You will see that the commit from the ``sandbox`` branch is now on the ``master`` branch.
+   .. figure:: img/branch_postmerge.png
 
-   .. figure:: img/branch_commitsonmaster.png
-
-      A successful merge
-
-#. Now that our changes are on the ``master`` branch we no longer need the ``sandbox`` branch. We can delete the ``sandbox`` branch by right clicking the branch and :menuselection:`Delete this branch`.
+      The commit made on ``sandbox`` is now on the ``master`` branch.

@@ -26,28 +26,34 @@ Typically, repository clones will exist on different machines. To get a reposito
 
 In this situation, we only have a single machine, but we can still use the ``serve`` command to create the clone.
 
-#. Open a new terminal and switch to the repository directory.
-
-#. Start the GeoGig server:
+#. Open a new terminal, switch to the ``city_data`` repository directory, and create a branch called ``send``.
 
    .. code-block:: console
 
-      geogig serve
+      cd ~/geogig/repos/city_data
+      geogig branch send
+
+#. Move up to the ``repos`` directory and start the GeoGig server:
+
+   .. code-block:: console
+
+      cd ..
+      geogig serve -m
 
    ::
 
       Starting server on port 8182, use CTRL+C to exit.
 
-#. The clone is now served at ``http://localhost:8182/repos/<repo name>``. We can connect to this URL to make our clone with the ``geogig clone`` command.
+#. The repository is now served at ``http://localhost:8182/repos/<repo name>``. We can connect to this URL to make our clone with the ``geogig clone`` command.
 
 #. Return to the original terminal (leave the one above running).
 
-#. Move up one level, create a new directory called repo_clone, and clone the repository:
+#. Move up one level, create a new directory called city_clone, and clone the repository:
 
    .. code-block:: console
 
       cd ..
-      geogig clone http://localhost:8182/repos/city_data repo_clone
+      geogig clone http://localhost:8182/repos/city_data city_clone
 
    ::
 
@@ -68,7 +74,7 @@ In this situation, we only have a single machine, but we can still use the ``ser
 
    .. code-block:: console
 
-      cd repo_clone
+      cd city_clone
       geogig log --oneline
 
 .. note::
@@ -154,11 +160,9 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib ID ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ~/data/cmd/bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Added loop around Powell Butte"
-
-   .. todo:: FYI, when testing there was an extra modified feature that came along for the ride with this commit. Not sure why.
 
 #. With the commit added to the ``send`` branch, we will now send the branch itself over to the original repository, via the ``push`` command:
 
@@ -208,7 +212,10 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
    .. code-block:: console
 
       cd ..
-      cd repo_clone
+      geogig serve -m
+
+   ::
+
       geogig branch -v
 
    ::
@@ -260,29 +267,4 @@ Moreover, to summarize all that we've learned so far in this workshop, we will p
 
       Deleted branch 'send'.
 
-Repository locks
-----------------
-
-When the server is running, the repository is considered 'locked' and you may not run any operations using ``geogig`` on the command line. GeoGig does, however, let us work on the repository through a special web console that you can reach with your web-browser at http://localhost:8182/repos/<repo_name>/repo/console/. Because this presents a security risk, you must explicitly turn this feature on using the following configuration command: ``geogig config web.console.enabled true``.
-
-#. Stop the server by typing :kbd:`Ctrl-C`. 
-
-#. Activate the web console for this repository. 
-   
-   .. code-block:: console
-
-      geogig config web.console.enabled true
-
-#. Start the server again.
-   
-   .. code-block:: console
-
-      geogig serve
-   
-#. Navigate to http://localhost:8182/repos/city_data/repo/console/ in your browser.
-
-   .. figure:: img/console.png
-
-      Web console
-
-#. Check the repository logs.
+.. note:: When the server is running, the repository is considered 'locked' and you may not run any operations using ``geogig`` on the command line. 

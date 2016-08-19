@@ -3,53 +3,35 @@ Set Up
 
   .. todo:: should we have them delete the old repo's to start clean?
 
-For this workflow we will use the **repo_gui** repository from the earlier QGIS example. This time we will it act as a 'remote' repository by using the GeoGig Server.
+For this workflow we will use the **sample_repo** repository from the earlier QGIS example. This time we will it act as a 'remote' repository by using the GeoGig Server. There are some features which have yet to be implented in the current version of the plugin. We will address these by using the command line to complete certain actions.
 
-#. Open QGIS, and the GeoGig Naviagtor if it is not already open.
+#. Open QGIS, and the GeoGig Navigator if it is not already open. Start the GeoGig server if it is not running.
 
-#. In QGIS select **repo_gui** from the repository list and the most recent commit under the master branch (highest), right click it, and select :menuselection:`Create new branch at this version`.
+#. In QGIS select **sample_repo** from the repository list and the most recent commit under the master branch (highest), right click it, and select :menuselection:`Create new branch at this version`.
 
 #. Create two branches named **updates** and **review**, as we did for our previous workflow.
 
-#. Now to start the GeoGig server. Open up a terminal and change directories to our repo_gui location, then start the GeoGig server.
+#. Back in the terminal running our server, stop the server with ``Ctrl+C``. We'll create two new copies of our **sample_repo**, called **alice** and **bob**, by using the ``clone`` command. 
 
    .. code-block:: console
 
-      cd ~/geogig/repos/repogui
-      geogig serve
+       geogig clone sample_repo alice
 
-#. Back in QGIS, create three new repositories called **alice**, **bob**, and **qa**
+#. Repeat the clone command to create Bob's repository.
 
-#. To configure our repositories to use the remote server, right click **alice** and select :menuselection:`Open Sync dialog for this repository` option. 
+#. Start the GeoGig server again.
 
-   .. figure:: img/gui_opensync.png
+    .. code-block:: console
 
-      The Sync menu option
+     geogig serve -m 
 
-#. You'll see that we have no choices under `Sync with remote`, click :menuselection:`Manage Remotes` to add a connection to our server.
+#. Back in QGIS we need to refresh our list of repositories to pick up the repositories we just created.
 
-   .. figure:: img/gui_sync.png
-      :figwidth: 50%
-      :align: center
+   .. figure:: img/gui_refreshed.png
 
-      Sync dialog 
+      Repository list after refresh.
 
-#. This will open our remote manager which is currently empty. Click :menuselection:`Add remote` to add a remote. We will call it **origin** as it is the source of this repositories data. The address will be  ``http://localhost:8182/repos/repo_gui``.
-
-   .. figure:: img/gui_addremote.png
-        :figwidth: 50 %
-
-        Add remote dialog
-
-#. Our remote is now ready to use, click the ``Sync: pull and push`` button to synchronize with the remote repository. You can also use the ``pull`` button since we just want to retrieve data from our server. The master branch of **alice** is now an identical copy of the **repo_gui** master branch.
-
-#. Create Alices's **review** branch from the latest commit under the **master** branch.
-
-#. Repeat these steps for the **bob** repository, but create an **updates** branch instead of **review**.
-
-#. Repeat these steps one more time for our **qa** repository, this time create both the **review** and the **updates** branches.
-
-#. Now that we have our repositories setup and synchronized with our server, we can set the owners of our repositories. We'll do this the same way as in the command line workflow. 
+#. Now that we have our repositories setup, we can set the owners of our repositories. We'll do this the same way as in the command line workflow. Open a new terminal (so we don't have to stop the server) and navigate to the ``repos`` directory. 
 
    .. code-block:: console
 

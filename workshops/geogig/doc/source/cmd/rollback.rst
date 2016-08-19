@@ -71,13 +71,11 @@ This involves using the :term:`export` command. We will export the current state
 
 .. warning:: We will modify the shapefile while it is already open in QGIS for editing. When this occurs, QGIS will prevent any future edits in order to prevent data corruption, and consequently, we will first close our QGIS project and reopen it *after* rolling back. 
 
-#. Close QGIS, saving your project as you do.
-
 #. Export the current state of the repository:
 
    .. code-block:: console
 
-      geogig shp export -o bikepdx ../data/bikepdx.shp
+      geogig shp export -o bikepdx ../data/cmd/bikepdx.shp
 
    ::
 
@@ -85,7 +83,7 @@ This involves using the :term:`export` command. We will export the current state
       100%
       bikepdx exported successfully to bikepdx
 
-#. Open QGIS again and load the :file:`bikepdx.qgs` project.
+#. Refresh the view in QGIS using :menuselection:`View -> Refresh`. 
 
 .. figure:: img/commit_featureremoved.png
 

@@ -38,7 +38,7 @@ Let's first assume the persona of Alice, our first GIS analyst. Let's say that A
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib id bikepdx.shp
+      geogig shp import --fid-attrib ID bikepdx.shp
       geogig add bikepdx
       geogig commit -m "Accepted proposals."
 
