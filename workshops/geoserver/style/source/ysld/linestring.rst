@@ -505,10 +505,11 @@ In a classroom setting please divide the challenges between teams (this allows u
              stroke-color: '#EDEDFF'
              stroke-width: 10
          - text:
-             label: ${level}  ${name}
+             label: '${level} #${name}'
              fill-color: '#000000'
              x-followLine: true
 
+      The :kbd:`#` character is the comment character in YAML, so we have to quote strings that contain it like colours and in this expression.
 
    #. The property **stroke-width** has been used to make our line thicker in order to provide a backdrop for our label. 
 
@@ -520,7 +521,7 @@ In a classroom setting please divide the challenges between teams (this allows u
              stroke-color: '#EDEDFF'
              stroke-width: 10
          - text:
-             label: ${level}  ${name}
+             label: '${level} #${name}'
              fill-color: '#000000'
              placement: point
              x-followLine: true
@@ -535,17 +536,17 @@ In a classroom setting please divide the challenges between teams (this allows u
              stroke-color: '#EDEDFF'
              stroke-width: 10
          - text:
-             label: ${level}  ${name}
+             label: '${level} #${name}'
              fill-color: '#000000'
              x-followLine: true
 
       The expressions in the **label** property::
          
-         ${level}  ${name}
+         ${level} #${name}
          
       are inserted into the text by combining them with the text between them using **Concatenate** function::
 
-         [Concatenate(level,' ', name)] 
+         [Concatenate(level,' #', name)] 
 
       This happens silently in the background.
 
