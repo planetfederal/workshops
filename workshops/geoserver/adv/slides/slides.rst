@@ -43,7 +43,7 @@ Section 1: Background
 Presenter notes
 ---------------
 
-Before we get started with topics, let’s review what we know about GeoServer.
+Before we get started with topics, let's review what we know about GeoServer.
 
 A web mapping server is a specific subset of a web-server designed to transfer mapping data (or spatial, or geographic, or geometric data).
 
@@ -51,7 +51,7 @@ GeoServer is a web mapping server. As such, it operates as middleware between ge
 
 GeoServer can read many different data formats, both vector and raster, proprietary and open, file and database sources.
 
-What’s perhaps most important is that GeoServer acts as a format-agnostic gateway to spatial information. It standardizes its responses to the conventions of the OGC service specifications. While there are many services, the most frequently accessed are the Web Map Service (for map images) and Web Feature Service (for map data).
+What's perhaps most important is that GeoServer acts as a format-agnostic gateway to spatial information. It standardizes its responses to the conventions of the OGC service specifications. While there are many services, the most frequently accessed are the Web Map Service (for map images) and Web Feature Service (for map data).
 
 A client need only read OGC services to be able to communicate with GeoServer. GeoServer handles the requests and responses from the client, and reads the data from the sources as necessary. The client does not need to know anything about the underlying data format.
 
@@ -80,7 +80,7 @@ What is REST?
 Presenter notes
 ---------------
 
-REST stands for REpresentational State Transfer. You can take this to mean the transfer (to and from a server) of representations of an object’s state. Or, more simply, an interface for changing settings in GeoServer GeoServer has a RESTful API to and from which you can send and receive (respectively) state representations of GeoServers resource types.
+REST stands for REpresentational State Transfer. You can take this to mean the transfer (to and from a server) of representations of an object's state. Or, more simply, an interface for changing settings in GeoServer GeoServer has a RESTful API to and from which you can send and receive (respectively) state representations of GeoServers resource types.
 
 The capabilities of the REST API consist of actions (verbs) we can use to make HTTP requests combined with the configurable resources in GeoServer.
 
@@ -120,9 +120,9 @@ The top of the REST hierarchy starts here:
 
 http://localhost:8080/geoserver/rest/
 
-Throughout this workshop, we’ll assume that GeoServer is responding at http://localhost:8080/geoserver/, but all examples should work with substitution for the location of your instance.
+Throughout this workshop, we'll assume that GeoServer is responding at http://localhost:8080/geoserver/, but all examples should work with substitution for the location of your instance.
 
-Navigate to the above URL. If you haven’t logged in through the web admin interface prior to this, you’ll be asked for administrator credentials. Enter admin / geoserver and click OK.
+Navigate to the above URL. If you haven't logged in through the web admin interface prior to this, you'll be asked for administrator credentials. Enter admin / geoserver and click OK.
 
 --------------------------------------------------
 
@@ -176,7 +176,7 @@ Create a new workspace
 Presenter notes
 ---------------
 
-First, let’s create a new workspace called “advanced”. This will be used for the data that was loaded into a PostGIS database of the same name. We want to POST the following resource information to the /rest/workspaces endpoint:
+First, let's create a new workspace called “advanced”. This will be used for the data that was loaded into a PostGIS database of the same name. We want to POST the following resource information to the /rest/workspaces endpoint:
 
 <workspace>
   <name>advanced</name>
@@ -209,7 +209,7 @@ While a deep discussion of cURL is beyond the scope of this workshop, some of th
 -X/--request (the action/verb to use)
 -H/--header (header)
 
-Likewise, the output is verbose and most of it doesn’t concern us here. The most important information to glean is whether the request was successful of not. You should see the following in the response:
+Likewise, the output is verbose and most of it doesn't concern us here. The most important information to glean is whether the request was successful of not. You should see the following in the response:
 
 < HTTP/1.1 201 Created
 
@@ -241,7 +241,7 @@ File: datastore.advanced.xml
 Presenter notes
 ---------------
 
-Now that we’ve created a workspace, let’s add a store. This will be a connection to a local PostGIS database. We’ll do it in the same way as before: with a POST request through cURL. This time, though, we’re going to embed the XML payload in a file, as opposed to having it be part of the cURL command itself. Here is the content:
+Now that we've created a workspace, let's add a store. This will be a connection to a local PostGIS database. We'll do it in the same way as before: with a POST request through cURL. This time, though, we're going to embed the XML payload in a file, as opposed to having it be part of the cURL command itself. Here is the content:
 
 --------------------------------------------------
 
@@ -283,7 +283,7 @@ Add layers
 Presenter notes
 ---------------
 
-To find out what tables (layers) live in the store (if you didn’t already know), you can execute the following command using psql, the command-line PostgreSQL utility:
+To find out what tables (layers) live in the store (if you didn't already know), you can execute the following command using psql, the command-line PostgreSQL utility:
 
 The output should look like: parks, rails, roads, urban
 
@@ -353,7 +353,7 @@ Upload styles
 Presenter notes
 ---------------
 
-The layers have been published, but they are all being served using GeoServer’s default styles. The next step is load styles to be used for for each layer.
+The layers have been published, but they are all being served using GeoServer's default styles. The next step is load styles to be used for for each layer.
 
 Note: We will load styles in this step, but not yet associate them with any layers. This will be accomplished in a later step.
 
@@ -377,7 +377,7 @@ Upload all styles to GeoServer.
 
 Verify by navigating either to the appropriate REST endpoint or the UI.
 
-Note: Since we didn’t associate the styles with the layers (yet), Layer Preview will not show anything different.
+Note: Since we didn't associate the styles with the layers (yet), Layer Preview will not show anything different.
 
 --------------------------------------------------
 
@@ -448,7 +448,7 @@ As a refresher, the Web Feature Service (WFS) provides an interface allowing req
 
 With WMS, it is possible only to retrieve information (GET requests). And with basic WFS, this is true as well. But WFS can have the ability to be “transactional,” meaning that it is possible to POST information back to the server for editing.
 
-This is a very powerful feature, in that it allows for format-agnostic editing of geospatial features. One doesn’t need to know anything about the underlying data format (which database was used) in order to make edits.
+This is a very powerful feature, in that it allows for format-agnostic editing of geospatial features. One doesn't need to know anything about the underlying data format (which database was used) in order to make edits.
 
 GeoServer has full support for Transactional WFS.
 
@@ -462,13 +462,13 @@ Demo request builder
 Presenter notes
 ---------------
 
-In order to see WFS-T in action, we’ll need to create some demo requests and then POST them to the server.
+In order to see WFS-T in action, we'll need to create some demo requests and then POST them to the server.
 
-While we could use cURL for this, GeoServer has a built-in “Demo Request Builder” that has some templates that we can use. We’ll be using this interface.
+While we could use cURL for this, GeoServer has a built-in “Demo Request Builder” that has some templates that we can use. We'll be using this interface.
 
 Access the Demo Request Builder by clicking Demos in the GeoServer web interface, and then selecting Demo requests.
 
-Select any one of the items in the Request box to see the type of POST requests that are available. (Any of the requests whose title ends in .xml is a POST request. If the ending is .url, it is a GET request, which doesn’t concern us here.)
+Select any one of the items in the Request box to see the type of POST requests that are available. (Any of the requests whose title ends in .xml is a POST request. If the ending is .url, it is a GET request, which doesn't concern us here.)
 
 --------------------------------------------------
 
@@ -494,7 +494,7 @@ Simple query
 Presenter notes
 ---------------
 
-Before we test a WFS-T example, let’s do a few simple POST requests. This request is a GetFeature request for a single feature in the earth:cities layer (with an id of 3).
+Before we test a WFS-T example, let's do a few simple POST requests. This request is a GetFeature request for a single feature in the earth:cities layer (with an id of 3).
 
 Paste the following into the Body field:
 
@@ -694,7 +694,7 @@ INSERT example
 Presenter notes
 ---------------
 
-We can Insert new features into layers via WFS-T. Let’s add a new city to our earth:cities layer.
+We can Insert new features into layers via WFS-T. Let's add a new city to our earth:cities layer.
 
 --------------------------------------------------
 
@@ -1120,7 +1120,7 @@ CRSs may not be *advertised*, but they can still be used.
 Presenter notes
 ---------------
 
-Limiting advertised CRSs doesn’t turn on or off any functionality. Rather, it highlights the “suggested” CRSs for the server, and cuts down on bandwidth for a frequently accessed file. Even if you limit advertised CRSs, other CRSs will still be available to be manually requested, as in the following WMS reflector requests:
+Limiting advertised CRSs doesn't turn on or off any functionality. Rather, it highlights the “suggested” CRSs for the server, and cuts down on bandwidth for a frequently accessed file. Even if you limit advertised CRSs, other CRSs will still be available to be manually requested, as in the following WMS reflector requests:
 
 --------------------------------------------------
 
@@ -1675,11 +1675,11 @@ Presenter notes
 
 This next section discusses SQL views. Not to be confused with CQL filters, SQL views allow custom SQL queries to be saved as layers in GeoServer.
 
-A traditional way to access database data is to configure layers against either tables or database views. There may be some data preparation into tables, and database views will often include joins across tables and functions to change a data’s state, but as far as GeoServer is concerned these results as somewhat static.
+A traditional way to access database data is to configure layers against either tables or database views. There may be some data preparation into tables, and database views will often include joins across tables and functions to change a data's state, but as far as GeoServer is concerned these results as somewhat static.
 
 SQL views change this. In GeoServer, layers can be defined by SQL code. This allows for execution of custom SQL queries each time GeoServer requests the layer, so data access need not be static at all.
 
-This is similar to CQL/OGC filters, they comprise only the WHERE portion of a SQL expression, can only apply to one layer at a time, and are somewhat limited in their set of functions / predicates. SQL views don’t suffer from any of these limitations.
+This is similar to CQL/OGC filters, they comprise only the WHERE portion of a SQL expression, can only apply to one layer at a time, and are somewhat limited in their set of functions / predicates. SQL views don't suffer from any of these limitations.
 
 One other benefit to SQL views is that execution of the query is always done natively at the database level, and never in memory. This contrasts with CQL/OGC filters, which may or may not be executed at the database level dependent on whether the specific function is found. If such a function is not found, the request is executed in memory, which is a much less efficient process.
 
@@ -1951,9 +1951,9 @@ Create a new SQL view layer as above.
 
 In the View Name field, enter cities_within.
 
-For the SQL statement, enter SELECT c.name, c.geom FROM cities AS c INNER JOIN (SELECT geom FROM rivers WHERE name = '%param1%') AS r ON st_dwithin(c.geom, r.geom, %param2%).
+For the SQL statement, enter SELECT c.name, c.pop_min, c.geom FROM cities AS c INNER JOIN (SELECT geom FROM countries WHERE name = '%param1%') AS r ON st_dwithin(c.geom, r.geom, %param2%)
 
-Click Guess parameters from SQL. Two fields, param1 and param2 should appear. In the Default value box, enter Seine and 1, respectively.
+Click Guess parameters from SQL. Two fields, param1 and param2 should appear. In the Default value box, enter Germany and 0, respectively.
 
 Check the box for Guess geometry type and srid and click the Refresh link.
 
@@ -1966,7 +1966,8 @@ Cross layer SQL view
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within
+    layers=earth:shadedrelief,earth:countries,
+      earth:cities_within
 
 .. image:: ../doc/source/filtering/img/sqlviews_withinpreview.png
 
@@ -1981,7 +1982,7 @@ Click the Publishing tab and select the cities style in Default style in order t
 
 Click Save.
 
-Preview the layer. Note the only city that is returned:
+Preview the layer. Note the cities that are returned:
 
 --------------------------------------------------
 
@@ -1992,195 +1993,43 @@ Cross layer SQL view
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Thames
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:France
 
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Danube
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:Belgium
 
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Danube;param2:5
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:Belgium;param2:2
 
 Presenter notes
 ---------------
 
 Now try some other parameter values. param1 refers to the name of the city, while param2 refers to the distance to check for cities (in units of the source layer, in this case degrees):
 
---------------------------------------------------
-
-WMS dimensions
-==============
-
-* Specially-handled WMS parameters
-* **Time** and **elevation**
-
-Presenter notes
----------------
-
-This section discusses WMS dimensions. WMS dimensions are specially-handled parameters taken from attributes in a data set and utilized in WMS requests. The two dimensions handled are time and elevation.
-
-Version 1.1.0 of the WMS spec introduced the notion of time and elevation dimensions to WMS. Spatial data had always had time/date fields and attributes that represented feature elevations, but WMS lacked a decent mechanism for realizing that information.
-
-Time is a perfect candidate for special handling, as the strings themselves can be quite complex, and there are so many different representations of time to manage. The filters that would need to be created to manage these different representations would be quite cumbersome.
 
 --------------------------------------------------
 
-WMS dimensions
-==============
-
-::
-
-  1974-05-01T10:06:21.000Z
-  1974-05-01
-  1974-05
-  1974
-
-Presenter notes
----------------
-
-For example, the following are both equally valid time representations:
-
-Times are expressed in compliance with the ISO 8601 standard.
-
-Elevation, while less complicated to work with than time, is nevertheless a fundamental concept in geographical work, and one that complements the often 2D nature of data.
-
---------------------------------------------------
-
-Enabling WMS dimensions on a layer
-==================================
-
-* Edit layer
-* Dimensions tab
-* Check boxes for time/elevation
-
-Presenter notes
----------------
-
-Need images for this!
-
-GeoServer lets us access this feature of the WMS specification by allowing us to enable time and elevation dimensions on a given layer that has suitable attribute types. For example, to enable time on a layer, one attribute must be of type timestamp, while to enable elevation, an attribute need only to be a numeric field.
-
-This enabling of dimensions is done on a per-layer basis. Enabling either time, elevation, or both is allowed.
-
-Note
-
-As the requirements for elevation are so lenient, it is possible to utilize the benefits of the elevation parameter on an attribute that has nothing to do with elevation. However, the parameter's name cannot be changed from elevation=.
-
-Let's enable the time dimension on one of our layers. We'll use the advanced:globe layer for this.
-
-In the Layer list (not Layer Preview) select the advanced:globe layer for configuration editing.
-There are four tabs across the top of the screen. Click the tab that says Dimensions.
-Because our data has a timestamp field we have the option to enable the Time dimension. Likewise we need a numeric field to enable the elevation dimension. (If we didn't have a field with a date/time format, this option would have been disabled. Most but not all tables will have a numeric field, so elevation is typically enabled, but not always.)
-Check the box to enable the Time dimension.
-Select the measured_at field as the Attribute that contains our timestamps.
-Leave the End Attribute blank.
-Set the Presentation Type to List.
-Click Save.
-
-
---------------------------------------------------
-
-Query string formats
+Cross layer SQL view
 ====================
 
-::
-
-  &time=2010-12-30T08:00:00.000Z
-
-::
-
-  &time=2010-12-25T00:00:00Z/2010-12-28T00:00:00Z
-
-::
-
-  &time=2010-12-30T08:00:00Z,2010-12-25T08:00:00Z
-
-::
-
-  &time=2010-12-30T08:00:00Z,2010-12-25T08:00:00Z/2010-12-28T08:00:00Z
+.. image:: ../doc/source/filtering/img/sqlviews_withinpreview2.png
 
 Presenter notes
 ---------------
 
-Now that the layer has a properly enabled Time dimension, it is possible to make queries against that value.
-
-At single point in time:
-
-Between a range of times:
-
-Discrete time periods:
-
-Or multiple time periods:
-
-To test this, open a layer preview on the time-enabled globe layer
+This is the last example from the previous slide.
 
 --------------------------------------------------
 
-Precision of values
-===================
-
-Fully precise shows exact values:
-
-::
-
-  &time=1945-05-07T02:42:00.000Z
-
-Imprecise shows all values that match:
-
-::
-
-  &time=1980-12-08
-
-Presenter notes
----------------
-
-A parameter that is fully precise:
-
-will return features that contain a timestamp at this exact value only.
-
-A parameter that is imprecise:
-
-will return all of the features whose timestamp match that date, regardless of time.
-
-Both values, and many others of varying precision, are all ISO 8601 compliant and are thus valid for use in requests.
-
---------------------------------------------------
-
-Validity checking
-=================
-
-Values must be ISO 8601 compliant, or will cause errors:
-
-::
-
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=shadedrelief,globe&
-    format=application/openlayers&
-    time=2010-12-30T
-
-::
-
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=shadedrelief,globe&
-    format=application/openlayers&
-    time=sammy
-
-Presenter notes
----------------
-
-Values that are not ISO 8601 compliant when used in requests, will cause errors.
-
-For example, try these two requests:
-
---------------------------------------------------
 
 Section 5: Data processing and analysis
 =======================================
@@ -2265,7 +2114,7 @@ GeoServer and WPS
 Presenter notes
 ---------------
 
-GeoServer has full support for WPS. It is currently available as an extension in the community version. In the OpenGeo Suite version of GeoServer, though, it is integrated into the core without any additional work required. The functionality of both implementations are identical.
+GeoServer has full support for WPS.
 
 It should be noted that there is a difference between WPS as a standard and WPS as it is implemented. WPS as a standard is very generic, and doesn't specify any more than a framework for what is possible. It is in the implementation of WPS (and especially what processes are available) that determine how useful and powerful it can be. So while the discussion here will be on GeoServer's implementation of WPS, other products such as 52-North or Deegree may have very different implementations.
 
@@ -2336,7 +2185,7 @@ WPS example
 
 ::
 
-  POLYGON ((2 0, 1.9753766811902755 -0.3128689300804617, ...
+  POLYGON ((2 0, 1.975376681190 -0.312868930080, ...
 
 Presenter notes
 ---------------
@@ -2355,7 +2204,7 @@ Chaining processes
 
 Presenter notes
 ---------------
-
+ 
 WPS has the ability to chain multiple process together, so that the output of one becomes the input to another. This is where the power of WPS really shows.
 
 Here are some examples of some applications of chaining:
@@ -2387,34 +2236,12 @@ The benefit to the GeoServer-specific processes is that the data can already be 
 Build your own process
 ======================
 
-Option 1: Be a Java developer
-
 .. image:: ../doc/source/processing/img/wps_javadev.png
 
 Presenter notes
 ---------------
 
-There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are.
-
-There are a few options through which you can build your own processes. If you're a Java developer, you're in luck, as you can build your classes right into GeoServer.
-
---------------------------------------------------
-
-Build your own process
-======================
-
-Option 2: Use GeoScript
-
-.. image:: ../doc/source/processing/img/wps_geoscript.png
-
-Presenter notes
----------------
-
-If not, you can use something like GeoScript. GeoScript allows you to interact with GeoTools and all of its rich Java goodness within the context of your preferred scripting language, such as Python or JavaScript.
-
-You can think of GeoScript as an interpretation layer to GeoServer.
-
-GeoScript is beyond the scope of this workshop, but note that if you're comfortable in Python, JavaScript, you should be able to use GeoScript comfortably.
+There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are. Processes are written in Java.
 
 --------------------------------------------------
 
@@ -2429,7 +2256,7 @@ Presenter notes
 
 A rendering transformation allows processing to be carried out on data within the GeoServer rendering pipeline. This means that the process gets applied dynamically, between when it is accessed by GeoServer and it gets rendered as an image and shipped to your browser.
 
-A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in the process of rendering a WMS image.
+A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in during rendering a WMS image.
 
 Theoretically, any WPS process can be executed as a rendering transformation.
 
@@ -2558,20 +2385,84 @@ The rest of the content inside the FeatureTypeStyle is the symbolizer. As this S
 Example
 =======
 
-Heatmap
+Heatmap (option 1): Static WPS process
 
-::
+.. image:: ../doc/source/processing/img/rt_heatmapwpsbuilder.png
+   :width: 50%
 
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=world:urbanareas1_1&
-    format=application/openlayers
+Presenter notes
+---------------
+
+Let's create a heatmap of our earth:cities layer, showing the density of cities and their populations.
+
+To show how WPS is connected to rendering transformations, we'll perform the heatmap creation first as a static WPS and then after as a rendering transformation.
+
+The heatmap process is called vec:Heatmap. It take as input a vector layer and outputs a raster.
+
+In GeoServer, click Demos and then WPS Request Builder
+
+Under Choose process, select vec:Heatmap.
+
+Fill out the form:
+
+--------------------------------------------------
+
+Example
+=======
+
+.. image:: ../doc/source/processing/img/rt_heatmapwpsresult.png
+
+Presenter notes
+---------------
+
+Click Execute process.
+
+You will be asked to download a file. This is the GeoTIFF that was generated through the WPS process execution.
+
+We could load this file into GeoServer and then style it, but instead we can do this automatically through the rendering pipeline.
+
+You can load data into GeoServer via the gs:Import and the gs:StoreCoverage processes for vector and raster data, respectively. Using chained processes, you can chain the output of some process to one of the above to ingest the output into GeoServer in a single step.
+
+--------------------------------------------------
+
+Example
+=======
+
+Heatmap (option 2): Rendering transformation
+
+.. image:: ../doc/source/processing/img/rt_heatmapstyle.png
+   :width: 50%
+
+Presenter notes
+---------------
+
+Now let's run the same heatmap process dynamically.
+
+The process is run as a rendering transformation, which is indicated in a style. We will show examples of YSLD and its equivalent SLD.
+
+First, we'll create an equivalent to our static example. In GeoServer, click Styles, then Add a new style.
+
+For the name, type heatmap.
+
+For the format, select YSLD.
+
+Enter the following content:
+
+Notice the transform section, which calls the heatmap process and supplies all necessary parameters. Other parameters like bounding box and CRS aren't necessary because they are implied by the WMS request.
+
+--------------------------------------------------
+
+Example
+=======
 
 .. image:: ../doc/source/processing/img/rt_heatmappreview.png
 
 Presenter notes
 ---------------
 
-This layer is a heatmap. It shows a colored raster based on intensity of a given attribute.
+Click Submit.
+
+Preview the layer. Zoom and pan around the map and see how the heatmap is calculated dynamically based on the data available in the canvas:
 
 --------------------------------------------------
 
@@ -2580,114 +2471,86 @@ Example
 
 ::
 
-  <Transformation>
-    <ogc:Function name="gs:Heatmap">
-      <ogc:Function name="parameter">
-        <ogc:Literal>data</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>weightAttr</ogc:Literal>
-        <ogc:Literal>pop2000</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>radiusPixels</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>radius</ogc:Literal>
-          <ogc:Literal>100</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>pixelsPerCell</ogc:Literal>
-        <ogc:Literal>10</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputBBOX</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_bbox</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputWidth</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_width</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputHeight</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_height</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-    </ogc:Function>
-  </Transformation>
+  feature-styles:
+  - transform:
+      name: vec:Heatmap
+      params:
+        weightAttr: pop_min
+        radiusPixels: 25
+        pixelsPerCell: 5
+    rules:
+    - symbolizers:
+      - raster:
+          opacity: 1
+          color-map:
+            type: ramp
+            entries:
+            - ['#FFFFFF',1,0,white]
+            - ['#0000FF',1,0.33,blue]
+            - ['#FFCC00',1,0.66,yellow]
+            - ['#FF0000',1,1.0,red]
 
 Presenter notes
 ---------------
 
-Now let's investigate how this layer was created. Open the heatmap SLD in a text editor:
+complex styles. Here we will add some color to the heatmap.
 
-As this SLD is quite long, it's best to break it up into sections. Lines 14-53 define the rendering transformation.
+Click Styles and then click heatmap.
+
+Replace the content with the following:
+
+Note that the only difference here is in the color map ramp. Before the colors went from black to white with increasing density, but now the colors go from white through blue and yellow before maxing out at red.
+
 
 --------------------------------------------------
 
 Example
 =======
 
-::
-
-  <Rule>
-    <RasterSymbolizer>
-    <!-- specify geometry attribute of input to pass validation -->
-      <Geometry><ogc:PropertyName>the_geom</ogc:PropertyName></Geometry>
-      <Opacity>0.6</Opacity>
-      <ColorMap type="ramp" >
-        <ColorMapEntry color="#FFFFFF" quantity="0" label="nodata" opacity="0"/>
-        <ColorMapEntry color="#FFFFFF" quantity="0.02" label="nodata" opacity="0"/>
-        <ColorMapEntry color="#4444FF" quantity=".1" label="nodata"/>
-        <ColorMapEntry color="#FF0000" quantity=".5" label="values" />
-        <ColorMapEntry color="#FFFF00" quantity="1.0" label="values" />
-      </ColorMap>
-    </RasterSymbolizer>
-  </Rule>
+.. image:: ../doc/source/processing/img/rt_heatmappreviewcolor.png
 
 Presenter notes
 ---------------
 
-Lines 54-67 control the actual output symbolization:
+Click Submit.
 
-Remember that even though the input layer itself is a vector layer (verify this by appending &styles=point to the above preview request), the output of the heatmap rendering transformation is a raster layer, so that it what needs to be styled here. What we see is a color ramp for values from 0 to 1, with 0 and 0.02 being styled as nodata (transparent).
+Preview the layer again. Note the differences.
 
 --------------------------------------------------
 
-Other example
-=============
-
-``gs:PointCluster`` in ``world:volcanoes``
-
-.. image:: ../doc/source/processing/img/rt_pointstackpreview.png
-
-Presenter notes
----------------
-
-Another layer that contains rendering transformations is world:volcanoes, which uses the gs:PointCluster process to "stack" points on top of each other to minimize the number of features rendered.
 
 For more information
 ====================
 
-.. image:: ../doc/source/opengeo.png
+.. image:: ../doc/source/geoserver.png
 
-http://opengeo.org
-------------------
+http://geoserver.org
+--------------------
+
+http://boundlessgeo.com
+-----------------------
 
 Presenter notes
 ---------------
 
-OpenGeo helps to develop GeoServer and funds development through its OpenGeo Suite. Learn more at http://opengeo.org.
+Boundless helps to develop GeoServer and funds development through its products. Learn more at http://boundlessgeo.com.
 
 --------------------------------------------------
 
 Any questions?
 ==============
+
+.fx: titleslide
+
+Presenter notes
+---------------
+
+--------------------------------------------------
+
+Thanks!
+=======
+
+.fx: titleslide
 
 Presenter notes
 ---------------
