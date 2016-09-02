@@ -81,5 +81,5 @@ Style
 
 A **style** is a visualization directive for rendering geographic data. A style can contain rules for color, shape, and size, along with logic for styling certain features or points in certain ways based on attributes or scale level.
 
-Every layer must be associated with at least one style. GeoServer recognizes styles in Styled Layer Descriptor (SLD) format. The :ref:`geoserver.styling` section will go into this topic in greater detail.
+Every layer must be associated with at least one style. GeoServer natively recognizes styles in Styled Layer Descriptor (SLD) format, but can also be extended to read styles in other formats as well. The :ref:`geoserver.styling` section will go into this topic in greater detail.
 

@@ -12,25 +12,27 @@ A web mapping server can also (when allowed) return the actual geographic data t
 Sample WFS request
 ------------------
 
-The following is a sample WFS request, rendered as a HTTP GET request to a hosted GeoServer instance:
+The following is a sample WFS request, rendered as a HTTP GET request to a hosted GeoServer instance::
 
-http://suite.opengeo.org/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typename=usa:states&featureid=states.39
+  http://demo.boundlessgeo.com/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typename=topp:states&featureid=states.39
 
 The following is the same request with line breaks added for clarity::
 
-  http://suite.opengeo.org/geoserver/wfs?
+  http://demo.boundlessgeo.com/geoserver/wfs?
     service=wfs&
     version=1.1.0&
     request=GetFeature&
-    typename=usa:states&
+    typename=topp:states&
     featureid=states.39
 
 While the details of the WFS protocol are beyond the scope of this course, a quick scan of this request shows that the following information is being requested:
 
-  * Server details (WFS 1.1.0 request)
-  * Request type (GetFeature)
-  * Layer name (usa:states)
-  * Feature ID (states.39)
+* Server details (WFS 1.1.0 request)
+* Request type (GetFeature)
+* Layer name (topp:states)
+* Feature ID (states.39)
+
+.. note:: As with WMS, the order of these parameters is not important.
 
 This particular request polls the WFS for a single feature in a layer.
 
@@ -49,17 +51,17 @@ Other WFS requests
 
 A WFS request can ask for much more than just feature data. An example of another such request is to request information about the WFS server. The request is called **GetCapabilities**, and the response is known as the **capabilities document**. The capabilities document is an XML response that details the supported data layers, projections, bounding boxes, and functions available on the server.
 
-.. note:: A WFS capabilities document is not the same as a WMS capabilities document. One displays information about image formats, the other about feature data.
+.. note:: A WFS capabilities document is not the same as a WMS capabilities document. One displays information about image formats; the other about feature data.
 
-The following is a sample WFS GetCapabilities request:
+The following is a sample WFS GetCapabilities request::
 
-http://suite.opengeo.org/geoserver/wfs?service=WFS&version=1.1.0&request=GetCapabilities
+  http://demo.boundlessgeo.com/geoserver/wfs?service=WFS&version=2.0.0&request=GetCapabilities
 
 And the same request, with line breaks added for clarity::
 
-  http://suite.opengeo.org/geoserver/wfs?
+  http://demo.boundlessgeo.com/geoserver/wfs?
     service=WFS&
-    version=1.1.0&
+    version=2.0.0&
     request=GetCapabilities
 
 You can paste this request into a browser to see the result.

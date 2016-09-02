@@ -3,12 +3,16 @@
 Tour of the interface
 =====================
 
-In this section we will give a tour of the GeoServer Web Administration (or just "web admin") interface.
+In this section we will give a tour of the GeoServer web administration ("web admin") interface.
 
 Viewing
 -------
 
-The default location of the GeoServer web admin interface is ``http://localhost:8080/geoserver``. The initial page is called the Welcome page.
+The default location of the GeoServer web admin interface is::
+
+  http://localhost:8080/geoserver
+
+The initial page is called the Welcome page.
 
 .. figure:: img/tour_welcome.png
 
@@ -19,7 +23,7 @@ To return to the Welcome page from anywhere, just click the GeoServer logo in th
 Authentication
 --------------
 
-For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are ``admin`` and ``geoserver``, although this can and should be changed.
+For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are ``admin`` and ``geoserver``, although this can (and should) be changed.
 
 #. Log in using the default credentials.
 
@@ -33,19 +37,28 @@ For security reasons, most GeoServer configuration tasks require you to be logge
 
       GeoServer Welcome page with administrative options
 
-.. note:: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account.
+.. note:: GeoServer has a powerful and robust security system. Access to resources such as layers and configuration can be granularly applied to users and groups as desired. Security is beyond the scope of this workshop, so we will just be using the built-in admin account. Interested users can read about security in the `GeoServer documentation <http://docs.geoserver.org/stable/en/user/security/>`_.
 
 Navigation
 ----------
 
-Use the links on the left side column to manage GeoServer, its services, data, security settings, and more. Also on the main page are direct links to the capabilities documents for each service (:ref:`WFS <geoserver.overview.wfs>`, :ref:`WMS <geoserver.overview.wms>`, :ref:`WCS <geoserver.overview.other>`). We will be using the links on the left under :guilabel:`Data`—among them :guilabel:`Layer Preview`, :guilabel:`Workspaces`, :guilabel:`Stores`, :guilabel:`Layers`, :guilabel:`Layer Groups`, and :guilabel:`Styles`—very often in this workshop, so it is good to familiarize yourself with their location.
+Use the links on the left side column to manage the GeoServer application, its services, data, security settings, and more. Also on the main page are direct links to the capabilities documents for each service, such as the Web Map Service (WMS) and Web Feature Service (WFS).
+
+We will be using the links on the left under :guilabel:`Data` very often in this workshop, among them:
+
+* :guilabel:`Layer Preview`
+* :guilabel:`Workspaces`
+* :guilabel:`Stores`
+* :guilabel:`Layers`
+* :guilabel:`Layer Groups`
+* :guilabel:`Styles`
 
 .. _geoserver.webadmin.layerpreview:
 
 Layer Preview
 -------------
 
-You can use the :guilabel:`Layer Preview` link to easily view layers currently being served by GeoServer. The Layer Preview pages includes quick links to viewing layers via OpenLayers along with other services.
+You can use the :guilabel:`Layer Preview` link to easily view layers currently being published by GeoServer. The Layer Preview pages includes quick links to viewing layers via OpenLayers along with other services.
 
 #. Click the :guilabel:`Layer Preview` link, located on the left side under :guilabel:`Data`.
 
@@ -68,11 +81,11 @@ You can use the :guilabel:`Layer Preview` link to easily view layers currently b
 Logs
 ----
 
-GeoServer displays the contents of the application logs directly through the web interface. Reading the logs can be very helpful when troubleshooting. To view the logs, click on :guilabel:`GeoServer Logs` on the left under :guilabel:`About & Status`.
+GeoServer displays the contents of the application logs directly through the web interface. Reading the logs can be very helpful when troubleshooting. To view the logs, click :guilabel:`GeoServer Logs` under :guilabel:`About & Status`.
 
 .. figure:: img/tour_logs.png
 
-   View the GeoServer application logs
+   Viewing the GeoServer application logs
 
 More settings
 -------------
@@ -82,7 +95,7 @@ Spend some time exploring this interface and its features by clicking through th
 Bonus
 -----
 
-The following information can all be gleaned through the GeoServer web admin interface.
+The following information can all be gleaned through the GeoServer web admin interface. Can you find out this info?
 
 * What is the filesystem path to the GeoServer data directory?
 * What version of Java is GeoServer using?

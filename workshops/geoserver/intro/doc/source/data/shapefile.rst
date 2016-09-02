@@ -10,9 +10,9 @@ Adding a single shapefile to GeoServer is one of the simplest data loading tasks
 Adding a store
 --------------
 
-First, we need to load a shapefile :term:`store`. In GeoServer terminology, a shapefile is a store that contains a single :term:`layer`. (Refer to the :ref:`geoserver.overview.concepts` section if necessary.) We must add the store to GeoServer first before we can publish the layer that the store contains.
+First, we need to load a shapefile :term:`store`. In GeoServer terminology, a shapefile is a store that contains a single :term:`layer`. (Refer to the :ref:`geoserver.overview.concepts` section if necessary.) We must first add the store to GeoServer before we can publish the layer that the store contains.
 
-#. From the :ref:`geoserver.webadmin` page, click the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
+#. Click the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
 
    .. figure:: img/shp_storeslink.png
 
@@ -34,7 +34,6 @@ First, we need to load a shapefile :term:`store`. In GeoServer terminology, a sh
 
    .. list-table::
       :header-rows: 1
-      :widths: 30 30 40
 
       * - Field
         - Value
@@ -52,7 +51,7 @@ First, we need to load a shapefile :term:`store`. In GeoServer terminology, a sh
         - "The countries of the world"
         - Layer metadata is recommended but not required
 
-#. In the box marked :guilabel:`URL`, type in the full path to the shapefile if known, or click the :guilabel:`Browse...` button to navigate to the file. The file path may be something like::
+#. In the box marked :guilabel:`URL`, type the full path to the shapefile if known, or click the :guilabel:`Browse...` button to navigate to the file. The file path may be something like::
 
       C:\Users\<username>\Desktop\geoserver_workshop\data\countries.shp
 
@@ -95,25 +94,21 @@ We have loaded the shapefile store, but our layer has yet to be published. We'll
 
       Configuring a new layer (Part 2)
 
-   .. figure:: img/shp_layerconfig3.png
-
-      Configuring a new layer (Part 3)
-
 #. When finished, click :guilabel:`Save`.
 
-#. Your shapefile is now published with GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview`. Click the :guilabel:`Layer Preview` link.
+#. Your shapefile is now published. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview`. Click the :guilabel:`Layer Preview` link.
 
    .. figure:: ../webadmin/img/tour_layerpreviewlink.png
 
       Click to go to the Layer Preview page
 
-#. A list of published layers is displayed. Find the layer in the list, and select :guilabel:`OpenLayers` in the select box if it isn't already selected. Click the :guilabel:`Go` link next to the select box.
+#. A list of published layers is displayed. Find the layer in the list, and click the :guilabel:`OpenLayers` link next to the layer.
 
    .. figure:: img/shp_layerpreviewpage.png
 
       Layer Preview page
 
-   .. note:: Lists in GeoServer are paged at 25 items at a time. If you can't find the layer, you may need to click the :guilabel:`[2]` or :guilabel:`[>]` buttons. Alternately, type "earth" in the search box at the top to narrow the list.
+   .. note:: While not specifically relevant here, lists in GeoServer are paged at 25 items at a time. If you ever can't find the layer, you can either page the list, or use the search box to narrow down the results.
 
 #. A new tab in your browser will open up, showing your layer inside an OpenLayers application. You can use your mouse to zoom and pan, and can also click the features in the window to display attribute information.
 

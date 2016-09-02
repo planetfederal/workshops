@@ -10,7 +10,7 @@ In this section, we will load the rest of our workshop data by using the Layer I
 Layer Importer
 --------------
 
-#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking on the :guilabel:`Import Data` link on the left side of the page.
+#. Navigate to the Layer Importer. This is accessible in the :ref:`geoserver.webadmin` by clicking the :guilabel:`Import Data` link on the left side of the page.
 
    .. figure:: ../webadmin/img/quickload_importerlink.png
 
@@ -36,7 +36,9 @@ Layer Importer
 
       Importer directory form filled out
 
-#. You will see a list of shapefiles contained in that directory. **Make sure to uncheck the ``countries`` and ``shadedrelief`` layers!** Failure to do this will cause GeoServer to try to load a layer with the same name as one already loaded ("``earth:countries``" and ``earth:shadedrelief``). While this won't cause an error, it may cause confusion later on in the workshop.
+#. You will see a list of shapefiles contained in that directory. Check *only* the ``cities`` and ``ocean`` layers.
+
+   .. warning:: Checking all of the layers will cause some of them to be loaded twice. While this won't cause an error, it may cause confusion later on in the workshop.
 
    .. figure:: img/importer_select.png
 
@@ -57,32 +59,17 @@ Layer Importer
 All of our layers are now loaded into GeoServer.
 
 Bonus
-~~~~~
+-----
 
-The OpenGeo Suite comes with a PostGIS database called "medford" that contains a single database table. Use the Layer Importer to load this layer into GeoServer, using the following credentials:
+The Layer Importer also has the ability to take source data, import it into a PostGIS database, and then publish the layers that way, as opposed to publishing the data directly from its source files.
 
-.. list-table::
+To see this in action. Create a new PostGIS database, add it as a store in GeoServer, and then use the Layer Importer, selecting that store as the target. 
 
-   * - username
-     - ``postgres``
-   * - password
-     - [None]
-   * - port
-     - ``54321``
 
 Other ways of loading layers
 ----------------------------
 
-There are even more ways to load data into GeoServer.
+There are other ways to load data into GeoServer.
 
-Directory of shapefiles
-~~~~~~~~~~~~~~~~~~~~~~~
-
-In the list of possible data sources (in the :guilabel:`Add new store` page), there is an option for :guilabel:`Directory of spatial files (shapefiles)`. This allows you to load a directory of shapefiles as a single store, with each individual file inside the directory being a publishable layer. Using a single store has its advantages, but each layer still needs to be configured manually, so it can still be inefficient for many layers.
-
-REST
-~~~~
-
-GeoServer also has a full RESTful API for loading and configuring GeoServer. With this interface, one can create scripts (via bash, PHP, etc) to batch load and configure any number of files.
-
-The REST interface is beyond the scope of an introductory workshop, but those interested can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/rest/.
+* **Directory of shapefiles** - In the list of possible data sources (the :guilabel:`Add new store` page), there is an option for :guilabel:`Directory of spatial files (shapefiles)`. This allows you to load a directory of shapefiles as a single store, with each individual file inside the directory being a publishable layer. Using a single store has its advantages, but each layer still needs to be configured manually, so it can still be inefficient for many layers.
+* **REST API** - GeoServer also has a full REST API for loading and configuring GeoServer. With this interface, one can create scripts (via bash, PHP, etc) to batch load and configure any number of files, or just manually load content. The REST interface is beyond the scope of an introductory workshop, but those interested can read the REST section of the GeoServer documentation at http://docs.geoserver.org/stable/en/user/rest/.

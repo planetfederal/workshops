@@ -21,40 +21,44 @@ In the previous sections, we loaded and published a few layers. Now we'll use a 
 
       Layer Groups page
 
-#. Fill out the following form:
+#. We will fill out the following form. In the :guilabel:`Name` field, enter :guilabel:`earthmap`.
 
-   #. In the :guilabel:`Name` field, enter :guilabel:`earthmap`.
+#. In the :guilabel:`Workspace` field, enter :guilabel:`earth`.
 
-   #. In the :guilabel:`Workspace` field, enter :guilabel:`earth`.
+#. Skip the :guilabel:`Bounds` and :guilabel:`Coordinate Reference System` sections for now.
 
-   #. Skip the :guilabel:`Bounds` section for now.
-
-   #. Now we will add layers to our layer group. Click the :guilabel:`Add Layer...` link.
+#. Now we will add layers to our layer group. Click the :guilabel:`Add Layer...` link.
  
-   #. Select each of the following layers so that they appear in this order:
+#. Select each of the following layers so that they appear in this order:
 
-      * :guilabel:`earth:shadedrelief`
-      * :guilabel:`earth:ocean`
-      * :guilabel:`earth:countries`
-      * :guilabel:`earth:cities`
+   * :guilabel:`earth:shadedrelief`
+   * :guilabel:`earth:ocean`
+   * :guilabel:`earth:countries`
+   * :guilabel:`earth:cities`
 
-      .. figure:: img/layergroup_layerchooser.png
+   .. figure:: img/layergroup_layerchooser.png
 
-         Choosing the layers to include in the layer group
+      Choosing the layers to include in the layer group
 
-      Layer order is important. The **top layer in the list will be drawn first, the bottom last**. Make sure to match the order of the above list. Reorder the layers if necessary by clicking on the :guilabel:`Position` arrows for each layer.
+   .. warning:: There are two layers named ``countries``, but only one is in the ``earth`` workspace. Make sure you pick the correct one!
 
-      .. note:: It will be much easier to use the search box to narrow down the list.
+   Layer order is important. The **top layer in the list will be drawn first**. Make sure to match the order of the above list. Reorder the layers if necessary by clicking the :guilabel:`Position` arrows for each layer. Use the search box to narrow down the list if necessary.
 
-   #. Check the :guilabel:`Default style` box for every layer.
+   .. note:: This order is the opposite of the way that mapping applications respect drawing order. In most mapping applications, the top layer is drawn last so that it is "on top".
 
-   #. Now go back to the :guilabel:`Bounds` section and click the :guilabel:`Generate Bounds` button. This will determine the bounding box for the entire layer group. This is why we waited to do this until all layers were added to the layer group.
+#. Check the :guilabel:`Default style` box for every layer.
 
-   #. Leave all other areas as their defaults for now. The form should look like this:
+#. Now go back to the :guilabel:`Bounds` section and click the :guilabel:`Generate Bounds` button. This will determine the bounding box for the entire layer group. This is why we waited to do this until all layers were added to the layer group.
 
-      .. figure:: img/layergroup_new.png
+#. Leave all other areas as their defaults for now. The form should look like this:
 
-         New layer group configuration
+   .. figure:: img/layergroup_new1.png
+
+      New layer group configuration (Part 1)
+
+   .. figure:: img/layergroup_new2.png
+
+      New layer group configuration (Part 2)
 
 #. Scroll down to the bottom of the page and click :guilabel:`Save`.
 

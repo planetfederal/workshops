@@ -1,0 +1,44 @@
+name: fourcolormap
+feature-styles:
+- name: name
+  rules:
+  - name: Rule01
+    title: Color 1
+    filter: ${map_color >= '0' AND map_color < '3'}
+    scale: [min, max]
+    symbolizers:
+    - polygon:
+        stroke-color: '#000000'
+        stroke-width: 0.5
+        fill-color: '#A6CEE3'
+        fill-opacity: 0.5
+  - name: Rule02
+    title: Color 2
+    filter: ${map_color >= '3' AND map_color < '7'}
+    scale: [min, max]
+    symbolizers:
+    - polygon:
+        stroke-color: '#000000'
+        stroke-width: 0.5
+        fill-color: '#1F78B4'
+        fill-opacity: 0.5
+  - name: Rule03
+    title: Color 3
+    filter: ${map_color >= '7' AND map_color < '11'}
+    scale: [min, max]
+    symbolizers:
+    - polygon:
+        stroke-color: '#000000'
+        stroke-width: 0.5
+        fill-color: '#B2DF8A'
+        fill-opacity: 0.5
+  - name: Rule04
+    title: Color 4
+    filter: ${map_color >= '11' AND map_color < '14'}
+    scale: [min, max]
+    symbolizers:
+    - polygon:
+        stroke-color: '#000000'
+        stroke-width: 0.5
+        fill-color: '#33A02C'
+        fill-opacity: 0.5

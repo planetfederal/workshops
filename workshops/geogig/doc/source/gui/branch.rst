@@ -69,13 +69,13 @@ Let's add a new feature and then make a commit on this new branch.
       * ``facility``: ``MTRAIL``
       * ``facilityde``: ``Multi-use Trail``
 
-#. When you :guilabel:`Toggle Editing` to save the changes, GeoGig will notice and ask for a commit message. Enter the following message: "New [name] bike lane added", where [name] is the name of the lane as given in the attribute.
+#. After you are happy with your changes click :guilabel:`Toggle Editing` to save your changes. Now commit them to the repository by right clicking the layer and select :menuselection:`Geogig --> Update repository with this version`. In the commit dialgo enter the following message: "New [name] bike lane added", where [name] is the name of the lane as given in the attribute.
 
    .. figure:: img/branch_newlanemessage.png
 
       Commit message
 
-#. The commit will proceed, right click on the layer and choose :menu-selection:`GeoGig --> Browse layer history` see the commits in the sandbox branch.
+#. The commit will proceed, and in the repository history under the sandbox branch the new commit will appear.
 
    .. figure:: img/branch_sandboxcommits.png
 
@@ -83,7 +83,7 @@ Let's add a new feature and then make a commit on this new branch.
 
 #. The commit is only on the ``sandbox`` branch, though. 
 
-#. Select the ``master`` branch and click :guilabel:`Make this branch the current branch`.
+#. Select the ``master`` branch, right click it, and click :guilabel:`Make this branch the current branch`.
 
    .. figure:: img/branch_switchtomaster.png
 
@@ -96,7 +96,7 @@ Merging branches
 
 If we merge the ``sandbox`` branch with the ``master`` branch, that one commit that we made will become part of the ``master`` branch. Let's do that.
 
-#. At the very top of the Repository history, you will see the sandbox branch. Right click and :menuselection:`Make this branch the current branch`.
+#. At the very top of the Repository history, you will see the sandbox branch. Right click and :menuselection:`Merge this branch into the current one`.
 
    .. figure:: img/branch_repobuttons.png
 
@@ -108,5 +108,4 @@ If we merge the ``sandbox`` branch with the ``master`` branch, that one commit t
 
       A successful merge
 
-.. todo:: How to delete the branch?
-
+#. Now that our changes are on the ``master`` branch we no longer need the ``sandbox`` branch. We can delete the ``sandbox`` branch by right clicking the branch and :menuselection:`Delete this branch`.

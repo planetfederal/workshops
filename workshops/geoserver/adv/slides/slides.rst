@@ -1,5 +1,5 @@
-Advanced GeoServer Configuration
-================================
+Beyond GeoServer Basics
+=======================
 
 .fx: titleslide
 
@@ -30,8 +30,8 @@ The following material will be covered in this workshop:
 * Background - Basic refresher of GeoServer interaction
 * Catalog and data operations - Learn about catalog operations such as the REST interface and Transactional WFS (WFS-T)
 * Coordinate reference system management - Learn how to manage coordinate reference systems (projections).
-* Data filtering - Create useful subsets of data using CQL/OGC filters, SQL views, and WMS dimensions.
-* Data processing and analysis - Perform spatial analysis with GeoServer using Web Processing Service (WPS) and rendering transformations. 
+* Data filtering - Create useful subsets of data using CQL/OGC filters and SQL views.
+* Data processing and analysis - Perform spatial analysis with GeoServer using the Web Processing Service (WPS) and rendering transformations. 
 
 --------------------------------------------------
 
@@ -45,13 +45,15 @@ Presenter notes
 
 Before we get started with topics, let's review what we know about GeoServer.
 
-A web-mapping server is a specific subset of a web-server designed to transfer mapping data (or spatial, or geographic, or geometric data).
+A web mapping server is a specific subset of a web-server designed to transfer mapping data (or spatial, or geographic, or geometric data).
 
-GeoServer is a web-mapping server. As such, it operates as middleware between geospatial data formats and web services.
+GeoServer is a web mapping server. As such, it operates as middleware between geospatial data formats and web services.
 
-GeoServer can read many different data formats, both vector and raster, proprietary and open.
+GeoServer can read many different data formats, both vector and raster, proprietary and open, file and database sources.
 
 What's perhaps most important is that GeoServer acts as a format-agnostic gateway to spatial information. It standardizes its responses to the conventions of the OGC service specifications. While there are many services, the most frequently accessed are the Web Map Service (for map images) and Web Feature Service (for map data).
+
+A client need only read OGC services to be able to communicate with GeoServer. GeoServer handles the requests and responses from the client, and reads the data from the sources as necessary. The client does not need to know anything about the underlying data format.
 
 
 --------------------------------------------------
@@ -78,9 +80,9 @@ What is REST?
 Presenter notes
 ---------------
 
-REST stands for REpresentational State Transfer. You can take this to mean the transfer (to and from a server) of representations of an object's state. GeoServer has a RESTful API to and from which you can send and receive (respectively) state representations of GeoServers resource types.
+REST stands for REpresentational State Transfer. You can take this to mean the transfer (to and from a server) of representations of an object's state. Or, more simply, an interface for changing settings in GeoServer GeoServer has a RESTful API to and from which you can send and receive (respectively) state representations of GeoServers resource types.
 
-The capabilities of the REST API consist of the actions (verbs) we can use to make HTTP requests combined with the configurable resources in GeoServer.
+The capabilities of the REST API consist of actions (verbs) we can use to make HTTP requests combined with the configurable resources in GeoServer.
 
 --------------------------------------------------
 
@@ -98,7 +100,6 @@ So, for each of the resources in GeoServer (workspaces, stores, layers, styles, 
 * POST to add a new resource
 * PUT to update an existing resource
 * DELETE to remove a resource
-
 
 --------------------------------------------------
 
@@ -119,9 +120,9 @@ The top of the REST hierarchy starts here:
 
 http://localhost:8080/geoserver/rest/
 
-Note: Throughout this workshop, we'll assume that GeoServer is responding at http://localhost:8080/geoserver/, but all example should work with substitution for the location of your instance.
+Throughout this workshop, we'll assume that GeoServer is responding at http://localhost:8080/geoserver/, but all examples should work with substitution for the location of your instance.
 
-Navigate here. If you haven't logged in through the web admin interface prior to this, you'll be asked for administrator credentials. Enter admin / geoserver and click OK.
+Navigate to the above URL. If you haven't logged in through the web admin interface prior to this, you'll be asked for administrator credentials. Enter admin / geoserver and click OK.
 
 --------------------------------------------------
 
@@ -129,15 +130,15 @@ Navigate here. If you haven't logged in through the web admin interface prior to
 REST endpoints
 ==============
 
-* workspaces (leads to ``/rest/workspaces``)
-* earth (leads to ``/rest/workspaces/earth.html``)
-* earth (leads to ``/rest/workspaces/earth/datastores/earth.html``)
-* cities (leads to ``/rest/workspaces/earth/datastores/earth/featuretypes/cities.html``)
+* workspaces --> ``/rest/workspaces``
+* earth --> ``.../earth.html``
+* earth --> ``.../earth/datastores/earth.html``
+* cities --> ``.../earth/datastores/earth/`` ``featuretypes/cities.html``
 
 Presenter notes
 ---------------
 
-Click on the following links to traverse the hierarchy.
+Click the following links to traverse the hierarchy.
 
 --------------------------------------------------
 
@@ -152,16 +153,13 @@ REST GET requests
 Presenter notes
 ---------------
 
-Every time we click on one of these links, we are making a GET request. Notice the format for the content we are receiving is HTML. Unless otherwise specified this is the default format for GET requests.
+Every time we click one of these links, we are making a GET request. Notice the format for the content we are receiving is HTML. Unless otherwise specified this is the default format for GET requests.
 
-GET requests are intended for navigation and discovery. However, when looking at the HTML output, few details are shown. More details can be retrieved by requesting information in a format other than HTML, such as JSON or XML. These can be specified by setting the appropriate extension to the request:
+GET requests are intended for navigation and discovery. However, when looking at the HTML output, few details are shown. More details can be retrieved by requesting information in a format other than HTML, such as JSON or XML. These can be specified by setting the appropriate extension to the request.
 
-Both JSON and XML output show more detailed information about the given resource, such as attribute names and values. XML will be used in the upcoming examples.
-
-These GET requests are "read-only", so to leverage the bi-directional nature of REST, we can use other actions. Specifically, we can transfer new state representations to a collection using POST, update existing state representations to an object using PUT, or remove resources using DELETE.
+These GET requests are “read-only”, so to leverage the bi-directional nature of REST, we can use other actions. Specifically, we can transfer new state representations (changes) to a collection using POST, update existing state representations to an object using PUT, or remove resources using DELETE.
 
 --------------------------------------------------
-
 
 REST examples
 =============
@@ -178,7 +176,7 @@ Create a new workspace
 Presenter notes
 ---------------
 
-First, let's create a new workspace called "advanced". This will be for the data that was loaded into the PostGIS database of the same name. We want to POST the following resource information to the /rest/workspaces endpoint:
+First, let's create a new workspace called “advanced”. This will be used for the data that was loaded into a PostGIS database of the same name. We want to POST the following resource information to the /rest/workspaces endpoint:
 
 <workspace>
   <name>advanced</name>
@@ -208,17 +206,16 @@ While a deep discussion of cURL is beyond the scope of this workshop, some of th
 
 -u/--user[:password] (credentials)
 -v/--verbose (show more output)
--X/--request (the action to use)
--H/--header <header>
+-X/--request (the action/verb to use)
+-H/--header (header)
 
 Likewise, the output is verbose and most of it doesn't concern us here. The most important information to glean is whether the request was successful of not. You should see the following in the response:
 
 < HTTP/1.1 201 Created
 
-You can also verify that the workspace was created through the GeoServer UI. Click on Workspaces and you should see advanced in the list.
+You can also verify that the workspace was created through the GeoServer UI. Click Workspaces and you should see advanced in the list.
 
 --------------------------------------------------
-
 
 REST examples
 =============
@@ -244,7 +241,7 @@ File: datastore.advanced.xml
 Presenter notes
 ---------------
 
-Now that we've created a workspace, let's add a store. This will be a connection to a local PostGIS database. We'll do it in the same way as before: with a POST request done through cURL. This time, though, we're going to embed the XML payload in a file. Here is the content:
+Now that we've created a workspace, let's add a store. This will be a connection to a local PostGIS database. We'll do it in the same way as before: with a POST request through cURL. This time, though, we're going to embed the XML payload in a file, as opposed to having it be part of the cURL command itself. Here is the content:
 
 --------------------------------------------------
 
@@ -264,14 +261,31 @@ Add a new store
 Presenter notes
 ---------------
 
-Note the use of -T here, which specifies that the content will be contained inside a file. This was used instead of the -d flag from the previous example, which specifies that content will be contained in the command itself. Having the content in a seaprate file can be useful for large requests or for reusable content.
+Note the use of -T here, which specifies that the content will be contained inside a file. This was used instead of the -d flag from the previous example, which specifies that content will be contained in the command itself. Having the content in a separate file can be useful for large requests or for reusable content.
 
 Note: It is also possible to use -d with @file.xml to accomplish much the same thing.
 
-Verify the request was successful by looking at the GeoServer UI. Click on Stores and you should see advanced in the list.
+Verify the request was successful by looking at the GeoServer UI. Click Stores and you should see advanced in the list.
 
 --------------------------------------------------
 
+REST examples
+=============
+
+Add layers
+
+::
+
+  psql -Upostgres --tuples-only
+    -c "select f_table_name from geometry_columns"
+    advanced
+
+Presenter notes
+---------------
+
+To find out what tables (layers) live in the store (if you didn't already know), you can execute the following command using psql, the command-line PostgreSQL utility:
+
+The output should look like: parks, rails, roads, urban
 
 REST examples
 =============
@@ -282,7 +296,7 @@ Add layers
 
   curl -v -u admin:geoserver -X
     POST -H "Content-type: text/xml"
-    -d "<featureType><name>urban</name></featureType>"
+    -d "<featureType><name>roads</name></featureType>"
     http://localhost:8080/geoserver/rest/workspaces/
       advanced/datastores/advanced/featuretypes
 
@@ -301,8 +315,7 @@ REST examples
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
-    layers=advanced:urban
-
+    layers=advanced:roads
 
 .. image:: ../doc/source/catalog/img/rest_addlayerpreview.png
 
@@ -310,8 +323,6 @@ Presenter notes
 ---------------
 
 Now, for verification purposes, not only can we view the catalog information about the layer, we should now be able to preview the layer itself. You can use the Layer Preview for this, or the WMS Reflector for simplicity:
-
-http://localhost:8080/geoserver/wms/reflect?layers=advanced:urban
 
 Note: For more information on the WMS reflector, please see the GeoServer documentation.
 
@@ -348,12 +359,27 @@ Note: We will load styles in this step, but not yet associate them with any laye
 
 The directory that contains the styles we want to load is styles/advanced. The command for uploading a style with filename of stylefile.sld is:
 
-We could repeat this for each style (just like we did when we loaded the layers), but the big advantage to the REST interface lies in its ability to script operations, so let's do that now. Here is a bash script for use on OS X or any UNIX-style system.
-
-Save this script and execute it. Verify that the script worked as promised by navigating either to the appropriate REST endpoint.
+We could repeat this for each style (just like we did when we loaded the layers), but the big advantage to the REST interface lies in its ability to script operations, so one could also use a script. Here is a bash script for use on OS X or any UNIX-style system:
 
 --------------------------------------------------
 
+REST examples
+=============
+
+Upload styles
+
+.. image:: ../doc/source/catalog/img/rest_addstyles.png
+
+Presenter notes
+---------------
+
+Upload all styles to GeoServer.
+
+Verify by navigating either to the appropriate REST endpoint or the UI.
+
+Note: Since we didn't associate the styles with the layers (yet), Layer Preview will not show anything different.
+
+--------------------------------------------------
 
 REST examples
 =============
@@ -387,14 +413,14 @@ Deleting a resource
 
   curl -v -u admin:geoserver -X POST
     -H "content-type:text/xml"
-    -d "<workspace><name>WhoompThereItIs</name></workspace>"
+    -d "<workspace><name>whoop</name></workspace>"
     http://localhost:8080/geoserver/rest/workspaces
 
 ::
 
   curl -v -u admin:geoserver -X DELETE
     http://localhost:8080/geoserver/rest/
-    workspaces/WhoompThereItIs.xml
+    workspaces/whoop.xml
 
 Presenter notes
 ---------------
@@ -403,14 +429,13 @@ We've created new resources and updated existing resources, so now let's DELETE 
 
 We can delete it with a DELETE action directly to the resource's endpoint:
 
-Beware, though, that there was no confirmation dialog in this process. The resource was immediately deleted.
+Warning: there was no confirmation dialog in this process. The resource was immediately deleted.
 
 --------------------------------------------------
 
 Transactional WFS
 =================
 
-* WFS = source code of the map
 * WFS = read-only
 * WFS-T = read/write (two way) communication
 
@@ -419,13 +444,13 @@ Through-the-web editing!
 Presenter notes
 ---------------
 
-As a refresher, the Web Feature Service (WFS) provides an interface allowing requests for geographical features across the web. You can think of WFS as providing the "source code" to the map, as opposed to Web Map Service (WMS) which returns map images.
+As a refresher, the Web Feature Service (WFS) provides an interface allowing requests for geographical features across the web. You can think of WFS as providing the “source code” to the map, as opposed to Web Map Service (WMS) which returns map images.
 
-With WMS, it is possible only to retrieve information (GET requests). And with basic WFS, this is true as well. But WFS can have the ability to be "transactional," meaning that it is possible to POST information back to the server for editing.
+With WMS, it is possible only to retrieve information (GET requests). And with basic WFS, this is true as well. But WFS can have the ability to be “transactional,” meaning that it is possible to POST information back to the server for editing.
 
 This is a very powerful feature, in that it allows for format-agnostic editing of geospatial features. One doesn't need to know anything about the underlying data format (which database was used) in order to make edits.
 
-GeoServer has full support for Transactional WFS. All major versions of WFS (1.0.0, 1.1.0, 2.0.0) are supported.
+GeoServer has full support for Transactional WFS.
 
 --------------------------------------------------
 
@@ -439,9 +464,9 @@ Presenter notes
 
 In order to see WFS-T in action, we'll need to create some demo requests and then POST them to the server.
 
-While we could use cURL for this, GeoServer has a built-in "Demo Request Builder" that has some templates that we can use. We'll be using this interface.
+While we could use cURL for this, GeoServer has a built-in “Demo Request Builder” that has some templates that we can use. We'll be using this interface.
 
-To access the Demo Request Builder, click on Demos in the GeoServer web interface, and then select Demo requests.
+Access the Demo Request Builder by clicking Demos in the GeoServer web interface, and then selecting Demo requests.
 
 Select any one of the items in the Request box to see the type of POST requests that are available. (Any of the requests whose title ends in .xml is a POST request. If the ending is .url, it is a GET request, which doesn't concern us here.)
 
@@ -453,7 +478,7 @@ Simple query
 :: 
 
   <wfs:GetFeature service="WFS" version="1.1.0"
-   xmlns:earth="http://earth.opengeo.org"
+   xmlns:earth="http://earth"
    xmlns:wfs="http://www.opengis.net/wfs"
    xmlns:ogc="http://www.opengis.net/ogc"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -494,24 +519,24 @@ Bounding box query
 
 ::
 
-    <wfs:Query typeName="earth:cities">
-      <wfs:PropertyName>earth:name</wfs:PropertyName>
-      <wfs:PropertyName>earth:pop_max</wfs:PropertyName>
-      <ogc:Filter>
-        <ogc:BBOX>
-          <ogc:PropertyName>geom</ogc:PropertyName>
-          <gml:Envelope srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-            <gml:lowerCorner>-45 -45</gml:lowerCorner>
-            <gml:upperCorner>45 45</gml:upperCorner>
-          </gml:Envelope>
-        </ogc:BBOX>
-      </ogc:Filter>
-    </wfs:Query>
+  <wfs:Query typeName="earth:cities">
+    <wfs:PropertyName>earth:name</wfs:PropertyName>
+    <wfs:PropertyName>earth:pop_max</wfs:PropertyName>
+    <ogc:Filter>
+      <ogc:BBOX>
+        <ogc:PropertyName>geom</ogc:PropertyName>
+        <gml:Envelope srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:lowerCorner>-45 -45</gml:lowerCorner>
+          <gml:upperCorner>45 45</gml:upperCorner>
+        </gml:Envelope>
+      </ogc:BBOX>
+    </ogc:Filter>
+  </wfs:Query>
 
 Presenter notes
 ---------------
 
-This example will filter the earth:cities layer on a given bounding box. Paste this example into the Body field and leave all other fields the same. Then click Submit.
+This next example will filter the earth:cities layer on a given bounding box. Paste this example into the Body field and leave all other fields the same. Then click Submit.
 
 --------------------------------------------------
 
@@ -532,13 +557,6 @@ Attribute filter query
 
 ::
 
-  <wfs:GetFeature service="WFS" version="1.0.0"
-   xmlns:earth="http://earth.opengeo.org"
-   xmlns:wfs="http://www.opengis.net/wfs"
-   xmlns:ogc="http://www.opengis.net/ogc"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://www.opengis.net/wfs
-                       http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd">
     <wfs:Query typeName="earth:cities">
       <ogc:Filter>
         <ogc:PropertyIsEqualTo>
@@ -547,7 +565,6 @@ Attribute filter query
         </ogc:PropertyIsEqualTo>
       </ogc:Filter>
     </wfs:Query>
-  </wfs:GetFeature>
 
 Presenter notes
 ---------------
@@ -573,10 +590,6 @@ DELETE example
 
 ::
 
-  <wfs:Transaction service="WFS" version="1.0.0"
-   xmlns:ogc="http://www.opengis.net/ogc"
-   xmlns:wfs="http://www.opengis.net/wfs"
-   xmlns:earth="http://earth.opengeo.org">
     <wfs:Delete typeName="earth:cities">
       <ogc:Filter>
         <ogc:PropertyIsEqualTo>
@@ -585,7 +598,7 @@ DELETE example
         </ogc:PropertyIsEqualTo>
       </ogc:Filter>
     </wfs:Delete>
-  </wfs:Transaction>
+
 
 Presenter notes
 ---------------
@@ -603,14 +616,14 @@ DELETE example
 
 ::
 
-  http://localhost:8080/geoserver/wms/reflect?layers=earth:cities&format=application/openlayers
+  http://localhost:8080/geoserver/wms/reflect?layers=earth:shadedrelief,earth:countries,earth:cities&format=application/openlayers
 
 Presenter notes
 ---------------
 
 The result you should see will look like this:
 
-You can view the result here:
+Zoom in to the Toronto area (recall that Toronto is northwest of New York, halfway between Detroit and Ottawa).
 
 --------------------------------------------------
 
@@ -619,20 +632,15 @@ UPDATE example
 
 ::
 
-  <wfs:Transaction service="WFS" version="1.0.0"
-   xmlns:earth="http://earth.opengeo.org"
-   xmlns:ogc="http://www.opengis.net/ogc"
-   xmlns:wfs="http://www.opengis.net/wfs">
     <wfs:Update typeName="earth:cities">
       <wfs:Property>
         <wfs:Name>name</wfs:Name>
-        <wfs:Value>Deluxembourg!!!</wfs:Value>
+        <wfs:Value>Deluxembourg</wfs:Value>
       </wfs:Property>
       <ogc:Filter>
         <ogc:FeatureId fid="cities.3"/>
       </ogc:Filter>
     </wfs:Update>
-  </wfs:Transaction>
 
 Presenter notes
 ---------------
@@ -655,38 +663,11 @@ UPDATE example
 Presenter notes
 ---------------
 
-The result you should see should look identical to the above response.
+You should see the same SUCCESS response as above.
 
-Preview the change here:
+You can view the result here:
 
---------------------------------------------------
-
-INSERT example
-==============
-
-::
-
-    <wfs:Insert>
-      <earth:rivers>
-        <earth:geom>
-          <gml:MultiLineString srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-            <gml:lineStringMember>
-              <gml:LineString>
-                <gml:coordinates decimal="." cs="," ts=" ">
-                  -20,0 -10,10 10,-10 20,0
-                </gml:coordinates>
-              </gml:LineString>
-            </gml:lineStringMember>
-          </gml:MultiLineString>
-        </earth:geom>
-        <earth:name>Sammy</earth:name>
-      </earth:rivers>
-    </wfs:Insert>
-
-Presenter notes
----------------
-
-We can insert new features into layers via WFS-T. Let's add a new river to our rivers layer. Paste this code into the Body field:
+Zoom in to the Luxembourg area (recall that Luxembourg is in Western Europe, between Brussels and Frankfurt):
 
 --------------------------------------------------
 
@@ -695,35 +676,64 @@ INSERT example
 
 ::
 
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=earth:rivers&
-    format=application/openlayers
-
-Presenter notes
----------------
-
-View a preview of this unlikely river here:
-
---------------------------------------------------
-
-Multiple transactions
-=====================
-
-::
-
-    <!-- BRING TORONTO BACK -->
-    <wfs:Insert>
-      <earth:cities>
+  <wfs:Insert>
+    <earth:cities>
       <earth:geom>
-        <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-          <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">
-            -79.496,43.676
+        <gml:Point
+         srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+          <gml:coordinates decimal="." cs="," ts=" ">
+           0,0
           </gml:coordinates>
         </gml:Point>
       </earth:geom>
-      <earth:name>T'rana</earth:name>
-      </earth:cities>
-    </wfs:Insert>
+      <earth:name>Null</earth:name>
+      <earth:pop_min>10000000</earth:pop_min>
+    </earth:cities>
+  </wfs:Insert>
+
+Presenter notes
+---------------
+
+We can Insert new features into layers via WFS-T. Let's add a new city to our earth:cities layer.
+
+--------------------------------------------------
+
+INSERT example
+==============
+
+.. image:: ../doc/source/catalog/img/wfst_insertpreview.png
+
+::
+
+  http://localhost:8080/geoserver/wms/reflect?
+    layers=earth:shadedrelief,earth:countries,earth:cities&
+    format=application/openlayers
+
+Presenter notes
+---------------
+
+You can view the result here (recall that 0,0 in latitude/longitude is off the coast of West Africa):
+
+--------------------------------------------------
+
+Multiple transactions
+=====================
+
+::
+
+  <!-- BRING TORONTO BACK -->
+  <wfs:Insert>
+    <earth:cities>
+    <earth:geom>
+      <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+        <gml:coordinates xmlns:gml="http://www.opengis.net/gml" decimal="." cs="," ts=" ">
+          -79.496,43.676
+        </gml:coordinates>
+      </gml:Point>
+    </earth:geom>
+    <earth:name>Toronto</earth:name>
+    </earth:cities>
+  </wfs:Insert>
 
 Presenter notes
 ---------------
@@ -737,16 +747,16 @@ Multiple transactions
 
 ::
 
-    <!-- LUXEMBOURG IS JUST OKAY -->
-    <wfs:Update typeName="earth:cities">
-      <wfs:Property>
-        <wfs:Name>name</wfs:Name>
-        <wfs:Value>Luxembourg</wfs:Value>
-      </wfs:Property>
-      <ogc:Filter>
-        <ogc:FeatureId fid="cities.3"/>
-      </ogc:Filter>
-    </wfs:Update>
+  <!-- LUXEMBOURG IS NO LONGER DELUXE -->
+  <wfs:Update typeName="earth:cities">
+    <wfs:Property>
+      <wfs:Name>name</wfs:Name>
+      <wfs:Value>Luxembourg</wfs:Value>
+    </wfs:Property>
+    <ogc:Filter>
+      <ogc:FeatureId fid="cities.3"/>
+    </ogc:Filter>
+  </wfs:Update>
 
 Presenter notes
 ---------------
@@ -760,15 +770,15 @@ Multiple transactions
 
 ::
 
-    <!-- AU REVOIR SAMMY -->
-    <wfs:Delete typeName="earth:rivers">
-      <ogc:Filter>
-        <ogc:PropertyIsEqualTo>
-          <ogc:PropertyName>earth:name</ogc:PropertyName>
-          <ogc:Literal>Sammy</ogc:Literal>
-        </ogc:PropertyIsEqualTo>
-      </ogc:Filter>
-    </wfs:Delete>
+  <!-- BEGONE NULL ISLAND  -->
+  <wfs:Delete typeName="earth:cities">
+    <ogc:Filter>
+      <ogc:PropertyIsEqualTo>
+        <ogc:PropertyName>earth:name</ogc:PropertyName>
+        <ogc:Literal>Null</ogc:Literal>
+      </ogc:PropertyIsEqualTo>
+    </ogc:Filter>
+  </wfs:Delete>
 
 Presenter notes
 ---------------
@@ -783,13 +793,13 @@ Multiple transactions
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
-    layers=earth:cities&
+    layers=earth:shadedrelief,earth:countries,earth:cities&
     format=application/openlayers
 
 Presenter notes
 ---------------
 
-Preview everything here:
+Preview the results here:
 
 --------------------------------------------------
 
@@ -858,7 +868,6 @@ Presenter notes
 ---------------
 
 There are many different ways to project a round surface on to the plane. Here are some examples:
-../_images/proj_mapprojections.png
 
 Some map projections (these images and others on this page courtesy of Wikipedia)
 
@@ -932,7 +941,7 @@ GeoServer and projections
 Presenter notes
 ---------------
 
-You can click on any entry, or use the search box to filter the list by keyword or number. Enter "yukon" in the search box and press Enter. The list will be filtered down to two options: 3578 and 3579.
+You can Click any entry, or use the search box to filter the list by keyword or number. Enter "yukon" in the search box and press Enter. The list will be filtered down to two options: 3578 and 3579.
 
 Click 3578. You will see details about this CRS, including its Well Known Text (WKT) definition. This is the formal definition of the CRS, and includes all information necessary to process geospatial data to and from this CRS. You will also see a map of the area of validity for that CRS.
 
@@ -940,8 +949,8 @@ Notice that it references the NAD83 datum.
 
 --------------------------------------------------
 
-GeoServer and reprojection
-==========================
+Reprojection
+============
 
 ::
 
@@ -961,12 +970,13 @@ Execute this request: This will return an image of the usa:states layer over its
 
 --------------------------------------------------
 
-GeoServer and reprojection
-==========================
+Reprojection
+============
 
 ::
 
-  http://localhost:8080/geoserver/wms/reflect?layers=usa:states&srs=EPSG:3700
+  http://localhost:8080/geoserver/wms/reflect?
+    layers=usa:states&srs=EPSG:3700
 
 .. image:: ../doc/source/crs/img/usastates_3700.png
 
@@ -984,7 +994,7 @@ Try other EPSG codes to see how the output changes. Should you get a blank image
 GeoServer and reprojection
 ==========================
 
-* Dynamic reprojection ispossible, but inefficient
+* Dynamic reprojection is possible, but inefficient
 * Store data how it will most likely be accessed
 
 Presenter notes
@@ -1002,9 +1012,7 @@ Note: Utilizing tile caching is one option that shifts the processing time away 
 Adding a custom projection
 ==========================
 
-Data directory:
-
-``user_projections/epsg.properties``
+Data directory: ``user_projections/epsg.properties``
 
 ::
 
@@ -1107,12 +1115,12 @@ If you want to output the bounding box for each CRS on every layer, make sure to
 Limiting advertised CRS
 =======================
 
-CRSs may not be *advertised*, but they can still be used
+CRSs may not be *advertised*, but they can still be used.
 
 Presenter notes
 ---------------
 
-Limiting advertised CRSs doesn't turn on or off any functionality. Rather, it highlights the "suggested" CRSs for the server, and cuts down on bandwidth for a frequently accessed file.
+Limiting advertised CRSs doesn't turn on or off any functionality. Rather, it highlights the “suggested” CRSs for the server, and cuts down on bandwidth for a frequently accessed file. Even if you limit advertised CRSs, other CRSs will still be available to be manually requested, as in the following WMS reflector requests:
 
 --------------------------------------------------
 
@@ -1121,7 +1129,6 @@ Section 4: Data filtering
 
 * CQL and OGC filtering
 * SQL views
-* WMS dimensions
 
 Presenter notes
 ---------------
@@ -1211,23 +1218,25 @@ As will be shown in this section, both OGC filters and CQL filters do much of th
 * CQL is simpler. The CQL filters do not require any complex formatting and are much more succinct than OGC filters.
 * OGC is a standard. The OGC filters conform to the OGC Filter specification. CQL does not correspond to any spec.
 
+Note: Both filter= and cql_filter are vendor parameters. This means that they are implementations specific to GeoServer, and are not part of any specification.
+
 --------------------------------------------------
 
 CQL filter example
 ==================
 
-Preview ``usa:states``
+Preview ``usa:states`` and click to see feature info:
 
 .. image:: ../doc/source/filtering/img/cqlogc_preview.png
 
 Presenter notes
 ---------------
 
-Let's start out with a CQL example. We'll use the usa:states layer and perform an information query on it, singling out California.
+Let's start out with a CQL example. We'll use the usa:states layer and perform an information query on it, singling out a state.
 
 First, launch the Layer Preview for this layer.
 
-Click on any one of the states to see the attribute information (done through a GetFeatureInfo query). Note that the attribute for the name of the state is called STATE_NAME.
+Click any one of the states to see the attribute information (done through a GetFeatureInfo query). Note that the attribute for the name of the state is called STATE_NAME.
 
 --------------------------------------------------
 
@@ -1254,7 +1263,8 @@ CQL filter operations
 
 * Comparators (=, <>, >, <, >=, <=):
 * BETWEEN, AND, LIKE (% as wildcard), IN (a list)
-* Multiple attributes 
+* Multiple attributes
+
 ::
 
   PERSONS > 15000000
@@ -1274,7 +1284,7 @@ And combinations of the above using AND, OR, and NOT.
 
 Try some of these examples. Any of these will work with the usa:states layer:
 
-Note: If manually editing the cql_filter= parameter, all strings must be URL encoded, so that the parameter STATE_NAME LIKE 'C%' AND PERSONS > 15000000 should be typed as &cql_filter=STATE_NAME+LIKE+'C%25'+AND+PERSONS+>+15000000.
+Note: While browsers can be very forgiving, some characters must be URL encoded. For example, the % must be typed as %25.
 
 --------------------------------------------------
 
@@ -1385,8 +1395,11 @@ OGC filter examples
 
   <Intersects>
     <PropertyName>the_geom</PropertyName>
-    <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-      <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
+    <gml:Point
+     srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+      <gml:coordinates>
+       -74.817265,40.5296504
+      </gml:coordinates>
     </gml:Point>
   </Intersects>
 
@@ -1423,6 +1436,30 @@ Once again, for simplicity we'll use the Demo Request Builder for this. There ar
 
 Load the Demo Request Builder. In the Request box, select WFS_getFeatureIntersects.url. This is a GET request, so the filter will be URL-encoded:
 
+
+
+--------------------------------------------------
+
+WFS filtering using OGC
+=======================
+
+::
+
+  <Filter xmlns="http://www.opengis.net/ogc"
+   xmlns:gml="http://www.opengis.net/gml">
+    <Intersects>
+      <PropertyName>geom</PropertyName>
+      <gml:Point srsName="EPSG:4326">
+        <gml:coordinates>
+         -74.817265,40.5296504
+        </gml:coordinates>
+      </gml:Point>
+    </Intersects>
+  </Filter>
+
+Presenter notes
+---------------
+
 While this is hard to read, it is an OGC Intersects filter on the states layer on a given point (-74.817265,40.5296504)
 
 --------------------------------------------------
@@ -1450,8 +1487,11 @@ Demo Request Builder: ``WFS_getFeatureIntersects-1.1.xml``
      <Filter>
        <Intersects>
          <PropertyName>the_geom</PropertyName>
-         <gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
-           <gml:coordinates>-74.817265,40.5296504</gml:coordinates>
+         <gml:Point
+          srsName="http://www.opengis.net/gml/srs/epsg.xml#4326">
+           <gml:coordinates>
+            -74.817265,40.5296504
+           </gml:coordinates>
          </gml:Point>
        </Intersects>
      </Filter>
@@ -1475,13 +1515,17 @@ WFS filtering using OGC
 
   <wfs:Query typeName="usa:states">
     <wfs:PropertyName>usa:STATE_NAME</wfs:PropertyName>
-    <wfs:PropertyName>usa:LAND_KM</wfs:PropertyName>
+    <wfs:PropertyName>usa:AREA_LAND</wfs:PropertyName>
     <wfs:PropertyName>usa:the_geom</wfs:PropertyName>
     <ogc:Filter>
       <ogc:PropertyIsBetween>
-        <ogc:PropertyName>usa:LAND_KM</ogc:PropertyName>
-        <ogc:LowerBoundary><ogc:Literal>100000</ogc:Literal></ogc:LowerBoundary>
-        <ogc:UpperBoundary><ogc:Literal>150000</ogc:Literal></ogc:UpperBoundary>
+        <ogc:PropertyName>usa:AREA_LAND/ogc:PropertyName>
+        <ogc:LowerBoundary>
+          <ogc:Literal>1E11</ogc:Literal>
+        </ogc:LowerBoundary>
+        <ogc:UpperBoundary>
+          <ogc:Literal>1.2E11</ogc:Literal>
+        </ogc:UpperBoundary>
       </ogc:PropertyIsBetween>
     </ogc:Filter>
   </wfs:Query>
@@ -1491,7 +1535,7 @@ Presenter notes
 
 The same set of comparators are available in WFS queries. For example, to filter for values between a certain range, see the WFS_getFeatureBetween-1.1.xml template:
 
-This returns a number of medium-sized states, among them: Illinois, Kentucky, and Virginia.
+This returns a number of medium-sized states, among them: Pennsylvania, Kentucky, and Virginia.
 
 --------------------------------------------------
 
@@ -1506,13 +1550,13 @@ WFS filtering using OGC
     <ogc:Filter>
       <ogc:PropertyIsGreaterThan>
         <ogc:Div>
-          <ogc:PropertyName>MANUAL</ogc:PropertyName>
-          <ogc:PropertyName>WORKERS</ogc:PropertyName>
+            <ogc:PropertyName>MALE</ogc:PropertyName>
+            <ogc:PropertyName>PERSONS</ogc:PropertyName>
         </ogc:Div>
-      <ogc:Literal>0.25</ogc:Literal>
-      </ogc:PropertyIsGreaterThan>
+         <ogc:Literal>0.5</ogc:Literal>
+    </ogc:PropertyIsGreaterThan>
     </ogc:Filter>
-  </wfs:Query>
+    </wfs:Query>
 
 Presenter notes
 ---------------
@@ -1521,7 +1565,7 @@ There are also operators and functions, for example in the WFS_mathGetFeature.xm
 
 This returns all features that satisfy this criteria:
 
-MANUAL / WORKERS > 0.25
+MALE / PERSONS > 0.5
 
 The full set of filtering capabilities is actually part of the WFS spec. This is shown in the WFS capabilities document in the tag named <ogc:Filter_Capabilities>. WMS borrows these capabilities, implementing them as vendor parameters.
 
@@ -1535,8 +1579,6 @@ Filtering for cartographic classification: SLD
 ::
 
   <Rule>
-    <Name>Population &lt; 2M</Name>
-    <Title>Population &lt; 2M</Title>
     <ogc:Filter>
       <ogc:PropertyIsLessThan>
         <ogc:PropertyName>PERSONS</ogc:PropertyName>
@@ -1585,7 +1627,9 @@ Expressions evaluated inline in SLD
     <Graphic>
       <ExternalGraphic>
         <OnlineResource xlink:type="simple"
-         xlink:href="http://www.usautoparts.net/bmw/images/states/tn_${strToLowerCase(STATE_ABBR)}.jpg" />
+         xlink:href="http://www.usautoparts.net/bmw/
+                     images/states/
+                     tn_${strToLowerCase(STATE_ABBR)}.jpg"/>
         <Format>image/gif</Format>
       </ExternalGraphic>
     </Graphic>
@@ -1641,7 +1685,9 @@ One other benefit to SQL views is that execution of the query is always done nat
 
 Perhaps most usefully, as well as being arbitrary SQL executed in the database using native database functions, SQL views can be parameterized via string substitution.
 
-In short, SQL views have tremendous power and flexibility. They are always executed in the database so performance is optimized. You also have access to all database functions, stored procedures, and even joins across tables.
+In short, SQL views have tremendous power and flexibility. They are executed in the database so performance is optimized. You also have access to all database functions, stored procedures, and even joins across tables.
+
+Note: In the past, SQL views were only allowed against databases. Recently, this functionality has been extended to include any data sources.
 
 --------------------------------------------------
 
@@ -1738,7 +1784,7 @@ Click the Publishing tab and select the cities style in Default style in order t
 
 Click Save.
 
-Preview the layer. Click on a point to see the attribute table. Notice that the only fields available are the name and the feature id:
+Preview the layer. Click a point to see the attribute table. Notice that the only fields available are the name and the feature id:
 
 --------------------------------------------------
 
@@ -1905,9 +1951,9 @@ Create a new SQL view layer as above.
 
 In the View Name field, enter cities_within.
 
-For the SQL statement, enter SELECT c.name, c.geom FROM cities AS c INNER JOIN (SELECT geom FROM rivers WHERE name = '%param1%') AS r ON st_dwithin(c.geom, r.geom, %param2%).
+For the SQL statement, enter SELECT c.name, c.pop_min, c.geom FROM cities AS c INNER JOIN (SELECT geom FROM countries WHERE name = '%param1%') AS r ON st_dwithin(c.geom, r.geom, %param2%)
 
-Click Guess parameters from SQL. Two fields, param1 and param2 should appear. In the Default value box, enter Seine and 1, respectively.
+Click Guess parameters from SQL. Two fields, param1 and param2 should appear. In the Default value box, enter Germany and 0, respectively.
 
 Check the box for Guess geometry type and srid and click the Refresh link.
 
@@ -1920,7 +1966,8 @@ Cross layer SQL view
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within
+    layers=earth:shadedrelief,earth:countries,
+      earth:cities_within
 
 .. image:: ../doc/source/filtering/img/sqlviews_withinpreview.png
 
@@ -1935,7 +1982,7 @@ Click the Publishing tab and select the cities style in Default style in order t
 
 Click Save.
 
-Preview the layer. Note the only city that is returned:
+Preview the layer. Note the cities that are returned:
 
 --------------------------------------------------
 
@@ -1946,195 +1993,43 @@ Cross layer SQL view
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Thames
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:France
 
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Danube
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:Belgium
 
 ::
 
   http://localhost:8080/geoserver/wms/reflect?
     format=application/openlayers&
-    layers=shadedrelief,earth:rivers,earth:cities_within&
-    viewparams=param1:Danube;param2:5
+    layers=earth:shadedrelief,earth:countries,earth:cities_within&
+    viewparams=param1:Belgium;param2:2
 
 Presenter notes
 ---------------
 
 Now try some other parameter values. param1 refers to the name of the city, while param2 refers to the distance to check for cities (in units of the source layer, in this case degrees):
 
---------------------------------------------------
-
-WMS dimensions
-==============
-
-* Specially-handled WMS parameters
-* **Time** and **elevation**
-
-Presenter notes
----------------
-
-This section discusses WMS dimensions. WMS dimensions are specially-handled parameters taken from attributes in a data set and utilized in WMS requests. The two dimensions handled are time and elevation.
-
-Version 1.1.0 of the WMS spec introduced the notion of time and elevation dimensions to WMS. Spatial data had always had time/date fields and attributes that represented feature elevations, but WMS lacked a decent mechanism for realizing that information.
-
-Time is a perfect candidate for special handling, as the strings themselves can be quite complex, and there are so many different representations of time to manage. The filters that would need to be created to manage these different representations would be quite cumbersome.
 
 --------------------------------------------------
 
-WMS dimensions
-==============
-
-::
-
-  1974-05-01T10:06:21.000Z
-  1974-05-01
-  1974-05
-  1974
-
-Presenter notes
----------------
-
-For example, the following are both equally valid time representations:
-
-Times are expressed in compliance with the ISO 8601 standard.
-
-Elevation, while less complicated to work with than time, is nevertheless a fundamental concept in geographical work, and one that complements the often 2D nature of data.
-
---------------------------------------------------
-
-Enabling WMS dimensions on a layer
-==================================
-
-* Edit layer
-* Dimensions tab
-* Check boxes for time/elevation
-
-Presenter notes
----------------
-
-Need images for this!
-
-GeoServer lets us access this feature of the WMS specification by allowing us to enable time and elevation dimensions on a given layer that has suitable attribute types. For example, to enable time on a layer, one attribute must be of type timestamp, while to enable elevation, an attribute need only to be a numeric field.
-
-This enabling of dimensions is done on a per-layer basis. Enabling either time, elevation, or both is allowed.
-
-Note
-
-As the requirements for elevation are so lenient, it is possible to utilize the benefits of the elevation parameter on an attribute that has nothing to do with elevation. However, the parameter's name cannot be changed from elevation=.
-
-Let's enable the time dimension on one of our layers. We'll use the advanced:globe layer for this.
-
-In the Layer list (not Layer Preview) select the advanced:globe layer for configuration editing.
-There are four tabs across the top of the screen. Click the tab that says Dimensions.
-Because our data has a timestamp field we have the option to enable the Time dimension. Likewise we need a numeric field to enable the elevation dimension. (If we didn't have a field with a date/time format, this option would have been disabled. Most but not all tables will have a numeric field, so elevation is typically enabled, but not always.)
-Check the box to enable the Time dimension.
-Select the measured_at field as the Attribute that contains our timestamps.
-Leave the End Attribute blank.
-Set the Presentation Type to List.
-Click Save.
-
-
---------------------------------------------------
-
-Query string formats
+Cross layer SQL view
 ====================
 
-::
-
-  &time=2010-12-30T08:00:00.000Z
-
-::
-
-  &time=2010-12-25T00:00:00Z/2010-12-28T00:00:00Z
-
-::
-
-  &time=2010-12-30T08:00:00Z,2010-12-25T08:00:00Z
-
-::
-
-  &time=2010-12-30T08:00:00Z,2010-12-25T08:00:00Z/2010-12-28T08:00:00Z
+.. image:: ../doc/source/filtering/img/sqlviews_withinpreview2.png
 
 Presenter notes
 ---------------
 
-Now that the layer has a properly enabled Time dimension, it is possible to make queries against that value.
-
-At single point in time:
-
-Between a range of times:
-
-Discrete time periods:
-
-Or multiple time periods:
-
-To test this, open a layer preview on the time-enabled globe layer
+This is the last example from the previous slide.
 
 --------------------------------------------------
 
-Precision of values
-===================
-
-Fully precise shows exact values:
-
-::
-
-  &time=1945-05-07T02:42:00.000Z
-
-Imprecise shows all values that match:
-
-::
-
-  &time=1980-12-08
-
-Presenter notes
----------------
-
-A parameter that is fully precise:
-
-will return features that contain a timestamp at this exact value only.
-
-A parameter that is imprecise:
-
-will return all of the features whose timestamp match that date, regardless of time.
-
-Both values, and many others of varying precision, are all ISO 8601 compliant and are thus valid for use in requests.
-
---------------------------------------------------
-
-Validity checking
-=================
-
-Values must be ISO 8601 compliant, or will cause errors:
-
-::
-
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=shadedrelief,globe&
-    format=application/openlayers&
-    time=2010-12-30T
-
-::
-
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=shadedrelief,globe&
-    format=application/openlayers&
-    time=sammy
-
-Presenter notes
----------------
-
-Values that are not ISO 8601 compliant when used in requests, will cause errors.
-
-For example, try these two requests:
-
---------------------------------------------------
 
 Section 5: Data processing and analysis
 =======================================
@@ -2219,7 +2114,7 @@ GeoServer and WPS
 Presenter notes
 ---------------
 
-GeoServer has full support for WPS. It is currently available as an extension in the community version. In the OpenGeo Suite version of GeoServer, though, it is integrated into the core without any additional work required. The functionality of both implementations are identical.
+GeoServer has full support for WPS.
 
 It should be noted that there is a difference between WPS as a standard and WPS as it is implemented. WPS as a standard is very generic, and doesn't specify any more than a framework for what is possible. It is in the implementation of WPS (and especially what processes are available) that determine how useful and powerful it can be. So while the discussion here will be on GeoServer's implementation of WPS, other products such as 52-North or Deegree may have very different implementations.
 
@@ -2290,7 +2185,7 @@ WPS example
 
 ::
 
-  POLYGON ((2 0, 1.9753766811902755 -0.3128689300804617, ...
+  POLYGON ((2 0, 1.975376681190 -0.312868930080, ...
 
 Presenter notes
 ---------------
@@ -2309,7 +2204,7 @@ Chaining processes
 
 Presenter notes
 ---------------
-
+ 
 WPS has the ability to chain multiple process together, so that the output of one becomes the input to another. This is where the power of WPS really shows.
 
 Here are some examples of some applications of chaining:
@@ -2341,34 +2236,12 @@ The benefit to the GeoServer-specific processes is that the data can already be 
 Build your own process
 ======================
 
-Option 1: Be a Java developer
-
 .. image:: ../doc/source/processing/img/wps_javadev.png
 
 Presenter notes
 ---------------
 
-There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are.
-
-There are a few options through which you can build your own processes. If you're a Java developer, you're in luck, as you can build your classes right into GeoServer.
-
---------------------------------------------------
-
-Build your own process
-======================
-
-Option 2: Use GeoScript
-
-.. image:: ../doc/source/processing/img/wps_geoscript.png
-
-Presenter notes
----------------
-
-If not, you can use something like GeoScript. GeoScript allows you to interact with GeoTools and all of its rich Java goodness within the context of your preferred scripting language, such as Python or JavaScript.
-
-You can think of GeoScript as an interpretation layer to GeoServer.
-
-GeoScript is beyond the scope of this workshop, but note that if you're comfortable in Python, JavaScript, you should be able to use GeoScript comfortably.
+There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are. Processes are written in Java.
 
 --------------------------------------------------
 
@@ -2383,7 +2256,7 @@ Presenter notes
 
 A rendering transformation allows processing to be carried out on data within the GeoServer rendering pipeline. This means that the process gets applied dynamically, between when it is accessed by GeoServer and it gets rendered as an image and shipped to your browser.
 
-A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in the process of rendering a WMS image.
+A rendering transformation isn't any different from a process or chain of processes. The difference is that a process (through WPS) is executed at a given time and returns any number of outputs. A rendering transformation is a process that is executed in during rendering a WMS image.
 
 Theoretically, any WPS process can be executed as a rendering transformation.
 
@@ -2512,20 +2385,84 @@ The rest of the content inside the FeatureTypeStyle is the symbolizer. As this S
 Example
 =======
 
-Heatmap
+Heatmap (option 1): Static WPS process
 
-::
+.. image:: ../doc/source/processing/img/rt_heatmapwpsbuilder.png
+   :width: 50%
 
-  http://localhost:8080/geoserver/wms/reflect?
-    layers=world:urbanareas1_1&
-    format=application/openlayers
+Presenter notes
+---------------
+
+Let's create a heatmap of our earth:cities layer, showing the density of cities and their populations.
+
+To show how WPS is connected to rendering transformations, we'll perform the heatmap creation first as a static WPS and then after as a rendering transformation.
+
+The heatmap process is called vec:Heatmap. It take as input a vector layer and outputs a raster.
+
+In GeoServer, click Demos and then WPS Request Builder
+
+Under Choose process, select vec:Heatmap.
+
+Fill out the form:
+
+--------------------------------------------------
+
+Example
+=======
+
+.. image:: ../doc/source/processing/img/rt_heatmapwpsresult.png
+
+Presenter notes
+---------------
+
+Click Execute process.
+
+You will be asked to download a file. This is the GeoTIFF that was generated through the WPS process execution.
+
+We could load this file into GeoServer and then style it, but instead we can do this automatically through the rendering pipeline.
+
+You can load data into GeoServer via the gs:Import and the gs:StoreCoverage processes for vector and raster data, respectively. Using chained processes, you can chain the output of some process to one of the above to ingest the output into GeoServer in a single step.
+
+--------------------------------------------------
+
+Example
+=======
+
+Heatmap (option 2): Rendering transformation
+
+.. image:: ../doc/source/processing/img/rt_heatmapstyle.png
+   :width: 50%
+
+Presenter notes
+---------------
+
+Now let's run the same heatmap process dynamically.
+
+The process is run as a rendering transformation, which is indicated in a style. We will show examples of YSLD and its equivalent SLD.
+
+First, we'll create an equivalent to our static example. In GeoServer, click Styles, then Add a new style.
+
+For the name, type heatmap.
+
+For the format, select YSLD.
+
+Enter the following content:
+
+Notice the transform section, which calls the heatmap process and supplies all necessary parameters. Other parameters like bounding box and CRS aren't necessary because they are implied by the WMS request.
+
+--------------------------------------------------
+
+Example
+=======
 
 .. image:: ../doc/source/processing/img/rt_heatmappreview.png
 
 Presenter notes
 ---------------
 
-This layer is a heatmap. It shows a colored raster based on intensity of a given attribute.
+Click Submit.
+
+Preview the layer. Zoom and pan around the map and see how the heatmap is calculated dynamically based on the data available in the canvas:
 
 --------------------------------------------------
 
@@ -2534,114 +2471,86 @@ Example
 
 ::
 
-  <Transformation>
-    <ogc:Function name="gs:Heatmap">
-      <ogc:Function name="parameter">
-        <ogc:Literal>data</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>weightAttr</ogc:Literal>
-        <ogc:Literal>pop2000</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>radiusPixels</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>radius</ogc:Literal>
-          <ogc:Literal>100</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>pixelsPerCell</ogc:Literal>
-        <ogc:Literal>10</ogc:Literal>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputBBOX</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_bbox</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputWidth</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_width</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-      <ogc:Function name="parameter">
-        <ogc:Literal>outputHeight</ogc:Literal>
-        <ogc:Function name="env">
-          <ogc:Literal>wms_height</ogc:Literal>
-        </ogc:Function>
-      </ogc:Function>
-    </ogc:Function>
-  </Transformation>
+  feature-styles:
+  - transform:
+      name: vec:Heatmap
+      params:
+        weightAttr: pop_min
+        radiusPixels: 25
+        pixelsPerCell: 5
+    rules:
+    - symbolizers:
+      - raster:
+          opacity: 1
+          color-map:
+            type: ramp
+            entries:
+            - ['#FFFFFF',1,0,white]
+            - ['#0000FF',1,0.33,blue]
+            - ['#FFCC00',1,0.66,yellow]
+            - ['#FF0000',1,1.0,red]
 
 Presenter notes
 ---------------
 
-Now let's investigate how this layer was created. Open the heatmap SLD in a text editor:
+complex styles. Here we will add some color to the heatmap.
 
-As this SLD is quite long, it's best to break it up into sections. Lines 14-53 define the rendering transformation.
+Click Styles and then click heatmap.
+
+Replace the content with the following:
+
+Note that the only difference here is in the color map ramp. Before the colors went from black to white with increasing density, but now the colors go from white through blue and yellow before maxing out at red.
+
 
 --------------------------------------------------
 
 Example
 =======
 
-::
-
-  <Rule>
-    <RasterSymbolizer>
-    <!-- specify geometry attribute of input to pass validation -->
-      <Geometry><ogc:PropertyName>the_geom</ogc:PropertyName></Geometry>
-      <Opacity>0.6</Opacity>
-      <ColorMap type="ramp" >
-        <ColorMapEntry color="#FFFFFF" quantity="0" label="nodata" opacity="0"/>
-        <ColorMapEntry color="#FFFFFF" quantity="0.02" label="nodata" opacity="0"/>
-        <ColorMapEntry color="#4444FF" quantity=".1" label="nodata"/>
-        <ColorMapEntry color="#FF0000" quantity=".5" label="values" />
-        <ColorMapEntry color="#FFFF00" quantity="1.0" label="values" />
-      </ColorMap>
-    </RasterSymbolizer>
-  </Rule>
+.. image:: ../doc/source/processing/img/rt_heatmappreviewcolor.png
 
 Presenter notes
 ---------------
 
-Lines 54-67 control the actual output symbolization:
+Click Submit.
 
-Remember that even though the input layer itself is a vector layer (verify this by appending &styles=point to the above preview request), the output of the heatmap rendering transformation is a raster layer, so that it what needs to be styled here. What we see is a color ramp for values from 0 to 1, with 0 and 0.02 being styled as nodata (transparent).
+Preview the layer again. Note the differences.
 
 --------------------------------------------------
 
-Other example
-=============
-
-``gs:PointCluster`` in ``world:volcanoes``
-
-.. image:: ../doc/source/processing/img/rt_pointstackpreview.png
-
-Presenter notes
----------------
-
-Another layer that contains rendering transformations is world:volcanoes, which uses the gs:PointCluster process to "stack" points on top of each other to minimize the number of features rendered.
 
 For more information
 ====================
 
-.. image:: ../doc/source/opengeo.png
+.. image:: ../doc/source/geoserver.png
 
-http://opengeo.org
-------------------
+http://geoserver.org
+--------------------
+
+http://boundlessgeo.com
+-----------------------
 
 Presenter notes
 ---------------
 
-OpenGeo helps to develop GeoServer and funds development through its OpenGeo Suite. Learn more at http://opengeo.org.
+Boundless helps to develop GeoServer and funds development through its products. Learn more at http://boundlessgeo.com.
 
 --------------------------------------------------
 
 Any questions?
 ==============
+
+.fx: titleslide
+
+Presenter notes
+---------------
+
+--------------------------------------------------
+
+Thanks!
+=======
+
+.fx: titleslide
 
 Presenter notes
 ---------------

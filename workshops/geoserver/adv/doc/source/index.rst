@@ -1,6 +1,6 @@
-================================
-Advanced GeoServer Configuration
-================================
+=======================
+Beyond GeoServer Basics
+=======================
 
 Welcome!
 --------
@@ -26,7 +26,7 @@ The following material will be covered in this workshop:
   Learn how to manage coordinate reference systems (projections).
 
 :ref:`gsadv.filtering`
-  Create useful subsets of data using CQL/OGC filters, SQL views, and WMS dimensions.
+  Create useful subsets of data using CQL/OGC filters and SQL views.
 
 :ref:`gsadv.processing`
   Perform spatial analysis with GeoServer using Web Processing Service (WPS) and rendering transformations.
@@ -52,7 +52,7 @@ These directories should be placed on your desktop.
 Ready to Begin?
 ---------------
 
-Great!  Head to the first section, :ref:`gsadv.background`.
+Great! Head to the first section, :ref:`gsadv.background`.
 
 .. toctree::
    :maxdepth: 2

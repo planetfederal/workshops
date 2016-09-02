@@ -1,9 +1,10 @@
-CSS Install
-===========
+Extension Install
+=================
 
 This workshop course requires GeoServer with a few additional extensions.
 
 * CSS Styling: Quickly and easily generate SLD files
+* YSLD Styling: An alternative styling language to SLD
 * Importer: Wizard for bulk import of data
 
 On Windows the following is recommended:
@@ -12,6 +13,7 @@ On Windows the following is recommended:
 * `Notepad++ <http://notepad-plus-plus.org>`_
 
 The **CSS extension** is distributed as a supported GeoServer extension. Extensions are unpacked into the ``libs`` folder of the GeoServer application.
+The **YSLD extension** is a new addition to geoserver and is distributed as an unsupported GeoServer extension.
 
 .. note:: In a classroom setting this extension has already been installed.
 
@@ -20,13 +22,17 @@ Installation instructions are provided here if needed.
 Manual Install
 --------------
 
-To download and install the CSS extension by hand:
+To download and install the required extensions by hand:
 
-#. Download geoserver-2.5-css-plugin.zip from:
+#. Download geoserver-2.10-M0-css-plugin.zip and geoserver-2.10-M0-css-plugin.zip from:
 
-   * `Stable Release <http://geoserver.org/download/>`_ (GeoServer WebSite)
+   * `Development Release <http://geoserver.org/download/>`_ (GeoServer WebSite)
    
    It is important to download the version that matches the GeoServer you are running.
+
+#. Download the geoserver-2.10-SNAPSHOT-ysld-plugin.zip from:
+
+   * `Community Builds <http://ares.boundlessgeo.com/geoserver/master/community-latest/>`_ (GeoServer WebSite)
 
 #. Stop the GeoServer application.
 
@@ -34,15 +40,11 @@ To download and install the CSS extension by hand:
 
    These files make up the running GeoServer application.
 
-#. Unzip the contents of geoserver-2.5-css-plugin.zip into :file:`lib` folder.
+#. Unzip the contents of the three zip files into the :file:`lib` folder.
 
 #. Restart the Application Server.
    
-#. Login to the Web Administration application and confirm that **CSS Styles** is listed in the navigation menu.
-   
-   .. figure:: img/install_css_menu.png
-
-      CSS Styles installed
+#. Login to the Web Administration application. Select **Styles** from the naviagion menu. Click :guilabel:`Create a new style` and ensure both CSS and YSLD are available in the formats dropdown. Click :guilabel:`Cancel` to return to the **Styles** page without saving.
 
 
 .. only:: windows
@@ -50,7 +52,7 @@ To download and install the CSS extension by hand:
    OpenGeo Suite Windows
    ---------------------
    
-   The **CSS Extension** is included in the Windows installer.
+   The **CSS Extension** is included in the Windows installer. The **YSLD** and **Importer** extensions are installed by default.
 
    If you did not select this option initially the installer can be run again to update your GeoServer application.
 
@@ -79,7 +81,7 @@ To download and install the CSS extension by hand:
    OpenGeo Suite Linux
    ---------------------
    
-   OpenGeo Suite includes the packages for the CSS extension and other supported extensions. 
+   OpenGeo Suite includes the packages for the CSS extension and other supported extensions. The **YSLD** and **Importer** extensions are installed by default.
    
    While we have included quick install instructions here you may wish to check the release documentation more detailed step-by-step instructions.
 

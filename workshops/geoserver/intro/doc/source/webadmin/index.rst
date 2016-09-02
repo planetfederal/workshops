@@ -7,8 +7,10 @@ GeoServer includes a web-based administration interface. Most GeoServer configur
 
 This section will give a brief overview to the web interface, including loading data to be published. Subsequent sections will use the web interface in greater detail.
 
+.. note:: Interested and/or experienced users who wish to learn about the REST API can read about it in the `GeoServer documentation <http://docs.geoserver.org/stable/en/user/rest/>`_. This workshop will only discuss the web interface.
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    tour
    quickload

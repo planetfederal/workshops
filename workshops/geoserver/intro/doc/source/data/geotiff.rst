@@ -3,20 +3,20 @@
 Publishing a GeoTIFF
 ====================
 
-GeoServer can also publish **raster** imagery. This could be simple georeferenced images (such as Blue Marble imagery), multi-band DEM (digital elevation model) data, or many other options. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains standard tri-band RGB values (0-255).
+GeoServer can also publish **raster** imagery. This could include georeferenced images (such as Blue Marble imagery), single or multi-band DEM (digital elevation model) data, or many other options. In this section, we will load a simple GeoTIFF containing a shaded relief of land area. The layer contains three bands of data corresponding to red, green, and blue.
 
 Adding a store
 --------------
 
 The procedure for adding a store for a GeoTIFF is very similar to that of a shapefile. A GeoTIFF, like a shapefile, is a store that contains a single layer.
 
-#. From the :ref:`geoserver.webadmin` page, click on the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
+#. From the :ref:`geoserver.webadmin` page, click the :guilabel:`Stores` link on the left side, under :guilabel:`Data`.
 
    .. figure:: img/shp_storeslink.png
 
       Click this link to go to the Stores page
 
-#. Click on :guilabel:`Add new store`. 
+#. Click :guilabel:`Add new store`. 
 
    .. figure:: img/shp_storespage.png
 
@@ -31,8 +31,11 @@ The procedure for adding a store for a GeoTIFF is very similar to that of a shap
 #. Fill out the following form:
 
    .. list-table::
-      :widths: 30 30 40
+      :header-rows: 1
 
+      * - Option
+        - Value
+        - Notes
       * - :guilabel:`Workspace`
         - ``earth`` 
         - Should be already the default
@@ -90,9 +93,7 @@ As with the shapefile, now that store is loaded, we now need to configure and pu
 
 #. When finished, click :guilabel:`Save`.
 
-#. Your GeoTIFF is now published in GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview` as in previous sections. Clicking on the map will display the RGB values for that particular point.
-
-   .. note:: Remember that lists in GeoServer are paged at 25 items at a time so the layer may not be displayed on the first page. Alternately, type "earth" in the search box at the top to narrow the list.
+#. Your GeoTIFF is now published in GeoServer. You can now view the layer using the :ref:`geoserver.webadmin.layerpreview` as in previous sections. Clicking the map will display the RGB values for that particular point.
 
    .. figure:: img/tif_openlayers.png
 

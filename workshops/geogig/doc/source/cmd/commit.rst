@@ -15,17 +15,17 @@ Our repository is empty, so we will need to make an initial :term:`commit`.
 Importing data
 ~~~~~~~~~~~~~~
 
-We much :term:`import` data into our repository for our first commit. This will be the baseline from which we will work.
+We must :term:`import` data into our repository for our first commit. This will be the baseline from which we will work.
 
-#. From the :file:`repo` directory created in the previous section, use the ``geogig shp import`` command to import the data from the file into the repository:
+#. From the :file:`city_data` directory created in the previous section, use the ``geogig shp import`` command to import the data from the file into the repository:
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib ID ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ~/data/bikepdx.shp
 
    ::
 
-      Importing from shapefile ../data/bikepdx.shp
+      Importing from shapefile /home/qgis-user/data/bikepdx.shp
 
       Importing bikepdx          (1/1)...
       93%
@@ -35,7 +35,7 @@ We much :term:`import` data into our repository for our first commit. This will 
 
       6744 features tree built in 1.206 s
       100%
-      ../data/bikepdx.shp imported successfully.
+      /home/qgis-user/data/bikepdx.shp imported successfully.
 
    .. note:: Adjust the file path as necessary: ``geogig shp import ..\data\bikepdx.shp`` would be used on Windows, for example.
 
@@ -207,7 +207,7 @@ Now we will want to commit this change. While the change was made in the file, *
 
    .. code-block:: console
 
-      geogig shp import --fid-attrib ID ../data/bikepdx.shp
+      geogig shp import --fid-attrib ID ~/data/bikepdx.shp
 
    This is the same import command as above. It makes the GeoGig repository aware that content has changed.
 
@@ -228,7 +228,7 @@ Now we will want to commit this change. While the change was made in the file, *
 
    .. code-block:: console
 
-      ge
+      geogig add
 
    .. note:: Any unchanged features will be ignored.
 

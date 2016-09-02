@@ -51,7 +51,7 @@ The Mercator projection may be the best known projection outside of professional
 Datums
 ------
 
-There is much more to the discussion than just porjecting a sphere onto a plane.
+There is much more to the discussion than just projecting a sphere onto a plane.
 
 The Earth's is not even a regular oblate spheroid at all. It has deviations (pits and hills) that need to be taken into account when calculating how to project the surface on to the flat plane.
 
@@ -70,54 +70,58 @@ Typically, CRSs are noted in the form of "EPSG:####", where "####" is a numerica
 
 To see what CRSs GeoServer supports, there is a demo in the web interface that displays a list of all the CRSs as well as their definitions.
 
-Click the :guilabel:`Demos` link just as we did before for the Demo Request Builder. In the list that follows, click :guilabel:`SRS List`.
+#. Click the :guilabel:`Demos` link just as we did before for the Demo Request Builder.
 
-.. figure:: img/srs_listlink.png
+#. In the list that follows, click :guilabel:`SRS List`.
 
-   Click to see the SRS list
+   .. figure:: img/srs_listlink.png
 
-The full list of projections will be displayed.
+      Click to see the SRS list
 
-.. figure:: img/srs_list.png
+   The full list of projections will be displayed.
 
-   All SRSs supported by GeoServer
+   .. figure:: img/srs_list.png
 
-You can click on any entry, or use the search box to filter the list by keyword or number. Enter "yukon" in the search box and press Enter. The list will be filtered down to two options: 3578 and 3579.
+      All SRSs supported by GeoServer
 
-.. figure:: img/srs_listfiltered.png
+#. You can click any entry, or use the search box to filter the list by keyword or number. Type :kbd:`yukon` in the search box and press Enter.
 
-   Filtered list of SRSs
+#. The list will be filtered down to two options: 3578 and 3579.
 
-Click :guilabel:`3578`. You will see details about this CRS, including its Well Known Text (WKT) definition. This is the formal definition of the CRS, and includes all information necessary to process geospatial data to and from this CRS. You will also see a map of the area of validity for that CRS.
+   .. figure:: img/srs_listfiltered.png
 
-.. figure:: img/srs_description.png
+      Filtered list of SRSs
 
-   SRS description
+#. Click :guilabel:`3578`. You will see details about this CRS, including its Well Known Text (WKT) definition. This is the formal definition of the CRS, and includes all information necessary to process geospatial data to and from this CRS. You will also see a map of the area of validity for that CRS.
 
-::
+   .. figure:: img/srs_description.png
 
-  PROJCS["NAD83 / Yukon Albers", 
-    GEOGCS["NAD83", 
-      DATUM["North American Datum 1983", 
-        SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG","7019"]], 
-        TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
-        AUTHORITY["EPSG","6269"]], 
-      PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
-      UNIT["degree", 0.017453292519943295], 
-      AXIS["Geodetic longitude", EAST], 
-      AXIS["Geodetic latitude", NORTH], 
-      AUTHORITY["EPSG","4269"]], 
-    PROJECTION["Albers_Conic_Equal_Area", AUTHORITY["EPSG","9822"]], 
-    PARAMETER["central_meridian", -132.5], 
-    PARAMETER["latitude_of_origin", 59.0], 
-    PARAMETER["standard_parallel_1", 61.66666666666667], 
-    PARAMETER["false_easting", 500000.0], 
-    PARAMETER["false_northing", 500000.0], 
-    PARAMETER["standard_parallel_2", 68.0], 
-    UNIT["m", 1.0], 
-    AXIS["Easting", EAST], 
-    AXIS["Northing", NORTH], 
-    AUTHORITY["EPSG","3578"]]
+      SRS description
+
+   ::
+
+      PROJCS["NAD83 / Yukon Albers", 
+        GEOGCS["NAD83", 
+          DATUM["North American Datum 1983", 
+            SPHEROID["GRS 1980", 6378137.0, 298.257222101, AUTHORITY["EPSG","7019"]], 
+            TOWGS84[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], 
+            AUTHORITY["EPSG","6269"]], 
+          PRIMEM["Greenwich", 0.0, AUTHORITY["EPSG","8901"]], 
+          UNIT["degree", 0.017453292519943295], 
+          AXIS["Geodetic longitude", EAST], 
+          AXIS["Geodetic latitude", NORTH], 
+          AUTHORITY["EPSG","4269"]], 
+        PROJECTION["Albers_Conic_Equal_Area", AUTHORITY["EPSG","9822"]], 
+        PARAMETER["central_meridian", -132.5], 
+        PARAMETER["latitude_of_origin", 59.0], 
+        PARAMETER["standard_parallel_1", 61.66666666666667], 
+        PARAMETER["false_easting", 500000.0], 
+        PARAMETER["false_northing", 500000.0], 
+        PARAMETER["standard_parallel_2", 68.0], 
+        UNIT["m", 1.0], 
+        AXIS["Easting", EAST], 
+        AXIS["Northing", NORTH], 
+        AUTHORITY["EPSG","3578"]]
 
 Notice that it references the NAD83 datum.
 
@@ -128,29 +132,29 @@ Data is stored in a particular CRS. However, GeoServer is able to leverage its d
 
 For example, let's request some data to be reprojected. For simplicity, we'll use the WMS Reflector, as it provides the simplest way to craft WMS requests.
 
-Execute this request::
+#. Execute this request::
 
-  http://suite.opengeo.org/geoserver/wms/reflect?layers=usa:states
+     http://localhost:8080/geoserver/wms/reflect?layers=usa:states
 
-This will return an image of the usa:states layer over its full extent with all default options. The default CRS is EPSG:4326.
+   This will return an image of the usa:states layer over its full extent with all default options. The default CRS is EPSG:4326.
 
-.. figure:: img/usastates_4326.png
+   .. figure:: img/usastates_4326.png
 
-   The usa:states layer in EPSG:4326
+      The usa:states layer in EPSG:4326
 
-Now try the following request::
+#. Now try the following request::
 
-  http://suite.opengeo.org/geoserver/wms/reflect?layers=usa:states&srs=EPSG:3700
+     http://localhost:8080/geoserver/wms/reflect?layers=usa:states&srs=EPSG:3700
 
-This returns the same data but in EPSG:3700, or "Wisconsin South (ftUS)".
+   This returns the same data but in EPSG:3700, or "Wisconsin South (ftUS)".
 
-.. figure:: img/usastates_3700.png
+   .. figure:: img/usastates_3700.png
 
-   The usa:states layer in EPSG:3700
+      The usa:states layer in EPSG:3700
 
-GeoServer has dynamically reprojected the data during the request execution. No data was or is ever stored in EPSG:3700. Note that the farther away from the target area, the more "warped" the display becomes. This is a visual representation of the trade-off between accuracy and large-scale. This would certianly not be a good CRS to use when looking at Asia!
+   GeoServer has dynamically reprojected the data during the request execution. No data was or is ever stored in EPSG:3700. Note that the farther away from the target area, the more "warped" the display becomes. This is a visual representation of the trade-off between accuracy and large-scale. This would certainly not be a good CRS to use when looking at Asia!
 
-Try other EPSG codes to see how the output changes. Should you get a blank image, it just means that the CRS is not valid for that area.
+#. Try other EPSG codes to see how the output changes. Should you get a blank image, it just means that the CRS is not valid for that area.
 
 Dynamic reprojection allows for a great deal of flexibility, as the same data need not be stored in multiple CRSs. However, there is a cost involved in reprojection, in that it requires extra processing time. With small data sets this is negligible, but for larger, more complex situations, the processing time can be prohibitive.
 

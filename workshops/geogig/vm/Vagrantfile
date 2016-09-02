@@ -1,0 +1,87 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "box-cutter/ubuntu1404-desktop"
+
+  config.vm.synced_folder "../../..", "/vagrant_repo"
+
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
+
+    # Customize the amount of memory on the VM:
+    vb.memory = "1024"
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+    set -ex
+
+    DOCS=/vagrant_repo/workshops/geogig/doc
+    DATA=/vagrant_repo/workshops/geogig/data
+
+    # Install QGIS
+    sudo cp /vagrant/*.list /etc/apt/sources.list.d/
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
+    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 089EBE08314DF160
+    sudo apt-get update -qq
+    sudo apt-get install -qqy qgis python-qgis qgis-plugin-grass
+
+    # Install Java
+    echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+    sudo add-apt-repository -y ppa:webupd8team/java
+    sudo apt-get update -qq
+    sudo apt-get install -qqy oracle-java8-installer 2> /dev/null
+
+    # Install qgis-geogiglight-plugin and GeoGig
+    sudo apt-get install -qqy python-pip python-paver git
+    cd /tmp
+    git clone -q https://github.com/boundlessgeo/qgis-geogiglight-plugin.git
+    cd qgis-geogiglight-plugin
+    git apply /vagrant/qgis-geogig-plugin.patch
+    paver setup
+    sudo chmod -R a+rwx /tmp/qgis-geogiglight-plugin
+    sudo mv /tmp/qgis-geogiglight-plugin /opt/qgis-geogiglight-plugin
+    cd /opt/qgis-geogiglight-plugin
+    sudo mkdir -p /usr/share/qgis/python/plugins/
+    sudo paver install
+  #  sudo cp /tmp/qgis-geogiglight-plugin/geogig/ /usr/share/qgis/python/plugins/geogig/
+
+    cd /opt
+    #wget -q http://ares.boundlessgeo.com/geogig/dev/geogig-dev-latest.zip
+    wget -q https://github.com/locationtech/geogig/releases/download/1.0-RC3/geogig-1.0-RC3.zip
+    unzip -q geogig-1.0-RC3.zip
+    rm -f geogig-1.0-RC3.zip
+
+    # Add JAI to prevent error messages
+   # cd /opt/qgis-geogig-plugin/geogig/bin/geogig/lib/
+    #wget -q http://download.osgeo.org/webdav/geotools/javax/media/jai_core/1.1.3/jai_core-1.1.3.jar
+
+    # Add GeoGig to the path for all users
+    echo PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/opt/geogig/bin" | sudo tee /etc/environment
+
+    # Add boundless user
+    sudo useradd --create-home --shell /bin/bash boundless
+    echo boundless:boundless | sudo chpasswd
+
+    # Add workshop data
+    sudo mkdir /home/boundless/data
+    sudo cp $DATA/bikepdx.zip /home/boundless/data/
+    cd /home/boundless/data
+    sudo unzip -q bikepdx.zip
+    sudo mkdir cmd
+    sudo mkdir gui
+    sudo cp bikepdx.* cmd/
+    sudo mv bikepdx.* gui/
+
+    # Build and add workshop docs
+    sudo apt-get install -qqy python-dev python-pip
+    sudo pip install -U Sphinx
+    cd $DOCS
+    make html
+    sudo cp -R $DOCS/build/html /home/boundless/workshop
+
+    # Repair boundless user's home directory
+    sudo chown -R boundless:boundless /home/boundless
+  SHELL
+end

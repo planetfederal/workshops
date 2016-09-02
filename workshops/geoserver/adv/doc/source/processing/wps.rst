@@ -10,7 +10,7 @@ What is WPS?
 
 Here is the official definition of WPS from the specification:
 
-  WPS defines a standardized interface that facilitates the publishing of geospatial processes, and the discovery of and binding to those processes by clients. "Processes" include any algorithm, calculation or model that operates on spatially referenced data. "Publishing" means making available machine-readable binding information as well as human-readable metadata that allows service discovery and use.*
+  *WPS defines a standardized interface that facilitates the publishing of geospatial processes, and the discovery of and binding to those processes by clients. "Processes" include any algorithm, calculation or model that operates on spatially referenced data. "Publishing" means making available machine-readable binding information as well as human-readable metadata that allows service discovery and use.*
 
 As its name suggests, a Web Processing Service is a service that allows you to perform **analytical processes over the web**. The processes/analyses are run on the server, but the calls to the processes (and sometimes the inputs) are made over the web.
 
@@ -29,14 +29,14 @@ The definition of the process exists on a server, and it can take inputs from a 
 
 Like WMS and WFS, there is the same idea of the capabilities document (through a GetCapabilities request), which lists all of the processes known to the server. Like WFS DescribeFeatureType, the DescribeProcess operation will detail the inputs and outputs of a given process. And just like GetMap or GetFeature, ExecuteProcess will perform the operation.
 
-The data to be operated on can be POST'ed as part of the request, but that can be unwieldy if the data is large or the bandwidth small. It makes much more sense to store the data on the server, and then operate on it there. The exception to this is smaller data, such as a bounding box or simple shape, that is used to operate on larger datasets stored on the server (say with a clipping operation).
+The data to be operated on can be POSTed as part of the request, but that can be unwieldy if the data is large or the bandwidth small. It makes much more sense to store the data on the server, and then operate on it there. The exception to this is smaller data, such as a bounding box or simple shape, that is used to operate on larger datasets stored on the server (say with a clipping operation).
 
 GeoServer and WPS
 -----------------
 
-GeoServer has full support for WPS. It is currently available as an extension in the community version. In the OpenGeo Suite version of GeoServer, though, it is integrated into the core without any additional work required. The functionality of both implementations are identical.
+GeoServer has full support for WPS.
 
-It should be noted that there is a difference between WPS as a *standard* and WPS as it is *implemented*.  WPS as a standard is very generic, and doesn't specify any more than a framework for what is possible. It is in the implementation of WPS (and especially what processes are available) that determine how useful and powerful it can be. So while the discussion here will be on GeoServer's implementation of WPS, other products such as 52-North or Deegree may have very different implementations.
+It should be noted that there is a difference between WPS as a *standard* and WPS as it is *implemented*. WPS as a standard is very generic, and doesn't specify any more than a framework for what is possible. It is in the implementation of WPS (and especially what processes are available) that determine how useful and powerful it can be. So while the discussion here will be on GeoServer's implementation of WPS, other products such as 52-North or Deegree may have very different implementations.
 
 WPS, like other OGC services, uses XML for its inputs and outputs. With multiple inputs and outputs (and especially when chained processes are invoked) this can get extremely unwieldy. Thankfully, GeoServer includes a **WPS Request Builder** to perform basic tasks, and to learn/prototype syntax. As a bonus, when building a process or task through the interface, it also generates the actual XML instructions, allowing you to hold on to the process for later use.
 
@@ -64,16 +64,16 @@ The buffer process is the simplest, most common process, and so it makes sense t
 
       * - Field
         - Value
-      * - Input geometry
-        - TEXT, application/wkt, POINT(0 0)
-      * - distance
-        - 2
-      * - quadrantSegments
-        - 10
-      * - capStyle
-        - Round
-      * - result
-        - Generate application/wkt
+      * - :guilabel:`Input geometry`
+        - :guilabel:`TEXT` :guilabel:`application/wkt` :kbd:`POINT(0 0)`
+      * - :guilabel:`distance`
+        - :kbd:`2`
+      * - :guilabel:`quadrantSegments`
+        - :kbd:`10`
+      * - :guilabel:`capStyle`
+        - :guilabel:`Round`
+      * - :guilabel:`result`
+        - :guilabel:`application/wkt`
 
    .. figure:: img/wps_bufferform.png
 
@@ -120,7 +120,7 @@ The buffer process is the simplest, most common process, and so it makes sense t
 
    .. figure:: img/wps_bufferoutput.png
 
-      Visualization of buffet result
+      Visualization of buffer result
 
 Chaining processes
 ------------------
@@ -133,35 +133,25 @@ Here are some examples of some applications of chaining:
 * Overlaying a land use polygon coverage against a county coverage, then unioning all the resultant polygons of a certain type.
 * Taking cell towers, buffering them by a radius depending on their signal strength and elevation, then unioning all the buffer polygons to determine a total area of coverage. 
 
-.. todo:: This section needs a chained example.
+.. todo:: This section needs a chained example. Perhaps use WPS Builder?
 
 Types of processes
 ------------------
 
 There are two categories of processes in GeoServer's implementation of WPS:
 
-#. JTS Topology Suite (primarily *geometry* operations such as buffer, centroid, contains, and touches)
-#. Internal GeoTools/GeoServer processes (primarily *feature* operations such as bounds, clip, reproject, and import)
+* `JTS Topology Suite <http://www.vividsolutions.com/jts/JTSHome.htm>`_ (primarily **geometry operations** such as buffer, centroid, contains, and touches)
+* Internal GeoTools/GeoServer processes (primarily **feature operations** such as bounds, clip, reproject, and import)
 
 The benefit to the GeoServer-specific processes is that the data can already be on the server. In this way things can be set up such that the large data sets are stored on the server, and only the inputs and output are passed to and from the client. In fact, the output (which can itself be quite large) doesn't even need to be passed back to the client, as the output of a process can be stored on the server as a new layer (via the gs:Import process). So in most cases, large bandwidth is not required for large-scale processing.
 
 Build your own process
 ----------------------
 
-There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are.
-
-There are a few options through which you can build your own processes. If you're a Java developer, you're in luck, as you can build your classes right into GeoServer.
+There is also the ability to define your own processes. The types of processes that are possible are virtually unlimited. The WPS spec only discusses the need for a process to have inputs and outputs, but doesn't specify what they are or how many of them (or what type) they are. Processes are written in Java.
 
 .. figure:: img/wps_javadev.png
 
-   You could be a Java developer
+   Example of a process written in Java
 
-If not, you can use something like GeoScript. GeoScript allows you to interact with GeoTools and all of its rich Java goodness within the context of your preferred scripting language, such as Python or JavaScript.
-
-You can think of GeoScript as an interpretation layer to GeoServer.
-
-GeoScript is beyond the scope of this workshop, but note that if you're comfortable in Python, JavaScript, you should be able to use GeoScript comfortably.
-
-.. figure:: img/wps_geoscript.png
-
-   Or you could use GeoScript
+.. note:: Here is a tutorial showing `how to write a WPS process <http://suite.boundlessgeo.com/docs/latest/processing/wpsjava/>`_.

@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="151px" height="176px" viewBox="0 0 151 176" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.0.4 (8053) - http://www.bohemiancoding.com/sketch -->
+<svg width="151px" height="176px" viewBox="0 0 151 176" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
     <title>LabelVendor</title>
     <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="LabelVendor" sketch:type="MSArtboardGroup">
-            <g id="Vendor-Parameters" sketch:type="MSLayerGroup" transform="translate(5.000000, 8.000000)">
-                <path d="M56.09375,35.4609375 L10.4648438,125.179688 L99.0742188,125.179688 L99.0742188,65.7382812 L56.09375,35.4609375 Z" id="Polygon-Line" stroke="#9B9B9B" stroke-width="2" sketch:type="MSShapeGroup"></path>
-                <path d="M39.4375,116.105469 L65.5,85.5" id="Line" stroke="#7EB5D3" stroke-width="7" stroke-linecap="square" sketch:type="MSShapeGroup"></path>
-                <g id="Label" transform="translate(38.000000, 83.000000)">
-                    <rect id="Rectangle-13" stroke="#000000" stroke-dasharray="5,3" sketch:type="MSShapeGroup" x="0" y="0" width="58" height="34"></rect>
-                    <text id="South" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="13" font-weight="260" fill="#000000">
+    <defs>
+        <rect id="path-1" x="0" y="0" width="58" height="34"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="58" height="34" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="LabelVendor">
+            <g id="Vendor-Parameters" transform="translate(8.000000, 8.000000)">
+                <polygon id="Polygon-Line" stroke="#9B9B9B" stroke-width="2" points="53.09375 35.4609375 7.46484375 125.179688 96.0742188 125.179688 96.0742188 65.7382812"></polygon>
+                <path d="M36.4375,116.105469 L62.5,85.5" id="Line" stroke="#7EB5D3" stroke-width="7" stroke-linecap="square"></path>
+                <g id="Label" transform="translate(35.000000, 83.000000)">
+                    <use id="Rectangle-13" stroke="#000000" mask="url(#mask-2)" stroke-width="2" stroke-dasharray="5,3" xlink:href="#path-1"></use>
+                    <text id="South" font-family="ProximaNova-Light, Proxima Nova" font-size="13" font-weight="300" fill="#000000">
                         <tspan x="2.5" y="13">South</tspan>
                         <tspan x="2.5" y="29">Yorkshire</tspan>
                     </text>
                 </g>
-                <circle id="Oval-1-copy-4" stroke="#000000" fill="#FFFFFF" sketch:type="MSShapeGroup" cx="38.5" cy="116.5" r="4.5"></circle>
-                <g id="X" transform="translate(61.000000, 83.000000)" stroke="#000000" stroke-linecap="square" sketch:type="MSShapeGroup">
+                <circle id="Oval-1-copy-4" stroke="#000000" fill="#FFFFFF" cx="35.5" cy="116.5" r="4.5"></circle>
+                <g id="X" transform="translate(58.000000, 83.000000)" stroke="#000000" stroke-linecap="square">
                     <path d="M0.5,0.5 L6.5,6.5" id="Line"></path>
                     <path d="M6.57106781,0.42893219 L0.5,6.5" id="Line-copy"></path>
                 </g>
-                <g id="Callout-copy" transform="translate(0.000000, 137.000000)" font-size="12" font-family="Proxima Nova" fill="#000000" sketch:type="MSTextLayer" font-weight="260">
-                    <text id="Label">
-                        <tspan x="0" y="11">-gt-max-displacement: 40px;</tspan>
-                        <tspan x="0" y="26">-gt-label-auto-wrap: 70px;</tspan>
-                    </text>
-                </g>
-                <text id="Vendor" sketch:type="MSTextLayer" font-family="Proxima Nova" font-size="13" font-weight="526" sketch:alignment="middle" fill="#000000">
-                    <tspan x="42.453" y="12">Vendor</tspan>
+                <text id="Vendor" font-family="ProximaNova-Semibold, Proxima Nova" font-size="13" font-weight="500" fill="#000000">
+                    <tspan x="39.453" y="12">Vendor</tspan>
                 </text>
             </g>
         </g>

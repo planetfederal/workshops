@@ -3,29 +3,17 @@
 OpenGeo Suite Dashboard
 =======================
 
-OpenGeo Suite comes with a Dashboard, a lightweight web application that provides links to the most common applications and documentation.
-
-As we introduce the Dashboard, take some time to explore it by clicking around.
+OpenGeo Suite comes with a Dashboard application that provides links to the most common applications and documentation.
 
 The Dashboard can be opened from the Start menu at :menuselection:`OpenGeo Suite --> Dashboard`. The Dashboard is also available in the browser by navigating to ``http://localhost:8080/``.
 
-Home screen
------------
-
-The main Dashboard page show links to PostGIS configuration and documentation for PostGIS, GeoServer, GeoWebCache, and GeoExplorer.
+The main Dashboard page show links to configuration pages and documentation.
 
 .. figure:: img/dashboard.png
 
    OpenGeo Suite Dashboard
 
-.. note:: A link to pgAdmin is not included here because the Dashboard can only launch web pages, not desktop applications. pgAdmin can be launched from the Start Menu.
-   
-Getting started
----------------
+The top toolbar contains links to two other pages:
 
-The Getting Started screen includes a sample workflow to use for publishing data and maps using OpenGeo Suite. A similar workflow will be followed as part of this workshop.
-
-About
------
-
-The About page contains information about OpenGeo Suite and Boundless, the company behind OpenGeo Suite.
+* The :guilabel:`Getting Started` page includes a sample workflow to use for publishing data and maps using OpenGeo Suite. A similar workflow will be followed as part of this workshop.
+* The :guilabel:`Documentation` page links to the OpenGeo Suite User Manual, which contains the full user manual for GeoServer.

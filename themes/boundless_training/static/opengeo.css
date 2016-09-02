@@ -7445,3 +7445,11 @@ a:focus {
   outline: none;
   outline-offset: none;
 }
+
+.guilabel, .menuselection {
+  font-weight: bold; 
+  text-shadow: 1px 1px 0 #dddddd;
+  border: 1px solid #aaaaaa;
+  padding: 0px 3px;
+  border-radius: 5px;
+}
