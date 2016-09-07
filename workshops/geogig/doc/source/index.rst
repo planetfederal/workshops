@@ -22,7 +22,7 @@ If you later wish to perform this workshop on your own machine, you will need th
 
 In addition, we will be using a plugin for QGIS that comes with a copy of GeoGig bundled inside. This download may be used on all operating systems:
 
-* `GeoGig Plugin <http://training-files.boundlessgeo.com/foss4g/geogig-plugin.zip>`_
+* `GeoGig Plugin <https://github.com/boundlessgeo/qgis-geogiglight-plugin>`_
 
 This workshop uses the following bikes dataset:
 
@@ -49,8 +49,8 @@ The following material will be covered in this workshop:
 :ref:`gui_workflow`
   A QGIS GeoGig plugin workflow for the same team of GIS analysts and data manager as shown in the command line workflow.
 
-:ref:`gui_feature`
-  Another QGIS GeoGig plugin workflow for a single GIS analyst, suitable for fieldwork data collection or a digitization workflow.
+.. :ref:`gui_feature`
+..  Another QGIS GeoGig plugin workflow for a single GIS analyst, suitable for fieldwork data collection or a digitization workflow.
 
 :ref:`moreinfo`
   More information about GeoGig including links and a glossary of terms.
@@ -83,7 +83,8 @@ Great! Head to the first section, :ref:`theory`.
    gui/index
    cmd_workflow/index
    gui_workflow/index
-   gui_feature/index
    moreinfo/index
+..   gui_feature/index
+
 
 

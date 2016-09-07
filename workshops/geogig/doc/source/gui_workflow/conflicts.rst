@@ -3,25 +3,27 @@ Managing Conflicts
 
 So far we've avoided conflicting versions between Alice's **review** branch and Bob's **updates** branch.  The QGIS GeoGig plugin will automatically detect conflicts when you attempt to merge conflicting branches, and halt the merge. The plugin provides the choice of aborting the merge or resolving those conflicts within QGIS. 
 
-We're going to demonstrate what happens when two branchs attempt to change the same geometry or attribute of a feature. We'll intentionally create an attribute conflict between our **review** and **updates** branches.  We will not cover the resolution of geometry conflicts as it is not well supported by the plugin yet. But the resolution process is similar in either case.
+We're going to demonstrate two types of conflict. First we'll look at conflicts within the same branch caused by contradictory commits after a revert. Then we'll look at a merge conflict, which happens when two branchs attempt to change the same geometry or attribute of a feature.
 
-.. note:: Conflict resolution with the GeoGig Plugin is still under development
+We'll intentionally create an attribute conflict between our **review** and **updates** branches.  We will not cover the resolution of geometry conflicts as it is not well supported by the plugin yet. But the resolution process is similar in either case.
+
+.. note:: Merging and conflict resolution using the GeoGig Plugin is still under development.
 
 Ours or theirs
 --------------
 
 Recall from our command line example that we can think of the source branch as over "there", while the target of the merge is over "here". The value of the conflict from the source branch is "theirs" and the value of the current  branch is "ours". Resolving a conflict requires choosing "ours", "theirs", or a new value.
 
-Creating an Attribute Conflict
-------------------------------
+Creating and Resolving an Attribute Conflict
+--------------------------------------------
 
-During her review Alice notices the Sellwood Bridge has the wrong year and sets it to ``1960``. Meanwhile Bob notices the same thing, but sets the year to ``1955``.
+During her review Alice notices the Sellwood Bridge has the wrong year and sets it to ``1960``. Meanwhile Bob notices the same thing, but sets the year to ``1948``. For the purposes of this example we will assume Alice and Bob are both working on the ``repo_gui`` repository. 
 
-#. Start with the Alices **review** branch, select Alice's repository and set the current branch to **review**. Click :guilabel:`Open repository in QGIS` to ensure we have the correct layer loaded.
+#. We'll start by creating a new branch off the most recent commit on **master**, and call it ``conflict``. Ensure we're using the ``repo_gui`` repository by using the :menuselection:`Add to QGIS` button the the repository list.
 
-   .. figure:: img/conflict_review.png
+   .. figure:: img/conflict_branch.png
 
-      Current branch set to **review**
+      Activating the desired layer from branch.
 
 #. Select the the Sellwood Bridge (ID ``21``) and open the attribute table :menuselection:`Layer --> Open Attribute Table`. 
 
@@ -37,92 +39,89 @@ During her review Alice notices the Sellwood Bridge has the wrong year and sets 
 
 #. Click the pencil to turn off editing, :guilabel:`Save` when prompted, and close the attribute dialog.
 
-#. Add this change to the repository using :menuselection:`GeoGig --> Update repository with this layer`
+#. Add this change to the repository using :menuselection:`Sync layer with repository branch...` and enter an appropriate commit message.
 
-   .. figure:: img/gui_updaterepo.png
+   .. figure:: img/conflict_commit.png
 
-      Update the repository.
+      Committing our first change to the conflict branch.
 
-#. Enter an appropriate commit message.
+#. Now we'll make a similar change on the ``master`` branch. Select the master branch, right click the top commit and select :menuselection:`Change bikepdx layer to this version`.
 
-#. Switch to Bob's repository and make sure the current branch is **updates**.
+#. Select the Sellwood Brdige again and edit the ``YEARBUILT`` attribute of the bridge, setting it to ``1948``.
 
-   .. figure:: img/conflict_updates.png
+   .. figure:: img/conflict_1948.png
 
-      Current branch set to **updates**
+      Yearbuilt attribute set to 1948 for the Sellwood Bridge
 
-#. Hide or remove the previous **bikepdx** layer (Alice's), and add Bob's layer with :guilabel:`Open repository in QGIS`. 
+#. Rather than committing this to the ``master`` branch, we will attempt to commit it to the ``conflict`` branch. GeoGig will detect a conflict and ask us if we want to fix them, click :guilabel:`Yes`. 
 
-#. Again select the the Sellwood Bridge (ID ``21``) and open the attribute table :menuselection:`Layer --> Open Attribute Table`. Set the ``YEARBUILT`` to ``1955``. 
+   .. figure:: img/conflict_warning.png
 
-   .. figure:: img/conflict_1955.png
+      Geogig conflict warning
 
-      Bob modifies year built to 1955 
+#. A merge conflicts dialog will be opened that provides a comparison of the conflicting commits. Expand the bikepdx layer and select the feature. The conflicting attributes will be highlighted in yellow. In this case we can see the original year of 1950, the *local* year of 1948 (master branch), and the *remote* year of 1960 (the conflict branch).
 
-#. Click the pencil to turn off editing, :guilabel:`Save` when prompted, and close the attribute dialog.
+   .. figure:: img/conflicts_merge.png
 
-#. Add this change to the repository using :menuselection:`GeoGig --> Update repository with this layer`
+      The merge conflicts dialog.
 
-   .. figure:: img/gui_updaterepo.png
+#. We have several ways to solve the merge conflict from this dialog. If we had multiple conflicts we could choose to :guilabel:`Resolve all conflicts with` *local* or *remote*. We can select a single feature and resolve with *local* or *remote* . Or we can use the table to select the attributes to use in the merged result. Click the *local* YEARBUILT cell to select 1948 to use in the merged version, click :guilabel:`Solve with merged feature` to accept the resolution.
 
-      Update the repository.
+   .. figure:: img/conflict_postmerge.png
 
-#. Enter an appropriate commit message.
+      Repository history showing the completed merge
 
-#. Now push Bob's **updates** branch and Alice's **review** branch to the server.
+Creating and Resolving a Geometry Conflict
+------------------------------------------
 
-   .. figure:: img/gui_opensync.png
+To demonstrate a geometry conflict both Alice and Bob will be changing the geometry of the Sellwood Gap trail. For the purposes of this example we will assume Alice and Bob are both working on the ``repo_gui`` repository. 
 
-      Synchronize with the server.
+#. We'll start by creating a new branch off the most recent commit on **master**, and call it ``geom_conflict``. Ensure we're using the ``repo_gui`` repository by using the :menuselection:`Add to QGIS` button the the repository list.
 
-#. Now the data manager pulls the new changes from the server into the **qa** repository. Make the current branch **updates** and sync with the server. Do the same for the **review** branch.
+   .. figure:: img/conflict_branch2.png
 
-#. Let's assume he doesn't notice the conflicting years and attempts to merge the two branches into the **master** branch. Make the **master** branch the current branch and merge the **updates** branch.
+      Activating the desired layer from branch.
 
-   .. figure:: img/conflict_merge.png
+   .. note:: You may need to remove the styling from the layer in order to modify the geometry. 
 
-      Merge the updates branch into **master**
+#. Click the pencil icon to begin editting, we'll use the :guilabel:`Node Tool` to adjust the path of the Sellwood Gap trail. Click and drag the vertices (red X's) to reshape the trail. You can double click between vertices to create a new vertex. When satisfied with the changes, click the pencil icon and save.
 
-#. Still on the **master** branch, now merge the **review** branch. A warning will popup that some of the edits in the current branch are conflicting with edits in the branch you tried to merge. 
+   .. figure:: img/conflict_sellwood1.png
 
-   .. figure:: img/conflict_msg.png
+      First version of the modified Sellwood Trail
 
-      Conflict warning dialog
+#. Commit this change to the ``geom_conflict`` branch.
 
-#. The GeoGig plugin will provide two options :guilabel:`Solve Conflicts` and :guilabel:`Abort merge` just below the repository history. 
+   .. figure:: img/conflict_branch1.png
 
-   .. figure:: img/conflict_resolve.png
+      The first geometry change committed to the *geom_conflict* branch.
 
-      Conflict options
+#. Now expand the ``master`` branch, right click the most recent commit, and select :menuselection:`Change 'bikepdx' layer to this version`. The our view will update and the Sellwood Gap will be in it's original state. 
 
-#. Click :guilabel:`Solve conflicts` to attempt to resolve the conflicts. A dialog box will open showing the layer and features that conflict. There should be a single feature under the **bikepdx** layer on the left, it is identified by it's GeoGig ID. 
+   .. figure:: img/conflict_master.png
 
-   .. figure:: img/conflict_solve.png
+      The master branch version before editting.
 
-      Conflict resolution dialog
+#. Enter editing mode and use the ``Node Tool`` to change the route of the Sellwood trail.
 
-#. Click the feature under the **bikepdx** layer and the attributes of the *Local* and *To merge* versions will be displayed in the top right of the dialog. Scroll down to find the ``YEARBUILT`` attribute, it will be highlighted in yellow to show that there is a conflict between the versions. 
+   .. figure:: img/conflict_sellwood2.png
 
-   .. figure:: img/conflict_attrib.png
+      The second version of the Sellwood Trail
 
-      Conflicting YEARBUILT attributes
+#. Commit this change to the ``geom_conflict`` branch. Geogig will detect the conflict and ask us to fix it, click yes.
 
-#. Resolving the conflict requires choosing the *Local* or *To Merge* value from the attribute table. The bottom left of the dialog window has two buttons :guilabel:`To merge` and :guilabel:`Local`, clicking one of these buttons will resolve the conflict with the ``Local`` or the ``To merge`` values for all attributes.
+   .. figure:: img/conflict_warning.png
 
-   .. figure:: img/conflict_resolveAll.png
+      Geogig conflict warning
 
-      Resolve all conflict buttons
+#. In the :guilabel:`Merge Conflicts` dialog expand the **bikepdx** layer and select the conflicting feature. This time the lower part of the window shows the two different geometries we are trying to merge. the **remote** is the green line and the **local** is the blue line. 
 
-#. Alternately you can choose specific values to use for the merge. Clicking one of the values will set that as the value to be used, that value will appear under the *Merged* column. Once a value is selected, the yellow highlight will disappear. Then click :guilabel:`solve` to resolve the conflicts.
+   .. figure:: img/conflict_merge2.png
 
-   .. figure:: img/conflict_solved.png
+      Resolving a geometery conflict.
 
-      Solved conflict attributes to be used in the final *Merged* version
+#. As in the attribute resolution we can resolve this conflict in several ways. This time we will assume the **remote** version is the correct one. Click the :guilabel:`Solve with remote feature` button to choose our remote version and complete the merge.
 
-#. A commit will be added to the history showing the merged branch.
+   .. figure:: img/conflict_postmerge2.png
 
-
-
-
-
-
+      The *geom_conflict* branch history showing our merged commits.
