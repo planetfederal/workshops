@@ -1,9 +1,3 @@
-
-.. note:: 
-
-  Check out the `online demonstration application <http://apps.boundlessgeo.com/apps/parcelmap>`_ and play!
-
-
 Introduction
 ------------
 
