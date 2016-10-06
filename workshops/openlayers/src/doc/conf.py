@@ -91,7 +91,7 @@ modindex_common_prefix = ['openlayers.']
 
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'opengeo_v1'
+html_theme = 'boundless_training'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
