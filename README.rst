@@ -1,7 +1,7 @@
-OpenGeo Workshops Repository
-============================
+Boundless Workshops Repository
+==============================
 
-This repository is for all workshop materials created and/or hosted by OpenGeo.
+This repository is for all free (Creative Commons) workshop materials created and/or hosted by Boundless. These workshops can be found in built form on Boundless Connect.
 
 Directory structure
 -------------------
@@ -34,16 +34,6 @@ A workshop may depend on external data and/or software:
 - DATA
 
   - Your workshop should include a URL to download a zip file of the data
-  - Workshop data should be stored at http://files.opengeo.org/workshopmaterials
+  - Workshop data should be stored and linked to.
   - You should name your zip file with a date or version number to allow 
     old versions of the workshop to have a longer lifespan
-
-Updating workshops.opengeo.org
-------------------------------
-
-Just pushing to the repository will not update http://workshops.opengeo.org. You
-will need to update the site manually:
-
-- SSH to workshops.opengeo.org
-- cd /var/www/workshops.opengeo.org/
-- sudo perl build_html_common_git.pl
