@@ -14,10 +14,10 @@ In this module you will use the jQuery UI and Ext JS libraries to create widgets
 
 .. toctree::
     :maxdepth: 1
-    
-    Explore jQuery UI. <jqui>
-    Use a jQuery UI slider to set layer opacity. <jqui-slider>
-    Use a jQuery UI dialog to display feature information.  <jqui-dialog>
-    Explore Ext JS. <ext>
-    Use an Ext JS slider to set layer opacity. <ext-slider>
-    Use an Ext JS window to display feature information.  <ext-window>
+
+    jqui
+    jqui-slider
+    jqui-dialog
+    ext
+    ext-slider
+    ext-window

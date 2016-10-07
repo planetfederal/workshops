@@ -1,0 +1,202 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-05 10:27+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../vector/style-intro.rst:4
+msgid "Understanding Style"
+msgstr "Comprendere lo stile"
+
+#: ../../vector/style-intro.rst:6
+msgid "When styling HTML elements, you might use CSS like the following:"
+msgstr ""
+"Quando applichi stili agli elementi HTML si è portati a pensare a CSS come "
+"questi:"
+
+#: ../../vector/style-intro.rst:16
+msgid ""
+"The ``.someClass`` text is a selector (in this case it selects all elements "
+"that include the class name ``\"someClass\"``) and the block that follows is "
+"a group of named properties and values, otherwise known as style "
+"declarations."
+msgstr ""
+"Il testo ``.someClass`` è un selettore (in tal caso seleziona tutti gli "
+"elementi che includono la classe di nome ``\"someClass\"``) e il blocco che "
+"proponiamo sotto è un gruppo di proprietà con nome e valore meglio "
+"conosciute come dichiarazioni di stile."
+
+#: ../../vector/style-intro.rst:19
+msgid "OpenLayers.Filter"
+msgstr "OpenLayers.Filter"
+
+#: ../../vector/style-intro.rst:21
+msgid ""
+"When styling features in OpenLayers, your selectors are ``OpenLayers."
+"Filter`` objects.  Assuming you want to apply a style to all features that "
+"have an  attribute named ``class`` with a value of ``\"someClass\"``, you "
+"would start with a filter like the following:"
+msgstr ""
+"Quando operi delle vestizioni di feature in OpenLayers i tuoi selettori sono "
+"oggetti ``OpenLayers.Filter``. Assumendo che si voglia applicare uno stile a "
+"tutte le feature che hanno un attributo denominato ``class`` con valore ``"
+"\"someClass\"``, si inizierebbe con un filtro come il seguente:"
+
+#: ../../vector/style-intro.rst:32
+msgid "Symbolizers"
+msgstr "I Symbolizer"
+
+#: ../../vector/style-intro.rst:34
+msgid ""
+"The equivalent of a declaration block in CSS is a `symbolizer` in OpenLayers "
+"(these are typically object literals). To paint features with a blue "
+"background and a 1 pixel wide olive stroke, you would use a symbolizer like "
+"the following:"
+msgstr ""
+"L'equivalente, in OpenLayers, di un blocco di dichiarazione in CSS è un "
+"`symbolizer` (che sono tipicamente oggetti literal). Per rappresentare "
+"feature con uno sfondo blu e una linea olivastra di larghezza 1 pixel si "
+"utilizzerebbe un simbolizer come questo: "
+
+#: ../../vector/style-intro.rst:45
+msgid "OpenLayers.Rule"
+msgstr "OpenLayers.Rule"
+
+#: ../../vector/style-intro.rst:47
+msgid ""
+"To combine a filter with a symbolizer, we use an ``OpenLayers.Rule`` object. "
+"As such, a rule that says `\"paint all features with class equal to "
+"'someClass' using a 1px olive stroke and blue fill\"` would be created as "
+"follows:"
+msgstr ""
+"Per combinare un filtro ad un symbolizer possiamo usare un oggetto del tipo "
+"``OpenLayers.Rule``. In tal modo, una regola che dica `\"disegna tutte le "
+"feature di classe uguale a 'someClass' usando una linea di 1px olivastro e "
+"il riempimento di blu\"` sarebbe creata così:"
+
+#: ../../vector/style-intro.rst:65
+msgid "OpenLayers.Style"
+msgstr "OpenLayers.Style"
+
+#: ../../vector/style-intro.rst:67
+msgid ""
+"As in CSS page, where you may have many rules-- selectors and associated "
+"declaration blocks--you are likely to have more than one rule for styling "
+"the features of a given map layer. You group ``OpenLayers.Rule`` objects "
+"together in an ``OpenLayers.Style`` object. A style object is typically "
+"constructed with a base symbolizer. When a feature is rendered, the base "
+"symbolizer is extended with symbolizers from all rules that apply to the "
+"feature."
+msgstr ""
+"Alla stessa maniera delle pagine CSS, dove potreste avere molte regole--"
+"selettori e blocchi di dichiarazione associati--è molto probabile che "
+"possiate avere più di una regola per dare una vestizione alle feature di un "
+"layer in una data mappa. Per questo è tipico raggruppare insieme oggetti del "
+"tipo ``OpenLayers.Rule`` in un oggetto ``OpenLayers.Style``. L'oggetto stile "
+"è costruito di solito con un symbolizer base. Nel momento in cui viene "
+"restituita una feature il symbolizer base viene ampliato appiccicandoci "
+"tutti i symbolizer da tutte le regole che si applicano alla feature stessa."
+
+#: ../../vector/style-intro.rst:69
+msgid ""
+"So, if you want all features to be colored red except for those that have a "
+"``class`` attribute with the value of ``\"someClass\"`` (and you want those "
+"features colored blue with an 1px olive stroke), you would create a style "
+"that looked like the following:"
+msgstr ""
+"Perciò, se volessimo che tutte le feature siano colorate di rosso eccetto "
+"quelle che hanno un attributo ``class`` con valore di ``\"someClass\"`` (per "
+"le quali vogliamo applicare il colore blu con linea di 1px olivastra), "
+"creeremmo uno stile che assomigli parecchio a questo:"
+
+#: ../../vector/style-intro.rst:96
+msgid ""
+"If you don't include any rules in a style, `all` of the features in a layer "
+"will be rendered with the base symbolizer (first argument to the "
+"``OpenLayers.Style`` constructor). If you include `any` rules in your style, "
+"only features that pass at least one of the rule constraints will be "
+"rendered. The ``elseFilter`` property of a rule let's you provide a rule "
+"that applies to all features that haven't met any of the constraints of your "
+"other rules."
+msgstr ""
+"Se non includete alcuna regola in uno stile allora `tutte` le feature in un "
+"layer saranno rappresentate con un symbolizer base (il primo argomento del "
+"costruttore ``OpenLayers.Style``). Se includete qualsiasi regola nel vostro "
+"stile allora solo le feature che sottostanno ad almeno uno dei vincoli di "
+"una regola saranno restituite. La proprietà ``elseFilter`` di una regola "
+"permette, a tal proposito, di prevedere una regole che si applichi a tutte "
+"le feature che non hanno soddisfatto alcun vincolo delle altre regole."
+
+#: ../../vector/style-intro.rst:99
+msgid "OpenLayers.StyleMap"
+msgstr "OpenLayers.StyleMap"
+
+#: ../../vector/style-intro.rst:101
+msgid ""
+"CSS allows for pseudo-classes on selectors. These basically limit the "
+"application of style declarations based on contexts such as mouse position, "
+"neighboring elements, or browser history, that are not easily represented in "
+"the selector. In OpenLayers, a somewhat similar concept is one of \"render "
+"intent.\" Without defining the full set of render intents that you can use, "
+"the library allows for sets of rules to apply only under specific contexts."
+msgstr ""
+"I CSS consentono anche pseudo classi sui selettori. Questo principalmente "
+"limita il campo di applicazione delle dichiarazioni di stile a contesti come "
+"la posizione del mouse, la vicinanza ad elementi, o la cronologia del "
+"browser, che non sono facilmente rappresentabili nel browser. In OpenLayers "
+"un qualcosa di simile è espresso dal concetto di \"intento di restituzione."
+"\" Senza andare a definire l'insieme completo degli intenti che si possono "
+"utilizzare vedremo come la libreria consenta di applicare un insieme di "
+"regole solo per specifici contesti."
+
+#: ../../vector/style-intro.rst:103
+msgid ""
+"So, the ``active`` pseudo-class in CSS limits the selector to the currently "
+"selected element (e.g. ``a:active``). In the same way, the ``\"select\"`` "
+"render intent applies to currently selected features. The mapping of render "
+"intents to groups of rules is called an ``OpenLayers.StyleMap``."
+msgstr ""
+"Per esempio la pseudo classe ``active`` in CSS limita il selettore "
+"all'elemento correntemente selezionato (Es.: ``a:active``). Allo stesso modo "
+"l'intento ``\"select\"`` si limita a prendere in considerazione solo la "
+"feature correntemente selezionata. L'associazione di intenti di restituzione "
+"con gruppi di regole è chiamata con un oggetto ``OpenLayers.StyleMap``."
+
+#: ../../vector/style-intro.rst:105
+msgid ""
+"Following on with the above examples, if you wanted all features to be "
+"painted fuchsia when selected, and otherwise you wanted the ``myStyle`` "
+"defined above to be applied, you would create an ``OpenLayers.StyleMap`` "
+"like the following:"
+msgstr ""
+"Continuando con gli esempi di prima, se volessimo che tutte le feature sia "
+"colorate fucsia quando sono selezionate o che venga applicato lo stile "
+"``myStyle`` definito sopra andremmo a creare un oggetto ``OpenLayers."
+"StyleMap`` del tipo:"
+
+#: ../../vector/style-intro.rst:116
+msgid ""
+"To determine how features in a vector layer are styled, you need to "
+"construct the layer with an ``OpenLayers.StyleMap``."
+msgstr ""
+"Per determinare come sono stilizzate le feature in un layer vettoriale c'è "
+"bisogno di costruire il layer con un oggetto ``OpenLayers.StyleMap``."
+
+#: ../../vector/style-intro.rst:118
+msgid ""
+"With the basics of styling under your belt, it's time to move on to :ref:"
+"`styling vector layers <openlayers.style>`."
+msgstr ""
+"Con l'apprendimento delle basi per l'applicazione degli stile è arrivato il "
+"momento di spostarsi sulla :ref:`vestizione dei layer vettoriali <openlayers."
+"style>`."

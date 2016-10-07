@@ -1,0 +1,127 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-03 19:46+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../setup.rst:2
+msgid "Workshop Setup"
+msgstr "Inizio del Workshop"
+
+#: ../../setup.rst:5
+msgid "Prerequisites"
+msgstr "Prerequisiti"
+
+#: ../../setup.rst:7
+msgid ""
+"This workshop requires that that PostgreSQL with PostGIS and GeoServer are  "
+"installed on workshop machines.  These instructions assume that the OpenGeo "
+"Suite installer was assumed to install both GeoServer and PostgreSQL.  "
+"GeoServer and PostgreSQL should be running before starting the workshop.  "
+"With the Suite install, these services can be started from the Suite "
+"Dashboard (on Windows,  you'll also find items in the Start menu.)  As noted "
+"below, deploy the workshop documentation before starting the Suite."
+msgstr ""
+"Questo workshop richiede che siano installati PostgreSQL con PostGIS e "
+"GeoServer. Si assume che sia stato utilizzato il pacchetto di installazione "
+"della OpenGeo Suite e che siano già installati GeoServer e PostgreSQL. Essi "
+"dovranno essere avviati prima di iniziare il workshop. I loro servizi "
+"possono essere lanciati dalla Dashboard della Suite (su Windows la troverete "
+"nel Menu Start.). Come noterete sotto sarebbe anche opportuno distribuire la "
+"documentazione del workshop sull'application server prima di avviare la "
+"Suite."
+
+#: ../../setup.rst:11
+msgid "Deploying the Workshop Docs"
+msgstr "Distribuire la documentazione del Workshop"
+
+#: ../../setup.rst:13
+msgid ""
+"Extract the ol_workshop.zip archive to the :file`webapps` directory in your "
+"Suite install.  The location of this directory differs depending on your "
+"operating system."
+msgstr ""
+"Estrarre l'archivio ol_workshop.zip sulla directory :file`webapps` nella "
+"vostra installazione. La posizione di questa directory può dipendere dal "
+"sistema operativo in uso."
+
+#: ../../setup.rst:15
+msgid ""
+"Windows: :file:`C:\\\\Program Files\\\\OpenGeo\\\\OpenGeo Suite\\\\webapps`"
+msgstr ""
+"Su Windows: :file:`C:\\\\Program Files\\\\OpenGeo\\\\OpenGeo Suite\\"
+"\\webapps`"
+
+#: ../../setup.rst:16
+msgid "Mac OS X: :file:`/opt/opengeo/suite/webapps`"
+msgstr "Su Mac OS X: :file:`/opt/opengeo/suite/webapps`"
+
+#: ../../setup.rst:17
+msgid "Linux: :file:`/var/lib/tomcat6/webapps/`"
+msgstr "Linux: :file:`/var/lib/tomcat6/webapps/`"
+
+#: ../../setup.rst:19
+msgid ""
+"Move the extracted :file:`ol_workshop` directory into your :file:`webapps` "
+"directory **before** starting the Suite."
+msgstr ""
+"Spostare la directory :file:`ol_workshop` estratta dall'archivio in :file:"
+"`webapps` **prima** di avviare la Suite."
+
+#: ../../setup.rst:22
+msgid "Test the Setup"
+msgstr "Test delle impostazioni"
+
+#: ../../setup.rst:24
+msgid "Test GeoServer and Postgres Setup:"
+msgstr "Test delle impostazioni di GeoServer e Postgres:"
+
+#: ../../setup.rst:26
+msgid "Start the OpenGeo Suite."
+msgstr "Avviare la OpenGeo Suite"
+
+#: ../../setup.rst:27
+msgid ""
+"Load @geoserver_url@/ in a browser. You should see GeoServer's welcome "
+"screen."
+msgstr ""
+"Caricare la URL @geoserver_url@/ nel browser. Dovrebbe apparire la pagina di "
+"benvenuto di GeoServer."
+
+#: ../../setup.rst:28
+msgid ""
+"Navigate to the layers preview page. You should be able to see the medford "
+"layers listed in the table."
+msgstr ""
+"Navigare alla pagina di anteprima dei layer. Dovreste essere in grado di "
+"vedere il layer medford nella lista che appare."
+
+#: ../../setup.rst:29
+msgid ""
+"Click on the OpenLayers preview link for the ``medford`` layer. You should "
+"see some elevation data with infrastructure data over it."
+msgstr ""
+"Fare click sul collegamento all'anteprima OpenLayers del layer ``medford``. "
+"Dovreste poter vedere dei dati di elevazione con dati infrastrutturali sopra."
+
+#: ../../setup.rst:31
+msgid "Test Workshop Docs:"
+msgstr "Test della documentazione del Workshop:"
+
+#: ../../setup.rst:33
+msgid ""
+"Load @workshop_url@/doc/ in a browser. You should see a the intro page for "
+"the workshop docs with links to lead you through the workshop."
+msgstr ""
+"Caricare la URL @workshop_url@/doc/ nel browser. Dovreste poter visualizzare "
+"una pagina introduttiva per il workshop con i link che vi guideranno ai "
+"successivi capitoli."

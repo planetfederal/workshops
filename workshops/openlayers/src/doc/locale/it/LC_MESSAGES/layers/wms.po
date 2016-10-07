@@ -1,0 +1,178 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-04 15:58+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../layers/wms.rst:4
+msgid "Web Map Service Layers"
+msgstr "Layer Web Map Service"
+
+#: ../../layers/wms.rst:6
+msgid ""
+"When you add a layer to your map, the layer is typically responsible for "
+"fetching the data to be displayed. The data requested can be either raster "
+"or vector data. You can think of raster data as information rendered as an "
+"image on the server side. Vector data is delivered as structured information "
+"from the server and may be rendered for display on the client (your browser)."
+msgstr ""
+"Quando si aggiunge un layer ad una mappa, tipicamente, questo è responsabile "
+"di recuperare i dati che debbono essere visualizzati. Questi in linea di "
+"massima potrebbero essere sia dei raster sia dei vettoriali. Potete pensare "
+"al dato raster come un informazione restituita sotto forma di immagine dal "
+"server. Il dato vettoriale è distribuito dal server come una informazione "
+"strutturata e può essere restituita in visualizzazione sul client (il "
+"browser)."
+
+#: ../../layers/wms.rst:12
+msgid ""
+"There are many different types of services that provide raster map data. "
+"This section deals with providers that conform with the :abbr:`OGC (Open "
+"Geospatial Consortium, Inc.)` `Web Map Service (WMS) <http://www."
+"opengeospatial.org/standards/wms>`_ specification."
+msgstr ""
+"Esistono molti tipi di servizi differenti che prevedono mappe con dati "
+"raster. Questa sezione tratta dei protocolli che sono conformi alle `Web Map "
+"Service (WMS) <http://www.opengeospatial.org/standards/wms>`_ specification "
+"di :abbr:`OGC (Open Geospatial Consortium, Inc.)`."
+
+#: ../../layers/wms.rst:18
+msgid "Creating a Layer"
+msgstr "Creare un layer"
+
+#: ../../layers/wms.rst:20
+msgid ""
+"We'll start with a fully working map example and modify the layers to get an "
+"understanding of how they work."
+msgstr ""
+"Cominceremo con un esempio già funzionante per poi modificare i layers per "
+"capire come lavorano."
+
+#: ../../layers/wms.rst:23
+msgid "Let's take a look at the following code:"
+msgstr "Diamo uno sguardo al seguente pezzo di codice:"
+
+#: ../../layers/wms.rst:60 ../../layers/wms.rst:97
+msgid "Tasks"
+msgstr "Attività"
+
+#: ../../layers/wms.rst:61
+msgid ""
+"If you haven't already done so, save the text above as ``map.html`` in the "
+"root of your workshop directory."
+msgstr ""
+"Se non lo doveste aver già fatto, salvate il testo sopra come ``map.html`` "
+"nella radice della directory del workshop."
+
+#: ../../layers/wms.rst:64
+msgid ""
+"Open the page in your browser to confirm things work: @workshop_url@/map.html"
+msgstr ""
+"Aprire la pagina nel proprio browser e verificare che tutto stia "
+"funzionando: @workshop_url@/map.html"
+
+#: ../../layers/wms.rst:68
+msgid "The OpenLayers.Layer.WMS Constructor"
+msgstr "Il costruttore OpenLayers.Layer.WMS"
+
+#: ../../layers/wms.rst:70
+msgid ""
+"The ``OpenLayers.Layer.WMS`` constructor requires 3 arguments and an "
+"optional fourth. See the `API reference <http://dev.openlayers.org/apidocs/"
+"files/OpenLayers/Layer/WMS-js.html#OpenLayers.Layer.WMS.OpenLayers.Layer."
+"WMS>`_ for a complete description of these arguments."
+msgstr ""
+"Il costruttore ``OpenLayers.Layer.WMS`` richiede 3 argomenti ed "
+"opzionalmente ne prevede un quarto. Consultare `i riferimenti API <http://"
+"dev.openlayers.org/apidocs/files/OpenLayers/Layer/WMS-js.html#OpenLayers."
+"Layer.WMS.OpenLayers.Layer.WMS>`_ per una completa descrizione di questi "
+"argomenti."
+
+#: ../../layers/wms.rst:84
+msgid ""
+"The first argument, ``\"Global Imagery\"``, is a string name for the layer. "
+"This is only used by components that display layer names (like a layer "
+"switcher) and can be anything of your choosing."
+msgstr ""
+"Il primo argomento, ``\"Global Imagery\"``, è la stringa del nome del layer. "
+"Questo è usato solamente dai componenti che visualizzano i nomi dei layer "
+"(come selettore di scelta tra layer) e può essere qualsiasi cosa di vostra "
+"scelta."
+
+#: ../../layers/wms.rst:88
+msgid ""
+"The second argument, ``\"http://maps.opengeo.org/geowebcache/service/wms"
+"\"``, is the string URL for a Web Map Service."
+msgstr ""
+"Il secondo argomento, ``\"http://maps.opengeo.org/geowebcache/service/wms"
+"\"``, è la stringa dell'URL per il Web Map Service."
+
+#: ../../layers/wms.rst:91
+msgid ""
+"The third argument, ``{layers: \"bluemarble\"}`` is an object literal with "
+"properties that become parameters in our WMS request. In this case, we're "
+"requesting images rendered from a single layer identified by the name ``"
+"\"bluemarble\"``."
+msgstr ""
+"Il terzo argomento, ``{layers: \"bluemarble\"}`` è un oggetto con proprietà "
+"che diventano parametri della nostra richiesta WMS. In questo caso, staremmo "
+"richiedendo immagini restituite da un singolo layer identificato col nome ``"
+"\"bluemarble\"``."
+
+#: ../../layers/wms.rst:98
+msgid ""
+"This same WMS offers a layer named ``\"openstreetmap\"``. Change the value "
+"of the ``layers`` param from ``\"bluemarble\"`` to ``\"openstreetmap\"``."
+msgstr ""
+"Questo stesso WMS offre un layer denominato ``\"openstreetmap\"``. Provate a "
+"cambiare il valore del parametro ``layers`` da ``\"bluemarble\"`` a ``"
+"\"openstreetmap\"``."
+
+#: ../../layers/wms.rst:101
+msgid ""
+"In addition to the ``layers`` parameter, a request for WMS imagery allows "
+"for you to specify the image format.  The default for this layer is ``"
+"\"image/jpeg\"``.  Try adding a second property in the params object named "
+"``format``.  Set the value to another image type (e.g. ``\"image/png\"``)."
+msgstr ""
+"In aggiunta al parametro ``layers``, una richiesta di immagini WMS permette "
+"di specificare il formato di restituzione delle stesse. Il formato di base "
+"per questo layer è ``\"image/jpeg\"``. Provate ora ad aggiungere una seconda "
+"proprietà nell'oggetto params chiamandola ``format``. Impostate il valore ad "
+"un altro tipo di formato immagini (Es.: ``\"image/png\"``)."
+
+#: ../../layers/wms.rst:106
+msgid "Your revised OpenLayers.Layer.WMS Constructor should look like:"
+msgstr ""
+"La revisione del vostro costruttore OpenLayers.Layer.WMS Constructor "
+"dovrebbe assomigliare a:"
+
+#: ../../layers/wms.rst:116
+msgid "Save your changes and reload the map: @workshop_url@/map.html"
+msgstr "Salvare le modifiche e ricaricare la mappa: @workshop_url@/map.html"
+
+#: ../../layers/wms.rst:121
+msgid "A map displaying the ``\"openstreetmap\"`` layer as ``\"image/png\"``."
+msgstr ""
+"Una mappa che visualizza il layer ``\"openstreetmap\"`` come ``\"image/png"
+"\"``."
+
+#: ../../layers/wms.rst:123
+msgid ""
+"Having worked with dynamically rendered data from a Web Map Service, let's "
+"move on to learn about :ref:`cached tile services <openlayers.layers."
+"cached>`."
+msgstr ""
+"Dopo aver lavorato con i dati restituiti dinamicamente da un Web Map Service "
+"spostiamoci ad apprendere i concetti dei :ref:`servizi di tile con cache "
+"<openlayers.layers.cached>`."

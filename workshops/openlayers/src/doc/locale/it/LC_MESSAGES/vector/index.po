@@ -1,0 +1,45 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenLayers Workshop 2.13\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-03 18:21+0200\n"
+"PO-Revision-Date: 2014-07-05 12:02+0100\n"
+"Last-Translator: Francesco Bartoli <francesco.bartoli@geobeyond.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: it_IT\n"
+"X-Generator: Poedit 1.6.5\n"
+
+#: ../../vector/index.rst:7
+msgid "Vector Layers"
+msgstr "Layer vettoriali"
+
+#: ../../vector/index.rst:9
+msgid ""
+"Vector layers are used to render map data in the browser.  In contrast with  "
+"raster layers where map images are rendered on the server and requested by "
+"the client, with a vector layer raw feature data is requested from the "
+"server and rendered on the client."
+msgstr ""
+"I layer vettoriali sono utilizzati per restituire dati sul browser. Al "
+"contrario dei dati raster, dove le immagini delle mappe sono restituite sul "
+"server e richieste dal client, con un layer vettoriale i dati di una feature "
+"grezza sono richiesti al server  e restituiti sul client."
+
+#: ../../vector/index.rst:12
+msgid "What this module covers"
+msgstr "Di cosa parla questo modulo"
+
+#: ../../vector/index.rst:13
+msgid ""
+"This module covers vector layers in detail.  In this module you will draw "
+"new vector features, edit existing features, persist feature modifications, "
+"and get an introduction to feature styling."
+msgstr ""
+"Questo modulo tratta nel dettaglio i layer vettoriali. Vedremo come "
+"disegnare nuove feature vettoriali, modificare quelle esistenti, rendere "
+"persistenti le modifiche e introdurremo la loro vestizione."

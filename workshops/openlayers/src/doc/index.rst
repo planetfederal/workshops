@@ -3,7 +3,7 @@
 
 Welcome to the **OpenLayers Workshop**. This workshop is designed to
 give you a comprehensive overview of OpenLayers as a web mapping solution.  The
-exercises assume that you have set up a local GeoServer with the workshop 
+exercises assume that you have set up a local GeoServer with the workshop
 data as described in the :doc:`setup` page.
 
 This workshop is presented as a set of modules. In each module the reader will
@@ -20,11 +20,11 @@ The following modules will be covered in this workshop:
 
 :ref:`openlayers.layers`
   Learn about raster and vector layers.
- 
+
 :ref:`openlayers.controls`
   Learn about using map controls.
 
-    
+
 .. rubric:: Advanced Topics
 
 :ref:`openlayers.vector`
@@ -43,5 +43,3 @@ The following modules will be covered in this workshop:
     controls/index
     vector/index
     integration/index
-
-    
