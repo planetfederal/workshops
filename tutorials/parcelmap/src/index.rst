@@ -7,7 +7,7 @@ All too often, the front end to these apps is the classic multi-field form (this
 
 .. image:: ./img/webform1.png 
 
-Not only does the user have to carefully fill in many fields, if there is anything wrong in the data they enter (mis-spellings, mis-abbreviation) they won't get an answer back.
+Not only does the user have to carefully fill in many fields, if there is anything wrong in the data they enter (misspellings, incorrect abbreviation) they won't get an answer back.
 
 Fortunately, this user interface problem has a well-known, battle-tested solution: the **autocomplete form field**.
 
@@ -22,7 +22,7 @@ Why have separate "record number", "keyword search", "author search" fields on a
 
 The basic structure of the application will be:
 
-* Spatial tables of addresses and taxlots in PostGIS, that will be accessed with
+* Spatial tables of addresses and tax lots in PostGIS, that will be accessed with
 * Full-text search capabilities from PostgreSQL, web service enabled with
 * A SQL view in GeoServer, tied to
 * An autocomplete form and map view in OpenLayers 3 and JQuery.
@@ -47,7 +47,7 @@ Because multiple physical structures can exist on the same lot, or multiple addr
 
 .. image:: ./img/parcel-address.png 
 
-For our address auto-complete application we will want to use the address data from the **SiteAddresses** file, which has the physical structures that people associate with "an address". We can use the taxlot polygons for a backdrop layer.
+For our address auto-complete application we will want to use the address data from the **SiteAddresses** file, which has the physical structures that people associate with "an address". We can use the tax lot polygons for a backdrop layer.
 
 
 Loading the Data
@@ -302,7 +302,7 @@ Now that we have a column suitable for text searching, we can try out some queri
 Querying a Text Search Column
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-PostgreSQL allows `text search queries <http://www.postgresql.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES>`_ to be logically structured so that they search out documents that include all words, any words, or a combination of those conditions using **and (&)** and **or (|)** clauses. We'll be searching exlusively for results that have *all* the query terms, so we'll be using **and** clauses exclusively.
+PostgreSQL allows `text search queries <http://www.postgresql.org/docs/current/static/textsearch-controls.html#TEXTSEARCH-PARSING-QUERIES>`_ to be logically structured so that they search out documents that include all words, any words, or a combination of those conditions using **and (&)** and **or (|)** clauses. We'll be searching exclusively for results that have *all* the query terms, so we'll be using **and** clauses exclusively.
 
 Let's find all the records with "120 CINDY CT" in them:
 
@@ -588,7 +588,7 @@ We will be using the Suite SDK as the starting point to build our application.
     src/css		
     src/jquery
 
-  The important parts for building our application are the ``index.html`` file, which is the default start page for the app, and the ``src/app`` directory, which contains the Javascript for our app. The other contents are useful support libraries, that are used by the template, and that we can use in our app as well.
+  The important parts for building our application are the ``index.html`` file, which is the default start page for the app, and the ``src/app`` directory, which contains the JavaScript for our app. The other contents are useful support libraries, that are used by the template, and that we can use in our app as well.
 
   * `Bootstrap`_
   * `Font Awesome`_
@@ -676,10 +676,10 @@ We will be using the Suite SDK as the starting point to build our application.
   
   .. image:: ./img/app2.png
 
-Adding Behaviour to the Input Form 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Adding Behavior to the Input Form 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To add input behaviour to the application, go back to editing the ``src/app/app.js`` file. We are going to bind the HTML form element to the JQuery autocomplete widget, and then customize the autocomplete to call the GeoServer full-text search web service we set up in the earlier sections.
+To add input behavior to the application, go back to editing the ``src/app/app.js`` file. We are going to bind the HTML form element to the JQuery autocomplete widget, and then customize the autocomplete to call the GeoServer full-text search web service we set up in the earlier sections.
 
 * First, bind the form to the JQuery autocomplete. Add the following code at the very end of the ``src/app/app.js`` file.
 
@@ -692,7 +692,7 @@ To add input behaviour to the application, go back to editing the ``src/app/app.
         minLength: 1, 
 
         // Given a request string, do something to figure out what
-        // a good set of options would be, and call the reponse function
+        // a good set of options would be, and call the response function
         // with those options as an argument.
         source: function( requestStr, responseFunc ) {},
 
@@ -734,7 +734,7 @@ To add input behaviour to the application, go back to editing the ``src/app/app.
   
       $( "#address" ).autocomplete({
 
-        // How many charaters before we fire the 'source' function?
+        // How many characters before we fire the 'source' function?
         minLength: 1, 
 
         // Given a request string, do something to figure out what
@@ -776,11 +776,11 @@ To add input behaviour to the application, go back to editing the ``src/app/app.
 
         $( "#address" ).autocomplete({
 
-          // How many charaters before we fire the 'source' function?
+          // How many characters before we fire the 'source' function?
           minLength: 1, 
 
           // Given a request string, do something to figure out what
-          // a good set of options would be, and call the reponse function
+          // a good set of options would be, and call the response function
           // with those options as an argument.
           source: addressSource,
   
