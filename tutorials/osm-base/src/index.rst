@@ -1,6 +1,6 @@
-.. note::
-
-  Check out the `demonstration map <_static/osm-full.html>`_ to see the final product!
+.. .. note::
+.. 
+..  Check out the `demonstration map <_static/osm-full.html>`_ to see the final product!
 
 Introduction
 ============
@@ -413,7 +413,7 @@ The default `OpenLayers`_ viewer is convenient, but not very attractive. Here is
   </html>
  
  
-Check out the `demonstration map <_static/osm-full.html>`_ online to see the final product!
+.. Check out the `demonstration map <_static/osm-full.html>`_ online to see the final product!
 
 
 Conclusion
