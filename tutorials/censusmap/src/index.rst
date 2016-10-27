@@ -1,7 +1,7 @@
 
-.. note:: 
-
-  Check out the `full demonstration application <_static/code/censusmap.html>`_ and play!
+.. .. note:: 
+..
+..  Check out the `full demonstration application <_static/code/censusmap.html>`_ and play!
 
 
 Introduction
