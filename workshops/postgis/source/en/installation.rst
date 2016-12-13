@@ -13,7 +13,7 @@ We will be using OpenGeo Suite as our software package, as it includes PostGIS/P
 
   The precise directions in this document are for Windows, but for OS X the installation is largely the same. Once the Suite is installed, the directions for both operating systems should be almost identical.  
 
-#. Find OpenGeo Suite installer for your platform (download from http://boundlessgeo.com/solutions/opengeo-suite/download/). The Windows installer will be named something like  :file:`opengeosuite-a.b.c.exe`, the Mac OS X installer like :file:`opengeosuite-a.b.c.dmg`).  Double click to begin.
+#. Find OpenGeo Suite 4.8 installer for your platform (download from connect at https://connect.boundlessgeo.com/ registration required). The Windows installer will be named something like  :file:`opengeosuite-4.8.exe`, the Mac OS X installer like :file:`opengeosuite-4.8.dmg`).  Double click to begin.
 
 #. Enjoy the warm welcome, courtesy of Boundless, then click **Next**.
 
