@@ -135,9 +135,9 @@ PostgreSQL provides a lot of `encryption facilities <http://www.postgresql.org/d
 SSL Connections
 ~~~~~~~~~~~~~~~
 
-In order to use SSL connections, both your client and server must support SSL. OpenGeo Suite ships PostgreSQL with SSL support built, but not enabled, so we have to carry out a few steps to turn it on first.
+In order to use SSL connections, both your client and server must support SSL. Your version of PostgreSQL may have SSL support built, but not enabled. If so, we have to carry out a few steps to turn it on first.
 
-* First, turn off the Suite, since activating SSL will require a restart.
+* First, turn shut down PostgreSQL, since activating SSL will require a restart.
 * Next, we acquire or generate an SSL certificate and key. The certificate will need to have no passphrase on it, or the database server won't be able to start up. You can generate a self-signed key as follows:
 
   :: 
@@ -154,15 +154,15 @@ In order to use SSL connections, both your client and server must support SSL. O
     # Set the permission of the key to private read/write
     chmod og-rwx server.key
      
-* Copy the ``server.crt`` and ``server.key`` into the OpenGeo Suite PostgreSQL data directory.
+* Copy the ``server.crt`` and ``server.key`` into the PostgreSQL data directory.
 
-* Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on". In pgAdmin, go to *File > Open ...*, and navigate to and open ``C:\Documents and Settings\%USER\.opengeo\pgdata\%USER"\postgresql.conf``
+* Enable SSL support in the ``postgresql.conf`` file by turning the "ssl" parameter to "on". In pgAdmin, go to *File > Open ...*, and navigate to ``C:\Documents and Settings\%USER\.opengeo\pgdata\%USER"\postgresql.conf``
 
   .. image:: ./screenshots/ssl_conf.jpg
 
-* Now re-start OpenGeo Suite; the server is ready for SSL operation.
+* Now re-start PostgreSQL. The server is now ready for SSL operation.
 
-With the server enabled for SSL, creating an encrypted connection is easy. In PgAdmin, create a new server connection (File > Add Server...), and set the SSL parameter to “require”.
+With the server enabled for SSL, creating an encrypted connection is easy. In PgAdmin, create a new server connection (File > Add Server...), and set the SSL parameter to "require".
 
 .. image:: ./screenshots/ssl_create.jpg
 

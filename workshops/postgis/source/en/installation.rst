@@ -3,7 +3,7 @@
 Installation
 ============
 
-We will be using OpenGeo Suite as our software package, as it includes PostGIS/PostgreSQL in a single fast installation for Windows, Apple OS X, and Linux. The Suite also includes GeoServer, OpenLayers, and a number of web visualization utilities.
+We will be using OpenGeo Suite (now known as Boundless Suite) as our software package, as it includes PostGIS/PostgreSQL in a single fast installation for Windows, OS X, and Linux. The Suite also includes GeoServer, OpenLayers, and a number of web visualization utilities.
 
 .. note::
 
@@ -11,9 +11,9 @@ We will be using OpenGeo Suite as our software package, as it includes PostGIS/P
 
 .. note:: 
 
-  The precise directions in this document are for Windows, but for OS X the installation is largely the same. Once the Suite is installed, the directions for both operating systems should be almost identical.  
+  The precise directions in this document are for Windows, but for OS X the installation is largely the same. Once the Suite is installed, the directions for both operating systems should be almost identical. 
 
-#. Find OpenGeo Suite installer for your platform (download from http://boundlessgeo.com/solutions/opengeo-suite/download/). The Windows installer will be named something like  :file:`opengeosuite-a.b.c.exe`, the Mac OS X installer like :file:`opengeosuite-a.b.c.dmg`).  Double click to begin.
+#. Find OpenGeo Suite installer for your platform. You can download the latest version through `Boundless Connect <http://connect.boundlessgeo.com>`_. OpenGeo Suite is available in the `Downloads <http://connect.boundlessgeo.com/Downloads>`_ area. The Windows installer will be named something like  :file:`opengeosuite-a.b.c.exe`, the Mac OS X installer like :file:`opengeosuite-a.b.c.dmg`). Double click to begin.
 
 #. Enjoy the warm welcome, courtesy of Boundless, then click **Next**.
 
@@ -21,7 +21,7 @@ We will be using OpenGeo Suite as our software package, as it includes PostGIS/P
      :class: inline
 
 
-#. OpenGeo Suite is licensed under the GNU GPL, which is reproduced on the licensing page.  Click **I Agree**.
+#. OpenGeo Suite is licensed under the GNU GPL, which is reproduced on the licensing page. Click **I Agree**.
 
    .. image:: ./screenshots/install_license.png
      :class: inline
@@ -45,7 +45,7 @@ We will be using OpenGeo Suite as our software package, as it includes PostGIS/P
      :class: inline
 
 
-#. Ready for install!  Click **Install**.
+#. Ready for install! Click **Install**.
 
    .. image:: ./screenshots/install_ready.png
      :class: inline

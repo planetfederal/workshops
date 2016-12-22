@@ -225,11 +225,6 @@ These steps are taking from the PostgreSQL manual on `continuous archiving and p
 * Start the server. The server will go into recovery mode and proceed to read through the archived WAL files it needs. Should the recovery be terminated because of an external error, the server can simply be restarted and it will continue recovery. Upon completion of the recovery process, the server will rename recovery.conf to recovery.done (to prevent accidentally re-entering recovery mode later) and then commence normal database operations.
 * Inspect the contents of the database to ensure you have recovered to the desired state. If not, return to step 1. If all is well, allow your users to connect by restoring pg_hba.conf to normal.
 
-.. note::
-
-  OpenGeo Suite version 2.X includes PostgreSQL 8.4, which only has support for using online backup as described above. In OpenGeo Suite 3.X, PostgreSQL 9.2 will be included, which will add options for continuous log streaming, and hot standby servers.
-
-
 
 Links
 -----

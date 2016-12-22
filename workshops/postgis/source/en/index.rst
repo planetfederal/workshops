@@ -7,7 +7,7 @@ Getting Started
 ---------------
 
 * This workshop uses a `data bundle <http://files.boundlessgeo.com/workshopmaterials/postgis-workshop-201401.zip>`_. Download it and extract to a convenient location.
-* This workshop uses `OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/download/>`_.  Download it and place it in a convenient location.
+* This workshop uses **OpenGeo Suite** (now known as **Boundless Suite**). You can download the latest version through `Boundless Connect <http://connect.boundlessgeo.com>`_. OpenGeo Suite is available in the `Downloads <http://connect.boundlessgeo.com/Downloads>`_ area. Download it and place it in a convenient location.
 
 Workshop Materials
 ------------------
