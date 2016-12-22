@@ -3,11 +3,11 @@
 Spatial Relationships
 =====================
 
-So far we have only used spatial functions that measure (:command:`ST_Area`, :command:`ST_Length`), serialize (:command:`ST_GeomFromText`) or deserialize (:command:`ST_AsGML`) geometries. What these functions have in common is that they only work on one geometry at a time.
+So far we have only used spatial functions that measure (:command:`ST_Area`, :command:`ST_Length`), serialize (:command:`ST_AsGML`), and deserialize (:command:`ST_GeomFromText`) geometries. What these functions have in common is that they only work on one geometry at a time.
 
 Spatial databases are powerful because they not only store geometry, they also have the ability to compare *relationships between geometries*. 
 
-Questions like """Which are the closest bike racks to a park?" or "Where are the intersections of subway lines and streets?" can only be answered by comparing geometries representing the bike racks, streets, and subway lines.
+Questions like "Which are the closest bike racks to a park?" or "Where are the intersections of subway lines and streets?" can only be answered by comparing geometries representing the bike racks, streets, and subway lines.
 
 The OGC standard defines the following set of methods to compare geometries.
 
