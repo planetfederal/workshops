@@ -55,9 +55,7 @@ Using this information it is possible to reconstruct the state of the edit table
 	
 * Now we need three triggers on the active table, for INSERT, DELETE and UPDATE actions. First we create the trigger functions, then bind them to the table as triggers.
   
-  For an insert, we just add a new record into the history table with the creation time/user.
-
-  .. code-block:: sql
+  For an insert, we just add a new record into the history table with the creation time/user::
 
     CREATE OR REPLACE FUNCTION nyc_streets_insert() RETURNS trigger AS 
     $$
@@ -77,9 +75,7 @@ Using this information it is possible to reconstruct the state of the edit table
       FOR EACH ROW EXECUTE PROCEDURE nyc_streets_insert();
       
 
-  For a deletion, we just mark the currently active history record (the one with a NULL deletion time) as deleted.
-
-  .. code-block:: sql
+  For a deletion, we just mark the currently active history record (the one with a NULL deletion time) as deleted::
 
     CREATE OR REPLACE FUNCTION nyc_streets_delete() RETURNS trigger AS 
     $$
@@ -97,9 +93,7 @@ Using this information it is possible to reconstruct the state of the edit table
       FOR EACH ROW EXECUTE PROCEDURE nyc_streets_delete();
      
 
-  For an update, we first mark the active history record as deleted, then insert a new record for the updated state.
-
-  .. code-block:: sql
+  For an update, we first mark the active history record as deleted, then insert a new record for the updated state::
 
     CREATE OR REPLACE FUNCTION nyc_streets_update() RETURNS trigger AS 
     $$

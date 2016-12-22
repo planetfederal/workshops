@@ -253,9 +253,7 @@ We've added two sub-queries this time:
   
 Now we know every route, and we know (approximately) what station each route starts from: we're ready to generate the route lines!
 
-But first, we need to turn our recursive CTE expression into a function we can call with parameters.
-
-.. code-block:: sql
+But first, we need to turn our recursive CTE expression into a function we can call with parameters::
 
   CREATE OR REPLACE function walk_subway(integer, text) returns geometry AS
   $$
