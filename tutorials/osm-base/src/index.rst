@@ -36,9 +36,9 @@ OSM City Data
 
 We will be building a street map of a single city. To keep data volumes small, we will be working with Victoria, British Columbia for this example.
 
-Extracts of OpenStreetMap data for individiual cities are available from `Mapzen metro extracts <https://mapzen.com/metro-extracts>`_. We will be using the extract for `Victoria, BC <https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip>`_, download it and unzip.
+Extracts of OpenStreetMap data for individiual cities are available from `Mapzen metro extracts <https://mapzen.com/metro-extracts>`_. We will be using the extract for Victoria, BC.
 
-* https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria.osm2pgsql-shapefiles.zip
+Download and unzip the `Victoria, BC <https://s3.amazonaws.com/metro-extracts.mapzen.com/victoria_canada.osm2pgsql-shapefiles.zip>`_ file.
 
 Inside the zip archive are a point file, line file and polygon file. In order to line the table names up with our processing later in this tutorial, we will name them ``planet_osm_point``, ``planet_osm_line`` and ``planet_osm_polygon`` during import. If you import with the `pgShapeLoader`_ GUI, remember to
 
@@ -456,3 +456,4 @@ The possibilities are endless!
 .. _GeoExt: http://www.geoext.org/
 .. _ExtJS: http://www.sencha.com/products/extjs
 
+.. _
