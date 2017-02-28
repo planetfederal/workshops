@@ -13,7 +13,7 @@ We can now start adding some of our data to the *Antelope range analysis* projec
 
 #. Click the :guilabel:`Browse` button to open a file dialog.
 
-#. Find the ``Antelope_HuntAreasHerdUnits.zip`` file in your ``downloads`` directory.
+#. Find the ``Antelope_Hunt_Areas`` file in your ``downloads`` directory.
 
 #. Click :guilabel:`Open` to load the file into your project.
 
@@ -23,9 +23,9 @@ We can now start adding some of our data to the *Antelope range analysis* projec
 
    .. note:: QGIS will randomly assign a colour to the vector layer so what you see will probably not match the screenshot exactly.
 
-#. Repeat the process for the ``surfgeol_500k.shp`` file (not ``surfgeol_500k.zip``). After adding this layer, however, you may not see any new data appear in the main QGIS panel.
+#. Repeat the process for the ``SurficialGeology500k.shp`` file (not ``surfgeol_500k.zip``). After adding this layer, however, you may not see any new data appear in the main QGIS panel.
 
-#. Right click on the **surfgeol_500k** item in the list of layers and select :guilabel:`Zoom to Layer Extent`. The view should now display this layer if it didn't already.
+#. Right click on the **SurficialGeology500k** item in the list of layers and select :guilabel:`Zoom to Layer Extent`. The view should now display this layer if it didn't already.
 
    .. figure:: images/surfgeol_500k.png
 

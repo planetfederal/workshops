@@ -3,7 +3,7 @@ QGIS projects
 
 Our first step will be to launch QGIS and create a new project file that we will use throughout this workshop.
 
-#. Click :menuselection:`Start --> All Programs --> OpenGeo Suite --> QGIS`.
+#. Click :menuselection:`Start --> All Programs --> QGIS`.
 
    .. figure:: images/windows_menu.png
 
@@ -11,7 +11,7 @@ Our first step will be to launch QGIS and create a new project file that we will
 
 #. Wait a few moments while QGIS launches.
 
-   .. figure:: images/qgis_launch.png
+   .. figure:: images/loading_screen.png
 
       QGIS splash screen
 

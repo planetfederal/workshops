@@ -3,7 +3,7 @@ Zonal statistics
 
 Now that we have a baseline to work with, we can calculate statistics on the geology types in each of the antelope ranges so that statistical analysis can be done to determine whether there is a correlation between the two variables.
 
-#. Run the **Frequency Analysis** process again, using **Seasonal ranges** and **RANGE** as the vector inputs and **Surficial geology** and band ``1`` as the raster inputs. Set the :guilabel:`Frequency_analysis_layer` to be ``qgis/results/surficial_geology_ranges.shp``.
+#. Run the **Frequency Analysis** process again, using **Seasonal ranges**  as the vector input and **RANGE** as the :guilabel:`id field`. Select **Surficial geology** and band ``1`` as the raster inputs. Set the :guilabel:`Frequency analysis layer` to be ``qgis/results/surficial_geology_ranges.shp``.
 
 #. The attribute table for the new **Frequency_analysis_table** will show the geological breakdown for each range. This is useful data, but since we are looking for correlations between ranges and geology, we actually want to use an aggregation of geological types for all areas with the same **RANGE** value. In other words, we want to see, for example, if all the yearlong ranges are characterised by a particular geological type.
 

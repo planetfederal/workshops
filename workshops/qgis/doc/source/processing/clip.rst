@@ -20,13 +20,13 @@ First, let's throw out some features from the **Surficial geology** layer.
 
 #. Set :guilabel:`Clip layer` to **Area of interest**.
 
-#. Set the output to be a new file named ``qgis\data\surfgeol_500k_clipped.shp``.
+#. Set the output to be a new file named ``qgis/data/surficial_geology_clip.shp``.
 
 #. Check the :guilabel:`Add result to canvas` box.
 
-.. figure:: images/clip_process.png
+   .. figure:: images/clip_process.png
 
-   Configuring the vector clip process
+      Configuring the vector clip process
 
 #. Click :guilabel:`OK` to start the process.
 

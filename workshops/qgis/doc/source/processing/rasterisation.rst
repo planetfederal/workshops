@@ -1,7 +1,7 @@
 Surficial geology
 =================
 
-The **Surificial geology** layer's key attribute is **RECLASS**, which codifies the type of geology as a short series of letters; for example, the code **Mi** means "mined areas mixed with scattered deposits of residuum, slopewash, and/or bedrock outcrops". 
+The **Surficial geology** layer's key attribute is **RECLASS**, which codifies the type of geology as a short series of letters; for example, the code **Mi** means "mined areas mixed with scattered deposits of residuum, slopewash, and/or bedrock outcrops". 
 
 Surfical geology codes
 ----------------------
@@ -39,21 +39,21 @@ Ti   Structural terrace including and/or mixed with deposits of alluvium, eolian
 Converting vectors to rasters
 -----------------------------
 
-If we proceed with the data configured as it currently is, the **Surficial geology** layer's complexity would cause our processing algorithms to be extremely slow due to the complex nature of the data. Since our goal is to see if there is a relationship between geology and antelope ranges, we want to be able to calculate statistics concerning the relationship between different layers. The best way to make these calculations practical is to convert the **Surficial geology** layer to a raster using a **Rasterize** process, but we will require a numerical attribute to assign to the raster sample points when we make the conversion. Therefore, to create a raster, we must first convert each of the **RECLASS** codes into a numeric value that will then be encoded in the raster, something which can be accomplished with a process named **Create equivalent numerical field**.
+If we proceed with the data configured as it currently is, the **Surficial geology** layer's complexity would cause our processing algorithms to be extremely slow due to the nature of the data. Since our goal is to see if there is a relationship between geology and antelope ranges, we want to be able to calculate statistics concerning the relationship between the different layers. The best way to perform this calculation is to convert the **Surficial geology** layer to a raster using a **Rasterize** process, but we will first require a numerical attribute to be assigned to the raster sample points. Therefore, we must convert each of the **RECLASS** codes into a numeric value that will then be encoded in the raster. This can be accomplished with  the **Create equivalent numerical field** process.
 
-#. Configure the process **Create equivalent numerical field** from the :menuselection:`Scripts --> Vector` category with the inputs **Surficial geology** and **RECLASS**. A new layer named **Equivalent_numerical_field_layer** with an extra **NUM_FIELD** attribute will be created. Additionally, the script will also create a new non-spatial layer named **Equivalent_numberical_field_table** with a list of what each of the numerical values in the new raster layer refers to.
+#. Configure the process **Create equivalent numerical field** from the :menuselection:`Scripts --> Vector` category with the **Surficial geology** input layer and the **RECLASS** fieldname. A new layer named **Equivalent numerical field layer** with an extra **NUM FIELD** attribute will be created. Additionally, the script will also create a new non-spatial layer named **Equivalent_numberical_field_table** with a list of what each of the numerical values in the new raster layer refers to.
 
-   .. warning:: There is a **Create equivalent numerical field** process in the :menuselection:`QGIS geoalgorithms --> Vector table tools` cateogry. Functionally, the two will create equivalent output layers; however, only the process in the :menuselection:`Scripts --> Vector` category will create the reference table.
+   .. warning:: There is a **Create equivalent numerical field** process in the :menuselection:`QGIS geoalgorithms --> Vector table tools` category. Functionally, the two will create equivalent output layers; however, only the process in the :menuselection:`Scripts --> Vector` category will create the reference table.
 
-#. Run the process, saving the table results to ``qgis\reference\surfical_geology.csv``. We won't save the output vector layer since we'll only be using it temporarily.
+#. Run the process, saving the table results to ``qgis/reference/surfical_geology.csv``.
 
-#. Run the process **Rasterize** with the inputs **Equivalent_numerical_field_layer** and **NUM_FIELD**. We can keep the default size of 3000 by 3000 pixels. The new raster layer will appear in the layer list.
+#. Run the **Rasterize** process under the GDAL/OGR drop down, with the inputs **Equivalent numerical field layer** and **NUM_FIELD**. Set output raster size to **Output size in pixels**, and set **Horizontal** and **Vertical** to 3000. The new raster layer will appear in the layer list.
 
    .. figure:: images/rasterised_layer.png
 
-      **Suficial geology** after conversion to a raster
+      **Surficial geology** after conversion to a raster
 
-#. Delete **Equivalent_numerical_field_layer** from the layer list since we no longer need these intermediary layers. We should now have a raster that represents the geology of the land in our are of interest. Clicking on the raster with the identify tool will give us a value which can be referenced in the **Equivalent_numerical_field_table**. 
+#. Delete **Equivalent numerical field layer** from the layer list since we no longer need these intermediary layers. We should now have a raster that represents the geology of the land in our are of interest. Clicking on the raster with the identify tool (ensure layer is selected) will gives us a value which can be referenced in the **Equivalent numerical field table**. 
 
 #. Give our new layers some more descriptive names: **Surficial geology (raster)** for the new raster and **Surficial geology (reference)** for our reference table.
 

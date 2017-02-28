@@ -1,7 +1,7 @@
 Ranges
 ======
 
-As a final step before we begin our analysis of the data, let's load the remaining required data sets using some of the techniques we have learnt thus far. Remember to reproject all the new layers to the correct CRS and save the files to the ``workspace\data`` directory.
+As a final step before we begin our analysis of the data, let's load the remaining required data sets using some of the techniques we have learned thus far. Remember to reproject all the new layers to the correct CRS and save the files to the ``workspace/data`` directory.
 
 The key layer for our analysis are the ranges of antelope in various seasons of the year with the **RANGE** attribute contains one of the following codes:
 
@@ -16,7 +16,7 @@ A number of these ranges are marked with a ``CRU`` prefix, indicating that they 
 
 #. Load ``Antelope_SeasonalRange.zip`` and rename it as :kbd:`Seasonal ranges`. 
    
-#. Save as a new file in the ``qgis\data`` directory and reproject to our project's CRS.
+#. Save as a new file in the ``qgis/data`` directory and reproject to our project's CRS.
 
 #. Open the style settings for the **Seasonal ranges** layer and apply :download:`this QGIS style file <downloads/ranges.qml>` by using the :guilabel:`Load Style ...` button.
 

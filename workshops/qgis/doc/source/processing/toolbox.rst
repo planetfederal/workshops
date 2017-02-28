@@ -22,12 +22,7 @@ GDAL/OGR
 GRASS
 ^^^^^
 
-`GRASS GIS <http://grass.osgeo.org/>`_ is a software suite for geospatial data management and analysis. Although GRASS is often used as a standalone program, QGIS can also use GRASS's implementation of many spatial algorithms. Boundless's distribution of QGIS includes the GRASS suite of algorithms, but they may not be available with other QGIS packages.
-
-GeoServer/PostGIS
-^^^^^^^^^^^^^^^^^
-
-`GeoServer <http://geoserver.org/>`_ is a server for publishing geospatial data on the web and `PostGIS <http://postgis.net/>`_ is a spatial database extension for `PostgreSQL <http://postgresql.org/>`_. GeoServer and PostGIS are both core components of OpenGeo Suite, and the tools in this category allow us to work with data in these two programs. We will be exploring the QGIS and GeoServer integration in more detail later.
+`GRASS GIS <http://grass.osgeo.org/>`_ is a software suite for geospatial data management and analysis. Although GRASS is often used as a standalone program, QGIS can also use GRASS's implementation of many spatial algorithms. The community distribution of QGIS includes the GRASS suite of algorithms.
 
 Models
 ^^^^^^
@@ -37,7 +32,7 @@ The :guilabel:`Models` section allows us to further exploit the power of the pro
 Orfeo Toolbox
 ^^^^^^^^^^^^^
 
-`Orfeo Toolbox <http://orfeo-toolbox.org/>`_ is a set of algorithms for large-scale raster images. Like GRASS, Boundless's QGIS provides access to the Orfeo set of algorithms, but they may not be available with other QGIS packages.
+`Orfeo Toolbox <http://orfeo-toolbox.org/>`_ is a set of algorithms for large-scale raster images. Like GRASS, QGIS provides access to the Orfeo set of algorithms, but they may not be available if the required libraries aren't installed.
 
 QGIS geoalgorithms
 ^^^^^^^^^^^^^^^^^^
@@ -47,7 +42,7 @@ QGIS itself implements a number of geospatial algorithms for both raster and vec
 SAGA
 ^^^^
 
-`SAGA <http://www.saga-gis.org>`_ (System for Automated Geoscientific Analyses) is another standalone GIS program that QGIS can employ to run geospatial algorithms. Like GRASS and Orfeo Toolbox, the SAGA algorithms are bundled with Boundless's QGIS packages.
+`SAGA <http://www.saga-gis.org>`_ (System for Automated Geoscientific Analyses) is another standalone GIS program that QGIS can employ to run geospatial algorithms. Like GRASS and Orfeo Toolbox, the SAGA algorithms are bundled with QGIS packages.
 
 Scripts
 ^^^^^^^
@@ -64,20 +59,12 @@ We will be using a few custom scripts in this workshop:
 
 #. Download the script.
 
-#. Open the script in a text editor.
+#. In the processing toolbox, open :menuselection:`Scripts --> Tools --> Add script from file`.
 
-#. In the processing toolbox, open :menuselection:`Scripts --> Tools --> Create new script`.
+   .. figure:: images/add_script_from_file.png
 
-   .. figure:: images/script_install.png
-
-      Creating a new processing script
-
-#. Copy the text of the script into the editor.
-
-#. Save the script.
+      Add a new processing script
 
 #. Repeat for all the scripts needed in this workshop.
 
-#. Restart QGIS.
-
-.. note:: An alternative means of installing scripts is to copy them directly into ``.qgis/processing/scripts`` in the user's home directory. QGIS 2.4 will make it easier to install new scripts.
+.. note:: An alternative means of installing scripts is to copy them directly into ``.qgis/processing/scripts`` in the user's home directory.

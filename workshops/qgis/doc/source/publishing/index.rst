@@ -6,6 +6,4 @@ Next steps
 .. toctree::
    :maxdepth: 2
 
-   plugin
-   upload
    application

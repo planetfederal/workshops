@@ -35,12 +35,12 @@ When performing an analysis on our land cover raster or converted vector data, b
 
 #. When styling a continuous data set like our averages layer, we no longer want to assign a random colour to each different value. To accomplish this, rather than using :kbd:`Categorized`, we will use :kbd:`Graduated` with the column ``_mean``.
 
-  .. figure:: images/graduated_style.png
+   .. figure:: images/graduated_style.png
 
-     A graduated style 
+      A graduated style 
 
 #. Save the style and preview the new layer showing the average elevation for each of the different antelope ranges.
 
-  .. figure:: images/dem_averages.png
+   .. figure:: images/dem_averages.png
 
-     Elevation averages
+      Elevation averages
