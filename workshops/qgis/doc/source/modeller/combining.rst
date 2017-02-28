@@ -3,7 +3,7 @@ Combining models
 
 We have an additional vector layer that contains soil data that we can also use to do another analysis; unforutnately, our current model requires a raster input. Since models are effectively processes themselves, we can create a new model which performs a rasterisation step before calling the **Zone analysis** model.
 
-#. Prepare the **soil500k.shp** data by reprojecting it to the **EPSG:2163** CRS and adding it to our ``qgis\data`` directory and including it in the **Data** list.
+#. Prepare the **soil500k.shp** data by reprojecting it to the **EPSG:2163** CRS and adding it to our ``qgis/data`` directory and including it in the **Data** list.
 
 #. Style the new **Soil** layer using the **SMU** attribute.
 

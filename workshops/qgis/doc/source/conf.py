@@ -32,7 +32,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General substitutions.
-project = u'OpenGeo Suite for Analysts'
+project = u'Spatial Analysis with QGIS'
 copyright = u'2014, Benjamin Trigona-Harany, Boundless'
 
 # The default replacements for |version| and |release|, also used in various
@@ -144,7 +144,7 @@ html_copy_source = False
 htmlhelp_basename = 'GeostackIntro'
 
 # Page subheading
-html_context = {'subheading': 'QGIS is a powerful desktop GIS and a component of OpenGeo Suite. <a href="http://boundlessgeo.com/solutions/solutions-software/qgis/">More info</a>'}
+html_context = {'subheading': 'QGIS is a powerful desktop GIS and a component of Boundless Desktop. <a href="https://boundlessgeo.com/boundless-desktop/">More info</a>'}
 
 # Options for LaTeX output
 # ------------------------
@@ -163,7 +163,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'QGISAnalysts.tex', u'OpenGeo Suite for Analysts',
+  ('index', 'QGISAnalysts.tex', u'Spatial Analysis with QGIS',
    u'Benjamin Trigona-Harany', 'manual', True),
 ]
 

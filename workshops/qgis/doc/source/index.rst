@@ -1,20 +1,16 @@
-OpenGeo Suite for Analysts
+Spatial Analysis with QGIS
 ==========================
 
-This workshop is an introduction to performing spatial analysis using QGIS, a desktop geographic information system and a component of OpenGeo Suite by Boundless.
+This workshop is an introduction to performing spatial analysis using QGIS, a desktop geographic information system and a component of Boundless Desktop.
 
 No previous QGIS experience is assumed, but familiarity with GIS concepts is strongly recommended.
 
 Prerequisites and software setup
 --------------------------------
 
-The easiest way to get started with QGIS is to use Boundless's `installers for Windows or OSX <http://boundlessgeo.com/solutions/solutions-software/qgis/qgis-download/>`_.
+QGIS is available for download from the `QGIS website <http://qgis.org/en/site/>`_.
 
-If you have your own QGIS installation, then you'll only need to add the OpenGeo Explorer plugin by following `these installation instructions <http://suite.opengeo.org/opengeo-docs/qgis/install.html#installing-steps>`_.
-
-.. note:: This workshop assumes that you are using QGIS version 2.2 or later.
-
-We will also be publishing some of our results to OpenGeo Suite at the end of the workshop. This may be installed locally on the same computer as QGIS or remotely on a server running a variety of operating systems: `download OpenGeo Suite <http://boundlessgeo.com/solutions/opengeo-suite/download/>`_.
+.. note:: This workshop assumes that you are using QGIS version 2.18 or later.
 
 About Boundless
 ---------------
@@ -22,7 +18,7 @@ About Boundless
 `Boundless <http://boundlessgeo.com/>`_ is bringing the best practices of open source software to governments and other organizations around the world.
 
 * We provide enterprises with supported, tested, and integrated open source solutions to help open government.
-* We support open source communities by employing key developers for PostGIS, GeoServer, GeoWebCache, GeoExt, and OpenLayers.
+* We support open source communities by employing key developers for PostGIS, GeoServer, GeoWebCache, OpenLayers, and QGIS.
 * We have a ten-year history of providing successful consulting services and products to clients like MassGIS, Ordnance Survey and the Open Geospatial Consortium.
 * We believe open and accessible information empowers people to effect real change. Our goal is to make geospatial information more open: publicly available, accessible on compelling platforms that people want to use.
 * We strive to build software that meets and exceeds the desires of clients, because our market success proves the value of our work.
@@ -85,6 +81,11 @@ For example:
 
   Click on the :menuselection:`File --> New` menu. Check the box that says :guilabel:`Confirm`.
 
+Glossary
+^^^^^^^^
+
+A list of useful terms and definitions is available inside the :ref:`glossary`.
+
 Workflow
 --------
 
@@ -102,3 +103,4 @@ Workshop sections
    processing/index
    modeller/index
    publishing/index
+   glossary

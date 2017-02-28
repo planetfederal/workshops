@@ -20,29 +20,23 @@ To do this, we will use one of QGIS's processes named **Dissolve**, which merges
 
 #. Double click the **Dissolve** process from the :guilabel:`QGIS geoalgorithms` section. A new process configuration dialog will open.
 
-#. Set the input layer to **ant14hh**.
+#. Set the input layer to **2016_Antelope_Hunt_Areas**.
 
-#. Set :guilabel:`Dissolve all` to **No** since we do not want to merge all polygons.
+#. Uncheck the :guilabel:`Dissolve all` field since we do not want to merge all polygons.
 
 #. Change the :guilabel:`Unique ID field` to **HERDUNIT**.
 
 #. Click the ellipsis and then select :guilabel:`Save to file`.
 
-#. Save the new layer as ``qgis\data\ant14hh_dissolved.shp``.
+#. Save the new layer as ``qgis/data/2016_Antelope_Hunt_Areas_dissolved.shp``.
 
-#. Ensure that :guilabel:`Open output file after running algorithm` is checked.
-
-   .. figure:: images/dissolve_dialog.png
-
-      Configuring the dissolve process
-   
 #. Now that the process has been configured, click :guilabel:`Run` to start the process. Once finished our new layer will be added to the project.
 
-#. We can reuse our previously-created style by right clicking **ant14hh** and selecting :guilabel:`Copy Style`.
+#. We can reuse our previously-created style by right clicking **2016_Antelope_Hunt_Areas** and selecting :guilabel:`Copy Style`.
 
 #. Right click the new **Dissolved** layer and selecte :guilabel:`Paste Style`.
 
-#. Finally, remove the original **ant14hh** layer from this project.
+#. Finally, remove the original **2016_Antelope_Hunt_Areas** layer from this project.
 
    .. figure:: images/dissolved_herdname.png
 
@@ -73,7 +67,7 @@ If we look at the features using the :guilabel:`Identify features` tool, we can 
 
 #. Click :guilabel:`OK`. QGIS will now calculate the perimeter length of each polygon and store the result in the **Shape_leng** attribute, overwriting any previous value.
 
-#. Repeate this process for the **Shape_area** attribute, but using the :guilabel:`$area` function.
+#. Repeate this process for the **SqMiles** attribute, but using the :guilabel:`$area` function.
 
 #. Once again right click the layer name and select :guilabel:`Toggle Editing` to save the changes we made to this layer.
 

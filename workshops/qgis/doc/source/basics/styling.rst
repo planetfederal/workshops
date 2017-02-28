@@ -21,7 +21,7 @@ Now that we have some data to work with, let's experiment with assigning some st
 
 #. Select :guilabel:`Style` from the list of tabs. Currently, we are using only a single symbol (a solid colour) for all features. We want to change this so that the colour will change depending on the value of an attribute.
 
-   .. figure:: images/style_single.png
+   .. figure:: images/style_menu.png
 
       Single symbol style
 
@@ -31,19 +31,17 @@ Now that we have some data to work with, let's experiment with assigning some st
 
 #. Select :guilabel:`Random colors` from the :guilabel:`Color ramp` drop down box. 
 
-#. Click the :guilabel:`Classify` button. This will find all the unique values for the **HERDNAME** attribute and assign each a random colour.
+#. Click the :guilabel:`Apply` button. This will find all the unique values for the **HERDNAME** attribute and assign each a random colour.
 
    .. figure:: images/herdname_style.png
 
       Categorised style
 
-#. Click the :guilabel:`Labels` tab.
+#. Click the :guilabel:`Labels` tab on the left side bar.
+
+#. Select :guilabel:`Show labels for this layer` from the drop down menu near the top.
 
 #. Set the label for this layer to be **HERDNAME**.
-
-   .. figure:: images/herdname_label.png
-
-      Layer label
 
 #. Click :guilabel:`OK`. The map will be redrawn with the colour and label of each attribute tied to the **HERDNAME** attribute.
 

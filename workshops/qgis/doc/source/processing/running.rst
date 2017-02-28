@@ -12,11 +12,11 @@ Let's revisit the **Dissolve process** and change some of the input parameters t
 
    **Surficial geology** layer is visible
 
-#. Configure the **Dissolve** process again with an input layer of **Herd units**, but this time we will set :guilabel:`Dissolve all` to **Yes** since we want to dissolve all borders to create the single feature.
+#. Configure the **Dissolve** process again with an input layer of **Herd units**, but this time ensure that the :guilabel:`Dissolve all` checkbox is selected since we want to dissolve all borders to create the single feature.
 
    .. note:: We could have used the **Antelope ranges** as the input since the extents of both these layers are identical.
 
-#. Save the new file to ``qgis\data\area_of_interest.shp``. 
+#. Save the new file to ``qgis/data/area_of_interest.shp``. 
    
 #. Rename the layer :kbd:`Area of interest`.
 

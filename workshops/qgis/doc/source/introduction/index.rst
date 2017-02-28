@@ -6,6 +6,5 @@ Introduction
 
    analysis
    goals
-   opengeosuite
    qgis
    problem

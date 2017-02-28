@@ -8,6 +8,7 @@ Processing
    toolbox
    running
    rasterisation
+   clip
    statistics
    groups
    zonal_stats
