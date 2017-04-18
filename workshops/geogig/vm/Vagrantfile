@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
 
     # Install QGIS
     sudo cp /vagrant/*.list /etc/apt/sources.list.d/
-    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
+    # sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 089EBE08314DF160
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 073D307A618E5811
     sudo apt-get update -qq
@@ -35,6 +35,7 @@ Vagrant.configure(2) do |config|
     sudo apt-get install -qqy oracle-java8-installer 2> /dev/null
 
     # Install qgis-geogiglight-plugin and GeoGig
+    sudo pip install sphinx
     sudo apt-get install -qqy python-pip python-paver git
     cd /tmp
     git clone -q https://github.com/boundlessgeo/qgis-geogiglight-plugin.git
@@ -49,10 +50,9 @@ Vagrant.configure(2) do |config|
   #  sudo cp /tmp/qgis-geogiglight-plugin/geogig/ /usr/share/qgis/python/plugins/geogig/
 
     cd /opt
-    #wget -q http://ares.boundlessgeo.com/geogig/dev/geogig-dev-latest.zip
-    wget -q https://github.com/locationtech/geogig/releases/download/1.0-RC3/geogig-1.0-RC3.zip
-    unzip -q geogig-1.0-RC3.zip
-    rm -f geogig-1.0-RC3.zip
+    wget -q http://download.locationtech.org/geogig/geogig-1.0.zip
+    unzip -q geogig-1.0.zip
+    rm -f geogig-1.0.zip
 
     # Add JAI to prevent error messages
     cd /opt/geogig/lib/
