@@ -1,4 +1,4 @@
-<project name="geoserverintro" default="build">
+<project name="geoserver-intro" default="build">
 
   <property name="doc" value="${basedir}/doc"/>
   <property name="styles" value="${basedir}/styles"/>
@@ -6,7 +6,7 @@
   <property name="slides" value="${basedir}/slides"/>
   <property name="build" value="${basedir}/build"/>
 
-  <target name="build" depends="init, doc, slides, data, styles">
+  <target name="build" depends="init, workbook, slides, data, styles">
     <echo>Generating archive: ${ant.project.name}.zip</echo>
     <zip destfile="${ant.project.name}.zip">
       <fileset dir="${basedir}/build"/>
@@ -17,25 +17,39 @@
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="doc">
-    <delete dir="${build}/doc"/> 
-    <mkdir dir="${build}/doc"/>
-    <echo>Building docs...</echo>
+  <target name="workbook">
+    <delete dir="${build}/workbook"/> 
+    <mkdir dir="${build}/workbook"/>
+    <echo>Building workbook...</echo>
     <exec executable="sphinx-build" failonerror="true">
       <arg line="-b html"/>
       <arg value="-d"/>
       <arg path="${doc}/doctrees"/>
       <arg path="${doc}/source"/>
-      <arg path="${build}/doc"/>
+      <arg path="${build}/workbook"/>
     </exec>
+  </target>
+  
+  <target name="package" depends="workbook,data,styless">
+    <echo>Packaging workbook...</echo>
+    <zip destfile="${build}/${ant.project.name}.zip">
+      <fileset dir="${basedir}/build/workbook"/>
+    </zip>
+    <echo>Packaging data...</echo>
+    <zip destfile="${build}/data.zip">
+      <fileset dir="${basedir}/build/data"/>
+    </zip>
+    <echo>Packaging styles...</echo>
+    <zip destfile="${build}/styles.zip">
+      <fileset dir="${basedir}/build/styles"/>
+    </zip>
   </target>
 
   <target name="slides">
     <delete dir="${build}/slides"/> 
     <mkdir dir="${build}/slides"/>
-    <echo>Building docs...</echo>
-    <exec executable="python" failonerror="true">
-      <arg line="-m landslide"/>
+    <echo>Building slides...</echo>
+    <exec executable="landslide" failonerror="true">
       <arg line="-t slides/avalanche"/>
       <arg line="-d ${build}/slides/geoserver_slides.html"/>
       <!--<arg line="-d ${build}/slides/geoserver_slides.pdf"/>-->
