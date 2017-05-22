@@ -77,15 +77,25 @@ It is helpful when learning about styles to edit existing ones rather than creat
 
       Style code with no validation errors
 
-#. Click :guilabel:`Submit` to commit the style change.
+#. Click :guilabel:`Apply` to commit the style change.
 
-#. Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page, and you should see the color change to blue.
-
-   .. note:: GeoServer and your browser can both cache images. If you don't see a change immediately, zoom or pan the map to display a new area. 
+#. Now change to the :guilabel:`Layer Preview` tab, this contains an OpenLayers preview map. Each time you click :guilabel:`Apply` you can see the change reflected here.
 
    .. figure:: img/styles_edited.png
 
-      Layer with a changed style
+      Style with layer preview
+
+#. Change to the :guilabel:`Publishing` tab. This table shows the published layers (with checkboxes allowing layers to be quickly assigned to use this style).
+
+   .. figure:: img/styles_published.png
+
+      Style with published layers
+
+#. The :guilabel:`Layer Attributes` allows you to inspect available attributes for use in the creation of a dynamic theme where each feature is drawn according to its attributes.
+
+   .. figure:: img/styling_attributes.png
+
+      Layer attribute reference
 
 Loading new styles
 ------------------
@@ -128,8 +138,6 @@ If you have a style file saved as a text file, it is easy to load it into GeoSer
 
       Style file is uploaded
 
-#. Click :guilabel:`Validate` to ensure that the style is valid.
-
 #. Change the title to :guilabel:`Cities`.
 
    .. note:: The capital letter will help distinguish the uploaded styles from other similar-looking style names. The specific name isn't important though. 
@@ -139,6 +147,8 @@ If you have a style file saved as a text file, it is easy to load it into GeoSer
    .. figure:: img/styles_nameandformat.png
 
       Name and format for new style
+
+#. Click :guilabel:`Validate` to ensure that the style is valid.
 
 #. Click :guilabel:`Submit` to save the new style.
 
@@ -156,25 +166,29 @@ Once the styles are loaded, they are merely stored in GeoServer, but not associa
 
 .. warning:: If a style file has references that are specific to a certain layer (for example, attribute names or geometries), associating that style with another layer may cause errors or unexpected behavior.
 
-#. Navigate to the :guilabel:`Layers` page.
-
-   .. figure:: img/styles_layerslink.png
-
-      Click to go to the Layers page
-
-#. Click the :guilabel:`earth:cities` layer to edit its configuration.
+#. Navigate to the :guilabel:`Styles` page and open the :guilabel:`Cities` style.
 
 #. Click the :guilabel:`Publishing` tab.
 
-#. Scroll down to the :guilabel:`Default style` drop down list. Change the entry to display the :guilabel:`Cities` style. You will see that the legend changes.
+   .. figure:: img/styles_publishing.png
+
+      Associating a style with different layers
+
+#. Fint the :guilabel:`earth:cities` layer in the table, click the :guilabel:`Default` checkbox for this row.
+
+    .. figure:: img/styles_publishing_default.png
+       
+       Assigning a default style
+   
+   .. note:: If you you edit the :guilabel:`earth:cities` layer, and look on the :guilabel:`publishing` tab you can confirm this change under WMS Settings.
 
    .. figure:: img/styles_selectingnewstyle.png
 
       Associating the layer with a different style
 
-#. Click :guilabel:`Save` to commit the change.
+#. Click :guilabel:`Apply` to commit the change.
 
-#. Verify the change by going to the layer's :guilabel:`Layer Preview` page. Zoom in the see the behavior change based on zoom level.
+#. Verify the change by going to the layer's :guilabel:`Layer Preview` tab. Zoom in the see the behavior change based on zoom level.
 
    .. figure:: img/styles_viewingnewstyle.png
 
@@ -216,23 +230,43 @@ Below is the entire :file:`ocean.ysld` file. Notice that on **lines 11-13**, you
 
 This means that GeoServer will expect the graphic to be in the same directory as the file itself. So in order for the layer to display properly, we will need to copy that file manually.
 
-#. The :file:`styles` directory of the workshop materials contains a file, :file:`oceantile.png`. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory. In OpenGeo Suite for Windows, the easiest way to get to the GeoServer data directory is go to the Start Menu and navigate to :menuselection:`OpenGeo Suite --> Data Directory`.
+#. The :file:`styles` directory of the workshop materials contains a file, :file:`oceantile.png`. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory. 
+   
+   * When running with the windows installer, the easiest way to get to the GeoServer data directory is from the Start Menu and navigate to :menuselection:`GeoServer --> Data Directory`.
 
-   .. figure:: img/styles_datadirstartmenu.png
+     Once located, navigate to the GeoServer Data directory.
 
-      Data Directory in the Start Menu
+     Navigate into the :file:`styles` folder. 
 
-   You can also find the full path to the data directory by clicking :guilabel:`Server Status` on the left side of any GeoServer page.
+     Copy the :file:`oceantile.png` file from the workshop materials into the :file:`styles` directory.
 
-   .. figure:: img/styles_serverstatus.png
+   * On all platforms you can also find the full path to the data directory by clicking :guilabel:`Server Status` on the left side of any GeoServer page.
 
-      Server Status page showing location of GeoServer Data Directory
+     .. figure:: img/styles_serverstatus.png
 
-#. Once located, navigate to the GeoServer Data directory.
-
-#. Navigate into the :file:`styles` folder. 
-
-#. Copy the :file:`oceantile.png` file from the workshop materials into the :file:`styles` directory.
+        Server Status page showing location of GeoServer Data Directory
+   
+   * When running in a Virtual Machine we need to use the command line to copy the file from our shared folder to the GeoServer data directory (and ensure the Tomcat8 user has permission to use it).
+     
+     From the virtual machine command line type:
+     
+     :kbd:`cd /var/opt/boundless/suite/geoserver/data/styles`
+     
+     :kbd:`cp /meda/sf_Desktop/styles/oceantile.png .`
+     
+     :kbd:`chown tomcat8:tomcat8 oceantile.png`
+     
+     To check your work:
+     
+     :kbd:`ls -l *.png`
+     
+     Shows the following:
+     
+     ``-rwwr-x--- 1 tomcat8 tomcat 8 3624 May 23 10:30 oceantile.png``
+     
+     
+     
+     
 
 #. Now back in GeoServer, navigate to the :ref:`geoserver.webadmin.layerpreview` for the ``earth:ocean`` layer. If you copied the file correctly, you should see a ocean-like graphic tiled in the appropriate places now.
 
