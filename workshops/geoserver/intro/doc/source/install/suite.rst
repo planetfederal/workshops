@@ -1,78 +1,57 @@
-.. _geoserver.install.installing:
+.. _install.suite:
 
-GeoServer Download and Installation
-===================================
+Boundless Suite GeoServer Distribution
+======================================
 
-In this section we will install OpenGeo Suite on your workshop machine.
+Boundless Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
 
-GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function. Both of these are included with OpenGeo Suite, so separate installation is not needed here.
+* **PostGIS** - A spatially enabled object-relational database.
+* **GeoServer** - A software server for loading and sharing geospatial data.
+* **GeoWebCache** - A tile cache server that accelerates the serving of maps (built into GeoServer).
+* **OpenLayers** - A browser-based mapping framework
 
-Installing OpenGeo Suite
-------------------------
+.. figure:: img/ecosystem.png
 
-The OpenGeo Suite executable file is located in the workshop package in the :file:`software` folder.
+   Boundless Suite components and ecosystem
 
-.. note:: During this installation, please keep all of the default settings.
+Boundless Suite is free and open source, and is available for download from `Boundless <http://boundlessgeo.com/>`_. Boundless Suite customers are provided with the latest release along with commercial training and support. Boundless Suite includes slightly different extensions than the community releases of GeoServer. Boundless Suite components are subject to extensive integration testing and are available in a range of packages from virtual machines through to linux packages, web archives and cloud/clustering options.
 
-#. **Double-click** the file :file:`OpenGeoSuite-<version>.exe` to begin the installation.
+GeoServer also plays an important role in other Boundless products including the Boundless Exchange content management system.
 
-   .. note:: On some systems, you might see a Windows Security warning. We promise the software is safe, so can safely click through this warning.
+Installation Requirements
+-------------------------
 
-#. At the *Welcome* screen, click :guilabel:`Next`.
 
-   .. figure:: img/installation_welcome.png
+In this section we will install a virtual machine containing Boundless Suite.
 
-      OpenGeo Suite installation Welcome screen
+Prerequisites:
 
-#. Read the *License Agreement*, then click :guilabel:`I Agree`.
+* Please disable any programs on your system that use either 8080. (If this is not possible, please ask for alternative connection options.)
+* We strongly recommend you use a recent version of `Firefox <http://www.mozilla.org/en-US/firefox/new/>`_ as the browser on your host system. Using `Chrome <https://www.google.com/intl/en/chrome/browser/>`_ is acceptable, though an XML viewer extension such as `XV <https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en>`_ will be required for some sections. Other browsers have not been tested and are not recommended.
+* Make sure you have administrative rights (Windows) or super-user privileges (Linux and OS X) on your system.
 
-   .. figure:: img/installation_license.png
+.. _install.suite.virtualbox:
 
-      License Agreement
+Installing VirtualBox
+---------------------
 
-#. Select the *Destination Folder* where you would like to install OpenGeo Suite, and click :guilabel:`Next`.
+.. _install.suite.dashboard:
 
-   .. figure:: img/installation_directory.png
+Boundless Suite Dashboard
+-------------------------
 
-      Destination folder for the installation
+Boundless Suite comes with a Dashboard application that provides links to the most common applications and their documentation.
 
-#. Select the name and location of the *Start Menu Folder* that will be created for the Suite components, and click :guilabel:`Next`.
+#. The Dashboard is available in the browser by navigating to `http://localhost:8080/`__.
 
-   .. figure:: img/installation_startmenu.png
+#. The main Dashboard page show links to configuration pages and documentation.
 
-      Start Menu Folder to be created for the installation
+   .. figure:: img/dashboard.png
 
-#. Choose the components you wish to install.
+      Boundless Suite Dashboard
 
-   .. figure:: img/installation_components.png
+#. The top toolbar contains links to two other pages:
 
-      Component selection
+   * The :guilabel:`Getting Started` page includes a sample workflow to use for publishing data and maps using OpenGeo Suite. A similar workflow will be followed as part of this workshop.
+   * The :guilabel:`Documentation` page links to the OpenGeo Suite User Manual, which contains the full user manual for GeoServer.
 
-#. When you are ready, click :guilabel:`Install` to start the installation.
-
-   .. figure:: img/installation_ready.png
-
-      Ready to install
-
-#. Please wait while the installation proceeds.
-
-   .. figure:: img/installation_install.png
-
-      Installation progress
-
-#. After installation, click :guilabel:`Finish`.
-
-   .. figure:: img/installation_finish.png
-
-      OpenGeo Suite has been installed
-
-Starting and stopping services
-------------------------------
-
-OpenGeo Suite has been installed and is now running by default. There are two system services related to OpenGeo Suite: GeoServer (Jetty) and PostGIS (PostgreSQL). You can start and stop these services through the Start Menu.
-
-.. figure:: img/installation_startstop.png
-
-   Start Menu entries for starting and stopping OpenGeo Suite services
-
-You can also stop and start these services from the standard Windows Services dialog. There they are known as **OpenGeo Jetty** and **OpenGeo PostgreSQL**.
