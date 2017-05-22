@@ -60,7 +60,26 @@ Being a community-driven project, GeoServer is developed, tested, and supported 
 Section 1: Installing
 =====================
 
-GeoServer is a core component of **OpenGeo Suite**.
+Workshop uses your choice of:
+
+* Boundless Suite GeoServer Distribution
+* OSGeo Community GeoServer Distribution
+
+Presenter notes
+---------------
+
+In this section, we will install GeoServer.
+
+GeoServer is a popular component, this workshop can use your choice of Boundless Suite or OSGeo Community downloads.
+
+Boundless Suite is available in a standalone virtual machine.
+
+OSGeo Community downloads will install directly onto your machine; and will require several optional downloads for this workshop.
+
+--------------------------------------------------
+
+Boundless Suite
+===============
 
 .. image:: ../doc/source/install/img/ecosystem.png
    :width: 50%
@@ -68,42 +87,16 @@ GeoServer is a core component of **OpenGeo Suite**.
 Presenter notes
 ---------------
 
-In this section, we will install GeoServer. For the purposes of this workshop, we will be using the OpenGeo Suite—of which GeoServer is a primary component—in order to facilitate setup and configuration.
+The Boundless Suite is free and open source, and is available for download from Boundless Connect.
 
-The OpenGeo Suite is free and open source, and is available for download from Boundless.
-
-OpenGeo Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
+Boundless Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
 
 PostGIS - A spatially enabled object-relational database.
 GeoServer - A software server for loading and sharing geospatial data.
 GeoWebCache - A tile cache server that accelerates the serving of maps (built into GeoServer).
 OpenLayers - A browser-based mapping framework
 
---------------------------------------------------
-
-Installation
-============
-
-.. image:: ../doc/source/install/img/installation_welcome.png
-
-Presenter notes
----------------
-
-In this section you will install the OpenGeo Suite on your system. This will provide everything necessary to get started with GeoServer (and more!).
-
-GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function. Both of these are included with OpenGeo Suite, so separate installation is not needed here.
-
---------------------------------------------------
-
-Installation
-============
-
-.. image:: ../doc/source/install/img/installation_install.png
-
-Presenter notes
----------------
-
-The OpenGeo Suite installation packages are available for Windows, OS X, Ubuntu, CentOS, and Red Hat. We're using the Windows installers here, but the premise across the board is pretty much the same, and pretty simple: Run the installer, choose options, done.
+Please install VirtualBox, to use the provided virtual machine. During installation pay careful attention to sharing your Desktop as a shared folder.
 
 --------------------------------------------------
 
@@ -118,7 +111,7 @@ Central location for launching applications and resources.
 Presenter notes
 ---------------
 
-OpenGeo Suite comes with a Dashboard application that provides links to the most common applications and documentation.
+Boundless Suite comes with a Dashboard application that provides links to the most common applications and documentation.
 
 The Dashboard can be opened from the Start menu at OpenGeo Suite ‣ Dashboard. The Dashboard is also available in the browser by navigating to http://localhost:8080/.
 
@@ -128,6 +121,27 @@ The top toolbar contains links to two other pages:
 
 * The Getting Started page includes a sample workflow to use for publishing data and maps using OpenGeo Suite. A similar workflow will be followed as part of this workshop.
 * The Documentation page links to the OpenGeo Suite User Manual, which contains the full user manual for GeoServer.
+
+--------------------------------------------------
+
+OSGeo Community 
+===============
+
+The GeoServer website provides:
+
+* stable releases
+* maintenance releases
+
+GeoServer requires Java 8 to run and includes its own application server.
+
+This workshop both GeoServer and GeoSever Extensions for importer, ysld and wps.
+
+Presenter notes
+---------------
+
+GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function.
+
+Each GeoServer release lasts a year, for the first six months dot releases provide improvements and fixes, for the last six months maintenance releases provides fixes only.
 
 --------------------------------------------------
 
@@ -1446,6 +1460,8 @@ Benefits of YSLD
 
 **More compact**
 
+::
+
   rules:
   - symbolizers:
     - point:
@@ -1518,7 +1534,7 @@ For example, the following are both equally valid.
 Benefits of YSLD
 ================
 
-**Contains variables for reusable code**
+**Define variables**
 
 ::
 
@@ -1526,6 +1542,21 @@ Benefits of YSLD
     shape: circle
     fill-color: '#FF0000'
     stroke-color: '#000000'
+
+Presenter notes
+---------------
+
+In SLD, if you have content that needs to be reused from rule to rule, you must manually generate the directives for each rule over and over. YSLD eliminates the need for redundant directives by introducing the ability to create variables that can take the place of the same content.
+
+--------------------------------------------------
+
+Benefits of YSLD
+================
+
+**Reuse variables multiple times**
+
+::
+
   rules:
   - name: rule1
     scale: [35000,max]
@@ -1539,8 +1570,6 @@ Benefits of YSLD
 
 Presenter notes
 ---------------
-
-In SLD, if you have content that needs to be reused from rule to rule, you must manually generate the directives for each rule over and over. YSLD eliminates the need for redundant directives by introducing the ability to create variables that can take the place of the same content.
 
 For example, all the directives that occur multiple times can be replaced with a variable.
 
@@ -1675,7 +1704,7 @@ Functions in YSLD
       scale: [min, max]
       symbolizers:
       - point:
-          size: ${Categorize(pop,'8','50000','16','100000','20')}
+          size: ${Categorize(pop,'8','5','16','10','20')}
           symbols:
           - mark:
               shape: circle
@@ -1757,7 +1786,7 @@ It is helpful when learning about styles to edit existing ones rather than creat
 
   When done, click Validate to make sure that the changes you have made are valid. If you receive an error, go back and check your work.
 
-  Click Submit to commit the style change.
+  Click Apply to commit the style change.
 
 --------------------------------------------------
 
@@ -1769,9 +1798,31 @@ Editing an existing style
 Presenter notes
 ---------------
 
-Now go back to the browser tab that contains the OpenLayers preview map. Refresh the page, and you should see the color change to blue.
+Now change to the layer preview tab, and you should see the color change to blue.
 
-Note: GeoServer and your browser can both cache images. If you don't see a change immediately, zoom or pan the map to display a new area.
+--------------------------------------------------
+
+Editing an existing style
+=========================
+
+.. image:: ../doc/source/styling/img/styles_published.png
+
+Presenter notes
+---------------
+
+The Publishing tab provides a quick way to define which layers use this style as ad default, and which ones provide it as an associated style.
+
+--------------------------------------------------
+
+Editing an existing style
+=========================
+
+.. image:: ../doc/source/styling/img/styling_attributes.png
+
+Presenter notes
+---------------
+
+The Layer Attributes provide a quick reference on available data to use when defining a style.
 
 --------------------------------------------------
 
@@ -1841,20 +1892,16 @@ We will not upload a new style for the shadedrelief layer.
 Associating styles with layers
 ==============================
 
-.. image:: ../doc/source/styling/img/styles_selectingnewstyle.png
+.. image:: ../doc/source/styling/img/styles_publishing_default.png
 
 Presenter notes
 ---------------
 
 Once the styles are loaded, they are merely stored in GeoServer, but not associated with any layers. The next step is to link the styles with their appropriate layer.
 
-  Navigate to the Layers page.
-
-  Click the earth:cities layer to edit its configuration.
-
-  Click the Publishing tab.
-
-  Scroll down to the Default style drop down list. Change the entry to display the Cities style. You will see that the legend changes.
+  Navigate to the styles page and edit the Cities style.
+  
+  Change to the publishing tab and check earth:cities to use this style as a default.
 
 --------------------------------------------------
 
@@ -1867,9 +1914,9 @@ Associating styles with layers
 Presenter notes
 ---------------
 
-Click Save to commit the change.
+Click Apply to commit the change.
 
-Verify the change by going to the layer's Layer Preview page. Zoom in the see the behavior change based on zoom level.
+Verify the change by going to Layer Preview tab. Zoom in the see the behavior change based on zoom level.
 
 Repeat the above steps for the earth:countries and earth:ocean layers, associating each with the appropriate uploaded style (Countries and Ocean respectively). View each result in the Layer Preview.
 
@@ -1896,8 +1943,6 @@ Note the graphic in the style:
 
 ::
 
-   name: 'Ocean'
-   title: 'Ocean: Graphic fill'
    feature-styles:
    - rules:
      - scale: [min, max]
@@ -1924,14 +1969,15 @@ External graphics
 
 Images can be placed in the data directory
 
-.. image:: ../doc/source/styling/img/styles_datadirstartmenu.png
+.. image:: ../doc/source/styling/img/styles_serverstatus.png
 
 Presenter notes
 ---------------
 
-The styles directory of the workshop materials contains a file, oceantile.png. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory. In OpenGeo Suite for Windows, the easiest way to get to the GeoServer data directory is go to the Start Menu and navigate to OpenGeo Suite ‣ Data Directory.
+The styles directory of the workshop materials contains a file, oceantile.png. We want to copy this file to the GeoServer styles repository, contained in the GeoServer data directory.
 
-You can also find the full path to the data directory by clicking Server Status on the left side of any GeoServer page.
+
+Find the full path to the data directory by clicking Server Status on the left side of any GeoServer page.
 
 Once located, navigate to the GeoServer Data directory.
 

@@ -42,8 +42,8 @@ Workshop Materials
 
 The following directories will be found inside of the workshop bundle:
 
-:file:`doc`
-  The workshop documentation in HTML format.
+:file:`workbook`
+  The workshop step-by-step workbook in HTML format.
 
 :file:`software`
   The software and applications to be installed during the workshop.
