@@ -16,7 +16,7 @@ Topics covered
 
 The following material will be covered in this workshop:
 
-:ref:`geoserver.install`
+:ref:`install`
   Installation of GeoServer and all other related software
 
 :ref:`geoserver.webadmin`

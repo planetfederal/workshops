@@ -30,7 +30,7 @@
     </exec>
   </target>
   
-  <target name="package" depends="workbook,data,styless">
+  <target name="package" depends="workbook,data,styles">
     <echo>Packaging workbook...</echo>
     <zip destfile="${build}/${ant.project.name}.zip">
       <fileset dir="${basedir}/build/workbook"/>
