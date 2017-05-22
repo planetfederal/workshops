@@ -1,7 +1,7 @@
 .. _geoserver.install.installing:
 
-Installation
-============
+GeoServer Download and Installation
+===================================
 
 In this section we will install OpenGeo Suite on your workshop machine.
 

@@ -59,7 +59,6 @@ The following directories will be found inside of the workshop bundle:
 
 These directories should be placed on your desktop.
 
-
 Ready to Begin?
 ---------------
 
