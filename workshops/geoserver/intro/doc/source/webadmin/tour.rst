@@ -26,6 +26,9 @@ Authentication
 For security reasons, most GeoServer configuration tasks require you to be logged in first. By default, the GeoServer administration credentials are ``admin`` and ``geoserver``, although this can (and should) be changed.
 
 #. Log in using the default credentials.
+   
+   * username: :kbd:`admin`
+   * password: :kbd:`geoserver`
 
    .. figure:: img/tour_login.png
 

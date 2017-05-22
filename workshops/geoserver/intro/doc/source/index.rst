@@ -62,7 +62,7 @@ These directories should be placed on your desktop.
 Ready to Begin?
 ---------------
 
-Great!  Head to the first section, :ref:`geoserver.install`.
+Great!  Head to the first section, :ref:`install`.
 
 .. toctree::
    :maxdepth: 2

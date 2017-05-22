@@ -25,7 +25,7 @@ GeoServer, being a Java Web application, requires the following in order to func
 Prerequisites:
 
 * Please disable any programs on your system that use either 8080. (If this is not possible, please ask for alternative connection options.)
-* We strongly recommend you use a recent version of `Firefox <http://www.mozilla.org/en-US/firefox/new/>`_ as the browser on your host system. Using `Chrome <https://www.google.com/intl/en/chrome/browser/>`_ is acceptable, though an XML viewer extension such as `XV <https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en>`_ will be required for some sections. Other browsers have not been tested and are not recommended.
+* We strongly recommend you use a recent version of `Firefox <http://www.mozilla.org/en-US/firefox/new/>`__ as the browser on your host system. Using `Chrome <https://www.google.com/intl/en/chrome/browser/>`__ is acceptable, though an XML viewer extension such as `XV <https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en>`_ will be required for some sections. Other browsers have not been tested and are not recommended.
 * Make sure you have administrative rights (Windows) or super-user privileges (Linux and OS X) on your system.
 
 .. install.geoserver.java:
@@ -53,7 +53,20 @@ Windows Installer
 
 The GeoServer installer is located in the workshop package in the :file:`software` folder.
 
-.. note:: During this installation, please keep all of the default settings.
+#. Visit the `http://geoserver.org/`__ website, and click on the latest stable release.
+
+    .. figure:: img/download_website.png
+       :width: 100%
+       
+       GeoServer website
+
+
+#.  From the `latest <http://geoserver.org/release/stable/>`__ release download the package appropriate to your platform.
+    
+    .. figure:: img/download_geoserver.png
+       :width: 100%
+       
+       Latest GeoServer download
 
 #. **Double-click** the file :file:`GeoServer-<version>.exe` to begin the installation.
 
@@ -136,7 +149,7 @@ The GeoServer installer is located in the workshop package in the :file:`softwar
       
       GeoServer has been installed
 
-#. Confirm GeoServer is working by visiting `http://localhost:8080/geoserver`__ in your browser.
+#. Confirm GeoServer is working by visiting http://localhost:8080/geoserver in your browser.
    
    .. figure:: img/install_test.png
       :width: 100%
@@ -162,19 +175,23 @@ The GeoServer installer provides the base GeoServer application. Optional functi
 
 This workshop requires the installation of several extensions:
 
-#. Download, or locate in the :file:`software` folder, the following extensions:
+#. Navigate to the download page, or locate in the :file:`software` folder, the following extensions:
 
    * :file:`geoserver-<version>-importer-plugin.zip`
    * :file:`geoserver-<version>-wps-plugin.zip`
    * :file:`geoserver-<version>-ysld-plugin.zip`
 
+   .. figure:: img/download_extensions.png
+   
+      Download extensions
+      
 #. Navigate to the GeoServer installation folder:
    
-   * :file:`C:\Program Files (x86)\GeoServer`
+   * :file:`C:\\Program Files (x86)\\GeoServer`
 
 #. The GeoServer application is made up of :file:`jar` files located here:
    
-   * :file:`C:\Program Files (x86)\GeoServer\webapps\geoserver\WEB-INF\lib`
+   * :file:`C:\\Program Files (x86)\\GeoServer\\webapps\\geoserver\\WEB-INF\\lib`
    
 #. Unzip each extension, placing additional :file:`jar` files into the :file:`lib` folder above.
 
@@ -184,7 +201,7 @@ This workshop requires the installation of several extensions:
 
 #. Use :menuselection:`Start -> GeoServer -> Start GeoServer` to start the service.
 
-#. Return to `http://localhost:8080/geoserver`__ to confirm the extensions are now available.
+#. Return to http://localhost:8080/geoserver to confirm the extensions are now available.
    
    * An additional service, ``WPS`` is now listed under :guilabel:`Service Capabilities`.
    
