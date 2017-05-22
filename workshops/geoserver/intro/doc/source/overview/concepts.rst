@@ -64,7 +64,7 @@ A **layer group**, as its name suggests, is a collection of layers. A layer grou
 
 Layer groups do not respect the concept of :ref:`workspace <geoserver.overview.concepts.workspace>`, and are relevant only to WMS requests.
 
-.. figure:: img/concepts_layer.png
+.. figure:: img/concepts_layergroup.png
 
    Layer
 
