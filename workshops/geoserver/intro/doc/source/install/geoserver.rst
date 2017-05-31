@@ -1,16 +1,37 @@
-.. install.geoserver:
+.. _install.geoserver:
 
-OSGeo Community GeoServer Distribution
-======================================
+GeoServer community downloads
+=============================
 
-The GeoServer project is part of the Open Source Geospatial Foundation. Two community releases are available at any one time:
+The GeoServer project is part of the Open Source Geospatial Foundation. A new GeoServer release is made every six months and lasts for a year. This means there are always two releases (one stable and one maintenance) available for download:
 
-* stable: The latest production ready GeoServer along with optional extensions. New features and fixes are added to the stable release for the first six months.
-* maintenance: Fixes are added to maintenance releases for the next six months.
+.. figure:: img/geoserver-release.png
+   
+   GeoServer Stable and Maintenance Releases
 
-GeoServer Comunity distributions include windows and mac installers along with standalone bin download. For those that already use Tomcat a web archive is alos available.
+Over the course a year a release goes through four phases:
 
-OSGeo provides a vendor neutral software foundation for Boundless, GeoSolutions and other collaborators to work on the project together. Our original company, OpenPlans, donated the GeoServer and GeoWebCache codebases to OSGeo in 2014. The OpenLayers and PostGIS projects are also hosted by OSGeo.
+#. Initial release: This is the start of a new release.
+   
+   An example of an initial release is GeoServer 2.11.0.
+
+* Stable releases: The latest production ready GeoServer along with optional extensions. The stable series is recommended for new GeoServer installations. New features and fixes are added to the stable release for the initial six months.
+   
+   An example of an stable release is GeoServer 2.11.1.
+   
+* Maintenance releases: The maintenance release is recommended for existing GeoServer installations, providing important fixes and security updates. Fixes are added to maintenance releases for the final six months.
+
+  An example of a maintenance release is GeoServer 2.10.3.
+  
+* End-of-life: The final maintenance release is an important signal that it is time to upgrade, no subsequent releases are scheduled by the GeoServer community.
+  
+  An example of a final release is GeoServer 2.9.4.
+
+GeoServer community downloads include Windows and macOS installers along with a platform independent binaryw. For those that already use Tomcat a web archive is also available.
+
+.. note::
+   
+   OSGeo provides a vendor neutral software foundation for Boundless, GeoSolutions and other collaborators to work on the project together. Our original company, OpenPlans, donated the GeoServer and GeoWebCache codebases to OSGeo in 2014. The OpenLayers and PostGIS projects are also hosted by OSGeo.
 
 Installation Requirements
 -------------------------
@@ -19,52 +40,60 @@ In this section we will install GeoServer on your desktop computer.
 
 GeoServer, being a Java Web application, requires the following in order to function:
 
-* A Java Runtime Environment (JRE) - you may already have Java installed on your machine.
-* An an application server - our distribution includes the Jetty application server, so separate installation is not needed here.
+* A Java Runtime Environment (JRE): You may already have Java installed on your machine. GeoServer is tested with java runtimes from both Oracle and OpenJDK.
+* An an application server: The Windows, macOS and platform independent binary bundles include the Jetty application server. The Tomcat application server is a popular choice for those working with the web archive download.
 
 Prerequisites:
 
-* Please disable any programs on your system that use either 8080. (If this is not possible, please ask for alternative connection options.)
-* We strongly recommend you use a recent version of `Firefox <http://www.mozilla.org/en-US/firefox/new/>`__ as the browser on your host system. Using `Chrome <https://www.google.com/intl/en/chrome/browser/>`__ is acceptable, though an XML viewer extension such as `XV <https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en>`_ will be required for some sections. Other browsers have not been tested and are not recommended.
-* Make sure you have administrative rights (Windows) or super-user privileges (Linux and OS X) on your system.
+* Please disable any programs on your system that use port 8080. (If this is not possible, please ask for alternative connection options.)
+* We strongly recommend you use a recent version of `Firefox <http://www.mozilla.org/en-US/firefox/new/>`__ as the browser on your host system. Using `Chrome <https://www.google.com/intl/en/chrome/browser/>`__ is acceptable, though an XML viewer extension such as `XV <https://chrome.google.com/webstore/detail/xv-%E2%80%94-xml-viewer/eeocglpgjdpaefaedpblffpeebgmgddk?hl=en>`__ will be required for some sections. Other browsers have not been tested and are not recommended.
+* Make sure you have administrative rights (Windows) or super-user privileges (Linux and macOS) on your system.
 
-.. install.geoserver.java:
+.. _install.geoserver.java:
 
 Installing Java
 ---------------
 
-.. _Java Runtime Environment: https://java.com/en/download/manual.jsp
-
-#. Install Java on your system (for example, by downloading a `Java Runtime Environment`_ ).
+#. Install Java on your system (for example, by downloading a `Java Runtime Environment <https://java.com/en/download/manual.jsp>`__ ).
   
-   * We recommend Oracle Java Runtime Environment for Windows, Mac and Linux.
-   * On Linux OpenJDK is also supported. Check the :file:`software` folder Oracle JRE installers.
-   * We recommend running the version of Java that matches your operating system. On windows you may wish to use Java i566 (even if you use Windows 64) to allow GeoServer to run as a background service.
+   * Oracle Java Runtime Environment is recommended for Windows, macOS and Linux.
+   
+     .. note:: When taking this workshop in a classroom setting check the :file:`software` folder, rather than downloading a Oracle JRE installer.
+   * OpenJDK is supported on Linux systems.
+   
+     .. note:: Check your package manager for installation instructions.
+     
+   * Java is available as both 32-bit and 64-bit downloads.
+     
+     If you are running a 32-bit operating system we recommend a 32-bit "i586" download.
+     
+     If you are running a 64-bit operating system we recommend a 64-bit "x64" download.
+     
+     .. note:: If installing GeoServer on Windows to run in the background as a windows service you will need to use the 32-bit "i586" download, even if your operating system is 64-bit.
+   
 #. GeoServer only requires a Java Runtime Environment (JRE). Java Development Kit (JDK) also works, including extra tools such as a compiler for development.
 
    .. figure:: img/install_java.png
       
       Oracle Java Runtime Environment Installation
 
-.. install.geoserver.installer:
+.. _install.geoserver.installer:
 
 Windows Installer
 -----------------
 
 The GeoServer installer is located in the workshop package in the :file:`software` folder.
 
-#. Visit the `http://geoserver.org/`__ website, and click on the latest stable release.
+#. Visit the `geoserver.org <http://geoserver.org/>`__ website, and click on the latest stable release.
 
     .. figure:: img/download_website.png
-       :width: 100%
        
        GeoServer website
 
 
-#.  From the `latest <http://geoserver.org/release/stable/>`__ release download the package appropriate to your platform.
+#.  From the `stable <http://geoserver.org/release/stable/>`__ release download the package appropriate to your platform.
     
     .. figure:: img/download_geoserver.png
-       :width: 100%
        
        Latest GeoServer download
 
@@ -75,94 +104,81 @@ The GeoServer installer is located in the workshop package in the :file:`softwar
 #. At the *Welcome* screen, click :guilabel:`Next`.
 
    .. figure:: img/install_geoserver.png
-      :width: 75%
 
       GeoServer installation Welcome screen
 
 #. Read the *License Agreement*, then click :guilabel:`I Agree`.
 
    .. figure:: img/install_license.png
-      :width: 75%
       
       License Agreement
 
 #. Select the *Destination Folder* where you would like to install, and click :guilabel:`Next`.
 
    .. figure:: img/install_directory.png
-      :width: 75%
       
       Destination folder for the installation
 
 #. Select the name and location of the *Start Menu Folder* that will be created for the Suite components, and click :guilabel:`Next`.
 
    .. figure:: img/install_startmenu.png
-      :width: 75%
       
       Start Menu Folder to be created for the installation
 
 #. Choose the location of your Java Runtime Environment.
 
    .. figure:: img/install_jre.png
-      :width: 75%
       
       Java Runtime path selection
 
 #. Use the default data directory included with the application.
 
    .. figure:: img/install_data_directory.png
-      :width: 75%
       
       GeoServer data directory
       
 #. Use the default :kbd:`admin` / :kbd:`geoserver` credentials.
 
    .. figure:: img/install_admin_password.png
-      :width: 75%
       
       GeoServer administrator credentials
       
 #. Port :kbd:`8080`:
     
    .. figure:: img/install_port.png
-      :width: 75%
       
       Web server port
       
 #. Install GeoServer as a windows service.
    
    .. figure:: img/install_service.png
-      :width: 75%
       
       Install as service
       
 #. When you are ready, click :guilabel:`Install` to start the installation.
 
    .. figure:: img/install_ready.png
-      :width: 75%
       
       Ready to install
 
 #. After installation, click :guilabel:`Finish`.
 
    .. figure:: img/install_finish.png
-      :width: 75%
       
       GeoServer has been installed
 
 #. Confirm GeoServer is working by visiting http://localhost:8080/geoserver in your browser.
    
    .. figure:: img/install_test.png
-      :width: 100%
       
       GeoServer Web Administration page
 
 Starting and stopping services
 ------------------------------
 
-GeoServer has been installed as a windows service and is now running by default.  You can start and stop this services through the Start Menu.
+GeoServer has been installed as a Windows Service and is now running by default.  You can start and stop this services through the Start Menu.
 
 .. figure:: img/install_startstop.png
-   :width: 35%
    
    Start Menu entries for starting and stopping GeoServer
 
@@ -206,8 +222,7 @@ This workshop requires the installation of several extensions:
    * An additional service, ``WPS`` is now listed under :guilabel:`Service Capabilities`.
    
    .. figure:: img/install_extensions.png
-      :width: 100%
       
       GeoServer WPS extension
 
-.. note:: You may also hear of "community modules", community modules are experiments that require you to download the source code and compile. Some community modules are supported commercially (the mapbox style community module is included for download in Boundless Suite as a preview for our customers - but is not yet ready for wider release).
+.. note:: You may also have heard of 'community modules'. These are experimental extensions that require you to download the source code and compile. Some community modules are supported commercially; for example, the MBstyle community module is included for download in Boundless Suite, but is not yet available for wider release to the community.
