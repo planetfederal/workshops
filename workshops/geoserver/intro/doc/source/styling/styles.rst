@@ -174,7 +174,7 @@ Once the styles are loaded, they are merely stored in GeoServer, but not associa
 
       Associating a style with different layers
 
-#. Fint the :guilabel:`earth:cities` layer in the table, click the :guilabel:`Default` checkbox for this row.
+#. Find the :guilabel:`earth:cities` layer in the table, click the :guilabel:`Default` checkbox for this row.
 
     .. figure:: img/styles_publishing_default.png
        
@@ -188,7 +188,7 @@ Once the styles are loaded, they are merely stored in GeoServer, but not associa
 
 #. Click :guilabel:`Apply` to commit the change.
 
-#. Verify the change by going to the layer's :guilabel:`Layer Preview` tab. Zoom in the see the behavior change based on zoom level.
+#. Verify the change by going to the layer's :guilabel:`Layer Preview` tab. Zoom in to see the behavior change based on zoom level.
 
    .. figure:: img/styles_viewingnewstyle.png
 

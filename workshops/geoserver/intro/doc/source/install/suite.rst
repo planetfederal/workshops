@@ -1,7 +1,7 @@
 .. _install.suite:
 
-Boundless Suite GeoServer Distribution
-======================================
+Boundless Suite
+===============
 
 Boundless Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
 
@@ -14,9 +14,9 @@ Boundless Suite is a complete web-based geospatial software stack. In this packa
 
    Boundless Suite components and ecosystem
 
-Boundless Suite is free and open source, and is available for download from `Boundless <http://boundlessgeo.com/>`_. Boundless Suite customers are provided with the latest release along with commercial training and support. Boundless Suite includes slightly different extensions than the community releases of GeoServer. Boundless Suite components are subject to extensive integration testing and are available in a range of packages from virtual machines through to linux packages, web archives and cloud/clustering options.
+Boundless Suite is free and open source, and is available for download from `Boundless <http://boundlessgeo.com/>`_. Boundless Suite customers are provided with the latest release along with commercial training and support. Boundless Suite includes slightly different extensions than the community releases of GeoServer. Boundless Suite components are subject to extensive integration testing and are available in a range of packages including virtual machines, Linux packages, web archives, and cloud/clustering options.
 
-GeoServer also plays an important role in other Boundless products including the Boundless Exchange content management system.
+GeoServer also plays an important role in other Boundless products including the `Boundless Exchange <https://boundlessgeo.com/boundless-exchange/>`__ content management system.
 
 Installation Requirements
 -------------------------

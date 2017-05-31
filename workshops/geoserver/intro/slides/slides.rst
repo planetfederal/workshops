@@ -62,19 +62,20 @@ Section 1: Installing
 
 Workshop uses your choice of:
 
-* Boundless Suite GeoServer Distribution
-* OSGeo Community GeoServer Distribution
+* Boundless Suite 
+* GeoServer community downloads
 
 Presenter notes
 ---------------
 
 In this section, we will install GeoServer.
 
-GeoServer is a popular component, this workshop can use your choice of Boundless Suite or OSGeo Community downloads.
+This workshop can use either Boundless Suite or the GeoServer community downloads.
 
 Boundless Suite is available in a standalone virtual machine.
 
-OSGeo Community downloads will install directly onto your machine; and will require several optional downloads for this workshop.
+GeoServer Community downloads require installation directly onto your machine. For this workshop 
+we manually install several GeoServer extensions.
 
 --------------------------------------------------
 
@@ -87,7 +88,7 @@ Boundless Suite
 Presenter notes
 ---------------
 
-The Boundless Suite is free and open source, and is available for download from Boundless Connect.
+Boundless Suite is free and open source, and is available for download from Boundless Connect.
 
 Boundless Suite is a complete web-based geospatial software stack. In this package, the applications contained are:
 
@@ -96,7 +97,7 @@ GeoServer - A software server for loading and sharing geospatial data.
 GeoWebCache - A tile cache server that accelerates the serving of maps (built into GeoServer).
 OpenLayers - A browser-based mapping framework
 
-Please install VirtualBox, to use the provided virtual machine. During installation pay careful attention to sharing your Desktop as a shared folder.
+To use the provided virtual machine, please install VirtualBox on your system. During installation pay careful attention to sharing your Desktop as a shared folder.
 
 --------------------------------------------------
 
@@ -124,24 +125,27 @@ The top toolbar contains links to two other pages:
 
 --------------------------------------------------
 
-OSGeo Community 
-===============
+GeoServer community downloads
+=============================
 
-The GeoServer website provides:
+GeoServer releases every six months, the website provides downloads for:
 
-* stable releases
-* maintenance releases
+* stable release - for new installations
+* maintenance release - for existing installations
 
-GeoServer requires Java 8 to run and includes its own application server.
+GeoServer requires a Java 8 runtime. 
 
-This workshop both GeoServer and GeoSever Extensions for importer, ysld and wps.
+GeoServer requires, and includes, an application server.
+
+In addition to the core GeoServer application we require manual installation of the importer, ysld and wps extensions
 
 Presenter notes
 ---------------
 
-GeoServer, being a Java application, typically requires a Java Runtime Environment (JRE) as well as an application server in order to function.
+GeoServer, being a Java application, requires a Java Runtime Environment (JRE) as well as an application server in order to function.
 
-Each GeoServer release lasts a year, for the first six months dot releases provide improvements and fixes, for the last six months maintenance releases provides fixes only.
+Each GeoServer release lasts a year, for the first six months of its life it will act as the "stable release" including 
+improvements and fixes, for the last six months of its life it will act as a "maintenance release" include fixes only.
 
 --------------------------------------------------
 
