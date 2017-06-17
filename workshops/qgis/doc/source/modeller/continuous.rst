@@ -17,8 +17,6 @@ When performing an analysis on our land cover raster or converted vector data, b
 
 #. Add a **Dissolve** process that uses **Zones** and **Class** as input (make sure to set :guilabel:`Dissolve all` to :kbd:`No`).
 
-   .. note:: You may wonder why we use a **Dissolve** process here whereas our previous models used a **Singleparts to multipart** process. The reason is that the **Zonal statistics** process is more sensitive to problematic geometries than the **Frequency analysis** process; by dissolving the borders, we ensure that the geometries can be handled when calculating the zonal statistics. So why didn't we use **Dissolve** in our other models? **Dissolve** can be slower than **Singleparts to multipart** since it needs to check for overlapping borders and create new geometric shapes when they do, whereas **Singleparts to multiparts** just blindly merges all polygons into multipolygons.
-
 #. Add a **Zonal statistics** process that uses **Image** and the output of the second **Dissolve** process to calculate the **zonal statistics** output.
 
    .. figure:: images/continuous_model_1.png

@@ -29,9 +29,9 @@ Creating a model
 
       Algorithms tab
 
-#. Create a **Singleparts to multipart** process that takes the **Zones** parameter and the **Class** attribute as inputs.
+#. Create a **GDAL Dissolve** process that takes the **Zones** parameter and the **Class** attribute as inputs.
 
-#. Create a **Frequency Analysis** process that takes the output of the **Singleparts to multipart** process (the other input settings are the same). Set the table output to :kbd:`zonal statistics`.
+#. Create a **Frequency Analysis** process that takes the output of the **GDAL Dissolve** process (the other input settings are the same). Set the table output to :kbd:`zonal statistics`.
 
    .. note:: 'Chains' that take one output and feed it into another process are the key to powerful models since they allow us to reproduce known steps while skipping the creation of all the intermediary layers that we have been adding and deleting.
 

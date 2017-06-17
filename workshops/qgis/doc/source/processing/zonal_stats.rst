@@ -22,13 +22,15 @@ Singleparts to multipart
 
 To get aggregate statistics of the geological breakdown for every range type (rather than every range feature), we will combine all the features that share a single common value for the **RANGE** attribute into multipolygons. Because we have nine different range types, the new layer will only have nine different features, one each for each value of **RANGE**.
 
-#. Open the **Singleparts to multipart** process.
+#. Open the **GDAL Dissolve Polygons** process.
 
-#. Set the :guilabel:`Input layer` to **Seasonal ranges** and :guilabel:`Unique ID field` to **RANGE**.
+#. Set the :guilabel:`Input layer` to **Seasonal ranges** and :guilabel:`Dissolve field` to **RANGE**.
 
-#. Run the **Singleparts to multipart** process.
+#. Ensure :guilabel:`Output as multipart geometries` is enabled.
 
-#. Now run the **Frequency Analysis** process again, but this time using the vector input as the new **Output layer**. Set the table output to be ``qgis/results/surficial_geology_ranges.csv``.
+#. Run the **Dissolve Polygons** process.
+
+#. Now run the **Frequency Analysis** process again, but this time using the vector input as the **Seasonal Ranges multipart** layer. Set the table output to be ``qgis/results/surficial_geology_ranges.csv``.
 
    .. figure:: images/yearlong_stats.png
 
@@ -40,6 +42,6 @@ To get aggregate statistics of the geological breakdown for every range type (ra
 
 #. Delete the **Frequency_analysis_layer**.
 
-#. Delete the layer that was the output of the **Singleparts to multiparts** process (**Output layer**) since it is no longer needed.
+#. Delete the layer that was the output of the **Dissolve polygons** process (**Seasonal ranges multipart**) since it is no longer needed.
 
 #. Delete the **Suficial geology (raster)** layer since our analysis is complete.
