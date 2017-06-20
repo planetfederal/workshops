@@ -62,7 +62,9 @@ These directories should be placed on your desktop.
 Ready to Begin?
 ---------------
 
-Great!  Head to the first section, :ref:`install`.
+Great! `Download the workshop bundle <http://files.boundlessgeo.com/workshopmaterials/geoserver-intro.zip>`__.
+
+Then head to the first section, :ref:`install`.
 
 .. toctree::
    :maxdepth: 2
