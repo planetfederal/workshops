@@ -41,7 +41,7 @@ Our first step will be to launch QGIS and create a new project file that we will
 
    .. warning:: To avoid losing work, it is strongly recommended that you save your project frequently. During this workshop, aim to save your project at the end of each exercise.
 
-#. QGIS projects contain references to the data we are working with, how the data is displayed and other configuration options. If you want to see some of these options, you can open the project settings by clicking :menuselection:`Project --> Properties`.
+#. QGIS projects contain references to the data we are working with, how the data is displayed and other configuration options. If you want to see some of these options, you can open the project settings by clicking :menuselection:`Project --> Project Properties`.
 
    .. note:: On some platforms, such as Linux, the project settings can be found at :menuselection:`Settings --> Project Properties`.
 

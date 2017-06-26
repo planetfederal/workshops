@@ -34,7 +34,7 @@ To do this, we will use one of QGIS's processes named **Dissolve**, which merges
 
 #. We can reuse our previously-created style by right clicking **2016_Antelope_Hunt_Areas** and selecting :guilabel:`Copy Style`.
 
-#. Right click the new **Dissolved** layer and selecte :guilabel:`Paste Style`.
+#. Right click the new **Dissolved** layer and select :guilabel:`Paste Style`.
 
 #. Finally, remove the original **2016_Antelope_Hunt_Areas** layer from this project.
 

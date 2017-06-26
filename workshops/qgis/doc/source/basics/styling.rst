@@ -1,9 +1,9 @@
 Styling
 =======
 
-Now that we have some data to work with, let's experiment with assigning some styles to the data. The **ant14hh** layer contains information about designated herd units in the state.
+Now that we have some data to work with, let's experiment with assigning some styles to the data. The **2016_Antelope_Hunt_Areas.shp** layer contains information about designated herd units in the state.
 
-#. Make sure that the **ant14hh** layer is selected in the layer list.
+#. Make sure that the **2016_Antelope_Hunt_Areas.shp** layer is selected in the layer list.
 
 #. Click the |id| button in the toolbar to activate the feature identification tool.
 
@@ -17,7 +17,7 @@ Now that we have some data to work with, let's experiment with assigning some st
    
    .. note:: There is also a **HUNTNAME** attribute which subdivides the herds into hunt areas, but we are interested in the movement of the antelope and how it relates to natural conditions rather than human-designated zones. We will ignore all attributes which relate to hunting.
 
-#. Right click the **ant14hh** layer and select :guilabel:`Properties`.
+#. Right click the **2016_Antelope_Hunt_Areas.shp** layer and select :guilabel:`Properties`.
 
 #. Select :guilabel:`Style` from the list of tabs. Currently, we are using only a single symbol (a solid colour) for all features. We want to change this so that the colour will change depending on the value of an attribute.
 
