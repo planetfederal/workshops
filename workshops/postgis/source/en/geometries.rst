@@ -11,14 +11,14 @@ In the previous :ref:`section <loading_data>`, we loaded a variety of data.  Bef
 .. code-block:: sql
 
   CREATE TABLE geometries (name varchar, geom geometry);
-  
-  INSERT INTO geometries VALUES 
+
+  INSERT INTO geometries VALUES
     ('Point', 'POINT(0 0)'),
     ('Linestring', 'LINESTRING(0 0, 1 1, 2 1, 2 2)'),
     ('Polygon', 'POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'),
     ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
     ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
-    
+
   SELECT name, ST_AsText(geom) FROM geometries;
 
 .. image:: ./geometries/start01.png
@@ -28,10 +28,10 @@ The above example CREATEs a table (**geometries**) then INSERTs five geometries:
 Metadata Tables
 ---------------
 
-In conformance with the Simple Features for SQL (:term:`SFSQL`) specification, PostGIS provides two tables to track and report on the geometry types available in a given database. 
+In conformance with the Simple Features for SQL (:term:`SFSQL`) specification, PostGIS provides two tables to track and report on the geometry types available in a given database.
 
-* The first table, ``spatial_ref_sys``, defines all the spatial reference systems known to the database and will be described in greater detail later.  
-* The second table (actually, a view), ``geometry_columns``, provides a listing of all "features" (defined as an object with geometric attributes), and the basic details of those features.  
+* The first table, ``spatial_ref_sys``, defines all the spatial reference systems known to the database and will be described in greater detail later.
+* The second table (actually, a view), ``geometry_columns``, provides a listing of all "features" (defined as an object with geometric attributes), and the basic details of those features.
 
 .. image:: ./geometries/table01.png
   :class: inline
@@ -44,25 +44,25 @@ Let's have a look at the ``geometry_columns`` table in our database.  Paste this
 
 .. image:: ./geometries/start08.png
 
-* ``f_table_catalog``, ``f_table_schema``, and ``f_table_name`` provide the fully qualified name of the feature table containing a given geometry.  Because PostgreSQL doesn't make use of catalogs, ``f_table_catalog`` will tend to be empty.  
-* ``f_geometry_column`` is the name of the column that geometry containing column -- for feature tables with multiple geometry columns, there will be one record for each.  
-* ``coord_dimension`` and ``srid`` define the the dimension of the geometry (2-, 3- or 4-dimensional) and the Spatial Reference system identifier that refers to the ``spatial_ref_sys`` table respectively.  
-* The ``type`` column defines the type of geometry as described below; we've seen Point and Linestring types so far.  
+* ``f_table_catalog``, ``f_table_schema``, and ``f_table_name`` provide the fully qualified name of the feature table containing a given geometry.  Because PostgreSQL doesn't make use of catalogs, ``f_table_catalog`` will tend to be empty.
+* ``f_geometry_column`` is the name of the column that geometry containing column -- for feature tables with multiple geometry columns, there will be one record for each.
+* ``coord_dimension`` and ``srid`` define the the dimension of the geometry (2-, 3- or 4-dimensional) and the Spatial Reference system identifier that refers to the ``spatial_ref_sys`` table respectively.
+* The ``type`` column defines the type of geometry as described below; we've seen Point and Linestring types so far.
 
 By querying this table, GIS clients and libraries can determine what to expect when retrieving data and can perform any necessary projection, processing or rendering without needing to inspect each geometry.
 
 .. note::
 
-   Do some or all of your ``nyc`` tables not have an ``srid`` of 26918? It's easy to fix by updating the table::
+   Do some or all of your ``nyc`` tables not have an ``srid`` of 26918? It's easy to fix by updating the table
 
    .. code-block:: sql
-  
-      SELECT UpdateGeometrySRID('nyc_neighborhoods','geom',26918);
+
+      SELECT UpdateGeometrySRID('nyc_neighborhoods','geom',26918);::
 
 Representing Real World Objects
 -------------------------------
 
-The Simple Features for SQL (:term:`SFSQL`) specification, the original guiding standard for PostGIS development, defines how a real world object is represented.  By taking a continuous shape and digitizing it at a fixed resolution we achieve a passable representation of the object.  SFSQL only handled 2-dimensional representations.  PostGIS has extended that to include 3- and 4-dimensional representations; more recently the SQL-Multimedia Part 3 (:term:`SQL/MM`) specification has officially defined their own representation.  
+The Simple Features for SQL (:term:`SFSQL`) specification, the original guiding standard for PostGIS development, defines how a real world object is represented.  By taking a continuous shape and digitizing it at a fixed resolution we achieve a passable representation of the object.  SFSQL only handled 2-dimensional representations.  PostGIS has extended that to include 3- and 4-dimensional representations; more recently the SQL-Multimedia Part 3 (:term:`SQL/MM`) specification has officially defined their own representation.
 
 Our example table contains a mixture of different geometry types. We can collect general information about each object using functions that read the geometry metadata.
 
@@ -77,7 +77,7 @@ Our example table contains a mixture of different geometry types. We can collect
 
 ::
 
-       name       |    st_geometrytype    | st_ndims | st_srid 
+       name       |    st_geometrytype    | st_ndims | st_srid
  -----------------+-----------------------+----------+---------
   Point           | ST_Point              |        2 |       0
   Polygon         | ST_Polygon            |        2 |       0
@@ -93,11 +93,11 @@ Points
   :align: center
   :class: inline
 
-A spatial **point** represents a single location on the Earth.  This point is represented by a single coordinate (including either 2-, 3- or 4-dimensions).  Points are used to represent objects when the exact details, such as shape and size, are not important at the target scale.  For example, cities on a map of the world can be described as points, while a map of a single state might represent cities as polygons.  
+A spatial **point** represents a single location on the Earth.  This point is represented by a single coordinate (including either 2-, 3- or 4-dimensions).  Points are used to represent objects when the exact details, such as shape and size, are not important at the target scale.  For example, cities on a map of the world can be described as points, while a map of a single state might represent cities as polygons.
 
 .. code-block:: sql
 
-  SELECT ST_AsText(geom) 
+  SELECT ST_AsText(geom)
     FROM geometries
     WHERE name = 'Point';
 
@@ -142,10 +142,10 @@ The following SQL query will return the geometry associated with one linestring 
 
 .. code-block:: sql
 
-  SELECT ST_AsText(geom) 
+  SELECT ST_AsText(geom)
     FROM geometries
     WHERE name = 'Linestring';
-  
+
 ::
 
   LINESTRING(0 0, 1 1, 2 1, 2 2)
@@ -161,7 +161,7 @@ So, the length of our linestring is:
 
 .. code-block:: sql
 
-  SELECT ST_Length(geom) 
+  SELECT ST_Length(geom)
     FROM geometries
     WHERE name = 'Linestring';
 
@@ -185,7 +185,7 @@ The following SQL query will return the geometry associated with one linestring 
 
 .. code-block:: sql
 
-  SELECT ST_AsText(geom) 
+  SELECT ST_AsText(geom)
     FROM geometries
     WHERE name LIKE 'Polygon%';
 
@@ -214,7 +214,7 @@ We can calculate the area of our polygons using the area function:
 
 .. code-block:: sql
 
-  SELECT name, ST_Area(geom) 
+  SELECT name, ST_Area(geom)
     FROM geometries
     WHERE name LIKE 'Polygon%';
 
@@ -228,7 +228,7 @@ Note that the polygon with a hole has an area that is the area of the outer shel
 Collections
 ~~~~~~~~~~~
 
-There are four collection types, which group multiple simple geometries into sets.  
+There are four collection types, which group multiple simple geometries into sets.
 
 * **MultiPoint**, a collection of points
 * **MultiLineString**, a collection of linestrings
@@ -243,7 +243,7 @@ Our example collection contains a polygon and a point:
 
 .. code-block:: sql
 
-  SELECT name, ST_AsText(geom) 
+  SELECT name, ST_AsText(geom)
     FROM geometries
     WHERE name = 'Collection';
 
@@ -268,56 +268,56 @@ Geometry Input and Output
 Within the database, geometries are stored on disk in a format only used by the PostGIS program. In order for external programs to insert and retrieve useful geometries, they need to be converted into a format that other applications can understand. Fortunately, PostGIS supports emitting and consuming geometries in a large number of formats:
 
 * Well-known text (:term:`WKT`)
- 
+
   * :command:`ST_GeomFromText(text, srid)` returns ``geometry``
   * :command:`ST_AsText(geometry)` returns ``text``
   * :command:`ST_AsEWKT(geometry)` returns ``text``
-   
+
 * Well-known binary (:term:`WKB`)
- 
+
   * :command:`ST_GeomFromWKB(bytea)` returns ``geometry``
   * :command:`ST_AsBinary(geometry)` returns ``bytea``
   * :command:`ST_AsEWKB(geometry)` returns ``bytea``
-   
+
 * Geographic Mark-up Language (:term:`GML`)
- 
+
   * :command:`ST_GeomFromGML(text)` returns ``geometry``
   * :command:`ST_AsGML(geometry)` returns ``text``
-   
+
 * Keyhole Mark-up Language (:term:`KML`)
- 
+
   * :command:`ST_GeomFromKML(text)` returns ``geometry``
   * :command:`ST_AsKML(geometry)` returns ``text``
-   
+
 * :term:`GeoJSON`
- 
+
   * :command:`ST_AsGeoJSON(geometry)` returns ``text``
-   
+
 * Scalable Vector Graphics (:term:`SVG`)
- 
+
   * :command:`ST_AsSVG(geometry)` returns ``text``
- 
+
 The most common use of a constructor is to turn a text representation of a geometry into an internal representation:
 
 .. code-block::sql
 
   SELECT ST_GeomFromText('POINT(583571 4506714)',26918);
- 
+
 Note that in addition to a text parameter with a geometry representation, we also have a numeric parameter providing the :term:`SRID` of the geometry.
- 
+
 The following SQL query shows an example of :term:`WKB` representation (the call to :command:`encode()` is required to convert the binary output into an ASCII form for printing):
 
 .. code-block:: sql
 
   SELECT encode(
-    ST_AsBinary(ST_GeometryFromText('LINESTRING(0 0,1 0)')), 
+    ST_AsBinary(ST_GeometryFromText('LINESTRING(0 0,1 0)')),
     'hex');
 
 ::
 
   01020000000200000000000000000000000000000000000000000000000000f03f0000000000000000
-  
-For the purposes of this workshop we will continue to use WKT to ensure you can read and understand the geometries we're viewing.  However, most actual processes, such as viewing data in a GIS application, transferring data to a web service, or processing data remotely, WKB is the format of choice.  
+
+For the purposes of this workshop we will continue to use WKT to ensure you can read and understand the geometries we're viewing.  However, most actual processes, such as viewing data in a GIS application, transferring data to a web service, or processing data remotely, WKB is the format of choice.
 
 Since WKT and WKB were defined in the  :term:`SFSQL` specification, they do not handle 3- or 4-dimensional geometries.  For these cases PostGIS has defined the Extended Well Known Text (EWKT) and Extended Well Known Binary (EWKB) formats.  These provide the same formatting capabilities of WKT and WKB with the added dimensionality.
 
@@ -331,10 +331,10 @@ Here is an example of a 3D linestring in WKT:
 
   LINESTRING Z (0 0 0,1 0 0,1 1 2)
 
-Note that the text representation changes! This is because the text input routine for PostGIS is liberal in what it consumes. It will consume 
+Note that the text representation changes! This is because the text input routine for PostGIS is liberal in what it consumes. It will consume
 
-* hex-encoded EWKB, 
-* extended well-known text, and 
+* hex-encoded EWKB,
+* extended well-known text, and
 * ISO standard well-known text.
 
 On the output side, the :command:`ST_AsText` function is conservative, and only emits ISO standard well-known text.
@@ -348,17 +348,17 @@ In addition to the :command:`ST_GeometryFromText` function, there are many other
 
   -- Using ST_GeomFromText without the SRID parameter
   SELECT ST_SetSRID(ST_GeomFromText('POINT(2 2)'),4326);
-  
+
   -- Using a ST_Make* function
   SELECT ST_SetSRID(ST_MakePoint(2, 2), 4326);
-  
+
   -- Using PostgreSQL casting syntax and ISO WKT
   SELECT ST_SetSRID('POINT(2 2)'::geometry, 4326);
-  
+
   -- Using PostgreSQL casting syntax and extended WKT
   SELECT 'SRID=4326;POINT(2 2)'::geometry;
 
-  
+
 In addition to emitters for the various forms (WKT, WKB, GML, KML, JSON, SVG), PostGIS also has consumers for four (WKT, WKB, GML, KML). Most applications use the WKT or WKB geometry creation functions, but the others work too. Here's an example that consumes GML and output JSON:
 
 .. code-block:: sql
@@ -371,7 +371,7 @@ In addition to emitters for the various forms (WKT, WKB, GML, KML, JSON, SVG), P
 Casting from Text
 -----------------
 
-The :term:`WKT` strings we've see so far have been of type 'text' and we have been converting them to type 'geometry' using PostGIS functions like :command:`ST_GeomFromText()`. 
+The :term:`WKT` strings we've see so far have been of type 'text' and we have been converting them to type 'geometry' using PostGIS functions like :command:`ST_GeomFromText()`.
 
 PostgreSQL includes a short form syntax that allows data to be converted from one type to another, the casting syntax, `oldata::newtype`. So for example, this SQL converts a double into a text string.
 
@@ -452,5 +452,3 @@ Function List
 `ST_X <http://postgis.net/docs/manual-2.1/ST_X.html>`_: Returns the X coordinate of the point, or NULL if not available. Input must be a point.
 
 `ST_Y <http://postgis.net/docs/manual-2.1/ST_Y.html>`_: Returns the Y coordinate of the point, or NULL if not available. Input must be a point.
-
-
