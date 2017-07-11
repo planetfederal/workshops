@@ -1,7 +1,7 @@
 Coordinate reference systems
 ============================
 
-Before we continue with adding more data, we will want to see how to standardise the CRSs that our layers and our project are using. We will be using a CRS named **US National Atlas Equal Area** (known by the code EPSG:2163) for this workshop.
+Before we continue with adding more data, we will want to see how to standardize the CRSs that our layers and our project are using. We will be using a CRS named **US National Atlas Equal Area** (known by the code EPSG:2163) for this workshop.
 
 .. figure:: images/epsg2163.png
 
@@ -17,9 +17,9 @@ Before we continue with adding more data, we will want to see how to standardise
 
 #. To alter the data so that it is using a new CRS, we will need to save it into a new file. Once again, right click the layer and select :guilabel:`Save As`.
 
-#. To change the CRS setting click :guilabel:`Browse`.
+#. To change the CRS setting click |select_CRS| (:guilabel:`Select CRS`).
 
-#. From the list of CRSs, select **EPSG:2163**.
+#. From the list of CRS's, select **EPSG:2163**.
 
    .. note:: You can use the filter box to quickly find the CRS that you are looking for.
 
@@ -43,10 +43,13 @@ Before we continue with adding more data, we will want to see how to standardise
 
       Aligning layers in the project
 
-#. Right click on a layer in the list and select :menuselection:`Set Project CRS from Layer`. From now on our project will be using the **US National Atlas Equal Area** spatial reference system. However whenever we add any new data to our project, it will only be displayed in the desired projection. It will still need to converted to the **EPSG:2163** CRS before we run any processes.
+#. Right click on a layer in the list and select :menuselection:`Set Project CRS from Layer`. From now on our project will be using the **US National Atlas Equal Area** spatial reference system. However whenever we add any new data to our project, it will only be **displayed** in the desired projection. It will still need to converted to the **EPSG:2163** CRS before we run any processes.
 
    .. note:: You may now use the :guilabel:`Project CRS` option when saving files.
 
              .. figure:: images/project_crs.png
 
                 Using the project's CRS
+
+.. |select_CRS| image:: images/select_CRS.png
+   :class: inline

@@ -3,7 +3,7 @@ Ranges
 
 As a final step before we begin our analysis of the data, let's load the remaining required data sets using some of the techniques we have learned thus far. Remember to reproject all the new layers to the correct CRS and save the files to the ``workspace/data`` directory.
 
-The key layer for our analysis are the ranges of antelope in various seasons of the year with the **RANGE** attribute contains one of the following codes:
+The key layer for our analysis is the antelope ranges in various seasons of the year with the **RANGE** attribute represented with one of the following codes:
 
 * ``OUT``: Out. Insufficient animals to be considered an important habitat.
 * ``SWR``: Severe Winter Relief. Only used to a great extent during extremely severe winters.
