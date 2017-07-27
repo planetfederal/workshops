@@ -26,6 +26,7 @@ Vagrant.configure(2) do |config|
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 089EBE08314DF160
     sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 073D307A618E5811
     sudo apt-get update -qq
+    sudo apt-get -y install python-pip
     sudo apt-get install -qqy qgis python-qgis qgis-plugin-grass
 
     # Install Java
@@ -50,9 +51,9 @@ Vagrant.configure(2) do |config|
   #  sudo cp /tmp/qgis-geogiglight-plugin/geogig/ /usr/share/qgis/python/plugins/geogig/
 
     cd /opt
-    wget -q http://download.locationtech.org/geogig/geogig-1.0.zip
-    unzip -q geogig-1.0.zip
-    rm -f geogig-1.0.zip
+    wget -q http://download.locationtech.org/geogig/geogig-1.1.1.zip
+    unzip -q geogig-1.1.1.zip
+    rm -f geogig-1.1.1.zip
 
     # Add JAI to prevent error messages
     cd /opt/geogig/lib/
