@@ -14,13 +14,13 @@ Workshop Materials
 
 Inside the data bundle, you will find:
 
-**workshop/** 
+**workshop/**
   a directory containing this HTML workshop
 
-**data/** 
+**data/**
   a directory containing the shapefiles we will be loading
 
-All the data in the package is public domain and freely redistributable. All the software in the package is open source, and freely redistributable. This workshop is licensed as Creative Commons "`share alike with attribution <http://creativecommons.org/licenses/by-sa/3.0/us/>`_", and is freely redistributable under the terms of that license. 
+All the data in the package is public domain and freely redistributable. All the software in the package is open source, and freely redistributable. This workshop is licensed as Creative Commons "`share alike with attribution <http://creativecommons.org/licenses/by-sa/3.0/us/>`_", and is freely redistributable under the terms of that license.
 
 Workshop Modules
 ----------------
@@ -29,7 +29,7 @@ Workshop Modules
    :maxdepth: 1
    :numbered:
 
-   welcome 
+   welcome
    introduction
    installation
    creating_db
@@ -37,15 +37,20 @@ Workshop Modules
    about_data
    simple_sql
    simple_sql_exercises
+   simple_sql_exercise_answers
    geometries
    geometries_exercises
+   geometries_exercise_answers
    spatial_relationships
    spatial_relationships_exercises
+   spatial_relationships_exercise_answers
    joins
    joins_exercises
+   joins_exercise_answers
    indexing
    projection
-   projection_exercises   
+   projection_exercises
+   projection_exercise_answers
    geography
    geometry_returning
    joins_advanced
@@ -72,11 +77,11 @@ Workshop Modules
 Links to have on hand
 ---------------------
 
-* PostGIS - http://postgis.net/ 
+* PostGIS - http://postgis.net/
 
   - Docs - http://postgis.net/docs/manual-2.1/
 
-* PostgreSQL - http://www.postgresql.org/ 
+* PostgreSQL - http://www.postgresql.org/
 
   - Docs - http://www.postgresql.org/docs/
   - Downloads - http://www.postgresql.org/download/
@@ -85,11 +90,10 @@ Links to have on hand
   - Python Driver - http://www.pygresql.org/
   - C/C++ Driver - http://www.postgresql.org/docs/9.1/static/libpq.html
 
-* PgAdmin III - http://www.pgadmin.org/ 
+* PgAdmin III - http://www.pgadmin.org/
 
 * Open Source Desktop Clients
 
   - QGIS - http://qgis.org/
   - OpenJUMP - http://openjump.org/
   - uDig - http://udig.refractions.net/
-
