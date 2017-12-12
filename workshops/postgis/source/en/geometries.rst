@@ -57,7 +57,7 @@ By querying this table, GIS clients and libraries can determine what to expect w
 
    .. code-block:: sql
 
-      SELECT UpdateGeometrySRID('nyc_neighborhoods','geom',26918);::
+      SELECT UpdateGeometrySRID('nyc_neighborhoods','geom',26918);
 
 Representing Real World Objects
 -------------------------------
