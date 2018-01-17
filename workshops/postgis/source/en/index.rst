@@ -6,8 +6,16 @@ Introduction to PostGIS
 Getting Started
 ---------------
 
-* This workshop uses a `data bundle <http://files.boundlessgeo.com/workshopmaterials/postgis-workshop-201401.zip>`_. Download it and extract to a convenient location.
-* This workshop uses **OpenGeo Suite** (now known as **Boundless Suite**). You can download the latest version through `Boundless Connect <http://connect.boundlessgeo.com>`_. OpenGeo Suite is available in the `Downloads <http://connect.boundlessgeo.com/Downloads>`_ area. Download it and place it in a convenient location.
+* This workshop uses a `data bundle <http://training-files.boundlessgeo.com/postgis/postgis-workshop.zip>`_. Download and extract this data bundle to a convenient location.
+  
+* This workshop uses the following software:
+  
+  * :command:`PostgreSQL` database, along with :command:`PgAdmin` application, and command line tool :command:`psql`.
+  * :command:`PostGIS` extension, along with :command:`pgShapeLoader` application.
+  
+  The boundless distributions of **Boundless Server** and **Boundless Desktop** include the software required above. You can download the latest distribution through `Boundless Connect <http://connect.boundlessgeo.com>`_. Boundless Server and Boundless Desktop are available in the `Downloads <http://connect.boundlessgeo.com/Downloads>`_ area.
+  
+  For alternate distributions please see the `PostGIS Installation <http://postgis.net/install/>`__ page.
 
 Workshop Materials
 ------------------
@@ -31,7 +39,6 @@ Workshop Modules
 
    welcome
    introduction
-   installation
    creating_db
    loading_data
    about_data
@@ -79,7 +86,7 @@ Links to have on hand
 
 * PostGIS - http://postgis.net/
 
-  - Docs - http://postgis.net/docs/manual-2.1/
+  - Docs - http://postgis.net/docs/
 
 * PostgreSQL - http://www.postgresql.org/
 
@@ -88,7 +95,7 @@ Links to have on hand
   - JDBC Driver - http://jdbc.postgresql.org/
   - .Net Driver - http://npgsql.projects.postgresql.org/
   - Python Driver - http://www.pygresql.org/
-  - C/C++ Driver - http://www.postgresql.org/docs/9.1/static/libpq.html
+  - C/C++ Driver - http://www.postgresql.org/docs/10/static/libpq.html
 
 * PgAdmin III - http://www.pgadmin.org/
 
